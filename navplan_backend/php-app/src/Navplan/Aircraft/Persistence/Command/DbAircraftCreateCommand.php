@@ -65,10 +65,13 @@ class DbAircraftCreateCommand implements IAircraftCreateCommand
             DbTableAircraft::COL_REGISTRATION,
             DbTableAircraft::COL_ICAO_TYPE,
             DbTableAircraft::COL_CRUISE_SPEED,
-            DbTableAircraft::COL_CRUISE_FUEL,
+            DbTableAircraft::COL_SPEED_UNIT,
+            DbTableAircraft::COL_CRUISE_CONSUMPTION,
+            DbTableAircraft::COL_CONSUMPTION_UNIT,
             DbTableAircraft::COL_FUEL_TYPE,
             DbTableAircraft::COL_BEW,
-            DbTableAircraft::COL_MTOW
+            DbTableAircraft::COL_MTOW,
+            DbTableAircraft::COL_WEIGHT_UNIT
         ]);
         $query .= ") VALUES (";
         $query .= join(", ", [
@@ -76,11 +79,14 @@ class DbAircraftCreateCommand implements IAircraftCreateCommand
             DbHelper::getDbStringValue($this->dbService, $aircraft->vehicleType->value),
             DbHelper::getDbStringValue($this->dbService, $aircraft->registration),
             DbHelper::getDbStringValue($this->dbService, $aircraft->icaoType),
-            DbHelper::getDbFloatValue($aircraft->cruiseSpeed->getKt()),
-            DbHelper::getDbFloatValue($aircraft->cruiseFuel->getLph()),
+            DbHelper::getDbFloatValue($aircraft->cruiseSpeed->value),
+            DbHelper::getDbStringValue($this->dbService, $aircraft->cruiseSpeed->unit->value),
+            DbHelper::getDbFloatValue($aircraft->cruiseFuel->value),
+            DbHelper::getDbStringValue($this->dbService, $aircraft->cruiseFuel->unit->value),
             DbHelper::getDbStringValue($this->dbService, $aircraft->fuelType?->value),
-            DbHelper::getDbFloatValue($aircraft->bew?->getKg()),
-            DbHelper::getDbFloatValue($aircraft->mtow?->getKg())
+            DbHelper::getDbFloatValue($aircraft->bew?->value),
+            DbHelper::getDbFloatValue($aircraft->mtow?->value),
+            DbHelper::getDbStringValue($this->dbService, $aircraft->mtow ? $aircraft->mtow->unit->value : $aircraft->bew?->unit->value)
         ]);
         $query .= ")";
 

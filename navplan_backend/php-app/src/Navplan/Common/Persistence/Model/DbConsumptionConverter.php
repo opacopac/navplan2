@@ -11,13 +11,16 @@ class DbConsumptionConverter
 {
     public static function fromDbRow(
         array $row,
-        string $colName,
-        ConsumptionUnit $consumptionUnit,
+        string $colNameValue,
+        string $colNameUnit,
         ?Consumption $defaultConsumption = null
     ): ?Consumption
     {
-        return StringNumberHelper::isNullOrEmpty($row, $colName)
+        return StringNumberHelper::isNullOrEmpty($row, $colNameValue) || StringNumberHelper::isNullOrEmpty($row, $colNameUnit)
             ? $defaultConsumption
-            : new Consumption(StringNumberHelper::parseFloatOrZero($row, $colName), $consumptionUnit);
+            : new Consumption(
+                StringNumberHelper::parseFloatOrZero($row, $colNameValue),
+                ConsumptionUnit::from($row[$colNameUnit])
+            );
     }
 }

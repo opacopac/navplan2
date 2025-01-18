@@ -26,35 +26,45 @@ class DbDistancePerformanceTableCreateCommand implements IDistancePerformanceTab
         $query = "INSERT INTO " . DbTableAircraftPerfDist::TABLE_NAME . " (" . join(",", [
                 DbTableAircraftPerfDist::COL_ID_AIRCRAFT,
                 DbTableAircraftPerfDist::COL_TYPE,
-                DbTableAircraftPerfDist::COL_TKOFF_WEIGHT_KG,
+                DbTableAircraftPerfDist::COL_TKOFF_WEIGHT,
+                DbTableAircraftPerfDist::COL_WEIGHT_UNIT,
                 DbTableAircraftPerfDist::COL_ALT_REF,
-                DbTableAircraftPerfDist::COL_ALT_STEPS_FT,
+                DbTableAircraftPerfDist::COL_ALT_STEPS,
+                DbTableAircraftPerfDist::COL_ALT_UNIT,
                 DbTableAircraftPerfDist::COL_TEMP_REF,
-                DbTableAircraftPerfDist::COL_TEMP_STEPS_C,
-                DbTableAircraftPerfDist::COL_DISTANCES_M,
+                DbTableAircraftPerfDist::COL_TEMP_STEPS,
+                DbTableAircraftPerfDist::COL_TEMP_UNIT,
+                DbTableAircraftPerfDist::COL_DISTANCES,
+                DbTableAircraftPerfDist::COL_DISTANCE_UNIT,
+                DbTableAircraftPerfDist::COL_HEADWIND_DEC_PERC,
+                DbTableAircraftPerfDist::COL_HEADWIND_DEC_PER_SPEED,
+                DbTableAircraftPerfDist::COL_TAILWIND_INC_PERC,
+                DbTableAircraftPerfDist::COL_TAILWIND_INC_PER_SPEED,
+                DbTableAircraftPerfDist::COL_SPEED_UNIT,
                 DbTableAircraftPerfDist::COL_GRASS_RWY_INC_PERC,
                 DbTableAircraftPerfDist::COL_WET_RWY_INC_PERC,
-                DbTableAircraftPerfDist::COL_HEADWIND_DEC_PERC,
-                DbTableAircraftPerfDist::COL_HEADWIND_DEC_PER_SPEED_KT,
-                DbTableAircraftPerfDist::COL_TAILWIND_INC_PERC,
-                DbTableAircraftPerfDist::COL_TAILWIND_INC_PER_SPEED_KT,
             ]);
         $query .= ") VALUES (";
         $query .= join(",", array(
             DbHelper::getDbIntValue($aircraftId),
             DbHelper::getDbStringValue($this->dbService, $tableType->value),
-            DbHelper::getDbFloatValue($perfTable->takeoffWeight->getKg()),
+            DbHelper::getDbFloatValue($perfTable->takeoffWeight->value),
+            DbHelper::getDbStringValue($this->dbService, $perfTable->takeoffWeight->unit->value),
             DbHelper::getDbStringValue($this->dbService, $perfTable->altitudeReference->value),
             DbHelper::getDbStringValue($this->dbService, self::createAltitudeStepsJsonString($perfTable->altitudeSteps)),
+            DbHelper::getDbStringValue($this->dbService, $perfTable->altitudeSteps[0]->unit->value),
             DbHelper::getDbStringValue($this->dbService, $perfTable->temperatureReference->value),
             DbHelper::getDbStringValue($this->dbService, self::createTemperatureStepsJsonString($perfTable->temperatureSteps)),
+            DbHelper::getDbStringValue($this->dbService, $perfTable->temperatureSteps[0]->unit->value),
             DbHelper::getDbStringValue($this->dbService, self::createDistanceValuesJsonString($perfTable->distanceValues)),
+            DbHelper::getDbStringValue($this->dbService, $perfTable->distanceValues[0][0]->unit->value),
+            DbHelper::getDbFloatValue($perfTable->correctionFactors->headwindDecPercent),
+            DbHelper::getDbFloatValue($perfTable->correctionFactors->headwindDecPerSpeed->value),
+            DbHelper::getDbFloatValue($perfTable->correctionFactors->tailwindIncPercent),
+            DbHelper::getDbFloatValue($perfTable->correctionFactors->tailwindIncPerSpeed->value),
+            DbHelper::getDbStringValue($this->dbService, $perfTable->correctionFactors->headwindDecPerSpeed->unit->value),
             DbHelper::getDbFloatValue($perfTable->correctionFactors->grassRwyIncPercent),
             DbHelper::getDbFloatValue($perfTable->correctionFactors->wetRwyIncPercent),
-            DbHelper::getDbFloatValue($perfTable->correctionFactors->headwindDecPercent),
-            DbHelper::getDbFloatValue($perfTable->correctionFactors->headwindDecPerSpeed->getKt()),
-            DbHelper::getDbFloatValue($perfTable->correctionFactors->tailwindIncPercent),
-            DbHelper::getDbFloatValue($perfTable->correctionFactors->tailwindIncPerSpeed->getKt())
         ));
         $query .= ")";
 
@@ -70,7 +80,7 @@ class DbDistancePerformanceTableCreateCommand implements IDistancePerformanceTab
     {
         return json_encode(
             array_map(function (Length $value) {
-                return $value->getFt();
+                return $value->value;
             }, $altitudeSteps)
         );
     }
@@ -84,7 +94,7 @@ class DbDistancePerformanceTableCreateCommand implements IDistancePerformanceTab
     {
         return json_encode(
             array_map(function (Temperature $value) {
-                return $value->getC();
+                return $value->value;
             }, $temperatureSteps)
         );
     }
@@ -99,7 +109,7 @@ class DbDistancePerformanceTableCreateCommand implements IDistancePerformanceTab
         return json_encode(
             array_map(function (array $value) {
                 return array_map(function (Length $value) {
-                    return $value->getM();
+                    return $value->value;
                 }, $value);
             }, $distances)
         );

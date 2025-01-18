@@ -85,11 +85,14 @@ CREATE TABLE `aircraft` (
                             `vehicle_type` varchar(20) NOT NULL,
                             `registration` varchar(20) NOT NULL,
                             `icao_type` varchar(20) NOT NULL,
-                            `speed_kt` float UNSIGNED NOT NULL,
-                            `fuel_l_per_h` float UNSIGNED NOT NULL,
+                            `speed` float UNSIGNED NOT NULL,
+                            `speed_unit` varchar(5) NOT NULL,
+                            `cruise_consumption` float UNSIGNED NOT NULL,
+                            `consumption_unit` varchar(10) NOT NULL,
                             `fuel_type` varchar(20) DEFAULT NULL,
-                            `bew_kg` float UNSIGNED DEFAULT NULL,
-                            `mtow_kg` float UNSIGNED DEFAULT NULL
+                            `bew` float UNSIGNED DEFAULT NULL,
+                            `mtow` float UNSIGNED DEFAULT NULL,
+                            `weight_unit` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
@@ -126,18 +129,23 @@ CREATE TABLE `aircraft_perf_dist` (
                                       `id` int(11) UNSIGNED NOT NULL,
                                       `aircraft_id` int(11) UNSIGNED NOT NULL,
                                       `type` varchar(20) NOT NULL,
-                                      `tkoff_weight_kg` float UNSIGNED NOT NULL,
+                                      `tkoff_weight` float UNSIGNED NOT NULL,
+                                      `weight_unit` varchar(5) NOT NULL,
                                       `alt_ref` varchar(20) NOT NULL,
-                                      `alt_steps_ft` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`alt_steps_ft`)),
+                                      `alt_steps` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+                                      `alt_unit` varchar(5) NOT NULL,
                                       `temp_ref` varchar(20) NOT NULL,
-                                      `temp_steps_c` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`temp_steps_c`)),
-                                      `distances_m` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`distances_m`)),
-                                      `grass_rwy_inc_perc` float UNSIGNED NOT NULL,
-                                      `wet_rwy_inc_perc` float UNSIGNED NOT NULL,
+                                      `temp_steps` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+                                      `temp_unit` varchar(5) NOT NULL,
+                                      `distances` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+                                      `distance_unit` varchar(5) NOT NULL,
                                       `headwind_dec_perc` float UNSIGNED NOT NULL,
-                                      `headwind_dec_per_speed_kt` float UNSIGNED NOT NULL,
+                                      `headwind_dec_per_speed` float UNSIGNED NOT NULL,
                                       `tailwind_inc_perc` float UNSIGNED NOT NULL,
-                                      `tailwind_inc_per_speed_kt` float UNSIGNED NOT NULL
+                                      `tailwind_inc_per_speed` float UNSIGNED NOT NULL,
+                                      `speed_unit` varchar(5) NOT NULL,
+                                      `grass_rwy_inc_perc` float UNSIGNED NOT NULL,
+                                      `wet_rwy_inc_perc` float UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --

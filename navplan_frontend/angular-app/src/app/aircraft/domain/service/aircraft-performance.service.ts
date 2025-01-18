@@ -19,7 +19,7 @@ export class AircraftPerformanceService {
     ): Length {
         const pa = AtmosphereService.calcPressureAltitude(fieldElevation, qnh);
         const isaTempDelta = AtmosphereService.calcIsaTemperatureDelta(pa, oat);
-        const temp = perfTable.temperatureReference === PerformanceTableTemperatureReference.ISA_TEMPERATURE
+        const temp = perfTable.temperatureReference === PerformanceTableTemperatureReference.ISA
             ? isaTempDelta
             : oat;
 

@@ -73,11 +73,15 @@ class DbAircraftUpdateCommand implements IAircraftUpdateCommand
             DbTableAircraft::COL_VEHICLE_TYPE . "=" . DbHelper::getDbStringValue($this->dbService, $aircraft->vehicleType->value),
             DbTableAircraft::COL_REGISTRATION . "=" . DbHelper::getDbStringValue($this->dbService, $aircraft->registration),
             DbTableAircraft::COL_ICAO_TYPE . "=" . DbHelper::getDbStringValue($this->dbService, $aircraft->icaoType),
-            DbTableAircraft::COL_CRUISE_SPEED . "=" . DbHelper::getDbFloatValue($aircraft->cruiseSpeed->getKt()),
-            DbTableAircraft::COL_CRUISE_FUEL . "=" . DbHelper::getDbFloatValue($aircraft->cruiseFuel->getLph()),
+            DbTableAircraft::COL_CRUISE_SPEED . "=" . DbHelper::getDbFloatValue($aircraft->cruiseSpeed->value),
+            DbTableAircraft::COL_SPEED_UNIT . "=" . DbHelper::getDbStringValue($this->dbService, $aircraft->cruiseSpeed->unit->value),
+            DbTableAircraft::COL_CRUISE_CONSUMPTION . "=" . DbHelper::getDbFloatValue($aircraft->cruiseFuel->value),
+            DbTableAircraft::COL_CONSUMPTION_UNIT . "=" . DbHelper::getDbStringValue($this->dbService, $aircraft->cruiseFuel->unit->value),
             DbTableAircraft::COL_FUEL_TYPE . "=" . DbHelper::getDbStringValue($this->dbService, $aircraft->fuelType?->value),
             DbTableAircraft::COL_BEW . "=" . DbHelper::getDbFloatValue($aircraft->bew?->getKg()),
-            DbTableAircraft::COL_MTOW . "=" . DbHelper::getDbFloatValue($aircraft->mtow?->getKg())
+            DbTableAircraft::COL_MTOW . "=" . DbHelper::getDbFloatValue($aircraft->mtow?->getKg()),
+            DbTableAircraft::COL_WEIGHT_UNIT . "=" . DbHelper::getDbStringValue($this->dbService,
+                $aircraft->bew ? $aircraft->bew->unit->value : $aircraft->mtow?->unit->value),
         ]);
         $query .= " WHERE " . DbTableAircraft::COL_ID . "=" . DbHelper::getDbIntValue($aircraft->id);
         $query .= "  AND";

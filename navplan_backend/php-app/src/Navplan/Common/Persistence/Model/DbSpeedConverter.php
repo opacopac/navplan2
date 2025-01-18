@@ -11,13 +11,16 @@ class DbSpeedConverter
 {
     public static function fromDbRow(
         array $row,
-        string $colName,
-        SpeedUnit $speedUnit,
+        string $valueColName,
+        string $unitColName,
         ?Speed $defaultSpeed = null
     ): ?Speed
     {
-        return StringNumberHelper::isNullOrEmpty($row, $colName)
+        return StringNumberHelper::isNullOrEmpty($row, $valueColName) || StringNumberHelper::isNullOrEmpty($row, $unitColName)
             ? $defaultSpeed
-            : new Speed(StringNumberHelper::parseFloatOrZero($row, $colName), $speedUnit);
+            : new Speed(
+                StringNumberHelper::parseFloatOrZero($row, $valueColName),
+                SpeedUnit::from($row[$unitColName])
+            );
     }
 }
