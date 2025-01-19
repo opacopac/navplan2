@@ -8,5 +8,6 @@ export interface PlanPerfRwyFactorsState {
     isWetRwy: boolean;
     rwyWind: Speed;
     touchdownAfterThr: Length;
+    use50ftAboveThreshold: boolean;
     reservePercent: number;
 }

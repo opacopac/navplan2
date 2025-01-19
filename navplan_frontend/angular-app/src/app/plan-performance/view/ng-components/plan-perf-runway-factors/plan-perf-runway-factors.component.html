@@ -68,19 +68,29 @@
 
         <!-- touchdown point -->
         @if (this.isLanding) {
-            <mat-form-field>
-                <mat-label>Touchdown After THR</mat-label>
-                <input
-                    matInput
-                    formControlName="touchdown"
-                    type="number"
-                    required
-                    min="0"
-                    (change)="this.onTouchdownChanged()"
-                >
-                <span matTextSuffix>{{ Length.getUnitString(this.rwyDistUnit) }}</span>
-                <mat-error>Value must be a positive number!</mat-error>
-            </mat-form-field>
+            <div>
+                <mat-form-field>
+                    <mat-label>Touchdown After THR</mat-label>
+                    <input
+                        matInput
+                        formControlName="touchdown"
+                        type="number"
+                        min="0"
+                        (change)="this.onTouchdownChanged()"
+                    >
+                    <span matTextSuffix>{{ Length.getUnitString(this.rwyDistUnit) }}</span>
+                    <mat-error>Value must be a positive number!</mat-error>
+                </mat-form-field>
+
+                <!-- use 50ft above threshold -->
+                <label id="use-50ft-above-threshold-checkbox-label">50ft above Threshold</label>
+                <mat-checkbox
+                    aria-labelledby="use-50ft-above-threshold-checkbox-label"
+                    color="primary"
+                    formControlName="use50ftAboveThreshold"
+                    (change)="this.onUse50FtAboveThresholdChanged()"
+                />
+            </div>
         }
 
         <!-- Reserve -->

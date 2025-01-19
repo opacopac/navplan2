@@ -127,6 +127,7 @@ export class PlanPerfEffects {
                 isWetRwy: false,
                 rwyWind: Speed.ofZero(),
                 touchdownAfterThr: Length.ofM(100),
+                use50ftAboveThreshold: false,
                 reservePercent: 0
             },
             aircraftPerfProfileIdx: null,
@@ -208,7 +209,9 @@ export class PlanPerfEffects {
             oppThreshold: oppThreshold,
             ldgGroundRoll: ldgGroundRoll,
             ldgDist50ft: ldgDist50ft,
-            touchdownAfterThr: adState.runwayFactors.touchdownAfterThr,
+            touchdownAfterThr: adState.runwayFactors.use50ftAboveThreshold
+                ? ldgDist50ft.subtract(ldgGroundRoll)
+                : adState.runwayFactors.touchdownAfterThr,
             ldgChartState: null
         };
         ldgPerformance.ldgChartState = this.createLdgChartState(ldgPerformance);

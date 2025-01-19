@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
@@ -13,7 +13,7 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
     templateUrl: './plan-perf-runway-factors.component.html',
     styleUrls: ['./plan-perf-runway-factors.component.scss']
 })
-export class PlanPerfRunwayFactorsComponent implements OnInit {
+export class PlanPerfRunwayFactorsComponent implements OnInit, OnChanges {
     @Input() runways: AirportRunway[];
     @Input() runwayFactors: PlanPerfRwyFactorsState;
     @Input() speedUnit: SpeedUnit;
@@ -33,6 +33,15 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
 
     ngOnInit() {
         this.initForm();
+    }
+
+
+    ngOnChanges() {
+        if (this.runwayFactors.use50ftAboveThreshold) {
+            this.correctionFactorsForm.controls['touchdown'].disable();
+        } else {
+            this.correctionFactorsForm.controls['touchdown'].enable();
+        }
     }
 
 
@@ -101,6 +110,16 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
     }
 
 
+    protected onUse50FtAboveThresholdChanged() {
+        if (this.correctionFactorsForm.controls['use50ftAboveThreshold'].valid) {
+            this.runwayFactorChanged.emit({
+                ...this.runwayFactors,
+                use50ftAboveThreshold: this.correctionFactorsForm.value.use50ftAboveThreshold
+            });
+        }
+    }
+
+
     protected onReserveChanged() {
         if (this.correctionFactorsForm.controls['reserve'].valid) {
             this.runwayFactorChanged.emit({
@@ -130,6 +149,7 @@ export class PlanPerfRunwayFactorsComponent implements OnInit {
                 Validators.required,
                 Validators.min(0),
             ]],
+            'use50ftAboveThreshold': [this.runwayFactors.use50ftAboveThreshold, []],
             'reserve': [this.runwayFactors.reservePercent, [
                 Validators.required,
                 Validators.min(0),
