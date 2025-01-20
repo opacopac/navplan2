@@ -19,8 +19,8 @@ class RestWnbEnvelopeConverter
         return new WnbEnvelope(
             StringNumberHelper::parseStringOrError($args, self::KEY_NAME),
             WnbEnvelopeAxisType::from(StringNumberHelper::parseStringOrError($args, self::KEY_AXIS_TYPE)),
-            RestWnbLonEnvelopeCoordinateConverter::fromRestList($args[self::KEY_LAT_ENVELOPE]),
-            RestWnbLatEnvelopeCoordinateConverter::fromRestList($args[self::KEY_LON_ENVELOPE])
+            RestWnbLonEnvelopeCoordinateConverter::fromRestList($args[self::KEY_LON_ENVELOPE]),
+            RestWnbLatEnvelopeCoordinateConverter::fromRestList($args[self::KEY_LAT_ENVELOPE])
         );
     }
 
@@ -30,8 +30,8 @@ class RestWnbEnvelopeConverter
         return array(
             self::KEY_NAME => $envelope->name,
             self::KEY_AXIS_TYPE => $envelope->axisType->value,
-            self::KEY_LAT_ENVELOPE => RestWnbLonEnvelopeCoordinateConverter::toRestList($envelope->lonCoordinates),
-            self::KEY_LON_ENVELOPE => RestWnbLatEnvelopeCoordinateConverter::toRestList($envelope->latCoordinates)
+            self::KEY_LON_ENVELOPE => RestWnbLonEnvelopeCoordinateConverter::toRestList($envelope->lonCoordinates),
+            self::KEY_LAT_ENVELOPE => RestWnbLatEnvelopeCoordinateConverter::toRestList($envelope->latCoordinates)
         );
     }
 
