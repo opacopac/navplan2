@@ -37,7 +37,7 @@ export class PlanPerfRunwayFactorsComponent implements OnInit, OnChanges {
 
 
     ngOnChanges() {
-        if (this.correctionFactorsForm && !this.correctionFactorsForm.controls['touchdown']) {
+        if (this.correctionFactorsForm && this.correctionFactorsForm.controls['touchdown']) {
             if (this.runwayFactors.use50ftAboveThreshold) {
                 this.correctionFactorsForm.controls['touchdown'].disable();
             } else {
