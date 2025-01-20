@@ -5,16 +5,18 @@
         [showRegistration]="true"
     />
     <!-- airport performance list -->
-    @for (adPerfState of this.getAirportPerfStates$ | async; let idx = $index; track idx) {
-        <app-plan-perf-airport
-            [airportPerfState]="adPerfState"
-            [pressureUnit]="this.pressureUnit$ | async"
-            [temperatureUnit]="this.temperatureUnit$ | async"
-            [altitudeUnit]="this.altitudeUnit$ | async"
-            [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
-            [speedUnit]="this.speedUnit$ | async"
-            (weatherFactorsChanged)="this.onWeatherFactorsChanged(idx, $event)"
-            (runwayFactorsChanged)="this.onRunwayFactorsChanged(idx, $event)"
-        />
-    }
+    <mat-accordion displayMode="flat" multi="false">
+        @for (adPerfState of this.getAirportPerfStates$ | async; let idx = $index; track idx) {
+            <app-plan-perf-airport
+                [airportPerfState]="adPerfState"
+                [pressureUnit]="this.pressureUnit$ | async"
+                [temperatureUnit]="this.temperatureUnit$ | async"
+                [altitudeUnit]="this.altitudeUnit$ | async"
+                [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
+                [speedUnit]="this.speedUnit$ | async"
+                (weatherFactorsChanged)="this.onWeatherFactorsChanged(idx, $event)"
+                (runwayFactorsChanged)="this.onRunwayFactorsChanged(idx, $event)"
+            />
+        }
+    </mat-accordion>
 </div>

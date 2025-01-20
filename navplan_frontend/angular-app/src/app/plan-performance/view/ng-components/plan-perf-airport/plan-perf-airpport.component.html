@@ -1,35 +1,33 @@
 @if (this.airportPerfState && this.airportPerfState.airport) {
-    <mat-accordion displayMode="flat" multi="true">
-        <mat-expansion-panel [expanded]="this.isDepartureAd()">
-            <mat-expansion-panel-header>
-                <mat-panel-title><i class="{{ this.getTitleIconClass() }}"></i></mat-panel-title>
-                <mat-panel-description>{{ this.getTitleText() }}</mat-panel-description>
-            </mat-expansion-panel-header>
+    <mat-expansion-panel [expanded]="this.isDepartureAd()">
+        <mat-expansion-panel-header>
+            <mat-panel-title><i class="{{ this.getTitleIconClass() }}"></i></mat-panel-title>
+            <mat-panel-description>{{ this.getTitleText() }}</mat-panel-description>
+        </mat-expansion-panel-header>
 
-            <!-- weather factors -->
-            <app-plan-perf-weather-factors
-                [weatherFactors]="this.airportPerfState.weatherFactors"
-                [weatherCalculation]="this.airportPerfState.weatherCalculation"
-                [pressureUnit]="this.pressureUnit"
-                [temperatureUnit]="this.temperatureUnit"
-                [altitudeUnit]="this.altitudeUnit"
-                (weatherFactorsChanged)="this.onWeatherFactoresChanged($event)"
-            />
-            <!-- runway factors -->
-            <app-plan-perf-runway-factors
-                [runways]="this.airportPerfState.airport.runways"
-                [runwayFactors]="this.airportPerfState.runwayFactors"
-                [isLanding]="!this.isDepartureAd()"
-                [speedUnit]="this.speedUnit"
-                [rwyDistUnit]="this.performanceDistanceUnit"
-                (runwayFactorChanged)="this.onRunwayFactorsChanged($event)"
-            />
-            <!-- performance calculation -->
-            <app-plan-perf-calculation
-                [takeoffPerformance]="this.airportPerfState.tkofPerformance"
-                [landingPerformance]="this.airportPerfState.ldgPerformance"
-                [performanceDistanceUnit]="this.performanceDistanceUnit"
-            />
-        </mat-expansion-panel>
-    </mat-accordion>
+        <!-- weather factors -->
+        <app-plan-perf-weather-factors
+            [weatherFactors]="this.airportPerfState.weatherFactors"
+            [weatherCalculation]="this.airportPerfState.weatherCalculation"
+            [pressureUnit]="this.pressureUnit"
+            [temperatureUnit]="this.temperatureUnit"
+            [altitudeUnit]="this.altitudeUnit"
+            (weatherFactorsChanged)="this.onWeatherFactoresChanged($event)"
+        />
+        <!-- runway factors -->
+        <app-plan-perf-runway-factors
+            [runways]="this.airportPerfState.airport.runways"
+            [runwayFactors]="this.airportPerfState.runwayFactors"
+            [isLanding]="!this.isDepartureAd()"
+            [speedUnit]="this.speedUnit"
+            [rwyDistUnit]="this.performanceDistanceUnit"
+            (runwayFactorChanged)="this.onRunwayFactorsChanged($event)"
+        />
+        <!-- performance calculation -->
+        <app-plan-perf-calculation
+            [takeoffPerformance]="this.airportPerfState.tkofPerformance"
+            [landingPerformance]="this.airportPerfState.ldgPerformance"
+            [performanceDistanceUnit]="this.performanceDistanceUnit"
+        />
+    </mat-expansion-panel>
 }
