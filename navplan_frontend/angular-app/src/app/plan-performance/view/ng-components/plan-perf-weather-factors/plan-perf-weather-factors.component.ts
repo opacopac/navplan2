@@ -8,6 +8,7 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
 import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
 import {PlanPerfWeatherCalculationState} from '../../../state/state-model/plan-perf-weather-calculation-state';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 
 @Component({
     selector: 'app-plan-perf-weather-factors',
@@ -96,15 +97,15 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
 
     private initForm() {
         this.weatherFactorsForm = this.formBuilder.group({
-            'elevation': [this.weatherFactors.elevation.getValue(this.altitudeUnit), [
+            'elevation': [StringnumberHelper.roundToDigits(this.weatherFactors.elevation.getValue(this.altitudeUnit), 0), [
                 Validators.required,
                 Validators.min(0)
             ]],
-            'qnh': [this.weatherFactors.qnh.getValue(this.pressureUnit), [
+            'qnh': [StringnumberHelper.roundToDigits(this.weatherFactors.qnh.getValue(this.pressureUnit), 0), [
                 Validators.required,
                 Validators.min(0),
             ]],
-            'oat': [this.weatherFactors.oat.getValue(this.temperatureUnit), [
+            'oat': [StringnumberHelper.roundToDigits(this.weatherFactors.oat.getValue(this.temperatureUnit), 0), [
                 Validators.required,
             ]],
         });

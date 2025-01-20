@@ -1,23 +1,26 @@
 <form class="weather-factors-form" [formGroup]="this.weatherFactorsForm">
     <div class="weather-factors-form-content">
-        <!-- Elevation -->
-        <mat-form-field>
-            <mat-label>ELEV</mat-label>
-            <input
-                matInput
-                formControlName="elevation"
-                type="number"
-                required
-                min="0"
-                (change)="this.onElevationChanged()"
-            >
-            <span matTextSuffix>{{ Length.getUnitString(this.altitudeUnit) }}</span>
-            <mat-error>Value must be a positive number!</mat-error>
-        </mat-form-field>
-        AMSL
+        <div>
+            <!-- Elevation -->
+            <mat-form-field class="input-field">
+                <mat-label>ELEV</mat-label>
+                <input
+                    matInput
+                    formControlName="elevation"
+                    type="number"
+                    required
+                    min="0"
+                    (change)="this.onElevationChanged()"
+                >
+                <span matTextSuffix>{{ Length.getUnitString(this.altitudeUnit) }}</span>
+                <mat-error>Value must be a positive number!</mat-error>
+            </mat-form-field>
+            &nbsp;
+            <span class="calc-field">AMSL</span>
+        </div>
         <div>
             <!-- QNH -->
-            <mat-form-field>
+            <mat-form-field class="input-field">
                 <mat-label>QNH</mat-label>
                 <input
                     matInput
@@ -32,11 +35,12 @@
             </mat-form-field>
 
             <!-- PA -->
-            <span>PA: {{ this.getPaValue() }}</span>
+            &nbsp;
+            <span class="calc-field">PA: {{ this.getPaValue() }}</span>
         </div>
         <div>
             <!-- OAT -->
-            <mat-form-field>
+            <mat-form-field class="input-field">
                 <mat-label>OAT</mat-label>
                 <input
                     matInput
@@ -50,10 +54,12 @@
             </mat-form-field>
 
             <!-- DA -->
-            <span>DA: {{ this.getDaValue() }}</span>
+            &nbsp;
+            <span class="calc-field">DA: {{ this.getDaValue() }}</span>
 
             <!-- ISA temp -->
-            <span>ISA Std Temp: {{ this.getIsaTempValue() }}</span>
+            &nbsp;
+            <span class="calc-field">ISA Std Temp: {{ this.getIsaTempValue() }}</span>
         </div>
     </div>
 </form>
