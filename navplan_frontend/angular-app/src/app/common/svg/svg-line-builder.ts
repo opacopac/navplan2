@@ -10,6 +10,7 @@ export class SvgLineBuilder {
     private vectorEffect: string;
     private shapeRendering: string;
     private strokeDashArray: string;
+    private opacity = 1;
 
 
     private constructor() {
@@ -38,6 +39,9 @@ export class SvgLineBuilder {
         }
         if (this.strokeDashArray !== undefined) {
             line.setAttribute('stroke-dasharray', this.strokeDashArray);
+        }
+        if (this.opacity !== 1) {
+            line.setAttribute('opacity', this.opacity.toString());
         }
 
         return line;
@@ -139,6 +143,12 @@ export class SvgLineBuilder {
 
     public setStrokeDashArrayOnOff(dashLength: number, gapLength: number): SvgLineBuilder {
         this.strokeDashArray = dashLength + ',' + gapLength;
+        return this;
+    }
+
+
+    public setOpacity(opacity: number): SvgLineBuilder {
+        this.opacity = opacity;
         return this;
     }
 }

@@ -7,6 +7,9 @@ import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
 
 
 export class PlanPerfPathLdgSvg {
+    private static LINE_OPACITY = 0.8;
+
+
     public static create(
         chartState: PlanPerfLandingChartState,
         rwy: AirportRunway,
@@ -35,6 +38,7 @@ export class PlanPerfPathLdgSvg {
             .setStartXy(startXy)
             .setEndXy(PerspectiveCalculator.calcXy(chartState.ldgGroundRollStart, lineY, imgDim))
             .setStrokeStyle('deepskyblue', 2)
+            .setOpacity(this.LINE_OPACITY)
             .build();
     }
 
@@ -52,6 +56,7 @@ export class PlanPerfPathLdgSvg {
             .setStartXy(PerspectiveCalculator.calcXy(chartState.ldgGroundRollStart, lineY, imgDim))
             .setEndXy(PerspectiveCalculator.calcXy(chartState.ldgGroundRollEnd, lineY, imgDim))
             .setStrokeStyle('limegreen', 2)
+            .setOpacity(this.LINE_OPACITY)
             .build());
 
         // stop line
@@ -59,6 +64,7 @@ export class PlanPerfPathLdgSvg {
             .setStartXy(PerspectiveCalculator.calcXy(chartState.ldgGroundRollEnd, rwyWidth.divideBy(4), imgDim))
             .setEndXy(PerspectiveCalculator.calcXy(chartState.ldgGroundRollEnd, rwyWidth.multiplyBy(3 / 4), imgDim))
             .setStrokeStyle('limegreen', 2)
+            .setOpacity(this.LINE_OPACITY)
             .build());
 
         return g;

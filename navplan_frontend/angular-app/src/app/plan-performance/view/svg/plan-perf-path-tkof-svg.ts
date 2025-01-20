@@ -8,6 +8,9 @@ import {AirportRunway} from '../../../aerodrome/domain/model/airport-runway';
 
 
 export class PlanPerfPathTkofSvg {
+    private static LINE_OPACITY = 0.8;
+
+
     public static create(chartState: PlanPerfTakeoffChartState, rwy: AirportRunway, imgDim: ImageDimensionsSvg): SVGGElement {
         const rwyGroup = SvgGroupElement.create();
         rwyGroup.appendChild(this.createGroundRollSvg(chartState, rwy, imgDim));
@@ -25,6 +28,7 @@ export class PlanPerfPathTkofSvg {
             .setStartXy(PerspectiveCalculator.calcXy(chartState.tkofGroundRollStart, lineY, imgDim))
             .setEndXy(PerspectiveCalculator.calcXy(chartState.tkofGroundRollEnd, lineY, imgDim))
             .setStrokeStyle('limegreen', 2)
+            .setOpacity(this.LINE_OPACITY)
             .build();
     }
 
@@ -40,6 +44,7 @@ export class PlanPerfPathTkofSvg {
             .setStartXy(PerspectiveCalculator.calcXy(chartState.tkofGroundRollEnd, lineY, imgDim))
             .setEndXy(endXy)
             .setStrokeStyle('deepskyblue', 2)
+            .setOpacity(this.LINE_OPACITY)
             .build();
     }
 
@@ -55,6 +60,7 @@ export class PlanPerfPathTkofSvg {
             .setEndXy(PerspectiveCalculator.calcXy(chartState.tkofAbortStop, lineY, imgDim))
             .setStrokeStyle('red', 2)
             .setStrokeDashArrayOnOff(10, 10)
+            .setOpacity(this.LINE_OPACITY)
             .build());
 
         // cross
@@ -66,6 +72,7 @@ export class PlanPerfPathTkofSvg {
             .setEndXy(PerspectiveCalculator.calcXy(chartState.tkofAbortPoint.add(crossHalfWidth),
                 lineY.add(crossHalfHeight), imgDim))
             .setStrokeStyle('red', 2)
+            .setOpacity(this.LINE_OPACITY)
             .build());
 
         rwyGroup.appendChild(SvgLineBuilder.builder()
@@ -74,6 +81,7 @@ export class PlanPerfPathTkofSvg {
             .setEndXy(PerspectiveCalculator.calcXy(chartState.tkofAbortPoint.subtract(crossHalfWidth),
                 lineY.add(crossHalfHeight), imgDim))
             .setStrokeStyle('red', 2)
+            .setOpacity(this.LINE_OPACITY)
             .build());
 
         // stop line
@@ -81,6 +89,7 @@ export class PlanPerfPathTkofSvg {
             .setStartXy(PerspectiveCalculator.calcXy(chartState.tkofAbortStop, rwy.width.divideBy(4), imgDim))
             .setEndXy(PerspectiveCalculator.calcXy(chartState.tkofAbortStop, rwy.width.multiplyBy(3 / 4), imgDim))
             .setStrokeStyle('red', 2)
+            .setOpacity(this.LINE_OPACITY)
             .build());
 
         return rwyGroup;
