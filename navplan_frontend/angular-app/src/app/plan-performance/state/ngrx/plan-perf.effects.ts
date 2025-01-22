@@ -123,7 +123,7 @@ export class PlanPerfEffects {
             weatherCalculation: null,
             runwayFactors: {
                 runway: firstRwy,
-                isGrassRwy: false,
+                isGrassRwy: firstRwy.isGrass(),
                 isWetRwy: false,
                 rwyWind: Speed.ofZero(),
                 touchdownAfterThr: Length.ofM(100),
