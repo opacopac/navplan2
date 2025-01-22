@@ -8,6 +8,7 @@ export class MockPerfDistConditionsZero {
             false,
             false,
             Speed.ofZero(),
+            0,
         );
     }
 }
