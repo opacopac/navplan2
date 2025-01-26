@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User} from '../../../../user/domain/model/user';
 import {Aircraft} from '../../../../aircraft/domain/model/aircraft';
+import {environment} from '../../../../../environments/environment';
 
 
 @Component({
@@ -18,6 +19,8 @@ export class NavbarComponent implements OnInit {
     @Output() onExportGpxClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportFplClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onClearClick: EventEmitter<null> = new EventEmitter<null>();
+
+    protected logoUrl = environment.iconBaseUrl + 'traffic_plane.svg';
 
 
     constructor() {
