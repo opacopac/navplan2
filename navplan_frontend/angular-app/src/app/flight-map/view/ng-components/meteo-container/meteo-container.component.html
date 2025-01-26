@@ -1,3 +1,9 @@
 <div class="{{ getTimeLineClass() | async }}">
-    <app-meteo-dwd-timeline></app-meteo-dwd-timeline>
+    <app-meteo-dwd-timeline
+        [currentForecastRun]="this.forecastRun$ | async"
+        [selectedStep]="this.selectedStep$ | async"
+        (previousStepClicked)="this.onPreviousStepClicked()"
+        (nextStepClicked)="this.onNextStepClicked()"
+        (stepSelected)="this.onStepSelected($event)"
+    />
 </div>

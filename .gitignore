@@ -88,3 +88,4 @@ navplan2.iml
 /navplan_frontend/angular-app/dist/
 /navplan_frontend/angular-app/package-lock.json
 /navplan_backend/php-app/src/Navplan/Aircraft/Importer/Data/
+/navplan_backend/meteo_dwd/

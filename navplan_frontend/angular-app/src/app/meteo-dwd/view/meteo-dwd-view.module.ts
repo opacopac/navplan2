@@ -14,6 +14,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
 import {CommonViewModule} from '../../common/view/common-view.module';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import {CommonViewModule} from '../../common/view/common-view.module';
         MatInputModule,
         BaseMapViewModule,
         CommonViewModule,
+        ReactiveFormsModule,
     ],
     declarations: [
         MeteoButtonComponent,
@@ -40,8 +42,7 @@ import {CommonViewModule} from '../../common/view/common-view.module';
         MeteoButtonComponent,
         MeteoDwdTimelineComponent,
     ],
-    providers: [
-    ]
+    providers: []
 })
 export class MeteoDwdViewModule {
 }

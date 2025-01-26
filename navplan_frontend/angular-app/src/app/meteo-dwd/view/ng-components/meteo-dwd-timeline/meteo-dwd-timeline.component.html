@@ -1,22 +1,26 @@
-<div #container class="meteo-dwd-timeline flex-row">
-    <button mat-button (click)="onPreviousStepClicked(); $event.preventDefault()"><i class="fa-solid fa-angle-left"></i>
-    </button>
-    <button mat-button (click)="onNextStepClicked(); $event.preventDefault()"><i class="fa-solid fa-angle-right"></i>
-    </button>
-    <mat-slider
-        [displayWith]="formatLabel"
-        step="{{ getStepInterval() | async }}"
-        min="{{ getMinStep() | async }}"
-        max="{{ getMaxStep() | async }}"
-        aria-label="units"
-        class="meteo-dwd-timeline-slider"
-        showTickMarks="true"
-        discrete="true"
-        #ngSlider>
-        <input
-            matSliderThumb
-            #ngSliderThumb="matSliderThumb"
-            (input)="onIntervalSelected({source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value})"
-        />
-    </mat-slider>
-</div>
+<form [formGroup]="this.meteoDwdTimelineForm">
+    <div class="meteo-dwd-timeline flex-row">
+        <button mat-button (click)="this.onPreviousStepClicked(); $event.preventDefault()"><i
+            class="fa-solid fa-angle-left"></i>
+        </button>
+        <button mat-button (click)="this.onNextStepClicked(); $event.preventDefault()"><i
+            class="fa-solid fa-angle-right"></i>
+        </button>
+        <mat-slider
+            [min]="this.getMinStep()"
+            [max]="this.getMaxStep()"
+            [step]="this.getStepInterval()"
+            [discrete]="true"
+            [showTickMarks]="true"
+            [displayWith]="formatLabel"
+            aria-label="units"
+            class="meteo-dwd-timeline-slider"
+        >
+            <input
+                matSliderThumb
+                formControlName="step"
+                (valueChange)="this.onStepSelected($event)"
+            />
+        </mat-slider>
+    </div>
+</form>

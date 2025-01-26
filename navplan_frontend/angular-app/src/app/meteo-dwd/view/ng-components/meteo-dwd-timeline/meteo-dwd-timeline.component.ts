@@ -1,13 +1,8 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
-import {getMeteoDwdForecastRun, getMeteoDwdSelectedStep} from '../../../state/ngrx/meteo-dwd.selectors';
-import {MeteoDwdActions} from '../../../state/ngrx/meteo-dwd.actions';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
-import {MatSlider, MatSliderChange} from '@angular/material/slider';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 import {ForecastRun} from '../../../domain/model/forecast-run';
-import {filter, map} from 'rxjs/operators';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 
 @Component({
@@ -15,65 +10,52 @@ import {filter, map} from 'rxjs/operators';
     templateUrl: './meteo-dwd-timeline.component.html',
     styleUrls: ['./meteo-dwd-timeline.component.scss']
 })
-export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
-    @ViewChild('container') container: ElementRef;
-    @ViewChild('ngSlider') slider: MatSlider;
-    private readonly forecastRun$: Observable<ForecastRun> = this.appStore.pipe(select(getMeteoDwdForecastRun));
-    private readonly selectedStep$: Observable<number> = this.appStore.pipe(select(getMeteoDwdSelectedStep));
-    private readonly forecastRunSubscription: Subscription;
-    private readonly selectedStepSubscription: Subscription;
-    private currentForecastRun: ForecastRun = undefined;
+export class MeteoDwdTimelineComponent implements OnInit, OnChanges {
+    @Input() currentForecastRun: ForecastRun;
+    @Input() selectedStep: number;
+    @Output() nextStepClicked = new EventEmitter<void>();
+    @Output() previousStepClicked = new EventEmitter<void>();
+    @Output() stepSelected = new EventEmitter<number>();
+
+    protected meteoDwdTimelineForm: FormGroup;
 
 
-    constructor(
-        private appStore: Store<any>
-    ) {
+    constructor(private formBuilder: FormBuilder) {
         this.formatLabel = this.formatLabel.bind(this);
-
-        this.forecastRunSubscription = this.forecastRun$.subscribe(forecastRun => this.updateForecastRun(forecastRun));
-        this.selectedStepSubscription = this.selectedStep$.subscribe(selectedStep => this.updateSelectedStep(selectedStep));
     }
 
 
     ngOnInit(): void {
+        this.initForm();
     }
 
 
-    ngOnDestroy(): void {
-        this.forecastRunSubscription.unsubscribe();
+    ngOnChanges(): void {
+        this.initForm();
     }
 
 
-    public getMinStep(): Observable<number> {
-        return this.forecastRun$.pipe(
-            filter(run => run !== undefined),
-            map(run => run.model.minStep)
-        );
+    protected getMinStep(): number {
+        return this.currentForecastRun?.model.minStep;
     }
 
 
-    public getMaxStep(): Observable<number> {
-        return this.forecastRun$.pipe(
-            filter(run => run !== undefined),
-            map(run => run.model.maxStep)
-        );
+    protected getMaxStep(): number {
+        return this.currentForecastRun?.model.maxStep;
     }
 
 
-    public getStepInterval(): Observable<number> {
-        return this.forecastRun$.pipe(
-            filter(run => run !== undefined),
-            map(run => run.model.stepLength.hour)
-        );
+    protected getStepInterval(): number {
+        return this.currentForecastRun?.model.stepLength.hour;
     }
 
 
-    public formatLabel(step: number): string {
+    protected formatLabel(value: number): string {
         if (!this.currentForecastRun) {
             return '';
         }
 
-        const stepOffsetMs = step * this.currentForecastRun.model.stepLength.ms;
+        const stepOffsetMs = value * this.currentForecastRun.model.stepLength.ms;
         const stepDate = new Date(this.currentForecastRun.startTime.valueOf() + stepOffsetMs);
         const stepDateHour = stepDate.getHours();
         const stepDateWeekday = DatetimeHelper.getWeekdayShortFromDate(stepDate);
@@ -82,35 +64,24 @@ export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     }
 
 
-    public onPreviousStepClicked() {
-        this.appStore.dispatch(
-            MeteoDwdActions.previousStep()
-        );
+    protected onPreviousStepClicked() {
+        this.previousStepClicked.emit();
     }
 
 
-    public onNextStepClicked() {
-        this.appStore.dispatch(
-            MeteoDwdActions.nextStep()
-        );
+    protected onNextStepClicked() {
+        this.nextStepClicked.emit();
     }
 
 
-    public onIntervalSelected(event: MatSliderChange) {
-        this.appStore.dispatch(
-            MeteoDwdActions.selectStep({step: event.value})
-        );
+    protected onStepSelected(value: number) {
+        this.stepSelected.emit(value);
     }
 
 
-    private updateForecastRun(forecastRun: ForecastRun) {
-        this.currentForecastRun = forecastRun;
-    }
-
-
-    private updateSelectedStep(selectedStep: number) {
-        if (this.slider && this.slider.step !== selectedStep) {
-            this.slider.step = selectedStep;
-        }
+    private initForm() {
+        this.meteoDwdTimelineForm = this.formBuilder.group({
+            'step': [this.selectedStep, []],
+        });
     }
 }

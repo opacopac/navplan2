@@ -35,6 +35,8 @@ COPY php-app/composer.json /var/www/html/php/composer.json
 
 RUN composer update
 
+#COPY meteo_dwd /var/www/html/meteo_dwd
+
 EXPOSE 80
 
 CMD ["apache2-foreground"]
