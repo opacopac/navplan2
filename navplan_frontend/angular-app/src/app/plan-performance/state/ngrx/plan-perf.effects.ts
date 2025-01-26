@@ -123,12 +123,12 @@ export class PlanPerfEffects {
             weatherCalculation: null,
             runwayFactors: {
                 runway: firstRwy,
-                isGrassRwy: false,
+                isGrassRwy: firstRwy.isGrass(),
                 isWetRwy: false,
                 rwyWind: Speed.ofZero(),
                 touchdownAfterThr: Length.ofM(100),
                 use50ftAboveThreshold: false,
-                reservePercent: 0
+                reservePercent: 30
             },
             aircraftPerfProfileIdx: null,
             tkofPerformance: null,
@@ -165,6 +165,7 @@ export class PlanPerfEffects {
             rwyFactors.isGrassRwy,
             rwyFactors.isWetRwy,
             rwyFactors.rwyWind,
+            rwyFactors.reservePercent
         );
     }
 

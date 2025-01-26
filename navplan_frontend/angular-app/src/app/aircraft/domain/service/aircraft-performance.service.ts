@@ -99,6 +99,10 @@ export class AircraftPerformanceService {
             * correctionFactors.tailwindIncPercent / 100;
         }
 
+        if (distPerfConditions.reservePercent > 0) {
+            distM = distM * (1 + distPerfConditions.reservePercent / 100);
+        }
+
         return Length.ofM(distM);
     }
 }

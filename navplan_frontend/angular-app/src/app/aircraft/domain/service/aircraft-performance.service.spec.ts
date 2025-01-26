@@ -108,7 +108,7 @@ describe('PlanPerformanceService', () => {
         const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
         const temp = AtmosphereService.getStandardTemperatureAtSeaLevel();
         const perfDistTable = MockPerfDistTablesBr23.createTakeoffGroundRoll();
-        const perfDistConditions = new DistancePerformanceConditions(true, false, Speed.ofZero());
+        const perfDistConditions = new DistancePerformanceConditions(true, false, Speed.ofZero(), 0);
 
         // when
         const tkoffRoll = AircraftPerformanceService.calcDistance(
@@ -130,7 +130,7 @@ describe('PlanPerformanceService', () => {
         const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
         const temp = AtmosphereService.getStandardTemperatureAtSeaLevel();
         const perfDistTable = MockPerfDistTablesBr23.createLandingGroundRoll();
-        const perfDistConditions = new DistancePerformanceConditions(false, true, Speed.ofZero());
+        const perfDistConditions = new DistancePerformanceConditions(false, true, Speed.ofZero(), 0);
 
         // when
         const tkoffRoll = AircraftPerformanceService.calcDistance(
@@ -152,7 +152,7 @@ describe('PlanPerformanceService', () => {
         const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
         const temp = AtmosphereService.getStandardTemperatureAtSeaLevel();
         const perfDistTable = MockPerfDistTablesBr23.createTakeoffGroundRoll();
-        const perfDistConditions = new DistancePerformanceConditions(false, false, Speed.ofKt(10));
+        const perfDistConditions = new DistancePerformanceConditions(false, false, Speed.ofKt(10), 0);
 
         // when
         const tkoffRoll = AircraftPerformanceService.calcDistance(
@@ -174,7 +174,7 @@ describe('PlanPerformanceService', () => {
         const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
         const temp = AtmosphereService.getStandardTemperatureAtSeaLevel();
         const perfDistTable = MockPerfDistTablesBr23.createTakeoffGroundRoll();
-        const perfDistConditions = new DistancePerformanceConditions(false, false, Speed.ofKt(-10));
+        const perfDistConditions = new DistancePerformanceConditions(false, false, Speed.ofKt(-10), 0);
 
         // when
         const tkoffRoll = AircraftPerformanceService.calcDistance(
@@ -187,5 +187,26 @@ describe('PlanPerformanceService', () => {
 
         // then
         expect(tkoffRoll.m).toBeCloseTo(365 * 1.4, 0);
+    });
+
+    it('calculates the takeoff roll with 50% personal reserve', () => {
+        // given
+        const elevation = Length.ofZero();
+        const qnh = AtmosphereService.getStandardPressureAtSeaLevel();
+        const temp = AtmosphereService.getStandardTemperatureAtSeaLevel();
+        const perfDistTable = MockPerfDistTablesBr23.createTakeoffGroundRoll();
+        const perfDistConditions = new DistancePerformanceConditions(false, false, Speed.ofZero(), 50);
+
+        // when
+        const tkoffRoll = AircraftPerformanceService.calcDistance(
+            elevation,
+            qnh,
+            temp,
+            perfDistConditions,
+            perfDistTable
+        );
+
+        // then
+        expect(tkoffRoll.m).toBeCloseTo(365 * 1.5, 0);
     });
 });

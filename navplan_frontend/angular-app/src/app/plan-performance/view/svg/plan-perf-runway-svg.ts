@@ -15,10 +15,11 @@ export class PlanPerfRunwaySvg {
     private static DTHR_CARET_OFFSET = Length.ofM(6);
     private static DTHR_CARET_HEIGHT = Length.ofM(9);
     private static DTHR_CARET_WIDTH = Length.ofM(3);
-    private static RWY_DESIGNATOR_OFFSET = Length.ofM(
-        PlanPerfRunwaySvg.THR_STRIPE_OFFSET.m + PlanPerfRunwaySvg.THR_STRIPE_LENGTH.m + 12);
     private static RWY_DESIGNATOR_WIDTH_FACTOR = 1.5;
     private static RWY_DESIGNATOR_HEIGHT_FACTOR = 2;
+    private static RWY_DESIGNATOR_OFFSET = Length.ofM(
+        PlanPerfRunwaySvg.THR_STRIPE_OFFSET.m + PlanPerfRunwaySvg.THR_STRIPE_LENGTH.m + 12);
+    private static RWY_DESIGNATOR_OFFSET_LINE2 = Length.ofM(15 * PlanPerfRunwaySvg.RWY_DESIGNATOR_WIDTH_FACTOR);
     private static RWY_DESIGNATOR_WIDTH = Length.ofM(3 * PlanPerfRunwaySvg.RWY_DESIGNATOR_WIDTH_FACTOR);
     private static RWY_DESIGNATOR_HEIGHT = Length.ofM(9 * PlanPerfRunwaySvg.RWY_DESIGNATOR_HEIGHT_FACTOR);
     private static RWY_DESIGNATOR_CENTER_PADDING = Length.ofM(1 * PlanPerfRunwaySvg.RWY_DESIGNATOR_WIDTH_FACTOR);
@@ -66,10 +67,14 @@ export class PlanPerfRunwaySvg {
         imgDim: ImageDimensionsSvg
     ): SVGGElement {
         const rwyHalfWidth = Length.ofM(rwy.width.m / 2);
-        const startXy = PerspectiveCalculator.calcXy(
-            threshold.add(PlanPerfRunwaySvg.RWY_CENTERLINE_OFFSET), rwyHalfWidth, imgDim);
-        const endXy = PerspectiveCalculator.calcXy(
-            oppThreshold.subtract(PlanPerfRunwaySvg.RWY_CENTERLINE_OFFSET), rwyHalfWidth, imgDim);
+        const startX = rwy.isParallel()
+            ? threshold.add(this.RWY_CENTERLINE_OFFSET).add(this.RWY_DESIGNATOR_OFFSET_LINE2)
+            : threshold.add(this.RWY_CENTERLINE_OFFSET);
+        const endX = rwy.isParallel()
+            ? oppThreshold.subtract(this.RWY_CENTERLINE_OFFSET).subtract(this.RWY_DESIGNATOR_OFFSET_LINE2)
+            : oppThreshold.subtract(this.RWY_CENTERLINE_OFFSET);
+        const startXy = PerspectiveCalculator.calcXy(startX, rwyHalfWidth, imgDim);
+        const endXy = PerspectiveCalculator.calcXy(endX, rwyHalfWidth, imgDim);
         const dashLenOnPx = imgDim.calcXy(Length.ofM(30), Length.ofZero())[0];
         const dashLenOffPx = imgDim.calcXy(Length.ofM(20), Length.ofZero())[0];
 
@@ -98,7 +103,9 @@ export class PlanPerfRunwaySvg {
         // threshold designator
         const upperLetter = rwy.name.substring(0, 1);
         const lowerLetter = rwy.name.substring(1, 2);
-        const designatorX = threshold.add(this.RWY_DESIGNATOR_OFFSET);
+        const designatorX = rwy.isParallel()
+            ? threshold.add(this.RWY_DESIGNATOR_OFFSET).add(this.RWY_DESIGNATOR_OFFSET_LINE2)
+            : threshold.add(this.RWY_DESIGNATOR_OFFSET);
         g.appendChild(PlanPerfRwyTextSvg.createLetter(upperLetter, ([x, y]) => PerspectiveCalculator.calcXy(
             designatorX.add(this.RWY_DESIGNATOR_HEIGHT.subtract(Length.ofM(this.RWY_DESIGNATOR_HEIGHT_FACTOR * y))),
             upperNrY.add(this.RWY_DESIGNATOR_WIDTH.subtract(Length.ofM(this.RWY_DESIGNATOR_WIDTH_FACTOR * x))),
@@ -108,13 +115,25 @@ export class PlanPerfRunwaySvg {
             lowerNrY.add(this.RWY_DESIGNATOR_WIDTH.subtract(Length.ofM(this.RWY_DESIGNATOR_WIDTH_FACTOR * x))),
             imgDim)));
 
+        // line 2
+        if (rwy.isParallel()) {
+            const parX = threshold.add(this.RWY_DESIGNATOR_OFFSET);
+            const parY = rwyHalfWidth.subtract(this.RWY_DESIGNATOR_WIDTH.divideBy(2));
+            const parLetter = rwy.name.substring(2, 3);
+            g.appendChild(PlanPerfRwyTextSvg.createLetter(parLetter, ([x, y]) => PerspectiveCalculator.calcXy(
+                parX.add(this.RWY_DESIGNATOR_HEIGHT.subtract(Length.ofM(this.RWY_DESIGNATOR_HEIGHT_FACTOR * y))),
+                parY.add(this.RWY_DESIGNATOR_WIDTH.subtract(Length.ofM(this.RWY_DESIGNATOR_WIDTH_FACTOR * x))),
+                imgDim)));
+        }
+
+
         // opposite threshold designator
         if (oppRwy) {
             const oppLowerLetter = oppRwy.name.substring(0, 1);
             const oppUpperLetter = oppRwy.name.substring(1, 2);
-            const oppDesignatorX = oppThreshold
-                .subtract(this.RWY_DESIGNATOR_OFFSET)
-                .subtract(this.RWY_DESIGNATOR_HEIGHT);
+            const oppDesignatorX = oppRwy.isParallel()
+                ? oppThreshold.subtract(this.RWY_DESIGNATOR_OFFSET).subtract(this.RWY_DESIGNATOR_OFFSET_LINE2).subtract(this.RWY_DESIGNATOR_HEIGHT)
+                : oppThreshold.subtract(this.RWY_DESIGNATOR_OFFSET).subtract(this.RWY_DESIGNATOR_HEIGHT);
             g.appendChild(PlanPerfRwyTextSvg.createLetter(oppLowerLetter, ([x, y]) => PerspectiveCalculator.calcXy(
                 oppDesignatorX.add(Length.ofM(this.RWY_DESIGNATOR_HEIGHT_FACTOR * y)),
                 lowerNrY.add(Length.ofM(this.RWY_DESIGNATOR_WIDTH_FACTOR * x)),
@@ -122,6 +141,17 @@ export class PlanPerfRunwaySvg {
             g.appendChild(PlanPerfRwyTextSvg.createLetter(oppUpperLetter, ([x, y]) => PerspectiveCalculator.calcXy(
                 oppDesignatorX.add(Length.ofM(this.RWY_DESIGNATOR_HEIGHT_FACTOR * y)),
                 upperNrY.add(Length.ofM(this.RWY_DESIGNATOR_WIDTH_FACTOR * x)),
+                imgDim)));
+        }
+
+        // opposite line 2
+        if (oppRwy.isParallel()) {
+            const oppParX = oppThreshold.subtract(this.RWY_DESIGNATOR_OFFSET).subtract(this.RWY_DESIGNATOR_HEIGHT);
+            const oppParY = rwyHalfWidth.subtract(this.RWY_DESIGNATOR_WIDTH.divideBy(2));
+            const oppParLetter = oppRwy.name.substring(2, 3);
+            g.appendChild(PlanPerfRwyTextSvg.createLetter(oppParLetter, ([x, y]) => PerspectiveCalculator.calcXy(
+                oppParX.add(Length.ofM(this.RWY_DESIGNATOR_HEIGHT_FACTOR * y)),
+                oppParY.add(Length.ofM(this.RWY_DESIGNATOR_WIDTH_FACTOR * x)),
                 imgDim)));
         }
 

@@ -110,10 +110,10 @@ export class Airport extends DataItem {
                 && (r.length.equals(rwy.length))
                 && (r.width.equals(rwy.width))
                 && (r.surface === rwy.surface)
-                && ((rwy.name.endsWith('R') && r.name.endsWith('L'))
-                    || (rwy.name.endsWith('L') && r.name.endsWith('R'))
-                    || (rwy.name.endsWith('C') && r.name.endsWith('C'))
-                    || (!rwy.name.endsWith('R') && !rwy.name.endsWith('L') && !rwy.name.endsWith('C'))
+                && ((rwy.isRight() && r.isLeft())
+                    || (rwy.isLeft() && r.isRight())
+                    || (rwy.isCenter() && r.isCenter())
+                    || !rwy.isParallel()
                 );
         });
     }

@@ -2,6 +2,9 @@ import {Length} from '../../../geo-physics/domain/model/quantities/length';
 
 
 export class AirportRunway {
+    private static DESIGNATOR_LEFT_LETTER = 'L';
+    private static DESIGNATOR_CENTER_LETTER = 'C';
+    private static DESIGNATOR_RIGHT_LETTER = 'R';
     private static GRASS_TYPE_TEXT = 'GRAS'; // TODO => enum
     private static THRESHOLD_STRIPES_BY_WIDTH_M = [
         [4, 18],
@@ -26,6 +29,26 @@ export class AirportRunway {
 
     public isGrass(): boolean {
         return this.surface === AirportRunway.GRASS_TYPE_TEXT;
+    }
+
+
+    public isLeft(): boolean {
+        return this.name.endsWith(AirportRunway.DESIGNATOR_LEFT_LETTER);
+    }
+
+
+    public isCenter(): boolean {
+        return this.name.endsWith(AirportRunway.DESIGNATOR_CENTER_LETTER);
+    }
+
+
+    public isRight(): boolean {
+        return this.name.endsWith(AirportRunway.DESIGNATOR_RIGHT_LETTER);
+    }
+
+
+    public isParallel(): boolean {
+        return this.isLeft() || this.isCenter() || this.isRight();
     }
 
 
