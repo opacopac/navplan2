@@ -17,7 +17,7 @@ import {filter, map} from 'rxjs/operators';
 })
 export class MeteoDwdTimelineComponent implements OnInit, OnDestroy {
     @ViewChild('container') container: ElementRef;
-    @ViewChild('slider') slider: MatSlider;
+    @ViewChild('ngSlider') slider: MatSlider;
     private readonly forecastRun$: Observable<ForecastRun> = this.appStore.pipe(select(getMeteoDwdForecastRun));
     private readonly selectedStep$: Observable<number> = this.appStore.pipe(select(getMeteoDwdSelectedStep));
     private readonly forecastRunSubscription: Subscription;
