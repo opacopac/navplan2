@@ -30,12 +30,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 COPY php-app/src /var/www/html/php
 COPY php-app/config /var/www/html/php/config
-
 COPY php-app/composer.json /var/www/html/php/composer.json
 
 RUN composer update
 
-#COPY meteo_dwd /var/www/html/meteo_dwd
+# Copy Meteo DWD sample files
+COPY meteo_dwd /var/www/html/meteo_dwd
 
 EXPOSE 80
 

@@ -50,15 +50,14 @@ export class MeteoDwdTimelineComponent implements OnInit, OnChanges {
     }
 
 
-    protected formatLabel(value: number): string {
+    protected formatLabel(step: number): string {
         if (!this.currentForecastRun) {
             return '';
         }
 
-        const stepOffsetMs = value * this.currentForecastRun.model.stepLength.ms;
-        const stepDate = new Date(this.currentForecastRun.startTime.valueOf() + stepOffsetMs);
-        const stepDateHour = stepDate.getHours();
-        const stepDateWeekday = DatetimeHelper.getWeekdayShortFromDate(stepDate);
+        const stepDateTime = this.currentForecastRun.getStepDateTime(step);
+        const stepDateHour = stepDateTime.getHours();
+        const stepDateWeekday = DatetimeHelper.getWeekdayShortFromDate(stepDateTime);
 
         return stepDateWeekday + ' ' + StringnumberHelper.zeroPad(stepDateHour, 2) + ':00 LT';
     }
