@@ -27,7 +27,7 @@ class WindInfo {
         Position2d $pos
     ): WindInfo {
         $speed = round(sqrt($speedE * $speedE + $speedN * $speedN), 1);
-        $deg = round(atan2($speedN, $speedE) / pi() * 180, 1);
+        $deg = round(atan2($speedN, $speedE) / pi() * 180);
         $dir = (360 - $deg + 270) % 360;
 
         return new WindInfo(
