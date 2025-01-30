@@ -69,6 +69,13 @@ export class SvgTextBuilder {
     }
 
 
+    public setXy([x, y]: [number, number]): SvgTextBuilder {
+        this.setX(x);
+        this.setY(y);
+        return this;
+    }
+
+
     public setStyle(style: string): SvgTextBuilder {
         this.style = style;
         return this;
