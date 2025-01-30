@@ -11,7 +11,7 @@
   >
   <form [formGroup]="editCoordinateForm">
     <div class="coordinate-form-content">
-      <mat-form-field class="flex-row">
+      <mat-form-field class="flex-row-100">
         <mat-label>Arm</mat-label>
         <input
           matInput
@@ -24,7 +24,7 @@
           <span matTextSuffix>{{ Length.getUnitString(this.data.lengthUnit) }}</span>
           <mat-error>Value must be a positive or negative number!</mat-error>
         </mat-form-field>
-        <mat-form-field class="flex-row">
+        <mat-form-field class="flex-row-100">
           <mat-label>Weight</mat-label>
           <input
             matInput
@@ -39,7 +39,7 @@
           </mat-form-field>
           @if (this.data.isNewCoordinate && this.data.coordinateList && this.data.coordinateList.length > 0) {
             <mat-form-field
-              class="flex-row"
+              class="flex-row-100"
               >
               <mat-label>Position</mat-label>
               <mat-select formControlName="insertAtIndex">

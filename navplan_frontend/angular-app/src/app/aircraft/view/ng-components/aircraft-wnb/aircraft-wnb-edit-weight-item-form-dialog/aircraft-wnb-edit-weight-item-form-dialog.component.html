@@ -10,7 +10,7 @@
   <form [formGroup]="this.editWeightItemForm">
     <div class="weight-item-form-content">
       <!-- type -->
-      <mat-form-field class="flex-row">
+      <mat-form-field class="flex-row-100">
         <mat-label>Type</mat-label>
         <mat-select
           formControlName="type"
@@ -28,7 +28,7 @@
       </mat-form-field>
 
       <!-- name -->
-      <mat-form-field class="flex-row">
+      <mat-form-field class="flex-row-100">
         <mat-label>Name</mat-label>
         <input
           matInput
@@ -42,7 +42,7 @@
         </mat-form-field>
 
         <!-- longitudinal arm -->
-        <mat-form-field class="flex-row">
+        <mat-form-field class="flex-row-100">
           <mat-label>Arm {{ this.data.vehicleType === VehicleType.HELICOPTER ? '(Longitudinal)' : '' }}</mat-label>
           <input
             matInput
@@ -58,7 +58,7 @@
 
           <!-- lateral arm -->
           @if (this.data.vehicleType === VehicleType.HELICOPTER) {
-            <mat-form-field class="flex-row">
+            <mat-form-field class="flex-row-100">
               <mat-label>Arm (Lateral)</mat-label>
               <input
                 matInput
@@ -75,7 +75,7 @@
 
             <!-- max weight -->
             @if (!this.isTypeFuel() && !this.isTypeAircraft()) {
-              <mat-form-field class="flex-row">
+              <mat-form-field class="flex-row-100">
                 <mat-label>Max. Weight</mat-label>
                 <input
                   matInput
@@ -91,7 +91,7 @@
 
               <!-- max fuel -->
               @if (this.isTypeFuel()) {
-                <mat-form-field class="flex-row">
+                <mat-form-field class="flex-row-100">
                   <mat-label>Max. Fuel</mat-label>
                   <input
                     matInput
@@ -107,7 +107,7 @@
 
                 <!-- default weight -->
                 @if (!this.isTypeFuel() && !this.isTypeAircraft()) {
-                  <mat-form-field class="flex-row">
+                  <mat-form-field class="flex-row-100">
                     <mat-label>Default Weight</mat-label>
                     <input
                       matInput
@@ -123,7 +123,7 @@
 
                   <!-- default fuel -->
                   @if (this.isTypeFuel()) {
-                    <mat-form-field class="flex-row">
+                    <mat-form-field class="flex-row-100">
                       <mat-label>Default Fuel</mat-label>
                       <input
                         matInput

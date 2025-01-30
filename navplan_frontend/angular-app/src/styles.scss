@@ -53,10 +53,18 @@ $navplan-media-l: 1280px;
 
 /* region FLEXBOX */
 
-.flex-row {
-    width: 100%;
+.flex-row, .flex-row-100 {
     display: flex;
     flex-direction: row;
+}
+
+.flex-row-100 {
+    width: 100%;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
 }
 
 .mat-mdc-form-field {
