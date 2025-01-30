@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {ForecastRun} from '../../../domain/model/forecast-run';
 import {MeteoDwdTimelineMarkingsSvg} from '../../svg/meteo-dwd-timeline-markings-svg';
 
@@ -8,7 +8,7 @@ import {MeteoDwdTimelineMarkingsSvg} from '../../svg/meteo-dwd-timeline-markings
     templateUrl: './meteo-dwd-timeline-markings.component.html',
     styleUrls: ['./meteo-dwd-timeline-markings.component.scss']
 })
-export class MeteoDwdTimelineMarkingsComponent implements OnInit {
+export class MeteoDwdTimelineMarkingsComponent implements OnInit, AfterViewInit, OnChanges {
     @ViewChild('container') container: ElementRef;
     @Input() currentForecastRun: ForecastRun;
 
@@ -21,7 +21,21 @@ export class MeteoDwdTimelineMarkingsComponent implements OnInit {
     }
 
 
+    ngAfterViewInit(): void {
+        this.redrawSvg();
+    }
+
+
+    ngOnChanges(): void {
+        this.redrawSvg();
+    }
+
+
     public redrawSvg() {
+        if (!this.container) {
+            return;
+        }
+
         if (this.currentForecastRun) {
             const svg = MeteoDwdTimelineMarkingsSvg.create(
                 this.currentForecastRun,

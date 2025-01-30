@@ -12,9 +12,8 @@ export class MeteoDwdTimelineMarkingsSvg {
         imageWidthPx: number,
         imageHeightPx: number
     ): SVGSVGElement {
-        const fcStepCount = fcRun.model.maxStep - fcRun.model.minStep + 1;
         const imgDim = new ImageTimePxDimensionsSvg(
-            fcRun.startTime,
+            fcRun.getStepDateTime(fcRun.model.minStep),
             fcRun.getStepDateTime(fcRun.model.maxStep),
             imageWidthPx,
             imageHeightPx
@@ -23,7 +22,6 @@ export class MeteoDwdTimelineMarkingsSvg {
         const svg = SvgBuilder.builder()
             .setWidth(imageWidthPx.toString())
             .setHeight(imageHeightPx.toString())
-            // .setCssClass('map-terrain-svg')
             .build();
 
         svg.appendChild(this.createMarkings(fcRun, imgDim));
@@ -35,8 +33,8 @@ export class MeteoDwdTimelineMarkingsSvg {
     private static createMarkings(fcRun: ForecastRun, imgDim: ImageTimePxDimensionsSvg): SVGGElement {
         const g = SvgGroupElement.create();
 
-        for (let i = fcRun.model.minStep; i < fcRun.model.maxStep; i++) {
-            const stepDateTime = fcRun.getStepDateTime(i);
+        for (let step = fcRun.model.minStep; step < fcRun.model.maxStep; step++) {
+            const stepDateTime = fcRun.getStepDateTime(step);
 
             if (stepDateTime.getHours() === 0) {
                 // day marks
@@ -46,35 +44,35 @@ export class MeteoDwdTimelineMarkingsSvg {
                     .setStrokeStyle('gray', 1)
                     .build()
                 );
-                // date label in format 'MM-DD'
+                // date label
                 const labelText = stepDateTime.toLocaleDateString();
                 g.appendChild(SvgTextBuilder.builder()
                     .setXy(imgDim.calcXy(stepDateTime, 40))
                     .setText(labelText)
-                    .setTransform('offset(15, 15)')
+                    .setStyle('fill:gray')
+                    .setFontSize('10')
+                    .setTransform('translate(5, 0)')
                     .build()
                 );
             } else if (stepDateTime.getHours() % 3 === 0) {
                 // 3-hour marks
                 g.appendChild(SvgLineBuilder.builder()
-                    .setStartXy(imgDim.calcXy(stepDateTime, 25))
+                    .setStartXy(imgDim.calcXy(stepDateTime, 0))
                     .setEndXy(imgDim.calcXy(stepDateTime, 25))
                     .setStrokeStyle('gray', 1)
                     .build()
                 );
                 // hour label
+                const labelText = stepDateTime.getHours().toString() + 'h';
                 g.appendChild(SvgTextBuilder.builder()
                     .setXy(imgDim.calcXy(stepDateTime, 15))
-                    .setText(stepDateTime.getHours().toString() + 'h')
-                    .setTransform('offset(15, 15)')
+                    .setText(labelText)
+                    .setStyle('fill:gray')
+                    .setFontSize('10')
+                    .setTransform('translate(5, 0)')
                     .build()
                 );
             }
-
-            // const labelText = i + ' ft';
-            // svg.appendChild(this.createGridLine(elevationPercent, false));
-            // const label = this.createGridLabel(elevationPercent, labelText);
-            // svg.appendChild(label);
         }
 
         return g;
