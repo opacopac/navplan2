@@ -1,21 +1,30 @@
 .meteo-dwd-timeline {
+    height: 50px;
     align-items: flex-start;
     background: rgba(224, 224, 224, 0.9);
 }
 
 .meteo-dwd-timeline-slider-and-markings {
+    position: relative;
     align-items: stretch;
     flex-grow: 1;
 }
 
 .meteo-dwd-timeline-markings {
+    z-index: 1;
+    position: absolute;
+    left: 10px;
+    right: 0;
 }
 
 .meteo-dwd-timeline-slider-form {
 }
 
 .meteo-dwd-timeline-slider {
-    width: 800px;
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    right: -10px;
 }
 
 ::ng-deep .mdc-slider .mdc-slider__value-indicator {
