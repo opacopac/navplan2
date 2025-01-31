@@ -1,12 +1,18 @@
 <div class="meteo-dwd-timeline flex-row-100">
     <button mat-button (click)="this.onPreviousStepClicked(); $event.preventDefault()"><i
-        class="fa-solid fa-angle-left"></i>
+        class="fa-solid fa-angle-left meteo-dwd-buttons"></i>
     </button>
     <button mat-button (click)="this.onNextStepClicked(); $event.preventDefault()"><i
-        class="fa-solid fa-angle-right"></i>
+        class="fa-solid fa-angle-right meteo-dwd-buttons"></i>
     </button>
     <div class="meteo-dwd-timeline-slider-and-markings flex-col">
         <form [formGroup]="this.meteoDwdTimelineForm">
+            <!-- markings -->
+            <app-meteo-dwd-timeline-markings
+                [currentForecastRun]="this.currentForecastRun"
+                class="meteo-dwd-timeline-markings"
+            />
+            <!-- slider -->
             <mat-slider
                 [min]="this.getMinStep()"
                 [max]="this.getMaxStep()"
@@ -24,9 +30,5 @@
                 />
             </mat-slider>
         </form>
-        <app-meteo-dwd-timeline-markings
-            [currentForecastRun]="this.currentForecastRun"
-            class="meteo-dwd-timeline-markings"
-        />
     </div>
 </div>

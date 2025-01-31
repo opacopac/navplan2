@@ -1,7 +1,10 @@
 .meteo-dwd-timeline {
     height: 50px;
-    align-items: flex-start;
     background: rgba(224, 224, 224, 0.9);
+}
+
+.meteo-dwd-buttons {
+    align-items: center;
 }
 
 .meteo-dwd-timeline-slider-and-markings {
@@ -11,14 +14,15 @@
 }
 
 .meteo-dwd-timeline-markings {
-    z-index: 1;
     position: absolute;
     left: 10px;
     right: 0;
 }
 
+.meteo-dwd-timeline-slider-form {
+}
+
 .meteo-dwd-timeline-slider {
-    z-index: 2;
     position: absolute;
     left: 0;
     right: -10px;
@@ -29,3 +33,4 @@
     opacity: 0.6 !important;
     width: 90px !important;
 }
+
