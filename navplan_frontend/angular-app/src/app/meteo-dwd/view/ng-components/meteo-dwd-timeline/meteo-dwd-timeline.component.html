@@ -6,7 +6,7 @@
         class="fa-solid fa-angle-right"></i>
     </button>
     <div class="meteo-dwd-timeline-slider-and-markings flex-col">
-        <form [formGroup]="this.meteoDwdTimelineForm" class="meteo-dwd-timeline-slider-form">
+        <form [formGroup]="this.meteoDwdTimelineForm">
             <mat-slider
                 [min]="this.getMinStep()"
                 [max]="this.getMaxStep()"
