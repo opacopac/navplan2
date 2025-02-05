@@ -128,7 +128,7 @@ export class PlanPerfEffects {
                 rwyWind: Speed.ofZero(),
                 touchdownAfterThr: Length.ofM(100),
                 use50ftAboveThreshold: false,
-                reservePercent: 30
+                reservePercent: 20
             },
             aircraftPerfProfileIdx: null,
             tkofPerformance: null,
