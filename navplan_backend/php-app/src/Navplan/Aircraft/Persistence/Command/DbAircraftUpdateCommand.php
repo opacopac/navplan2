@@ -78,8 +78,8 @@ class DbAircraftUpdateCommand implements IAircraftUpdateCommand
             DbTableAircraft::COL_CRUISE_CONSUMPTION . "=" . DbHelper::getDbFloatValue($aircraft->cruiseFuel->value),
             DbTableAircraft::COL_CONSUMPTION_UNIT . "=" . DbHelper::getDbStringValue($this->dbService, $aircraft->cruiseFuel->unit->value),
             DbTableAircraft::COL_FUEL_TYPE . "=" . DbHelper::getDbStringValue($this->dbService, $aircraft->fuelType?->value),
-            DbTableAircraft::COL_BEW . "=" . DbHelper::getDbFloatValue($aircraft->bew?->getKg()),
-            DbTableAircraft::COL_MTOW . "=" . DbHelper::getDbFloatValue($aircraft->mtow?->getKg()),
+            DbTableAircraft::COL_BEW . "=" . DbHelper::getDbFloatValue($aircraft->bew?->value),
+            DbTableAircraft::COL_MTOW . "=" . DbHelper::getDbFloatValue($aircraft->mtow?->value),
             DbTableAircraft::COL_WEIGHT_UNIT . "=" . DbHelper::getDbStringValue($this->dbService,
                 $aircraft->bew ? $aircraft->bew->unit->value : $aircraft->mtow?->unit->value),
         ]);
