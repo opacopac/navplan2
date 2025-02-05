@@ -15,9 +15,11 @@
 <app-search-container class="search-container"/>
 
 <!-- buttons top left -->
-<app-zoom-buttons class="zoom-buttons-pos"/>
-<app-location-button class="location-button-pos"/>
-<app-traffic-button class="traffic-button-pos"/>
+<div class="buttons-top-left-container">
+    <app-zoom-buttons/>
+    <app-location-button/>
+    <app-traffic-button/>
+</div>
 
 <app-flighttimer/>
 
@@ -34,12 +36,14 @@
 }
 
 <!-- buttons top right -->
-<app-full-screen-button class="full-screen-button-pos"/>
-<app-map-layer-selection-button class="map-layer-selection-button-pos"/>
-@if (this.showMapLayerSelection$ | async) {
-    <app-map-layer-selection-content class="map-layer-selection-content-pos"/>
-}
-<app-attributions-button class="attributions-button-pos"/>
-@if (this.showAttributions$ | async) {
-    <app-attributions-content class="attributions-content-pos"/>
-}
+<div class="buttons-top-right-container">
+    <app-full-screen-button/>
+    <app-map-layer-selection-button/>
+    @if (this.showMapLayerSelection$ | async) {
+        <app-map-layer-selection-content class="map-layer-selection-content-pos"/>
+    }
+    <app-attributions-button/>
+    @if (this.showAttributions$ | async) {
+        <app-attributions-content class="attributions-content-pos"/>
+    }
+</div>
