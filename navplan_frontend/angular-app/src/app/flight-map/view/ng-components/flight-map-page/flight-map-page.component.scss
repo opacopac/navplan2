@@ -22,34 +22,29 @@
     gap: 10px
 }
 
-.vertical-map-button-pos {
+.buttons-bottom-left-container {
     position: absolute;
     bottom: 40px;
     left: 10px;
     z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 10px
 }
 
 .vertical-map-pos {
     position: absolute;
-    bottom: 100px;
+    bottom: 60px;
     left: 70px;
-    right: 10px;
-    z-index: 20;
-}
-
-.meteo-button-pos {
-    position: absolute;
-    bottom: 100px;
-    left: 10px;
+    width: calc(100vw - 120px);
     z-index: 20;
 }
 
 .meteo-container-pos {
     position: absolute;
-    bottom: 40px;
+    bottom: 0;
     left: 70px;
-    //right: 10px;
-    right: 50px;
+    width: calc(100vw - 120px);
     z-index: 25;
 }
 

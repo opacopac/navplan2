@@ -24,16 +24,20 @@
 <app-flighttimer/>
 
 <!-- buttons bottom left -->
-<app-meteo-button class="meteo-button-pos"/>
-@if (this.showMeteoLayer$ | async) {
-    <app-meteo-container class="meteo-container-pos"/>
-}
-@if (this.showVerticalMapButton$ | async) {
-    <app-vertical-map-button class="vertical-map-button-pos"/>
-}
-@if ((this.showVerticalMap$ | async)) {
-    <app-vertical-map class="vertical-map-pos"/>
-}
+<div class="buttons-bottom-left-container">
+    @if (this.showVerticalMapButton$ | async) {
+        <app-vertical-map-button/>
+    }
+
+    @if (this.showVerticalMap$ | async) {
+        <app-vertical-map class="vertical-map-pos"/>
+    }
+
+    <app-meteo-button/>
+    @if (this.showMeteoLayer$ | async) {
+        <app-meteo-container class="meteo-container-pos"/>
+    }
+</div>
 
 <!-- buttons top right -->
 <div class="buttons-top-right-container">
