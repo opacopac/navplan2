@@ -26,8 +26,7 @@ class DbDistancePerformanceTableCreateCommand implements IDistancePerformanceTab
         $query = "INSERT INTO " . DbTableAircraftPerfDist::TABLE_NAME . " (" . join(",", [
                 DbTableAircraftPerfDist::COL_ID_AIRCRAFT,
                 DbTableAircraftPerfDist::COL_TYPE,
-                DbTableAircraftPerfDist::COL_TKOFF_WEIGHT,
-                DbTableAircraftPerfDist::COL_WEIGHT_UNIT,
+                DbTableAircraftPerfDist::COL_PROFILE_NAME,
                 DbTableAircraftPerfDist::COL_ALT_REF,
                 DbTableAircraftPerfDist::COL_ALT_STEPS,
                 DbTableAircraftPerfDist::COL_ALT_UNIT,
@@ -48,8 +47,7 @@ class DbDistancePerformanceTableCreateCommand implements IDistancePerformanceTab
         $query .= join(",", array(
             DbHelper::getDbIntValue($aircraftId),
             DbHelper::getDbStringValue($this->dbService, $tableType->value),
-            DbHelper::getDbFloatValue($perfTable->takeoffWeight->value),
-            DbHelper::getDbStringValue($this->dbService, $perfTable->takeoffWeight->unit->value),
+            DbHelper::getDbStringValue($this->dbService, $perfTable->profileName),
             DbHelper::getDbStringValue($this->dbService, $perfTable->altitudeReference->value),
             DbHelper::getDbStringValue($this->dbService, self::createAltitudeStepsJsonString($perfTable->altitudeSteps)),
             DbHelper::getDbStringValue($this->dbService, $perfTable->altitudeSteps[0]->unit->value),

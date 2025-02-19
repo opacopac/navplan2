@@ -1,6 +1,6 @@
 @if (this.distancePerformanceTable) {
   <div class="perf-table">
-    <p>Takeoff Weight: {{ this.getTakeoffWeightText() }}</p>
+    <p>Profile: {{ this.getProfileName() }}</p>
     <table
       mat-table
       [dataSource]="this.distancePerformanceTable.distanceValues"

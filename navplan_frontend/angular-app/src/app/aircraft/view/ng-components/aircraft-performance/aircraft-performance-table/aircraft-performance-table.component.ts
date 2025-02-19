@@ -46,10 +46,8 @@ export class AircraftPerformanceTableComponent implements OnInit {
     }
 
 
-    protected getTakeoffWeightText(): string {
-        return this.distancePerformanceTable
-            .takeoffWeight
-            .getValueAndUnit(this.weightUnit, 0);
+    protected getProfileName(): string {
+        return this.distancePerformanceTable.profileName;
     }
 
 

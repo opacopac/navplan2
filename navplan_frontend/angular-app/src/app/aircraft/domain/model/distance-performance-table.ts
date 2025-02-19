@@ -1,4 +1,3 @@
-import {Weight} from '../../../geo-physics/domain/model/quantities/weight';
 import {DistancePerformanceCorrectionFactors} from './distance-performance-correction-factors';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {Temperature} from '../../../geo-physics/domain/model/quantities/temperature';
@@ -7,7 +6,7 @@ import {PerformanceTableTemperatureReference} from './performance-table-temperat
 
 export class DistancePerformanceTable {
     constructor(
-        public takeoffWeight: Weight,
+        public profileName: string,
         public altitudeReference: PerformanceTableAltitudeReference,
         public altitudeSteps: Length[],
         public temperatureReference: PerformanceTableTemperatureReference,
@@ -20,7 +19,7 @@ export class DistancePerformanceTable {
 
     public clone(): DistancePerformanceTable {
         return new DistancePerformanceTable(
-            this.takeoffWeight?.clone(),
+            this.profileName,
             this.altitudeReference,
             this.altitudeSteps?.map(step => step.clone()),
             this.temperatureReference,

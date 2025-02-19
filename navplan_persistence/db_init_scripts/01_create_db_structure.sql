@@ -129,8 +129,7 @@ CREATE TABLE `aircraft_perf_dist` (
                                       `id` int(11) UNSIGNED NOT NULL,
                                       `aircraft_id` int(11) UNSIGNED NOT NULL,
                                       `type` varchar(20) NOT NULL,
-                                      `tkoff_weight` float UNSIGNED NOT NULL,
-                                      `weight_unit` varchar(5) NOT NULL,
+                                      `profile_name` varchar(255) NOT NULL,
                                       `alt_ref` varchar(20) NOT NULL,
                                       `alt_steps` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
                                       `alt_unit` varchar(5) NOT NULL,
@@ -147,6 +146,7 @@ CREATE TABLE `aircraft_perf_dist` (
                                       `grass_rwy_inc_perc` float UNSIGNED NOT NULL,
                                       `wet_rwy_inc_perc` float UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
 
 --
 -- Indizes der exportierten Tabellen

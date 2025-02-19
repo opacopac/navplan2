@@ -3,7 +3,6 @@ import {Temperature} from '../../../geo-physics/domain/model/quantities/temperat
 import {DistancePerformanceTable} from '../model/distance-performance-table';
 import {PerformanceTableAltitudeReference} from '../model/performance-table-altitude-reference';
 import {PerformanceTableTemperatureReference} from '../model/performance-table-temperature-reference';
-import {MockAircraftBr23} from './mock-aircraft-br23';
 import {MockPerfDistCorrFactorsBr23} from './mock-perf-dist-corr-factors-br23';
 
 
@@ -27,7 +26,7 @@ export class MockPerfDistTablesBr23 {
 
     public static createTakeoffGroundRoll(): DistancePerformanceTable {
         return new DistancePerformanceTable(
-            MockAircraftBr23.MTOW,
+            'MTOW',
             PerformanceTableAltitudeReference.FIELD_ALTITUDE,
             this.ALT_STEPS,
             PerformanceTableTemperatureReference.ISA,
@@ -45,7 +44,7 @@ export class MockPerfDistTablesBr23 {
 
     public static createTakeoffDistance15ft(): DistancePerformanceTable {
         return new DistancePerformanceTable(
-            MockAircraftBr23.MTOW,
+            'MTOW',
             PerformanceTableAltitudeReference.FIELD_ALTITUDE,
             this.ALT_STEPS,
             PerformanceTableTemperatureReference.ISA,
@@ -63,7 +62,7 @@ export class MockPerfDistTablesBr23 {
 
     public static createLandingDistance15ft(): DistancePerformanceTable {
         return new DistancePerformanceTable(
-            MockAircraftBr23.MTOW,
+            'MTOW',
             PerformanceTableAltitudeReference.FIELD_ALTITUDE,
             this.ALT_STEPS,
             PerformanceTableTemperatureReference.ISA,
@@ -81,7 +80,7 @@ export class MockPerfDistTablesBr23 {
 
     public static createLandingGroundRoll(): DistancePerformanceTable {
         return new DistancePerformanceTable(
-            MockAircraftBr23.MTOW,
+            'MTOW',
             PerformanceTableAltitudeReference.FIELD_ALTITUDE,
             this.ALT_STEPS,
             PerformanceTableTemperatureReference.ISA,

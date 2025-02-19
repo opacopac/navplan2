@@ -1,6 +1,5 @@
 import {IRestDistancePerformanceTable} from '../model/i-rest-distance-performance-table';
 import {DistancePerformanceTable} from '../../domain/model/distance-performance-table';
-import {RestWeightConverter} from '../../../geo-physics/rest/model/rest-weight-converter';
 import {PerformanceTableAltitudeReference} from '../../domain/model/performance-table-altitude-reference';
 import {RestLengthConverter} from '../../../geo-physics/rest/model/rest-length-converter';
 import {PerformanceTableTemperatureReference} from '../../domain/model/performance-table-temperature-reference';
@@ -17,7 +16,7 @@ export class RestDistancePerformanceTableConverter {
         }
 
         return new DistancePerformanceTable(
-            RestWeightConverter.fromRest(restTable.takeoffWeight),
+            restTable.profileName,
             PerformanceTableAltitudeReference[restTable.altitudeReference],
             RestLengthConverter.fromRestList(restTable.altitudeSteps),
             PerformanceTableTemperatureReference[restTable.temperatureReference],
@@ -34,7 +33,7 @@ export class RestDistancePerformanceTableConverter {
         }
 
         return {
-            takeoffWeight: RestWeightConverter.toRest(table.takeoffWeight),
+            profileName: table.profileName,
             altitudeReference: PerformanceTableAltitudeReference[table.altitudeReference],
             altitudeSteps: RestLengthConverter.toRestList(table.altitudeSteps),
             temperatureReference: PerformanceTableTemperatureReference[table.temperatureReference],

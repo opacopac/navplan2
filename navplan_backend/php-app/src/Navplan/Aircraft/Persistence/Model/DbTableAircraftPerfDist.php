@@ -9,8 +9,7 @@ class DbTableAircraftPerfDist
     public const COL_ID = "id";
     public const COL_ID_AIRCRAFT = "aircraft_id";
     public const COL_TYPE = "type";
-    public const COL_TKOFF_WEIGHT = "tkoff_weight";
-    public const COL_WEIGHT_UNIT = "weight_unit";
+    public const COL_PROFILE_NAME = "profile_name";
     public const COL_ALT_REF = "alt_ref";
     public const COL_ALT_STEPS = "alt_steps";
     public const COL_ALT_UNIT = "alt_unit";

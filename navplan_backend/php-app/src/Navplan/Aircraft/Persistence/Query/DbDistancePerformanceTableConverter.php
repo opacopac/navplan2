@@ -10,7 +10,6 @@ use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Domain\Model\Temperature;
 use Navplan\Common\Domain\Model\TemperatureUnit;
-use Navplan\Common\Persistence\Model\DbWeightConverter;
 
 
 class DbDistancePerformanceTableConverter
@@ -27,8 +26,7 @@ class DbDistancePerformanceTableConverter
         );
 
         return new DistancePerformanceTable(
-            DbWeightConverter::fromDbRow($row, DbTableAircraftPerfDist::COL_TKOFF_WEIGHT,
-                DbTableAircraftPerfDist::COL_WEIGHT_UNIT),
+            $row[DbTableAircraftPerfDist::COL_PROFILE_NAME],
             PerformanceTableAltitudeReference::from($row[DbTableAircraftPerfDist::COL_ALT_REF]),
             $altSteps,
             PerformanceTableTemperatureReference::from($row[DbTableAircraftPerfDist::COL_TEMP_REF]),

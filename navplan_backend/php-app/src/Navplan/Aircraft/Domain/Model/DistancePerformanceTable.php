@@ -4,12 +4,11 @@ namespace Navplan\Aircraft\Domain\Model;
 
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Temperature;
-use Navplan\Common\Domain\Model\Weight;
 
 class DistancePerformanceTable
 {
     /**
-     * @param Weight $takeoffWeight
+     * @param string $profileName
      * @param PerformanceTableAltitudeReference $altitudeReference
      * @param Length[] $altitudeSteps
      * @param PerformanceTableTemperatureReference $temperatureReference
@@ -18,7 +17,7 @@ class DistancePerformanceTable
      * @param DistancePerformanceCorrectionFactors $correctionFactors
      */
     public function __construct(
-        public Weight $takeoffWeight,
+        public string $profileName,
         public PerformanceTableAltitudeReference $altitudeReference,
         public array $altitudeSteps,
         public PerformanceTableTemperatureReference $temperatureReference,

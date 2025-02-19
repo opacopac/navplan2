@@ -7,13 +7,12 @@ use Navplan\Aircraft\Domain\Model\PerformanceTableAltitudeReference;
 use Navplan\Aircraft\Domain\Model\PerformanceTableTemperatureReference;
 use Navplan\Common\Rest\Converter\RestLengthConverter;
 use Navplan\Common\Rest\Converter\RestTemperatureConverter;
-use Navplan\Common\Rest\Converter\RestWeightConverter;
 use Navplan\Common\StringNumberHelper;
 
 
 class RestDistancePerformanceTableConverter
 {
-    const KEY_TAKEOFF_WEIGHT = "takeoffWeight";
+    const KEY_PROFILE_NAME = "profileName";
     const KEY_ALTITUDE_REFERENCE = "altitudeReference";
     const KEY_ALTITUDE_STEPS = "altitudeSteps";
     const KEY_TEMPERATURE_REFERENCE = "temperatureReference";
@@ -29,7 +28,7 @@ class RestDistancePerformanceTableConverter
         }
 
         return new DistancePerformanceTable(
-            RestWeightConverter::fromRest($args[self::KEY_TAKEOFF_WEIGHT]),
+            $args[self::KEY_PROFILE_NAME],
             PerformanceTableAltitudeReference::from(StringNumberHelper::parseStringOrError($args, self::KEY_ALTITUDE_REFERENCE)),
             RestLengthConverter::fromRestList($args[self::KEY_ALTITUDE_STEPS]),
             PerformanceTableTemperatureReference::from(StringNumberHelper::parseStringOrError($args, self::KEY_TEMPERATURE_REFERENCE)),
@@ -47,7 +46,7 @@ class RestDistancePerformanceTableConverter
         }
 
         return array(
-            self::KEY_TAKEOFF_WEIGHT => RestWeightConverter::toRest($table->takeoffWeight),
+            self::KEY_PROFILE_NAME => $table->profileName,
             self::KEY_ALTITUDE_REFERENCE => $table->altitudeReference?->value,
             self::KEY_ALTITUDE_STEPS => RestLengthConverter::toRestList($table->altitudeSteps),
             self::KEY_TEMPERATURE_REFERENCE => $table->temperatureReference?->value,
