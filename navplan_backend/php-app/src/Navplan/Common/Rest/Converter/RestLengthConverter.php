@@ -9,8 +9,12 @@ use Navplan\Common\StringNumberHelper;
 
 class RestLengthConverter
 {
-    public static function toRest(Length $length, ?int $roundToDigits = NULL): array
+    public static function toRest(?Length $length, ?int $roundToDigits = NULL): ?array
     {
+        if (!$length) {
+            return NULL;
+        }
+
         return [
             $roundToDigits === NULL ? $length->value : round($length->value, $roundToDigits),
             $length->unit->value,
@@ -18,8 +22,12 @@ class RestLengthConverter
     }
 
 
-    public static function fromRest(array $args): Length
+    public static function fromRest(?array $args): ?Length
     {
+        if (!$args) {
+            return NULL;
+        }
+
         return new Length(
             StringNumberHelper::parseFloatOrError($args, 0),
             LengthUnit::from(StringNumberHelper::parseStringOrError($args, 1)),

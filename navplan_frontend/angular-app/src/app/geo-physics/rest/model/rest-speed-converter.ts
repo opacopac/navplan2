@@ -5,17 +5,15 @@ import {SpeedUnit} from '../../domain/model/quantities/speed-unit';
 
 export class RestSpeedConverter {
     public static fromRest(restSpeed: IRestSpeed): Speed {
-        return new Speed(
-            restSpeed[0],
-            SpeedUnit[restSpeed[1]],
-        );
+        return restSpeed
+            ? new Speed(restSpeed[0], SpeedUnit[restSpeed[1]])
+            : null;
     }
 
 
     public static toRest(speed: Speed): IRestSpeed {
-        return [
-            speed.value,
-            SpeedUnit[speed.unit]
-        ];
+        return speed
+            ? [speed.value, SpeedUnit[speed.unit]]
+            : null;
     }
 }
