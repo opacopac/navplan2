@@ -3,6 +3,7 @@
 namespace Navplan\Aircraft\Domain\Model;
 
 use Navplan\Common\Domain\Model\Consumption;
+use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Speed;
 use Navplan\Common\Domain\Model\Weight;
 
@@ -19,6 +20,8 @@ class Aircraft
      * @param FuelType|null $fuelType
      * @param Weight|null $mtow
      * @param Weight|null $bew
+     * @param Speed|null $rocSealevel
+     * @param Length|null $serviceCeiling
      * @param DistancePerformanceTable|null $perfTakeoffGroundRoll
      * @param DistancePerformanceTable|null $perfTakeoffDist50ft
      * @param DistancePerformanceTable|null $perfLandingGroundRoll
@@ -36,6 +39,8 @@ class Aircraft
         public ?FuelType $fuelType,
         public ?Weight $mtow,
         public ?Weight $bew,
+        public ?Speed $rocSealevel,
+        public ?Length $serviceCeiling,
         public ?DistancePerformanceTable $perfTakeoffGroundRoll,
         public ?DistancePerformanceTable $perfTakeoffDist50ft,
         public ?DistancePerformanceTable $perfLandingGroundRoll,

@@ -8,6 +8,7 @@ import {RestDistancePerformanceTableConverter} from './rest-distance-performance
 import {RestWeightItemConverter} from './rest-weight-item-converter';
 import {RestWnbEnvelopeConverter} from './rest-wnb-envelope-converter';
 import {VehicleType} from '../../domain/model/vehicle-type';
+import {RestLengthConverter} from '../../../geo-physics/rest/model/rest-length-converter';
 
 
 export class RestAircraftConverter {
@@ -22,6 +23,8 @@ export class RestAircraftConverter {
             restAircraft.fuelType !== null ? FuelType[restAircraft.fuelType] : null,
             RestWeightConverter.fromRest(restAircraft.mtow),
             RestWeightConverter.fromRest(restAircraft.bew),
+            RestSpeedConverter.fromRest(restAircraft.rocSealevel),
+            RestLengthConverter.fromRest(restAircraft.serviceCeiling),
             RestDistancePerformanceTableConverter.fromRest(restAircraft.perfTakeoffGroundRoll),
             RestDistancePerformanceTableConverter.fromRest(restAircraft.perfTakeoffDist50ft),
             RestDistancePerformanceTableConverter.fromRest(restAircraft.perfLandingGroundRoll),
@@ -43,6 +46,8 @@ export class RestAircraftConverter {
             fuelType: aircraft.fuelType !== null ? FuelType[aircraft.fuelType] : null,
             mtow: RestWeightConverter.toRest(aircraft.mtow),
             bew: RestWeightConverter.toRest(aircraft.bew),
+            rocSealevel: RestSpeedConverter.toRest(aircraft.rocSealevel),
+            serviceCeiling: RestLengthConverter.toRest(aircraft.serviceCeiling),
             perfTakeoffGroundRoll: RestDistancePerformanceTableConverter.toRest(aircraft.perfTakeoffGroundRoll),
             perfTakeoffDist50ft: RestDistancePerformanceTableConverter.toRest(aircraft.perfTakeoffDist50ft),
             perfLandingGroundRoll: RestDistancePerformanceTableConverter.toRest(aircraft.perfLandingGroundRoll),

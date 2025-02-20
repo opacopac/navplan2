@@ -10,6 +10,7 @@ export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
             case SpeedUnit.KT: return 'kt';
             case SpeedUnit.KMH: return 'km/h';
             case SpeedUnit.MPS: return 'm/s';
+            case SpeedUnit.FPM: return 'ft/min';
             default: return '';
         }
     }
@@ -27,6 +28,11 @@ export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
 
     public static ofMps(speedMps: number) {
         return new Speed(speedMps, SpeedUnit.MPS);
+    }
+
+
+    public static ofFpm(speedFpm: number) {
+        return new Speed(speedFpm, SpeedUnit.FPM);
     }
 
 
@@ -48,18 +54,28 @@ export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
                 switch (convertToUnit) {
                     case SpeedUnit.KMH: return value * (Length.M_PER_NM / 1000);
                     case SpeedUnit.MPS: return value / (3600 / Length.M_PER_NM);
+                    case SpeedUnit.FPM: return value * (Length.FT_PER_NM / 60);
                     default: return undefined;
                 }
             case SpeedUnit.KMH:
                 switch (convertToUnit) {
                     case SpeedUnit.KT: return value / (Length.M_PER_NM / 1000);
                     case SpeedUnit.MPS: return value * 3.6;
+                    case SpeedUnit.FPM: return value * (Length.FT_PER_M / 60);
                     default: return undefined;
                 }
             case SpeedUnit.MPS:
                 switch (convertToUnit) {
                     case SpeedUnit.KT: return value * (3600 / Length.M_PER_NM);
                     case SpeedUnit.KMH: return value / 3.6;
+                    case SpeedUnit.FPM: return value * (Length.FT_PER_M / 60);
+                    default: return undefined;
+                }
+            case SpeedUnit.FPM:
+                switch (convertToUnit) {
+                    case SpeedUnit.KT: return value / (Length.FT_PER_NM / 60);
+                    case SpeedUnit.KMH: return value / (Length.FT_PER_M / 60);
+                    case SpeedUnit.MPS: return value / (Length.FT_PER_M / 60);
                     default: return undefined;
                 }
             default: return undefined;
@@ -79,6 +95,11 @@ export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
 
     public get mps(): number {
         return this.getValue(SpeedUnit.MPS);
+    }
+
+
+    public get fpm(): number {
+        return this.getValue(SpeedUnit.FPM);
     }
 
 

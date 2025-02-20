@@ -82,6 +82,10 @@ class DbAircraftUpdateCommand implements IAircraftUpdateCommand
             DbTableAircraft::COL_MTOW . "=" . DbHelper::getDbFloatValue($aircraft->mtow?->value),
             DbTableAircraft::COL_WEIGHT_UNIT . "=" . DbHelper::getDbStringValue($this->dbService,
                 $aircraft->bew ? $aircraft->bew->unit->value : $aircraft->mtow?->unit->value),
+            DbTableAircraft::COL_ROC_SEALEVEL . "=" . DbHelper::getDbFloatValue($aircraft->rocSealevel?->value),
+            DbTableAircraft::COL_VERTICAL_SPEED_UNIT . "=" . DbHelper::getDbStringValue($this->dbService, $aircraft->rocSealevel?->unit->value),
+            DbTableAircraft::COL_SERVICE_CEILING . "=" . DbHelper::getDbFloatValue($aircraft->serviceCeiling?->value),
+            DbTableAircraft::COL_ALTITUDE_UNIT . "=" . DbHelper::getDbStringValue($this->dbService, $aircraft->serviceCeiling?->unit->value)
         ]);
         $query .= " WHERE " . DbTableAircraft::COL_ID . "=" . DbHelper::getDbIntValue($aircraft->id);
         $query .= "  AND";

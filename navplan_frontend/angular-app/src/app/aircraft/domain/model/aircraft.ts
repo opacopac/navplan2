@@ -6,6 +6,7 @@ import {WeightItem} from './weight-item';
 import {WnbEnvelope} from './wnb-envelope';
 import {VehicleType} from './vehicle-type';
 import {FuelType} from './fuel-type';
+import {Length} from '../../../geo-physics/domain/model/quantities/length';
 
 export class Aircraft {
     public static createMinimal(
@@ -30,6 +31,8 @@ export class Aircraft {
             null,
             null,
             null,
+            null,
+            null,
             [],
             []
         );
@@ -46,6 +49,8 @@ export class Aircraft {
         public fuelType: FuelType,
         public mtow: Weight,
         public bew: Weight,
+        public rocSealevel: Speed,
+        public serviceCeiling: Length,
         public perfTakeoffGroundRoll: DistancePerformanceTable,
         public perfTakeoffDist50ft: DistancePerformanceTable,
         public perfLandingGroundRoll: DistancePerformanceTable,
@@ -67,6 +72,8 @@ export class Aircraft {
             this.fuelType,
             this.mtow?.clone(),
             this.bew?.clone(),
+            this.rocSealevel?.clone(),
+            this.serviceCeiling?.clone(),
             this.perfTakeoffGroundRoll?.clone(),
             this.perfTakeoffDist50ft?.clone(),
             this.perfLandingGroundRoll?.clone(),

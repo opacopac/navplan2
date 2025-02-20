@@ -19,4 +19,8 @@ class DbTableAircraft
     public const COL_MTOW = "mtow";
     public const COL_BEW = "bew";
     public const COL_WEIGHT_UNIT = "weight_unit";
+    public const COL_ROC_SEALEVEL = "roc_sealevel";
+    public const COL_VERTICAL_SPEED_UNIT = "vertical_speed_unit";
+    public const COL_SERVICE_CEILING = "service_ceiling";
+    public const COL_ALTITUDE_UNIT = "altitude_unit";
 }

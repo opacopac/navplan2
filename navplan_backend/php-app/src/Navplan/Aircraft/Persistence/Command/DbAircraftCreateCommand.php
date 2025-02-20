@@ -71,7 +71,11 @@ class DbAircraftCreateCommand implements IAircraftCreateCommand
             DbTableAircraft::COL_FUEL_TYPE,
             DbTableAircraft::COL_BEW,
             DbTableAircraft::COL_MTOW,
-            DbTableAircraft::COL_WEIGHT_UNIT
+            DbTableAircraft::COL_WEIGHT_UNIT,
+            DbTableAircraft::COL_ROC_SEALEVEL,
+            DbTableAircraft::COL_VERTICAL_SPEED_UNIT,
+            DbTableAircraft::COL_SERVICE_CEILING,
+            DbTableAircraft::COL_ALTITUDE_UNIT
         ]);
         $query .= ") VALUES (";
         $query .= join(", ", [
@@ -86,7 +90,11 @@ class DbAircraftCreateCommand implements IAircraftCreateCommand
             DbHelper::getDbStringValue($this->dbService, $aircraft->fuelType?->value),
             DbHelper::getDbFloatValue($aircraft->bew?->value),
             DbHelper::getDbFloatValue($aircraft->mtow?->value),
-            DbHelper::getDbStringValue($this->dbService, $aircraft->mtow ? $aircraft->mtow->unit->value : $aircraft->bew?->unit->value)
+            DbHelper::getDbStringValue($this->dbService, $aircraft->mtow ? $aircraft->mtow->unit->value : $aircraft->bew?->unit->value),
+            DbHelper::getDbFloatValue($aircraft->rocSealevel?->value),
+            DbHelper::getDbStringValue($this->dbService, $aircraft->rocSealevel?->unit->value),
+            DbHelper::getDbFloatValue($aircraft->serviceCeiling?->value),
+            DbHelper::getDbStringValue($this->dbService, $aircraft->serviceCeiling?->unit->value)
         ]);
         $query .= ")";
 

@@ -92,7 +92,11 @@ CREATE TABLE `aircraft` (
                             `fuel_type` varchar(20) DEFAULT NULL,
                             `bew` float UNSIGNED DEFAULT NULL,
                             `mtow` float UNSIGNED DEFAULT NULL,
-                            `weight_unit` varchar(5) DEFAULT NULL
+                            `weight_unit` varchar(5) DEFAULT NULL,
+                            `roc_sealevel` float UNSIGNED DEFAULT NULL,
+                            `vertical_speed_unit` varchar(5) DEFAULT NULL,
+                            `service_ceiling` float UNSIGNED DEFAULT NULL,
+                            `altitude_unit` varchar(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --

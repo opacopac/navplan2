@@ -7,4 +7,5 @@ enum SpeedUnit: string {
     case KT = "KT";
     case KMH = "KMH";
     case MPS = "MPS";
+    case FPM = "FPM";
 }

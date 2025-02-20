@@ -7,6 +7,7 @@ use Navplan\Aircraft\Domain\Model\FuelType;
 use Navplan\Aircraft\Domain\Model\VehicleType;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
 use Navplan\Common\Persistence\Model\DbConsumptionConverter;
+use Navplan\Common\Persistence\Model\DbLengthConverter;
 use Navplan\Common\Persistence\Model\DbSpeedConverter;
 use Navplan\Common\Persistence\Model\DbWeightConverter;
 use Navplan\Common\StringNumberHelper;
@@ -30,6 +31,8 @@ class DbAircraftConverter
                 ? null : FuelType::from($row[DbTableAircraft::COL_FUEL_TYPE]),
             DbWeightConverter::fromDbRow($row, DbTableAircraft::COL_MTOW, DbTableAircraft::COL_WEIGHT_UNIT),
             DbWeightConverter::fromDbRow($row, DbTableAircraft::COL_BEW, DbTableAircraft::COL_WEIGHT_UNIT),
+            DbSpeedConverter::fromDbRow($row, DbTableAircraft::COL_ROC_SEALEVEL, DbTableAircraft::COL_VERTICAL_SPEED_UNIT),
+            DbLengthConverter::fromDbRow($row, DbTableAircraft::COL_SERVICE_CEILING, DbTableAircraft::COL_ALTITUDE_UNIT),
             null,
             null,
             null,

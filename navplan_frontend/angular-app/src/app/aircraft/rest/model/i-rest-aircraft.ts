@@ -15,6 +15,8 @@ export interface IRestAircraft {
     fuelType: string;
     mtow: IRestWeight;
     bew: IRestWeight;
+    rocSealevel: IRestSpeed;
+    serviceCeiling: IRestWeight;
     perfTakeoffGroundRoll: IRestDistancePerformanceTable;
     perfTakeoffDist50ft: IRestDistancePerformanceTable;
     perfLandingGroundRoll: IRestDistancePerformanceTable;

@@ -1,5 +1,6 @@
 export enum SpeedUnit {
     KT,
     KMH,
-    MPS
+    MPS,
+    FPM
 }

@@ -6,6 +6,7 @@ use Navplan\Aircraft\Domain\Model\Aircraft;
 use Navplan\Aircraft\Domain\Model\FuelType;
 use Navplan\Aircraft\Domain\Model\VehicleType;
 use Navplan\Common\Rest\Converter\RestConsumptionConverter;
+use Navplan\Common\Rest\Converter\RestLengthConverter;
 use Navplan\Common\Rest\Converter\RestSpeedConverter;
 use Navplan\Common\Rest\Converter\RestWeightConverter;
 use Navplan\Common\StringNumberHelper;
@@ -22,6 +23,8 @@ class RestAircraftConverter
     const KEY_FUEL_TYPE = "fuelType";
     const KEY_MTOW = "mtow";
     const KEY_BEW = "bew";
+    const KEY_ROC_SEALEVEL = "rocSealevel";
+    const KEY_SERVICE_CEILING = "serviceCeiling";
     const KEY_PERF_TAKEOFF_GROUND_ROLL = "perfTakeoffGroundRoll";
     const KEY_PERF_TAKEOFF_DIST_50FT = "perfTakeoffDist50ft";
     const KEY_PERF_LANDING_GROUND_ROLL = "perfLandingGroundRoll";
@@ -42,6 +45,8 @@ class RestAircraftConverter
             isset($args[self::KEY_FUEL_TYPE]) ? FuelType::from($args[self::KEY_FUEL_TYPE]) : NULL,
             RestWeightConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_MTOW)),
             RestWeightConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_BEW)),
+            RestSpeedConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_ROC_SEALEVEL)),
+            RestLengthConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_SERVICE_CEILING)),
             RestDistancePerformanceTableConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_PERF_TAKEOFF_GROUND_ROLL)),
             RestDistancePerformanceTableConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_PERF_TAKEOFF_DIST_50FT)),
             RestDistancePerformanceTableConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_PERF_LANDING_GROUND_ROLL)),
@@ -64,6 +69,8 @@ class RestAircraftConverter
             self::KEY_FUEL_TYPE => $aircraft->fuelType?->value,
             self::KEY_MTOW => RestWeightConverter::toRest($aircraft->mtow),
             self::KEY_BEW => RestWeightConverter::toRest($aircraft->bew),
+            self::KEY_ROC_SEALEVEL => RestSpeedConverter::toRest($aircraft->rocSealevel),
+            self::KEY_SERVICE_CEILING => RestLengthConverter::toRest($aircraft->serviceCeiling),
             self::KEY_PERF_TAKEOFF_GROUND_ROLL => RestDistancePerformanceTableConverter::toRest($aircraft->perfTakeoffGroundRoll),
             self::KEY_PERF_TAKEOFF_DIST_50FT => RestDistancePerformanceTableConverter::toRest($aircraft->perfTakeoffDist50ft),
             self::KEY_PERF_LANDING_GROUND_ROLL => RestDistancePerformanceTableConverter::toRest($aircraft->perfLandingGroundRoll),
