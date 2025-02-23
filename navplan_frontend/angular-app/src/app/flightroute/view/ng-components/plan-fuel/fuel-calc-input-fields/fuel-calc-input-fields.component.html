@@ -18,7 +18,7 @@
             <span matTextSuffix>{{ Consumption.getUnitString(this.consumptionUnit) }}</span>
             <mat-error>Value must be a positive number between 1 and 999!</mat-error>
         </mat-form-field>
-        <app-toggle-manual-aircraft
+        <app-aircraft-manual-toggle
             class="manual-aircraft-toggle"
             [selectedAircraft]="this.selectedAircraft"
             [useAircraft]="this.useAircraftConsumptionValue"

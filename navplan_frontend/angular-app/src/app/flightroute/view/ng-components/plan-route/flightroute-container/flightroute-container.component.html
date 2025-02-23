@@ -6,7 +6,7 @@
             [isDisabled]="this.useAircraftSpeedValue$ | async"
             (routeSpeedChanged)="this.onRouteSpeedChanged($event)"
         />
-        <app-toggle-manual-aircraft
+        <app-aircraft-manual-toggle
             class="manual-aircraft-toggle"
             [selectedAircraft]="this.selectedAircraft$ | async"
             [useAircraft]="this.useAircraftSpeedValue$ | async"

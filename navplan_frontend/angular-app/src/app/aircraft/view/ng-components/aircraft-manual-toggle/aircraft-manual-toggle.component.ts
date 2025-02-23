@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Aircraft} from '../../../../../aircraft/domain/model/aircraft';
+import {Aircraft} from '../../../domain/model/aircraft';
 
 
 @Component({
-    selector: 'app-toggle-manual-aircraft',
-    templateUrl: './toggle-manual-aircraft.component.html',
-    styleUrls: ['./toggle-manual-aircraft.component.scss']
+    selector: 'app-aircraft-manual-toggle',
+    templateUrl: './aircraft-manual-toggle.component.html',
+    styleUrls: ['./aircraft-manual-toggle.component.scss']
 })
-export class ToggleManualAircraft implements OnInit {
+export class AircraftManualToggle implements OnInit {
     @Input() public selectedAircraft: Aircraft;
     @Input() public useAircraft: boolean;
     @Output() public useAircraftValueChanged = new EventEmitter<boolean>();

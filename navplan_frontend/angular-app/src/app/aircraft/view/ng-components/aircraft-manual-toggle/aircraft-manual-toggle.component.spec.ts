@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {ToggleManualAircraft} from './toggle-manual-aircraft.component';
+import {AircraftManualToggle} from './aircraft-manual-toggle.component';
 
 
 xdescribe('FlightrouteContainerComponent', () => {
-    let component: ToggleManualAircraft;
-    let fixture: ComponentFixture<ToggleManualAircraft>;
+    let component: AircraftManualToggle;
+    let fixture: ComponentFixture<AircraftManualToggle>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ToggleManualAircraft]
+            declarations: [AircraftManualToggle]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ToggleManualAircraft);
+        fixture = TestBed.createComponent(AircraftManualToggle);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

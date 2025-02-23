@@ -88,6 +88,7 @@ import {
 import {
     AircraftTypeDesignatorAutocompleteComponent
 } from './ng-components/aircraft-details/aircraft-type-designator-autocomplete/aircraft-type-designator-autocomplete.component';
+import {AircraftManualToggle} from './ng-components/aircraft-manual-toggle/aircraft-manual-toggle.component';
 
 
 @NgModule({
@@ -125,6 +126,7 @@ import {
         AircraftPickerComponent,
         AircraftPickerDialogComponent,
         AircraftPickerListComponent,
+        AircraftManualToggle,
         AircraftPerformancePageComponent,
         AircraftPerformanceAccordionComponent,
         AircraftPerformanceTableComponent,
@@ -142,6 +144,7 @@ import {
     ],
     exports: [
         AircraftPickerContainerComponent,
+        AircraftManualToggle,
         AircraftWeightItemTypeIconComponent,
         AircraftWnbEnvelopeChartComponent
     ],

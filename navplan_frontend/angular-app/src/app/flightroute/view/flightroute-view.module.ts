@@ -44,7 +44,6 @@ import {FuelCalcTableComponent} from './ng-components/plan-fuel/fuel-calc-table/
 import {MatDialogModule} from '@angular/material/dialog';
 import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {ToggleManualAircraft} from './ng-components/common/toggle-manual-aircraft/toggle-manual-aircraft.component';
 import {
     FlightrouteDeleteConfirmDialogComponent
 } from './ng-components/plan-route/flightroute-delete-confirm-dialog/flightroute-delete-confirm-dialog.component';
@@ -92,7 +91,6 @@ import {
     declarations: [
         EditWaypointDialogComponent,
         EditWaypointFormComponent,
-        ToggleManualAircraft,
         FlightrouteContainerComponent,
         FlightrouteAircraftSpeedComponent,
         FlightrouteCommentsComponent,
