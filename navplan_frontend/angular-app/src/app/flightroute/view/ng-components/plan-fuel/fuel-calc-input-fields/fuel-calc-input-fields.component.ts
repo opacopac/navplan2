@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
 import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantities/consumption-unit';
 import {FormControl, Validators} from '@angular/forms';
@@ -9,7 +9,7 @@ import {Aircraft} from '../../../../../aircraft/domain/model/aircraft';
     templateUrl: './fuel-calc-input-fields.component.html',
     styleUrls: ['./fuel-calc-input-fields.component.scss']
 })
-export class FuelCalcInputFieldsComponent implements OnInit {
+export class FuelCalcInputFieldsComponent implements OnInit, OnChanges {
     @Input() aircraftConsumption: Consumption;
     @Input() useAircraftConsumptionValue: boolean;
     @Input() consumptionUnit: ConsumptionUnit;
@@ -26,12 +26,25 @@ export class FuelCalcInputFieldsComponent implements OnInit {
 
 
     ngOnInit() {
-        this.consumptionInput = new FormControl(this.getAircaftConsumptionString(), [
-            Validators.required,
-            Validators.min(1),
-            Validators.max(999)
-        ]);
+        this.consumptionInput = new FormControl(
+            {value: this.getAircaftConsumptionString(), disabled: this.useAircraftConsumptionValue},
+            [
+                Validators.required,
+                Validators.min(1),
+                Validators.max(999)
+            ]
+        );
     }
+
+
+    ngOnChanges() {
+        if (this.useAircraftConsumptionValue) {
+            this.consumptionInput?.disable();
+        } else {
+            this.consumptionInput?.enable();
+        }
+    }
+
 
     protected getAircaftConsumptionString(): string {
         return this.aircraftConsumption && !this.aircraftConsumption.isZero()
