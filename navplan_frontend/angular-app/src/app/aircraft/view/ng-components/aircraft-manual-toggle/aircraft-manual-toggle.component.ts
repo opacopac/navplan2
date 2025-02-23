@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Aircraft} from '../../../domain/model/aircraft';
+import {MatSlideToggleChange} from '@angular/material/slide-toggle';
 
 
 @Component({
@@ -24,22 +25,21 @@ export class AircraftManualToggle implements OnInit {
     }
 
 
-    protected onUseAircraftClicked() {
-        this.useAircraft = true;
-        this.useAircraftValueChanged.emit(true);
-    }
-
-
-    protected onEditManualClicked() {
-        this.useAircraft = false;
-        this.useAircraftValueChanged.emit(false);
-    }
-
     protected getAircraftName() {
         if (this.selectedAircraft) {
             return this.selectedAircraft.registration;
         } else {
             return '(not selected)';
+        }
+    }
+
+    protected onToggleChanged($event: MatSlideToggleChange) {
+        if ($event.checked) {
+            this.useAircraft = true;
+            this.useAircraftValueChanged.emit(true);
+        } else {
+            this.useAircraft = false;
+            this.useAircraftValueChanged.emit(false);
         }
     }
 }

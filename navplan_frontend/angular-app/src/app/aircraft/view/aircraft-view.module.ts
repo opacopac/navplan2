@@ -89,6 +89,7 @@ import {
     AircraftTypeDesignatorAutocompleteComponent
 } from './ng-components/aircraft-details/aircraft-type-designator-autocomplete/aircraft-type-designator-autocomplete.component';
 import {AircraftManualToggle} from './ng-components/aircraft-manual-toggle/aircraft-manual-toggle.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -112,6 +113,7 @@ import {AircraftManualToggle} from './ng-components/aircraft-manual-toggle/aircr
         MatExpansionModule,
         MatGridListModule,
         MatDialogModule,
+        MatSlideToggleModule,
     ],
     declarations: [
         AircraftTabsComponent,

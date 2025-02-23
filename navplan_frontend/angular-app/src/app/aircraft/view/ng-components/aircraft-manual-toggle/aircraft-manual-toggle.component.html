@@ -1,19 +1,8 @@
-<mat-button-toggle-group [hideSingleSelectionIndicator]="true">
-    <mat-button-toggle
-        matTooltip="Set value manually"
-        matTooltipPosition="above"
-        [checked]="!this.useAircraft"
-        (change)="onEditManualClicked()"
-    >
-        <i class="fa-solid fa-pencil {{ this.useAircraft ? 'inactive' : 'active' }}"></i>
-    </mat-button-toggle>
-    <mat-button-toggle
-        matTooltip="Use value from aircraft"
-        matTooltipPosition="above"
-        [checked]="this.useAircraft"
-        [disabled]="!this.selectedAircraft"
-        (change)="onUseAircraftClicked()"
-    >
-        <i class="fa-solid fa-plane {{ this.useAircraft ? 'active' : 'inactive' }}"></i> {{ this.getAircraftName() }}
-    </mat-button-toggle>
-</mat-button-toggle-group>
+<mat-slide-toggle
+    [checked]="this.useAircraft"
+    [disabled]="!this.selectedAircraft"
+    (change)="this.onToggleChanged($event)"
+>
+    <i class="fa-solid fa-plane {{ this.useAircraft ? 'icon-active' : 'inactive' }}"></i>&nbsp;
+    <span [class]="this.useAircraft ? '' : 'inactive'">{{ this.getAircraftName() }}</span>
+</mat-slide-toggle>
