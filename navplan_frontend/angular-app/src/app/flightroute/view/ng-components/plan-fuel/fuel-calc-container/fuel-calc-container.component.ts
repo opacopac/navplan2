@@ -18,7 +18,7 @@ export class FuelCalcContainerComponent implements OnInit {
     protected readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
     protected readonly routeFuel$ = this.flightroute$.pipe(map(flightroute => flightroute.fuel));
     protected readonly aircraftConsumption$ = this.flightroute$.pipe(map(flightroute => flightroute.aircraftParams.consumption));
-    protected readonly useAircraftConsumptionValue$ = this.appStore.pipe(select(getUseAircraftConsumptionValue));
+    protected readonly useAircraftValue$ = this.appStore.pipe(select(getUseAircraftConsumptionValue));
     protected readonly selectedAircaft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly fuelUnit$ = this.appStore.pipe(select(getVolumeUnit));
     protected readonly consumptionUnit$ = this.appStore.pipe(select(getConsumptionUnit));

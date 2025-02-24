@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
 import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
@@ -13,9 +13,8 @@ import {ButtonColor} from '../../../../../common/view/model/button-color';
 export class FlightrouteAircraftSpeedComponent implements OnInit, OnChanges {
     @Input() public routeSpeed: Speed;
     @Input() public speedUnit: SpeedUnit;
-    @Input() public isDisabled: boolean;
+    @Input() public useAircraftValue: boolean;
     @Output() public routeSpeedChanged = new EventEmitter<Speed>();
-    @ViewChild('routeSpeed') routeSpeedElement: ElementRef;
 
     public aircraftSpeedFormGroup: FormGroup;
 
@@ -32,7 +31,7 @@ export class FlightrouteAircraftSpeedComponent implements OnInit, OnChanges {
         this.aircraftSpeedFormGroup.addControl(
             'routeSpeedInput',
             new FormControl(
-                {value: this.getRouteSpeedValue(), disabled: this.isDisabled},
+                {value: this.getRouteSpeedValue(), disabled: this.useAircraftValue},
                 [
                     Validators.required,
                     Validators.min(1),
@@ -45,10 +44,10 @@ export class FlightrouteAircraftSpeedComponent implements OnInit, OnChanges {
 
 
     ngOnChanges() {
-        if (this.isDisabled) {
-            this.aircraftSpeedFormGroup.get('routeSpeedInput')?.disable();
+        if (this.useAircraftValue) {
+            this.aircraftSpeedFormGroup?.get('routeSpeedInput')?.disable();
         } else {
-            this.aircraftSpeedFormGroup.get('routeSpeedInput')?.enable();
+            this.aircraftSpeedFormGroup?.get('routeSpeedInput')?.enable();
         }
     }
 

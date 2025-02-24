@@ -3,7 +3,7 @@
         <app-flightroute-aircraft-speed
             [speedUnit]="this.speedUnit$ | async"
             [routeSpeed]="this.routeSpeed$ | async"
-            [isDisabled]="this.useAircraftSpeedValue$ | async"
+            [useAircraftValue]="this.useAircraftSpeedValue$ | async"
             (routeSpeedChanged)="this.onRouteSpeedChanged($event)"
         />
         <app-aircraft-manual-toggle

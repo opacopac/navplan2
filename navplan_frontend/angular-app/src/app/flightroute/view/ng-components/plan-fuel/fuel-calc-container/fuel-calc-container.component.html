@@ -1,12 +1,12 @@
 <div class="fuel-container">
     <div class="fuel-consumption-line">
         <app-fuel-calc-input-fields
-            [aircraftConsumption]="this.aircraftConsumption$ | async"
+            [fuelConsumption]="this.aircraftConsumption$ | async"
             [selectedAircraft]="this.selectedAircaft$ | async"
-            [useAircraftConsumptionValue]="this.useAircraftConsumptionValue$ | async"
+            [useAircraftValue]="this.useAircraftValue$ | async"
             [consumptionUnit]="this.consumptionUnit$ | async"
-            (aircraftConsumptionChange)="this.onAircraftConsumptionChange($event)"
-            (useAircraftConsumptionValueChange)="this.onUseAircraftConsumptionChanged($event)"
+            (fuelConsumptionChange)="this.onAircraftConsumptionChange($event)"
+            (useAircraftValueChange)="this.onUseAircraftConsumptionChanged($event)"
         />
         <app-aircraft-picker-container [showRegistration]="false" />
     </div>

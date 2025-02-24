@@ -19,9 +19,6 @@ export class AircraftManualToggle implements OnInit {
 
 
     ngOnInit() {
-        if (this.selectedAircraft) {
-            this.useAircraft = true;
-        }
     }
 
 
@@ -32,6 +29,7 @@ export class AircraftManualToggle implements OnInit {
             return '(not selected)';
         }
     }
+
 
     protected onToggleChanged($event: MatSlideToggleChange) {
         if ($event.checked) {
