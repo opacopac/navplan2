@@ -84,7 +84,7 @@ $navplan-media-l: 1280px;
 /* endregion */
 
 
-/* region TABS / BUTTONS */
+/* region TABS */
 
 @media (max-width: $navplan-media-s) {
     .mdc-tab {
@@ -96,12 +96,16 @@ $navplan-media-l: 1280px;
 /* endregion */
 
 
-/* region BUTTONS */
+/* region BUTTONS / SLIDER */
 
 @media (max-width: $navplan-media-m) {
     .mdc-button {
         min-width: 48px !important;
     }
+}
+
+.mdc-switch__icon {
+    opacity: 0 !important; // remove icon from slider toggle
 }
 
 /* endregion */
@@ -262,3 +266,4 @@ tr.selected-row > .mat-mdc-cell {
 }
 
 /* endregion */
+
