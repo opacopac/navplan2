@@ -28,14 +28,16 @@ RUN docker-php-ext-install zip
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-COPY php-app/src /var/www/html/php
-COPY php-app/config /var/www/html/php/config
-COPY php-app/composer.json /var/www/html/php/composer.json
-
-RUN composer update
-
 # Copy Meteo DWD sample files
 COPY meteo_dwd /var/www/html/meteo_dwd
+
+# Copy composer files
+COPY php-app/composer.json /var/www/html/php/composer.json
+RUN composer update
+
+# Copy Code
+COPY php-app/src /var/www/html/php
+COPY php-app/config /var/www/html/php/config
 
 EXPOSE 80
 
