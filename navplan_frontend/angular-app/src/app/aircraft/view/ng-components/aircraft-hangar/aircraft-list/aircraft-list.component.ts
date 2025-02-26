@@ -31,7 +31,7 @@ export class AircraftListComponent implements OnInit, OnChanges {
     @Input() currentAircraft: Aircraft;
     @Input() speedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
-    @Output() aircraftAdded = new EventEmitter<Aircraft>();
+    @Output() aircraftCreated = new EventEmitter<Aircraft>();
     @Output() selectAircraftClick = new EventEmitter<number>();
     @Output() editAircraftClick = new EventEmitter<number>();
     @Output() duplicateAircraftClick = new EventEmitter<number>();
@@ -74,7 +74,7 @@ export class AircraftListComponent implements OnInit, OnChanges {
     }
 
 
-    protected onAddAircraftClick() {
+    protected onCreateAircraftClick() {
         const dialogRef = this.dialog.open(AircraftCreateFormDialogComponent, {
             // height: '800px',
             width: '600px',
@@ -86,7 +86,7 @@ export class AircraftListComponent implements OnInit, OnChanges {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                this.aircraftAdded.emit(result.aircraft);
+                this.aircraftCreated.emit(result.aircraft);
             }
         });
     }

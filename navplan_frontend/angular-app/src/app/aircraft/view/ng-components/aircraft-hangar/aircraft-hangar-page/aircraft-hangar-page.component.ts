@@ -27,7 +27,7 @@ export class AircraftHangarPageComponent implements OnInit {
     }
 
 
-    protected onAddAircraft(aircraft: Aircraft) {
+    protected onCreateNewAircraft(aircraft: Aircraft) {
         this.appStore.dispatch(AircraftCrudActions.createNewAircraft({aircraft: aircraft}));
     }
 
