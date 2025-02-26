@@ -1,141 +1,137 @@
 @if (this.flightroute) {
-  <div>
-    <table
-      mat-table
-      multiTemplateDataRows
-      class="waypoints-table"
-      [dataSource]="this.wpDataSource"
-      >
-      <ng-container matColumnDef="freq">
-        <th mat-header-cell *matHeaderCellDef>Freq</th>
-        <td mat-cell *matCellDef="let entry">{{ entry.wp.freq }}</td>
-      </ng-container>
-      <ng-container matColumnDef="callsign">
-        <th mat-header-cell *matHeaderCellDef>Callsign</th>
-        <td mat-cell *matCellDef="let entry">{{ entry.wp.callsign }}</td>
-      </ng-container>
-      <ng-container matColumnDef="checkpoint">
-        <th mat-header-cell *matHeaderCellDef>Checkpoint</th>
-        <td mat-cell *matCellDef="let entry">{{ entry.wp.checkpoint }}</td>
-      </ng-container>
-      <ng-container matColumnDef="alt">
-        <th mat-header-cell *matHeaderCellDef>Alt</th>
-        <td mat-cell *matCellDef="let entry">
-          @if (entry.wp.wpAlt.isaltatlegstart) {
-            <span>&#8739;</span>
-          }
-          <span [style.text-decoration]="this.getAltStyle(entry.wp)">{{ this.getAltText(entry.wp) }}</span>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="mt">
-        <th mat-header-cell *matHeaderCellDef>MT</th>
-        <td mat-cell *matCellDef="let entry">{{ entry.wp.mtText }}</td>
-      </ng-container>
-      <ng-container matColumnDef="dist">
-        <th mat-header-cell *matHeaderCellDef>Dist</th>
-        <td mat-cell *matCellDef="let entry">{{ entry.wp.distText }}</td>
-      </ng-container>
-      <ng-container matColumnDef="eet">
-        <th mat-header-cell *matHeaderCellDef>EET</th>
-        <td mat-cell *matCellDef="let entry">{{ entry.wp.eetText }}</td>
-      </ng-container>
-      <ng-container matColumnDef="remarks">
-        <th mat-header-cell *matHeaderCellDef>Remarks</th>
-        <td mat-cell *matCellDef="let entry">{{ entry.wp.remark }}</td>
-      </ng-container>
-      <ng-container matColumnDef="icons">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let entry" class="button-cell">
-          <app-icon-button
-            [color]="ButtonColor.RED"
-            tooltipText="Remove Waypoint"
-            tooltipPosition="above"
-            (buttonClicked)="this.onRemoveWaypointClick.emit(entry.wp)"
-            >
-            <i class="fa-solid fa-trash"></i>
-          </app-icon-button>
-        </td>
-      </ng-container>
-      <!-- secondary row: supp_info -->
-      <ng-container matColumnDef="supp_info_icon">
-        <td mat-cell *matCellDef="let entry" [attr.colspan]="1" style="text-align: right">
-          <small><i class="fa-solid fa-info-circle"></i></small>&nbsp;
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="supp_info_text">
-        <td mat-cell *matCellDef="let entry" [attr.colspan]="this.visibleColumns.length - 1">
-          <em>{{ entry.wp.supp_info }}</em>
-        </td>
-      </ng-container>
-      <!-- secondary row: sub total -->
-      <ng-container matColumnDef="subtot_ident">
-        <td mat-cell *matCellDef="let entry" [attr.colspan]="6">&nbsp;</td>
-      </ng-container>
-      <ng-container matColumnDef="subtot_eet">
-        <td mat-cell *matCellDef="let entry" [attr.colspan]="this.visibleColumns.length - 6">
-          <strong>{{ this.getTotalEet() }}</strong>
-        </td>
-      </ng-container>
-      <!-- secondary row: alternate header -->
-      <ng-container matColumnDef="alt_indent">
-        <td mat-cell *matCellDef="let entry" [attr.colspan]="1">&nbsp;</td>
-      </ng-container>
-      <ng-container matColumnDef="alt_title">
-        <td mat-cell *matCellDef="let entry" [attr.colspan]="this.visibleColumns.length - 1">
-          <u>Alternate:</u>
-        </td>
-      </ng-container>
-      <!-- no entry -->
-      <ng-container matColumnDef="no_entry">
-        <td mat-footer-cell *matFooterCellDef [attr.colspan]="this.visibleColumns.length">
-          Route is empty: load route or add waypoints on the map
-        </td>
-      </ng-container>
-      <tr mat-header-row
-        *matHeaderRowDef="this.visibleColumns"
-        class="header-row"
-      ></tr>
-      <tr mat-row
-        *matRowDef="let entry; columns: ['alt_indent', 'alt_title']"
-        [hidden]="!entry.isAlternate"
-      ></tr>
-      <tr mat-row
-        *matRowDef="let entry; let index = dataIndex; columns: this.visibleColumns"
-            [ngClass]="{
-                'origin_destination_row': (entry.isOriginAirport || entry.isDestinationAirport),
-                'alternate_row': entry.isAlternate,
-                'odd-row': index % 2 === 1
-            }"
-        class="clickable"
-        (click)="this.onEditWaypointClick.emit(entry.wp)"
-      ></tr>
-      <tr mat-row
-        *matRowDef="let entry; columns: ['supp_info_icon', 'supp_info_text']"
-        class="supp-info-row"
-        [hidden]="!entry.wp.supp_info"
-      ></tr>
-      <tr mat-row
-        *matRowDef="let entry; columns: ['subtot_ident', 'subtot_eet']"
-        [hidden]="!entry.isDestinationAirport"
-      ></tr>
-      <tr mat-footer-row
-        *matFooterRowDef="['no_entry']"
-        [hidden]="this.flightroute && this.flightroute.waypoints.length > 0"
-      ></tr>
-    </table>
-    <!-- reverse waypoints button -->
-    <div class="reverse-button-container">
-      @if (this.flightroute.waypoints.length >= 2) {
-        <button
-          class="reverse-button"
-          mat-raised-button
-          type="button"
-          matTooltip="Reverse Waypoint Order"
-          matTooltipPosition="above"
-          (click)="this.onReverseWaypointsClick.emit()"><i class="fa-solid fa-arrows-up-down"></i> Reverse
-          Waypoints
-        </button>
-      }
+    <div>
+        <table
+            mat-table
+            multiTemplateDataRows
+            class="waypoints-table"
+            [dataSource]="this.wpDataSource"
+        >
+            <ng-container matColumnDef="freq">
+                <th mat-header-cell *matHeaderCellDef>Freq</th>
+                <td mat-cell *matCellDef="let entry">{{ entry.wp.freq }}</td>
+            </ng-container>
+            <ng-container matColumnDef="callsign">
+                <th mat-header-cell *matHeaderCellDef>Callsign</th>
+                <td mat-cell *matCellDef="let entry">{{ entry.wp.callsign }}</td>
+            </ng-container>
+            <ng-container matColumnDef="checkpoint">
+                <th mat-header-cell *matHeaderCellDef>Checkpoint</th>
+                <td mat-cell *matCellDef="let entry">{{ entry.wp.checkpoint }}</td>
+            </ng-container>
+            <ng-container matColumnDef="alt">
+                <th mat-header-cell *matHeaderCellDef>Alt</th>
+                <td mat-cell *matCellDef="let entry">
+                    @if (entry.wp.wpAlt.isaltatlegstart) {
+                        <span>&#8739;</span>
+                    }
+                    <span [style.text-decoration]="this.getAltStyle(entry.wp)">{{ this.getAltText(entry.wp) }}</span>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="mt">
+                <th mat-header-cell *matHeaderCellDef>MT</th>
+                <td mat-cell *matCellDef="let entry">{{ entry.wp.mtText }}</td>
+            </ng-container>
+            <ng-container matColumnDef="dist">
+                <th mat-header-cell *matHeaderCellDef>Dist</th>
+                <td mat-cell *matCellDef="let entry">{{ entry.wp.distText }}</td>
+            </ng-container>
+            <ng-container matColumnDef="eet">
+                <th mat-header-cell *matHeaderCellDef>EET</th>
+                <td mat-cell *matCellDef="let entry">{{ entry.wp.eetText }}</td>
+            </ng-container>
+            <ng-container matColumnDef="remarks">
+                <th mat-header-cell *matHeaderCellDef>Remarks</th>
+                <td mat-cell *matCellDef="let entry">{{ entry.wp.remark }}</td>
+            </ng-container>
+            <ng-container matColumnDef="icons">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let entry" class="button-cell">
+                    <app-icon-button
+                        [color]="ButtonColor.RED"
+                        tooltipText="Remove Waypoint"
+                        tooltipPosition="above"
+                        (buttonClicked)="this.onRemoveWaypointClick.emit(entry.wp)"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                    </app-icon-button>
+                </td>
+            </ng-container>
+            <!-- secondary row: supp_info -->
+            <ng-container matColumnDef="supp_info_icon">
+                <td mat-cell *matCellDef="let entry" [attr.colspan]="1" style="text-align: right">
+                    <small><i class="fa-solid fa-info-circle"></i></small>&nbsp;
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="supp_info_text">
+                <td mat-cell *matCellDef="let entry" [attr.colspan]="this.visibleColumns.length - 1">
+                    <em>{{ entry.wp.supp_info }}</em>
+                </td>
+            </ng-container>
+            <!-- secondary row: sub total -->
+            <ng-container matColumnDef="subtot_ident">
+                <td mat-cell *matCellDef="let entry" [attr.colspan]="6">&nbsp;</td>
+            </ng-container>
+            <ng-container matColumnDef="subtot_eet">
+                <td mat-cell *matCellDef="let entry" [attr.colspan]="this.visibleColumns.length - 6">
+                    <strong>{{ this.getTotalEet() }}</strong>
+                </td>
+            </ng-container>
+            <!-- secondary row: alternate header -->
+            <ng-container matColumnDef="alt_indent">
+                <td mat-cell *matCellDef="let entry" [attr.colspan]="1">&nbsp;</td>
+            </ng-container>
+            <ng-container matColumnDef="alt_title">
+                <td mat-cell *matCellDef="let entry" [attr.colspan]="this.visibleColumns.length - 1">
+                    <u>Alternate:</u>
+                </td>
+            </ng-container>
+            <!-- no entry -->
+            <ng-container matColumnDef="no_entry">
+                <td mat-footer-cell *matFooterCellDef [attr.colspan]="this.visibleColumns.length">
+                    Route is empty: load route or add waypoints on the map
+                </td>
+            </ng-container>
+            <tr mat-header-row
+                *matHeaderRowDef="this.visibleColumns"
+                class="header-row"
+            ></tr>
+            <tr mat-row
+                *matRowDef="let entry; columns: ['alt_indent', 'alt_title']"
+                [hidden]="!entry.isAlternate"
+            ></tr>
+            <tr mat-row
+                *matRowDef="let entry; let index = dataIndex; columns: this.visibleColumns"
+                [ngClass]="{'odd-row': index % 2 === 1}"
+                class="clickable"
+                (click)="this.onEditWaypointClick.emit(entry.wp)"
+            ></tr>
+            <tr mat-row
+                *matRowDef="let entry; let index = dataIndex; columns: ['supp_info_icon', 'supp_info_text']"
+                [ngClass]="{'supp-info-row': true, 'odd-row': index % 2 === 1}"
+                [hidden]="!entry.wp.supp_info"
+            ></tr>
+            <tr mat-row
+                *matRowDef="let entry; columns: ['subtot_ident', 'subtot_eet']"
+                [hidden]="!entry.isDestinationAirport"
+            ></tr>
+            <tr mat-footer-row
+                *matFooterRowDef="['no_entry']"
+                [hidden]="this.flightroute && this.flightroute.waypoints.length > 0"
+            ></tr>
+        </table>
+        <!-- reverse waypoints button -->
+        <div class="reverse-button-container">
+            @if (this.flightroute.waypoints.length >= 2) {
+                <button
+                    class="reverse-button"
+                    mat-raised-button
+                    type="button"
+                    matTooltip="Reverse Waypoint Order"
+                    matTooltipPosition="above"
+                    (click)="this.onReverseWaypointsClick.emit()"><i class="fa-solid fa-arrows-up-down"></i> Reverse
+                    Waypoints
+                </button>
+            }
+        </div>
     </div>
-  </div>
 }
