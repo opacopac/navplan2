@@ -113,7 +113,8 @@ import {
     ],
     exports: [
         FuelCalcContainerComponent,
-        FlightrouteContainerComponent
+        FlightrouteContainerComponent,
+        RouteListPageComponent
     ],
     providers: []
 })

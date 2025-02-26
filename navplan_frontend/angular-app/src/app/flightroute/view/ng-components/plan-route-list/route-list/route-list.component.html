@@ -1,7 +1,6 @@
 <div>
     <!-- flightroute filter -->
     <div class="filter-and-button-row">
-        <!-- filter flightroute list -->
         <mat-form-field>
             <input
                 matInput
@@ -16,13 +15,13 @@
         <table mat-table
                [dataSource]="this.dataSource">
             <ng-container matColumnDef="title">
-                <th mat-header-cell *matHeaderCellDef>Registration</th>
+                <th mat-header-cell *matHeaderCellDef>Title</th>
                 <td mat-cell
                     *matCellDef="let entry"
                     class="clickable"
                     (click)="this.selectFlightrouteClick.emit(entry.id)"
                 >
-                    {{ entry.registration }}
+                    {{ entry.title }}
                 </td>
             </ng-container>
             <ng-container matColumnDef="icons">

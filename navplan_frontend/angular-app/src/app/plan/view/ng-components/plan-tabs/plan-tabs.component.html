@@ -7,7 +7,15 @@
     >
         <mat-tab>
             <ng-template matTabLabel>
-                <i class="fa-solid fa-route"></i><span class="tab-text">&nbsp;&nbsp;Route</span>
+                <i class="fa-brands fa-stack-overflow"></i><span class="tab-text">&nbsp;&nbsp;Routes</span>
+            </ng-template>
+            <ng-template matTabContent>
+                <app-route-list-page />
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template matTabLabel>
+                <i class="fa-solid fa-route"></i><span class="tab-text">&nbsp;&nbsp;Waypoints</span>
             </ng-template>
             <ng-template matTabContent>
                 <app-flightroute-container />

@@ -65,7 +65,7 @@ export class RouteListComponent implements OnInit, OnChanges {
         const dialogRef = this.dialog.open(FlightrouteDeleteConfirmDialogComponent, {
             width: '400px',
             data: {
-                aircraft: route
+                flightroute: route
             }
         });
 

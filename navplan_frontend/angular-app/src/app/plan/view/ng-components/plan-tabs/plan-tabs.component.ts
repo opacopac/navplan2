@@ -17,12 +17,13 @@ export class PlanTabsComponent implements OnInit, AfterViewInit, OnDestroy {
     public tabSubscription: Subscription;
 
     private tabMap: { [key: number]: string } = {
-        0: 'route',
-        1: 'fuel',
-        2: 'wnb',
-        3: 'perf',
-        4: 'meteo',
-        5: 'notam'
+        0: 'routelist',
+        1: 'route',
+        2: 'fuel',
+        3: 'wnb',
+        4: 'perf',
+        5: 'meteo',
+        6: 'notam'
     };
 
 
