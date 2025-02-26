@@ -1,0 +1,12 @@
+<app-route-list
+    class="tab-page-container"
+    [routeList]="this.flightrouteList$ | async"
+    [currentFlightroute]="this.currentFlightroute$ | async"
+    [speedUnit]="this.speedUnit$ | async"
+    [consumptionUnit]="this.consumptionUnit$ | async"
+    (flightrouteAdded)="this.onCreateRoute($event)"
+    (selectFlightrouteClick)="this.onRouteSelected($event)"
+    (editFlightrouteClick)="this.onRouteEdited($event)"
+    (duplicateFlightrouteClick)="this.onRouteDuplicated($event)"
+    (deleteFlightrouteClick)="this.onRouteDeleted($event)"
+/>

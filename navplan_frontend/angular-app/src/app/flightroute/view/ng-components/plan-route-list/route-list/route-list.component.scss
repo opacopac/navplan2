@@ -1,0 +1,23 @@
+.filter-and-button-row {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.add-aircraft-button {
+    margin-top: 20px;
+    text-align: right !important;
+}
+
+table {
+    width: 100%;
+}
+
+/*.mat-mdc-form-field {
+    width: 100%;
+}*/
+
+.button-cell {
+    text-align: right;
+}

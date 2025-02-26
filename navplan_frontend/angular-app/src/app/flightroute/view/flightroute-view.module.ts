@@ -55,6 +55,11 @@ import {
     MatExpansionPanelHeader,
     MatExpansionPanelTitle
 } from '@angular/material/expansion';
+import {RouteListPageComponent} from './ng-components/plan-route-list/route-list-page/route-list-page.component';
+import {RouteListComponent} from './ng-components/plan-route-list/route-list/route-list.component';
+import {
+    RouteDeleteConfirmDialogComponent
+} from './ng-components/plan-route-list/route-delete-confirm-dialog/route-delete-confirm-dialog.component';
 
 
 @NgModule({
@@ -101,7 +106,10 @@ import {
         WaypointListComponent,
         FuelCalcContainerComponent,
         FuelCalcInputFieldsComponent,
-        FuelCalcTableComponent
+        FuelCalcTableComponent,
+        RouteListPageComponent,
+        RouteListComponent,
+        RouteDeleteConfirmDialogComponent
     ],
     exports: [
         FuelCalcContainerComponent,
