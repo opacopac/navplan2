@@ -28,6 +28,10 @@ RUN docker-php-ext-install zip
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Create log directory & set permissions
+RUN mkdir -p /var/log/navplan/
+RUN chmod -R 777 /var/log/navplan/
+
 # Copy Meteo DWD sample files
 COPY meteo_dwd /var/www/html/meteo_dwd
 
@@ -42,9 +46,3 @@ COPY php-app/config /var/www/html/php/config
 EXPOSE 80
 
 CMD ["apache2-foreground"]
-
-# Create log directory
-RUN mkdir -p /var/log/navplan/
-
-# Set permissions for log directory and file
-RUN chmod -R 777 /var/log/navplan/
