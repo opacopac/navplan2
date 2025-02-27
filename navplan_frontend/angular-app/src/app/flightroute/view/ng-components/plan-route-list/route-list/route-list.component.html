@@ -7,7 +7,19 @@
                 (keyup)="this.applyFilter($event.target.value)"
                 placeholder="Filter"
             >
+            <mat-icon matPrefix>filter_list</mat-icon>
         </mat-form-field>
+
+        <!-- create new route button -->
+        <span class="create-route-button">
+          <button
+              mat-raised-button
+              color="accent"
+              (click)="this.onCreateNewRouteClick()"
+          >
+            <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Create New Route
+          </button>
+        </span>
     </div>
 
     <!-- flightroute list -->

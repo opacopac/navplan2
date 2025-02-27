@@ -60,6 +60,8 @@ import {RouteListComponent} from './ng-components/plan-route-list/route-list/rou
 import {
     RouteDeleteConfirmDialogComponent
 } from './ng-components/plan-route-list/route-delete-confirm-dialog/route-delete-confirm-dialog.component';
+import {MatIcon} from '@angular/material/icon';
+import {RouteCreateFormDialogComponent} from './ng-components/plan-route-list/route-create-form-dialog/route-create-form-dialog.component';
 
 
 @NgModule({
@@ -92,6 +94,7 @@ import {
         MatExpansionPanelDescription,
         MatExpansionPanelHeader,
         MatExpansionPanelTitle,
+        MatIcon,
     ],
     declarations: [
         EditWaypointDialogComponent,
@@ -109,6 +112,7 @@ import {
         FuelCalcTableComponent,
         RouteListPageComponent,
         RouteListComponent,
+        RouteCreateFormDialogComponent,
         RouteDeleteConfirmDialogComponent
     ],
     exports: [

@@ -10,6 +10,11 @@ import {Flightroute} from '../../../../domain/model/flightroute';
 import {
     FlightrouteDeleteConfirmDialogComponent
 } from '../../plan-route/flightroute-delete-confirm-dialog/flightroute-delete-confirm-dialog.component';
+import {
+    AircraftCreateFormDialogComponent
+} from '../../../../../aircraft/view/ng-components/aircraft-hangar/aircraft-create-form-dialog/aircraft-create-form-dialog.component';
+import {Aircraft} from '../../../../../aircraft/domain/model/aircraft';
+import {RouteCreateFormDialogComponent} from '../route-create-form-dialog/route-create-form-dialog.component';
 
 
 export interface ListEntry {
@@ -28,7 +33,7 @@ export class RouteListComponent implements OnInit, OnChanges {
     @Input() currentFlightroute: Flightroute;
     @Input() speedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
-    @Output() flightrouteAdded = new EventEmitter<Flightroute>();
+    @Output() flightrouteCreated = new EventEmitter<Flightroute>();
     @Output() selectFlightrouteClick = new EventEmitter<number>();
     @Output() editFlightrouteClick = new EventEmitter<number>();
     @Output() duplicateFlightrouteClick = new EventEmitter<number>();
@@ -58,6 +63,24 @@ export class RouteListComponent implements OnInit, OnChanges {
 
     protected applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+
+    protected onCreateNewRouteClick() {
+        const dialogRef = this.dialog.open(RouteCreateFormDialogComponent, {
+            // height: '800px',
+            width: '600px',
+            data: {
+                speedUnit: this.speedUnit,
+                consumptionUnit: this.consumptionUnit,
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this.flightrouteCreated.emit(result.aircraft);
+            }
+        });
     }
 
 

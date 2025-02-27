@@ -6,6 +6,7 @@ import {Time} from '../../../geo-physics/domain/model/quantities/time';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {WaypointType} from './waypoint-type';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
+import {TimeUnit} from '../../../geo-physics/domain/model/quantities/time-unit';
 
 
 export class Flightroute implements Clonable<Flightroute> {
@@ -22,6 +23,19 @@ export class Flightroute implements Clonable<Flightroute> {
         public alternate: Waypoint,
         public extraTime: Time
     ) {
+    }
+
+
+    public static createEmpty(title: string, aircraftParams: AircraftParams): Flightroute {
+        return new Flightroute(
+            0,
+            title,
+            undefined,
+            undefined,
+            [],
+            undefined,
+            new Time(0, TimeUnit.M)
+        );
     }
 
 

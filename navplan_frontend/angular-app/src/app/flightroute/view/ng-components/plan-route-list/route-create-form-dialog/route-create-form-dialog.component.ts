@@ -1,0 +1,95 @@
+import {Component, Inject, OnChanges, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
+import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
+import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
+import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantities/consumption-unit';
+import {Flightroute} from '../../../../domain/model/flightroute';
+import {AircraftParams} from '../../../../domain/model/aircraftParams';
+
+
+@Component({
+    selector: 'app-route-create-form-dialog',
+    templateUrl: './route-create-form-dialog.component.html',
+    styleUrls: ['./route-create-form-dialog.component.scss']
+})
+export class RouteCreateFormDialogComponent implements OnInit, OnChanges {
+    protected createForm: FormGroup;
+    protected readonly Speed = Speed;
+    protected readonly Consumption = Consumption;
+    protected title: string;
+
+
+    constructor(
+        public formBuilder: FormBuilder,
+        private dialogRef: MatDialogRef<RouteCreateFormDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: {
+            speedUnit: SpeedUnit;
+            consumptionUnit: ConsumptionUnit;
+        }
+    ) {
+    }
+
+
+    ngOnInit() {
+        this.initForm();
+    }
+
+
+    ngOnChanges() {
+        this.initForm();
+    }
+
+
+    protected isFormValid(): boolean {
+        return this.createForm && this.createForm.valid;
+    }
+
+
+    protected onSaveClicked() {
+        if (this.isFormValid()) {
+            const newRoute = Flightroute.createEmpty(
+                this.createForm.controls['title'].value,
+                new AircraftParams(
+                    new Speed(
+                        this.createForm.controls['cruiseSpeed'].value,
+                        this.data.speedUnit
+                    ),
+                    new Consumption(
+                        this.createForm.controls['cruiseFuel'].value,
+                        this.data.consumptionUnit
+                    )
+                )
+            );
+
+            this.dialogRef.close({aircraft: newRoute});
+        }
+    }
+
+
+    protected onCancelClicked() {
+        this.dialogRef.close();
+    }
+
+
+    private initForm() {
+        this.createForm = this.formBuilder.group({
+            'title': ['', [Validators.required]],
+            'cruiseSpeed': ['',
+                [
+                    Validators.required,
+                    Validators.min(1),
+                    Validators.max(999)
+                ]
+            ],
+            'cruiseFuel': ['',
+                [
+                    Validators.required,
+                    Validators.min(1),
+                    Validators.max(999)
+                ]
+            ]
+        });
+    }
+}
