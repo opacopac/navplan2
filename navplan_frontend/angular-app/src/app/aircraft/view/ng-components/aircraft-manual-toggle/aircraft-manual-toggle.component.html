@@ -3,6 +3,7 @@
     [disabled]="!this.selectedAircraft"
     (change)="this.onToggleChanged($event)"
 >
+    &nbsp;
     <i class="fa-solid fa-plane {{ this.useAircraft ? 'icon-active' : 'inactive' }}"></i>&nbsp;
     <span [class]="this.useAircraft ? '' : 'inactive'">{{ this.getAircraftName() }}</span>
 </mat-slide-toggle>
