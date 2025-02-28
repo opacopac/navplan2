@@ -1,0 +1,6 @@
+<app-route-picker
+    [currentRoute]="this.currentFlightroute$ | async"
+    [labelText]="this.labelText"
+    [showRouteName]="this.showRouteName"
+    (pickFlightrouteClicked)="this.onPickFlightrouteClicked()"
+/>

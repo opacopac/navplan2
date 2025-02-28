@@ -1,0 +1,21 @@
+<div class="aircraft-selected-container">
+  {{ this.labelText }}&nbsp;
+  @if (this.currentRoute && this.showRouteName) {
+    <span>
+      {{ this.currentRoute.title }}
+    </span>
+  }
+  @if (!this.currentRoute && this.showRouteName) {
+    <span>
+      <i>(not selected)</i>
+    </span>
+  }
+  <app-icon-button
+    [color]="ButtonColor.BLUE"
+    tooltipText="Select Flightroute"
+    tooltipPosition="above"
+    (buttonClicked)="this.pickFlightrouteClicked.emit(null)"
+    >
+    <i class="fa-solid fa-search"></i>
+  </app-icon-button>
+</div>

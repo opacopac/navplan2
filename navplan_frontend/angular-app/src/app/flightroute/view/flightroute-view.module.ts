@@ -61,7 +61,13 @@ import {
     RouteDeleteConfirmDialogComponent
 } from './ng-components/plan-route-list/route-delete-confirm-dialog/route-delete-confirm-dialog.component';
 import {MatIcon} from '@angular/material/icon';
-import {RouteCreateFormDialogComponent} from './ng-components/plan-route-list/route-create-form-dialog/route-create-form-dialog.component';
+import {
+    RouteCreateFormDialogComponent
+} from './ng-components/plan-route-list/route-create-form-dialog/route-create-form-dialog.component';
+import {
+    RoutePickerContainerComponent
+} from './ng-components/common/route-picker-container/route-picker-container.component';
+import {RoutePickerComponent} from './ng-components/common/route-picker/route-picker.component';
 
 
 @NgModule({
@@ -113,12 +119,15 @@ import {RouteCreateFormDialogComponent} from './ng-components/plan-route-list/ro
         RouteListPageComponent,
         RouteListComponent,
         RouteCreateFormDialogComponent,
-        RouteDeleteConfirmDialogComponent
+        RouteDeleteConfirmDialogComponent,
+        RoutePickerContainerComponent,
+        RoutePickerComponent
     ],
     exports: [
         FuelCalcContainerComponent,
         FlightrouteContainerComponent,
-        RouteListPageComponent
+        RouteListPageComponent,
+        RoutePickerContainerComponent
     ],
     providers: []
 })

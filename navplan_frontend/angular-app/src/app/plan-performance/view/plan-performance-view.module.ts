@@ -24,6 +24,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {
     PlanPerfTkofLdgChartComponent
 } from './ng-components/plan-perf-tkof-ldg-chart/plan-perf-tkof-ldg-chart.component';
+import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {
         PlanPerformanceDomainModule,
         PlanPerformanceStateModule,
         AircraftViewModule,
+        FlightrouteViewModule,
         MatRadioModule,
         MatCheckboxModule,
         MatFormFieldModule,
