@@ -1,21 +1,20 @@
 <div class="aircraft-selected-container">
-  {{ this.labelText }}&nbsp;
-  @if (this.currentAircraft && this.showRegistration) {
-    <span>
-      {{ this.currentAircraft.registration }}
-    </span>
-  }
-  @if (!this.currentAircraft && this.showRegistration) {
-    <span>
-      <i>(not selected)</i>
-    </span>
-  }
-  <app-icon-button
-    [color]="ButtonColor.BLUE"
-    tooltipText="Select Aircraft"
-    tooltipPosition="above"
-    (buttonClicked)="this.searchAircraftClicked.emit(null)"
+    @if (this.showIcon) {
+        <i class="fa-solid fa-plane icon"></i>&nbsp;&nbsp;
+    }
+    <span class="label-text">{{ this.labelText }}</span>&nbsp;
+    @if (this.currentAircraft && this.showRegistration) {
+        <span>{{ this.currentAircraft.registration }}</span>
+    }
+    @if (!this.currentAircraft && this.showRegistration) {
+        <span><i>(not selected)</i></span>
+    }
+    <app-icon-button
+        [color]="ButtonColor.GRAY"
+        tooltipText="Select Aircraft"
+        tooltipPosition="above"
+        (buttonClicked)="this.pickAircraftClicked.emit(null)"
     >
-    <i class="fa-solid fa-search"></i>
-  </app-icon-button>
+        <i class="fa-solid fa-search"></i>
+    </app-icon-button>
 </div>

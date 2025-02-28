@@ -1,4 +1,11 @@
 <div class="fuel-container">
+    <span>
+        <app-route-picker-container
+            labelText="Route:"
+            [showIcon]="true"
+            [showRouteName]="true"
+        />
+    </span>
     <div class="fuel-consumption-line">
         <app-fuel-calc-input-fields
             [fuelConsumption]="this.aircraftConsumption$ | async"
@@ -8,7 +15,9 @@
             (fuelConsumptionChange)="this.onAircraftConsumptionChange($event)"
             (useAircraftValueChange)="this.onUseAircraftConsumptionChanged($event)"
         />
-        <app-aircraft-picker-container [showRegistration]="false" />
+        <app-aircraft-picker-container
+            [showRegistration]="false"
+        />
     </div>
     <app-fuel-calc-table
         [routeFuel]="this.routeFuel$ | async"

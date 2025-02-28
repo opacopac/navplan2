@@ -11,8 +11,9 @@ import {ButtonColor} from '../../../../../common/view/model/button-color';
 export class AircraftPickerComponent implements OnInit {
     @Input() currentAircraft: Aircraft;
     @Input() labelText: string;
+    @Input() showIcon: boolean;
     @Input() showRegistration: boolean;
-    @Output() searchAircraftClicked = new EventEmitter<void>();
+    @Output() pickAircraftClicked = new EventEmitter<void>();
 
     protected readonly ButtonColor = ButtonColor;
 

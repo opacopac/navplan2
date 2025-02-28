@@ -1,4 +1,10 @@
 <form [formGroup]="this.flightrouteForm" class="tab-page-container">
+    <app-route-picker-container
+        labelText="Route:"
+        [showIcon]="true"
+        [showRouteName]="true"
+    />
+
     <div class="route-speed-row">
         <app-flightroute-aircraft-speed
             [speedUnit]="this.speedUnit$ | async"

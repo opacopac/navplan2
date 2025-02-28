@@ -1,51 +1,52 @@
 <div class="tab-page-container">
-  <app-aircraft-picker-container
-    labelText="Aircraft:"
-    [showRegistration]="true"
+    <app-aircraft-picker-container
+        labelText="Aircraft:"
+        [showIcon]="true"
+        [showRegistration]="true"
     />
 
     @if (this.currentAircraft$ | async) {
-      <div>
-        <!-- weight fields -->
-        <app-aircraft-wnb-weight-fields
-          [currentAircraft]="this.currentAircraft$ | async"
-          [weightUnit]="this.weightUnit$ | async"
-          (changeBew)="this.onChangeBew($event)"
-          (changeMtow)="this.onChangeMtow($event)"
-        ></app-aircraft-wnb-weight-fields>
-        <!-- weight items -->
-        <app-aircraft-wnb-weight-item-table
-          [vehicleType]="this.vehicleType$ | async"
-          [weightItems]="this.wnbWeightItems$ | async"
-          [lengthUnit]="this.wnbLengthUnit$ | async"
-          [weightUnit]="this.weightUnit$ | async"
-          [volumeUnit]="this.volumeUnit$ | async"
-          (addWeightItem)="this.onAddWeightItem($event)"
-          (editWeightItem)="this.onEditWeightItem($event)"
-          (deleteWeightItem)="this.onDeleteWeightItem($event)"
-          />
-          <!-- envelope list -->
-          <app-aircraft-wnb-envelope-list
-            [currentAircraft]="this.currentAircraft$ | async"
-            [wnbLengthUnit]="this.wnbLengthUnit$ | async"
-            [weightUnit]="this.weightUnit$ | async"
-            (envelopeAdded)="this.onEnvelopeAdded($event)"
-            (envelopeUpdated)="this.onEnvelopeUpdated($event)"
-            (envelopeDeleted)="this.onEnvelopeDeleted($event)"
-            (envelopeCoordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
-            (envelopeCoordinateUpdated)="this.onEnvelopeCoordinateUpdated($event)"
-            (envelopeCoordinateDeleted)="this.onEnvelopeCoordinateDeleted($event)"
-          ></app-aircraft-wnb-envelope-list>
-          <!-- save button -->
-          <p>
-            <button
-              mat-raised-button
-              color="primary"
-              (click)="this.onSaveAircraftWnb()"
-              >
-              Save
-            </button>
-          </p>
+        <div>
+            <!-- weight fields -->
+            <app-aircraft-wnb-weight-fields
+                [currentAircraft]="this.currentAircraft$ | async"
+                [weightUnit]="this.weightUnit$ | async"
+                (changeBew)="this.onChangeBew($event)"
+                (changeMtow)="this.onChangeMtow($event)"
+            ></app-aircraft-wnb-weight-fields>
+            <!-- weight items -->
+            <app-aircraft-wnb-weight-item-table
+                [vehicleType]="this.vehicleType$ | async"
+                [weightItems]="this.wnbWeightItems$ | async"
+                [lengthUnit]="this.wnbLengthUnit$ | async"
+                [weightUnit]="this.weightUnit$ | async"
+                [volumeUnit]="this.volumeUnit$ | async"
+                (addWeightItem)="this.onAddWeightItem($event)"
+                (editWeightItem)="this.onEditWeightItem($event)"
+                (deleteWeightItem)="this.onDeleteWeightItem($event)"
+            />
+            <!-- envelope list -->
+            <app-aircraft-wnb-envelope-list
+                [currentAircraft]="this.currentAircraft$ | async"
+                [wnbLengthUnit]="this.wnbLengthUnit$ | async"
+                [weightUnit]="this.weightUnit$ | async"
+                (envelopeAdded)="this.onEnvelopeAdded($event)"
+                (envelopeUpdated)="this.onEnvelopeUpdated($event)"
+                (envelopeDeleted)="this.onEnvelopeDeleted($event)"
+                (envelopeCoordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
+                (envelopeCoordinateUpdated)="this.onEnvelopeCoordinateUpdated($event)"
+                (envelopeCoordinateDeleted)="this.onEnvelopeCoordinateDeleted($event)"
+            ></app-aircraft-wnb-envelope-list>
+            <!-- save button -->
+            <p>
+                <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="this.onSaveAircraftWnb()"
+                >
+                    Save
+                </button>
+            </p>
         </div>
-      }
-    </div>
+    }
+</div>

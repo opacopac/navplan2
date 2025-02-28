@@ -13,6 +13,7 @@ import {AircraftListActions} from '../../../../state/ngrx/aircraft-list.actions'
 })
 export class AircraftPickerContainerComponent implements OnInit {
     @Input() public labelText: string;
+    @Input() public showIcon: boolean;
     @Input() public showRegistration: boolean;
 
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
@@ -29,7 +30,7 @@ export class AircraftPickerContainerComponent implements OnInit {
     }
 
 
-    protected onSearchAircraftClicked() {
+    protected onPickAircraftClicked() {
         this.appStore.dispatch(AircraftListActions.readList());
 
         const dialogRef = this.dialog.open(AircraftPickerDialogComponent, {

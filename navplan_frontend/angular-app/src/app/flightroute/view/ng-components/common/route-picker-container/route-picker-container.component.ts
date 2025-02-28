@@ -16,6 +16,7 @@ import {
 })
 export class RoutePickerContainerComponent implements OnInit {
     @Input() public labelText: string;
+    @Input() public showIcon: boolean;
     @Input() public showRouteName: boolean;
 
     protected readonly currentFlightroute$ = this.appStore.pipe(select(getFlightroute));

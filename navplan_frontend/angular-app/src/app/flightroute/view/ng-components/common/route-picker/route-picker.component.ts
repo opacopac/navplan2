@@ -12,6 +12,7 @@ export class RoutePickerComponent implements OnInit {
     @Input() currentRoute: Flightroute;
     @Input() labelText: string;
     @Input() showRouteName: boolean;
+    @Input() showIcon: boolean;
     @Output() pickFlightrouteClicked = new EventEmitter<void>();
 
     protected readonly ButtonColor = ButtonColor;

@@ -1,6 +1,12 @@
 <div class="wnb-container">
+    <app-route-picker-container
+        labelText="Route:"
+        [showIcon]="true"
+        [showRouteName]="true"
+    />
     <app-aircraft-picker-container
         labelText="Aircraft:"
+        [showIcon]="true"
         [showRegistration]="true"
     />
     @if (this.currentAircraft$ | async) {

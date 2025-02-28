@@ -11,6 +11,7 @@ import {PlanWnbTableComponent} from './ng-components/plan-wnb-table/plan-wnb-tab
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {PlanWnbStateModule} from '../state/plan-wnb-state.module';
+import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {PlanWnbStateModule} from '../state/plan-wnb-state.module';
         MatAccordion,
         MatExpansionModule,
         MatTableModule,
-        MatInputModule
+        MatInputModule,
+        FlightrouteViewModule
     ],
     declarations: [
         PlanWnbContainerComponent,

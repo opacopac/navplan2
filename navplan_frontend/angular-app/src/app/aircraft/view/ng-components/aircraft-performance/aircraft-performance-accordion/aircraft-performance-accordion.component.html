@@ -1,67 +1,68 @@
 <app-aircraft-picker-container
-  labelText="Aircraft:"
-  [showRegistration]="true"
-  />
+    labelText="Aircraft:"
+    [showIcon]="true"
+    [showRegistration]="true"
+/>
 
-  @if (this.currentAircraft) {
+@if (this.currentAircraft) {
     <div>
-      <mat-accordion displayMode="flat" multi="true">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title><i class="fa-solid fa-road"></i></mat-panel-title>
-            <mat-panel-description>Takeoff Ground Roll</mat-panel-description>
-          </mat-expansion-panel-header>
-          <app-aircraft-performance-table
-            [speedUnit]="this.speedUnit"
-            [weightUnit]="this.weightUnit"
-            [temperatureUnit]="this.temperatureUnit"
-            [distanceUnit]="this.distanceUnit"
-            [altitudeUnit]="this.altitudeUnit"
-            [distancePerformanceTable]="this.currentAircraft.perfTakeoffGroundRoll"
-            />
-          </mat-expansion-panel>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title><i class="fa-solid fa-plane-departure"></i></mat-panel-title>
-              <mat-panel-description>Takeoff Distance to 50 ft</mat-panel-description>
-            </mat-expansion-panel-header>
-            <app-aircraft-performance-table
-              [speedUnit]="this.speedUnit"
-              [weightUnit]="this.weightUnit"
-              [temperatureUnit]="this.temperatureUnit"
-              [distanceUnit]="this.distanceUnit"
-              [altitudeUnit]="this.altitudeUnit"
-              [distancePerformanceTable]="this.currentAircraft.perfTakeoffDist50ft"
-              />
-            </mat-expansion-panel>
+        <mat-accordion displayMode="flat" multi="true">
             <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title><i class="fa-solid fa-plane-arrival"></i></mat-panel-title>
-                <mat-panel-description>Landing Distance from 50 ft</mat-panel-description>
-              </mat-expansion-panel-header>
-              <app-aircraft-performance-table
-                [speedUnit]="this.speedUnit"
-                [weightUnit]="this.weightUnit"
-                [temperatureUnit]="this.temperatureUnit"
-                [distanceUnit]="this.distanceUnit"
-                [altitudeUnit]="this.altitudeUnit"
-                [distancePerformanceTable]="this.currentAircraft.perfLandingDist50ft"
-                />
-              </mat-expansion-panel>
-              <mat-expansion-panel>
                 <mat-expansion-panel-header>
-                  <mat-panel-title><i class="fa-solid fa-road"></i></mat-panel-title>
-                  <mat-panel-description>Landing Ground Roll</mat-panel-description>
+                    <mat-panel-title><i class="fa-solid fa-road"></i></mat-panel-title>
+                    <mat-panel-description>Takeoff Ground Roll</mat-panel-description>
                 </mat-expansion-panel-header>
                 <app-aircraft-performance-table
-                  [speedUnit]="this.speedUnit"
-                  [weightUnit]="this.weightUnit"
-                  [temperatureUnit]="this.temperatureUnit"
-                  [distanceUnit]="this.distanceUnit"
-                  [altitudeUnit]="this.altitudeUnit"
-                  [distancePerformanceTable]="this.currentAircraft.perfLandingGroundRoll"
-                  />
-                </mat-expansion-panel>
-              </mat-accordion>
-            </div>
-          }
+                    [speedUnit]="this.speedUnit"
+                    [weightUnit]="this.weightUnit"
+                    [temperatureUnit]="this.temperatureUnit"
+                    [distanceUnit]="this.distanceUnit"
+                    [altitudeUnit]="this.altitudeUnit"
+                    [distancePerformanceTable]="this.currentAircraft.perfTakeoffGroundRoll"
+                />
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title><i class="fa-solid fa-plane-departure"></i></mat-panel-title>
+                    <mat-panel-description>Takeoff Distance to 50 ft</mat-panel-description>
+                </mat-expansion-panel-header>
+                <app-aircraft-performance-table
+                    [speedUnit]="this.speedUnit"
+                    [weightUnit]="this.weightUnit"
+                    [temperatureUnit]="this.temperatureUnit"
+                    [distanceUnit]="this.distanceUnit"
+                    [altitudeUnit]="this.altitudeUnit"
+                    [distancePerformanceTable]="this.currentAircraft.perfTakeoffDist50ft"
+                />
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title><i class="fa-solid fa-plane-arrival"></i></mat-panel-title>
+                    <mat-panel-description>Landing Distance from 50 ft</mat-panel-description>
+                </mat-expansion-panel-header>
+                <app-aircraft-performance-table
+                    [speedUnit]="this.speedUnit"
+                    [weightUnit]="this.weightUnit"
+                    [temperatureUnit]="this.temperatureUnit"
+                    [distanceUnit]="this.distanceUnit"
+                    [altitudeUnit]="this.altitudeUnit"
+                    [distancePerformanceTable]="this.currentAircraft.perfLandingDist50ft"
+                />
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title><i class="fa-solid fa-road"></i></mat-panel-title>
+                    <mat-panel-description>Landing Ground Roll</mat-panel-description>
+                </mat-expansion-panel-header>
+                <app-aircraft-performance-table
+                    [speedUnit]="this.speedUnit"
+                    [weightUnit]="this.weightUnit"
+                    [temperatureUnit]="this.temperatureUnit"
+                    [distanceUnit]="this.distanceUnit"
+                    [altitudeUnit]="this.altitudeUnit"
+                    [distancePerformanceTable]="this.currentAircraft.perfLandingGroundRoll"
+                />
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+}
