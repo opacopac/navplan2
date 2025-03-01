@@ -3,11 +3,14 @@
         <i class="fa-solid fa-route icon"></i>&nbsp;&nbsp;
     }
     <span class="label-text">{{ this.labelText }}</span>&nbsp;
-    @if (this.currentRoute && this.showRouteName) {
-        <span>{{ this.currentRoute.title }}</span>
-    }
-    @if (!this.currentRoute && this.showRouteName) {
-        <span><i>(not selected)</i></span>
+    @if (this.showRouteName) {
+        @if (this.currentRoute && this.currentRoute.title && this.currentRoute.title.length > 0) {
+            <span>{{ this.currentRoute.title }}</span>
+        } @else if (this.currentRoute && this.currentRoute.waypoints.length > 0) {
+            <span><i>(no name)</i></span>
+        } @else {
+            <span><i>(not selected)</i></span>
+        }
     }
     <app-icon-button
         [color]="ButtonColor.GRAY"
