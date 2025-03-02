@@ -15,7 +15,6 @@ export class FlightrouteNameLoadSaveComponent implements OnInit {
     @Output() public flightrouteNameChange = new EventEmitter<string>();
     @Output() public loadFlightrouteClick = new EventEmitter<null>();
     @Output() public saveFlightrouteClick = new EventEmitter<null>();
-    @Output() public saveFlightrouteCopyClick = new EventEmitter<null>();
 
     public flightrouteNameFormGroup: FormGroup;
 
@@ -47,11 +46,6 @@ export class FlightrouteNameLoadSaveComponent implements OnInit {
     }
 
 
-    protected isSaveCopyButtonEnabled(): boolean {
-        return this.isSaveButtonEnabled() && this.flightrouteId > 0;
-    }
-
-
     protected onFlightrouteNameChange(name: string) {
         if (this.isValidFlightrouteName(name)) {
             this.flightrouteNameChange.emit(name);
@@ -66,11 +60,6 @@ export class FlightrouteNameLoadSaveComponent implements OnInit {
 
     protected onSaveFlightrouteClick() {
         this.saveFlightrouteClick.emit();
-    }
-
-
-    protected onSaveFlightrouteCopyClick() {
-        this.saveFlightrouteCopyClick.emit();
     }
 
 

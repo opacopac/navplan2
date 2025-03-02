@@ -43,7 +43,7 @@ export class RouteListPageComponent implements OnInit {
 
 
     protected onRouteDuplicated(routeId: number) {
-        // this.appStore.dispatch(FlightrouteCrudActions.saveDuplicate({aircraftId: routeId}));
+        this.appStore.dispatch(FlightrouteCrudActions.saveDuplicate({flightrouteId: routeId}));
     }
 
 

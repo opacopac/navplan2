@@ -9,6 +9,7 @@ use Navplan\Flightroute\Rest\Converter\RestCreateFlightrouteRequest;
 use Navplan\Flightroute\Rest\Converter\RestCreateSharedFlightrouteRequest;
 use Navplan\Flightroute\Rest\Converter\RestCreateSharedFlightrouteRequestConverter;
 use Navplan\Flightroute\Rest\Converter\RestDeleteFlightrouteRequest;
+use Navplan\Flightroute\Rest\Converter\RestDuplicateFlightrouteRequest;
 use Navplan\Flightroute\Rest\Converter\RestFlightrouteResponse;
 use Navplan\Flightroute\Rest\Converter\RestReadFlightrouteListRequest;
 use Navplan\Flightroute\Rest\Converter\RestReadFlightrouteListResponse;
@@ -58,6 +59,13 @@ class FlightrouteController implements IRestController {
                     // create shared flightroute
                     $request = RestCreateSharedFlightrouteRequest::fromRest($this->httpService->getPostArgs());
                     $flightroute = $this->flightrouteService->createShared($request->flightroute);
+                    $response = new RestFlightrouteResponse($flightroute);
+                    $this->httpService->sendArrayResponse($response->toRest());
+                } elseif ($this->httpService->hasGetArg(RestDuplicateFlightrouteRequest::ARG_ACTION)
+                    && $this->httpService->getGetArgs()[RestDuplicateFlightrouteRequest::ARG_ACTION] === RestDuplicateFlightrouteRequest::VAL_ACTION_DUPLICATE) {
+                    // duplicate flightroute
+                    $request = RestDuplicateFlightrouteRequest::fromRest($this->httpService->getGetArgs(), $this->httpService->getPostArgs());
+                    $flightroute = $this->flightrouteService->duplicate($request->flightrouteId, $request->token);
                     $response = new RestFlightrouteResponse($flightroute);
                     $this->httpService->sendArrayResponse($response->toRest());
                 } else {

@@ -55,6 +55,18 @@ class FlightrouteService implements IFlightrouteService
     }
 
 
+
+    public function duplicate(int $flightrouteId, string $token): Flightroute
+    {
+        $user = $this->userService->getUserOrThrow($token);
+        $route = $this->flightrouteByIdQuery->read($flightrouteId, $user->id);
+        $route->id = 0;
+        $route->title .= " (copy)";
+
+        return $this->create($route, $token);
+    }
+
+
     function delete(int $flightrouteId, string $token): bool
     {
         $user = $this->userService->getUserOrThrow($token);

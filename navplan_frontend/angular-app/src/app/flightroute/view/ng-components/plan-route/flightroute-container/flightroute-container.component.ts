@@ -83,11 +83,6 @@ export class FlightrouteContainerComponent implements OnInit {
     }
 
 
-    protected onSaveFlightrouteCopyClick() {
-        this.appStore.dispatch(FlightrouteCrudActions.saveDuplicate());
-    }
-
-
     protected onEditWaypointClick(editWaypoint: Waypoint) {
         const dialogRef = this.dialog.open(EditWaypointDialogComponent, {
             // height: '800px',

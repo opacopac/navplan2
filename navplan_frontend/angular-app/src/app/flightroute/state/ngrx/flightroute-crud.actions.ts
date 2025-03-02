@@ -11,6 +11,7 @@ export class FlightrouteCrudActions {
     );
     public static readonly saveDuplicate = createAction(
         '[Flightroute Page] Save flightroute duplicate',
+        props<{ flightrouteId: number }>()
     );
     public static readonly delete = createAction(
         '[Flightroute Page] Delete flightroute',

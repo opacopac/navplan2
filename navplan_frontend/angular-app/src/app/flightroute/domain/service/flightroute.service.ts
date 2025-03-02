@@ -27,8 +27,8 @@ export class FlightrouteService implements IFlightrouteService {
     }
 
 
-    public duplicateFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
-        return this.flightrouteRepo.duplicateFlightroute(flightroute, user);
+    public duplicateFlightroute(flightrouteId: number, user: User): Observable<Flightroute> {
+        return this.flightrouteRepo.duplicateFlightroute(flightrouteId, user);
     }
 
 

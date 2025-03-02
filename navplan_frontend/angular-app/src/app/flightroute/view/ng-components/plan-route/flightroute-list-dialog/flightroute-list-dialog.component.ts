@@ -37,11 +37,6 @@ export class FlightrouteListDialogComponent implements OnInit, OnDestroy {
     }
 
 
-    public onDuplicateRouteClick(id: number) {
-        this.appStore.dispatch(FlightrouteCrudActions.saveDuplicate());
-    }
-
-
     public onDeleteRouteClick(id: number) {
         this.appStore.dispatch(FlightrouteCrudActions.delete({flightrouteId: id}));
     }

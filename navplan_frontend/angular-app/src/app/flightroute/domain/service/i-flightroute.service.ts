@@ -11,7 +11,7 @@ export abstract class IFlightrouteService {
 
     public abstract saveFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute>;
 
-    public abstract duplicateFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute>;
+    public abstract duplicateFlightroute(flightrouteId: number, user: User): Observable<Flightroute>;
 
     public abstract deleteFlightroute(flightrouteId: number, user: User): Observable<boolean>;
 

@@ -1,10 +1,9 @@
 <div class="flightroute-dialog-container">
-    <h3>Saved Routes</h3>
+    <h3>Flightroutes</h3>
 
     <app-flightroute-list
         [flightrouteList]="this.flightrouteList$ | async"
         (loadRouteClicked)="this.onLoadRouteClick($event)"
-        (duplicateRouteClicked)="this.onDuplicateRouteClick($event)"
         (deleteRouteClicked)="this.onDeleteRouteClick($event)">
     </app-flightroute-list>
 

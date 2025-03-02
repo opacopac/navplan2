@@ -11,6 +11,8 @@ interface IFlightrouteService {
 
     function createShared(Flightroute $flightroute): Flightroute;
 
+    function duplicate(int $flightrouteId, string $token): Flightroute;
+
     function delete(int $flightrouteId, string $token): bool;
 
     function read(int $flightrouteId, string $token): Flightroute;

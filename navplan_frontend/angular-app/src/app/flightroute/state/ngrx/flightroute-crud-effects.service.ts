@@ -66,9 +66,9 @@ export class FlightRouteCrudEffects {
 
     saveDuplicateFlightrouteAction$ = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteCrudActions.saveDuplicate),
-        withLatestFrom(this.flightroute$, this.currentUser$),
-        filter(([action, flightroute, currentUser]) => flightroute !== undefined && currentUser !== undefined),
-        switchMap(([action, flightroute, currentUser]) => this.flightrouteService.duplicateFlightroute(flightroute, currentUser).pipe(
+        withLatestFrom(this.currentUser$),
+        filter(([action, currentUser]) => currentUser !== undefined),
+        switchMap(([action, currentUser]) => this.flightrouteService.duplicateFlightroute(action.flightrouteId, currentUser).pipe(
             map(route => [
                 FlightrouteListActions.readList(),
                 FlightrouteActions.update({flightroute: route}),
