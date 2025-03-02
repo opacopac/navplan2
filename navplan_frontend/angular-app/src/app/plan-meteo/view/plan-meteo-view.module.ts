@@ -11,6 +11,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
 import {PlanMeteoDomainModule} from '../domain/plan-meteo-domain.module';
 import {PlanMeteoStateModule} from '../state/plan-meteo-state.module';
+import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {PlanMeteoStateModule} from '../state/plan-meteo-state.module';
         MatInputModule,
         MatTableModule,
         MetarTafViewModule,
+        FlightrouteViewModule,
     ],
     declarations: [
         RouteMeteoContainerComponent,

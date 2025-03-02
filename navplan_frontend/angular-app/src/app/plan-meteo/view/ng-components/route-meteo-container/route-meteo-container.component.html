@@ -1,15 +1,19 @@
-<div class="main-container">
+<div class="meteo-container">
+    <app-route-picker-container
+        labelText="Route:"
+        [showIcon]="true"
+        [showRouteName]="true"
+    />
     <app-route-meteo-radius
         [routeMaxMeteoRadius]="this.maxRadius$ | async"
         [distanceUnit]="this.distanceUnit$ | async"
         (radiusChanged)="this.onMaxRadiusChanged($event)"
         class="max-radius-field"
-    ></app-route-meteo-radius>
-
+    />
     <app-route-meteo-table
         [routeMetarTafList]="this.routeMetarTafs$ | async"
         [showDistance]="false"
         [noDataText]="'(empty)'"
         [distanceUnit]="this.distanceUnit$ | async"
-    ></app-route-meteo-table>
+    />
 </div>

@@ -1,11 +1,11 @@
-.main-container {
+.meteo-container {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
 }
 
 .max-radius-field {
     margin-top: 10px;
     margin-right: 0;
     margin-bottom: 0;
-    align-self: flex-end;
 }

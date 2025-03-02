@@ -30,11 +30,6 @@ export class RouteMeteoContainerComponent implements OnInit {
     }
 
 
-    public getColumnKeys(): string[] {
-        return ['site', 'dist', 'metartaf'];
-    }
-
-
     public onMaxRadiusChanged(radius: Length): void {
         this.appStore.dispatch(RouteMeteoActions.maxRadiusChanged({maxRadius: radius}));
     }

@@ -9,6 +9,7 @@ import {RouteMeteoState} from '../state-model/route-meteo-state';
 import {Flightroute} from '../../../flightroute/domain/model/flightroute';
 import {getFlightroute} from '../../../flightroute/state/ngrx/flightroute.selectors';
 import {IRouteMeteoService} from '../../domain/service/i-route-meteo.service';
+import {FlightrouteActions} from '../../../flightroute/state/ngrx/flightroute.actions';
 
 
 @Injectable()
@@ -26,7 +27,7 @@ export class RouteMeteoEffects {
 
 
     updateRouteMetarTafAction$ = createEffect(() => this.actions$.pipe(
-        ofType(RouteMeteoActions.update, RouteMeteoActions.maxRadiusChanged),
+        ofType(RouteMeteoActions.update, RouteMeteoActions.maxRadiusChanged, FlightrouteActions.update),
         withLatestFrom(this.flightroute$, this.routeMeteoState$),
         distinct(([action, route, meteoState]) => [route, meteoState]), // TODO: timeout
         switchMap(([action, route, meteoState]) => this.routeMeteoService.getRouteMetarTafs(
