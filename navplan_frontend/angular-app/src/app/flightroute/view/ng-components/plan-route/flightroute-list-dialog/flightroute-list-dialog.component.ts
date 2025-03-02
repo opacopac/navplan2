@@ -37,11 +37,6 @@ export class FlightrouteListDialogComponent implements OnInit, OnDestroy {
     }
 
 
-    public onDeleteRouteClick(id: number) {
-        this.appStore.dispatch(FlightrouteCrudActions.delete({flightrouteId: id}));
-    }
-
-
     public onCancelClick() {
         this.dialogRef.close();
     }
