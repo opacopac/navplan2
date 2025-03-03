@@ -29,7 +29,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         const url: string = environment.aircraftServiceUrl + '?token=' + user.token;
 
         return this.http
-            .get<IRestAircraftListResponse>(url, {observe: 'response'})
+            .get<IRestAircraftListResponse>(url, {observe: 'response', withCredentials: true})
             .pipe(
                 map((response) => RestAircraftListConverter.fromRest(response.body)),
                 catchError(err => {
@@ -48,7 +48,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         const url = environment.aircraftServiceUrl + '?id=' + aircraftId + '&token=' + user.token;
 
         return this.http
-            .get<IRestAircraftResponse>(url, {observe: 'response'})
+            .get<IRestAircraftResponse>(url, {observe: 'response', withCredentials: true})
             .pipe(
                 map((response) => RestAircraftResponseConverter.fromRest(response.body)),
                 catchError(err => {
@@ -66,7 +66,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         };
         if (aircraft.id > 0) {
             return this.http
-                .put<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                .put<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response', withCredentials: true}).pipe(
                     map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
                     catchError(err => {
                         LoggingService.logResponseError('ERROR updating aircraft', err);
@@ -75,7 +75,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
                 );
         } else {
             return this.http
-                .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response'})
+                .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response', withCredentials: true})
                 .pipe(
                     map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
                     catchError(err => {
@@ -93,7 +93,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
             token: user.token
         };
         return this.http
-            .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response'})
+            .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response', withCredentials: true})
             .pipe(
                 map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
                 catchError(err => {
@@ -108,7 +108,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         const url = environment.aircraftServiceUrl + '?id=' + aircraftId + '&token=' + user.token;
 
         return this.http
-            .delete<IRestSuccessResponse>(url, {observe: 'response'})
+            .delete<IRestSuccessResponse>(url, {observe: 'response', withCredentials: true})
             .pipe(
                 map(response => response.body.success),
                 catchError(err => {
