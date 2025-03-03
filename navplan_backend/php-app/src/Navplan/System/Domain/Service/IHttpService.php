@@ -10,6 +10,8 @@ interface IHttpService {
 
     function getPostArgs(): array;
 
+    function getCookies(): array;
+
     function getCallbackArg(string $key = "callback");
 
     function hasGetArg(string $key): bool;

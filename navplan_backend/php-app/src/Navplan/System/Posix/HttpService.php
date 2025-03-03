@@ -26,6 +26,11 @@ class HttpService implements IHttpService {
     }
 
 
+    public function getCookies(): array {
+        return $_COOKIE;
+    }
+
+
     function getCallbackArg(string $key = "callback"): ?string {
         return $this->getGetArgs()[$key] ?? NULL;
     }

@@ -8,12 +8,10 @@ use Navplan\Common\StringNumberHelper;
 class RestDeleteAircraftRequest
 {
     const ARG_ID = "id";
-    const ARG_TOKEN = "token";
 
 
     public function __construct(
-        public int $aircraftId,
-        public string $token
+        public int $aircraftId
     )
     {
     }
@@ -22,8 +20,7 @@ class RestDeleteAircraftRequest
     public static function fromRest(array $args): RestDeleteAircraftRequest
     {
         return new RestDeleteAircraftRequest(
-            StringNumberHelper::parseIntOrError($args, self::ARG_ID),
-            StringNumberHelper::parseStringOrError($args, self::ARG_TOKEN)
+            StringNumberHelper::parseIntOrError($args, self::ARG_ID)
         );
     }
 }
