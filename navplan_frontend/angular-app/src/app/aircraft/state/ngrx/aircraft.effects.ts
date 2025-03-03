@@ -34,9 +34,7 @@ export class AircraftEffects {
         ofType(AircraftListActions.readList),
         withLatestFrom(this.userState$),
         filter(([action, userState]) => userState.currentUser !== undefined),
-        switchMap(([action, userState]) => this.aircraftService.readAircraftList(
-            userState.currentUser
-        ).pipe(
+        switchMap(([action, userState]) => this.aircraftService.readAircraftList().pipe(
             map(aircraftList => AircraftListActions.readListSuccessful({aircraftList: aircraftList})),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading aircraft list: ', error)
@@ -54,15 +52,11 @@ export class AircraftEffects {
 
     selectAircraftAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftListActions.selectAircraft),
-        withLatestFrom(this.userState$),
-        switchMap(([action, userState]) => this.aircraftService.readAircraft(
-            action.aircraftId,
-            userState.currentUser
-        ).pipe(
+        switchMap((action) => this.aircraftService.readAircraft(action.aircraftId).pipe(
             switchMap(aircraft => [
                 AircraftListActions.selectAircraftSuccess({aircraft: aircraft}),
                 MessageActions.showMessage({
-                    message: Message.success('Aircraft ' + aircraft.registration +  ' selected.')
+                    message: Message.success('Aircraft ' + aircraft.registration + ' selected.')
                 })
             ]),
             catchError(error => of(MessageActions.showMessage({
@@ -73,15 +67,11 @@ export class AircraftEffects {
 
     editAircraftAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftListActions.editAircraft),
-        withLatestFrom(this.userState$),
-        switchMap(([action, userState]) => this.aircraftService.readAircraft(
-            action.aircraftId,
-            userState.currentUser
-        ).pipe(
+        switchMap((action) => this.aircraftService.readAircraft(action.aircraftId).pipe(
             switchMap(aircraft => [
                 AircraftListActions.selectAircraftSuccess({aircraft: aircraft}),
                 MessageActions.showMessage({
-                    message: Message.success('Aircraft ' + aircraft.registration +  ' selected.')
+                    message: Message.success('Aircraft ' + aircraft.registration + ' selected.')
                 })
             ]),
             tap(() => this.router.navigate(['/aircraft/aircraft'])),
@@ -93,11 +83,8 @@ export class AircraftEffects {
 
     saveAircraftAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftCrudActions.saveAircraft),
-        withLatestFrom(this.aircraftState$, this.userState$),
-        switchMap(([action, aircraftState, userState]) => this.aircraftService.saveAircraft(
-            aircraftState.currentAircraft,
-            userState.currentUser
-        ).pipe(
+        withLatestFrom(this.aircraftState$),
+        switchMap(([action, aircraftState]) => this.aircraftService.saveAircraft(aircraftState.currentAircraft).pipe(
             switchMap(aircraft => [
                 AircraftCrudActions.saveAircraftSuccess({aircraft: aircraft}),
                 MessageActions.showMessage({
@@ -112,11 +99,7 @@ export class AircraftEffects {
 
     duplicateAircraftAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftCrudActions.duplicateAircraft),
-        withLatestFrom(this.userState$),
-        switchMap(([action, userState]) => this.aircraftService.duplicateAircraft(
-            action.aircraftId,
-            userState.currentUser
-        ).pipe(
+        switchMap((action) => this.aircraftService.duplicateAircraft(action.aircraftId).pipe(
             switchMap(aircraft => [
                 AircraftCrudActions.saveAircraftSuccess({aircraft: aircraft}),
                 AircraftListActions.readList(),
@@ -132,11 +115,7 @@ export class AircraftEffects {
 
     deleteAircraftAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftCrudActions.deleteAircraft),
-        withLatestFrom(this.userState$),
-        switchMap(([action, userState]) => this.aircraftService.deleteAircraft(
-            action.aircraftId,
-            userState.currentUser
-        ).pipe(
+        switchMap((action) => this.aircraftService.deleteAircraft(action.aircraftId).pipe(
             switchMap((success) => [
                 AircraftCrudActions.deleteAircraftSuccess({aircraftId: action.aircraftId}),
                 AircraftListActions.readList(),

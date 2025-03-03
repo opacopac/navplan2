@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
-import {User} from '../../../user/domain/model/user';
 import {AircraftListEntry} from '../../domain/model/aircraft-list-entry';
 import {Aircraft} from '../../domain/model/aircraft';
 import {IAircraftRepoService} from '../../domain/service/i-aircraft-repo.service';
@@ -25,8 +24,8 @@ export class RestAircraftRepoService implements IAircraftRepoService {
 
     // region aircraft list
 
-    public readAircraftList(user: User): Observable<AircraftListEntry[]> {
-        const url: string = environment.aircraftServiceUrl + '?token=' + user.token;
+    public readAircraftList(): Observable<AircraftListEntry[]> {
+        const url: string = environment.aircraftServiceUrl;
 
         return this.http
             .get<IRestAircraftListResponse>(url, {observe: 'response', withCredentials: true})
@@ -44,8 +43,8 @@ export class RestAircraftRepoService implements IAircraftRepoService {
 
     // region aircraft CRUD
 
-    public readAircraft(aircraftId: number, user: User): Observable<Aircraft> {
-        const url = environment.aircraftServiceUrl + '?id=' + aircraftId + '&token=' + user.token;
+    public readAircraft(aircraftId: number): Observable<Aircraft> {
+        const url = environment.aircraftServiceUrl + '?id=' + aircraftId;
 
         return this.http
             .get<IRestAircraftResponse>(url, {observe: 'response', withCredentials: true})
@@ -59,14 +58,16 @@ export class RestAircraftRepoService implements IAircraftRepoService {
     }
 
 
-    public saveAircraft(aircraft: Aircraft, user: User): Observable<Aircraft> {
+    public saveAircraft(aircraft: Aircraft): Observable<Aircraft> {
         const requestBody = {
-            aircraft: RestAircraftConverter.toRest(aircraft),
-            token: user.token
+            aircraft: RestAircraftConverter.toRest(aircraft)
         };
         if (aircraft.id > 0) {
             return this.http
-                .put<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response', withCredentials: true}).pipe(
+                .put<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {
+                    observe: 'response',
+                    withCredentials: true
+                }).pipe(
                     map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
                     catchError(err => {
                         LoggingService.logResponseError('ERROR updating aircraft', err);
@@ -75,7 +76,10 @@ export class RestAircraftRepoService implements IAircraftRepoService {
                 );
         } else {
             return this.http
-                .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response', withCredentials: true})
+                .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {
+                    observe: 'response',
+                    withCredentials: true
+                })
                 .pipe(
                     map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
                     catchError(err => {
@@ -87,13 +91,15 @@ export class RestAircraftRepoService implements IAircraftRepoService {
     }
 
 
-    public duplicateAircraft(aircraftId: number, user: User): Observable<Aircraft> {
+    public duplicateAircraft(aircraftId: number): Observable<Aircraft> {
         const requestBody = {
-            id: aircraftId,
-            token: user.token
+            id: aircraftId
         };
         return this.http
-            .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {observe: 'response', withCredentials: true})
+            .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {
+                observe: 'response',
+                withCredentials: true
+            })
             .pipe(
                 map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
                 catchError(err => {
@@ -104,8 +110,8 @@ export class RestAircraftRepoService implements IAircraftRepoService {
     }
 
 
-    public deleteAircraft(aircraftId: number, user: User): Observable<boolean> {
-        const url = environment.aircraftServiceUrl + '?id=' + aircraftId + '&token=' + user.token;
+    public deleteAircraft(aircraftId: number): Observable<boolean> {
+        const url = environment.aircraftServiceUrl + '?id=' + aircraftId;
 
         return this.http
             .delete<IRestSuccessResponse>(url, {observe: 'response', withCredentials: true})

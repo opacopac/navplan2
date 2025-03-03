@@ -1,5 +1,4 @@
 import {Observable} from 'rxjs';
-import {User} from '../../../user/domain/model/user';
 import {Injectable} from '@angular/core';
 import {IAircraftService} from './i-aircraft.service';
 import {IAircraftRepoService} from './i-aircraft-repo.service';
@@ -13,27 +12,27 @@ export class AircraftService implements IAircraftService {
     }
 
 
-    public readAircraftList(user: User): Observable<AircraftListEntry[]> {
-        return this.aircraftRepo.readAircraftList(user);
+    public readAircraftList(): Observable<AircraftListEntry[]> {
+        return this.aircraftRepo.readAircraftList();
     }
 
 
-    public readAircraft(aircraftId: number, user: User): Observable<Aircraft> {
-        return this.aircraftRepo.readAircraft(aircraftId, user);
+    public readAircraft(aircraftId: number): Observable<Aircraft> {
+        return this.aircraftRepo.readAircraft(aircraftId);
     }
 
 
-    public saveAircraft(aircraft: Aircraft, user: User): Observable<Aircraft> {
-        return this.aircraftRepo.saveAircraft(aircraft, user);
+    public saveAircraft(aircraft: Aircraft): Observable<Aircraft> {
+        return this.aircraftRepo.saveAircraft(aircraft);
     }
 
 
-    public duplicateAircraft(aircraftId: number, user: User): Observable<Aircraft> {
-        return this.aircraftRepo.duplicateAircraft(aircraftId, user);
+    public duplicateAircraft(aircraftId: number): Observable<Aircraft> {
+        return this.aircraftRepo.duplicateAircraft(aircraftId);
     }
 
 
-    public deleteAircraft(aircraftId: number, user: User): Observable<boolean> {
-        return this.aircraftRepo.deleteAircraft(aircraftId, user);
+    public deleteAircraft(aircraftId: number): Observable<boolean> {
+        return this.aircraftRepo.deleteAircraft(aircraftId);
     }
 }
