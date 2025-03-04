@@ -28,6 +28,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
 
     public readFlightrouteList(user: User): Observable<FlightrouteListEntry[]> {
         const url: string = environment.flightrouteServiceUrl + '?token=' + user.token;
+
         return this.http
             .get<IRestFlightrouteListResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
@@ -64,6 +65,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
             navplan: RestFlightrouteConverter.toRest(flightroute),
             token: user.token
         };
+
         if (flightroute.id > 0) {
             return this.http
                 .put<IRestFlightrouteResponse>(
@@ -92,6 +94,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
             navplan: null,
             token: user.token
         };
+
         return this.http
             .post<IRestFlightrouteResponse>(
                 url,
