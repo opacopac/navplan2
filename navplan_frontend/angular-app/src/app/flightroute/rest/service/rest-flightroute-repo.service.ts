@@ -27,7 +27,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
     // region flightroute list
 
     public readFlightrouteList(user: User): Observable<FlightrouteListEntry[]> {
-        const url: string = environment.flightrouteServiceUrl + '?token=' + user.token;
+        const url: string = environment.flightrouteServiceUrl;
 
         return this.http
             .get<IRestFlightrouteListResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
@@ -46,7 +46,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
     // region flightroute CRUD
 
     public readFlightroute(flightrouteId: number, user: User): Observable<Flightroute> {
-        const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId + '&token=' + user.token;
+        const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId;
 
         return this.http
             .get<IRestFlightrouteResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
@@ -61,10 +61,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
 
 
     public saveFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
-        const requestBody = {
-            navplan: RestFlightrouteConverter.toRest(flightroute),
-            token: user.token
-        };
+        const requestBody = {navplan: RestFlightrouteConverter.toRest(flightroute)};
 
         if (flightroute.id > 0) {
             return this.http
@@ -90,10 +87,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
 
     public duplicateFlightroute(flightrouteId: number, user: User): Observable<Flightroute> {
         const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId + '&action=duplicate';
-        const requestBody = {
-            navplan: null,
-            token: user.token
-        };
+        const requestBody = {navplan: null};
 
         return this.http
             .post<IRestFlightrouteResponse>(
@@ -107,7 +101,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
 
 
     public deleteFlightroute(flightrouteId: number, user: User): Observable<boolean> {
-        const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId + '&token=' + user.token;
+        const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId;
 
         return this.http
             .delete<IRestSuccessResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
