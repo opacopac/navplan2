@@ -15,6 +15,7 @@ import {RestExportKmlRequestConverter} from '../model/rest-export-kml-request-co
 import {RestExportGpxRequestConverter} from '../model/rest-export-gpx-request-converter';
 import {RestExportFplRequestConverter} from '../model/rest-export-fpl-request-converter';
 import {RestExportExcelRequestConverter} from '../model/rest-export-excel-request-converter';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -26,7 +27,11 @@ export class ExporterRestService implements IExporterService {
     exportPdf(flightroute: Flightroute): Observable<ExportedFile> {
         const requestBody = RestExportPdfRequestConverter.toRest(flightroute);
         return this.http
-            .post<IRestExportedFile>(environment.exporterBaseUrl, JSON.stringify(requestBody), { observe: 'response' }).pipe(
+            .post<IRestExportedFile>(
+                environment.exporterBaseUrl,
+                JSON.stringify(requestBody),
+                HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS
+            ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR exporting PDF', err);
@@ -39,7 +44,11 @@ export class ExporterRestService implements IExporterService {
     exportExcel(flightroute: Flightroute): Observable<ExportedFile> {
         const requestBody = RestExportExcelRequestConverter.toRest(flightroute);
         return this.http
-            .post<IRestExportedFile>(environment.exporterBaseUrl, JSON.stringify(requestBody), { observe: 'response' }).pipe(
+            .post<IRestExportedFile>(
+                environment.exporterBaseUrl,
+                JSON.stringify(requestBody),
+                HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS
+            ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR exporting Excel', err);
@@ -52,7 +61,11 @@ export class ExporterRestService implements IExporterService {
     exportKml(flightroute: Flightroute, track: Track): Observable<ExportedFile> {
         const requestBody = RestExportKmlRequestConverter.toRest(flightroute, track);
         return this.http
-            .post<IRestExportedFile>(environment.exporterBaseUrl, JSON.stringify(requestBody), { observe: 'response' }).pipe(
+            .post<IRestExportedFile>(
+                environment.exporterBaseUrl,
+                JSON.stringify(requestBody),
+                HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS
+            ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR exporting KML', err);
@@ -65,7 +78,11 @@ export class ExporterRestService implements IExporterService {
     exportGpx(flightroute: Flightroute, track: Track): Observable<ExportedFile> {
         const requestBody = RestExportGpxRequestConverter.toRest(flightroute, track);
         return this.http
-            .post<IRestExportedFile>(environment.exporterBaseUrl, JSON.stringify(requestBody), { observe: 'response' }).pipe(
+            .post<IRestExportedFile>(
+                environment.exporterBaseUrl,
+                JSON.stringify(requestBody),
+                HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS
+            ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR exporting GPX', err);
@@ -78,7 +95,11 @@ export class ExporterRestService implements IExporterService {
     exportFpl(flightroute: Flightroute): Observable<ExportedFile> {
         const requestBody = RestExportFplRequestConverter.toRest(flightroute);
         return this.http
-            .post<IRestExportedFile>(environment.exporterBaseUrl, JSON.stringify(requestBody), { observe: 'response' }).pipe(
+            .post<IRestExportedFile>(
+                environment.exporterBaseUrl,
+                JSON.stringify(requestBody),
+                HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS
+            ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response.body)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR exporting FPL', err);

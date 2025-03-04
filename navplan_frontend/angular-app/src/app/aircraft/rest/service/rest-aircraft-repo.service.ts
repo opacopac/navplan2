@@ -13,6 +13,7 @@ import {IRestAircraftResponse} from './i-rest-aircraft-response';
 import {RestAircraftResponseConverter} from '../converter/rest-aircraft-response-converter';
 import {RestAircraftConverter} from '../converter/rest-aircraft-converter';
 import {IRestSuccessResponse} from '../../../flightroute/rest/model/i-rest-success-response';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -28,7 +29,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         const url: string = environment.aircraftServiceUrl;
 
         return this.http
-            .get<IRestAircraftListResponse>(url, {observe: 'response', withCredentials: true})
+            .get<IRestAircraftListResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
                 map((response) => RestAircraftListConverter.fromRest(response.body)),
                 catchError(err => {
@@ -47,7 +48,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         const url = environment.aircraftServiceUrl + '?id=' + aircraftId;
 
         return this.http
-            .get<IRestAircraftResponse>(url, {observe: 'response', withCredentials: true})
+            .get<IRestAircraftResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
                 map((response) => RestAircraftResponseConverter.fromRest(response.body)),
                 catchError(err => {
@@ -64,10 +65,11 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         };
         if (aircraft.id > 0) {
             return this.http
-                .put<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {
-                    observe: 'response',
-                    withCredentials: true
-                }).pipe(
+                .put<IRestAircraftResponse>(
+                    environment.aircraftServiceUrl,
+                    JSON.stringify(requestBody),
+                    HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+                ).pipe(
                     map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
                     catchError(err => {
                         LoggingService.logResponseError('ERROR updating aircraft', err);
@@ -76,11 +78,11 @@ export class RestAircraftRepoService implements IAircraftRepoService {
                 );
         } else {
             return this.http
-                .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {
-                    observe: 'response',
-                    withCredentials: true
-                })
-                .pipe(
+                .post<IRestAircraftResponse>(
+                    environment.aircraftServiceUrl,
+                    JSON.stringify(requestBody),
+                    HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+                ).pipe(
                     map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
                     catchError(err => {
                         LoggingService.logResponseError('ERROR creating aircraft', err);
@@ -96,11 +98,11 @@ export class RestAircraftRepoService implements IAircraftRepoService {
             id: aircraftId
         };
         return this.http
-            .post<IRestAircraftResponse>(environment.aircraftServiceUrl, JSON.stringify(requestBody), {
-                observe: 'response',
-                withCredentials: true
-            })
-            .pipe(
+            .post<IRestAircraftResponse>(
+                environment.aircraftServiceUrl,
+                JSON.stringify(requestBody),
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            ).pipe(
                 map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR duplicating aircraft', err);
@@ -114,7 +116,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         const url = environment.aircraftServiceUrl + '?id=' + aircraftId;
 
         return this.http
-            .delete<IRestSuccessResponse>(url, {observe: 'response', withCredentials: true})
+            .delete<IRestSuccessResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
                 map(response => response.body.success),
                 catchError(err => {

@@ -9,6 +9,7 @@ import {AirportCircuit} from '../../domain/model/airport-circuit';
 import {RestAirportCircuitConverter} from '../converter/rest-airport-circuit-converter';
 import {IRestAirportCircuit} from '../model/i-rest-airport-circuit';
 import {IAirportCircuitRepoService} from '../../domain/service/i-airport-circuit-repo.service';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -26,7 +27,7 @@ export class AirportCircuitRestAdapterService implements IAirportCircuitRepoServ
             + '&zoom=' + zoom;
 
         return this.http
-            .get<IRestAirportCircuit[]>(url, {observe: 'response'})
+            .get<IRestAirportCircuit[]>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
             .pipe(
                 map((response) => RestAirportCircuitConverter.fromRestList(response.body)),
                 catchError(err => {

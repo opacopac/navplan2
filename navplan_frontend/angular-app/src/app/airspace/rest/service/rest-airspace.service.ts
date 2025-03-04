@@ -9,6 +9,7 @@ import {Airspace} from '../../domain/model/airspace';
 import {IRestAirspace} from '../model/i-rest-airspace';
 import {RestAirspaceConverter} from '../model/rest-airspace-converter';
 import {IAirspaceRepo} from '../../domain/service/i-airspace-repo';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -26,7 +27,7 @@ export class RestAirspaceService implements IAirspaceRepo {
             + '&zoom=' + zoom;
 
         return this.http
-            .get<IRestAirspace[]>(url, {observe: 'response'})
+            .get<IRestAirspace[]>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
             .pipe(
                 map((response) => RestAirspaceConverter.fromRestList(response.body)),
                 catchError(err => {

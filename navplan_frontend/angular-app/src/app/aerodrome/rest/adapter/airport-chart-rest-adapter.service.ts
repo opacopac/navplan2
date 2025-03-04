@@ -10,6 +10,7 @@ import {RestAirportChartConverter} from '../converter/rest-airport-chart-convert
 import {IAirportChartRepoService} from '../../domain/service/i-airport-chart-repo.service';
 import {RestAirportChart2Converter} from '../converter/rest-airport-chart2-converter';
 import {IRestAirportChart2} from '../model/i-rest-airport-chart2';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -22,7 +23,7 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
         const url: string = environment.airportServiceUrl + '?action=getChartById&id=' + chartId;
 
         return this.http
-            .get<IRestAirportChart>(url, {observe: 'response'})
+            .get<IRestAirportChart>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
             .pipe(
                 map((response) => RestAirportChartConverter.fromRest(response.body)),
                 catchError(err => {
@@ -37,7 +38,7 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
         const url: string = environment.airportServiceUrl + '?action=getChart2ById&id=' + chartId;
 
         return this.http
-            .get<IRestAirportChart2>(url, {observe: 'response'})
+            .get<IRestAirportChart2>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
             .pipe(
                 map((response) => RestAirportChart2Converter.fromRest(response.body)),
                 catchError(err => {

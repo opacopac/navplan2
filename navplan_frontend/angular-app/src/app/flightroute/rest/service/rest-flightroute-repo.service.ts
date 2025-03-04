@@ -14,6 +14,7 @@ import {RestFlightrouteListConverter} from '../converter/rest-flightroute-list-c
 import {IFlightrouteRepoService} from '../../domain/service/i-flightroute-repo.service';
 import {RestFlightrouteConverter} from '../converter/rest-flightroute-converter';
 import {IRestSuccessResponse} from '../model/i-rest-success-response';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -28,7 +29,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
     public readFlightrouteList(user: User): Observable<FlightrouteListEntry[]> {
         const url: string = environment.flightrouteServiceUrl + '?token=' + user.token;
         return this.http
-            .get<IRestFlightrouteListResponse>(url, {observe: 'response'})
+            .get<IRestFlightrouteListResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
                 map((response) => RestFlightrouteListConverter.fromRest(response.body)),
                 catchError(err => {
@@ -45,10 +46,9 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
 
     public readFlightroute(flightrouteId: number, user: User): Observable<Flightroute> {
         const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId + '&token=' + user.token;
-        // let message: string;
 
         return this.http
-            .get<IRestFlightrouteResponse>(url, {observe: 'response'})
+            .get<IRestFlightrouteResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
                 map((response) => RestFlightrouteResponseConverter.fromRest(response.body)),
                 catchError(err => {
@@ -66,12 +66,20 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
         };
         if (flightroute.id > 0) {
             return this.http
-                .put<IRestFlightrouteResponse>(environment.flightrouteServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                .put<IRestFlightrouteResponse>(
+                    environment.flightrouteServiceUrl,
+                    JSON.stringify(requestBody),
+                    HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+                ).pipe(
                     map(response => RestFlightrouteConverter.fromRest(response.body.navplan))
                 );
         } else {
             return this.http
-                .post<IRestFlightrouteResponse>(environment.flightrouteServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                .post<IRestFlightrouteResponse>(
+                    environment.flightrouteServiceUrl,
+                    JSON.stringify(requestBody),
+                    HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+                ).pipe(
                     map(response => RestFlightrouteConverter.fromRest(response.body.navplan))
                 );
         }
@@ -85,7 +93,11 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
             token: user.token
         };
         return this.http
-            .post<IRestFlightrouteResponse>(url, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestFlightrouteResponse>(
+                url,
+                JSON.stringify(requestBody),
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            ).pipe(
                 map(response => RestFlightrouteConverter.fromRest(response.body.navplan))
             );
     }
@@ -95,7 +107,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
         const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId + '&token=' + user.token;
 
         return this.http
-            .delete<IRestSuccessResponse>(url, {observe: 'response'})
+            .delete<IRestSuccessResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
                 map((response) => response.body.success),
                 catchError(err => {

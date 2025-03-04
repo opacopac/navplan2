@@ -12,6 +12,7 @@ import {Airport} from '../../domain/model/airport';
 import {IRestAirport} from '../model/i-rest-airport';
 import {RestAirportConverter} from '../converter/rest-airport-converter';
 import {IAirportRepoService} from '../../domain/service/i-airport-repo.service';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -29,7 +30,7 @@ export class AirportRestAdapterService implements IAirportRepoService {
             + '&zoom=' + zoom;
 
         return this.http
-            .get<IRestShortAirport[]>(url, {observe: 'response'})
+            .get<IRestShortAirport[]>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
             .pipe(
                 map((response) => RestShortAirportConverter.fromRestList(response.body)),
                 catchError(err => {
@@ -44,7 +45,7 @@ export class AirportRestAdapterService implements IAirportRepoService {
         const url: string = environment.airportServiceUrl + '?action=getAdById&id=' + id;
 
         return this.http
-            .get<IRestAirport>(url, {observe: 'response'})
+            .get<IRestAirport>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
             .pipe(
                 map((response) => RestAirportConverter.fromRest(response.body)),
                 catchError(err => {
@@ -59,7 +60,7 @@ export class AirportRestAdapterService implements IAirportRepoService {
         const url: string = environment.airportServiceUrl + '?action=getAdByIcao&icao=' + icao;
 
         return this.http
-            .get<IRestAirport>(url, {observe: 'response'})
+            .get<IRestAirport>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
             .pipe(
                 map((response) => RestAirportConverter.fromRest(response.body)),
                 catchError(err => {

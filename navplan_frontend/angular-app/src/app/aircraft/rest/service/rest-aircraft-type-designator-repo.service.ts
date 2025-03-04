@@ -10,6 +10,7 @@ import {IRestAircraftTypeDesignatorListResponse} from './i-rest-aircraft-type-de
 import {
     RestAircraftTypeDesignatorListResponseConverter
 } from '../converter/rest-aircraft-type-designator-list-response-converter';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -23,7 +24,7 @@ export class RestAircraftTypeDesignatorRepoService implements IAircraftTypeDesig
         const url: string = environment.aircraftTypeDesignatorServiceUrl + '?query=' + searchText;
 
         return this.http
-            .get<IRestAircraftTypeDesignatorListResponse>(url, {observe: 'response'})
+            .get<IRestAircraftTypeDesignatorListResponse>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
             .pipe(
                 map((response) => RestAircraftTypeDesignatorListResponseConverter.fromRest(response.body)),
                 catchError(err => {

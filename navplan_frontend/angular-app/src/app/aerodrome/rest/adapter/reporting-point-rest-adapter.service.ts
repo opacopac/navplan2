@@ -10,6 +10,7 @@ import {RestReportingpointConverter} from '../converter/rest-reportingpoint-conv
 import {RestReportingsectorConverter} from '../converter/rest-reportingsector-converter';
 import {ReportingPointsAndSectors} from '../../domain/model/reporting-points-and-sectors';
 import {IReportingPointRepoService} from '../../domain/service/i-reporting-point-repo.service';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -26,7 +27,7 @@ export class ReportingPointRestAdapterService implements IReportingPointRepoServ
             + '&maxlat=' + extent.maxLat;
 
         return this.http
-            .get<IRestReportingpoint[]>(url, {observe: 'response'})
+            .get<IRestReportingpoint[]>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
             .pipe(
                 map((response) => {
                     return new ReportingPointsAndSectors(
