@@ -1,6 +1,5 @@
 import {Observable} from 'rxjs';
 import {FlightrouteListEntry} from '../model/flightroute-list-entry';
-import {User} from '../../../user/domain/model/user';
 import {Flightroute} from '../model/flightroute';
 import {Injectable} from '@angular/core';
 import {IFlightrouteService} from './i-flightroute.service';
@@ -12,28 +11,28 @@ export class FlightrouteService implements IFlightrouteService {
     public constructor(private flightrouteRepo: IFlightrouteRepoService) {
     }
 
-    public readFlightrouteList(user: User): Observable<FlightrouteListEntry[]> {
-        return this.flightrouteRepo.readFlightrouteList(user);
+    public readFlightrouteList(): Observable<FlightrouteListEntry[]> {
+        return this.flightrouteRepo.readFlightrouteList();
     }
 
 
-    public readFlightroute(flightrouteId: number, user: User): Observable<Flightroute> {
-        return this.flightrouteRepo.readFlightroute(flightrouteId, user);
+    public readFlightroute(flightrouteId: number): Observable<Flightroute> {
+        return this.flightrouteRepo.readFlightroute(flightrouteId);
     }
 
 
-    public saveFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
-        return this.flightrouteRepo.saveFlightroute(flightroute, user);
+    public saveFlightroute(flightroute: Flightroute): Observable<Flightroute> {
+        return this.flightrouteRepo.saveFlightroute(flightroute);
     }
 
 
-    public duplicateFlightroute(flightrouteId: number, user: User): Observable<Flightroute> {
-        return this.flightrouteRepo.duplicateFlightroute(flightrouteId, user);
+    public duplicateFlightroute(flightrouteId: number): Observable<Flightroute> {
+        return this.flightrouteRepo.duplicateFlightroute(flightrouteId);
     }
 
 
-    public deleteFlightroute(flightrouteId: number, user: User): Observable<boolean> {
-        return this.flightrouteRepo.deleteFlightroute(flightrouteId, user);
+    public deleteFlightroute(flightrouteId: number): Observable<boolean> {
+        return this.flightrouteRepo.deleteFlightroute(flightrouteId);
     }
 
 

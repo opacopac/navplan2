@@ -5,7 +5,6 @@ import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {FlightrouteListEntry} from '../../domain/model/flightroute-list-entry';
-import {User} from '../../../user/domain/model/user';
 import {Flightroute} from '../../domain/model/flightroute';
 import {IRestFlightrouteListResponse} from '../model/i-rest-flightroute-list-response';
 import {IRestFlightrouteResponse} from '../model/i-rest-flightroute-response';
@@ -26,7 +25,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
 
     // region flightroute list
 
-    public readFlightrouteList(user: User): Observable<FlightrouteListEntry[]> {
+    public readFlightrouteList(): Observable<FlightrouteListEntry[]> {
         const url: string = environment.flightrouteServiceUrl;
 
         return this.http
@@ -45,7 +44,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
 
     // region flightroute CRUD
 
-    public readFlightroute(flightrouteId: number, user: User): Observable<Flightroute> {
+    public readFlightroute(flightrouteId: number): Observable<Flightroute> {
         const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId;
 
         return this.http
@@ -60,7 +59,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
     }
 
 
-    public saveFlightroute(flightroute: Flightroute, user: User): Observable<Flightroute> {
+    public saveFlightroute(flightroute: Flightroute): Observable<Flightroute> {
         const requestBody = {navplan: RestFlightrouteConverter.toRest(flightroute)};
 
         if (flightroute.id > 0) {
@@ -85,7 +84,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
     }
 
 
-    public duplicateFlightroute(flightrouteId: number, user: User): Observable<Flightroute> {
+    public duplicateFlightroute(flightrouteId: number): Observable<Flightroute> {
         const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId + '&action=duplicate';
         const requestBody = {navplan: null};
 
@@ -100,7 +99,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
     }
 
 
-    public deleteFlightroute(flightrouteId: number, user: User): Observable<boolean> {
+    public deleteFlightroute(flightrouteId: number): Observable<boolean> {
         const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId;
 
         return this.http
