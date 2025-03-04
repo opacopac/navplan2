@@ -2,26 +2,25 @@
 
 namespace Navplan\Flightroute\Rest\Converter;
 
-use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 
 
-class RestUpdateFlightrouteRequest {
-    public const ARG_TOKEN = "token";
+class RestUpdateFlightrouteRequest
+{
     public const ARG_ROUTE = "navplan";
 
 
     public function __construct(
-        public Flightroute $flightroute,
-        public string $token
-    ) {
+        public Flightroute $flightroute
+    )
+    {
     }
 
 
-    public static function fromRest(array $args): RestUpdateFlightrouteRequest {
+    public static function fromRest(array $args): RestUpdateFlightrouteRequest
+    {
         return new RestUpdateFlightrouteRequest(
-            RestFlightrouteConverter::fromRest($args[self::ARG_ROUTE]),
-            StringNumberHelper::parseStringOrError($args, self::ARG_TOKEN)
+            RestFlightrouteConverter::fromRest($args[self::ARG_ROUTE])
         );
     }
 }
