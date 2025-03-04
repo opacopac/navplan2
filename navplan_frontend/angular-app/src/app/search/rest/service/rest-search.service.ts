@@ -13,6 +13,7 @@ import {IRestSearchResponse} from '../model/i-rest-search-response';
 import {ISearchRepoService} from '../../domain/service/i-search-repo.service';
 import {RestPositionSearchResponseConverter} from '../model/rest-position-search-response-converter';
 import {PositionSearchResultList} from '../../domain/model/position-search-result-list';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -60,10 +61,9 @@ export class RestSearchService implements ISearchRepoService {
             }
 
             return this.http
-                // .jsonp<SearchResponse>(url, 'callback')
-                .get<IRestSearchResponse>(url)
+                .get<IRestSearchResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
                 .pipe(
-                    map(response => RestSearchResponseConverter.fromRest(response)),
+                    map(response => RestSearchResponseConverter.fromRest(response.body)),
                     catchError(error => {
                         LoggingService.logResponseError('ERROR performing text search', error);
                         return throwError(error);
