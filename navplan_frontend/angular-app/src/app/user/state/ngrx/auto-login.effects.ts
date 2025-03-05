@@ -24,7 +24,7 @@ export class AutoLoginEffects {
 
     autoLoginUser$ = createEffect(() => this.actions$.pipe(
         ofType(AutoLoginActions.userAutoLogin),
-        switchMap(action => this.userService.autoLogin(action.token).pipe(
+        switchMap(action => this.userService.autoLogin().pipe(
             map(user => AutoLoginActions.userAutoLoginSuccess({user: user})),
             catchError(error => of(AutoLoginActions.userAutoLoginError({error: error})))
         ))

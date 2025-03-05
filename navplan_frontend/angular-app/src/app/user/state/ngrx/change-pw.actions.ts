@@ -3,7 +3,7 @@ import {createAction, props} from '@ngrx/store';
 export class ChangePwActions {
     public static readonly userChangePw = createAction(
         '[User Profile] User change password',
-        props<{ token: string; oldPassword: string, newPassword: string }>()
+        props<{ oldPassword: string, newPassword: string }>()
     );
 
     public static readonly userChangePwSuccess = createAction(

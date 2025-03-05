@@ -24,9 +24,8 @@ export class UserProfilePageComponent implements OnInit {
     }
 
 
-    public onChangePwClick([user, oldPw, newPw]: [User, string, string]) {
+    public onChangePwClick([oldPw, newPw]: [string, string]) {
         this.appStore.dispatch(ChangePwActions.userChangePw({
-            token: user.token,
             oldPassword: oldPw,
             newPassword: newPw
         }));

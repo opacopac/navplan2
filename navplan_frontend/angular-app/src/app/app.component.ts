@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
         // auto login "remembered" user
         const persistedToken = this.clientstorageService.getPersistedToken();
         if (persistedToken) {
-            this.appStore.dispatch(AutoLoginActions.userAutoLogin({token: persistedToken}));
+            this.appStore.dispatch(AutoLoginActions.userAutoLogin());
         }
     }
 }

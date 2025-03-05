@@ -6,10 +6,12 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\User\UseCase\UpdatePw\UpdatePwRequest;
 
 
-class UpdatePwRequestConverter {
-    public static function fromArgs(array $args): UpdatePwRequest {
+class UpdatePwRequestConverter
+{
+    public static function fromArgs(array $args, string $token): UpdatePwRequest
+    {
         return new UpdatePwRequest(
-            StringNumberHelper::parseStringOrNull($args, "token"),
+            $token,
             StringNumberHelper::parseStringOrNull($args, "oldpassword"),
             StringNumberHelper::parseStringOrNull($args, "newpassword")
         );

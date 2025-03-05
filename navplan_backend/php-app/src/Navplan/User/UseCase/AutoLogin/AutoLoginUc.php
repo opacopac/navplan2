@@ -11,16 +11,16 @@ class AutoLoginUc implements IAutoLoginUc {
     }
 
 
-    public function autologin(AutoLoginRequest $request): UserResponse {
-        if (!$request->token) {
+    public function autologin(string $token): UserResponse {
+        if (!$token) {
             return new UserResponse(-1, 'error: token is missing');
         }
 
-        $email = $this->tokenService->getEmailFromToken($request->token);
-        if (!$email || $email === "") {
+        $email = $this->tokenService->getEmailFromToken($token);
+        if (!$email) {
             return new UserResponse(-1, 'error: invalid token');
         }
 
-        return new UserResponse(0, NULL, $email, $request->token);
+        return new UserResponse(0, NULL, $email, $token);
     }
 }

@@ -29,9 +29,8 @@ export class ForgotPwStep2PageComponent implements OnInit {
     }
 
 
-    public onResetPwClick([token, password, rememberMe]: [string, string, boolean]) {
+    public onResetPwClick([password, rememberMe]: [string, boolean]) {
         this.appStore.dispatch(LostPwActions.userResetPw({
-            token: token,
             newPassword: password,
             rememberMe: rememberMe
         }));

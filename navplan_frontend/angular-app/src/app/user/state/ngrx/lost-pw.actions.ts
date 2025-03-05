@@ -19,7 +19,7 @@ export class LostPwActions {
 
     public static readonly userResetPw = createAction(
         '[Reset Password Page] Reset password',
-        props<{ token: string, newPassword: string, rememberMe: boolean }>()
+        props<{ newPassword: string, rememberMe: boolean }>()
     );
 
     public static readonly userResetPwSuccess = createAction(

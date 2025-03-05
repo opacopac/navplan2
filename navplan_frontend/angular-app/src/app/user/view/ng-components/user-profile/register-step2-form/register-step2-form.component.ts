@@ -19,7 +19,7 @@ export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): Valid
 })
 export class RegisterStep2FormComponent implements OnInit, OnChanges {
     @Input() tokenString: string;
-    @Output() onCreateAccount: EventEmitter<[string, string]> = new EventEmitter<[string, string]>();
+    @Output() onCreateAccount = new EventEmitter<[string, boolean]>();
     public registerForm: FormGroup;
     public email: string;
     public isInvalidToken: boolean;
@@ -52,6 +52,6 @@ export class RegisterStep2FormComponent implements OnInit, OnChanges {
             'password': ['', [Validators.required, Validators.minLength(6)]],
             'password2': ['', [Validators.required, Validators.minLength(6)]],
             'rememberMe': [false]
-        }, { validator: identicalPasswordsValidator });
+        }, {validator: identicalPasswordsValidator});
     }
 }

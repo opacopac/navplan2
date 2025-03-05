@@ -18,7 +18,7 @@ export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): Valid
 })
 export class UserProfileFormComponent implements OnInit, OnChanges {
     @Input() public currentUser: User;
-    @Output() public onChangePwClick: EventEmitter<[User, string, string]> = new EventEmitter<[User, string, string]>();
+    @Output() public onChangePwClick = new EventEmitter<[string, string]>();
     public changePwForm: FormGroup;
 
 

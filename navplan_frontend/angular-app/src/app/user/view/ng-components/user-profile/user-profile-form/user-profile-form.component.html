@@ -52,7 +52,7 @@
       <div>
         <button
           mat-raised-button
-          (click)="this.onChangePwClick.emit([this.currentUser, oldPassword.value, newPassword.value])"
+          (click)="this.onChangePwClick.emit([oldPassword.value, newPassword.value])"
           [disabled]="this.changePwForm.invalid"
           >
           Change Password

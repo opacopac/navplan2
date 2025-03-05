@@ -11,8 +11,8 @@ export class UserService implements IUserService {
     }
 
 
-    public autoLogin(token: string): Observable<User> {
-        return this.userRepo.autoLogin(token);
+    public autoLogin(): Observable<User> {
+        return this.userRepo.autoLogin();
     }
 
 
@@ -26,8 +26,8 @@ export class UserService implements IUserService {
     }
 
 
-    public register(token: string, password: string, rememberMe: boolean): Observable<User> {
-        return this.userRepo.register(token, password, rememberMe);
+    public register(password: string, rememberMe: boolean): Observable<User> {
+        return this.userRepo.register(password, rememberMe);
     }
 
 
@@ -36,12 +36,12 @@ export class UserService implements IUserService {
     }
 
 
-    public resetPassword(token: string, newPassword: string, rememberMe: boolean): Observable<User> {
-        return this.userRepo.resetPassword(token, newPassword, rememberMe);
+    public resetPassword(newPassword: string, rememberMe: boolean): Observable<User> {
+        return this.userRepo.resetPassword(newPassword, rememberMe);
     }
 
 
-    public updatePassword(token: string, oldPassword: string, newPassword: string): Observable<boolean> {
-        return this.userRepo.updatePassword(token, oldPassword, newPassword);
+    public updatePassword(oldPassword: string, newPassword: string): Observable<boolean> {
+        return this.userRepo.updatePassword(oldPassword, newPassword);
     }
 }

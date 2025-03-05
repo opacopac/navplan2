@@ -2,7 +2,9 @@
 
 namespace Navplan\User;
 
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\System\Domain\Service\IMailService;
 use Navplan\User\Domain\Service\ITokenConfig;
@@ -14,6 +16,7 @@ use Navplan\User\Domain\Service\TokenService;
 use Navplan\User\Domain\Service\UserService;
 use Navplan\User\Persistence\Service\DbUserPointRepo;
 use Navplan\User\Persistence\Service\DbUserRepo;
+use Navplan\User\Rest\Service\UserController;
 use Navplan\User\UseCase\AutoLogin\AutoLoginUc;
 use Navplan\User\UseCase\AutoLogin\IAutoLoginUc;
 use Navplan\User\UseCase\Login\ILoginUc;
@@ -33,6 +36,7 @@ use Navplan\User\UseCase\UpdatePw\UpdatePwUc;
 
 
 class ProdUserDiContainer implements IUserDiContainer {
+    private IRestController $userController;
     private IUserRepo $userRepo;
     private IUserPointRepo $userPointRepo;
     private ITokenService $tokenService;
@@ -48,11 +52,30 @@ class ProdUserDiContainer implements IUserDiContainer {
 
 
     public function __construct(
+        private readonly IHttpService $httpService,
         private readonly IDbService $dbService,
         private readonly IMailService $mailService,
         private readonly ITokenConfig $tokenCredentials,
         private readonly ILoggingService $loggingService
     ) {
+    }
+
+
+    public function getUserController(): IRestController {
+        if (!isset($this->userController)) {
+            $this->userController = new UserController(
+                $this->httpService,
+                $this->getLoginUc(),
+                $this->getAutoLoginUc(),
+                $this->getSendRegisterEmailUc(),
+                $this->getRegisterUc(),
+                $this->getSendLostPwUc(),
+                $this->getResetPwUc(),
+                $this->getUpdatePwUc()
+            );
+        }
+
+        return $this->userController;
     }
 
 

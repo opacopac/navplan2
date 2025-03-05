@@ -42,7 +42,7 @@
       <div class="buttons-container">
         <button
           mat-raised-button
-          (click)="this.onCreateAccount.emit([this.tokenString, password.value, rememberMe.checked])"
+          (click)="this.onCreateAccount.emit([password.value, rememberMe.checked])"
           [disabled]="this.registerForm.invalid"
           >
           Create Account

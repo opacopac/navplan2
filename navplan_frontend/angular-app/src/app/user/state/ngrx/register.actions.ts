@@ -4,7 +4,7 @@ import {User} from '../../domain/model/user';
 export class RegisterActions {
     public static readonly userRegister = createAction(
         '[Register Page] user register',
-        props<{ token: string, password: string, rememberMe: boolean }>()
+        props<{ password: string, rememberMe: boolean }>()
     );
 
     public static readonly userRegisterSuccess = createAction(

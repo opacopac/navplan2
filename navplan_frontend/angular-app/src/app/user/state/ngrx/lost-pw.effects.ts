@@ -54,7 +54,7 @@ export class LostPwEffects {
 
     resetPw$ = createEffect(() => this.actions$.pipe(
         ofType(LostPwActions.userResetPw),
-        switchMap(action => this.userService.resetPassword(action.token, action.newPassword, action.rememberMe).pipe(
+        switchMap(action => this.userService.resetPassword(action.newPassword, action.rememberMe).pipe(
             map((user) => LostPwActions.userResetPwSuccess({user: user, rememberMe: action.rememberMe})),
             catchError(error => of(LostPwActions.userResetPwError({error: error})))
         ))

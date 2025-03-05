@@ -29,9 +29,8 @@ export class RegisterStep2PageComponent implements OnInit {
     }
 
 
-    public onCreateAccount([token, password, rememberMe]: [string, string, boolean]) {
+    public onCreateAccount([password, rememberMe]: [string, boolean]) {
         this.appStore.dispatch(RegisterActions.userRegister({
-            token: token,
             password: password,
             rememberMe: rememberMe
         }));

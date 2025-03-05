@@ -42,7 +42,7 @@
       <div class="buttons-container">
         <button
           mat-raised-button
-          (click)="this.onResetPwClick.emit([this.tokenString, password.value, rememberMe.checked])"
+          (click)="this.onResetPwClick.emit([password.value, rememberMe.checked])"
           [disabled]="this.resetPwForm.invalid"
           >
           Change Password

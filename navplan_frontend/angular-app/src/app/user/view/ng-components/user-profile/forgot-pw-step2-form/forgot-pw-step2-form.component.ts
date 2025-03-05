@@ -19,7 +19,7 @@ export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): Valid
 })
 export class ForgotPwStep2FormComponent implements OnInit, OnChanges {
     @Input() tokenString: string;
-    @Output() onResetPwClick: EventEmitter<[string, string]> = new EventEmitter<[string, string]>();
+    @Output() onResetPwClick = new EventEmitter<[string, boolean]>();
     public resetPwForm: FormGroup;
     public email: string;
     public isInvalidToken: boolean;
@@ -52,6 +52,6 @@ export class ForgotPwStep2FormComponent implements OnInit, OnChanges {
             'password': ['', [Validators.required, Validators.minLength(6)]],
             'password2': ['', [Validators.required, Validators.minLength(6)]],
             'rememberMe': [false]
-        }, { validator: identicalPasswordsValidator });
+        }, {validator: identicalPasswordsValidator});
     }
 }

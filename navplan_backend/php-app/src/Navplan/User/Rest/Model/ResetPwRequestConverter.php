@@ -7,9 +7,9 @@ use Navplan\User\UseCase\ResetPw\ResetPwRequest;
 
 
 class ResetPwRequestConverter {
-    public static function fromArgs(array $args): ResetPwRequest {
+    public static function fromArgs(array $args, string $token): ResetPwRequest {
         return new ResetPwRequest(
-            StringNumberHelper::parseStringOrError($args, "token"),
+            $token,
             StringNumberHelper::parseStringOrError($args, "password"),
             StringNumberHelper::parseIntOrError($args, "rememberme") === 1
         );

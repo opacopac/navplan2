@@ -56,7 +56,7 @@ export class RegisterEffects {
 
     registerUser$ = createEffect(() => this.actions$.pipe(
         ofType(RegisterActions.userRegister),
-        mergeMap(action => this.userService.register(action.token, action.password, action.rememberMe).pipe(
+        mergeMap(action => this.userService.register(action.password, action.rememberMe).pipe(
             map(user => RegisterActions.userRegisterSuccess({user: user, rememberMe: action.rememberMe})),
             catchError(error => of(RegisterActions.userRegisterError({error: error})))
         ))

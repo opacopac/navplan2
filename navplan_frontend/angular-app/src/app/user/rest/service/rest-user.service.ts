@@ -18,10 +18,9 @@ export class RestUserRepoService implements IUserRepoService {
     }
 
 
-    public autoLogin(token: string): Observable<User> {
+    public autoLogin(): Observable<User> {
         const requestBody = {
-            action: 'autologin',
-            token: token // TODO: remove token from request body
+            action: 'autologin'
         };
 
         return this.http
@@ -117,13 +116,11 @@ export class RestUserRepoService implements IUserRepoService {
 
 
     public register(
-        token: string,
         password: string,
         rememberMe: boolean
     ): Observable<User> {
         const requestBody = {
             action: 'register',
-            token: token, // TODO: remove token from request body
             password: password,
             rememberme: rememberMe ? '1' : '0',
         };
@@ -189,13 +186,11 @@ export class RestUserRepoService implements IUserRepoService {
 
 
     public resetPassword(
-        token: string,
         newPassword: string,
         rememberMe: boolean
     ): Observable<User> {
         const requestBody = {
             action: 'resetpassword',
-            token: token,
             password: newPassword,
             rememberme: rememberMe ? '1' : '0'
         };
@@ -228,21 +223,23 @@ export class RestUserRepoService implements IUserRepoService {
 
 
     public updatePassword(
-        token: string,
         oldPassword: string,
         newPassword: string
     ): Observable<boolean> {
         const requestBody = {
             action: 'updatepassword',
-            token: token,
             oldpassword: oldPassword,
             newpassword: newPassword
         };
 
         return this.http
-            .post<IRestSimpleResponse>(environment.userServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestSimpleResponse>(
+                environment.userServiceUrl,
+                JSON.stringify(requestBody),
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            ).pipe(
                 switchMap(response => {
-                    switch (response.body.resultcode) {
+                    switch (response.resultcode) {
                         case 0:
                             return of(true);
                         case -1:

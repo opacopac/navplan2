@@ -363,6 +363,7 @@ class ProdNavplanDiContainer
     {
         if (!isset($this->userDiContainer)) {
             $this->userDiContainer = new ProdUserDiContainer(
+                $this->getSystemDiContainer()->getHttpService(),
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getMailService(),
                 $this->getConfigDiContainer(),

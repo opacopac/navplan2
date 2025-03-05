@@ -6,5 +6,5 @@ use Navplan\User\UseCase\UserResponse;
 
 
 interface IAutoLoginUc {
-    function autologin(AutoLoginRequest $request): UserResponse;
+    function autologin(string $token): UserResponse;
 }

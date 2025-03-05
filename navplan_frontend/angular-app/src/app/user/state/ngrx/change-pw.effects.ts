@@ -19,7 +19,7 @@ export class ChangePwEffects {
 
     changePw$ = createEffect(() => this.actions$.pipe(
         ofType(ChangePwActions.userChangePw),
-        switchMap(action => this.userService.updatePassword(action.token, action.oldPassword, action.newPassword).pipe(
+        switchMap(action => this.userService.updatePassword(action.oldPassword, action.newPassword).pipe(
             map(() => ChangePwActions.userChangePwSuccess()),
             catchError(error => of(ChangePwActions.userChangePwError({error: error})))
         ))

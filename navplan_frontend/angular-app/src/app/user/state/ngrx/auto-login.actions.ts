@@ -3,8 +3,7 @@ import {User} from '../../domain/model/user';
 
 export class AutoLoginActions {
     public static readonly userAutoLogin = createAction(
-        '[Main Page] user auto login',
-        props<{ token: string }>()
+        '[Main Page] user auto login'
     );
 
     public static readonly userAutoLoginSuccess = createAction(
