@@ -11,6 +11,7 @@ import {IRestTrackResponse} from '../model/i-rest-track-response';
 import {RestTrackListResponseConverter} from '../model/rest-track-list-response-converter';
 import {RestTrackResponseConverter} from '../model/rest-track-response-converter';
 import {ITrackRepoService} from '../../domain/service/i-track-repo.service';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -22,11 +23,11 @@ export class RestTrackRepoService implements ITrackRepoService {
     readUserTrackList(user: User): Observable<Track[]> {
         const url: string = environment.trackServiceUrl + '?action=readtracklist&token=' + user.token;
         return this.http
-            .jsonp<IRestTrackListResponse>(url, 'callback')
+            .get<IRestTrackListResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
                 map(response => RestTrackListResponseConverter.fromRest(response)),
                 catchError(err => {
-                    LoggingService.logResponseError('ERROR reading tracks', err);
+                    LoggingService.logResponseError('ERROR reading user track list', err);
                     return throwError(err);
                 })
             );
@@ -36,11 +37,11 @@ export class RestTrackRepoService implements ITrackRepoService {
     readUserTrack(trackid, user: User): Observable<Track> {
         const url: string = environment.trackServiceUrl + '?action=readtrack&trackid=' + encodeURI(trackid) + '&token=' + user.token;
         return this.http
-            .jsonp<IRestTrackResponse>(url, 'callback')
+            .get<IRestTrackResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
                 map(response => RestTrackResponseConverter.fromRest(response)),
                 catchError(err => {
-                    LoggingService.logResponseError('ERROR reading track', err);
+                    LoggingService.logResponseError('ERROR reading user track', err);
                     return throwError(err);
                 })
             );
