@@ -6,7 +6,6 @@ import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {RestSearchResponseConverter} from '../model/rest-search-response-converter';
-import {User} from '../../../user/domain/model/user';
 import {SearchItemList} from '../../domain/model/search-item-list';
 import {CoordinateHelper} from '../../../geo-physics/domain/service/geometry/coordinate-helper';
 import {IRestSearchResponse} from '../model/i-rest-search-response';
@@ -29,9 +28,15 @@ export class RestSearchService implements ISearchRepoService {
         minNotamTimestamp: number,
         maxNotamTimestamp: number
     ): Observable<PositionSearchResultList> {
-        const url = environment.searchServiceUrl + '?action=searchByPosition&lat=' + position.latitude + '&lon=' + position.longitude
-            + '&rad=' + maxRadius_deg + '&maxresults=' + maxResults + '&minnotamtime=' + minNotamTimestamp
-            + '&maxnotamtime=' + maxNotamTimestamp + '&searchItems=airports,navaids,airspaces,reportingpoints,userpoints,geonames';
+        const url = environment.searchServiceUrl
+            + '?action=searchByPosition'
+            + '&lat=' + position.latitude
+            + '&lon=' + position.longitude
+            + '&rad=' + maxRadius_deg
+            + '&maxresults=' + maxResults
+            + '&minnotamtime=' + minNotamTimestamp
+            + '&maxnotamtime=' + maxNotamTimestamp
+            + '&searchItems=airports,navaids,airspaces,reportingpoints,userpoints,geonames';
 
         return this.http
             .get<IRestSearchResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
@@ -45,21 +50,17 @@ export class RestSearchService implements ISearchRepoService {
     }
 
 
-    public searchByText(
-        queryString: string,
-        user: User
-    ): Observable<SearchItemList> {
+    public searchByText(queryString: string): Observable<SearchItemList> {
         // try to find coordinates in text
         const pos = CoordinateHelper.tryParseCoordinates(queryString);
         if (pos) {
             // TODO: create single object search result with coordinates
             return of(undefined);
         } else {
-            let url = environment.searchServiceUrl + '?action=searchByText&searchText=' + queryString
+            const url = environment.searchServiceUrl
+                + '?action=searchByText'
+                + '&searchText=' + queryString
                 + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
-            if (user) {
-                url += '&email=' + user.email + '&token=' + user.token; // TODO: remove token from request body
-            }
 
             return this.http
                 .get<IRestSearchResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)

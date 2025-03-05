@@ -6,22 +6,21 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\Search\Domain\Model\SearchByTextQuery;
 
 
-class RestSearchByTextQueryConverter {
+class RestSearchByTextQueryConverter
+{
     const ARG_SEARCH_ITEMS = "searchItems";
     const ARG_SEARCH_TEXT = "searchText";
-    const ARG_TOKEN = "token";
 
 
-    public static function fromArgs(array $args): SearchByTextQuery {
+    public static function fromArgs(array $args): SearchByTextQuery
+    {
         $searchItems = RestSearchItemTypeConverter::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $searchText = StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_TEXT);
         StringNumberHelper::checkString($searchText, 1, 100);
-        $token = StringNumberHelper::parseStringOrNull($args, self::ARG_TOKEN);
 
         return new SearchByTextQuery(
             $searchItems,
-            $searchText,
-            $token
+            $searchText
         );
     }
 }

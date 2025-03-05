@@ -276,6 +276,7 @@ class ProdNavplanDiContainer
     {
         if (!isset($this->searchDiContainer)) {
             $this->searchDiContainer = new ProdSearchDiContainer(
+                $this->getSystemDiContainer()->getHttpService(),
                 $this->getUserDiContainer()->getSearchUserPointUc(),
                 $this->getAirspaceDiContainer()->getAirspaceService(),
                 $this->getNotamDiContainer()->getNotamService(),

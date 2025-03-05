@@ -3,35 +3,46 @@
 namespace Navplan\Search\Rest\Service;
 
 use InvalidArgumentException;
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Search\Domain\Service\ISearchService;
 use Navplan\Search\Rest\Model\RestSearchByPositionQueryConverter;
 use Navplan\Search\Rest\Model\RestSearchByTextQueryConverter;
 use Navplan\Search\Rest\Model\RestSearchResultConverter;
 use Navplan\System\Domain\Service\IHttpService;
+use Navplan\User\Rest\Model\TokenRequestConverter;
 
 
-class SearchController {
+class SearchController implements IRestController
+{
     const ARG_ACTION = "action";
     const ACTION_SEARCH_BY_TEXT = "searchByText";
     const ACTION_SEARCH_BY_POSITION = "searchByPosition";
 
 
-    public static function processRequest(
-        ISearchService $searchService,
-        IHttpService $httpService
-    ) {
-        $args = $httpService->getGetArgs();
+    public function __construct(
+        private ISearchService $searchService,
+        private IHttpService   $httpService
+    )
+    {
+    }
+
+
+    public function processRequest()
+    {
+        $args = $this->httpService->getGetArgs();
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_SEARCH_BY_TEXT:
+                $token = TokenRequestConverter::getTokenOrNull($this->httpService->getCookies());
                 $query = RestSearchByTextQueryConverter::fromArgs($args);
-                $result = $searchService->searchByText($query);
-                $httpService->sendArrayResponse(RestSearchResultConverter::toRest($result));
+                $result = $this->searchService->searchByText($query, $token);
+                $this->httpService->sendArrayResponse(RestSearchResultConverter::toRest($result));
                 break;
             case self::ACTION_SEARCH_BY_POSITION:
+                $token = TokenRequestConverter::getTokenOrNull($this->httpService->getCookies());
                 $query = RestSearchByPositionQueryConverter::fromArgs($args);
-                $result = $searchService->searchByPosition($query);
-                $httpService->sendArrayResponse(RestSearchResultConverter::toRest($result));
+                $result = $this->searchService->searchByPosition($query, $token);
+                $this->httpService->sendArrayResponse(RestSearchResultConverter::toRest($result));
                 break;
             default:
                 throw new InvalidArgumentException("no or unknown action defined: '" . $action . "'");

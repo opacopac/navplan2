@@ -14,4 +14,10 @@ class TokenRequestConverter
     {
         return StringNumberHelper::parseStringOrError($cookies, self::ARG_TOKEN);
     }
+
+
+    public static function getTokenOrNull(array $cookies): ?string
+    {
+        return StringNumberHelper::parseStringOrNull($cookies, self::ARG_TOKEN);
+    }
 }

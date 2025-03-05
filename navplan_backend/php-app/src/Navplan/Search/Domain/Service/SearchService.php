@@ -15,25 +15,28 @@ use Navplan\Search\Domain\Model\SearchResult;
 use Navplan\User\UseCase\SearchUserPoint\ISearchUserPointUc;
 
 
-class SearchService implements ISearchService {
+class SearchService implements ISearchService
+{
     const SEARCH_RESULTS_HARDLIMIT = 100;
     const MAX_TEXT_SEARCH_RESULTS = 25;
     const MAX_TEXT_SEARCH_RESULTS_PER_ENTITY = 10;
 
 
     public function __construct(
-        private ISearchUserPointUc  $searchUserPointUc,
-        private IAirspaceService    $airspaceService,
-        private INotamService       $notamService,
-        private IAirportService     $airportService,
+        private ISearchUserPointUc     $searchUserPointUc,
+        private IAirspaceService       $airspaceService,
+        private INotamService          $notamService,
+        private IAirportService        $airportService,
         private IReportingPointService $reportingPointService,
-        private INavaidService      $navaidService,
-        private IGeonameService     $geonameService
-    ) {
+        private INavaidService         $navaidService,
+        private IGeonameService        $geonameService
+    )
+    {
     }
 
 
-    public function searchByPosition(SearchByPositionQuery $query): SearchResult {
+    public function searchByPosition(SearchByPositionQuery $query, ?string $token): SearchResult
+    {
         $resultNum = 0;
         $maxResults = min($query->maxResults, self::SEARCH_RESULTS_HARDLIMIT);
         $airports = [];
@@ -86,12 +89,14 @@ class SearchService implements ISearchService {
     }
 
 
-    private static function getMaxPositionResults($resultNum, $maxResults) {
+    private static function getMaxPositionResults($resultNum, $maxResults)
+    {
         return max($maxResults - $resultNum, 0);
     }
 
 
-    public function searchbyText(SearchByTextQuery $query): SearchResult {
+    public function searchbyText(SearchByTextQuery $query, ?string $token): SearchResult
+    {
         $resultNum = 0;
         $airports = [];
         $navaids = [];
@@ -117,8 +122,8 @@ class SearchService implements ISearchService {
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItemType::USERPOINTS:
-                    if ($query->token) {
-                        $userPoints = $this->searchUserPointUc->searchByText($query->searchText, $this->getMaxTextResults($resultNum), $query->token);
+                    if ($token) {
+                        $userPoints = $this->searchUserPointUc->searchByText($query->searchText, $this->getMaxTextResults($resultNum), $token);
                         $resultNum += count($userPoints);
                     }
                     break;
@@ -133,7 +138,8 @@ class SearchService implements ISearchService {
     }
 
 
-    private function getMaxTextResults(int $resultNum): int {
+    private function getMaxTextResults(int $resultNum): int
+    {
         return max(min(self::MAX_TEXT_SEARCH_RESULTS - $resultNum, self::MAX_TEXT_SEARCH_RESULTS_PER_ENTITY), 0);
     }
 }

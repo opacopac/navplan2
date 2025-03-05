@@ -8,7 +8,7 @@ use Navplan\Search\Domain\Model\SearchResult;
 
 
 interface ISearchService  {
-    public function searchByPosition(SearchByPositionQuery $query): SearchResult;
+    public function searchByPosition(SearchByPositionQuery $query, ?string $token): SearchResult;
 
-    public function searchByText(SearchByTextQuery $query): SearchResult;
+    public function searchByText(SearchByTextQuery $query, ?string $token): SearchResult;
 }

@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
-import {select, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {throwError} from 'rxjs';
-import {catchError, debounceTime, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, debounceTime, filter, map, switchMap, tap} from 'rxjs/operators';
 import {SearchActions} from './search.actions';
-import {getCurrentUser} from '../../../user/state/ngrx/user.selectors';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {ISearchService} from '../../domain/service/i-search.service';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
@@ -18,9 +17,6 @@ const QUERY_DELAY_MS = 250;
 
 @Injectable()
 export class SearchEffects {
-    private currentUser$ = this.appStore.pipe(select(getCurrentUser));
-
-
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
@@ -31,8 +27,7 @@ export class SearchEffects {
 
     searchByPosition$ = createEffect(() => this.actions$.pipe(
         ofType(SearchActions.searchByPosition),
-        withLatestFrom(this.currentUser$),
-        switchMap(([action, currentUser]) => this.searchService.searchByPosition(
+        switchMap(action => this.searchService.searchByPosition(
             action.clickPos,
             OlGeometry.calcDegPerPixelByZoom(action.zoom) * 50,
             0,
@@ -55,8 +50,7 @@ export class SearchEffects {
         ofType(SearchActions.searchByText),
         filter(action => action.query !== undefined && action.query.trim().length >= MIN_QUERY_LENGTH),
         debounceTime(QUERY_DELAY_MS),
-        withLatestFrom(this.currentUser$),
-        switchMap(([action, currentUser]) => this.searchService.searchByText(action.query, currentUser).pipe(
+        switchMap(action => this.searchService.searchByText(action.query).pipe(
             map(result => SearchActions.showTextSearchResults({searchResults: result})),
             catchError(error => {
                 LoggingService.logResponseError('ERROR search by text', error);

@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
-import {User} from '../../../user/domain/model/user';
 import {SearchItemList} from '../model/search-item-list';
 import {ISearchService} from './i-search.service';
 import {ISearchRepoService} from './i-search-repo.service';
@@ -35,11 +34,8 @@ export class SearchService implements ISearchService {
     }
 
 
-    public searchByText(
-        queryString: string,
-        user: User
-    ): Observable<SearchItemList> {
-        return this.searchRepo.searchByText(queryString, user);
+    public searchByText(queryString: string): Observable<SearchItemList> {
+        return this.searchRepo.searchByText(queryString);
     }
 
 

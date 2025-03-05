@@ -3,11 +3,12 @@
 namespace Navplan\Search\Domain\Model;
 
 
-class SearchByTextQuery {
+class SearchByTextQuery
+{
     public function __construct(
-        public array $searchItems,
-        public string $searchText,
-        public ?string $token
-    ) {
+        public array  $searchItems,
+        public string $searchText
+    )
+    {
     }
 }
