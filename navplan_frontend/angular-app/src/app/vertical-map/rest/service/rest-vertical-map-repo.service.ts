@@ -30,11 +30,10 @@ export class RestVerticalMapRepoService implements IVerticalMapRepoService {
         return this.http
             .post<IRestVerticalMapResponse>(
                 environment.verticalMapServiceUrl,
-                JSON.stringify(requestBody),
-                { observe: 'response' }
+                JSON.stringify(requestBody)
             )
             .pipe(
-                map(response => RestVerticalMapConverter.fromRest(response.body.verticalMap)),
+                map(response => RestVerticalMapConverter.fromRest(response.verticalMap)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading vertical map', err);
                     return throwError(err);

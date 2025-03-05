@@ -25,9 +25,9 @@ export class WebcamRestService implements IWebcamRepoService {
             + '&maxlat=' + extent.maxLat;
 
         return this.http
-            .get<IRestWebcam[]>(url, {observe: 'response'})
+            .get<IRestWebcam[]>(url)
             .pipe(
-                map((response) => RestWebcamConverter.fromRestList(response.body)),
+                map((response) => RestWebcamConverter.fromRestList(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading webcam list by extent', err);
                     return throwError(err);

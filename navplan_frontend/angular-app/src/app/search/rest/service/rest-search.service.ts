@@ -34,7 +34,7 @@ export class RestSearchService implements ISearchRepoService {
             + '&maxnotamtime=' + maxNotamTimestamp + '&searchItems=airports,navaids,airspaces,reportingpoints,userpoints,geonames';
 
         return this.http
-            .get<IRestSearchResponse>(url)
+            .get<IRestSearchResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
                 map(response => RestPositionSearchResponseConverter.fromRest(response)),
                 catchError(error => {
@@ -58,7 +58,7 @@ export class RestSearchService implements ISearchRepoService {
             let url = environment.searchServiceUrl + '?action=searchByText&searchText=' + queryString
                 + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
             if (user) {
-                url += '&email=' + user.email + '&token=' + user.token;
+                url += '&email=' + user.email + '&token=' + user.token; // TODO: remove token from request body
             }
 
             return this.http

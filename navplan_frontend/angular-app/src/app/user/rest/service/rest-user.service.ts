@@ -4,11 +4,12 @@ import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {User} from '../../domain/model/user';
 import {Observable, of, throwError} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {catchError, switchMap} from 'rxjs/operators';
 import {TextError} from '../../../system/domain/model/text-error';
 import {IRestTokenResponse} from '../model/i-rest-token-response';
 import {IRestSimpleResponse} from '../model/i-rest-simple-response';
 import {IUserRepoService} from '../../domain/service/i-user-repo.service';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -20,22 +21,29 @@ export class RestUserRepoService implements IUserRepoService {
     public autoLogin(token: string): Observable<User> {
         const requestBody = {
             action: 'autologin',
-            token: token
+            token: token // TODO: remove token from request body
         };
+
         return this.http
-            .post<IRestTokenResponse>(environment.userServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestTokenResponse>(
+                environment.userServiceUrl,
+                JSON.stringify(requestBody),
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            ).pipe(
                 switchMap((response) => {
-                    switch (response.body.resultcode) {
+                    switch (response.resultcode) {
                         case 0:
-                            return of(new User(response.body.email, response.body.token));
+                            return of(new User(response.email, response.token));
                         case -1:
-                            return throwError(new TextError('Invalid token!'));
+                            throw new TextError('Invalid token!');
                         default:
-                            const message = 'Unknown error while performing auto-login';
-                            LoggingService.logResponseError(message, response);
-                            return throwError(new TextError(message));
+                            throw new TextError('Unknown error while performing auto-login');
                     }
-                })
+                }),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR during auto-login', err);
+                    return throwError(err);
+                }),
             );
     }
 
@@ -43,30 +51,36 @@ export class RestUserRepoService implements IUserRepoService {
     public login(
         email: string,
         password: string,
-        rememberMe: boolean): Observable<User> {
-
+        rememberMe: boolean
+    ): Observable<User> {
         const requestBody = {
             action: 'login',
             email: email,
             password: password,
             rememberme: rememberMe ? '1' : '0'
         };
+
         return this.http
-            .post<IRestTokenResponse>(environment.userServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestTokenResponse>(
+                environment.userServiceUrl,
+                JSON.stringify(requestBody)
+            ).pipe(
                 switchMap((response) => {
-                    switch (response.body.resultcode) {
+                    switch (response.resultcode) {
                         case 0:
-                            return of(new User(response.body.email, response.body.token));
+                            return of(new User(response.email, response.token));
                         case -1:
-                            return throwError(new TextError('Email not found!'));
+                            throw new TextError('Email not found!');
                         case -2:
-                            return throwError(new TextError('Password incorrect!'));
+                            throw new TextError('Password incorrect!');
                         default:
-                            const message = 'Unknown error during login';
-                            LoggingService.logResponseError(message, response);
-                            return throwError(new TextError(message));
+                            throw new TextError('Unknown error during login');
                     }
-                })
+                }),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR during login', err);
+                    return throwError(err);
+                }),
             );
     }
 
@@ -76,22 +90,28 @@ export class RestUserRepoService implements IUserRepoService {
             action: 'sendregisteremail',
             email: email
         };
+
         return this.http
-            .post<IRestTokenResponse>(environment.userServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestTokenResponse>(
+                environment.userServiceUrl,
+                JSON.stringify(requestBody)
+            ).pipe(
                 switchMap(response => {
-                    switch (response.body.resultcode) {
+                    switch (response.resultcode) {
                         case 0:
-                            return of(response.body.email);
+                            return of(response.email);
                         case -1:
-                            return throwError(new TextError('Invalid email format!'));
+                            throw new TextError('Invalid email format!');
                         case -2:
-                            return throwError(new TextError('An account with this email already exists!'));
+                            throw new TextError('An account with this email already exists!');
                         default:
-                            const message = 'Unexpected error while sending registration email';
-                            LoggingService.logResponseError(message, response);
-                            return throwError(new TextError(message));
+                            throw new TextError('Unexpected error while sending registration email');
                     }
-                })
+                }),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR while sending registration email', err);
+                    return throwError(err);
+                }),
             );
     }
 
@@ -99,32 +119,39 @@ export class RestUserRepoService implements IUserRepoService {
     public register(
         token: string,
         password: string,
-        rememberMe: boolean): Observable<User> {
-
+        rememberMe: boolean
+    ): Observable<User> {
         const requestBody = {
             action: 'register',
-            token: token,
+            token: token, // TODO: remove token from request body
             password: password,
             rememberme: rememberMe ? '1' : '0',
         };
+
         return this.http
-            .post<IRestTokenResponse>(environment.userServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestTokenResponse>(
+                environment.userServiceUrl,
+                JSON.stringify(requestBody),
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            ).pipe(
                 switchMap(response => {
-                    switch (response.body.resultcode) {
+                    switch (response.resultcode) {
                         case 0:
-                            return of(new User(response.body.email, response.body.token));
+                            return of(new User(response.email, response.token));
                         case -1:
-                            return throwError(new TextError('Invalid password format!'));
+                            throw new TextError('Invalid password format!');
                         case -2:
-                            return throwError(new TextError('Invalid token!'));
+                            throw new TextError('Invalid token!');
                         case -3:
-                            return throwError(new TextError('An account with this email already exists!'));
+                            throw new TextError('An account with this email already exists!');
                         default:
-                            const message = 'Unknown error while activating user';
-                            LoggingService.logResponseError(message, response);
-                            return throwError(new TextError(message));
+                            throw new TextError('Unknown error while registering');
                     }
-                })
+                }),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR during registration', err);
+                    return throwError(err);
+                }),
             );
     }
 
@@ -134,22 +161,29 @@ export class RestUserRepoService implements IUserRepoService {
             action: 'sendlostpwemail',
             email: email
         };
+
         return this.http
-            .post<IRestTokenResponse>(environment.userServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestTokenResponse>(
+                environment.userServiceUrl,
+                JSON.stringify(requestBody),
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            ).pipe(
                 switchMap(response => {
-                    switch (response.body.resultcode) {
+                    switch (response.resultcode) {
                         case 0:
-                            return of(response.body.email);
+                            return of(response.email);
                         case -1:
-                            return throwError(new TextError('Invalid email format!'));
+                            throw new TextError('Invalid email format!');
                         case -2:
-                            return throwError(new TextError('An account with this email already exists!'));
+                            throw new TextError('An account with this email already exists!');
                         default:
-                            const message = 'Unexpected error while sending pw recovery email';
-                            LoggingService.logResponseError(message, response);
-                            return throwError(new TextError(message));
+                            throw new TextError('Unexpected error while sending password recovery email');
                     }
-                })
+                }),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR while sending password recovery email', err);
+                    return throwError(err);
+                }),
             );
     }
 
@@ -157,8 +191,8 @@ export class RestUserRepoService implements IUserRepoService {
     public resetPassword(
         token: string,
         newPassword: string,
-        rememberMe: boolean): Observable<User> {
-
+        rememberMe: boolean
+    ): Observable<User> {
         const requestBody = {
             action: 'resetpassword',
             token: token,
@@ -166,23 +200,29 @@ export class RestUserRepoService implements IUserRepoService {
             rememberme: rememberMe ? '1' : '0'
         };
         return this.http
-            .post<IRestTokenResponse>(environment.userServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+            .post<IRestTokenResponse>(
+                environment.userServiceUrl,
+                JSON.stringify(requestBody),
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            ).pipe(
                 switchMap(response => {
-                    switch (response.body.resultcode) {
+                    switch (response.resultcode) {
                         case 0:
-                            return of(new User(response.body.email, response.body.token));
+                            return of(new User(response.email, response.token));
                         case -1:
-                            return throwError(new TextError('Invalid password format!'));
+                            throw new TextError('Invalid password format!');
                         case -2:
-                            return throwError(new TextError('Invalid token!'));
+                            throw new TextError('Invalid token!');
                         case -3:
-                            return throwError(new TextError('Email does not exists!'));
+                            throw new TextError('Email does not exists!');
                         default:
-                            const message = 'Unknown error while resetting password';
-                            LoggingService.logResponseError(message, response);
-                            return throwError(new TextError(message));
+                            throw new TextError('Unknown error while resetting password');
                     }
-                })
+                }),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR during password reset', err);
+                    return throwError(err);
+                }),
             );
     }
 
@@ -190,32 +230,35 @@ export class RestUserRepoService implements IUserRepoService {
     public updatePassword(
         token: string,
         oldPassword: string,
-        newPassword: string): Observable<boolean> {
+        newPassword: string
+    ): Observable<boolean> {
+        const requestBody = {
+            action: 'updatepassword',
+            token: token,
+            oldpassword: oldPassword,
+            newpassword: newPassword
+        };
 
-    const requestBody = {
-        action: 'updatepassword',
-        token: token,
-        oldpassword: oldPassword,
-        newpassword: newPassword
-    };
-    return this.http
-        .post<IRestSimpleResponse>(environment.userServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
-            switchMap(response => {
-                switch (response.body.resultcode) {
-                    case 0:
-                        return of(true);
-                    case -1:
-                        return throwError(new TextError('Invalid new password format!'));
-                    case -2:
-                        return throwError(new TextError('Invalid token!'));
-                    case -3:
-                        return throwError(new TextError('Old password incorrect!'));
-                    default:
-                        const message = 'Unknown error while updating password';
-                        LoggingService.logResponseError(message, response);
-                        return throwError(new TextError(message));
-                }
-            })
-        );
+        return this.http
+            .post<IRestSimpleResponse>(environment.userServiceUrl, JSON.stringify(requestBody), {observe: 'response'}).pipe(
+                switchMap(response => {
+                    switch (response.body.resultcode) {
+                        case 0:
+                            return of(true);
+                        case -1:
+                            throw new TextError('Invalid new password format!');
+                        case -2:
+                            throw new TextError('Invalid token!');
+                        case -3:
+                            throw new TextError('Old password incorrect!');
+                        default:
+                            throw new TextError('Unknown error while updating password');
+                    }
+                }),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR during password update', err);
+                    return throwError(err);
+                }),
+            );
     }
 }

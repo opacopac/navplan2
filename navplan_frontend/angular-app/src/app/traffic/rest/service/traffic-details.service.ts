@@ -29,10 +29,9 @@ export class TrafficDetailsService implements ITrafficDetailsService {
         return this.http
             .post<IRestTrafficDetailsResponse>(
                 environment.trafficDetailServiceUrl,
-                JSON.stringify(requestBody),
-                {observe: 'response'})
+                JSON.stringify(requestBody))
             .pipe(
-                map(response => RestTrafficDetailsResponseConverter.fromRest(response.body)),
+                map(response => RestTrafficDetailsResponseConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading traffic details', err);
                     return throwError(err);
