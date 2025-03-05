@@ -18,8 +18,7 @@ import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 @Injectable()
 export class RestAircraftRepoService implements IAircraftRepoService {
-    constructor(
-        private http: HttpClient) {
+    constructor(private http: HttpClient) {
     }
 
 
@@ -31,7 +30,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         return this.http
             .get<IRestAircraftListResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
-                map((response) => RestAircraftListConverter.fromRest(response.body)),
+                map((response) => RestAircraftListConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading aircraft list', err);
                     return throwError(err);
@@ -50,7 +49,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         return this.http
             .get<IRestAircraftResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
-                map((response) => RestAircraftResponseConverter.fromRest(response.body)),
+                map((response) => RestAircraftResponseConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading aircraft', err);
                     return throwError(err);
@@ -70,7 +69,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
                     JSON.stringify(requestBody),
                     HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
                 ).pipe(
-                    map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
+                    map(response => RestAircraftConverter.fromRest(response.aircraft)),
                     catchError(err => {
                         LoggingService.logResponseError('ERROR updating aircraft', err);
                         return throwError(err);
@@ -83,7 +82,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
                     JSON.stringify(requestBody),
                     HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
                 ).pipe(
-                    map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
+                    map(response => RestAircraftConverter.fromRest(response.aircraft)),
                     catchError(err => {
                         LoggingService.logResponseError('ERROR creating aircraft', err);
                         return throwError(err);
@@ -103,7 +102,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
                 JSON.stringify(requestBody),
                 HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
             ).pipe(
-                map(response => RestAircraftConverter.fromRest(response.body.aircraft)),
+                map(response => RestAircraftConverter.fromRest(response.aircraft)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR duplicating aircraft', err);
                     return throwError(err);
@@ -118,7 +117,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         return this.http
             .delete<IRestSuccessResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
-                map(response => response.body.success),
+                map(response => response.success),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR deleting aircraft', err);
                     return throwError(err);

@@ -12,7 +12,6 @@ import {Airport} from '../../domain/model/airport';
 import {IRestAirport} from '../model/i-rest-airport';
 import {RestAirportConverter} from '../converter/rest-airport-converter';
 import {IAirportRepoService} from '../../domain/service/i-airport-repo.service';
-import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -30,9 +29,9 @@ export class AirportRestAdapterService implements IAirportRepoService {
             + '&zoom=' + zoom;
 
         return this.http
-            .get<IRestShortAirport[]>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
+            .get<IRestShortAirport[]>(url)
             .pipe(
-                map((response) => RestShortAirportConverter.fromRestList(response.body)),
+                map((response) => RestShortAirportConverter.fromRestList(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading airport list by extent', err);
                     return throwError(err);
@@ -45,9 +44,9 @@ export class AirportRestAdapterService implements IAirportRepoService {
         const url: string = environment.airportServiceUrl + '?action=getAdById&id=' + id;
 
         return this.http
-            .get<IRestAirport>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
+            .get<IRestAirport>(url)
             .pipe(
-                map((response) => RestAirportConverter.fromRest(response.body)),
+                map((response) => RestAirportConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading airport by id', err);
                     return throwError(err);
@@ -60,9 +59,9 @@ export class AirportRestAdapterService implements IAirportRepoService {
         const url: string = environment.airportServiceUrl + '?action=getAdByIcao&icao=' + icao;
 
         return this.http
-            .get<IRestAirport>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
+            .get<IRestAirport>(url)
             .pipe(
-                map((response) => RestAirportConverter.fromRest(response.body)),
+                map((response) => RestAirportConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading airport by icao', err);
                     return throwError(err);

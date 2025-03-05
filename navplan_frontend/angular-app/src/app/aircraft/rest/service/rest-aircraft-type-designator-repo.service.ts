@@ -7,10 +7,7 @@ import {LoggingService} from '../../../system/domain/service/logging/logging.ser
 import {IAircraftTypeDesignatorRepoService} from '../../domain/service/i-aircraft-type-designator-repo.service';
 import {AircraftTypeDesignator} from '../../domain/model/aircraft-type-designator';
 import {IRestAircraftTypeDesignatorListResponse} from './i-rest-aircraft-type-designator-list-response';
-import {
-    RestAircraftTypeDesignatorListResponseConverter
-} from '../converter/rest-aircraft-type-designator-list-response-converter';
-import {HttpHelper} from '../../../system/domain/service/http/http-helper';
+import {RestAircraftTypeDesignatorListResponseConverter} from '../converter/rest-aircraft-type-designator-list-response-converter';
 
 
 @Injectable()
@@ -24,9 +21,9 @@ export class RestAircraftTypeDesignatorRepoService implements IAircraftTypeDesig
         const url: string = environment.aircraftTypeDesignatorServiceUrl + '?query=' + searchText;
 
         return this.http
-            .get<IRestAircraftTypeDesignatorListResponse>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
+            .get<IRestAircraftTypeDesignatorListResponse>(url)
             .pipe(
-                map((response) => RestAircraftTypeDesignatorListResponseConverter.fromRest(response.body)),
+                map((response) => RestAircraftTypeDesignatorListResponseConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR searching aircraft type designators', err);
                     return throwError(err);

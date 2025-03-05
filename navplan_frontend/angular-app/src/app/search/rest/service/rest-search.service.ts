@@ -18,7 +18,8 @@ import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 @Injectable()
 export class RestSearchService implements ISearchRepoService {
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+    }
 
 
     public searchByPosition(
@@ -63,7 +64,7 @@ export class RestSearchService implements ISearchRepoService {
             return this.http
                 .get<IRestSearchResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
                 .pipe(
-                    map(response => RestSearchResponseConverter.fromRest(response.body)),
+                    map(response => RestSearchResponseConverter.fromRest(response)),
                     catchError(error => {
                         LoggingService.logResponseError('ERROR performing text search', error);
                         return throwError(error);

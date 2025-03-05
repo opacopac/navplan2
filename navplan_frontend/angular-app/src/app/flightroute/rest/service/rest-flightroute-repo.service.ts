@@ -31,7 +31,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
         return this.http
             .get<IRestFlightrouteListResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
-                map((response) => RestFlightrouteListConverter.fromRest(response.body)),
+                map((response) => RestFlightrouteListConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading flight route list', err);
                     return throwError(err);
@@ -50,7 +50,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
         return this.http
             .get<IRestFlightrouteResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
-                map((response) => RestFlightrouteResponseConverter.fromRest(response.body)),
+                map((response) => RestFlightrouteResponseConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading flight route', err);
                     return throwError(err);
@@ -69,7 +69,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
                     JSON.stringify(requestBody),
                     HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
                 ).pipe(
-                    map(response => RestFlightrouteConverter.fromRest(response.body.navplan))
+                    map(response => RestFlightrouteConverter.fromRest(response.navplan))
                 );
         } else {
             return this.http
@@ -78,7 +78,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
                     JSON.stringify(requestBody),
                     HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
                 ).pipe(
-                    map(response => RestFlightrouteConverter.fromRest(response.body.navplan))
+                    map(response => RestFlightrouteConverter.fromRest(response.navplan))
                 );
         }
     }
@@ -94,7 +94,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
                 JSON.stringify(requestBody),
                 HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
             ).pipe(
-                map(response => RestFlightrouteConverter.fromRest(response.body.navplan))
+                map(response => RestFlightrouteConverter.fromRest(response.navplan))
             );
     }
 
@@ -105,7 +105,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
         return this.http
             .delete<IRestSuccessResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
-                map((response) => response.body.success),
+                map((response) => response.success),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading flight route', err);
                     return throwError(err);

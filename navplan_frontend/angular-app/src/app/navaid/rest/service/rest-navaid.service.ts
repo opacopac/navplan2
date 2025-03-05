@@ -9,7 +9,6 @@ import {Navaid} from '../../domain/model/navaid';
 import {IRestNavaid} from '../model/i-rest-navaid';
 import {RestNavaidConverter} from '../model/rest-navaid-converter';
 import {INavaidRepo} from '../../domain/service/i-navaid-repo';
-import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -27,9 +26,9 @@ export class RestNavaidService implements INavaidRepo {
             + '&zoom=' + zoom;
 
         return this.http
-            .get<IRestNavaid[]>(url, HttpHelper.HTTP_OPTIONS_NO_CREDENTIALS)
+            .get<IRestNavaid[]>(url)
             .pipe(
-                map((response) => RestNavaidConverter.fromRestList(response.body)),
+                map((response) => RestNavaidConverter.fromRestList(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading navaid list by extent', err);
                     return throwError(err);
