@@ -5,6 +5,9 @@ WORKDIR /var/www/html/php
 # Install system dependencies
 RUN apt-get update
 
+# Enable mod_rewrite
+RUN a2enmod rewrite
+
 # Install ImageMagick dependencies
 RUN apt-get install -y libmagickwand-dev
 
@@ -38,6 +41,9 @@ COPY meteo_dwd /var/www/html/meteo_dwd
 # Copy composer files
 COPY php-app/composer.json /var/www/html/php/composer.json
 RUN composer update
+
+# Copy url rewrite configuration
+COPY php-app/api /var/www/html/api
 
 # Copy Code
 COPY php-app/src /var/www/html/php

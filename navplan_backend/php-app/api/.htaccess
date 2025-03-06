@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteBase /api/
+
+# Rewrite for /api/aircrafts/{id}
+RewriteRule ^aircrafts/(\d+)$ /php/Navplan/Aircraft/Aircraft.php?id=$1 [L,QSA]
+
+# Rewrite for /api/navaids/{id}
+RewriteRule ^navaids/(\d+)$ /php/Navplan/Navaid/Navaid.php?id=$1 [L,QSA]
