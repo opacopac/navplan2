@@ -1,20 +1,24 @@
 RewriteEngine On
 RewriteBase /api/
 
+# Define the php base path
+RewriteRule ^ - [E=BASEPATH:/php/Navplan/]
+
 
 ### aircrafts ###
 
 # Rewrite for /api/aircrafts
-RewriteRule ^aircrafts$ /php/Navplan/Aircraft/Aircraft.php [L,QSA]
+RewriteRule ^aircrafts$ %{ENV:BASEPATH}Aircraft/Aircraft.php [L,QSA]
 
 # Rewrite for /api/aircrafts/{id}
-RewriteRule ^aircrafts/(\d+)$ /php/Navplan/Aircraft/Aircraft.php?id=$1 [L,QSA]
+RewriteRule ^aircrafts/(\d+)$ %{ENV:BASEPATH}Aircraft/Aircraft.php?id=$1 [L,QSA]
 
 # Rewrite for /api/aircrafts/{id}/{action}
 RewriteCond %{REQUEST_METHOD} ^(POST|PUT)$
-RewriteRule ^aircrafts/(\d+)/([^/]+)$ /php/Navplan/Aircraft/Aircraft.php?id=$1&action=$2 [L,QSA]
+RewriteRule ^aircrafts/(\d+)/([^/]+)$ %{ENV:BASEPATH}Aircraft/Aircraft.php?id=$1&action=$2 [L,QSA]
+
 
 ### navaids ###
 
 # Rewrite for /api/navaids/{id}
-RewriteRule ^navaids/(\d+)$ /php/Navplan/Navaid/Navaid.php?id=$1 [L,QSA]
+RewriteRule ^navaids/(\d+)$ %{ENV:BASEPATH}Navaid/Navaid.php?id=$1 [L,QSA]
