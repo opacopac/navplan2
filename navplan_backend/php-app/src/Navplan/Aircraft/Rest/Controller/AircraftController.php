@@ -28,6 +28,7 @@ class AircraftController implements IRestController
 
     public function processRequest()
     {
+        var_dump($this->httpService->getGetArgs());
         switch ($this->httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
                 if ($this->httpService->hasGetArg(RestIdConverter::ARG_ID)) {
