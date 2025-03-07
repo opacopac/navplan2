@@ -5,7 +5,7 @@ namespace Navplan\User\Rest\Model;
 use Navplan\Common\StringNumberHelper;
 
 
-class TokenRequestConverter
+class RestTokenConverter
 {
     const ARG_TOKEN = "token";
 

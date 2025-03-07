@@ -10,7 +10,7 @@ use Navplan\User\Rest\Model\RegisterRequestConverter;
 use Navplan\User\Rest\Model\ResetPwRequestConverter;
 use Navplan\User\Rest\Model\SendLostPwRequestConverter;
 use Navplan\User\Rest\Model\SendRegisterEmailRequestConverter;
-use Navplan\User\Rest\Model\TokenRequestConverter;
+use Navplan\User\Rest\Model\RestTokenConverter;
 use Navplan\User\Rest\Model\UpdatePwRequestConverter;
 use Navplan\User\Rest\Model\UserResponseConverter;
 use Navplan\User\UseCase\AutoLogin\IAutoLoginUc;
@@ -59,7 +59,7 @@ class UserController implements IRestController
                 $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
                 break;
             case self::ACTION_AUTOLOGIN:
-                $token = TokenRequestConverter::getToken($this->httpService->getCookies());
+                $token = RestTokenConverter::getToken($this->httpService->getCookies());
                 $response = $this->autoLoginUc->autologin($token);
                 $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
                 break;
@@ -69,7 +69,7 @@ class UserController implements IRestController
                 $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
                 break;
             case self::ACTION_REGISTER:
-                $token = TokenRequestConverter::getToken($this->httpService->getCookies());
+                $token = RestTokenConverter::getToken($this->httpService->getCookies());
                 $request = RegisterRequestConverter::fromArgs($postVars, $token);
                 $response = $this->registerUc->register($request);
                 $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
@@ -80,13 +80,13 @@ class UserController implements IRestController
                 $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
                 break;
             case self::ACTION_RESET_PW:
-                $token = TokenRequestConverter::getToken($this->httpService->getCookies());
+                $token = RestTokenConverter::getToken($this->httpService->getCookies());
                 $request = ResetPwRequestConverter::fromArgs($postVars, $token);
                 $response = $this->resetPwUc->resetPassword($request);
                 $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
                 break;
             case self::ACTION_UPDATE_PW:
-                $token = TokenRequestConverter::getToken($this->httpService->getCookies());
+                $token = RestTokenConverter::getToken($this->httpService->getCookies());
                 $request = UpdatePwRequestConverter::fromArgs($postVars, $token);
                 $response = $this->updatePwUc->updatePassword($request);
                 $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));

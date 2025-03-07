@@ -1,7 +1,9 @@
 RewriteEngine On
+#RewriteBase /v2/api/
 RewriteBase /api/
 
 # Define the php base path
+#RewriteRule ^ - [E=BASEPATH:/v2/php/Navplan/]
 RewriteRule ^ - [E=BASEPATH:/php/Navplan/]
 
 

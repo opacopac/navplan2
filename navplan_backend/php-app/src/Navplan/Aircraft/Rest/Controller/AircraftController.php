@@ -9,18 +9,22 @@ use Navplan\Aircraft\Rest\Converter\RestCreateAircraftRequest;
 use Navplan\Aircraft\Rest\Converter\RestReadAircraftListResponse;
 use Navplan\Aircraft\Rest\Converter\RestUpdateAircraftRequest;
 use Navplan\Common\Rest\Controller\IRestController;
+use Navplan\Common\Rest\Converter\RestActionConverter;
 use Navplan\Common\Rest\Converter\RestIdConverter;
 use Navplan\Flightroute\Rest\Converter\RestSuccessResponse;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
-use Navplan\User\Rest\Model\TokenRequestConverter;
+use Navplan\User\Rest\Model\RestTokenConverter;
 
 
 class AircraftController implements IRestController
 {
+    const ARG_ACTION_DUPLICATE = "duplicate";
+
+
     public function __construct(
         private IAircraftService $aircraftService,
-        private IHttpService $httpService
+        private IHttpService     $httpService
     )
     {
     }
@@ -28,34 +32,32 @@ class AircraftController implements IRestController
 
     public function processRequest()
     {
+        $id = RestIdConverter::getIdOrNull($this->httpService->getGetArgs());
+        $action = RestActionConverter::getActionOrNull($this->httpService->getGetArgs());
+        $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
+
         switch ($this->httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
-                if ($this->httpService->hasGetArg(RestIdConverter::ARG_ID)) {
+                if ($id) {
                     // read aircraft
-                    $token = TokenRequestConverter::getToken($this->httpService->getCookies());
-                    $aircraftId = RestIdConverter::fromRest($this->httpService->getGetArgs());
-                    $aircraft = $this->aircraftService->read($aircraftId, $token);
+                    $aircraft = $this->aircraftService->read($id, $token);
                     $response = new RestAircraftResponse($aircraft);
                     $this->httpService->sendArrayResponse($response->toRest());
                 } else {
                     // read aircraft list
-                    $token = TokenRequestConverter::getToken($this->httpService->getCookies());
                     $aircraftList = $this->aircraftService->readList($token);
                     $response = new RestReadAircraftListResponse($aircraftList);
                     $this->httpService->sendArrayResponse($response->toRest());
                 }
                 break;
             case HttpRequestMethod::POST:
-                if ($this->httpService->hasPostArg(RestIdConverter::ARG_ID)) {
+                if ($action === self::ARG_ACTION_DUPLICATE && $id) {
                     // duplicate aircraft
-                    $token = TokenRequestConverter::getToken($this->httpService->getCookies());
-                    $aircraftId = RestIdConverter::fromRest($this->httpService->getPostArgs());
-                    $aircraft = $this->aircraftService->duplicate($aircraftId, $token);
+                    $aircraft = $this->aircraftService->duplicate($id, $token);
                     $response = new RestAircraftResponse($aircraft);
                     $this->httpService->sendArrayResponse($response->toRest());
                 } else {
                     // create aircraft
-                    $token = TokenRequestConverter::getToken($this->httpService->getCookies());
                     $request = RestCreateAircraftRequest::fromRest($this->httpService->getPostArgs());
                     $aircraft = $this->aircraftService->create($request->aircraft, $token);
                     $response = new RestAircraftResponse($aircraft);
@@ -64,7 +66,6 @@ class AircraftController implements IRestController
                 break;
             case HttpRequestMethod::PUT:
                 // update aircraft
-                $token = TokenRequestConverter::getToken($this->httpService->getCookies());
                 $request = RestUpdateAircraftRequest::fromRest($this->httpService->getPostArgs());
                 $aircraft = $this->aircraftService->update($request->aircraft, $token);
                 $response = new RestAircraftResponse($aircraft);
@@ -72,9 +73,7 @@ class AircraftController implements IRestController
                 break;
             case HttpRequestMethod::DELETE:
                 // delete aircraft
-                $token = TokenRequestConverter::getToken($this->httpService->getCookies());
-                $aircraftId = RestIdConverter::fromRest($this->httpService->getGetArgs());
-                $success = $this->aircraftService->delete($aircraftId, $token);
+                $success = $this->aircraftService->delete($id, $token);
                 $this->httpService->sendArrayResponse(RestSuccessResponse::toRest($success));
                 break;
             default:

@@ -25,7 +25,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
     // region aircraft list
 
     public readAircraftList(): Observable<AircraftListEntry[]> {
-        const url: string = environment.aircraftServiceUrl;
+        const url: string = environment.aircraftApiBaseUrl;
 
         return this.http
             .get<IRestAircraftListResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
@@ -44,7 +44,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
     // region aircraft CRUD
 
     public readAircraft(aircraftId: number): Observable<Aircraft> {
-        const url = environment.aircraftServiceUrl + '?id=' + aircraftId;
+        const url = environment.aircraftApiBaseUrl + '/' + aircraftId;
 
         return this.http
             .get<IRestAircraftResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
@@ -65,7 +65,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         if (aircraft.id > 0) {
             return this.http
                 .put<IRestAircraftResponse>(
-                    environment.aircraftServiceUrl,
+                    environment.aircraftApiBaseUrl + '/' + aircraft.id,
                     JSON.stringify(requestBody),
                     HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
                 ).pipe(
@@ -78,7 +78,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         } else {
             return this.http
                 .post<IRestAircraftResponse>(
-                    environment.aircraftServiceUrl,
+                    environment.aircraftApiBaseUrl,
                     JSON.stringify(requestBody),
                     HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
                 ).pipe(
@@ -93,13 +93,11 @@ export class RestAircraftRepoService implements IAircraftRepoService {
 
 
     public duplicateAircraft(aircraftId: number): Observable<Aircraft> {
-        const requestBody = {
-            id: aircraftId
-        };
+        const url = environment.aircraftApiBaseUrl + '/' + aircraftId + '/duplicate';
         return this.http
             .post<IRestAircraftResponse>(
-                environment.aircraftServiceUrl,
-                JSON.stringify(requestBody),
+                url,
+                HttpHelper.HTTP_EMPTY_BODY,
                 HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
             ).pipe(
                 map(response => RestAircraftConverter.fromRest(response.aircraft)),
@@ -112,7 +110,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
 
 
     public deleteAircraft(aircraftId: number): Observable<boolean> {
-        const url = environment.aircraftServiceUrl + '?id=' + aircraftId;
+        const url = environment.aircraftApiBaseUrl + '/' + aircraftId;
 
         return this.http
             .delete<IRestSuccessResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)

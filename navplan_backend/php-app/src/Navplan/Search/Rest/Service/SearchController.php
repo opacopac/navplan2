@@ -9,7 +9,7 @@ use Navplan\Search\Rest\Model\RestSearchByPositionQueryConverter;
 use Navplan\Search\Rest\Model\RestSearchByTextQueryConverter;
 use Navplan\Search\Rest\Model\RestSearchResultConverter;
 use Navplan\System\Domain\Service\IHttpService;
-use Navplan\User\Rest\Model\TokenRequestConverter;
+use Navplan\User\Rest\Model\RestTokenConverter;
 
 
 class SearchController implements IRestController
@@ -33,13 +33,13 @@ class SearchController implements IRestController
         $action = $args[self::ARG_ACTION] ?? NULL;
         switch ($action) {
             case self::ACTION_SEARCH_BY_TEXT:
-                $token = TokenRequestConverter::getTokenOrNull($this->httpService->getCookies());
+                $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
                 $query = RestSearchByTextQueryConverter::fromArgs($args);
                 $result = $this->searchService->searchByText($query, $token);
                 $this->httpService->sendArrayResponse(RestSearchResultConverter::toRest($result));
                 break;
             case self::ACTION_SEARCH_BY_POSITION:
-                $token = TokenRequestConverter::getTokenOrNull($this->httpService->getCookies());
+                $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
                 $query = RestSearchByPositionQueryConverter::fromArgs($args);
                 $result = $this->searchService->searchByPosition($query, $token);
                 $this->httpService->sendArrayResponse(RestSearchResultConverter::toRest($result));

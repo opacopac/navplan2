@@ -17,7 +17,7 @@ use Navplan\Flightroute\Rest\Converter\RestSuccessResponse;
 use Navplan\Flightroute\Rest\Converter\RestUpdateFlightrouteRequest;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
-use Navplan\User\Rest\Model\TokenRequestConverter;
+use Navplan\User\Rest\Model\RestTokenConverter;
 
 
 class FlightrouteController implements IRestController
@@ -43,14 +43,14 @@ class FlightrouteController implements IRestController
                     $this->httpService->sendArrayResponse($response->toRest());
                 } elseif ($this->httpService->hasGetArg(RestIdConverter::ARG_ID)) {
                     // read flightroute
-                    $token = TokenRequestConverter::getToken($this->httpService->getCookies());
-                    $flightrouteId = RestIdConverter::fromRest($this->httpService->getGetArgs());
+                    $token = RestTokenConverter::getToken($this->httpService->getCookies());
+                    $flightrouteId = RestIdConverter::getId($this->httpService->getGetArgs());
                     $flightroute = $this->flightrouteService->read($flightrouteId, $token);
                     $response = new RestFlightrouteResponse($flightroute);
                     $this->httpService->sendArrayResponse($response->toRest());
                 } else {
                     // read flightroute list
-                    $token = TokenRequestConverter::getToken($this->httpService->getCookies());
+                    $token = RestTokenConverter::getToken($this->httpService->getCookies());
                     $flightrouteList = $this->flightrouteService->readList($token);
                     $response = new RestReadFlightrouteListResponse($flightrouteList);
                     $this->httpService->sendArrayResponse($response->toRest());
@@ -70,14 +70,14 @@ class FlightrouteController implements IRestController
                     $this->httpService->hasGetArg(RestDuplicateFlightrouteRequest::ARG_ACTION)
                     && $this->httpService->getGetArgs()[RestDuplicateFlightrouteRequest::ARG_ACTION] === RestDuplicateFlightrouteRequest::VAL_ACTION_DUPLICATE) {
                     // duplicate flightroute
-                    $token = TokenRequestConverter::getToken($this->httpService->getCookies());
-                    $flightrouteId = RestIdConverter::fromRest($this->httpService->getGetArgs());
+                    $token = RestTokenConverter::getToken($this->httpService->getCookies());
+                    $flightrouteId = RestIdConverter::getId($this->httpService->getGetArgs());
                     $flightroute = $this->flightrouteService->duplicate($flightrouteId, $token);
                     $response = new RestFlightrouteResponse($flightroute);
                     $this->httpService->sendArrayResponse($response->toRest());
                 } else {
                     // create flightroute
-                    $token = TokenRequestConverter::getToken($this->httpService->getCookies());
+                    $token = RestTokenConverter::getToken($this->httpService->getCookies());
                     $request = RestCreateFlightrouteRequest::fromRest($this->httpService->getPostArgs());
                     $flightroute = $this->flightrouteService->create($request->flightroute, $token);
                     $response = new RestFlightrouteResponse($flightroute);
@@ -86,7 +86,7 @@ class FlightrouteController implements IRestController
                 break;
             case HttpRequestMethod::PUT:
                 // update flightroute
-                $token = TokenRequestConverter::getToken($this->httpService->getCookies());
+                $token = RestTokenConverter::getToken($this->httpService->getCookies());
                 $request = RestUpdateFlightrouteRequest::fromRest($this->httpService->getPostArgs());
                 $flightroute = $this->flightrouteService->update($request->flightroute, $token);
                 $response = new RestFlightrouteResponse($flightroute);
@@ -94,8 +94,8 @@ class FlightrouteController implements IRestController
                 break;
             case HttpRequestMethod::DELETE:
                 // delete flightroute
-                $token = TokenRequestConverter::getToken($this->httpService->getCookies());
-                $flightrouteId = RestIdConverter::fromRest($this->httpService->getGetArgs());
+                $token = RestTokenConverter::getToken($this->httpService->getCookies());
+                $flightrouteId = RestIdConverter::getId($this->httpService->getGetArgs());
                 $success = $this->flightrouteService->delete($flightrouteId, $token);
                 $this->httpService->sendArrayResponse(RestSuccessResponse::toRest($success));
                 break;
