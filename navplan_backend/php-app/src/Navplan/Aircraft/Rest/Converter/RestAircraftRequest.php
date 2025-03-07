@@ -5,7 +5,7 @@ namespace Navplan\Aircraft\Rest\Converter;
 use Navplan\Aircraft\Domain\Model\Aircraft;
 
 
-class RestUpdateAircraftRequest
+class RestAircraftRequest
 {
     public const ARG_AIRCRAFT = "aircraft";
 
@@ -17,9 +17,9 @@ class RestUpdateAircraftRequest
     }
 
 
-    public static function fromRest(array $args): RestUpdateAircraftRequest
+    public static function fromRest(array $args): RestAircraftRequest
     {
-        return new RestUpdateAircraftRequest(
+        return new RestAircraftRequest(
             RestAircraftConverter::fromRest($args[self::ARG_AIRCRAFT])
         );
     }

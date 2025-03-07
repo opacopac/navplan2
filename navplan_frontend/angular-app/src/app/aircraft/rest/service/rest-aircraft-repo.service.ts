@@ -62,6 +62,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
         const requestBody = {
             aircraft: RestAircraftConverter.toRest(aircraft)
         };
+
         if (aircraft.id > 0) {
             return this.http
                 .put<IRestAircraftResponse>(
@@ -94,6 +95,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
 
     public duplicateAircraft(aircraftId: number): Observable<Aircraft> {
         const url = environment.aircraftApiBaseUrl + '/' + aircraftId + '/duplicate';
+
         return this.http
             .post<IRestAircraftResponse>(
                 url,
