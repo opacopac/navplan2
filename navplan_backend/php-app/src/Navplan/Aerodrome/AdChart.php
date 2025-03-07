@@ -8,6 +8,6 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
-$controller = $diContainer->getAerodromeDiContainer()->getAirportController();
+$controller = $diContainer->getAerodromeDiContainer()->getAirportChartController();
 
 $controller->processRequest();
