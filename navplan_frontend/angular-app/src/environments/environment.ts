@@ -17,7 +17,7 @@ export const environment = {
     navaidServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Navaid/Navaid.php',
     exporterBaseUrl: WEBSITE_BASE_URL + 'php/Navplan/Exporter/Exporter.php',
     exportBaseUrl: WEBSITE_BASE_URL + 'tmp/',
-    flightrouteServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Flightroute/Flightroute.php',
+    flightrouteApiBaseUrl: WEBSITE_BASE_URL + 'api/flightroutes',
     metarTafBaseUrl: 'https://www.aviationweather.gov/cgi-bin/json/MetarJSON.php?taf=true&density=all&bbox=',
     meteoDwdServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoDwd/MeteoDwd.php',
     meteoDwdMapTilesUrl: WEBSITE_BASE_URL + 'meteo_dwd/',

@@ -26,7 +26,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
     // region flightroute list
 
     public readFlightrouteList(): Observable<FlightrouteListEntry[]> {
-        const url: string = environment.flightrouteServiceUrl;
+        const url: string = environment.flightrouteApiBaseUrl;
 
         return this.http
             .get<IRestFlightrouteListResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
@@ -45,7 +45,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
     // region flightroute CRUD
 
     public readFlightroute(flightrouteId: number): Observable<Flightroute> {
-        const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId;
+        const url = environment.flightrouteApiBaseUrl + '/' + flightrouteId;
 
         return this.http
             .get<IRestFlightrouteResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
@@ -60,12 +60,14 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
 
 
     public saveFlightroute(flightroute: Flightroute): Observable<Flightroute> {
-        const requestBody = {navplan: RestFlightrouteConverter.toRest(flightroute)};
+        const requestBody = {
+            navplan: RestFlightrouteConverter.toRest(flightroute)
+        };
 
         if (flightroute.id > 0) {
             return this.http
                 .put<IRestFlightrouteResponse>(
-                    environment.flightrouteServiceUrl,
+                    environment.flightrouteApiBaseUrl + '/' + flightroute.id,
                     JSON.stringify(requestBody),
                     HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
                 ).pipe(
@@ -74,7 +76,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
         } else {
             return this.http
                 .post<IRestFlightrouteResponse>(
-                    environment.flightrouteServiceUrl,
+                    environment.flightrouteApiBaseUrl,
                     JSON.stringify(requestBody),
                     HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
                 ).pipe(
@@ -85,13 +87,12 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
 
 
     public duplicateFlightroute(flightrouteId: number): Observable<Flightroute> {
-        const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId + '&action=duplicate';
-        const requestBody = {navplan: null};
+        const url = environment.flightrouteApiBaseUrl + '/' + flightrouteId + '/duplicate';
 
         return this.http
             .post<IRestFlightrouteResponse>(
                 url,
-                JSON.stringify(requestBody),
+                HttpHelper.HTTP_EMPTY_BODY,
                 HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
             ).pipe(
                 map(response => RestFlightrouteConverter.fromRest(response.navplan))
@@ -100,7 +101,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
 
 
     public deleteFlightroute(flightrouteId: number): Observable<boolean> {
-        const url = environment.flightrouteServiceUrl + '?id=' + flightrouteId;
+        const url = environment.flightrouteApiBaseUrl + '/' + flightrouteId;
 
         return this.http
             .delete<IRestSuccessResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)

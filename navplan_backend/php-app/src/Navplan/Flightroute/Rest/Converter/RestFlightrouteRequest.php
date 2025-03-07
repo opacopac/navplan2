@@ -5,7 +5,7 @@ namespace Navplan\Flightroute\Rest\Converter;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 
 
-class RestCreateFlightrouteRequest
+class RestFlightrouteRequest
 {
     public const ARG_ROUTE = "navplan";
 
@@ -17,9 +17,9 @@ class RestCreateFlightrouteRequest
     }
 
 
-    public static function fromRest(array $args): RestCreateFlightrouteRequest
+    public static function fromRest(array $args): RestFlightrouteRequest
     {
-        return new RestCreateFlightrouteRequest(
+        return new RestFlightrouteRequest(
             RestFlightrouteConverter::fromRest($args[self::ARG_ROUTE])
         );
     }

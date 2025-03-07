@@ -20,7 +20,15 @@ RewriteCond %{REQUEST_METHOD} ^(POST|PUT)$
 RewriteRule ^aircrafts/(\d+)/([^/]+)$ %{ENV:BASEPATH}Aircraft/Aircraft.php?id=$1&action=$2 [L,QSA]
 
 
-### navaids ###
+### flight routes ###
 
-# Rewrite for /api/navaids/{id}
-RewriteRule ^navaids/(\d+)$ %{ENV:BASEPATH}Navaid/Navaid.php?id=$1 [L,QSA]
+# Rewrite for /api/flightroutes
+RewriteRule ^flightroutes$ %{ENV:BASEPATH}Flightroute/Flightroute.php [L,QSA]
+
+# Rewrite for /api/flightroutes/{id}
+RewriteRule ^flightroutes/(\d+)$ %{ENV:BASEPATH}Flightroute/Flightroute.php?id=$1 [L,QSA]
+
+# Rewrite for /api/flightroutes/{id}/{action}
+RewriteCond %{REQUEST_METHOD} ^(POST|PUT)$
+RewriteRule ^flightroutes/(\d+)/([^/]+)$ %{ENV:BASEPATH}Flightroute/Flightroute.php?id=$1&action=$2 [L,QSA]
+
