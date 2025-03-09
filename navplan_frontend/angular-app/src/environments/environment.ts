@@ -24,7 +24,7 @@ export const environment = {
     metarTafBaseUrl: 'https://www.aviationweather.gov/cgi-bin/json/MetarJSON.php?taf=true&density=all&bbox=',
     meteoDwdServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoDwd/MeteoDwd.php',
     meteoDwdMapTilesUrl: WEBSITE_BASE_URL + 'meteo_dwd/',
-    cloudMeteogramServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoGram/Rest/Service/ReadCloudMeteogram.php',
+    meteogramApiBaseUrl: WEBSITE_BASE_URL + 'api/meteograms',
     meteoSmaServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoSma/MeteoSma.php',
     notamRestApiBaseUrl: WEBSITE_BASE_URL + 'api/notams',
     openAipServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/Search.php',

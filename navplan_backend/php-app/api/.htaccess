@@ -56,6 +56,10 @@ RewriteCond %{REQUEST_METHOD} ^(POST|PUT)$
 RewriteRule ^flightroutes/(\d+)/([^/]+)$ %{ENV:BASEPATH}Flightroute/Flightroute.php?id=$1&action=$2 [L,QSA]
 
 
+### meteograms ###
+# Rewrite for /api/meteograms
+RewriteRule ^meteograms$ %{ENV:BASEPATH}MeteoGram/Rest/Service/ReadCloudMeteogram.php [L,QSA]
+
 ### navaids ###
 # Rewrite for /api/navaids
 RewriteRule ^navaids$ %{ENV:BASEPATH}Navaid/Navaid.php [L,QSA]

@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {IMeteoDwdService} from '../../domain/service/i-meteo-dwd.service';
 import {WindInfo} from '../../domain/model/wind-info';
-import {Observable, of, shareReplay, throwError} from 'rxjs';
+import {Observable, shareReplay, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {GridDefinition} from '../../domain/model/grid-definition';
@@ -17,10 +17,6 @@ import {RestWindInfoConverter} from '../model/rest-wind-info-converter';
 import {RestWeatherInfoConverter} from '../model/rest-weather-info-converter';
 import {IRestWeatherInfo} from '../model/i-rest-weather-info';
 import {RestForecastStepConverter} from '../model/rest-forecast-step-converter';
-import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
-import {RestCloudMeteogramConverter} from '../../../meteo-gram/rest/model/rest-cloud-meteogram-converter';
-import {IRestCloudMeteogram} from '../../../meteo-gram/rest/model/i-rest-cloud-meteogram';
-import {CloudMeteogram} from '../../../meteo-gram/domain/model/cloud-meteogram';
 
 
 @Injectable()
@@ -79,28 +75,6 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     }
 
 
-    readCloudMeteoGram(forecast: ForecastRun, position: Position2d): Observable<CloudMeteogram> {
-        if (!forecast) {
-            return of(undefined);
-        }
-
-        const url = environment.cloudMeteogramServiceUrl
-            + '?forecastrun=' + forecast.getName()
-            + '&minstep=' + forecast.model.minStep
-            + '&maxstep=' + forecast.model.maxStep
-            + '&lon=' + position.longitude
-            + '&lat=' + position.latitude;
-
-        return this.http.get<IRestCloudMeteogram>(url).pipe(
-            map(response => RestCloudMeteogramConverter.fromRest(response)),
-            catchError(error => {
-                LoggingService.logResponseError('ERROR reading cloud meteogram!', error);
-                return throwError(error);
-            }),
-        );
-    }
-
-
     public getWeatherMapTilesUrl(forecast: ForecastRun, step: number): string {
         const modelStr = this.getUrlPartByModel(forecast.model.modelType);
         const stepStr = RestForecastStepConverter.toRest(step);
@@ -121,10 +95,14 @@ export class RestMeteoDwdService implements IMeteoDwdService {
 
     private getUrlPartByModel(model: WeatherModelType): string {
         switch (model) {
-            case WeatherModelType.ICON_D2: return 'icon-d2';
-            case WeatherModelType.ICON_EU: return 'icon-eu';
-            case WeatherModelType.ICON: return 'icon';
-            default: throw new Error('unknown model type');
+            case WeatherModelType.ICON_D2:
+                return 'icon-d2';
+            case WeatherModelType.ICON_EU:
+                return 'icon-eu';
+            case WeatherModelType.ICON:
+                return 'icon';
+            default:
+                throw new Error('unknown model type');
         }
     }
 

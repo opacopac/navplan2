@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
@@ -23,14 +23,15 @@ export class RestMeteoGramService implements IMeteoGramService {
             return of(undefined);
         }
 
-        const url = environment.cloudMeteogramServiceUrl
-            + '?forecastrun=' + forecast.getName()
-            + '&minstep=' + forecast.model.minStep
-            + '&maxstep=' + forecast.model.maxStep
-            + '&lon=' + position.longitude
-            + '&lat=' + position.latitude;
+        const params = new HttpParams()
+            .set('forecastrun', forecast.getName())
+            .set('minstep', forecast.model.minStep.toString())
+            .set('maxstep', forecast.model.maxStep.toString())
+            .set('lon', position.longitude.toString())
+            .set('lat', position.latitude.toString());
+        const url = environment.meteogramApiBaseUrl;
 
-        return this.http.get<IRestCloudMeteogram>(url).pipe(
+        return this.http.get<IRestCloudMeteogram>(url, {params}).pipe(
             map(response => RestCloudMeteogramConverter.fromRest(response)),
             catchError(error => {
                 LoggingService.logResponseError('ERROR reading cloud meteogram!', error);
