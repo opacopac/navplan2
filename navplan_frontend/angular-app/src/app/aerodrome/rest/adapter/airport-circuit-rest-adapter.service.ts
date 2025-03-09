@@ -18,8 +18,8 @@ export class AirportCircuitRestAdapterService implements IAirportCircuitRepoServ
 
 
     public readAirportCircuitsByExtent(extent: Extent2d, zoom: number): Observable<AirportCircuit[]> {
-        const url: string = environment.airportServiceUrl + '?action=getAdCircuitsByExtent'
-            + '&minlon=' + extent.minLon
+        const url: string = environment.airportCircuitApiBaseUrl
+            + '?minlon=' + extent.minLon
             + '&minlat=' + extent.minLat
             + '&maxlon=' + extent.maxLon
             + '&maxlat=' + extent.maxLat

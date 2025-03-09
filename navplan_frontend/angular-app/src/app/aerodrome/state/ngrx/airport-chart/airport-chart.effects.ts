@@ -22,7 +22,7 @@ export class AirportChartEffects {
 
     showAirportChartAndShowImageAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.openAirportChart),
-        switchMap(action => this.airportChartService.readAdChart2ById(action.chartId)),
+        switchMap(action => this.airportChartService.readAdChartById(action.chartId)),
         catchError(error => {
             LoggingService.logResponseError('ERROR reading airport chart by id', error);
             return throwError(error);

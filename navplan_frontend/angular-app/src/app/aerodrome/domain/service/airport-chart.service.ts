@@ -14,9 +14,4 @@ export class AirportChartService implements IAirportChartService {
     public readAdChartById(chartId: number): Observable<AirportChart> {
         return this.airportChartRepo.readAdChartById(chartId);
     }
-
-
-    public readAdChart2ById(chartId: number): Observable<AirportChart> {
-        return this.airportChartRepo.readAdChart2ById(chartId);
-    }
 }

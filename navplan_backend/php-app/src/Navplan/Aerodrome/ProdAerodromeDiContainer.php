@@ -33,9 +33,9 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
 
 
     public function __construct(
-        private IDbService      $dbService,
+        private IDbService $dbService,
         private ILoggingService $loggingService,
-        private IHttpService    $httpService
+        private IHttpService $httpService
     )
     {
     }
@@ -46,10 +46,7 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
         if (!isset($this->airportController)) {
             $this->airportController = new AirportController(
                 $this->httpService,
-                $this->getAirportService(),
-                $this->getAirportCircuitService(),
-                $this->getAirportChartService(),
-                $this->getReportingPointService()
+                $this->getAirportService()
             );
         }
 

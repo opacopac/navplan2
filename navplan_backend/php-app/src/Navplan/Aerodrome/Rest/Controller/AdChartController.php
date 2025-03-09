@@ -14,7 +14,7 @@ use Navplan\System\Domain\Service\IHttpService;
 class AdChartController implements IRestController
 {
     public function __construct(
-        private IHttpService         $httpService,
+        private IHttpService $httpService,
         private IAirportChartService $airportChartService,
     )
     {
@@ -27,7 +27,8 @@ class AdChartController implements IRestController
             case HttpRequestMethod::GET:
                 $id = RestIdConverter::getId($this->httpService->getGetArgs());
                 $adChart = $this->airportChartService->getAdChart2ById($id);
-                $this->httpService->sendArrayResponse(RestAirportChart2Converter::toRest($adChart));
+                $response = RestAirportChart2Converter::toRest($adChart);
+                $this->httpService->sendArrayResponse($response);
                 break;
             default:
                 throw new InvalidArgumentException("invalid request");

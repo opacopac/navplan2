@@ -9,7 +9,8 @@ use Navplan\Aerodrome\Domain\Service\IReportingPointService;
 use Navplan\Common\Rest\Controller\IRestController;
 
 
-interface IAerodromeDiContainer {
+interface IAerodromeDiContainer
+{
     function getAirportController(): IRestController;
 
     function getAirportCircuitController(): IRestController;

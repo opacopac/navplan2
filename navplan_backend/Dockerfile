@@ -2,11 +2,11 @@ FROM php:8.2-apache
 
 WORKDIR /var/www/html/php
 
-# Install system dependencies
-RUN apt-get update
-
 # Enable mod_rewrite
 RUN a2enmod rewrite
+
+# Install system dependencies
+RUN apt-get update
 
 # Install ImageMagick dependencies
 RUN apt-get install -y libmagickwand-dev

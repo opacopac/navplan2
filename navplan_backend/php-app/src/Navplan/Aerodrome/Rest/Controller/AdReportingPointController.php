@@ -14,7 +14,7 @@ use Navplan\System\Domain\Service\IHttpService;
 class AdReportingPointController implements IRestController
 {
     public function __construct(
-        private IHttpService           $httpService,
+        private IHttpService $httpService,
         private IReportingPointService $reportingPointService
     )
     {
@@ -27,7 +27,8 @@ class AdReportingPointController implements IRestController
             case HttpRequestMethod::GET:
                 $extent = RestExtent2dConverter::fromArgs($this->httpService->getGetArgs());
                 $rpList = $this->reportingPointService->searchByExtent($extent);
-                $this->httpService->sendArrayResponse(RestReportingPointConverter::toRestList($rpList));
+                $response = RestReportingPointConverter::toRestList($rpList);
+                $this->httpService->sendArrayResponse($response);
                 break;
             default:
                 throw new InvalidArgumentException("invalid request");

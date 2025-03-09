@@ -14,7 +14,7 @@ use Navplan\System\Domain\Service\IHttpService;
 class AdCircuitController implements IRestController
 {
     public function __construct(
-        private IHttpService           $httpService,
+        private IHttpService $httpService,
         private IAirportCircuitService $airportCircuitService,
     )
     {
@@ -27,7 +27,8 @@ class AdCircuitController implements IRestController
             case HttpRequestMethod::GET:
                 $extent = RestExtent2dConverter::fromArgs($this->httpService->getGetArgs());
                 $adList = $this->airportCircuitService->getCircuitsByExtent($extent);
-                $this->httpService->sendArrayResponse(RestAirportCircuitConverter::toRestList($adList));
+                $response = RestAirportCircuitConverter::toRestList($adList);
+                $this->httpService->sendArrayResponse($response);
                 break;
             default:
                 throw new InvalidArgumentException("invalid request");

@@ -21,8 +21,8 @@ export class AirportRestAdapterService implements IAirportRepoService {
 
 
     public readAirportsByExtent(extent: Extent2d, zoom: number): Observable<ShortAirport[]> {
-        const url: string = environment.airportServiceUrl + '?action=getShortAdByExtent'
-            + '&minlon=' + extent.minLon
+        const url: string = environment.airportApiBaseUrl
+            + '?minlon=' + extent.minLon
             + '&minlat=' + extent.minLat
             + '&maxlon=' + extent.maxLon
             + '&maxlat=' + extent.maxLat
@@ -41,7 +41,7 @@ export class AirportRestAdapterService implements IAirportRepoService {
 
 
     public readAirportById(id: number): Observable<Airport> {
-        const url: string = environment.airportServiceUrl + '?action=getAdById&id=' + id;
+        const url: string = environment.airportApiBaseUrl + '/' + id;
 
         return this.http
             .get<IRestAirport>(url)
@@ -56,7 +56,7 @@ export class AirportRestAdapterService implements IAirportRepoService {
 
 
     public readAirportByIcao(icao: string): Observable<Airport> {
-        const url: string = environment.airportServiceUrl + '?action=getAdByIcao&icao=' + icao;
+        const url: string = environment.airportApiBaseUrl + '?icao=' + icao;
 
         return this.http
             .get<IRestAirport>(url)

@@ -19,8 +19,8 @@ export class ReportingPointRestAdapterService implements IReportingPointRepoServ
 
 
     public readReportingPointsByExtent(extent: Extent2d): Observable<ReportingPointsAndSectors> {
-        const url: string = environment.airportServiceUrl + '?action=getRpByExtent'
-            + '&minlon=' + extent.minLon
+        const url: string = environment.airportReportingPointApiBaseUrl
+            + '?minlon=' + extent.minLon
             + '&minlat=' + extent.minLat
             + '&maxlon=' + extent.maxLon
             + '&maxlat=' + extent.maxLat;
