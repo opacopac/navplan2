@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {Observable} from 'rxjs/internal/Observable';
 import {catchError, map} from 'rxjs/operators';
@@ -11,6 +11,10 @@ import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d'
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {Notam} from '../../domain/model/notam';
 import {RestNotamConverter} from '../model/rest-notam-converter';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
+import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
+import {RestZoomConverter} from '../../../geo-physics/rest/model/rest-zoom-converter';
+import {Position2dConverter} from '../../../geo-physics/rest/model/position2d-converter';
 
 
 @Injectable()
@@ -20,16 +24,15 @@ export class RestNotamRepo implements INotamRepoService {
 
 
     public readByExtent(extent: Extent2d, zoom: number, starttimestamp: number, endtimestamp: number): Observable<Notam[]> {
-        const url = environment.notamRestServiceUrl + '?action=searchByExtent'
-            + '&starttimestamp=' + starttimestamp
-            + '&endtimestamp=' + endtimestamp
-            + '&minlon=' + extent.minLon
-            + '&minlat=' + extent.minLat
-            + '&maxlon=' + extent.maxLon
-            + '&maxlat=' + extent.maxLat
-            + '&zoom=' + zoom;
+        const params = HttpHelper.mergeParameters([
+            RestExtent2dConverter.getUrlParams(extent),
+            RestZoomConverter.getUrlParam(zoom),
+            this.getTimestampParams(starttimestamp, endtimestamp)
+        ]);
+        const url = environment.notamRestApiBaseUrl;
+
         return this.http
-            .get<IRestNotamResponse>(url)
+            .get<IRestNotamResponse>(url, {params})
             .pipe(
                 map(response => RestNotamConverter.fromRestList(response.notams)),
                 catchError(error => {
@@ -41,13 +44,14 @@ export class RestNotamRepo implements INotamRepoService {
 
 
     public readByPosition(position: Position2d, starttimestamp: number, endtimestamp: number): Observable<Notam[]> {
-        const url = environment.notamRestServiceUrl + '?action=searchByPosition'
-            + '&starttimestamp=' + starttimestamp
-            + '&endtimestamp=' + endtimestamp
-            + '&longitude=' + position.longitude
-            + '&latitude=' + position.latitude;
+        const params = HttpHelper.mergeParameters([
+            Position2dConverter.getUrlParams(position),
+            this.getTimestampParams(starttimestamp, endtimestamp)
+        ]);
+        const url = environment.notamRestApiBaseUrl;
+
         return this.http
-            .get<IRestNotamResponse>(url)
+            .get<IRestNotamResponse>(url, {params})
             .pipe(
                 map(response => RestNotamConverter.fromRestList(response.notams)),
                 catchError(error => {
@@ -59,12 +63,14 @@ export class RestNotamRepo implements INotamRepoService {
 
 
     public readByIcao(airportIcao: string, starttimestamp: number, endtimestamp: number): Observable<Notam[]> {
-        const url = environment.notamRestServiceUrl + '?action=searchByIcao'
-            + '&icao=' + airportIcao
-            + '&starttimestamp=' + starttimestamp
-            + '&endtimestamp=' + endtimestamp;
+        const params = HttpHelper.mergeParameters([
+            new HttpParams().set('icao', airportIcao),
+            this.getTimestampParams(starttimestamp, endtimestamp)
+        ]);
+        const url = environment.notamRestApiBaseUrl;
+
         return this.http
-            .get<IRestNotamResponse>(url)
+            .get<IRestNotamResponse>(url, {params})
             .pipe(
                 map(response => RestNotamConverter.fromRestList(response.notams)),
                 catchError(error => {
@@ -72,5 +78,12 @@ export class RestNotamRepo implements INotamRepoService {
                     return throwError(error);
                 })
             );
+    }
+
+
+    private getTimestampParams(starttimestamp: number, endtimestamp: number): HttpParams {
+        return new HttpParams()
+            .set('starttimestamp', starttimestamp.toString())
+            .set('endtimestamp', endtimestamp.toString());
     }
 }

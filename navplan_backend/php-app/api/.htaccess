@@ -38,7 +38,7 @@ RewriteCond %{REQUEST_METHOD} ^(POST|PUT)$
 RewriteRule ^aircrafts/(\d+)/([^/]+)$ %{ENV:BASEPATH}Aircraft/Aircraft.php?id=$1&action=$2 [L,QSA]
 
 
-### airspace ###
+### airspaces ###
 # Rewrite for /api/airspaces
 RewriteRule ^airspaces$ %{ENV:BASEPATH}Airspace/Airspace.php [L,QSA]
 
@@ -59,6 +59,11 @@ RewriteRule ^flightroutes/(\d+)/([^/]+)$ %{ENV:BASEPATH}Flightroute/Flightroute.
 ### navaids ###
 # Rewrite for /api/navaids
 RewriteRule ^navaids$ %{ENV:BASEPATH}Navaid/Navaid.php [L,QSA]
+
+
+### notams ###
+# Rewrite for /api/notams
+RewriteRule ^notams$ %{ENV:BASEPATH}Notam/Notam.php [L,QSA]
 
 
 ### webcams ###
