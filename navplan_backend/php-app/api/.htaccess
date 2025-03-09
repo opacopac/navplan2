@@ -62,6 +62,12 @@ RewriteRule ^flightroutes/(\d+)/([^/]+)$ %{ENV:BASEPATH}Flightroute/Flightroute.
 # Rewrite for /api/meteograms
 RewriteRule ^meteograms$ %{ENV:BASEPATH}MeteoGram/Rest/Service/ReadCloudMeteogram.php [L,QSA]
 
+
+### meteo SMA ###
+# Rewrite for /api/meteosma
+RewriteRule ^meteosma$ %{ENV:BASEPATH}MeteoSma/MeteoSma.php [L,QSA]
+
+
 ### navaids ###
 # Rewrite for /api/navaids
 RewriteRule ^navaids$ %{ENV:BASEPATH}Navaid/Navaid.php [L,QSA]

@@ -25,7 +25,7 @@ export const environment = {
     meteoDwdServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoDwd/MeteoDwd.php',
     meteoDwdMapTilesUrl: WEBSITE_BASE_URL + 'meteo_dwd/',
     meteogramApiBaseUrl: WEBSITE_BASE_URL + 'api/meteograms',
-    meteoSmaServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/MeteoSma/MeteoSma.php',
+    meteoSmaApiBaseUrl: WEBSITE_BASE_URL + 'api/meteosma',
     notamRestApiBaseUrl: WEBSITE_BASE_URL + 'api/notams',
     openAipServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/Search.php',
     searchServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/Search.php',

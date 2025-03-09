@@ -10,6 +10,7 @@ import {SmaMeasurement} from '../../domain/model/sma-measurement';
 import {IRestSmaMeasurementResponse} from '../model/i-rest-sma-measurement-response';
 import {RestSmaMeasurementConverter} from '../model/rest-sma-measurement-converter';
 import {IMeteoSmaRepoService} from '../../domain/service/i-meteo-sma-repo.service';
+import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
 
 
 @Injectable()
@@ -19,13 +20,10 @@ export class RestMeteoSmaService implements IMeteoSmaRepoService {
 
 
     public readSmaMeasurements(extent: Extent2d): Observable<SmaMeasurement[]> {
-        const url = environment.meteoSmaServiceUrl +
-            '?minlon=' + extent.minLon +
-            '&minlat=' + extent.minLat +
-            '&maxlon=' + extent.maxLon +
-            '&maxlat=' + extent.maxLat;
+        const params = RestExtent2dConverter.getUrlParams(extent);
+        const url = environment.meteoSmaApiBaseUrl;
         return this.http
-            .get<IRestSmaMeasurementResponse>(url)
+            .get<IRestSmaMeasurementResponse>(url, {params})
             .pipe(
                 map(response => RestSmaMeasurementConverter.fromRestList(response.smameasurements)),
                 catchError(error => {
