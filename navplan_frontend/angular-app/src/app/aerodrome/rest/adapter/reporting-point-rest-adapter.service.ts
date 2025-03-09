@@ -10,6 +10,7 @@ import {RestReportingpointConverter} from '../converter/rest-reportingpoint-conv
 import {RestReportingsectorConverter} from '../converter/rest-reportingsector-converter';
 import {ReportingPointsAndSectors} from '../../domain/model/reporting-points-and-sectors';
 import {IReportingPointRepoService} from '../../domain/service/i-reporting-point-repo.service';
+import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
 
 
 @Injectable()
@@ -19,14 +20,11 @@ export class ReportingPointRestAdapterService implements IReportingPointRepoServ
 
 
     public readReportingPointsByExtent(extent: Extent2d): Observable<ReportingPointsAndSectors> {
-        const url: string = environment.airportReportingPointApiBaseUrl
-            + '?minlon=' + extent.minLon
-            + '&minlat=' + extent.minLat
-            + '&maxlon=' + extent.maxLon
-            + '&maxlat=' + extent.maxLat;
+        const params = RestExtent2dConverter.getUrlParams(extent);
+        const url: string = environment.airportReportingPointApiBaseUrl;
 
         return this.http
-            .get<IRestReportingpoint[]>(url)
+            .get<IRestReportingpoint[]>(url, {params})
             .pipe(
                 map((response) => {
                     return new ReportingPointsAndSectors(

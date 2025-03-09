@@ -33,7 +33,7 @@ export class AirportChartEffects {
             }),
             BaseMapActions.showImage({
                 id: chart.id,
-                imageUrl: environment.chart2BaseUrl + chart.fileName,
+                imageUrl: environment.chartBaseUrl + chart.fileName,
                 extent: chart.extent,
                 opacity: 0.9
             })

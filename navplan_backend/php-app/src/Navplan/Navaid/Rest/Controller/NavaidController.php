@@ -5,35 +5,36 @@ namespace Navplan\Navaid\Rest\Controller;
 use InvalidArgumentException;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestExtent2dConverter;
+use Navplan\Common\Rest\Converter\RestZoomConverter;
 use Navplan\Navaid\Domain\Service\INavaidService;
 use Navplan\Navaid\Rest\Converter\RestNavaidConverter;
+use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 
 
-class NavaidController implements IRestController {
-    const ARG_ACTION = "action";
-    const ACTION_GET_NAVAIDS_BY_EXTENT = "getNavaidsByExtent";
-
-
+class NavaidController implements IRestController
+{
     public function __construct(
         private INavaidService $navaidService,
         private IHttpService $httpService
-    ) {
+    )
+    {
     }
 
 
-    public function processRequest() {
+    public function processRequest()
+    {
         $args = $this->httpService->getGetArgs();
-        $action = $args[self::ARG_ACTION] ?? NULL;
-        switch ($action) {
-            case self::ACTION_GET_NAVAIDS_BY_EXTENT:
+        switch ($this->httpService->getRequestMethod()) {
+            case HttpRequestMethod::GET:
                 $extent = RestExtent2dConverter::fromArgs($args);
-                $zoom = intval($args["zoom"]);
-                $adList = $this->navaidService->searchByExtent($extent, $zoom);
-                $this->httpService->sendArrayResponse(RestNavaidConverter::toRestList($adList));
+                $zoom = RestZoomConverter::fromArgs($args);
+                $navaidList = $this->navaidService->searchByExtent($extent, $zoom);
+                $response = RestNavaidConverter::toRestList($navaidList);
+                $this->httpService->sendArrayResponse($response);
                 break;
             default:
-                throw new InvalidArgumentException("no or unknown action '" . $action . "'");
+                throw new InvalidArgumentException("invalid request");
         }
     }
 }

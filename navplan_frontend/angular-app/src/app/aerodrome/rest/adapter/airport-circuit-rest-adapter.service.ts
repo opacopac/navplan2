@@ -9,6 +9,9 @@ import {AirportCircuit} from '../../domain/model/airport-circuit';
 import {RestAirportCircuitConverter} from '../converter/rest-airport-circuit-converter';
 import {IRestAirportCircuit} from '../model/i-rest-airport-circuit';
 import {IAirportCircuitRepoService} from '../../domain/service/i-airport-circuit-repo.service';
+import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
+import {RestZoomConverter} from '../../../geo-physics/rest/model/rest-zoom-converter';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -18,15 +21,14 @@ export class AirportCircuitRestAdapterService implements IAirportCircuitRepoServ
 
 
     public readAirportCircuitsByExtent(extent: Extent2d, zoom: number): Observable<AirportCircuit[]> {
-        const url: string = environment.airportCircuitApiBaseUrl
-            + '?minlon=' + extent.minLon
-            + '&minlat=' + extent.minLat
-            + '&maxlon=' + extent.maxLon
-            + '&maxlat=' + extent.maxLat
-            + '&zoom=' + zoom;
+        const params = HttpHelper.mergeParameters([
+            RestExtent2dConverter.getUrlParams(extent),
+            RestZoomConverter.getUrlParam(zoom)
+        ]);
+        const url: string = environment.airportCircuitApiBaseUrl;
 
         return this.http
-            .get<IRestAirportCircuit[]>(url)
+            .get<IRestAirportCircuit[]>(url, { params })
             .pipe(
                 map((response) => RestAirportCircuitConverter.fromRestList(response)),
                 catchError(err => {

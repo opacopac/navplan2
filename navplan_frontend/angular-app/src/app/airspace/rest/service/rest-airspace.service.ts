@@ -9,6 +9,9 @@ import {Airspace} from '../../domain/model/airspace';
 import {IRestAirspace} from '../model/i-rest-airspace';
 import {RestAirspaceConverter} from '../model/rest-airspace-converter';
 import {IAirspaceRepo} from '../../domain/service/i-airspace-repo';
+import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
+import {RestZoomConverter} from '../../../geo-physics/rest/model/rest-zoom-converter';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -18,15 +21,14 @@ export class RestAirspaceService implements IAirspaceRepo {
 
 
     public readAirspacesByExtent(extent: Extent2d, zoom: number): Observable<Airspace[]> {
-        const url: string = environment.airspaceServiceUrl + '?action=getAirspacesByExtent'
-            + '&minlon=' + extent.minLon
-            + '&minlat=' + extent.minLat
-            + '&maxlon=' + extent.maxLon
-            + '&maxlat=' + extent.maxLat
-            + '&zoom=' + zoom;
+        const params = HttpHelper.mergeParameters([
+            RestExtent2dConverter.getUrlParams(extent),
+            RestZoomConverter.getUrlParam(zoom)
+        ]);
+        const url: string = environment.airspaceApiBaseUrl;
 
         return this.http
-            .get<IRestAirspace[]>(url)
+            .get<IRestAirspace[]>(url, {params})
             .pipe(
                 map((response) => RestAirspaceConverter.fromRestList(response)),
                 catchError(err => {

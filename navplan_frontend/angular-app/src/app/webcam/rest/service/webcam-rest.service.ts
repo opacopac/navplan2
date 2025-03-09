@@ -9,6 +9,7 @@ import {Webcam} from '../../domain/model/webcam';
 import {IRestWebcam} from '../model/i-rest-webcam';
 import {RestWebcamConverter} from '../model/rest-webcam-converter';
 import {IWebcamRepoService} from '../../domain/service/i-webcam-repo.service';
+import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
 
 
 @Injectable()
@@ -18,14 +19,11 @@ export class WebcamRestService implements IWebcamRepoService {
 
 
     public readWebcamsByExtent(extent: Extent2d): Observable<Webcam[]> {
-        const url: string = environment.webcamServiceUrl + '?action=getWebcamsByExtent'
-            + '&minlon=' + extent.minLon
-            + '&minlat=' + extent.minLat
-            + '&maxlon=' + extent.maxLon
-            + '&maxlat=' + extent.maxLat;
+        const params = RestExtent2dConverter.getUrlParams(extent);
+        const url: string = environment.webcamApiBaseUrl;
 
         return this.http
-            .get<IRestWebcam[]>(url)
+            .get<IRestWebcam[]>(url, { params })
             .pipe(
                 map((response) => RestWebcamConverter.fromRestList(response)),
                 catchError(err => {

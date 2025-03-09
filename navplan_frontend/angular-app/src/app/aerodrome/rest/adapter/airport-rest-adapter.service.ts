@@ -12,6 +12,9 @@ import {Airport} from '../../domain/model/airport';
 import {IRestAirport} from '../model/i-rest-airport';
 import {RestAirportConverter} from '../converter/rest-airport-converter';
 import {IAirportRepoService} from '../../domain/service/i-airport-repo.service';
+import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
+import {RestZoomConverter} from '../../../geo-physics/rest/model/rest-zoom-converter';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -21,15 +24,14 @@ export class AirportRestAdapterService implements IAirportRepoService {
 
 
     public readAirportsByExtent(extent: Extent2d, zoom: number): Observable<ShortAirport[]> {
-        const url: string = environment.airportApiBaseUrl
-            + '?minlon=' + extent.minLon
-            + '&minlat=' + extent.minLat
-            + '&maxlon=' + extent.maxLon
-            + '&maxlat=' + extent.maxLat
-            + '&zoom=' + zoom;
+        const params = HttpHelper.mergeParameters([
+            RestExtent2dConverter.getUrlParams(extent),
+            RestZoomConverter.getUrlParam(zoom)
+        ]);
+        const url: string = environment.airportApiBaseUrl;
 
         return this.http
-            .get<IRestShortAirport[]>(url)
+            .get<IRestShortAirport[]>(url, {params})
             .pipe(
                 map((response) => RestShortAirportConverter.fromRestList(response)),
                 catchError(err => {

@@ -4,30 +4,29 @@ namespace Navplan\Webcam\Rest\Service;
 
 use InvalidArgumentException;
 use Navplan\Common\Rest\Converter\RestExtent2dConverter;
+use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\Webcam\Domain\Service\IWebcamService;
 use Navplan\Webcam\Rest\Model\RestWebcamConverter;
 
 
-class WebcamController {
-    const ARG_ACTION = "action";
-    const ACTION_GET_WEBCAMS_BY_EXTENT = "getWebcamsByExtent";
-
-
+class WebcamController
+{
     public static function processRequest(
         IWebcamService $webcamService,
         IHttpService $httpService
-    ) {
+    )
+    {
         $args = $httpService->getGetArgs();
-        $action = $args[self::ARG_ACTION] ?? NULL;
-        switch ($action) {
-            case self::ACTION_GET_WEBCAMS_BY_EXTENT:
+        switch ($httpService->getRequestMethod()) {
+            case HttpRequestMethod::GET:
                 $extent = RestExtent2dConverter::fromArgs($args);
-                $adList = $webcamService->searchByExtent($extent);
-                $httpService->sendArrayResponse(RestWebcamConverter::toRestList($adList));
+                $webcams = $webcamService->searchByExtent($extent);
+                $response = RestWebcamConverter::toRestList($webcams);
+                $httpService->sendArrayResponse($response);
                 break;
             default:
-                throw new InvalidArgumentException("no or unknown action '" . $action . "'");
+                throw new InvalidArgumentException("invalid request");
         }
     }
 }
