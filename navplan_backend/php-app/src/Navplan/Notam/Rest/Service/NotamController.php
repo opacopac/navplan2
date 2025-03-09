@@ -3,6 +3,7 @@
 namespace Navplan\Notam\Rest\Service;
 
 use InvalidArgumentException;
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Notam\Rest\Model\ReadNotamByExtentRequest;
 use Navplan\Notam\Rest\Model\ReadNotamByIcaoRequest;
@@ -12,32 +13,37 @@ use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 
 
-class NotamController
+class NotamController implements IRestController
 {
-    public static function processRequest(
-        INotamService $notamService,
-        IHttpService $httpService
+    public function __construct(
+        private INotamService $notamService,
+        private IHttpService $httpService
     )
     {
-        $getArgs = $httpService->getGetArgs();
-        switch ($httpService->getRequestMethod()) {
+    }
+
+    public function processRequest()
+    {
+        $getArgs = $this->httpService->getGetArgs();
+        switch ($this->httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
-                if ($httpService->hasGetArg(ReadNotamByIcaoRequest::ARG_ICAO)) {
+                if ($this->httpService->hasGetArg(ReadNotamByIcaoRequest::ARG_ICAO)) {
                     $request = ReadNotamByIcaoRequest::fromRest($getArgs);
-                    $notamList = $notamService->searchByIcao($request->airportIcao, $request->minNotamTimestamp, $request->maxNotamTimestamp);
+                    $notamList = $this->notamService->searchByIcao($request->airportIcao,
+                        $request->minNotamTimestamp, $request->maxNotamTimestamp);
                     $response = new ReadNotamResponse($notamList);
-                    $httpService->sendArrayResponse($response->toRest());
-                } else if ($httpService->hasGetArg(ReadNotamByPositionRequest::ARG_LAT)) {
+                } else if ($this->httpService->hasGetArg(ReadNotamByPositionRequest::ARG_LAT)) {
                     $request = ReadNotamByPositionRequest::fromRest($getArgs);
-                    $notamList = $notamService->searchByPosition($request->position, $request->minNotamTimestamp, $request->maxNotamTimestamp);
+                    $notamList = $this->notamService->searchByPosition($request->position,
+                        $request->minNotamTimestamp, $request->maxNotamTimestamp);
                     $response = new ReadNotamResponse($notamList);
-                    $httpService->sendArrayResponse($response->toRest());
                 } else {
                     $request = ReadNotamByExtentRequest::fromRest($getArgs);
-                    $notamList = $notamService->searchByExtent($request->extent, $request->zoom, $request->minNotamTimestamp, $request->maxNotamTimestamp);
+                    $notamList = $this->notamService->searchByExtent($request->extent, $request->zoom,
+                        $request->minNotamTimestamp, $request->maxNotamTimestamp);
                     $response = new ReadNotamResponse($notamList);
-                    $httpService->sendArrayResponse($response->toRest());
                 }
+                $this->httpService->sendArrayResponse($response->toRest());
                 break;
             default:
                 throw new InvalidArgumentException("invalid request'");

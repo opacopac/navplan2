@@ -2,12 +2,16 @@
 
 namespace Navplan\Notam;
 
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\Notam\Domain\Service\INotamService;
 
 
-interface INotamDiContainer {
+interface INotamDiContainer
+{
     function getNotamConfig(): INotamConfig;
+
+    function getNotamController(): IRestController;
 
     function getNotamService(): INotamService;
 }
