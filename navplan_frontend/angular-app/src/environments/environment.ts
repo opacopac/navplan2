@@ -11,7 +11,7 @@ export const environment = {
     mapOversizeFactor: 1.3,
     iconBaseUrl: './assets/icon/',
     aircraftApiBaseUrl: WEBSITE_BASE_URL + 'api/aircrafts',
-    aircraftTypeDesignatorServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Aircraft/AircraftTypeDesignator.php',
+    aircraftTypeDesignatorApiBaseUrl: WEBSITE_BASE_URL + 'api/aircrafts/typedesignators',
     airportApiBaseUrl: WEBSITE_BASE_URL + 'api/aerodromes',
     airportChartApiBaseUrl: WEBSITE_BASE_URL + 'api/aerodromes/charts',
     airportCircuitApiBaseUrl: WEBSITE_BASE_URL + 'api/aerodromes/circuits',
