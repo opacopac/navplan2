@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
@@ -28,15 +28,15 @@ export class RestSearchService implements ISearchRepoService {
         minNotamTimestamp: number,
         maxNotamTimestamp: number
     ): Observable<PositionSearchResultList> {
-        const url = environment.searchServiceUrl
-            + '?action=searchByPosition'
-            + '&lat=' + position.latitude
-            + '&lon=' + position.longitude
-            + '&rad=' + maxRadius_deg
-            + '&maxresults=' + maxResults
-            + '&minnotamtime=' + minNotamTimestamp
-            + '&maxnotamtime=' + maxNotamTimestamp
-            + '&searchItems=airports,navaids,airspaces,reportingpoints,userpoints,geonames';
+        const params = new HttpParams()
+            .set('lat', position.latitude.toString())
+            .set('lon', position.longitude.toString())
+            .set('rad', maxRadius_deg.toString())
+            .set('maxresults', maxResults.toString())
+            .set('minnotamtime', minNotamTimestamp.toString())
+            .set('maxnotamtime', maxNotamTimestamp.toString())
+            .set('searchItems', 'airports,navaids,airspaces,reportingpoints,userpoints,geonames');
+        const url = environment.searchPositionApiBaseUrl + '?' + params.toString();
 
         return this.http
             .get<IRestSearchResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
@@ -57,10 +57,10 @@ export class RestSearchService implements ISearchRepoService {
             // TODO: create single object search result with coordinates
             return of(undefined);
         } else {
-            const url = environment.searchServiceUrl
-                + '?action=searchByText'
-                + '&searchText=' + queryString
-                + '&searchItems=airports,navaids,reportingpoints,userpoints,geonames';
+            const params = new HttpParams()
+                .set('searchText', queryString)
+                .set('searchItems', 'airports,navaids,reportingpoints,userpoints,geonames');
+            const url = environment.searchTextApiBaseUrl + '?' + params.toString();
 
             return this.http
                 .get<IRestSearchResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)

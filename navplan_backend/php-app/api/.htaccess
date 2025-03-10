@@ -80,8 +80,11 @@ RewriteRule ^notams$ %{ENV:BASEPATH}Notam/Notam.php [L,QSA]
 
 
 ### search ###
-# Rewrite for /api/search
-RewriteRule ^search$ %{ENV:BASEPATH}Search/Search.php [L,QSA]
+# Rewrite for /api/search/text
+RewriteRule ^search/text$ %{ENV:BASEPATH}Search/Search.php [L,QSA]
+
+# Rewrite for /api/search/position
+RewriteRule ^search/position$ %{ENV:BASEPATH}Search/Search.php [L,QSA]
 
 
 ### webcams ###
