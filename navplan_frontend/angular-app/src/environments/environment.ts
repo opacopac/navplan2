@@ -27,7 +27,6 @@ export const environment = {
     meteogramApiBaseUrl: WEBSITE_BASE_URL + 'api/meteograms',
     meteoSmaApiBaseUrl: WEBSITE_BASE_URL + 'api/meteosma',
     notamRestApiBaseUrl: WEBSITE_BASE_URL + 'api/notams',
-    openAipServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/Search.php',
     searchServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Search/Search.php',
     trackServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Track/Track.php',
     trafficAdsbexServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Traffic/Traffic.php?action=readadsbextraffic',

@@ -79,6 +79,11 @@ RewriteRule ^navaids$ %{ENV:BASEPATH}Navaid/Navaid.php [L,QSA]
 RewriteRule ^notams$ %{ENV:BASEPATH}Notam/Notam.php [L,QSA]
 
 
+### search ###
+# Rewrite for /api/search
+RewriteRule ^search$ %{ENV:BASEPATH}Search/Search.php [L,QSA]
+
+
 ### webcams ###
 # Rewrite for /api/webcams
 RewriteRule ^webcams$ %{ENV:BASEPATH}Webcam/Webcam.php [L,QSA]
