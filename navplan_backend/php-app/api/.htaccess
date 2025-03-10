@@ -40,6 +40,7 @@ RewriteRule ^aircrafts/(\d+)/([^/]+)$ %{ENV:BASEPATH}Aircraft/Aircraft.php?id=$1
 # Rewrite for /api/aircrafts/typedesignators
 RewriteRule ^aircrafts/typedesignators$ %{ENV:BASEPATH}Aircraft/AircraftTypeDesignator.php [L,QSA]
 
+
 ### airspaces ###
 # Rewrite for /api/airspaces
 RewriteRule ^airspaces$ %{ENV:BASEPATH}Airspace/Airspace.php [L,QSA]
