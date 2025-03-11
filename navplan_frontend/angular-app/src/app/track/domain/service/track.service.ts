@@ -1,23 +1,23 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {User} from '../../../user/domain/model/user';
 import {Track} from '../model/track';
 import {ITrackRepoService} from './i-track-repo.service';
+import {ITrackService} from './i-track.service';
 
 
 @Injectable()
-export class TrackService {
+export class TrackService implements ITrackService {
     public constructor(private trackRepo: ITrackRepoService) {
     }
 
 
-    public readUserTrackList(user: User): Observable<Track[]> {
-        return this.trackRepo.readUserTrackList(user);
+    public readUserTrackList(): Observable<Track[]> {
+        return this.trackRepo.readUserTrackList();
     }
 
 
-    public readUserTrack(trackid, user: User): Observable<Track> {
-        return this.trackRepo.readUserTrack(trackid, user);
+    public readUserTrack(trackid: number): Observable<Track> {
+        return this.trackRepo.readUserTrack(trackid);
     }
 
 

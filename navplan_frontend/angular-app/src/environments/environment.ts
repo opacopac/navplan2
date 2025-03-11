@@ -29,7 +29,7 @@ export const environment = {
     notamRestApiBaseUrl: WEBSITE_BASE_URL + 'api/notams',
     searchTextApiBaseUrl: WEBSITE_BASE_URL + 'api/search/text',
     searchPositionApiBaseUrl: WEBSITE_BASE_URL + 'api/search/position',
-    trackServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Track/Track.php',
+    trackServiceUrl: WEBSITE_BASE_URL + 'api/tracks',
     trafficAdsbexServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Traffic/Traffic.php?action=readadsbextraffic',
     trafficOgnServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Traffic/Traffic.php?action=readogntraffic',
     trafficDetailServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/Traffic/Traffic.php',

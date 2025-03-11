@@ -87,6 +87,14 @@ RewriteRule ^search/text$ %{ENV:BASEPATH}Search/Search.php [L,QSA]
 RewriteRule ^search/position$ %{ENV:BASEPATH}Search/Search.php [L,QSA]
 
 
+### tracks ###
+# Rewrite for /api/tracks
+RewriteRule ^tracks$ %{ENV:BASEPATH}Track/Track.php [L,QSA]
+
+# Rewrite for /api/tracks/{id}
+RewriteRule ^tracks/(\d+)$ %{ENV:BASEPATH}Track/Track.php?id=$1 [L,QSA]
+
+
 ### webcams ###
 # Rewrite for /api/webcams
 RewriteRule ^webcams$ %{ENV:BASEPATH}Webcam/Webcam.php [L,QSA]

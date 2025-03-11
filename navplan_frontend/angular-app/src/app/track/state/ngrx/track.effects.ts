@@ -29,9 +29,9 @@ export class TrackEffects {
         ofType(TrackActions.readList),
         switchMap(action => this.currentUser$),
         filter(currentUser => currentUser !== undefined),
-        switchMap(currentUser => this.trackService.readUserTrackList(currentUser).pipe(
-            map(trackList => TrackActions.readListSuccess({ trackList: trackList })),
-            catchError(error => of(TrackActions.readListError({ error: error })))
+        switchMap(currentUser => this.trackService.readUserTrackList().pipe(
+            map(trackList => TrackActions.readListSuccess({trackList: trackList})),
+            catchError(error => of(TrackActions.readListError({error: error})))
         ))
     ));
 
@@ -43,7 +43,7 @@ export class TrackEffects {
             if (!trackState.showTrack || trackState.showTrack.id !== action.trackId) {
                 return TrackActions.read({trackId: action.trackId});
             } else {
-                return TrackActions.readSuccess({ track: undefined });
+                return TrackActions.readSuccess({track: undefined});
             }
         })
     ));
@@ -51,11 +51,9 @@ export class TrackEffects {
 
     readTrack$ = createEffect(() => this.actions$.pipe(
         ofType(TrackActions.read),
-        withLatestFrom(this.currentUser$),
-        filter(([action, currentUser]) => currentUser !== undefined),
-        switchMap(([action, currentUser]) => this.trackService.readUserTrack(action.trackId, currentUser).pipe(
-            map(track => TrackActions.readSuccess({ track: track })),
-            catchError(error => of(TrackActions.readError({ error: error })))
+        switchMap(action => this.trackService.readUserTrack(action.trackId).pipe(
+            map(track => TrackActions.readSuccess({track: track})),
+            catchError(error => of(TrackActions.readError({error: error})))
         ))
     ));
 }

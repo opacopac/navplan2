@@ -4,9 +4,9 @@ import {Track} from '../model/track';
 
 
 export abstract class ITrackService {
-    abstract readUserTrackList(user: User): Observable<Track[]>;
+    abstract readUserTrackList(): Observable<Track[]>;
 
-    abstract readUserTrack(trackid, user: User): Observable<Track>;
+    abstract readUserTrack(trackid: number): Observable<Track>;
 
     abstract createUserTrack(timestamp, name, positions): void;
 }

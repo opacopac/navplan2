@@ -20,8 +20,9 @@ export class RestTrackRepoService implements ITrackRepoService {
     }
 
 
-    readUserTrackList(user: User): Observable<Track[]> {
-        const url: string = environment.trackServiceUrl + '?action=readtracklist&token=' + user.token;
+    readUserTrackList(): Observable<Track[]> {
+        const url: string = environment.trackServiceUrl;
+
         return this.http
             .get<IRestTrackListResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
@@ -34,8 +35,8 @@ export class RestTrackRepoService implements ITrackRepoService {
     }
 
 
-    readUserTrack(trackid, user: User): Observable<Track> {
-        const url: string = environment.trackServiceUrl + '?action=readtrack&trackid=' + encodeURI(trackid) + '&token=' + user.token;
+    readUserTrack(trackid: number): Observable<Track> {
+        const url: string = environment.trackServiceUrl + '/' + trackid;
         return this.http
             .get<IRestTrackResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(

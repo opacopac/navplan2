@@ -9,12 +9,14 @@ use Navplan\System\Domain\Model\IDbResult;
 use Navplan\Track\Domain\Model\Track;
 
 
-class DbTrackConverter {
+class DbTrackConverter
+{
     /**
      * @param IDbResult $result
      * @return Track[]
      */
-    public static function fromDbResult(IDbResult $result): array {
+    public static function fromDbResult(IDbResult $result): array
+    {
         $tracks = [];
         while ($row = $result->fetch_assoc()) {
             $tracks[] = self::fromDbRow($row);
@@ -24,7 +26,8 @@ class DbTrackConverter {
     }
 
 
-    public static function fromDbRow(array $row): Track {
+    public static function fromDbRow(array $row): Track
+    {
         return new Track(
             intval($row["id"]),
             $row["name"],
@@ -38,11 +41,16 @@ class DbTrackConverter {
      * @param array $row
      * @return Position4d[]
      */
-    private static function readPositionsFromDbRow(array $row): array {
+    private static function readPositionsFromDbRow(array $row): array
+    {
         $positions = json_decode($row["positions"], true);
 
-        return array_map(
+        $positions4d = array_map(
             function ($pos) {
+                if (!isset($pos[2])) {
+                    return NULL; // skip entries without altitude
+                }
+
                 return new Position4d(
                     $pos[1],
                     $pos[0],
@@ -52,5 +60,9 @@ class DbTrackConverter {
             },
             $positions
         );
+
+        return array_filter($positions4d, function ($pos) {
+            return $pos !== NULL;
+        });
     }
 }

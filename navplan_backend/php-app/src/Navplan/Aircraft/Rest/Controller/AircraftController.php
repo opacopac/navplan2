@@ -73,7 +73,7 @@ class AircraftController implements IRestController
                 $this->httpService->sendArrayResponse(RestSuccessResponse::toRest($success));
                 break;
             default:
-                throw new InvalidArgumentException('invalid request');
+                throw new InvalidArgumentException('invalid request method');
         }
     }
 }
