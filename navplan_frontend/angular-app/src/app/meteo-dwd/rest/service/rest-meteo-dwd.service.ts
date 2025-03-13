@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../../environments/environment';
 import {IMeteoDwdService} from '../../domain/service/i-meteo-dwd.service';
 import {WindInfo} from '../../domain/model/wind-info';
@@ -29,8 +29,7 @@ export class RestMeteoDwdService implements IMeteoDwdService {
 
 
     public readAvailableForecasts(): Observable<ForecastRun[]> {
-        const url = environment.meteoDwdServiceUrl
-            + '?action=readAvailableForecasts';
+        const url = environment.meteoDwdServiceUrl;
 
         // TODO: expire cache
         if (!this.availableForecastsCache$) {
@@ -50,9 +49,10 @@ export class RestMeteoDwdService implements IMeteoDwdService {
 
 
     public readWeatherGrid(forecast: ForecastRun, step: number, grid: GridDefinition): Observable<WeatherInfo[]> {
-        const url = this.getRestServiceUrl('readWwValues', forecast, grid, step);
+        const params = this.getRestServiceParams(grid);
+        const url = this.getRestServiceUrl('ww', forecast, step);
 
-        return this.http.get<IRestWeatherInfo[]>(url).pipe(
+        return this.http.get<IRestWeatherInfo[]>(url, {params}).pipe(
             map(response => RestWeatherInfoConverter.fromRestList(response)),
             catchError(error => {
                 LoggingService.logResponseError('ERROR reading ww values!', error);
@@ -63,9 +63,10 @@ export class RestMeteoDwdService implements IMeteoDwdService {
 
 
     public readWindGrid(forecast: ForecastRun, step: number, grid: GridDefinition): Observable<WindInfo[]> {
-        const url = this.getRestServiceUrl('readWindValues', forecast, grid, step);
+        const params = this.getRestServiceParams(grid);
+        const url = this.getRestServiceUrl('wind', forecast, step);
 
-        return this.http.get<IRestWindInfo[]>(url).pipe(
+        return this.http.get<IRestWindInfo[]>(url, {params}).pipe(
             map(response => RestWindInfoConverter.fromRestList(response)),
             catchError(error => {
                 LoggingService.logResponseError('ERROR reading wind speed/dir values!', error);
@@ -107,17 +108,22 @@ export class RestMeteoDwdService implements IMeteoDwdService {
     }
 
 
-    private getRestServiceUrl(action: string, forecast: ForecastRun, grid: GridDefinition, step: number): string {
+    private getRestServiceUrl(param: string, forecast: ForecastRun, step: number): string {
         return environment.meteoDwdServiceUrl
-            + '?action=' + action
-            + '&width=' + grid.width
-            + '&height=' + grid.height
-            + '&minlon=' + grid.minPos.longitude
-            + '&minlat=' + grid.minPos.latitude
-            + '&steplon=' + grid.stepLon
-            + '&steplat=' + grid.stepLat
-            + '&oddRowOffset=' + grid.oddRowLonOffset
-            + '&step=' + RestForecastStepConverter.toRest(step)
-            + '&run=' + forecast.getName();
+            + '/' + forecast.getName()
+            + '/' + RestForecastStepConverter.toRest(step)
+            + '/' + param;
+    }
+
+
+    private getRestServiceParams(grid: GridDefinition): HttpParams {
+        return new HttpParams()
+            .set('width', grid.width.toString())
+            .set('height', grid.height.toString())
+            .set('minlon', grid.minPos.longitude.toString())
+            .set('minlat', grid.minPos.latitude.toString())
+            .set('steplon', grid.stepLon.toString())
+            .set('steplat', grid.stepLat.toString())
+            .set('oddRowOffset', grid.oddRowLonOffset.toString());
     }
 }
