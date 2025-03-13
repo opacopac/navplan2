@@ -102,6 +102,13 @@ RewriteRule ^tracks$ %{ENV:BASEPATH}Track/Track.php [L,QSA]
 RewriteRule ^tracks/(\d+)$ %{ENV:BASEPATH}Track/Track.php?id=$1 [L,QSA]
 
 
+### traffic ###
+
+# Rewrite for /api/traffic/{param}
+RewriteCond %{REQUEST_METHOD} ^(GET|POST)$
+RewriteRule ^traffic/([^/]+)$ %{ENV:BASEPATH}Traffic/Traffic.php?param=$1 [L,QSA]
+
+
 ### webcams ###
 # Rewrite for /api/webcams
 RewriteRule ^webcams$ %{ENV:BASEPATH}Webcam/Webcam.php [L,QSA]

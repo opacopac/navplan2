@@ -3,11 +3,11 @@
 namespace Navplan\Traffic\Rest\Service;
 
 use InvalidArgumentException;
+use Navplan\Common\StringNumberHelper;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\Traffic\Rest\Model\RestTrafficAdsbexListResponseConverter;
 use Navplan\Traffic\Rest\Model\RestTrafficAdsbexReadRequestConverter;
-use Navplan\Traffic\Rest\Model\RestTrafficAdsbexWithDetailsListResponseConverter;
 use Navplan\Traffic\Rest\Model\RestTrafficDetailListResponseConverter;
 use Navplan\Traffic\Rest\Model\RestTrafficDetailReadRequestConverter;
 use Navplan\Traffic\Rest\Model\RestTrafficOgnListResponseConverter;
@@ -18,59 +18,57 @@ use Navplan\Traffic\UseCase\ReadOgnTraffic\IReadOgnTrafficUc;
 use Navplan\Traffic\UseCase\ReadTrafficDetails\IReadTrafficDetailsUc;
 
 
-class TrafficController {
-    public const ACTION_READ_OGN_TRAFFIC = "readogntraffic";
-    public const ACTION_READ_ADSBEX_TRAFFIC = "readadsbextraffic";
-    public const ACTION_READ_ADSBEX_TRAFFIC_WITH_DETAILS = "readadsbextrafficwithdetails";
-    public const ACTION_READ_AC_DETAILS = "readtrafficdetails";
+class TrafficController
+{
+    public const ARG_PARAM = "param";
+    public const ARG_PARAM_ADSBEX = "adsbex";
+    public const ARG_PARAM_OGN = "ogn";
+    public const ARG_PARAM_DETAILS = "details";
 
 
     public static function processRequest(
-        IHttpService $httpService,
-        IReadOgnTrafficUc $readOgnTrafficUc,
-        IReadAdsbexTrafficUc $readAdsbexTrafficUc,
+        IHttpService                    $httpService,
+        IReadOgnTrafficUc               $readOgnTrafficUc,
+        IReadAdsbexTrafficUc            $readAdsbexTrafficUc,
         IReadAdsbexTrafficWithDetailsUc $readAdsbexTrafficWithDetailsUc,
-        IReadTrafficDetailsUc $readTrafficDetailsUc
-    ) {
+        IReadTrafficDetailsUc           $readTrafficDetailsUc
+    )
+    {
+        $getArgs = $httpService->getGetArgs();
+        $param = StringNumberHelper::parseStringOrError($getArgs, self::ARG_PARAM);
         switch ($httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
-                $getVars = $httpService->getGetArgs();
-                $action = $getVars["action"] ?? NULL;
-                switch ($action) {
-                    case self::ACTION_READ_OGN_TRAFFIC:
-                        $request = RestTrafficOgnReadRequestConverter::fromArgs($getVars);
-                        $response = $readOgnTrafficUc->read($request);
-                        $httpService->sendArrayResponse(RestTrafficOgnListResponseConverter::toRest($response));
+                switch ($param) {
+                    case self::ARG_PARAM_OGN:
+                        $request = RestTrafficOgnReadRequestConverter::fromArgs($getArgs);
+                        $trafficList = $readOgnTrafficUc->read($request);
+                        $response = RestTrafficOgnListResponseConverter::toRest($trafficList);
                         break;
-                    case self::ACTION_READ_ADSBEX_TRAFFIC:
-                        $request = RestTrafficAdsbexReadRequestConverter::fromArgs($getVars);
-                        $response = $readAdsbexTrafficUc->read($request);
-                        $httpService->sendArrayResponse(RestTrafficAdsbexListResponseConverter::toRest($response));
-                        break;
-                    case self::ACTION_READ_ADSBEX_TRAFFIC_WITH_DETAILS:
-                        $request = RestTrafficAdsbexReadRequestConverter::fromArgs($getVars);
-                        $response = $readAdsbexTrafficWithDetailsUc->read($request);
-                        $httpService->sendArrayResponse(RestTrafficAdsbexWithDetailsListResponseConverter::toRest($response));
+                    case self::ARG_PARAM_ADSBEX:
+                        $request = RestTrafficAdsbexReadRequestConverter::fromArgs($getArgs);
+                        $trafficList = $readAdsbexTrafficUc->read($request);
+                        $response = RestTrafficAdsbexListResponseConverter::toRest($trafficList);
                         break;
                     default:
-                        throw new InvalidArgumentException("no or invalid get-action defined!");
+                        throw new InvalidArgumentException("invalid parameter '" . $param . "'");
                 }
                 break;
             case HttpRequestMethod::POST:
-                $postVars = $httpService->getPostArgs();
-                $action = $postVars["action"] ?? NULL;
-                switch ($action) {
-                    case self::ACTION_READ_AC_DETAILS:
-                        $request = RestTrafficDetailReadRequestConverter::fromRest($postVars);
-                        $response = $readTrafficDetailsUc->readDetails($request);
-                        $httpService->sendArrayResponse(RestTrafficDetailListResponseConverter::toRest($response));
+                $postArgs = $httpService->getPostArgs();
+                switch ($param) {
+                    case self::ARG_PARAM_DETAILS:
+                        $request = RestTrafficDetailReadRequestConverter::fromRest($postArgs);
+                        $details = $readTrafficDetailsUc->readDetails($request);
+                        $response = RestTrafficDetailListResponseConverter::toRest($details);
                         break;
                     default:
-                        throw new InvalidArgumentException("no or invalid post-action defined!");
+                        throw new InvalidArgumentException("invalid parameter '" . $param . "'");
                 }
                 break;
             default:
-                throw new InvalidArgumentException("invalid request method defined!");
+                throw new InvalidArgumentException("invalid request method!");
         }
+
+        $httpService->sendArrayResponse($response);
     }
 }

@@ -10,6 +10,7 @@ import {IRestAdsbexTrafficResponse} from '../model/adsbex/i-rest-adsbex-traffic-
 import {RestAdsbexTrafficResponseConverter} from '../model/adsbex/rest-adsbex-traffic-response-converter';
 import {AdsbexTraffic} from '../../domain/model/adsbex-traffic';
 import {IAdsbexTrafficService} from '../../domain/service/adsbex-traffic/i-adsbex-traffic-service';
+import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
 
 
 @Injectable({
@@ -21,16 +22,15 @@ export class AdsbexTrafficService implements IAdsbexTrafficService {
 
 
     public readTraffic(extent: Extent2d): Observable<AdsbexTraffic[]> {
-        const url = environment.trafficAdsbexServiceUrl
-            + '&minlon=' + extent.minLon + '&minlat=' + extent.minLat + '&maxlon=' + extent.maxLon + '&maxlat=' + extent.maxLat;
-
+        const params = RestExtent2dConverter.getUrlParams(extent);
+        const url = environment.trafficAdsbexServiceUrl;
 
         return this.http
-            .get<IRestAdsbexTrafficResponse>(url)
+            .get<IRestAdsbexTrafficResponse>(url, {params})
             .pipe(
                 map((response) => RestAdsbexTrafficResponseConverter.fromRest(response)),
                 catchError(err => {
-                    LoggingService.logResponseError('ERROR reading ogn traffic', err);
+                    LoggingService.logResponseError('ERROR reading adsbex traffic', err);
                     return throwError(err);
                 })
             );
