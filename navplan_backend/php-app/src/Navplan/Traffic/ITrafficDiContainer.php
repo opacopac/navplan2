@@ -2,6 +2,7 @@
 
 namespace Navplan\Traffic;
 
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Traffic\Adsbex\Service\IAdsbexConfig;
 use Navplan\Traffic\Domain\Service\IAdsbexService;
 use Navplan\Traffic\Domain\Service\IOgnService;
@@ -13,7 +14,10 @@ use Navplan\Traffic\UseCase\ReadOgnTraffic\IReadOgnTrafficUc;
 use Navplan\Traffic\UseCase\ReadTrafficDetails\IReadTrafficDetailsUc;
 
 
-interface ITrafficDiContainer {
+interface ITrafficDiContainer
+{
+    function getTrafficController(): IRestController;
+
     function getAdsbexConfig(): IAdsbexConfig;
 
     function getAdsbexRepo(): IAdsbexService;

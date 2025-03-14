@@ -2,9 +2,11 @@
 
 namespace Navplan\Traffic;
 
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Config\ProdConfigDiContainer;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IFileService;
+use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\System\Domain\Service\IProcService;
 use Navplan\System\Domain\Service\ITimeService;
@@ -16,6 +18,7 @@ use Navplan\Traffic\Domain\Service\ITrafficDetailRepo;
 use Navplan\Traffic\Ogn\Service\IOgnListenerRepo;
 use Navplan\Traffic\Ogn\Service\OgnListenerRepo;
 use Navplan\Traffic\Ogn\Service\OgnService;
+use Navplan\Traffic\Rest\Service\TrafficController;
 use Navplan\Traffic\TrafficDetail\Service\DbTrafficDetailRepo;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic\IReadAdsbexTrafficUc;
 use Navplan\Traffic\UseCase\ReadAdsbexTraffic\ReadAdsbexTrafficUc;
@@ -27,10 +30,12 @@ use Navplan\Traffic\UseCase\ReadTrafficDetails\IReadTrafficDetailsUc;
 use Navplan\Traffic\UseCase\ReadTrafficDetails\ReadTrafficDetailsUc;
 
 
-class ProdTrafficDiContainer implements ITrafficDiContainer {
+class ProdTrafficDiContainer implements ITrafficDiContainer
+{
     private const OGN_LISTENER_STARTER_PATH = __DIR__; // TODO: config
     private const OGN_LISTENER_STARTER_FILE = "OgnListenerStarter.php"; // TODO: config
 
+    private IRestController $trafficController;
     private IAdsbexConfig $adsbexConfig;
     private IAdsbexService $adsbexRepo;
     private IOgnService $ognRepo;
@@ -47,12 +52,31 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
         private readonly ITimeService $timeService,
         private readonly IProcService $procService,
         private readonly ILoggingService $loggingService,
-        private readonly IDbService $dbService
-    ) {
+        private readonly IDbService $dbService,
+        private readonly IHttpService $httpService,
+    )
+    {
     }
 
 
-    public function getAdsbexConfig(): IAdsbexConfig {
+    public function getTrafficController(): IRestController
+    {
+        if (!isset($this->trafficController)) {
+            $this->trafficController = new TrafficController(
+                $this->httpService,
+                $this->getReadOgnTrafficUc(),
+                $this->getReadAdsbexTrafficUc(),
+                $this->getReadAdsbexTrafficWithDetailsUc(),
+                $this->getReadTrafficDetailsUc()
+            );
+        }
+
+        return $this->trafficController;
+    }
+
+
+    public function getAdsbexConfig(): IAdsbexConfig
+    {
         if (!isset($this->adsbexConfig)) {
             $this->adsbexConfig = new ProdConfigDiContainer();
         }
@@ -61,7 +85,8 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
     }
 
 
-    public function getAdsbexRepo(): IAdsbexService {
+    public function getAdsbexRepo(): IAdsbexService
+    {
         if (!isset($this->adsbexRepo)) {
             $this->adsbexRepo = new AdsbexService(
                 $this->fileService,
@@ -74,7 +99,8 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
     }
 
 
-    public function getOgnRepo(): IOgnService {
+    public function getOgnRepo(): IOgnService
+    {
         if (!isset($this->ognRepo)) {
             $this->ognRepo = new OgnService(
                 $this->getOgnListenerRepo(),
@@ -89,7 +115,8 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
     }
 
 
-    public function getOgnListenerRepo(): IOgnListenerRepo {
+    public function getOgnListenerRepo(): IOgnListenerRepo
+    {
         if (!isset($this->ognListenerRepo)) {
             $this->ognListenerRepo = new OgnListenerRepo(
                 $this->dbService,
@@ -101,7 +128,8 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
     }
 
 
-    public function getTrafficDetailRepo(): ITrafficDetailRepo {
+    public function getTrafficDetailRepo(): ITrafficDetailRepo
+    {
         if (!isset($this->trafficDetailsRepo)) {
             $this->trafficDetailsRepo = new DbTrafficDetailRepo($this->dbService);
         }
@@ -110,8 +138,8 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
     }
 
 
-
-    public function getReadAdsbexTrafficUc(): IReadAdsbexTrafficUc {
+    public function getReadAdsbexTrafficUc(): IReadAdsbexTrafficUc
+    {
         if (!isset($this->readAdsbexTrafficUc)) {
             $this->readAdsbexTrafficUc = new ReadAdsbexTrafficUc($this->getAdsbexRepo());
         }
@@ -120,7 +148,8 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
     }
 
 
-    public function getReadAdsbexTrafficWithDetailsUc(): IReadAdsbexTrafficWithDetailsUc {
+    public function getReadAdsbexTrafficWithDetailsUc(): IReadAdsbexTrafficWithDetailsUc
+    {
         if (!isset($this->readAdsbexTrafficWithDetailsUc)) {
             $this->readAdsbexTrafficWithDetailsUc = new ReadAdsbexTrafficWithDetailsUc(
                 $this->getReadAdsbexTrafficUc(),
@@ -132,7 +161,8 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
     }
 
 
-    public function getReadOgnTrafficUc(): IReadOgnTrafficUc {
+    public function getReadOgnTrafficUc(): IReadOgnTrafficUc
+    {
         if (!isset($this->readOgnTrafficUc)) {
             $this->readOgnTrafficUc = new ReadOgnTrafficUc($this->getOgnRepo());
         }
@@ -141,7 +171,8 @@ class ProdTrafficDiContainer implements ITrafficDiContainer {
     }
 
 
-    public function getReadTrafficDetailsUc(): IReadTrafficDetailsUc {
+    public function getReadTrafficDetailsUc(): IReadTrafficDetailsUc
+    {
         if (!isset($this->readTrafficDetailsUc)) {
             $this->readTrafficDetailsUc = new ReadTrafficDetailsUc($this->getTrafficDetailRepo());
         }

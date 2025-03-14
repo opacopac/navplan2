@@ -352,7 +352,8 @@ class ProdNavplanDiContainer
                 $this->getSystemDiContainer()->getTimeService(),
                 $this->getSystemDiContainer()->getProcService(),
                 $this->getSystemDiContainer()->getLoggingService(),
-                $this->getPersistenceDiContainer()->getDbService()
+                $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getHttpService()
             );
         }
 

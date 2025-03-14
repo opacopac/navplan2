@@ -3,6 +3,7 @@
 namespace Navplan\Traffic\Rest\Service;
 
 use InvalidArgumentException;
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\StringNumberHelper;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
@@ -18,7 +19,7 @@ use Navplan\Traffic\UseCase\ReadOgnTraffic\IReadOgnTrafficUc;
 use Navplan\Traffic\UseCase\ReadTrafficDetails\IReadTrafficDetailsUc;
 
 
-class TrafficController
+class TrafficController implements IRestController
 {
     public const ARG_PARAM = "param";
     public const ARG_PARAM_ADSBEX = "adsbex";
@@ -26,27 +27,32 @@ class TrafficController
     public const ARG_PARAM_DETAILS = "details";
 
 
-    public static function processRequest(
-        IHttpService                    $httpService,
-        IReadOgnTrafficUc               $readOgnTrafficUc,
-        IReadAdsbexTrafficUc            $readAdsbexTrafficUc,
-        IReadAdsbexTrafficWithDetailsUc $readAdsbexTrafficWithDetailsUc,
-        IReadTrafficDetailsUc           $readTrafficDetailsUc
+    public function __construct(
+        private IHttpService $httpService,
+        private IReadOgnTrafficUc $readOgnTrafficUc,
+        private IReadAdsbexTrafficUc $readAdsbexTrafficUc,
+        private IReadAdsbexTrafficWithDetailsUc $readAdsbexTrafficWithDetailsUc,
+        private IReadTrafficDetailsUc $readTrafficDetailsUc
     )
     {
-        $getArgs = $httpService->getGetArgs();
+    }
+
+
+    public function processRequest()
+    {
+        $getArgs = $this->httpService->getGetArgs();
         $param = StringNumberHelper::parseStringOrError($getArgs, self::ARG_PARAM);
-        switch ($httpService->getRequestMethod()) {
+        switch ($this->httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
                 switch ($param) {
                     case self::ARG_PARAM_OGN:
                         $request = RestTrafficOgnReadRequestConverter::fromArgs($getArgs);
-                        $trafficList = $readOgnTrafficUc->read($request);
+                        $trafficList = $this->readOgnTrafficUc->read($request);
                         $response = RestTrafficOgnListResponseConverter::toRest($trafficList);
                         break;
                     case self::ARG_PARAM_ADSBEX:
                         $request = RestTrafficAdsbexReadRequestConverter::fromArgs($getArgs);
-                        $trafficList = $readAdsbexTrafficUc->read($request);
+                        $trafficList = $this->readAdsbexTrafficUc->read($request);
                         $response = RestTrafficAdsbexListResponseConverter::toRest($trafficList);
                         break;
                     default:
@@ -54,11 +60,11 @@ class TrafficController
                 }
                 break;
             case HttpRequestMethod::POST:
-                $postArgs = $httpService->getPostArgs();
+                $postArgs = $this->httpService->getPostArgs();
                 switch ($param) {
                     case self::ARG_PARAM_DETAILS:
                         $request = RestTrafficDetailReadRequestConverter::fromRest($postArgs);
-                        $details = $readTrafficDetailsUc->readDetails($request);
+                        $details = $this->readTrafficDetailsUc->readDetails($request);
                         $response = RestTrafficDetailListResponseConverter::toRest($details);
                         break;
                     default:
@@ -69,6 +75,6 @@ class TrafficController
                 throw new InvalidArgumentException("invalid request method!");
         }
 
-        $httpService->sendArrayResponse($response);
+        $this->httpService->sendArrayResponse($response);
     }
 }
