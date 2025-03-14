@@ -2,6 +2,5 @@ import {IRestFlightroute} from '../../../flightroute/rest/model/i-rest-flightrou
 
 
 export interface IRestExportFplRequest {
-    action: string;
     flightroute: IRestFlightroute;
 }

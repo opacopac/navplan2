@@ -8,7 +8,6 @@ import {RestTrackConverter} from '../../../track/rest/model/rest-track-converter
 export class RestExportKmlRequestConverter {
     public static toRest(flightroute: Flightroute, track: Track): IRestExportKmlRequest {
         return {
-            action: 'exportkml',
             flightroute: RestFlightrouteConverter.toRest(flightroute),
             track: RestTrackConverter.toRest(track),
         };

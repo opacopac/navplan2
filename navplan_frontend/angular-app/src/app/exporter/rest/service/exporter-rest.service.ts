@@ -24,10 +24,12 @@ export class ExporterRestService implements IExporterService {
 
 
     exportPdf(flightroute: Flightroute): Observable<ExportedFile> {
+        const url = environment.exporterBaseUrl + '/pdf';
         const requestBody = RestExportPdfRequestConverter.toRest(flightroute);
+
         return this.http
             .post<IRestExportedFile>(
-                environment.exporterBaseUrl,
+                url,
                 JSON.stringify(requestBody)
             ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response)),
@@ -40,10 +42,12 @@ export class ExporterRestService implements IExporterService {
 
 
     exportExcel(flightroute: Flightroute): Observable<ExportedFile> {
+        const url = environment.exporterBaseUrl + '/excel';
         const requestBody = RestExportExcelRequestConverter.toRest(flightroute);
+
         return this.http
             .post<IRestExportedFile>(
-                environment.exporterBaseUrl,
+                url,
                 JSON.stringify(requestBody)
             ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response)),
@@ -56,10 +60,12 @@ export class ExporterRestService implements IExporterService {
 
 
     exportKml(flightroute: Flightroute, track: Track): Observable<ExportedFile> {
+        const url = environment.exporterBaseUrl + '/kml';
         const requestBody = RestExportKmlRequestConverter.toRest(flightroute, track);
+
         return this.http
             .post<IRestExportedFile>(
-                environment.exporterBaseUrl,
+                url,
                 JSON.stringify(requestBody)
             ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response)),
@@ -72,10 +78,12 @@ export class ExporterRestService implements IExporterService {
 
 
     exportGpx(flightroute: Flightroute, track: Track): Observable<ExportedFile> {
+        const url = environment.exporterBaseUrl + '/gpx';
         const requestBody = RestExportGpxRequestConverter.toRest(flightroute, track);
+
         return this.http
             .post<IRestExportedFile>(
-                environment.exporterBaseUrl,
+                url,
                 JSON.stringify(requestBody)
             ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response)),
@@ -88,10 +96,12 @@ export class ExporterRestService implements IExporterService {
 
 
     exportFpl(flightroute: Flightroute): Observable<ExportedFile> {
+        const url = environment.exporterBaseUrl + '/fpl';
         const requestBody = RestExportFplRequestConverter.toRest(flightroute);
+
         return this.http
             .post<IRestExportedFile>(
-                environment.exporterBaseUrl,
+                url,
                 JSON.stringify(requestBody)
             ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response)),

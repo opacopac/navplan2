@@ -7,7 +7,6 @@ import {IRestExportExcelRequest} from './i-rest-export-excel-request';
 export class RestExportExcelRequestConverter {
     public static toRest(flightroute: Flightroute): IRestExportExcelRequest {
         return {
-            action: 'exportexcel',
             flightroute: RestFlightrouteConverter.toRest(flightroute),
             fuelcalc: RestFuelCalcConverter.toRest(flightroute),
         };

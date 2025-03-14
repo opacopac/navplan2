@@ -2,8 +2,6 @@
 
 namespace Navplan\Exporter\Builder;
 
-require_once __DIR__ . "/../../../vendor/autoload.php";
-
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Model\FuelCalc;
 use Navplan\Flightroute\Domain\Model\Waypoint;

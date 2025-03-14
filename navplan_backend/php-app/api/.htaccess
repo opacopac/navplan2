@@ -46,6 +46,11 @@ RewriteRule ^aircrafts/typedesignators$ %{ENV:BASEPATH}Aircraft/AircraftTypeDesi
 RewriteRule ^airspaces$ %{ENV:BASEPATH}Airspace/Airspace.php [L,QSA]
 
 
+### exports ###
+# Rewrite for /api/exports/{action}
+RewriteRule ^exports/([^/]+)$ %{ENV:BASEPATH}Exporter/Exporter.php?action=$1 [L,QSA]
+
+
 ### flight routes ###
 
 # Rewrite for /api/flightroutes

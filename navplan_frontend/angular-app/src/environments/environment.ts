@@ -18,7 +18,7 @@ export const environment = {
     airportReportingPointApiBaseUrl: WEBSITE_BASE_URL + 'api/aerodromes/reportingpoints',
     airspaceApiBaseUrl: WEBSITE_BASE_URL + 'api/airspaces',
     navaidApiBaseUrl: WEBSITE_BASE_URL + 'api/navaids',
-    exporterBaseUrl: WEBSITE_BASE_URL + 'php/Navplan/Exporter/Exporter.php',
+    exporterBaseUrl: WEBSITE_BASE_URL + 'api/exports',
     exportBaseUrl: WEBSITE_BASE_URL + 'tmp/',
     flightrouteApiBaseUrl: WEBSITE_BASE_URL + 'api/flightroutes',
     metarTafBaseUrl: 'https://www.aviationweather.gov/cgi-bin/json/MetarJSON.php?taf=true&density=all&bbox=',

@@ -8,7 +8,6 @@ import {IRestExportGpxRequest} from './i-rest-export-gpx-request';
 export class RestExportGpxRequestConverter {
     public static toRest(flightroute: Flightroute, track: Track): IRestExportGpxRequest {
         return {
-            action: 'exportgpx',
             flightroute: RestFlightrouteConverter.toRest(flightroute),
             track: RestTrackConverter.toRest(track),
         };
