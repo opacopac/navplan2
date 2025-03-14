@@ -3,6 +3,7 @@
 namespace Navplan\Webcam\Rest\Service;
 
 use InvalidArgumentException;
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestExtent2dConverter;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
@@ -10,20 +11,25 @@ use Navplan\Webcam\Domain\Service\IWebcamService;
 use Navplan\Webcam\Rest\Model\RestWebcamConverter;
 
 
-class WebcamController
+class WebcamController implements IRestController
 {
-    public static function processRequest(
-        IWebcamService $webcamService,
-        IHttpService $httpService
+    public function __construct(
+        private readonly IWebcamService $webcamService,
+        private readonly IHttpService $httpService
     )
     {
-        $args = $httpService->getGetArgs();
-        switch ($httpService->getRequestMethod()) {
+    }
+
+
+    public function processRequest()
+    {
+        switch ($this->httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
+                $args = $this->httpService->getGetArgs();
                 $extent = RestExtent2dConverter::fromArgs($args);
-                $webcams = $webcamService->searchByExtent($extent);
+                $webcams = $this->webcamService->searchByExtent($extent);
                 $response = RestWebcamConverter::toRestList($webcams);
-                $httpService->sendArrayResponse($response);
+                $this->httpService->sendArrayResponse($response);
                 break;
             default:
                 throw new InvalidArgumentException("unsupported request method");

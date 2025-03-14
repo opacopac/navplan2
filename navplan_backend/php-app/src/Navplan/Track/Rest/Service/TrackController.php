@@ -3,6 +3,7 @@
 namespace Navplan\Track\Rest\Service;
 
 use InvalidArgumentException;
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestIdConverter;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
@@ -12,26 +13,31 @@ use Navplan\Track\Rest\Model\RestReadTrackResponseConverter;
 use Navplan\User\Rest\Model\RestTokenConverter;
 
 
-class TrackController
+class TrackController implements IRestController
 {
-    public static function processRequest(
-        IHttpService  $httpService,
-        ITrackService $trackService
+    public function __construct(
+        private readonly IHttpService $httpService,
+        private readonly ITrackService $trackService
     )
     {
-        $id = RestIdConverter::getIdOrNull($httpService->getGetArgs());
-        $token = RestTokenConverter::getTokenOrNull($httpService->getCookies());
+    }
 
-        switch ($httpService->getRequestMethod()) {
+
+    public function processRequest()
+    {
+        switch ($this->httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
+                $id = RestIdConverter::getIdOrNull($this->httpService->getGetArgs());
+                $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
+
                 if ($id) {
-                    $tracks = $trackService->readTrack($id, $token);
+                    $tracks = $this->trackService->readTrack($id, $token);
                     $response = RestReadTrackResponseConverter::toRest($tracks);
                 } else {
-                    $tracks = $trackService->readTrackList($token);
+                    $tracks = $this->trackService->readTrackList($token);
                     $response = RestReadTrackListResponseConverter::toRest($tracks);
                 }
-                $httpService->sendArrayResponse($response);
+                $this->httpService->sendArrayResponse($response);
                 break;
             default:
                 throw new InvalidArgumentException("unsupported request method");

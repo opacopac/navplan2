@@ -2,9 +2,13 @@
 
 namespace Navplan\Webcam;
 
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Webcam\Domain\Service\IWebcamService;
 
 
-interface IWebcamDiContainer {
+interface IWebcamDiContainer
+{
+    function getWebcamController(): IRestController;
+
     function getWebcamService(): IWebcamService;
 }

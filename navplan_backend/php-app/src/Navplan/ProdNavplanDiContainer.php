@@ -336,7 +336,8 @@ class ProdNavplanDiContainer
         if (!isset($this->trackDiContainer)) {
             $this->trackDiContainer = new ProdTrackDiContainer(
                 $this->getUserDiContainer()->getTokenService(),
-                $this->getPersistenceDiContainer()->getDbService()
+                $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getHttpService()
             );
         }
 
@@ -397,7 +398,8 @@ class ProdNavplanDiContainer
     {
         if (!isset($this->webcamDiContainer)) {
             $this->webcamDiContainer = new ProdWebcamDiContainer(
-                $this->getPersistenceDiContainer()->getDbService()
+                $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getHttpService()
             );
         }
 
