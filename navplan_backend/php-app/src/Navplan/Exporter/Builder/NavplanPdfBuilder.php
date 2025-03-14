@@ -10,6 +10,8 @@ use Navplan\Flightroute\Domain\Model\Waypoint;
 
 class NavplanPdfBuilder
 {
+    private const FONT_DIR = __DIR__ . "/../Pdf/Fonts/";
+
     private const PLAN_TITLE = "NAV-FLIGHTPLAN";
     private const MARGIN_X = 8;
     private const MARGIN_Y = 10;
@@ -65,8 +67,8 @@ class NavplanPdfBuilder
     {
         $this->pdf = new PDF_Rotate('L', 'mm', 'A4');
         $this->pdf->SetTitle(self::PLAN_TITLE);
-        $this->pdf->AddFont('Arial-Narrow', '', 'arial-narrow.php');
-        $this->pdf->AddFont('ArialNarrow-Italic', 'I', 'ARIALNI.php');
+        $this->pdf->AddFont('Arial-Narrow', '', 'arial-narrow.php', self::FONT_DIR);
+        $this->pdf->AddFont('ArialNarrow-Italic', 'I', 'ARIALNI.php', self::FONT_DIR);
         $this->pdf->AddPage();
         $this->pdf->SetAutoPageBreak(false);
         $this->pdf->SetMargins(self::MARGIN_X, self::MARGIN_Y);
@@ -142,7 +144,7 @@ class NavplanPdfBuilder
                     $pos_y0 = $this->pdf->GetY();
                     $wp = $j < count($waypoints) ? $waypoints[$j] : null;
                     $value = self::getWaypointValue($wp, $i);
-                    $this->pdf->Cell(self::CKP_COL_WIDTHS[$i], self::ROW_HEIGHT, utf8_decode($value), "LTRB", 0, $align);
+                    $this->pdf->Cell(self::CKP_COL_WIDTHS[$i], self::ROW_HEIGHT, $this->utf8_decode($value), "LTRB", 0, $align);
                     $pos_x1 = $this->pdf->GetX();
                     $pos_y1 = $this->pdf->GetY();
 
@@ -153,7 +155,7 @@ class NavplanPdfBuilder
             }
 
             // opt. line for supp info string
-            $suppInfoString = (isset($waypoints[$j]) && $waypoints[$j]->suppInfo) ? utf8_decode($waypoints[$j]->suppInfo) : "";
+            $suppInfoString = (isset($waypoints[$j]) && $waypoints[$j]->suppInfo) ? $this->utf8_decode($waypoints[$j]->suppInfo) : "";
             if (strlen($suppInfoString) > 0) {
                 $identWidth = 4;
                 $this->pdf->SetFont('ArialNarrow-Italic', 'I', 10);
@@ -244,7 +246,7 @@ class NavplanPdfBuilder
 
             if ($alternate) {
                 $value = self::getWaypointValue($alternate, $i);
-                $this->pdf->Cell(self::CKP_COL_WIDTHS[$i], self::ROW_HEIGHT, utf8_decode($value), "LTRB", 0, $align);
+                $this->pdf->Cell(self::CKP_COL_WIDTHS[$i], self::ROW_HEIGHT, $this->utf8_decode($value), "LTRB", 0, $align);
             } else {
                 $this->pdf->Cell(self::CKP_COL_WIDTHS[$i], self::ROW_HEIGHT, "", "LTRB", 0);
             }
@@ -333,5 +335,11 @@ class NavplanPdfBuilder
     private function createNewLine(): void
     {
         $this->pdf->SetY($this->pdf->GetY() + self::ROW_HEIGHT);
+    }
+
+
+    private function utf8_decode(string $text): string
+    {
+        return mb_convert_encoding($text, 'ISO-8859-1', 'UTF-8');
     }
 }
