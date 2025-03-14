@@ -34,7 +34,7 @@ class TrackController
                 $httpService->sendArrayResponse($response);
                 break;
             default:
-                throw new InvalidArgumentException("invalid request method");
+                throw new InvalidArgumentException("unsupported request method");
         }
     }
 }

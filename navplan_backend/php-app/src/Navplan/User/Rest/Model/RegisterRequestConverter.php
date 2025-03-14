@@ -8,10 +8,10 @@ use Navplan\User\UseCase\Register\RegisterRequest;
 
 class RegisterRequestConverter
 {
-    public static function fromArgs(array $args, string $token): RegisterRequest
+    public static function fromArgs(array $args): RegisterRequest
     {
         return new RegisterRequest(
-            $token,
+            RestTokenConverter::getToken($args),
             StringNumberHelper::parseStringOrError($args, "password"),
             StringNumberHelper::parseIntOrError($args, "rememberme") === 1
         );

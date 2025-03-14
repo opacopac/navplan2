@@ -31,7 +31,7 @@ class AdReportingPointController implements IRestController
                 $this->httpService->sendArrayResponse($response);
                 break;
             default:
-                throw new InvalidArgumentException("invalid request");
+                throw new InvalidArgumentException("unsupported request method");
         }
     }
 }

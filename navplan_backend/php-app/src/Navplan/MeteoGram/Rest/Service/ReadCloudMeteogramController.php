@@ -28,7 +28,7 @@ class ReadCloudMeteogramController implements IRestController {
                 $this->httpService->sendArrayResponse(RestCloudMeteogramConverter::toRest($response));
                 break;
             default:
-                throw new InvalidArgumentException("invalid request");
+                throw new InvalidArgumentException("unsupported request method");
         }
     }
 }

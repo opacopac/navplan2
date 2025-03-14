@@ -12,7 +12,7 @@ use Navplan\User\UseCase\UserResponse;
 
 class SendRegisterEmailUc implements ISendRegisterEmailUc
 {
-    const NAVPLAN_BASE_URL = "https://www.navplan.ch/v2/#";
+    const NAVPLAN_BASE_URL = "https://www.navplan.ch/v2/#"; // TODO -> config
 
 
     public function __construct(

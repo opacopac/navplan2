@@ -27,7 +27,7 @@ export const environment = {
     trafficAdsbexServiceUrl: WEBSITE_BASE_URL + 'api/traffic/adsbex',
     trafficOgnServiceUrl: WEBSITE_BASE_URL + 'api/traffic/ogn',
     trafficDetailServiceUrl: WEBSITE_BASE_URL + 'api/traffic/details',
-    userServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/User/User.php',
+    userServiceUrl: WEBSITE_BASE_URL + 'api/user',
     verticalMapServiceUrl: WEBSITE_BASE_URL + 'api/verticalmap',
     webcamApiBaseUrl: WEBSITE_BASE_URL + 'api/webcams',
     chartBaseUrl: WEBSITE_BASE_URL + 'charts2/',

@@ -107,6 +107,12 @@ RewriteRule ^tracks/(\d+)$ %{ENV:BASEPATH}Track/Track.php?id=$1 [L,QSA]
 # Rewrite for /api/traffic/{param}
 RewriteRule ^traffic/([^/]+)$ %{ENV:BASEPATH}Traffic/Traffic.php?param=$1 [L,QSA]
 
+
+### user ###
+# Rewrite for /api/user/{action}
+RewriteRule ^user/([^/]+)$ %{ENV:BASEPATH}User/User.php?action=$1 [L,QSA]
+
+
 ### vertical map ###
 
 # Rewrite for /api/verticalmap

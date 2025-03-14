@@ -19,14 +19,11 @@ export class RestUserRepoService implements IUserRepoService {
 
 
     public autoLogin(): Observable<User> {
-        const requestBody = {
-            action: 'autologin'
-        };
+        const url = environment.userServiceUrl + '/autologin';
 
         return this.http
-            .post<IRestTokenResponse>(
-                environment.userServiceUrl,
-                JSON.stringify(requestBody),
+            .get<IRestTokenResponse>(
+                url,
                 HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
             ).pipe(
                 switchMap((response) => {
@@ -52,8 +49,8 @@ export class RestUserRepoService implements IUserRepoService {
         password: string,
         rememberMe: boolean
     ): Observable<User> {
+        const url = environment.userServiceUrl + '/login';
         const requestBody = {
-            action: 'login',
             email: email,
             password: password,
             rememberme: rememberMe ? '1' : '0'
@@ -61,7 +58,7 @@ export class RestUserRepoService implements IUserRepoService {
 
         return this.http
             .post<IRestTokenResponse>(
-                environment.userServiceUrl,
+                url,
                 JSON.stringify(requestBody)
             ).pipe(
                 switchMap((response) => {
@@ -85,14 +82,14 @@ export class RestUserRepoService implements IUserRepoService {
 
 
     public sendRegisterEmail(email: string): Observable<string> {
+        const url = environment.userServiceUrl + '/sendregisteremail';
         const requestBody = {
-            action: 'sendregisteremail',
             email: email
         };
 
         return this.http
             .post<IRestTokenResponse>(
-                environment.userServiceUrl,
+                url,
                 JSON.stringify(requestBody)
             ).pipe(
                 switchMap(response => {
@@ -116,20 +113,21 @@ export class RestUserRepoService implements IUserRepoService {
 
 
     public register(
+        token: string,
         password: string,
         rememberMe: boolean
     ): Observable<User> {
+        const url = environment.userServiceUrl + '/register';
         const requestBody = {
-            action: 'register',
+            token: token,
             password: password,
             rememberme: rememberMe ? '1' : '0',
         };
 
         return this.http
             .post<IRestTokenResponse>(
-                environment.userServiceUrl,
-                JSON.stringify(requestBody),
-                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+                url,
+                JSON.stringify(requestBody)
             ).pipe(
                 switchMap(response => {
                     switch (response.resultcode) {
@@ -154,14 +152,14 @@ export class RestUserRepoService implements IUserRepoService {
 
 
     public sendLostPwEmail(email: string): Observable<string> {
+        const url = environment.userServiceUrl + '/sendlostpwemail';
         const requestBody = {
-            action: 'sendlostpwemail',
             email: email
         };
 
         return this.http
             .post<IRestTokenResponse>(
-                environment.userServiceUrl,
+                url,
                 JSON.stringify(requestBody),
                 HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
             ).pipe(
@@ -189,14 +187,15 @@ export class RestUserRepoService implements IUserRepoService {
         newPassword: string,
         rememberMe: boolean
     ): Observable<User> {
+        const url = environment.userServiceUrl + '/resetpassword';
         const requestBody = {
-            action: 'resetpassword',
             password: newPassword,
             rememberme: rememberMe ? '1' : '0'
         };
+
         return this.http
             .post<IRestTokenResponse>(
-                environment.userServiceUrl,
+                url,
                 JSON.stringify(requestBody),
                 HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
             ).pipe(
@@ -226,15 +225,15 @@ export class RestUserRepoService implements IUserRepoService {
         oldPassword: string,
         newPassword: string
     ): Observable<boolean> {
+        const url = environment.userServiceUrl + '/updatepassword';
         const requestBody = {
-            action: 'updatepassword',
             oldpassword: oldPassword,
             newpassword: newPassword
         };
 
         return this.http
             .post<IRestSimpleResponse>(
-                environment.userServiceUrl,
+                url,
                 JSON.stringify(requestBody),
                 HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
             ).pipe(

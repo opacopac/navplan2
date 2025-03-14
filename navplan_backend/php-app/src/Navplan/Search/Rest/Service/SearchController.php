@@ -29,29 +29,31 @@ class SearchController implements IRestController
 
     public function processRequest()
     {
-        $args = $this->httpService->getGetArgs();
-        $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
-        $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-        $action = basename($path);
-
         switch ($this->httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
-                if ($action === self::ACTION_SEARCH_BY_TEXT) {
-                    $query = RestSearchByTextQueryConverter::fromArgs($args);
-                    $result = $this->searchService->searchByText($query, $token);
-                    $response = RestSearchResultConverter::toRest($result);
-                    $this->httpService->sendArrayResponse($response);
-                } else if ($action === self::ACTION_SEARCH_BY_POSITION) {
-                    $query = RestSearchByPositionQueryConverter::fromArgs($args);
-                    $result = $this->searchService->searchByPosition($query, $token);
-                    $response = RestSearchResultConverter::toRest($result);
-                    $this->httpService->sendArrayResponse($response);
-                } else {
-                    throw new InvalidArgumentException("invalid request");
+                $args = $this->httpService->getGetArgs();
+                $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
+                $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+                $action = basename($path);
+
+                switch ($action) {
+                    case self::ACTION_SEARCH_BY_TEXT:
+                        $query = RestSearchByTextQueryConverter::fromArgs($args);
+                        $result = $this->searchService->searchByText($query, $token);
+                        $response = RestSearchResultConverter::toRest($result);
+                        break;
+                    case self::ACTION_SEARCH_BY_POSITION:
+                        $query = RestSearchByPositionQueryConverter::fromArgs($args);
+                        $result = $this->searchService->searchByPosition($query, $token);
+                        $response = RestSearchResultConverter::toRest($result);
+                        break;
+                    default:
+                        throw new InvalidArgumentException("unsupported action for GET request");
                 }
-                break;
+
+                $this->httpService->sendArrayResponse($response);
             default:
-                throw new InvalidArgumentException("invalid request method");
+                throw new InvalidArgumentException("unsupported request method");
         }
     }
 }

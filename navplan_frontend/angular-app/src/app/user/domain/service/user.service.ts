@@ -26,8 +26,8 @@ export class UserService implements IUserService {
     }
 
 
-    public register(password: string, rememberMe: boolean): Observable<User> {
-        return this.userRepo.register(password, rememberMe);
+    public register(token: string, password: string, rememberMe: boolean): Observable<User> {
+        return this.userRepo.register(token, password, rememberMe);
     }
 
 

@@ -4,6 +4,8 @@ namespace Navplan\User\Rest\Service;
 
 use InvalidArgumentException;
 use Navplan\Common\Rest\Controller\IRestController;
+use Navplan\Common\StringNumberHelper;
+use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\User\Rest\Model\LoginRequestConverter;
 use Navplan\User\Rest\Model\RegisterRequestConverter;
@@ -50,49 +52,58 @@ class UserController implements IRestController
 
     public function processRequest()
     {
-        $postVars = $this->httpService->getPostArgs();
-        $action = $postVars[self::ARG_ACTION] ?? NULL;
-        switch ($action) {
-            case self::ACTION_LOGIN:
-                $request = LoginRequestConverter::fromArgs($postVars);
-                $response = $this->loginUc->login($request);
-                $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
+        $action = StringNumberHelper::parseStringOrError($this->httpService->getGetArgs(), self::ARG_ACTION);
+
+        switch ($this->httpService->getRequestMethod()) {
+            case HttpRequestMethod::GET:
+                switch ($action) {
+                    case self::ACTION_AUTOLOGIN:
+                        $token = RestTokenConverter::getToken($this->httpService->getCookies());
+                        $userResponse = $this->autoLoginUc->autologin($token);
+                        break;
+                    default:
+                        throw new InvalidArgumentException("unsupported action for GET request");
+                }
                 break;
-            case self::ACTION_AUTOLOGIN:
-                $token = RestTokenConverter::getToken($this->httpService->getCookies());
-                $response = $this->autoLoginUc->autologin($token);
-                $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
-                break;
-            case self::ACTION_SEND_REGISTER_MAIL:
-                $request = SendRegisterEmailRequestConverter::fromArgs($postVars);
-                $response = $this->sendRegisterEmailUc->sendRegisterEmail($request);
-                $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
-                break;
-            case self::ACTION_REGISTER:
-                $token = RestTokenConverter::getToken($this->httpService->getCookies());
-                $request = RegisterRequestConverter::fromArgs($postVars, $token);
-                $response = $this->registerUc->register($request);
-                $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
-                break;
-            case self::ACTION_SEND_LOST_PW:
-                $request = SendLostPwRequestConverter::fromArgs($postVars);
-                $response = $this->sendLostPwUc->sendLostPw($request);
-                $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
-                break;
-            case self::ACTION_RESET_PW:
-                $token = RestTokenConverter::getToken($this->httpService->getCookies());
-                $request = ResetPwRequestConverter::fromArgs($postVars, $token);
-                $response = $this->resetPwUc->resetPassword($request);
-                $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
-                break;
-            case self::ACTION_UPDATE_PW:
-                $token = RestTokenConverter::getToken($this->httpService->getCookies());
-                $request = UpdatePwRequestConverter::fromArgs($postVars, $token);
-                $response = $this->updatePwUc->updatePassword($request);
-                $this->httpService->sendArrayResponse(UserResponseConverter::toRest($response));
+            case HttpRequestMethod::POST:
+                $postVars = $this->httpService->getPostArgs();
+
+                switch ($action) {
+                    case self::ACTION_LOGIN:
+                        $request = LoginRequestConverter::fromArgs($postVars);
+                        $userResponse = $this->loginUc->login($request);
+                        break;
+                    case self::ACTION_SEND_REGISTER_MAIL:
+                        $request = SendRegisterEmailRequestConverter::fromArgs($postVars);
+                        $userResponse = $this->sendRegisterEmailUc->sendRegisterEmail($request);
+                        break;
+                    case self::ACTION_REGISTER:
+                        $request = RegisterRequestConverter::fromArgs($postVars);
+                        $userResponse = $this->registerUc->register($request);
+                        break;
+                    case self::ACTION_SEND_LOST_PW:
+                        $request = SendLostPwRequestConverter::fromArgs($postVars);
+                        $userResponse = $this->sendLostPwUc->sendLostPw($request);
+                        break;
+                    case self::ACTION_RESET_PW:
+                        $token = RestTokenConverter::getToken($this->httpService->getCookies());
+                        $request = ResetPwRequestConverter::fromArgs($postVars, $token);
+                        $userResponse = $this->resetPwUc->resetPassword($request);
+                        break;
+                    case self::ACTION_UPDATE_PW:
+                        $token = RestTokenConverter::getToken($this->httpService->getCookies());
+                        $request = UpdatePwRequestConverter::fromArgs($postVars, $token);
+                        $userResponse = $this->updatePwUc->updatePassword($request);
+                        break;
+                    default:
+                        throw new InvalidArgumentException("unsupported action for POST request");
+                }
                 break;
             default:
-                throw new InvalidArgumentException("no or invalid action defined!");
+                throw new InvalidArgumentException("unsupported request method");
         }
+
+        $response = UserResponseConverter::toRest($userResponse);
+        $this->httpService->sendArrayResponse($response);
     }
 }

@@ -65,7 +65,7 @@ class MeteoDwdController implements IRestController
                 $this->httpService->sendArrayResponse($response);
                 break;
             default:
-                throw new InvalidArgumentException("invalid request method");
+                throw new InvalidArgumentException("unsupported request method");
         }
     }
 }

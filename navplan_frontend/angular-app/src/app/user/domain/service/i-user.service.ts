@@ -9,7 +9,7 @@ export abstract class IUserService {
 
     abstract sendRegisterEmail(email: string): Observable<string>;
 
-    abstract register(password: string, rememberMe: boolean): Observable<User>;
+    abstract register(token: string, password: string, rememberMe: boolean): Observable<User>;
 
     abstract sendLostPwEmail(email: string): Observable<string>;
 
