@@ -2,20 +2,37 @@
 
 namespace Navplan\MeteoSma;
 
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\MeteoSma\Domain\Service\IMeteoSmaService;
 use Navplan\MeteoSma\Persistence\Service\DbMeteoSmaRepo;
+use Navplan\MeteoSma\Rest\Service\MeteoSmaController;
 use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ITimeService;
 
 
 class ProdMeteoSmaDiContainer implements IMeteoSmaDiContainer {
+    private IRestController $meteoSmaController;
     private IMeteoSmaService $meteoService;
 
 
     public function __construct(
         private IDbService $dbService,
-        private ITimeService $timeService
+        private ITimeService $timeService,
+        private IHttpService $httpService
     ) {
+    }
+
+
+    public function getMeteoSmaController(): IRestController {
+        if (!isset($this->meteoSmaController)) {
+            $this->meteoSmaController = new MeteoSmaController(
+                $this->getMeteoSmaService(),
+                $this->httpService
+            );
+        }
+
+        return $this->meteoSmaController;
     }
 
 

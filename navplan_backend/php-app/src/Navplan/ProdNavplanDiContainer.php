@@ -236,7 +236,8 @@ class ProdNavplanDiContainer
         if (!isset($this->meteoSmaDiContainer)) {
             $this->meteoSmaDiContainer = new ProdMeteoSmaDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getTimeService()
+                $this->getSystemDiContainer()->getTimeService(),
+                $this->getSystemDiContainer()->getHttpService()
             );
         }
 

@@ -2,9 +2,13 @@
 
 namespace Navplan\MeteoSma;
 
+use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\MeteoSma\Domain\Service\IMeteoSmaService;
 
 
-interface IMeteoSmaDiContainer {
+interface IMeteoSmaDiContainer
+{
+    function getMeteoSmaController(): IRestController;
+
     function getMeteoSmaService(): IMeteoSmaService;
 }

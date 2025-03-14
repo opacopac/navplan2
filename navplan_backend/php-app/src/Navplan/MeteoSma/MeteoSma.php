@@ -2,15 +2,12 @@
 
 namespace Navplan\MeteoSma;
 
-use Navplan\MeteoSma\Rest\Service\MeteoSmaController;
 use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
 $diContainer = new ProdNavplanDiContainer();
+$controller = $diContainer->getMeteoSmaDiContainer()->getMeteoSmaController();
 
-MeteoSmaController::processRequest(
-    $diContainer->getMeteoSmaDiContainer()->getMeteoSmaService(),
-    $diContainer->getSystemDiContainer()->getHttpService()
-);
+$controller->processRequest();
