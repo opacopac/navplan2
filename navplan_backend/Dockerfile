@@ -35,6 +35,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN mkdir -p /var/log/navplan/
 RUN chmod -R 777 /var/log/navplan/
 
+# Create temp directory & set permissions
+RUN mkdir -p /var/www/html/tmp/
+RUN chmod -R 777 /var/www/html/tmp/
+
 # Copy Meteo DWD sample files
 COPY meteo_dwd /var/www/html/meteo_dwd
 
