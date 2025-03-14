@@ -3,6 +3,7 @@
 namespace Navplan\Exporter\Builder;
 
 use Navplan\Common\Domain\Model\Consumption;
+use Navplan\Exporter\Pdf\PDF_Rotate;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Model\FuelCalc;
 use Navplan\Flightroute\Domain\Model\Waypoint;
