@@ -2,38 +2,37 @@
 
 namespace Navplan\Exporter\Builder;
 
-require_once __DIR__ . "/../../../vendor/setasign/fpdf/rotation.php";
-
 use Navplan\Common\Domain\Model\Consumption;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Model\FuelCalc;
 use Navplan\Flightroute\Domain\Model\Waypoint;
-use PDF_Rotate;
 
 
-class NavplanPdfBuilder {
+class NavplanPdfBuilder
+{
     private const PLAN_TITLE = "NAV-FLIGHTPLAN";
     private const MARGIN_X = 8;
     private const MARGIN_Y = 10;
     private const ROW_HEIGHT = 5.82;
     private const PLAN_WIDTH = 136.56;
-    private const GEN_COL_WIDTHS = [ 52.92, 27, 27, 29.64 ];
-    private const GEN1_COL_TITLES = [ "ACFT IDENT:", "Date:", "Off Bl.:", "QNH:" ];
-    private const GEN2_COL_TITLES = [ "Pilot:", "GS:", "Bl. on:", "RWY:" ];
-    private const CKP_COL_WIDTHS = [ 11.91, 9.26, 31.75, 9, 9, 9, 9, 9, 9, 29.64 ];
-    private const CKP_COL_TITLES = [ "Freq.", "C/S", "Checkpoint", "MT", "Dist.", "Alt.", "EET", "ETO", "ATO", "Remarks" ];
+    private const GEN_COL_WIDTHS = [52.92, 27, 27, 29.64];
+    private const GEN1_COL_TITLES = ["ACFT IDENT:", "Date:", "Off Bl.:", "QNH:"];
+    private const GEN2_COL_TITLES = ["Pilot:", "GS:", "Bl. on:", "RWY:"];
+    private const CKP_COL_WIDTHS = [11.91, 9.26, 31.75, 9, 9, 9, 9, 9, 9, 29.64];
+    private const CKP_COL_TITLES = ["Freq.", "C/S", "Checkpoint", "MT", "Dist.", "Alt.", "EET", "ETO", "ATO", "Remarks"];
     private const CKP_NUM = 18;
     private const CMT_COL_WIDTH = 79.92;
     private const CMT_NUM = 7;
     private const FUEL_TITLE = "Fuel calc.";
     private const FUEL_TITLE_COL_WIDTH = 9;
-    private const FUEL_COL_WIDTH = [ 18, 14.82, 14.82 ];
-    private const FUEL_COL_TITLE = [ "l/h:", "Time", "Fuel" ];
-    private const FUEL_ROW_TITLE = [ "Trip", "Alternate", "Reserve", "Minimum", "Extra fuel", "Block fuel" ];
+    private const FUEL_COL_WIDTH = [18, 14.82, 14.82];
+    private const FUEL_COL_TITLE = ["l/h:", "Time", "Fuel"];
+    private const FUEL_ROW_TITLE = ["Trip", "Alternate", "Reserve", "Minimum", "Extra fuel", "Block fuel"];
     private PDF_Rotate $pdf;
 
 
-    public function __construct() {
+    public function __construct()
+    {
     }
 
 
@@ -42,7 +41,8 @@ class NavplanPdfBuilder {
      * @param FuelCalc $fuelCalc
      * @return PDF_Rotate
      */
-    public function buildPdf(Flightroute $flightroute, FuelCalc $fuelCalc): PDF_Rotate {
+    public function buildPdf(Flightroute $flightroute, FuelCalc $fuelCalc): PDF_Rotate
+    {
         self::createDoc();
         self::createTitle();
         self::createGenericData($flightroute);
@@ -61,7 +61,8 @@ class NavplanPdfBuilder {
     }
 
 
-    private function createDoc(): void {
+    private function createDoc(): void
+    {
         $this->pdf = new PDF_Rotate('L', 'mm', 'A4');
         $this->pdf->SetTitle(self::PLAN_TITLE);
         $this->pdf->AddFont('Arial-Narrow', '', 'arial-narrow.php');
@@ -73,14 +74,16 @@ class NavplanPdfBuilder {
     }
 
 
-    private function createTitle(): void {
+    private function createTitle(): void
+    {
         $this->pdf->SetY($this->pdf->GetY()); // move to right margin
         $this->pdf->SetFont('Arial', 'B', 16);
         $this->pdf->Cell(self::PLAN_WIDTH, self::ROW_HEIGHT * 2, self::PLAN_TITLE, "LTRB", 2, "C", false);
     }
 
 
-    private function createGenericData(Flightroute $flightroute): void {
+    private function createGenericData(Flightroute $flightroute): void
+    {
         $this->pdf->SetFont('Arial', 'B', 10);
 
         for ($i = 0; $i < count(self::GEN_COL_WIDTHS); $i++) {
@@ -102,7 +105,8 @@ class NavplanPdfBuilder {
     }
 
 
-    private function createCheckpointHeaders(): void {
+    private function createCheckpointHeaders(): void
+    {
         $this->pdf->SetLineWidth(0.3);
         $this->pdf->SetFillColor(160, 160, 160);
 
@@ -117,7 +121,8 @@ class NavplanPdfBuilder {
     /**
      * @param Waypoint[] $waypoints
      */
-    private function createCheckpointRows(array $waypoints): void {
+    private function createCheckpointRows(array $waypoints): void
+    {
         $this->pdf->SetLineWidth(0.1);
         $this->pdf->SetFont('Arial-Narrow', '', 10);
         $suppInfoCount = 0;
@@ -169,7 +174,8 @@ class NavplanPdfBuilder {
     }
 
 
-    private function getWaypointValue(?Waypoint $waypoint, int $colIndex): string {
+    private function getWaypointValue(?Waypoint $waypoint, int $colIndex): string
+    {
         if (!$waypoint) {
             return "";
         }
@@ -191,7 +197,8 @@ class NavplanPdfBuilder {
     }
 
 
-    private function drawMinMaxLines(?Waypoint $waypoint, $pos_x0, $pos_y0, $pos_x1, $pos_y1) {
+    private function drawMinMaxLines(?Waypoint $waypoint, $pos_x0, $pos_y0, $pos_x1, $pos_y1)
+    {
         if (!$waypoint) {
             return;
         }
@@ -210,7 +217,8 @@ class NavplanPdfBuilder {
     }
 
 
-    private function createAlternateRow(?Waypoint $alternate): void {
+    private function createAlternateRow(?Waypoint $alternate): void
+    {
         // title row
         for ($i = 0; $i < count(self::CKP_COL_WIDTHS); $i++) {
             $this->pdf->SetFont('Arial-Narrow', 'U', 10);
@@ -246,7 +254,8 @@ class NavplanPdfBuilder {
     }
 
 
-    private function createCommentLines($fuelTop, string|null $comments): void {
+    private function createCommentLines($fuelTop, string|null $comments): void
+    {
         for ($i = 0; $i < self::CMT_NUM; $i++) {
             $this->pdf->Cell(self::CMT_COL_WIDTH, self::ROW_HEIGHT, "", "LTRB", 2);
         }
@@ -258,7 +267,8 @@ class NavplanPdfBuilder {
     }
 
 
-    private function createFuelTitle($fuelTop): void {
+    private function createFuelTitle($fuelTop): void
+    {
         $this->pdf->SetXY(self::CMT_COL_WIDTH + self::MARGIN_X, $fuelTop);
         $this->pdf->Cell(self::FUEL_TITLE_COL_WIDTH, self::ROW_HEIGHT * self::CMT_NUM, "", 0, 0, "", true);
         $this->pdf->SetFont('Arial', 'B', 11);
@@ -266,7 +276,8 @@ class NavplanPdfBuilder {
     }
 
 
-    private function createFuelHeaders(Consumption|null $aircraftConsumption): void {
+    private function createFuelHeaders(Consumption|null $aircraftConsumption): void
+    {
         $fuelString = $aircraftConsumption ? $aircraftConsumption->getLph() : "";
         $this->pdf->SetFont('Arial', 'B', 10);
         $this->pdf->Cell(self::FUEL_COL_WIDTH[0], self::ROW_HEIGHT, self::FUEL_COL_TITLE[0] . $fuelString, "LTRB", 0, "L"); // l/h
@@ -275,7 +286,8 @@ class NavplanPdfBuilder {
     }
 
 
-    private function createFuelEntries($fuelLeft, FuelCalc $fuelCalc): void {
+    private function createFuelEntries($fuelLeft, FuelCalc $fuelCalc): void
+    {
         for ($j = 0; $j < count(self::FUEL_ROW_TITLE); $j++) {
             $this->pdf->SetXY($fuelLeft, $this->pdf->GetY() + self::ROW_HEIGHT); // new line
 
@@ -310,14 +322,16 @@ class NavplanPdfBuilder {
     }
 
 
-    private function createFuelBorder($fuelTop): void {
+    private function createFuelBorder($fuelTop): void
+    {
         $this->pdf->SetXY(self::CMT_COL_WIDTH + self::MARGIN_X, $fuelTop);
         $this->pdf->SetLineWidth(0.3);
         $this->pdf->Cell(self::PLAN_WIDTH - self::CMT_COL_WIDTH, self::ROW_HEIGHT * self::CMT_NUM, "", "LTRB");
     }
 
 
-    private function createNewLine(): void {
+    private function createNewLine(): void
+    {
         $this->pdf->SetY($this->pdf->GetY() + self::ROW_HEIGHT);
     }
 }
