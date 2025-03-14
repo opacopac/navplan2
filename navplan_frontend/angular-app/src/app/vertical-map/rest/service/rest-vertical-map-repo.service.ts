@@ -21,7 +21,6 @@ export class RestVerticalMapRepoService implements IVerticalMapRepoService {
 
     readVerticalMap(wpPositions: [number, number][], fcSelection: ForecastSelection): Observable<VerticalMap> {
         const requestBody = {
-            action: 'readvmap',
             positions: wpPositions,
             run: fcSelection ? fcSelection.forecastRun.getName() : null,
             step: fcSelection ? RestForecastStepConverter.toRest(fcSelection.forecastStep) : null,

@@ -28,7 +28,7 @@ export const environment = {
     trafficOgnServiceUrl: WEBSITE_BASE_URL + 'api/traffic/ogn',
     trafficDetailServiceUrl: WEBSITE_BASE_URL + 'api/traffic/details',
     userServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/User/User.php',
-    verticalMapServiceUrl: WEBSITE_BASE_URL + 'php/Navplan/VerticalMap/VerticalMap.php',
+    verticalMapServiceUrl: WEBSITE_BASE_URL + 'api/verticalmap',
     webcamApiBaseUrl: WEBSITE_BASE_URL + 'api/webcams',
     chartBaseUrl: WEBSITE_BASE_URL + 'charts2/',
     mapTilesIcaoChartUrl: WEBSITE_BASE_URL + 'maptiles/icao_ch_aero/',
