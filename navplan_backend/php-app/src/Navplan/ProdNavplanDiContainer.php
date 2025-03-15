@@ -339,7 +339,8 @@ class ProdNavplanDiContainer
                 $this->getUserDiContainer()->getTokenService(),
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getHttpService(),
-                $this->getUserDiContainer()->getUserService()
+                $this->getUserDiContainer()->getUserService(),
+                $this->getExportDiContainer()->getExportService()
             );
         }
 

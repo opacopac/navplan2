@@ -3,6 +3,7 @@
 namespace Navplan\Track;
 
 use Navplan\Common\Rest\Controller\IRestController;
+use Navplan\Exporter\Domain\Service\IExportService;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\Track\Domain\Command\ITrackDeleteCommand;
@@ -26,6 +27,7 @@ class ProdTrackDiContainer implements ITrackDiContainer {
         private IDbService $dbService,
         private IHttpService $httpService,
         private IUserService $userService,
+        private IExportService $exportService,
     ) {
     }
 
@@ -34,7 +36,8 @@ class ProdTrackDiContainer implements ITrackDiContainer {
         if (!isset($this->trackController)) {
             $this->trackController = new TrackController(
                 $this->httpService,
-                $this->getTrackService()
+                $this->getTrackService(),
+                $this->exportService
             );
         }
 

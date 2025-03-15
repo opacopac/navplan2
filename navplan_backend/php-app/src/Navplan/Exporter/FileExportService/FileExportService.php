@@ -63,7 +63,7 @@ class FileExportService implements IExportService {
     }
 
 
-    public function createNavplanKml(Flightroute $flightroute, Track $track): ExportFile {
+    public function createNavplanKml(?Flightroute $flightroute, ?Track $track): ExportFile {
         $xml = $this->kmlBuilder->buildKml($flightroute, $track);
         $tmpDirBase = $this->fileService->getTempDirBase();
         $tmpDir = $this->fileService->createTempDir();
