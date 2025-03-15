@@ -3,9 +3,9 @@
         class="tab-page-container"
         [trackList]="this.trackList$ | async"
         [selectedTrack]="this.selectedTrack$ | async"
-        (onTrackSelected)="this.onTrackSelected($event)"
-        (onKmlClicked)="this.onKmlClicked($event)"
-        (onEditTrackClicked)="this.onEditTrackClicket($event)"
-        (onRemoveTrackClicked)="this.onRemoveTrackClicked($event)">
+        (trackSelected)="this.onTrackSelected($event)"
+        (exportKmlClicked)="this.onExportKmlClicked($event)"
+        (editTrackClicked)="this.onEditTrackClicked($event)"
+        (deleteTrackClicked)="this.onDeleteTrackClicked($event)">
     </app-track-list>
 </div>

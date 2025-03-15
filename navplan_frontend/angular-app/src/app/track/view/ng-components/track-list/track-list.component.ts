@@ -6,6 +6,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
 import {Timestamp} from '../../../../geo-physics/domain/model/quantities/timestamp';
+import {TrackDeleteConfirmDialogComponent} from '../track-delete-confirm-dialog/track-delete-confirm-dialog.component';
 
 
 export interface ListEntry {
@@ -23,10 +24,10 @@ export interface ListEntry {
 export class TrackListComponent implements OnInit, OnChanges {
     @Input() public trackList: Track[];
     @Input() public selectedTrack: Track;
-    @Output() public onTrackSelected = new EventEmitter<Track>();
-    @Output() public onEditTrackClicked = new EventEmitter<Track>();
-    @Output() public onRemoveTrackClicked = new EventEmitter<Track>();
-    @Output() public onKmlClicked = new EventEmitter<Track>();
+    @Output() public trackSelected = new EventEmitter<number>();
+    @Output() public editTrackClicked = new EventEmitter<number>();
+    @Output() public deleteTrackClicked = new EventEmitter<number>();
+    @Output() public exportKmlClicked = new EventEmitter<number>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     protected dataSource: MatTableDataSource<ListEntry>;
@@ -63,5 +64,21 @@ export class TrackListComponent implements OnInit, OnChanges {
 
     protected applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+
+    protected onDeleteTrackClick(track: Track) {
+        const dialogRef = this.dialog.open(TrackDeleteConfirmDialogComponent, {
+            width: '400px',
+            data: {
+                track: track
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result && result.confirmDeletion) {
+                this.deleteTrackClicked.emit(track.id);
+            }
+        });
     }
 }

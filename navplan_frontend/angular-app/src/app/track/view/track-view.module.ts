@@ -12,6 +12,9 @@ import {MatIconModule} from '@angular/material/icon';
 import {CommonViewModule} from '../../common/view/common-view.module';
 import {MatInputModule} from '@angular/material/input';
 import {MatPaginator} from '@angular/material/paginator';
+import {
+    TrackDeleteConfirmDialogComponent
+} from './ng-components/track-delete-confirm-dialog/track-delete-confirm-dialog.component';
 
 
 @NgModule({
@@ -30,7 +33,8 @@ import {MatPaginator} from '@angular/material/paginator';
     ],
     declarations: [
         TracksPageComponent,
-        TrackListComponent
+        TrackListComponent,
+        TrackDeleteConfirmDialogComponent
     ],
     exports: [
         TracksPageComponent,

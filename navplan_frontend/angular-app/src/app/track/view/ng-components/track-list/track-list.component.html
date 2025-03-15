@@ -23,7 +23,7 @@
                 <td mat-cell
                     *matCellDef="let track"
                     class="clickable"
-                    (click)="this.onTrackSelected.emit(track)">
+                    (click)="this.trackSelected.emit(track)">
                     {{ this.getDateString(track) }}
                 </td>
             </ng-container>
@@ -33,7 +33,7 @@
                 <td mat-cell
                     *matCellDef="let track"
                     class="clickable"
-                    (click)="this.onTrackSelected.emit(track)">
+                    (click)="this.trackSelected.emit(track)">
                     {{ track.name }}
                 </td>
             </ng-container>
@@ -43,7 +43,7 @@
                 <td mat-cell
                     *matCellDef="let track"
                     class="clickable"
-                    (click)="this.onTrackSelected.emit(track)">
+                    (click)="this.trackSelected.emit(track)">
                     saved
                 </td>
             </ng-container>
@@ -55,7 +55,7 @@
                         [color]="ButtonColor.GREEN"
                         tooltipText="Edit Track"
                         tooltipPosition="above"
-                        (buttonClicked)="this.onEditTrackClicked.emit(entry.id)"
+                        (buttonClicked)="this.editTrackClicked.emit(entry.id)"
                     >
                         <i class="fa-solid fa-pencil"></i>
                     </app-icon-button>
@@ -63,7 +63,7 @@
                         [color]="ButtonColor.BLUE"
                         tooltipText="Export KML for Google Earth"
                         tooltipPosition="above"
-                        (buttonClicked)="this.onKmlClicked.emit(entry.id)"
+                        (buttonClicked)="this.exportKmlClicked.emit(entry.id)"
                     >
                         <i class="fa-solid fa-globe"></i>
                     </app-icon-button>
@@ -71,7 +71,7 @@
                         [color]="ButtonColor.RED"
                         tooltipText="Delete Track"
                         tooltipPosition="above"
-                        (buttonClicked)="this.onRemoveTrackClicked.emit(entry)"
+                        (buttonClicked)="this.onDeleteTrackClick(entry)"
                     >
                         <i class="fa-solid fa-trash"></i>
                     </app-icon-button>

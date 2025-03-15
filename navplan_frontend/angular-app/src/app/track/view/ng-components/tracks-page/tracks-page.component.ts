@@ -27,27 +27,26 @@ export class TracksPageComponent implements OnInit {
     }
 
 
-    public onTrackSelected(track: Track) {
-        if (track.id) {
-            this.appStore.dispatch(TrackActions.toggleSelect({ trackId: track.id }));
-            // this.appStore.dispatch(TrackActions.read({ trackId: track.id }));
+    public onTrackSelected(trackId: number) {
+        if (trackId) {
+            this.appStore.dispatch(TrackActions.toggleSelect({trackId: trackId}));
         }
     }
 
 
-    public onKmlClicked(track: Track) {
-        this.appStore.dispatch(TrackActions.exportKml({ trackId: track.id }));
+    protected onExportKmlClicked(trackId: number) {
+        this.appStore.dispatch(TrackActions.exportKml({trackId: trackId}));
     }
 
 
-    public onEditTrackClicket(track: Track) {
-        this.appStore.dispatch(TrackActions.edit({ trackId: track.id }));
+    protected onEditTrackClicked(trackId: number) {
+        this.appStore.dispatch(TrackActions.edit({trackId: trackId}));
     }
 
 
-    public onRemoveTrackClicked(track: Track) {
-        if (track.id) {
-            this.appStore.dispatch(TrackActions.delete({ trackId: track.id }));
+    protected onDeleteTrackClicked(trackId: number) {
+        if (trackId) {
+            this.appStore.dispatch(TrackActions.delete({trackId: trackId}));
         }
     }
 }

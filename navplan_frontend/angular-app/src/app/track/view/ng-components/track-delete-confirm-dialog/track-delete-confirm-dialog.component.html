@@ -1,0 +1,7 @@
+<app-confirm-delete-dialog
+    title="Delete Track '{{ this.data.track.name }}'"
+    (deleteClicked)="this.onDeleteClicked()"
+    (cancelClicked)="this.onCancelClicked()"
+>
+    Are you sure you want to delete the track &quot;{{ this.data.track.name }}&quot;?
+</app-confirm-delete-dialog>
