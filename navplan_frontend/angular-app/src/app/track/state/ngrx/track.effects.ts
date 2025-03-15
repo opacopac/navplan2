@@ -9,6 +9,7 @@ import {TrackActions} from './track.actions';
 import {TrackState} from '../state-model/track-state';
 import {getTrackState} from './track.selectors';
 import {ITrackService} from '../../domain/service/i-track.service';
+import {ExporterActions} from '../../../exporter/state/ngrx/exporter.actions';
 
 
 @Injectable()
@@ -54,6 +55,17 @@ export class TrackEffects {
         switchMap(action => this.trackService.readUserTrack(action.trackId).pipe(
             map(track => TrackActions.readSuccess({track: track})),
             catchError(error => of(TrackActions.readError({error: error})))
+        ))
+    ));
+
+
+    exportTrackKml$ = createEffect(() => this.actions$.pipe(
+        ofType(TrackActions.exportKml),
+        switchMap(action => this.trackService.readUserTrack(action.trackId).pipe(
+            switchMap(track => [
+                TrackActions.readSuccess({track: track}),
+                ExporterActions.exportKml()
+            ])
         ))
     ));
 }

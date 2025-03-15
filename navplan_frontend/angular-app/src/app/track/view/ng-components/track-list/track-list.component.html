@@ -23,7 +23,7 @@
                 <td mat-cell
                     *matCellDef="let track"
                     class="clickable"
-                    (click)="this.trackSelected.emit(track)">
+                    (click)="this.trackSelected.emit(track.id)">
                     {{ this.getDateString(track) }}
                 </td>
             </ng-container>
@@ -33,7 +33,7 @@
                 <td mat-cell
                     *matCellDef="let track"
                     class="clickable"
-                    (click)="this.trackSelected.emit(track)">
+                    (click)="this.trackSelected.emit(track.id)">
                     {{ track.name }}
                 </td>
             </ng-container>
@@ -43,7 +43,7 @@
                 <td mat-cell
                     *matCellDef="let track"
                     class="clickable"
-                    (click)="this.trackSelected.emit(track)">
+                    (click)="this.trackSelected.emit(track.id)">
                     saved
                 </td>
             </ng-container>
