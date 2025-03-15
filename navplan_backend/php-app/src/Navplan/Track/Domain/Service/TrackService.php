@@ -2,19 +2,19 @@
 
 namespace Navplan\Track\Domain\Service;
 
-use InvalidArgumentException;
 use Navplan\Track\Domain\Command\ITrackDeleteCommand;
 use Navplan\Track\Domain\Model\Track;
-use Navplan\User\Domain\Service\ITokenService;
+use Navplan\Track\Domain\Query\ITrackByIdQuery;
+use Navplan\Track\Domain\Query\ITrackListQuery;
 use Navplan\User\Domain\Service\IUserService;
 
 
 class TrackService implements ITrackService
 {
     public function __construct(
-        private ITokenService $tokenService,
-        private ITrackRepo $trackRepo,
         private IUserService $userService,
+        private ITrackListQuery $trackListQuery,
+        private ITrackByIdQuery $trackByIdQuery,
         private ITrackDeleteCommand $trackDeleteCommand
     )
     {
@@ -27,23 +27,15 @@ class TrackService implements ITrackService
      */
     function readTrackList(string $token): array
     {
-        $email = $this->tokenService->getEmailFromToken($token);
-        if (!$email) {
-            throw new InvalidArgumentException('invalid user token');
-        }
-
-        return $this->trackRepo->readTrackList($email);
+        $user = $this->userService->getUserOrThrow($token);
+        return $this->trackListQuery->readList($user->id);
     }
 
 
     function readTrack(int $trackId, string $token): Track
     {
-        $email = $this->tokenService->getEmailFromToken($token);
-        if (!$email) {
-            throw new InvalidArgumentException('invalid user token');
-        }
-
-        return $this->trackRepo->readTrack($trackId, $email);
+        $user = $this->userService->getUserOrThrow($token);
+        return $this->trackByIdQuery->read($trackId, $user->id);
     }
 
 

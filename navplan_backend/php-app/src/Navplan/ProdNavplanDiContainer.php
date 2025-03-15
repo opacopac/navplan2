@@ -336,7 +336,6 @@ class ProdNavplanDiContainer
     {
         if (!isset($this->trackDiContainer)) {
             $this->trackDiContainer = new ProdTrackDiContainer(
-                $this->getUserDiContainer()->getTokenService(),
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getHttpService(),
                 $this->getUserDiContainer()->getUserService(),
