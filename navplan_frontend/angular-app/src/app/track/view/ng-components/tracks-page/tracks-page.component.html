@@ -1,32 +1,11 @@
 <div class="single-page-container">
-    <h2>Recorded Tracks</h2>
-    <div class="table-responsive">
-        <app-track-list
-            [trackList]="this.trackList$ | async"
-            [selectedTrack]="this.selectedTrack$ | async"
-            (onTrackSelected)="this.onTrackSelected($event)"
-            (onKmlClicked)="this.onKmlClicked($event)"
-            (onEditTrackClicked)="this.onEditTrackClicket($event)"
-            (onRemoveTrackClicked)="this.onRemoveTrackClicked($event)">
-        </app-track-list>
-    </div>
+    <app-track-list
+        class="tab-page-container"
+        [trackList]="this.trackList$ | async"
+        [selectedTrack]="this.selectedTrack$ | async"
+        (onTrackSelected)="this.onTrackSelected($event)"
+        (onKmlClicked)="this.onKmlClicked($event)"
+        (onEditTrackClicked)="this.onEditTrackClicket($event)"
+        (onRemoveTrackClicked)="this.onRemoveTrackClicked($event)">
+    </app-track-list>
 </div>
-<!-- save track dialog -->
-<!--<div class="modal fade" id="saveTrackDialog" tabindex="-1" role="dialog" aria-labelledby="saveTrackModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="saveTrackModalLabel">Track</h4>
-            </div>
-            <div class="modal-body">
-                <p>Recorded: {{ editTrack.recorded }}</p>
-                Track Name: <input type="text" class="form-control" ng-model="editTrack.name" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="onSaveTrackClicked()" ng-disabled="!editTrack.name"><i class="fa fa-save"></i> Save Track</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>-->

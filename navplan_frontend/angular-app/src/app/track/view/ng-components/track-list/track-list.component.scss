@@ -1,13 +1,19 @@
-@import "styles";
+.filter-row {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 20px;
+}
 
-.track-list {
+table {
     width: 100%;
 }
 
-.selected-row {
-    background-color: $navplan-color-blue;
+.button-cell {
+    text-align: right;
 }
 
-.selected-row > .mat-mdc-cell {
-    color: white;
+mat-paginator {
+    margin-top: 20px;
 }

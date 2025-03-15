@@ -25,8 +25,10 @@
 
     <!-- aircraft list -->
     @if (this.aircraftList && this.aircraftList.length > 0) {
-        <table mat-table
-               [dataSource]="this.dataSource">
+        <table
+            mat-table
+            [dataSource]="this.dataSource"
+        >
             <ng-container matColumnDef="vehicleType">
                 <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
                 <td mat-cell
@@ -99,7 +101,7 @@
             [pageSize]="10"
             [pageSizeOptions]="[5, 10, 25, 100]"
             showFirstLastButtons="true"
-        ></mat-paginator>
+        />
     }
 
     @if (!this.aircraftList || this.aircraftList.length == 0) {

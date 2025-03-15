@@ -1,23 +1,42 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {Track} from '../../../domain/model/track';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+import {ButtonColor} from '../../../../common/view/model/button-color';
+import {MatDialog} from '@angular/material/dialog';
+import {Timestamp} from '../../../../geo-physics/domain/model/quantities/timestamp';
+
+
+export interface ListEntry {
+    id: number;
+    name: string;
+    saveTime: Timestamp;
+}
 
 
 @Component({
-  selector: 'app-track-list',
-  templateUrl: './track-list.component.html',
-  styleUrls: ['./track-list.component.scss']
+    selector: 'app-track-list',
+    templateUrl: './track-list.component.html',
+    styleUrls: ['./track-list.component.scss']
 })
-export class TrackListComponent implements OnInit {
+export class TrackListComponent implements OnInit, OnChanges {
     @Input() public trackList: Track[];
     @Input() public selectedTrack: Track;
     @Output() public onTrackSelected = new EventEmitter<Track>();
     @Output() public onEditTrackClicked = new EventEmitter<Track>();
     @Output() public onRemoveTrackClicked = new EventEmitter<Track>();
     @Output() public onKmlClicked = new EventEmitter<Track>();
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+
+    protected dataSource: MatTableDataSource<ListEntry>;
+    protected visibleColumns = ['date', 'name', 'status', 'icons'];
+    protected readonly ButtonColor = ButtonColor;
 
 
-    constructor() {
+    constructor(
+        private dialog: MatDialog,
+    ) {
     }
 
 
@@ -25,14 +44,24 @@ export class TrackListComponent implements OnInit {
     }
 
 
-    public getDisplayColumns(): string[] {
+    ngOnChanges() {
+        this.dataSource = new MatTableDataSource<ListEntry>(this.trackList);
+        this.dataSource.paginator = this.paginator;
+    }
+
+
+    protected getDisplayColumns(): string[] {
         return ['date', 'name', 'status', 'kml', 'edit', 'delete'];
     }
 
 
-    public getDateString(track: Track): string {
+    protected getDateString(track: Track): string {
         const d: Date = track.saveTime.date;
 
         return DatetimeHelper.getYearMonthDayString(d) + ' ' + DatetimeHelper.getHourMinStringFromDate(d);
+    }
+
+    protected applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 }

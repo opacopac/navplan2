@@ -1,73 +1,103 @@
-@if (this.trackList && this.trackList.length > 0) {
-  <table mat-table
-    class="track-list mat-elevation-z6"
-    [dataSource]="this.trackList">
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef>Recorded</th>
-      <td mat-cell
-        *matCellDef="let track"
-        class="clickable"
-        (click)="this.onTrackSelected.emit(track)">
-        {{ this.getDateString(track) }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Track</th>
-      <td mat-cell
-        *matCellDef="let track"
-        class="clickable"
-        (click)="this.onTrackSelected.emit(track)">
-        {{ track.name }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell
-        *matCellDef="let track"
-        class="clickable"
-        (click)="this.onTrackSelected.emit(track)">
-        saved
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="kml">
-      <th mat-header-cell *matHeaderCellDef>KML</th>
-      <td mat-cell *matCellDef="let track">
-        <button mat-icon-button
-          title="Export KML for Google Earth"
-          (click)="this.onKmlClicked.emit(track)">
-          <i class="fa-solid fa-globe"></i>
-        </button>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let track">
-        <button mat-icon-button
-          title="Edit Track"
-          (click)="this.onEditTrackClicked.emit(track)">
-          <i class="fa-solid fa-edit"></i>
-        </button>
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let track">
-        <button mat-icon-button
-          title="Delete Track"
-          (click)="this.onRemoveTrackClicked.emit(track)">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </td>
-    </ng-container>
-    <tr mat-header-row
-    *matHeaderRowDef="this.getDisplayColumns()"></tr>
-    <tr mat-row
-      class="{{ this.selectedTrack?.id === track?.id ? 'selected-row' : '' }}"
-    *matRowDef="let track; columns: this.getDisplayColumns()"></tr>
-  </table>
-}
-@if (!this.trackList || this.trackList.length == 0) {
-  <div>
-    <i>No recorded tracks</i>
-  </div>
-}
+<div>
+    <!-- aircraft filter -->
+    <div class="filter-row">
+        <!-- filter aircraft list -->
+        <mat-form-field>
+            <input
+                matInput
+                (keyup)="this.applyFilter($event.target.value)"
+                placeholder="Filter"
+            >
+            <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <!-- track list -->
+    @if (this.trackList && this.trackList.length > 0) {
+        <table
+            mat-table
+            class="track-list mat-elevation-z6"
+            [dataSource]="this.dataSource"
+        >
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Recorded</th>
+                <td mat-cell
+                    *matCellDef="let track"
+                    class="clickable"
+                    (click)="this.onTrackSelected.emit(track)">
+                    {{ this.getDateString(track) }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Track</th>
+                <td mat-cell
+                    *matCellDef="let track"
+                    class="clickable"
+                    (click)="this.onTrackSelected.emit(track)">
+                    {{ track.name }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell
+                    *matCellDef="let track"
+                    class="clickable"
+                    (click)="this.onTrackSelected.emit(track)">
+                    saved
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="icons">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let entry" class="button-cell">
+                    <app-icon-button
+                        [color]="ButtonColor.GREEN"
+                        tooltipText="Edit Track"
+                        tooltipPosition="above"
+                        (buttonClicked)="this.onEditTrackClicked.emit(entry.id)"
+                    >
+                        <i class="fa-solid fa-pencil"></i>
+                    </app-icon-button>
+                    <app-icon-button
+                        [color]="ButtonColor.BLUE"
+                        tooltipText="Export KML for Google Earth"
+                        tooltipPosition="above"
+                        (buttonClicked)="this.onKmlClicked.emit(entry.id)"
+                    >
+                        <i class="fa-solid fa-globe"></i>
+                    </app-icon-button>
+                    <app-icon-button
+                        [color]="ButtonColor.RED"
+                        tooltipText="Delete Track"
+                        tooltipPosition="above"
+                        (buttonClicked)="this.onRemoveTrackClicked.emit(entry)"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                    </app-icon-button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row
+                *matHeaderRowDef="this.visibleColumns"
+                class="header-row"
+            ></tr>
+            <tr mat-row
+                *matRowDef="let listEntry; let even = even; columns: this.visibleColumns"
+                [ngClass]="{ 'odd-row': !even, 'selected-row': this.selectedTrack?.id === listEntry?.id }"
+            ></tr>
+        </table>
+
+        <mat-paginator
+            [pageSize]="10"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            showFirstLastButtons="true"
+        />
+    }
+    @if (!this.trackList || this.trackList.length == 0) {
+        <div>
+            <i>No recorded tracks</i>
+        </div>
+    }
+</div>
