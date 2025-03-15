@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Observable, timer} from 'rxjs';
-import {filter, map, withLatestFrom} from 'rxjs/operators';
+import {Observable, switchMap, takeUntil, timer} from 'rxjs';
+import {map, withLatestFrom} from 'rxjs/operators';
 import {TrafficActions} from './traffic.actions';
 import {getTrafficState} from './traffic.selectors';
 import {TrafficState} from '../state-model/traffic-state';
@@ -21,7 +21,6 @@ export class TrafficEffects {
     }
 
 
-
     toggleTrafficWatchAction$: Observable<Action> = createEffect(() => this.actions$
         .pipe(
             ofType(TrafficActions.toggleWatch),
@@ -36,13 +35,13 @@ export class TrafficEffects {
         ));
 
 
-
-    trafficTickAction$: Observable<Action> = createEffect(() => timer(
-        1,
-        this.TRAFFIC_UPDATE_INTERVALL_MS
-    ).pipe(
-        withLatestFrom(this.trafficState$),
-        filter(([count, state]) => state.isWatching === true),
-        map(([count, state]) => TrafficActions.timerTicked({ count: count }))
+    trafficWatchStartAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
+        ofType(TrafficActions.startWatch),
+        switchMap(() =>
+            timer(1, this.TRAFFIC_UPDATE_INTERVALL_MS).pipe(
+                takeUntil(this.actions$.pipe(ofType(TrafficActions.stopWatch))),
+                map(count => TrafficActions.timerTicked({ count }))
+            )
+        )
     ));
 }
