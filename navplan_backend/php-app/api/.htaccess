@@ -106,6 +106,9 @@ RewriteRule ^tracks$ %{ENV:BASEPATH}Track/Track.php [L,QSA]
 # Rewrite for /api/tracks/{id}
 RewriteRule ^tracks/(\d+)$ %{ENV:BASEPATH}Track/Track.php?id=$1 [L,QSA]
 
+# Rewrite for /api/tracks/{id}/{action}
+RewriteRule ^tracks/(\d+)/([^/]+)$ %{ENV:BASEPATH}Track/Track.php?id=$1&action=$2 [L,QSA]
+
 
 ### traffic ###
 

@@ -29,7 +29,7 @@ export class RestMeteoDwdService implements IMeteoDwdService {
 
 
     public readAvailableForecasts(): Observable<ForecastRun[]> {
-        const url = environment.meteoDwdServiceUrl;
+        const url = environment.meteoDwdApiBaseUrl;
 
         // TODO: expire cache
         if (!this.availableForecastsCache$) {
@@ -109,7 +109,7 @@ export class RestMeteoDwdService implements IMeteoDwdService {
 
 
     private getRestServiceUrl(param: string, forecast: ForecastRun, step: number): string {
-        return environment.meteoDwdServiceUrl
+        return environment.meteoDwdApiBaseUrl
             + '/' + forecast.getName()
             + '/' + RestForecastStepConverter.toRest(step)
             + '/' + param;

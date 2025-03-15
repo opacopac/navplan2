@@ -4,7 +4,6 @@ import {Observable, throwError} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {Track} from '../../domain/model/track';
-import {User} from '../../../user/domain/model/user';
 import {catchError, map} from 'rxjs/operators';
 import {IRestTrackListResponse} from '../model/i-rest-track-list-response';
 import {IRestTrackResponse} from '../model/i-rest-track-response';
@@ -12,6 +11,10 @@ import {RestTrackListResponseConverter} from '../model/rest-track-list-response-
 import {RestTrackResponseConverter} from '../model/rest-track-response-converter';
 import {ITrackRepoService} from '../../domain/service/i-track-repo.service';
 import {HttpHelper} from '../../../system/domain/service/http/http-helper';
+import {ExportedFile} from '../../../exporter/domain/model/exported-file';
+import {IRestExportedFile} from '../../../exporter/rest/model/i-rest-exported-file';
+import {RestExportedFileConverter} from '../../../exporter/rest/model/rest-exported-file-converter';
+import {IRestSuccessResponse} from '../../../flightroute/rest/model/i-rest-success-response';
 
 
 @Injectable()
@@ -21,7 +24,7 @@ export class RestTrackRepoService implements ITrackRepoService {
 
 
     readUserTrackList(): Observable<Track[]> {
-        const url: string = environment.trackServiceUrl;
+        const url: string = environment.trackApiBaseUrl;
 
         return this.http
             .get<IRestTrackListResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
@@ -36,7 +39,7 @@ export class RestTrackRepoService implements ITrackRepoService {
 
 
     readUserTrack(trackid: number): Observable<Track> {
-        const url: string = environment.trackServiceUrl + '/' + trackid;
+        const url: string = environment.trackApiBaseUrl + '/' + trackid;
         return this.http
             .get<IRestTrackResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
             .pipe(
@@ -59,7 +62,32 @@ export class RestTrackRepoService implements ITrackRepoService {
     }
 
 
-    deleteUserTrack(trackid) {
-        // return $http.delete(userTrackBaseUrlGet + '&id=' + encodeURI(trackid));
+    deleteUserTrack(trackid: number): Observable<boolean> {
+        const url = environment.trackApiBaseUrl + '/' + trackid;
+
+        return this.http
+            .delete<IRestSuccessResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
+            .pipe(
+                map(response => response.success),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR deleting user track', err);
+                    return throwError(err);
+                })
+            );
+    }
+
+
+    exportTrackKml(trackid: number): Observable<ExportedFile> {
+        const url = environment.trackApiBaseUrl + '/' + trackid + '/exportkml';
+
+        return this.http
+            .get<IRestExportedFile>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
+            .pipe(
+                map(response => RestExportedFileConverter.fromRest(response)),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR exporting KML', err);
+                    return throwError(err);
+                })
+            );
     }
 }

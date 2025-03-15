@@ -19,7 +19,7 @@ export class RestUserRepoService implements IUserRepoService {
 
 
     public autoLogin(): Observable<User> {
-        const url = environment.userServiceUrl + '/autologin';
+        const url = environment.userApiBaseUrl + '/autologin';
 
         return this.http
             .get<IRestTokenResponse>(
@@ -49,7 +49,7 @@ export class RestUserRepoService implements IUserRepoService {
         password: string,
         rememberMe: boolean
     ): Observable<User> {
-        const url = environment.userServiceUrl + '/login';
+        const url = environment.userApiBaseUrl + '/login';
         const requestBody = {
             email: email,
             password: password,
@@ -82,7 +82,7 @@ export class RestUserRepoService implements IUserRepoService {
 
 
     public sendRegisterEmail(email: string): Observable<string> {
-        const url = environment.userServiceUrl + '/sendregisteremail';
+        const url = environment.userApiBaseUrl + '/sendregisteremail';
         const requestBody = {
             email: email
         };
@@ -117,7 +117,7 @@ export class RestUserRepoService implements IUserRepoService {
         password: string,
         rememberMe: boolean
     ): Observable<User> {
-        const url = environment.userServiceUrl + '/register';
+        const url = environment.userApiBaseUrl + '/register';
         const requestBody = {
             token: token,
             password: password,
@@ -152,7 +152,7 @@ export class RestUserRepoService implements IUserRepoService {
 
 
     public sendLostPwEmail(email: string): Observable<string> {
-        const url = environment.userServiceUrl + '/sendlostpwemail';
+        const url = environment.userApiBaseUrl + '/sendlostpwemail';
         const requestBody = {
             email: email
         };
@@ -187,7 +187,7 @@ export class RestUserRepoService implements IUserRepoService {
         newPassword: string,
         rememberMe: boolean
     ): Observable<User> {
-        const url = environment.userServiceUrl + '/resetpassword';
+        const url = environment.userApiBaseUrl + '/resetpassword';
         const requestBody = {
             password: newPassword,
             rememberme: rememberMe ? '1' : '0'
@@ -225,7 +225,7 @@ export class RestUserRepoService implements IUserRepoService {
         oldPassword: string,
         newPassword: string
     ): Observable<boolean> {
-        const url = environment.userServiceUrl + '/updatepassword';
+        const url = environment.userApiBaseUrl + '/updatepassword';
         const requestBody = {
             oldpassword: oldPassword,
             newpassword: newPassword

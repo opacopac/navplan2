@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs';
-import {User} from '../../../user/domain/model/user';
 import {Track} from '../model/track';
+import {ExportedFile} from '../../../exporter/domain/model/exported-file';
 
 
 export abstract class ITrackService {
@@ -9,4 +9,8 @@ export abstract class ITrackService {
     abstract readUserTrack(trackid: number): Observable<Track>;
 
     abstract createUserTrack(timestamp, name, positions): void;
+
+    abstract deleteUserTrack(trackid: number): Observable<boolean>;
+
+    abstract exportTrackKml(trackid: number): Observable<ExportedFile>;
 }

@@ -10,6 +10,8 @@ import {TrackState} from '../state-model/track-state';
 import {getTrackState} from './track.selectors';
 import {ITrackService} from '../../domain/service/i-track.service';
 import {ExporterActions} from '../../../exporter/state/ngrx/exporter.actions';
+import {MessageActions} from '../../../message/state/ngrx/message.actions';
+import {Message} from '../../../message/domain/model/message';
 
 
 @Injectable()
@@ -59,13 +61,30 @@ export class TrackEffects {
     ));
 
 
+    deleteTrack$ = createEffect(() => this.actions$.pipe(
+        ofType(TrackActions.delete),
+        switchMap(action => this.trackService.deleteUserTrack(action.trackId).pipe(
+            switchMap((success) => [
+                TrackActions.deleteSuccess({trackId: action.trackId}),
+                TrackActions.readList(),
+                MessageActions.showMessage({
+                    message: Message.success('Track deleted successfully.')
+                })
+            ]),
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error deleting track: ', error)
+            })))
+        ))
+    ));
+
+
     exportTrackKml$ = createEffect(() => this.actions$.pipe(
         ofType(TrackActions.exportKml),
-        switchMap(action => this.trackService.readUserTrack(action.trackId).pipe(
-            switchMap(track => [
-                TrackActions.readSuccess({track: track}),
-                ExporterActions.exportKml()
-            ])
+        switchMap(action => this.trackService.exportTrackKml(action.trackId).pipe(
+            map(exportedFile => ExporterActions.exportSuccess({exportedFile: exportedFile})),
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error exporting track KML', error)
+            })))
         ))
     ));
 }

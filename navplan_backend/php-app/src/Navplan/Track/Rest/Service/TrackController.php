@@ -5,6 +5,7 @@ namespace Navplan\Track\Rest\Service;
 use InvalidArgumentException;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestIdConverter;
+use Navplan\Flightroute\Rest\Converter\RestSuccessResponse;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\Track\Domain\Service\ITrackService;
@@ -38,6 +39,12 @@ class TrackController implements IRestController
                     $response = RestReadTrackListResponseConverter::toRest($tracks);
                 }
                 $this->httpService->sendArrayResponse($response);
+                break;
+            case HttpRequestMethod::DELETE:
+                $id = RestIdConverter::getId($this->httpService->getGetArgs());
+                $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
+                $success = $this->trackService->deleteTrack($id, $token);
+                $this->httpService->sendArrayResponse(RestSuccessResponse::toRest($success));
                 break;
             default:
                 throw new InvalidArgumentException("unsupported request method");

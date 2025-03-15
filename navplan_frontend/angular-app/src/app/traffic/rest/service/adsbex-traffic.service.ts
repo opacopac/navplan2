@@ -23,7 +23,7 @@ export class AdsbexTrafficService implements IAdsbexTrafficService {
 
     public readTraffic(extent: Extent2d): Observable<AdsbexTraffic[]> {
         const params = RestExtent2dConverter.getUrlParams(extent);
-        const url = environment.trafficAdsbexServiceUrl;
+        const url = environment.trafficAdsbexApiBaseUrl;
 
         return this.http
             .get<IRestAdsbexTrafficResponse>(url, {params})

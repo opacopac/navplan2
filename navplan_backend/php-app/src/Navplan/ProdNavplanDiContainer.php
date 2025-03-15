@@ -338,7 +338,8 @@ class ProdNavplanDiContainer
             $this->trackDiContainer = new ProdTrackDiContainer(
                 $this->getUserDiContainer()->getTokenService(),
                 $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService()
+                $this->getSystemDiContainer()->getHttpService(),
+                $this->getUserDiContainer()->getUserService()
             );
         }
 

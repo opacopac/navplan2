@@ -13,4 +13,6 @@ interface ITrackService {
     function readTrackList(string $token): array;
 
     function readTrack(int $trackId, string $token): Track;
+
+    function deleteTrack(int $trackId, string $token): bool;
 }

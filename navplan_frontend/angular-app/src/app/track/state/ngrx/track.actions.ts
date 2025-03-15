@@ -47,6 +47,11 @@ export class TrackActions {
         props<{ trackId: number }>()
     );
 
+    public static readonly deleteSuccess = createAction(
+        '[Tracks Effects] Delete track success',
+        props<{ trackId: number }>()
+    );
+
     public static readonly exportKml = createAction(
         '[Tracks Page] export track KML',
         props<{ trackId: number }>()

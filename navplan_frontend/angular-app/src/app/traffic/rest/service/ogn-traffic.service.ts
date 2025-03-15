@@ -28,7 +28,7 @@ export class OgnTrafficService implements IOgnTrafficService {
                 .set('sessionid', sessionId)
                 .set('waitDataSec', waitForDataSec.toString())
         ]);
-        const url = environment.trafficOgnServiceUrl;
+        const url = environment.trafficOgnApiBaseUrl;
 
         return this.http
             .get<IRestOgnTrafficResponse>(url, {params})

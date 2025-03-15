@@ -3,6 +3,7 @@ import {Observable} from 'rxjs';
 import {Track} from '../model/track';
 import {ITrackRepoService} from './i-track-repo.service';
 import {ITrackService} from './i-track.service';
+import {ExportedFile} from '../../../exporter/domain/model/exported-file';
 
 
 @Injectable()
@@ -23,5 +24,15 @@ export class TrackService implements ITrackService {
 
     public createUserTrack(timestamp, name, positions): void {
         return this.trackRepo.createUserTrack(timestamp, name, positions);
+    }
+
+
+    public deleteUserTrack(trackid: number): Observable<boolean> {
+        return this.trackRepo.deleteUserTrack(trackid);
+    }
+
+
+    public exportTrackKml(trackid: number): Observable<ExportedFile> {
+        return this.trackRepo.exportTrackKml(trackid);
     }
 }

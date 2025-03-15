@@ -28,7 +28,7 @@ export class RestVerticalMapRepoService implements IVerticalMapRepoService {
         };
         return this.http
             .post<IRestVerticalMapResponse>(
-                environment.verticalMapServiceUrl,
+                environment.verticalMapApiBaseUrl,
                 JSON.stringify(requestBody)
             )
             .pipe(

@@ -28,7 +28,7 @@ export class TrafficDetailsService implements ITrafficDetailsService {
 
         return this.http
             .post<IRestTrafficDetailsResponse>(
-                environment.trafficDetailServiceUrl,
+                environment.trafficDetailApiBaseUrl,
                 JSON.stringify(requestBody))
             .pipe(
                 map(response => RestTrafficDetailsResponseConverter.fromRest(response)),
