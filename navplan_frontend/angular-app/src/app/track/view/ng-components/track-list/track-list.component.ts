@@ -51,11 +51,6 @@ export class TrackListComponent implements OnInit, OnChanges {
     }
 
 
-    protected getDisplayColumns(): string[] {
-        return ['date', 'name', 'status', 'kml', 'edit', 'delete'];
-    }
-
-
     protected getDateString(track: Track): string {
         const d: Date = track.saveTime.date;
 
