@@ -2,12 +2,10 @@
 
 namespace Navplan\User;
 
-use Navplan\ProdNavplanDiContainer;
-
 include_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainer();
-$controller = $diContainer->getUserDiContainer()->getUserController();
+global $diContainer;
 
+$controller = $diContainer->getUserDiContainer()->getUserController();
 $controller->processRequest();

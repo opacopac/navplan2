@@ -2,13 +2,10 @@
 
 namespace Navplan\OpenAip;
 
-use Navplan\ProdNavplanDiContainer;
-
-
 require_once __DIR__ . "/../../ConsoleBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainer();
+global $diContainer;
 
 $importer = $diContainer->getAircraftDiContainer()->getAircraftTypeDesignatorImporter();
 $importer->importFromJson([

@@ -21,7 +21,7 @@ class SearchController implements IRestController
 
     public function __construct(
         private ISearchService $searchService,
-        private IHttpService   $httpService
+        private IHttpService $httpService
     )
     {
     }
@@ -52,6 +52,7 @@ class SearchController implements IRestController
                 }
 
                 $this->httpService->sendArrayResponse($response);
+                break;
             default:
                 throw new InvalidArgumentException("unsupported request method");
         }

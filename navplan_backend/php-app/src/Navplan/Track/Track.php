@@ -2,13 +2,10 @@
 
 namespace Navplan\Track;
 
-use Navplan\ProdNavplanDiContainer;
-
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 
-$diContainer = new ProdNavplanDiContainer();
+global $diContainer;
+
 $controller = $diContainer->getTrackDiContainer()->getTrackController();
-
 $controller->processRequest();

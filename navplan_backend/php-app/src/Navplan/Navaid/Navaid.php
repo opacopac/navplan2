@@ -2,12 +2,10 @@
 
 namespace Navplan\Navaid;
 
-use Navplan\ProdNavplanDiContainer;
-
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainer();
-$controller = $diContainer->getNavaidDiContainer()->getNavaidController();
+global $diContainer;
 
+$controller = $diContainer->getNavaidDiContainer()->getNavaidController();
 $controller->processRequest();

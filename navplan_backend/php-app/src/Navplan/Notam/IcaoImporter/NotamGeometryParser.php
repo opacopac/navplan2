@@ -6,13 +6,13 @@ require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
-use Navplan\ProdNavplanDiContainer;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
-$diContainer = new ProdNavplanDiContainer();
+global $diContainer;
+
 $parser = new NotamGeometryParser(
     $diContainer->getSystemDiContainer()->getLoggingService(),
     $diContainer->getDbService()
@@ -24,7 +24,8 @@ if (isset($_GET["testnotamid"])) {
 }
 
 
-class NotamGeometryParser {
+class NotamGeometryParser
+{
     const REGEXP_PART_COORDPAIR = '(\d{2})\D?(\d{2})\D?(\d{2}|\d{2}\.\d+)\D?(N|S)\s?(\d{2,3})\D?(\d{2})\D?(\d{2}|\d{2}\.\d+)\D?(E|W)';
     const REGEXP_PART_RADIUS = '(RADIUS|AROUND|CENTERED)';
     const REGEXP_PART_RADVAL = '(\d+[\.\,]?\d*)\s?(NM|KM|M)(?=\W)';
@@ -38,11 +39,13 @@ class NotamGeometryParser {
     function __construct(
         private ILoggingService $logger,
         private IDbService $dbService
-    ) {
+    )
+    {
     }
 
 
-    public function test($testNotamId) {
+    public function test($testNotamId)
+    {
         $testNotamId = StringNumberHelper::checkEscapeString($this->dbService, $testNotamId, 1, 20);
         $this->logger->info("loading test notam '" . $testNotamId . "'...");
         $notamList = $this->loadNotamByKey($testNotamId);
@@ -66,7 +69,7 @@ class NotamGeometryParser {
         $this->logger->info("parse geometry from notam texts...");
         foreach ($notamList as &$notam) {
             $this->logger->debug("notam id:" . $notam["id"]);
-            $notamContent = json_decode($notam["notam"], true,JSON_NUMERIC_CHECK);
+            $notamContent = json_decode($notam["notam"], true, JSON_NUMERIC_CHECK);
             $notam["geometry"] = $this->parseNotamGeometry($notamContent);
             $notam["dbExtent"] = $this->getNotamDbExtent($notam, $extentList[$notam["icao"]]);
         }
@@ -133,7 +136,8 @@ class NotamGeometryParser {
     }
 
 
-    public function go() {
+    public function go()
+    {
         $this->clearNotamGeometries();
 
         $lastNotamId = 0;
@@ -171,7 +175,8 @@ class NotamGeometryParser {
     }
 
 
-    private function loadNotams($lastNotamId, $maxCount) {
+    private function loadNotams($lastNotamId, $maxCount)
+    {
         $query = "SELECT id, icao, notam FROM icao_notam";
         $query .= " WHERE id > '" . $lastNotamId . "'";
         $query .= " ORDER BY id ASC";
@@ -191,7 +196,8 @@ class NotamGeometryParser {
     }
 
 
-    private function loadNotamByKey(string $notamKey): array {
+    private function loadNotamByKey(string $notamKey): array
+    {
         $query = "SELECT id, icao, notam FROM icao_notam";
         $query .= " WHERE notam_id = '" . $notamKey . "'";
         $result = $this->dbService->execMultiResultQuery($query, "error reading notams");
@@ -209,7 +215,8 @@ class NotamGeometryParser {
     }
 
 
-    private function loadExtentList(array $notamList): array {
+    private function loadExtentList(array $notamList): array
+    {
         // get distinct ICAOs
         $icaoList = [];
         foreach ($notamList as $notam) {
@@ -237,7 +244,8 @@ class NotamGeometryParser {
     }
 
 
-    private function clearNotamGeometries() {
+    private function clearNotamGeometries()
+    {
         $this->logger->info("clear geometry table...");
 
         $query = "TRUNCATE TABLE icao_notam_geometry2";
@@ -245,7 +253,8 @@ class NotamGeometryParser {
     }
 
 
-    private function saveNotamGeometries(array $notamList) {
+    private function saveNotamGeometries(array $notamList)
+    {
         $queryParts = [];
         foreach ($notamList as $notam) {
             if (!$notam["dbExtent"])
@@ -313,7 +322,8 @@ class NotamGeometryParser {
     }
 
 
-    private function calculateZoomLevelGeometries(&$notamList) {
+    private function calculateZoomLevelGeometries(&$notamList)
+    {
         foreach ($notamList as &$notam) {
             if (isset($notam["geometry"]) && isset($notam["geometry"]["polygon"])) {
                 $zoomLevels = [];
@@ -395,7 +405,8 @@ class NotamGeometryParser {
     }
 
 
-    private function parseNotamGeometry(array $notam): ?array {
+    private function parseNotamGeometry(array $notam): ?array
+    {
         $geometry = array();
 
         if (!StringNumberHelper::isNullOrEmpty($notam, "isicao")) {
@@ -466,7 +477,9 @@ class NotamGeometryParser {
 
             $polygon = $this->tryParsePolygon($notam["all"]);
             if ($polygon) {
-                    $this->logger->debug("pure polygon geometry in message found: " . implode(",", array_map(function ($poly) { return $poly[0] . " " . $poly[1]; }, $polygon)));
+                $this->logger->debug("pure polygon geometry in message found: " . implode(",", array_map(function ($poly) {
+                        return $poly[0] . " " . $poly[1];
+                    }, $polygon)));
 
                 $geometry["polygon"] = $polygon;
                 return $geometry;
@@ -505,7 +518,8 @@ class NotamGeometryParser {
     }
 
 
-    private function getNotamDbExtent(array $notam, ?array $locationExtent): ?string {
+    private function getNotamDbExtent(array $notam, ?array $locationExtent): ?string
+    {
         // polygon geometry
         if (isset($notam["geometry"]) && isset($notam["geometry"]["polygon"])) {
             $this->logger->debug("using polygon geometry as db extent");
@@ -565,7 +579,8 @@ class NotamGeometryParser {
 
     // detect polygon in notam text: 463447N0062121E, 341640N0992240W, 1st: without coordinates in brackets, 2nd: including coordinates in brackets
     // e.g. ... 472401N0083320E 472315N0082918E 471935N0083439E 472103N0083855E 472119N0083657E 472137N0083602E 472215N0083450E (CENTER POINT 472209N0083406E RADIUS 3.5 NM) ...
-    private function tryParsePolygon(string $text): ?array {
+    private function tryParsePolygon(string $text): ?array
+    {
         $regExp = "/" . self::REGEXP_PART_COORDPAIR . "/im";
 
         // try without text in brackets
@@ -627,7 +642,8 @@ class NotamGeometryParser {
 
 
     // detect circle in notam text: 3NM RADIUS OF 522140N 0023246W
-    private function tryParseCircleVariant2(string $text): ?array {
+    private function tryParseCircleVariant2(string $text): ?array
+    {
         $regExp = "/" . self::REGEXP_PART_RADVAL . self::REGEXP_PART_NOBRACKETS_NUMS . self::REGEXP_PART_RADIUS . self::REGEXP_PART_NOBRACKETS_NUMS . self::REGEXP_PART_COORDPAIR . "/im";
         $result = preg_match($regExp, $text, $matches);
 
@@ -648,7 +664,8 @@ class NotamGeometryParser {
 
 
     // detect circle in notam text: RADIUS 2NM CENTERED ON 473814N 0101548E
-    private function tryParseCircleVariant3(string $text): ?array {
+    private function tryParseCircleVariant3(string $text): ?array
+    {
         $regExp = "/" . self::REGEXP_PART_RADIUS . self::REGEXP_PART_NOBRACKETS_NUMS . self::REGEXP_PART_RADVAL . self::REGEXP_PART_NOBRACKETS_NUMS . self::REGEXP_PART_COORDPAIR . "/im";
         $result = preg_match($regExp, $text, $matches);
 
@@ -669,7 +686,8 @@ class NotamGeometryParser {
 
 
     // detect circle in q-line: Q) EGTT/QWZLW/IV/M  /W /000/024/5222N00233W003\nA)
-    private function tryParseQlineCircle(string $text): ?array {
+    private function tryParseQlineCircle(string $text): ?array
+    {
         //$regExp = '/Q\)\s*(\w{4})\/Q(\w{2}\w{2})\/(\w*)\s*\/(\w*)\s*\/\d{3}\/\d{3}\/';
         $regExp = '/Q\).+?((\d{2})(\d{2})([NS])\s?(\d{3})(\d{2})([EW])(\d{3}))\s+A\)/im';
         $result = preg_match($regExp, $text, $matches);
@@ -691,7 +709,8 @@ class NotamGeometryParser {
 
 
     // detect min / max height in q-line: Q) EGTT/QWZLW/IV/M  /W /000/024/5222N00233W003\nA)
-    private function tryParseQlineAlt(string $text): ?array {
+    private function tryParseQlineAlt(string $text): ?array
+    {
         $regExp = '/\s+F\)\s*(\S+.*)\s+G\)\s*(\S+.*)\s+/im';
         $result = preg_match($regExp, $text, $matches);
 
@@ -705,7 +724,8 @@ class NotamGeometryParser {
     }
 
 
-    private function parseFlightLevel(string $altText): float { // TODO
+    private function parseFlightLevel(string $altText): float
+    { // TODO
         $altText = preg_replace("/[^\w\d]/im", "", strtoupper(trim($altText)));
         $regExpAmsl = "/^(\d+)(FT|M)(AMSL|MSL)$/";
         $regExpAgl = "/^(\d+)(FT|M)(AGL|ASFC)$/";
@@ -730,7 +750,8 @@ class NotamGeometryParser {
     }
 
 
-    private function tryFindMatchingAirspace(&$notamList) {
+    private function tryFindMatchingAirspace(&$notamList)
+    {
         // load intersecting airspaces from db
         $typeCatDict = array("RP" => ["PROHIBITED"], "RR" => ["RESTRICTED"], "RT" => ["RESTRICTED"], "RD" => ["DANGER", "PROHIBITED"], "RM" => ["DANGER", "RESTRICTED", "PROHIBITED"]);
 
@@ -771,7 +792,7 @@ class NotamGeometryParser {
         while ($rs = $result->fetch_assoc()) {
             $index = intval($rs["notamindex"]);
             $notam = &$notamList[$index];
-            $notamContent = json_decode($notam["notam"], true,JSON_NUMERIC_CHECK);
+            $notamContent = json_decode($notam["notam"], true, JSON_NUMERIC_CHECK);
 
             if ($this->isAreaNameMatch($rs["name"], $notamContent["message"])) {
                 $top = isset($notam["geometry"]) && isset($notam["geometry"]["top"]) ? $notam["geometry"]["top"] : NULL;
@@ -811,7 +832,8 @@ class NotamGeometryParser {
     }
 
 
-    private function isAreaNameMatch(string $airspaceName, string $notamText): bool {
+    private function isAreaNameMatch(string $airspaceName, string $notamText): bool
+    {
         // try formats like LS-D15 Rossboden - Chur  or  LI R108/B-Colico bis (approx confine stato)
         $regExpAreaName = '/^([^\d]+\d+)[^\w\d]*([\w]{0,2}(?=)([^\w]|$))?/i';
         $result = preg_match($regExpAreaName, $airspaceName, $matches);
@@ -855,13 +877,15 @@ class NotamGeometryParser {
 
 
     // simplyfy text (remove all non-word and non-digits
-    private function simplifyText(string $text): string {
+    private function simplifyText(string $text): string
+    {
         $pattern = "/[^\w\d]/im";
         return strtoupper(preg_replace($pattern, "", $text));
     }
 
 
-    private function getNonBracketText(string $text): string {
+    private function getNonBracketText(string $text): string
+    {
         $pattern = "/\(.+?\)/ims";
         //$pattern = '/\(.*\)/im';
         return preg_replace($pattern, "", $text);
@@ -869,7 +893,8 @@ class NotamGeometryParser {
 
 
     // TODO
-    private function normalizeCoordinates($text) {
+    private function normalizeCoordinates($text)
+    {
         // switzerland, holland, sweden, finland, russia, turkey, greece, egypt, saudi arabia:
         // 465214N0090638E
 
@@ -893,18 +918,23 @@ class NotamGeometryParser {
     }
 
 
-    private static function m2ft(float $height_m): float {
+    private static function m2ft(float $height_m): float
+    {
         return $height_m * 3.2808;
     }
 
 
-    private static function getMeterFactor(string $unit): ?int {
-        switch (trim(strtoupper($unit)))
-        {
-            case "NM" : return 1852;
-            case "KM" : return 1000;
-            case "M" : return 1;
-            default : return null;
+    private static function getMeterFactor(string $unit): ?int
+    {
+        switch (trim(strtoupper($unit))) {
+            case "NM" :
+                return 1852;
+            case "KM" :
+                return 1000;
+            case "M" :
+                return 1;
+            default :
+                return null;
         }
     }
 
@@ -918,7 +948,8 @@ class NotamGeometryParser {
         string $lonMin,
         string $lonSec,
         string $lonDir
-    ): array {
+    ): array
+    {
         $latG = intval($latGrad);
         $latM = intval($latMin);
         $latS = floatval($latSec);
@@ -952,8 +983,7 @@ class NotamGeometryParser {
         $polygon = [];
         $coord_pairs = explode(",", $polygonDbText);
 
-        foreach ($coord_pairs as $latlon)
-        {
+        foreach ($coord_pairs as $latlon) {
             $coords = explode(" ", trim($latlon));
             $coords[0] = round(floatval($coords[0]), 4);
             $coords[1] = round(floatval($coords[1]), 4);

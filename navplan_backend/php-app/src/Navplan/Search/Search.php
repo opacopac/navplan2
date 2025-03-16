@@ -2,12 +2,10 @@
 
 namespace Navplan\Search;
 
-use Navplan\ProdNavplanDiContainer;
-
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainer();
-$controller = $diContainer->getSearchDiContainer()->getSearchController();
+global $diContainer;
 
+$controller = $diContainer->getSearchDiContainer()->getSearchController();
 $controller->processRequest();

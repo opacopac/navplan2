@@ -3,13 +3,11 @@
 namespace Navplan\OpenAip;
 
 use Navplan\OpenAip\ApiAdapter\Service\OpenAipImportFilter;
-use Navplan\ProdNavplanDiContainer;
-
 
 require_once __DIR__ . "/../ConsoleBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainer();
+global $diContainer;
 
 $importFilter = new OpenAipImportFilter("CH");
 $importer = $diContainer->getOpenAipDiContainer()->getOpenAipImporter();

@@ -4,23 +4,24 @@ namespace Navplan\Admin\Console\Service;
 
 use InvalidArgumentException;
 use Navplan\Admin\IAdminDiContainer;
-use Navplan\ProdNavplanDiContainer;
 
 require_once __DIR__ . "/../../../ConsoleBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainer();
+global $diContainer;
 
 ConsoleAdminService::processRequest($diContainer->getAdminDiContainer(), $argv);
 
 
-class ConsoleAdminService {
+class ConsoleAdminService
+{
     const ARG_IMPORT_AIRPORTS = "--importAirports";
     const ARG_IMPORT_AIRSPACES = "--importAirspaces";
     const ARG_IMPORT_NAVAIDS = "--importNavaids";
 
 
-    public static function processRequest(IAdminDiContainer $diContainer, array $args) {
+    public static function processRequest(IAdminDiContainer $diContainer, array $args)
+    {
         $action = $args[1] ?? NULL;
 
         switch ($action) {

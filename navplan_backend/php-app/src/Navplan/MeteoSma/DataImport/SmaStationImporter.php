@@ -4,10 +4,8 @@ namespace Navplan\MeteoSma\DataImport;
 
 require_once __DIR__ . "/../../ConsoleBootstrap.php";
 
-use Navplan\ProdNavplanDiContainer;
 
-
-$diContainer = new ProdNavplanDiContainer();
+global $diContainer;
 
 $importer = new SmaStationImportProcessor(
     $diContainer->getFileService(),

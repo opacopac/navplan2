@@ -5,13 +5,13 @@ namespace Navplan\Notam\IcaoImporter;
 require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 use Exception;
-use Navplan\ProdNavplanDiContainer;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\System\MySqlDb\DbHelper;
 
 
-$diContainer = new ProdNavplanDiContainer();
+global $diContainer;
+
 $retriever = new NotamRetriever(
     $diContainer->getSystemDiContainer()->getLoggingService(),
     $diContainer->getDbService()
@@ -19,18 +19,21 @@ $retriever = new NotamRetriever(
 $retriever->go();
 
 
-class NotamRetriever {
+class NotamRetriever
+{
     const NOTAM_BASE_URL = "https://v4p4sz5ijk.execute-api.us-east-1.amazonaws.com/anbdata/states/notams/notams-list?api_key=2a9daa70-2604-11e7-a2b8-e55a51cc8ef0&format=json&states=";
 
 
     public function __construct(
         private ILoggingService $logger,
         private IDbService $dbService
-    ) {
+    )
+    {
     }
 
 
-    public function go() {
+    public function go()
+    {
         // load all countries
         $query = "SELECT DISTINCT statecode FROM icao_fir";
         $result = $this->dbService->execMultiResultQuery($query, "error reading state codes");

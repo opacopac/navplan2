@@ -2,12 +2,10 @@
 
 namespace Navplan\Aerodrome;
 
-use Navplan\ProdNavplanDiContainer;
-
 require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 
-$diContainer = new ProdNavplanDiContainer();
-$controller = $diContainer->getAerodromeDiContainer()->getAirportController();
+global $diContainer;
 
+$controller = $diContainer->getAerodromeDiContainer()->getAirportController();
 $controller->processRequest();
