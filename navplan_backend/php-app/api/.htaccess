@@ -42,11 +42,13 @@ RewriteRule ^aircrafts/typedesignators$ %{ENV:BASEPATH}Aircraft/AircraftTypeDesi
 
 
 ### airspaces ###
+
 # Rewrite for /api/airspaces
 RewriteRule ^airspaces$ %{ENV:BASEPATH}Airspace/Airspace.php [L,QSA]
 
 
 ### exports ###
+
 # Rewrite for /api/exports/{action}
 RewriteRule ^exports/([^/]+)$ %{ENV:BASEPATH}Exporter/Exporter.php?action=$1 [L,QSA]
 
@@ -65,6 +67,7 @@ RewriteRule ^flightroutes/(\d+)/([^/]+)$ %{ENV:BASEPATH}Flightroute/Flightroute.
 
 
 ### meteograms ###
+
 # Rewrite for /api/meteograms
 RewriteRule ^meteograms$ %{ENV:BASEPATH}MeteoGram/Rest/Service/ReadCloudMeteogram.php [L,QSA]
 
@@ -82,16 +85,19 @@ RewriteRule ^meteo/measurements$ %{ENV:BASEPATH}MeteoSma/MeteoSma.php [L,QSA]
 
 
 ### navaids ###
+
 # Rewrite for /api/navaids
 RewriteRule ^navaids$ %{ENV:BASEPATH}Navaid/Navaid.php [L,QSA]
 
 
 ### notams ###
+
 # Rewrite for /api/notams
 RewriteRule ^notams$ %{ENV:BASEPATH}Notam/Notam.php [L,QSA]
 
 
 ### search ###
+
 # Rewrite for /api/search/text
 RewriteRule ^search/text$ %{ENV:BASEPATH}Search/Search.php [L,QSA]
 
@@ -100,6 +106,7 @@ RewriteRule ^search/position$ %{ENV:BASEPATH}Search/Search.php [L,QSA]
 
 
 ### tracks ###
+
 # Rewrite for /api/tracks
 RewriteRule ^tracks$ %{ENV:BASEPATH}Track/Track.php [L,QSA]
 
@@ -117,6 +124,7 @@ RewriteRule ^traffic/([^/]+)$ %{ENV:BASEPATH}Traffic/Traffic.php?param=$1 [L,QSA
 
 
 ### user ###
+
 # Rewrite for /api/user/{action}
 RewriteRule ^user/([^/]+)$ %{ENV:BASEPATH}User/User.php?action=$1 [L,QSA]
 
@@ -128,5 +136,6 @@ RewriteRule ^verticalmap$ %{ENV:BASEPATH}VerticalMap/VerticalMap.php [L,QSA]
 
 
 ### webcams ###
+
 # Rewrite for /api/webcams
 RewriteRule ^webcams$ %{ENV:BASEPATH}Webcam/Webcam.php [L,QSA]
