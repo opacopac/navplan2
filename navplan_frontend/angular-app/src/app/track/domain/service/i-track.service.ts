@@ -8,6 +8,8 @@ export abstract class ITrackService {
 
     abstract readUserTrack(trackid: number): Observable<Track>;
 
+    abstract updateUserTrack(track: Track): Observable<Track>;
+
     abstract createUserTrack(timestamp, name, positions): void;
 
     abstract deleteUserTrack(trackid: number): Observable<boolean>;

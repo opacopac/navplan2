@@ -39,8 +39,8 @@ export class TracksPageComponent implements OnInit {
     }
 
 
-    protected onEditTrackClicked(trackId: number) {
-        this.appStore.dispatch(TrackActions.edit({trackId: trackId}));
+    protected onUpdateTrackClicked(track: Track) {
+        this.appStore.dispatch(TrackActions.update({track: track}));
     }
 
 

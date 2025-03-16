@@ -1,0 +1,24 @@
+<app-form-dialog
+    title="Create New Aircraft"
+    [isFormValid]="this.isFormValid()"
+    saveButtonText="Create"
+    cancelButtonText="Cancel"
+    [showDeleteButton]="false"
+    (saveClicked)="this.onSaveClicked()"
+    (cancelClicked)="this.onCancelClicked()"
+>
+    <form [formGroup]="this.editForm">
+        <div class="form-content">
+            <!-- name -->
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input
+                    matInput
+                    formControlName="name"
+                    type="string"
+                    required
+                />
+            </mat-form-field>
+        </div>
+    </form>
+</app-form-dialog>

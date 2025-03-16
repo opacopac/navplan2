@@ -55,7 +55,7 @@
                         [color]="ButtonColor.GREEN"
                         tooltipText="Edit Track"
                         tooltipPosition="above"
-                        (buttonClicked)="this.editTrackClicked.emit(entry.id)"
+                        (buttonClicked)="this.onEditTrackClick(entry)"
                     >
                         <i class="fa-solid fa-pencil"></i>
                     </app-icon-button>

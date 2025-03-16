@@ -11,4 +11,11 @@ export class RestTrackResponseConverter {
 
         return RestTrackConverter.fromRest(restResponse.track);
     }
+
+
+    public static toRest(track: Track): IRestTrackResponse {
+        return {
+            track: RestTrackConverter.toRest(track)
+        };
+    }
 }

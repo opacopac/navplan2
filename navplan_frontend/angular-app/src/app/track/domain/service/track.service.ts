@@ -27,6 +27,11 @@ export class TrackService implements ITrackService {
     }
 
 
+    public updateUserTrack(track: Track): Observable<Track> {
+        return this.trackRepo.updateUserTrack(track);
+    }
+
+
     public deleteUserTrack(trackid: number): Observable<boolean> {
         return this.trackRepo.deleteUserTrack(trackid);
     }

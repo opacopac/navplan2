@@ -57,8 +57,23 @@ export class RestTrackRepoService implements ITrackRepoService {
     }
 
 
-    updateUserTrack(id, name) {
-        // return $http.put(userTrackBaseUrl, obj2json({ id: id, name: name }));
+    updateUserTrack(track: Track): Observable<Track> {
+        const url = environment.trackApiBaseUrl + '/' + track.id;
+        const body = RestTrackResponseConverter.toRest(track);
+
+        return this.http
+            .put<IRestTrackResponse>(
+                url,
+                JSON.stringify(body),
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            )
+            .pipe(
+                map(response => RestTrackResponseConverter.fromRest(response)),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR updating user track', err);
+                    return throwError(err);
+                })
+            );
     }
 
 

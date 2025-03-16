@@ -61,6 +61,22 @@ export class TrackEffects {
     ));
 
 
+    updateTrack$ = createEffect(() => this.actions$.pipe(
+        ofType(TrackActions.update),
+        switchMap(action => this.trackService.updateUserTrack(action.track).pipe(
+            switchMap((updatedTrack) => [
+                TrackActions.updateSuccess({track: updatedTrack}),
+                MessageActions.showMessage({
+                    message: Message.success('Track updated successfully.')
+                })
+            ]),
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error updating track: ', error)
+            }))
+        ))
+    )));
+
+
     deleteTrack$ = createEffect(() => this.actions$.pipe(
         ofType(TrackActions.delete),
         switchMap(action => this.trackService.deleteUserTrack(action.trackId).pipe(

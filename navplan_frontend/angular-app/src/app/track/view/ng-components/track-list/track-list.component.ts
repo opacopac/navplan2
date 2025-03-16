@@ -7,6 +7,7 @@ import {ButtonColor} from '../../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
 import {Timestamp} from '../../../../geo-physics/domain/model/quantities/timestamp';
 import {TrackDeleteConfirmDialogComponent} from '../track-delete-confirm-dialog/track-delete-confirm-dialog.component';
+import {TrackEditFormDialogComponent} from '../track-edit-form-dialog/track-edit-form-dialog.component';
 
 
 export interface ListEntry {
@@ -25,7 +26,7 @@ export class TrackListComponent implements OnInit, OnChanges {
     @Input() public trackList: Track[];
     @Input() public selectedTrack: Track;
     @Output() public trackSelected = new EventEmitter<number>();
-    @Output() public editTrackClicked = new EventEmitter<number>();
+    @Output() public updateTrackClicked = new EventEmitter<Track>();
     @Output() public deleteTrackClicked = new EventEmitter<number>();
     @Output() public exportKmlClicked = new EventEmitter<number>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -59,6 +60,22 @@ export class TrackListComponent implements OnInit, OnChanges {
 
     protected applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+
+
+    protected onEditTrackClick(track: Track) {
+        const dialogRef = this.dialog.open(TrackEditFormDialogComponent, {
+            width: '400px',
+            data: {
+                track: track
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result && result.track) {
+                this.updateTrackClicked.emit(result.track);
+            }
+        });
     }
 
 

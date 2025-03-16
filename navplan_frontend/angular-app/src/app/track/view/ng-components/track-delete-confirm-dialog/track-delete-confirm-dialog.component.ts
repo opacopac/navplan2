@@ -5,7 +5,7 @@ import {Track} from '../../../domain/model/track';
 
 
 @Component({
-    selector: 'app-aircraft-delete-confirm-dialog',
+    selector: 'app-track-delete-confirm-dialog',
     templateUrl: './track-delete-confirm-dialog.component.html',
     styleUrls: ['./track-delete-confirm-dialog.component.scss']
 })

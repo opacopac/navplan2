@@ -15,6 +15,8 @@ import {MatPaginator} from '@angular/material/paginator';
 import {
     TrackDeleteConfirmDialogComponent
 } from './ng-components/track-delete-confirm-dialog/track-delete-confirm-dialog.component';
+import {TrackEditFormDialogComponent} from './ng-components/track-edit-form-dialog/track-edit-form-dialog.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -25,15 +27,17 @@ import {
         MatIconModule,
         MatInputModule,
         MatFormFieldModule,
+        MatPaginator,
+        ReactiveFormsModule,
+        CommonViewModule,
         TrackDomainModule,
         TrackRestModule,
         TrackStateModule,
-        CommonViewModule,
-        MatPaginator,
     ],
     declarations: [
         TracksPageComponent,
         TrackListComponent,
+        TrackEditFormDialogComponent,
         TrackDeleteConfirmDialogComponent
     ],
     exports: [

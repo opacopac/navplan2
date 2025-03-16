@@ -37,9 +37,14 @@ export class TrackActions {
         props<{ error: Error }>()
     );
 
-    public static readonly edit = createAction(
-        '[Tracks Page] edit track',
-        props<{ trackId: number }>()
+    public static readonly update = createAction(
+        '[Tracks Page] update track',
+        props<{ track: Track }>()
+    );
+
+    public static readonly updateSuccess = createAction(
+        '[Tracks Effects] update track success',
+        props<{ track: Track }>()
     );
 
     public static readonly delete = createAction(
