@@ -23,4 +23,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // create DI container
+// TODO: use environment files
 $diContainer = new ProdNavplanDiContainer();
