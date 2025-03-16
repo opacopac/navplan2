@@ -18,7 +18,7 @@ header("Access-Control-Allow-Credentials: true");
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
+    http_response_code(204);
     exit();
 }
 
