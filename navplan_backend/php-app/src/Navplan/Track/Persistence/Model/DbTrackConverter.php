@@ -2,9 +2,8 @@
 
 namespace Navplan\Track\Persistence\Model;
 
-use Navplan\Common\Domain\Model\Altitude;
-use Navplan\Common\Domain\Model\Position4d;
-use Navplan\Common\Domain\Model\Timestamp;
+use Navplan\Common\Persistence\Model\DbPosition4dConverter;
+use Navplan\Common\Persistence\Model\DbTimestampConverter;
 use Navplan\System\Domain\Model\IDbResult;
 use Navplan\Track\Domain\Model\Track;
 
@@ -15,54 +14,26 @@ class DbTrackConverter
      * @param IDbResult $result
      * @return Track[]
      */
-    public static function fromDbResult(IDbResult $result): array
+    public static function fromDbResult(IDbResult $result, bool $includePositions): array
     {
         $tracks = [];
         while ($row = $result->fetch_assoc()) {
-            $tracks[] = self::fromDbRow($row);
+            $tracks[] = self::fromDbRow($row, $includePositions);
         }
 
         return $tracks;
     }
 
 
-    public static function fromDbRow(array $row): Track
+    public static function fromDbRow(array $row, bool $includePositions): Track
     {
         return new Track(
             intval($row["id"]),
             $row["name"],
-            self::readPositionsFromDbRow($row),
-            Timestamp::fromS(strtotime($row["timestamp"])),
+            $includePositions
+                ? DbPosition4dConverter::fromDbRowToList($row, DbTableTrack::COL_POSITIONS)
+                : [],
+            DbTimestampConverter::fromDbRow($row, DbTableTrack::COL_TIMESTAMP)
         );
-    }
-
-
-    /**
-     * @param array $row
-     * @return Position4d[]
-     */
-    private static function readPositionsFromDbRow(array $row): array
-    {
-        $positions = json_decode($row["positions"], true);
-
-        $positions4d = array_map(
-            function ($pos) {
-                if (!isset($pos[2])) {
-                    return NULL; // skip entries without altitude
-                }
-
-                return new Position4d(
-                    $pos[1],
-                    $pos[0],
-                    Altitude::fromMtAmsl($pos[2]),
-                    Timestamp::fromS($pos[3])
-                );
-            },
-            $positions
-        );
-
-        return array_filter($positions4d, function ($pos) {
-            return $pos !== NULL;
-        });
     }
 }

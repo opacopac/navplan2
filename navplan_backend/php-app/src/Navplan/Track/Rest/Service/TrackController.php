@@ -14,6 +14,7 @@ use Navplan\System\Domain\Service\IHttpService;
 use Navplan\Track\Domain\Service\ITrackService;
 use Navplan\Track\Rest\Model\RestReadTrackListResponseConverter;
 use Navplan\Track\Rest\Model\RestReadTrackResponseConverter;
+use Navplan\Track\Rest\Model\RestTrackConverter;
 use Navplan\User\Rest\Model\RestTokenConverter;
 
 
@@ -22,8 +23,8 @@ class TrackController implements IRestController
     const ARG_ACTION_KML_EXPORT = "exportkml";
 
     public function __construct(
-        private readonly IHttpService $httpService,
-        private readonly ITrackService $trackService,
+        private readonly IHttpService   $httpService,
+        private readonly ITrackService  $trackService,
         private readonly IExportService $exportService
     )
     {
@@ -54,16 +55,31 @@ class TrackController implements IRestController
                     $tracks = $this->trackService->readTrackList($token);
                     $response = RestReadTrackListResponseConverter::toRest($tracks);
                 }
-                $this->httpService->sendArrayResponse($response);
+                break;
+            case HttpRequestMethod::POST:
+                $args = $this->httpService->getPostArgs();
+                $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
+                $track = RestTrackConverter::fromRest($args);
+                $savedTrack = $this->trackService->createTrack($track, $token);
+                $response = RestReadTrackResponseConverter::toRest($savedTrack);
+                break;
+            case HttpRequestMethod::PUT:
+                $args = $this->httpService->getPostArgs();
+                $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
+                $track = RestTrackConverter::fromRest($args);
+                $savedTrack = $this->trackService->updateTrack($track, $token);
+                $response = RestReadTrackResponseConverter::toRest($savedTrack);
                 break;
             case HttpRequestMethod::DELETE:
                 $id = RestIdConverter::getId($this->httpService->getGetArgs());
                 $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
                 $success = $this->trackService->deleteTrack($id, $token);
-                $this->httpService->sendArrayResponse(RestSuccessResponse::toRest($success));
+                $response = RestSuccessResponse::toRest($success);
                 break;
             default:
                 throw new InvalidArgumentException("unsupported request method");
         }
+
+        $this->httpService->sendArrayResponse($response);
     }
 }

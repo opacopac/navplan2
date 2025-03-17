@@ -2,7 +2,9 @@
 
 namespace Navplan\Track\Domain\Service;
 
+use Navplan\Track\Domain\Command\ITrackCreateCommand;
 use Navplan\Track\Domain\Command\ITrackDeleteCommand;
+use Navplan\Track\Domain\Command\ITrackUpdateCommand;
 use Navplan\Track\Domain\Model\Track;
 use Navplan\Track\Domain\Query\ITrackByIdQuery;
 use Navplan\Track\Domain\Query\ITrackListQuery;
@@ -15,6 +17,8 @@ class TrackService implements ITrackService
         private IUserService $userService,
         private ITrackListQuery $trackListQuery,
         private ITrackByIdQuery $trackByIdQuery,
+        private ITrackCreateCommand $trackCreateCommand,
+        private ITrackUpdateCommand $trackUpdateCommand,
         private ITrackDeleteCommand $trackDeleteCommand
     )
     {
@@ -36,6 +40,20 @@ class TrackService implements ITrackService
     {
         $user = $this->userService->getUserOrThrow($token);
         return $this->trackByIdQuery->read($trackId, $user->id);
+    }
+
+
+    function createTrack(Track $track, string $token): Track
+    {
+        $user = $this->userService->getUserOrThrow($token);
+        return $this->trackCreateCommand->create($track, $user->id);
+    }
+
+
+    function updateTrack(Track $track, string $token): Track
+    {
+        $user = $this->userService->getUserOrThrow($token);
+        return $this->trackUpdateCommand->update($track, $user->id);
     }
 
 

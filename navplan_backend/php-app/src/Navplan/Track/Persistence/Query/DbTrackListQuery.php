@@ -26,6 +26,6 @@ class DbTrackListQuery implements ITrackListQuery
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading track list");
 
-        return DbTrackConverter::fromDbResult($result);
+        return DbTrackConverter::fromDbResult($result, false);
     }
 }

@@ -27,8 +27,10 @@ class DbTrackByIdQuery implements ITrackByIdQuery
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading track");
 
-        $aircraft = DbTrackConverter::fromDbRow($result->fetch_assoc());
+        $track = DbTrackConverter::fromDbRow($result->fetch_assoc(), true);
 
-        return $aircraft;
+        var_dump($track);
+
+        return $track;
     }
 }
