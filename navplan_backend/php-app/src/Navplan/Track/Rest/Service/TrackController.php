@@ -23,8 +23,8 @@ class TrackController implements IRestController
     const ARG_ACTION_KML_EXPORT = "exportkml";
 
     public function __construct(
-        private readonly IHttpService   $httpService,
-        private readonly ITrackService  $trackService,
+        private readonly IHttpService $httpService,
+        private readonly ITrackService $trackService,
         private readonly IExportService $exportService
     )
     {
@@ -33,11 +33,12 @@ class TrackController implements IRestController
 
     public function processRequest()
     {
+        $id = RestIdConverter::getIdOrNull($this->httpService->getGetArgs());
+        $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
+
         switch ($this->httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
-                $id = RestIdConverter::getIdOrNull($this->httpService->getGetArgs());
                 $action = RestActionConverter::getActionOrNull($this->httpService->getGetArgs());
-                $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
 
                 if ($id) {
                     switch ($action) {
@@ -58,21 +59,17 @@ class TrackController implements IRestController
                 break;
             case HttpRequestMethod::POST:
                 $args = $this->httpService->getPostArgs();
-                $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
                 $track = RestTrackConverter::fromRest($args);
                 $savedTrack = $this->trackService->createTrack($track, $token);
                 $response = RestReadTrackResponseConverter::toRest($savedTrack);
                 break;
             case HttpRequestMethod::PUT:
                 $args = $this->httpService->getPostArgs();
-                $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
                 $track = RestTrackConverter::fromRest($args);
                 $savedTrack = $this->trackService->updateTrack($track, $token);
                 $response = RestReadTrackResponseConverter::toRest($savedTrack);
                 break;
             case HttpRequestMethod::DELETE:
-                $id = RestIdConverter::getId($this->httpService->getGetArgs());
-                $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
                 $success = $this->trackService->deleteTrack($id, $token);
                 $response = RestSuccessResponse::toRest($success);
                 break;
