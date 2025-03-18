@@ -5,8 +5,10 @@ namespace Navplan\Common\Rest\Converter;
 use Navplan\Common\Domain\Model\Position4d;
 
 
-class RestPosition4dConverter {
-    public static function toRest(Position4d $pos, ?int $roundPosToDigits = NULL, ?int $roundAltToDigits = NULL): array {
+class RestPosition4dConverter
+{
+    public static function toRest(Position4d $pos, ?int $roundPosToDigits = NULL, ?int $roundAltToDigits = NULL): array
+    {
         return [
             RestPosition2dConverter::toRest($pos, $roundPosToDigits),
             RestAltitudeConverter::toRest($pos->altitude, $roundAltToDigits),
@@ -21,20 +23,21 @@ class RestPosition4dConverter {
      * @param int|null $roundAltToDigits
      * @return array
      */
-    public static function toRestList(array $posList, ?int $roundPosToDigits = NULL, ?int $roundAltToDigits = NULL): array {
-        /*return array_map(
-            function ($pos) use ($roundPosToDigits, $roundAltToDigits) { return self::toRest($pos, $roundPosToDigits, $roundAltToDigits); },
-            $posList
-        );*/
-        $restList = [];
-        foreach ($posList as $pos) {
-            $restList[] = self::toRest($pos, $roundPosToDigits, $roundAltToDigits);
-        }
-        return $restList;
+    public static function toRestList(array $posList, ?int $roundPosToDigits = NULL, ?int $roundAltToDigits = NULL): array
+    {
+        return array_values(
+            array_map(
+                function ($pos) use ($roundPosToDigits, $roundAltToDigits) {
+                    return self::toRest($pos, $roundPosToDigits, $roundAltToDigits);
+                },
+                $posList
+            )
+        );
     }
 
 
-    public static function fromRest(array $args): Position4d {
+    public static function fromRest(array $args): Position4d
+    {
         $pos2d = RestPosition2dConverter::fromRest($args[0]);
         return new Position4d(
             $pos2d->longitude,
@@ -49,9 +52,12 @@ class RestPosition4dConverter {
      * @param array $args
      * @return Position4d[]
      */
-    public static function fromRestList(array $args): array {
+    public static function fromRestList(array $args): array
+    {
         return array_map(
-            function ($pos) { return self::fromRest($pos); },
+            function ($pos) {
+                return self::fromRest($pos);
+            },
             $args
         );
     }
