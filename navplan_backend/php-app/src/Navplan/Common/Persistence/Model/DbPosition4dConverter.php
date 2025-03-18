@@ -18,7 +18,7 @@ class DbPosition4dConverter
      */
     public static function fromDbRowToList(array $row, string $colName): array
     {
-        $positions = json_decode($row[$colName], true);
+        $positions = json_decode($row[$colName]);
 
         $positions4d = array_map(
             function ($pos) {

@@ -25,13 +25,11 @@ class RestPosition4dConverter
      */
     public static function toRestList(array $posList, ?int $roundPosToDigits = NULL, ?int $roundAltToDigits = NULL): array
     {
-        return array_values(
-            array_map(
-                function ($pos) use ($roundPosToDigits, $roundAltToDigits) {
-                    return self::toRest($pos, $roundPosToDigits, $roundAltToDigits);
-                },
-                $posList
-            )
+        return array_map(
+            function ($pos) use ($roundPosToDigits, $roundAltToDigits) {
+                return self::toRest($pos, $roundPosToDigits, $roundAltToDigits);
+            },
+            $posList
         );
     }
 
