@@ -29,8 +29,6 @@ class DbTrackByIdQuery implements ITrackByIdQuery
 
         $track = DbTrackConverter::fromDbRow($result->fetch_assoc(), true);
 
-        var_dump($track);
-
         return $track;
     }
 }
