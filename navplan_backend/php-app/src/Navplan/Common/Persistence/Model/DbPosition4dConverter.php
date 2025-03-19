@@ -36,9 +36,12 @@ class DbPosition4dConverter
             $positions
         );
 
-        return array_filter($positions4d, function ($pos) {
-            return $pos !== NULL;
-        });
+        return
+            array_values(
+                array_filter($positions4d, function ($pos) {
+                    return $pos !== NULL;
+                })
+            );
     }
 
 
