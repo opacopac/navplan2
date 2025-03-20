@@ -7,11 +7,11 @@ import {TrackActions} from '../../../../state/ngrx/track.actions';
 
 
 @Component({
-    selector: 'app-tracks-page',
-    templateUrl: './tracks-page.component.html',
-    styleUrls: ['./tracks-page.component.scss']
+    selector: 'app-track-list-page',
+    templateUrl: './track-list-page.component.html',
+    styleUrls: ['./track-list-page.component.scss']
 })
-export class TracksPageComponent implements OnInit {
+export class TrackListPageComponent implements OnInit {
     public readonly trackList$: Observable<Track[]>;
     public readonly selectedTrack$: Observable<Track>;
 

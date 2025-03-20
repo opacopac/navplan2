@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {TrackStateModule} from '../state/track-state.module';
 import {TrackDomainModule} from '../domain/track-domain.module';
 import {TrackRestModule} from '../rest/track-rest.module';
-import {TracksPageComponent} from './ng-components/track-list/tracks-page/tracks-page.component';
+import {TrackListPageComponent} from './ng-components/track-list/track-list-page/track-list-page.component';
 import {TrackListComponent} from './ng-components/track-list/track-list/track-list.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
@@ -19,6 +19,7 @@ import {TrackEditFormDialogComponent} from './ng-components/track-list/track-edi
 import {ReactiveFormsModule} from '@angular/forms';
 import {TrackTabsComponent} from './ng-components/track-tabs/track-tabs.component';
 import {MatTabGroup, MatTabsModule} from '@angular/material/tabs';
+import {TrackProfilePageComponent} from './ng-components/track-profile/track-profile-page/track-profile-page.component';
 
 
 @NgModule({
@@ -38,14 +39,15 @@ import {MatTabGroup, MatTabsModule} from '@angular/material/tabs';
         TrackStateModule,
     ],
     declarations: [
-        TracksPageComponent,
         TrackTabsComponent,
+        TrackListPageComponent,
         TrackListComponent,
         TrackEditFormDialogComponent,
-        TrackDeleteConfirmDialogComponent
+        TrackDeleteConfirmDialogComponent,
+        TrackProfilePageComponent
     ],
     exports: [
-        TracksPageComponent,
+        TrackListPageComponent,
     ],
     providers: []
 })
