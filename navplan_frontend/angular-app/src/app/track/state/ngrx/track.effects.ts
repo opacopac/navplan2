@@ -66,6 +66,7 @@ export class TrackEffects {
         switchMap(action => this.trackService.updateUserTrack(action.track).pipe(
             switchMap((updatedTrack) => [
                 TrackActions.updateSuccess({track: updatedTrack}),
+                TrackActions.readList(),
                 MessageActions.showMessage({
                     message: Message.success('Track updated successfully.')
                 })

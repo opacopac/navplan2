@@ -59,7 +59,7 @@ export class TrackEditFormDialogComponent implements OnInit, OnChanges {
 
     private initForm() {
         this.editForm = this.formBuilder.group({
-            'name': ['', [Validators.required]]
+            'name': [this.data.track.name, [Validators.required]]
         });
     }
 }

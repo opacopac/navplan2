@@ -23,7 +23,7 @@ class RestExportGpxRequest {
     public static function fromRest(array $args): RestExportGpxRequest {
         return new RestExportGpxRequest(
             RestFlightrouteConverter::fromRest($args[self::ARG_FLIGHTROUTE]),
-            RestTrackConverter::fromRest($args[self::ARG_TRACK])
+            RestTrackConverter::fromRest($args[self::ARG_TRACK]),
         );
     }
 }

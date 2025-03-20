@@ -15,6 +15,7 @@ use Navplan\Track\Domain\Service\ITrackService;
 use Navplan\Track\Rest\Model\RestReadTrackListResponseConverter;
 use Navplan\Track\Rest\Model\RestReadTrackResponseConverter;
 use Navplan\Track\Rest\Model\RestTrackConverter;
+use Navplan\Track\Rest\Model\RestTrackRequest;
 use Navplan\User\Rest\Model\RestTokenConverter;
 
 
@@ -31,7 +32,7 @@ class TrackController implements IRestController
     }
 
 
-    public function processRequest()
+    public function processRequest(): void
     {
         $id = RestIdConverter::getIdOrNull($this->httpService->getGetArgs());
         $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
@@ -41,15 +42,14 @@ class TrackController implements IRestController
                 $action = RestActionConverter::getActionOrNull($this->httpService->getGetArgs());
 
                 if ($id) {
+                    $request = $this->trackService->readTrack($id, $token);
                     switch ($action) {
                         case self::ARG_ACTION_KML_EXPORT:
-                            $track = $this->trackService->readTrack($id, $token);
-                            $exportFile = $this->exportService->createNavplanKml(null, $track);
+                            $exportFile = $this->exportService->createNavplanKml(null, $request);
                             $response = RestExportFileConverter::toRest($exportFile);
                             break;
                         default:
-                            $track = $this->trackService->readTrack($id, $token);
-                            $response = RestReadTrackResponseConverter::toRest($track);
+                            $response = RestReadTrackResponseConverter::toRest($request);
                             break;
                     }
                 } else {
@@ -59,14 +59,14 @@ class TrackController implements IRestController
                 break;
             case HttpRequestMethod::POST:
                 $args = $this->httpService->getPostArgs();
-                $track = RestTrackConverter::fromRest($args);
-                $savedTrack = $this->trackService->createTrack($track, $token);
+                $request = RestTrackRequest::fromRest($args);
+                $savedTrack = $this->trackService->createTrack($request->track, $token);
                 $response = RestReadTrackResponseConverter::toRest($savedTrack);
                 break;
             case HttpRequestMethod::PUT:
                 $args = $this->httpService->getPostArgs();
-                $track = RestTrackConverter::fromRest($args);
-                $savedTrack = $this->trackService->updateTrack($track, $token);
+                $request = RestTrackRequest::fromRest($args, $id);
+                $savedTrack = $this->trackService->updateTrack($request->track, $token);
                 $response = RestReadTrackResponseConverter::toRest($savedTrack);
                 break;
             case HttpRequestMethod::DELETE:

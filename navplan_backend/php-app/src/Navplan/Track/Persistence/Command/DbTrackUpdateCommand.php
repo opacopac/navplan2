@@ -2,7 +2,6 @@
 
 namespace Navplan\Track\Persistence\Command;
 
-use Navplan\Common\Persistence\Model\DbPosition4dConverter;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbHelper;
 use Navplan\Track\Domain\Command\ITrackUpdateCommand;
@@ -35,7 +34,6 @@ class DbTrackUpdateCommand implements ITrackUpdateCommand
         $query = "UPDATE " . DbTableTrack::TABLE_NAME . " SET ";
         $query .= join(", ", [
             DbTableTrack::COL_NAME . "=" . DbHelper::getDbStringValue($this->dbService, $track->name),
-            DbTableTrack::COL_POSITIONS . "=" . DbPosition4dConverter::toDbValueFromList($this->dbService, $track->positionList),
         ]);
         $query .= " WHERE " . DbTableTrack::COL_ID . "=" . DbHelper::getDbIntValue($track->id);
         $query .= "  AND";

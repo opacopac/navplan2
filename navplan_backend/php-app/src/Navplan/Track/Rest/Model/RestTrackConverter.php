@@ -9,9 +9,9 @@ use Navplan\Track\Domain\Model\Track;
 
 
 class RestTrackConverter {
-    public static function fromRest(array $args): Track {
+    public static function fromRest(array $args, int $id = -1): Track {
         return new Track(
-            StringNumberHelper::parseIntOrError($args, "id"),
+            $id,
             StringNumberHelper::parseStringOrNull($args, "name"),
             RestPosition4dConverter::fromRestList($args["positions"]),
             RestTimestampConverter::fromRest($args["savetime"]),
