@@ -12,6 +12,7 @@ import {ITrackService} from '../../domain/service/i-track.service';
 import {ExporterActions} from '../../../exporter/state/ngrx/exporter.actions';
 import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
+import {ITrackRepoService} from '../../domain/service/i-track-repo.service';
 
 
 @Injectable()
@@ -23,7 +24,8 @@ export class TrackEffects {
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
-        private trackService: ITrackService
+        private trackService: ITrackService,
+        private trackRepoService: ITrackRepoService
     ) {
     }
 
@@ -32,7 +34,7 @@ export class TrackEffects {
         ofType(TrackActions.readList),
         switchMap(action => this.currentUser$),
         filter(currentUser => currentUser !== undefined),
-        switchMap(currentUser => this.trackService.readUserTrackList().pipe(
+        switchMap(currentUser => this.trackRepoService.readUserTrackList().pipe(
             map(trackList => TrackActions.readListSuccess({trackList: trackList})),
             catchError(error => of(TrackActions.readListError({error: error})))
         ))
@@ -54,7 +56,7 @@ export class TrackEffects {
 
     readTrack$ = createEffect(() => this.actions$.pipe(
         ofType(TrackActions.read),
-        switchMap(action => this.trackService.readUserTrack(action.trackId).pipe(
+        switchMap(action => this.trackRepoService.readUserTrack(action.trackId).pipe(
             map(track => TrackActions.readSuccess({track: track})),
             catchError(error => of(TrackActions.readError({error: error})))
         ))
@@ -63,7 +65,7 @@ export class TrackEffects {
 
     updateTrack$ = createEffect(() => this.actions$.pipe(
         ofType(TrackActions.update),
-        switchMap(action => this.trackService.updateUserTrack(action.track).pipe(
+        switchMap(action => this.trackRepoService.updateUserTrack(action.track).pipe(
             switchMap((updatedTrack) => [
                 TrackActions.updateSuccess({track: updatedTrack}),
                 TrackActions.readList(),
@@ -80,7 +82,7 @@ export class TrackEffects {
 
     deleteTrack$ = createEffect(() => this.actions$.pipe(
         ofType(TrackActions.delete),
-        switchMap(action => this.trackService.deleteUserTrack(action.trackId).pipe(
+        switchMap(action => this.trackRepoService.deleteUserTrack(action.trackId).pipe(
             switchMap((success) => [
                 TrackActions.deleteSuccess({trackId: action.trackId}),
                 TrackActions.readList(),
@@ -97,7 +99,7 @@ export class TrackEffects {
 
     exportTrackKml$ = createEffect(() => this.actions$.pipe(
         ofType(TrackActions.exportKml),
-        switchMap(action => this.trackService.exportTrackKml(action.trackId).pipe(
+        switchMap(action => this.trackRepoService.exportTrackKml(action.trackId).pipe(
             map(exportedFile => ExporterActions.exportSuccess({exportedFile: exportedFile})),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error exporting track KML', error)

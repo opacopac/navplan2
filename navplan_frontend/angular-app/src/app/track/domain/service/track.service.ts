@@ -1,43 +1,32 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
 import {Track} from '../model/track';
-import {ITrackRepoService} from './i-track-repo.service';
 import {ITrackService} from './i-track.service';
-import {ExportedFile} from '../../../exporter/domain/model/exported-file';
+import {TrackProfile} from '../model/track-profile';
+import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
+import {GeodesyHelper} from '../../../geo-physics/domain/service/geometry/geodesy-helper';
 
 
 @Injectable()
 export class TrackService implements ITrackService {
-    public constructor(private trackRepo: ITrackRepoService) {
+    private static readonly MIN_TAXI_SPEED = Speed.ofKt(5);
+
+    public calculateTrackProfile(track: Track): TrackProfile {
+        const speedProfile = this.calculateSpeedProfile(track);
+        return undefined;
     }
 
 
-    public readUserTrackList(): Observable<Track[]> {
-        return this.trackRepo.readUserTrackList();
-    }
+    private calculateSpeedProfile(track: Track): Speed[] {
+        const speedProfile: Speed[] = [];
+        for (let i = 1; i < track.positionList.length; i++) {
+            const pos1 = track.positionList[i - 1];
+            const pos2 = track.positionList[i];
+            const distM = GeodesyHelper.calcDistance(pos1, pos2).m;
+            const timeMs = pos2.timestamp.epochMs - pos1.timestamp.epochMs;
+            const speed = Speed.ofMps(distM / timeMs * 1000);
+            speedProfile.push(speed);
+        }
 
-
-    public readUserTrack(trackid: number): Observable<Track> {
-        return this.trackRepo.readUserTrack(trackid);
-    }
-
-
-    public createUserTrack(timestamp, name, positions): void {
-        return this.trackRepo.createUserTrack(timestamp, name, positions);
-    }
-
-
-    public updateUserTrack(track: Track): Observable<Track> {
-        return this.trackRepo.updateUserTrack(track);
-    }
-
-
-    public deleteUserTrack(trackid: number): Observable<boolean> {
-        return this.trackRepo.deleteUserTrack(trackid);
-    }
-
-
-    public exportTrackKml(trackid: number): Observable<ExportedFile> {
-        return this.trackRepo.exportTrackKml(trackid);
+        return speedProfile;
     }
 }

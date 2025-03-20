@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {Track} from '../../domain/model/track';
@@ -52,8 +52,8 @@ export class RestTrackRepoService implements ITrackRepoService {
     }
 
 
-    createUserTrack(timestamp, name, positions) {
-        // return $http.post(userTrackBaseUrl, obj2json({ timestamp: timestamp, name: name, positions: positions }));
+    createUserTrack(timestamp, name, positions): Observable<Track> {
+        return of(null);
     }
 
 
