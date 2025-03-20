@@ -1,0 +1,25 @@
+<div class="tabs-container">
+    <mat-tab-group
+        #tabGroup
+        mat-stretch-tabs="false"
+        animationDuration="0ms"
+        (selectedTabChange)="onTabChange($event)"
+    >
+        <mat-tab>
+            <ng-template matTabLabel>
+                <i class="fa-brands fa-stack-overflow"></i><span class="tab-text">&nbsp;&nbsp;Tracks</span>
+            </ng-template>
+            <ng-template matTabContent>
+                <app-tracks-page/>
+            </ng-template>
+        </mat-tab>
+        <mat-tab>
+            <ng-template matTabLabel>
+                <i class="fa-solid fa-chart-area"></i><span class="tab-text">&nbsp;&nbsp;Profile</span>
+            </ng-template>
+            <ng-template matTabContent>
+                TODO
+            </ng-template>
+        </mat-tab>
+    </mat-tab-group>
+</div>

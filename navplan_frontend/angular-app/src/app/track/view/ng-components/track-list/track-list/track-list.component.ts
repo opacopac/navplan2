@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
-import {Track} from '../../../domain/model/track';
-import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
+import {Track} from '../../../../domain/model/track';
+import {DatetimeHelper} from '../../../../../system/domain/service/datetime/datetime-helper';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import {ButtonColor} from '../../../../common/view/model/button-color';
+import {ButtonColor} from '../../../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
-import {Timestamp} from '../../../../geo-physics/domain/model/quantities/timestamp';
+import {Timestamp} from '../../../../../geo-physics/domain/model/quantities/timestamp';
 import {TrackDeleteConfirmDialogComponent} from '../track-delete-confirm-dialog/track-delete-confirm-dialog.component';
 import {TrackEditFormDialogComponent} from '../track-edit-form-dialog/track-edit-form-dialog.component';
 

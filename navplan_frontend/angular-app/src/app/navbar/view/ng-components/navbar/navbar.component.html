@@ -9,7 +9,7 @@
     <button mat-button routerLink="./plan" routerLinkActive="button-active" title="Flight Preparation"><i class="fa-solid fa-route"></i><span class="button-text">&nbsp;&nbsp;Plan</span></button>
     <button mat-button routerLink="./aircraft" routerLinkActive="button-active" title="Aircraft"><i class="fa-solid fa-plane-up"></i><span class="button-text">&nbsp;&nbsp;{{ this.getAircraftText() }}</span></button>
     @if (this.currentUser) {
-      <button mat-button routerLink="./tracks" routerLinkActive="button-active" title="Recorded Tracks"><i class="fa-solid fa-paw"></i><span class="button-text">&nbsp;&nbsp;Tracks</span></button>
+      <button mat-button routerLink="./track" routerLinkActive="button-active" title="Recorded Tracks"><i class="fa-solid fa-paw"></i><span class="button-text">&nbsp;&nbsp;Tracks</span></button>
     }
     <button mat-button id="btn_export" [mat-menu-trigger-for]="navplanExport" title="Export / Share"><i class="fa-solid fa-share"></i><span class="button-text">&nbsp;&nbsp;Export</span></button>
     <mat-menu #navplanExport="matMenu">
@@ -50,7 +50,7 @@
   <button mat-menu-item routerLink="./plan" title="Plan"><i class="fa-solid fa-route"></i>&nbsp;&nbsp;Plan</button>
   <button mat-menu-item routerLink="./aircraft" title="Aircraft"><i class="fa-solid fa-plane-up"></i>&nbsp;&nbsp;Aircraft</button>
   @if (this.currentUser) {
-    <button mat-menu-item routerLink="./tracks" title="Tracks"><i class="fa-solid fa-paw"></i>&nbsp;&nbsp;Tracks</button>
+    <button mat-menu-item routerLink="./track" title="Tracks"><i class="fa-solid fa-paw"></i>&nbsp;&nbsp;Tracks</button>
   }
   <button mat-menu-item routerLink="./map" title="Clear current Route and Track"><i class="fa-solid fa-eraser"></i>&nbsp;&nbsp;Clear</button>
   <button mat-menu-item [mat-menu-trigger-for]="navplanExportSm" title="Export"><i class="fa-solid fa-share"></i>&nbsp;&nbsp;Export</button>

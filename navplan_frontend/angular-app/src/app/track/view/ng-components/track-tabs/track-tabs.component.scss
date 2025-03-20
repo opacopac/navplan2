@@ -1,0 +1,7 @@
+@import "styles";
+
+@media (max-width: $navplan-media-m - 1px) {
+    .tab-text {
+        display: none;
+    }
+}
