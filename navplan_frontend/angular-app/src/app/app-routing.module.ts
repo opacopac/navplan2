@@ -20,6 +20,7 @@ const routes: Routes = [
     {path: 'aircraft', component: AircraftTabsComponent},
     {path: 'aircraft/:tab', component: AircraftTabsComponent},
     {path: 'track', component: TrackTabsComponent},
+    {path: 'track/:tab', component: TrackTabsComponent},
     {path: 'login', component: LoginRegisterPageComponent},
     {path: 'register/:token', component: RegisterStep2PageComponent},
     {path: 'userprofile', component: UserProfilePageComponent},
