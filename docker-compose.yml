@@ -20,6 +20,7 @@ services:
         container_name: phpmyadmin
         environment:
             PMA_HOST: navplan_persistence
+            UPLOAD_LIMIT: 300M
         ports:
             - 8081:80
         depends_on:

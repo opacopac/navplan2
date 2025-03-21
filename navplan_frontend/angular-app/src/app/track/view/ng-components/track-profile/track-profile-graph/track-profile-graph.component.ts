@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 import {getSelectedTrackProfile} from '../../../../state/ngrx/track.selectors';
@@ -11,7 +11,7 @@ import {TrackProfileGraphSvg} from '../../../svg/track-profile-graph-svg';
     templateUrl: './track-profile-graph.component.html',
     styleUrls: ['./track-profile-graph.component.scss']
 })
-export class TrackProfileGraphComponent implements OnInit, OnDestroy {
+export class TrackProfileGraphComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('container') container: ElementRef;
     private readonly trackProfile$ = this.appStore.pipe(select(getSelectedTrackProfile));
     private readonly trackProfileSubscription: Subscription;
@@ -24,6 +24,10 @@ export class TrackProfileGraphComponent implements OnInit, OnDestroy {
 
 
     ngOnInit(): void {
+    }
+
+
+    ngAfterViewInit(): void {
         this.redrawSvg();
     }
 
@@ -43,6 +47,10 @@ export class TrackProfileGraphComponent implements OnInit, OnDestroy {
 
 
     public redrawSvg() {
+        if (!this.container) {
+            return;
+        }
+
         if (this.currentTrackProfile) {
             const svg = TrackProfileGraphSvg.create(
                 this.currentTrackProfile,
