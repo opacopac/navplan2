@@ -20,6 +20,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {TrackTabsComponent} from './ng-components/track-tabs/track-tabs.component';
 import {MatTabGroup, MatTabsModule} from '@angular/material/tabs';
 import {TrackProfilePageComponent} from './ng-components/track-profile/track-profile-page/track-profile-page.component';
+import {TrackProfileGraphComponent} from './ng-components/track-profile/track-profile-graph/track-profile-graph.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import {TrackProfilePageComponent} from './ng-components/track-profile/track-pro
         TrackListComponent,
         TrackEditFormDialogComponent,
         TrackDeleteConfirmDialogComponent,
-        TrackProfilePageComponent
+        TrackProfilePageComponent,
+        TrackProfileGraphComponent
     ],
     exports: [
         TrackListPageComponent,
