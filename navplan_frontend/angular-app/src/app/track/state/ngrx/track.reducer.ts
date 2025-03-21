@@ -5,7 +5,8 @@ import {createReducer, on} from '@ngrx/store';
 
 const initialState: TrackState = {
     trackList: [],
-    showTrack: undefined,
+    selectedTrack: undefined,
+    selectedTrackProfile: undefined
 };
 
 
@@ -23,11 +24,17 @@ export const trackReducer = createReducer(
 
     on(TrackActions.readSuccess, (state, action) => ({
         ...state,
-        showTrack: action.track
+        selectedTrack: action.track
     })),
 
     on(TrackActions.readError, TrackActions.clear, (state, action) => ({
         ...state,
-        showTrack: undefined
+        selectedTrack: undefined,
+        selectedTrackProfile: undefined
     })),
+
+    on(TrackActions.updateTrackProfile, (state, action) => ({
+        ...state,
+        selectedTrackProfile: action.trackProfile
+    }))
 );

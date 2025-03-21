@@ -1,3 +1,7 @@
 <div class="single-page-container">
+    Off-Block Time: {{ (this.selectedTrackProfile$ | async)?.offBlockTime | date: 'HH:mm' }}<br>
+    Takeoff Time: {{ (this.selectedTrackProfile$ | async)?.takeoffTime | date: 'HH:mm' }}<br>
+    Landing Time: {{ (this.selectedTrackProfile$ | async)?.landingTime | date: 'HH:mm' }}<br>
+    On-Block Time: {{ (this.selectedTrackProfile$ | async)?.onBlockTime | date: 'HH:mm' }}<br>
     TODO
 </div>

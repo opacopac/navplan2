@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
-import {Track} from '../../../../domain/model/track';
-import {getShowTrack} from '../../../../state/ngrx/track.selectors';
+import {getSelectedTrack, getSelectedTrackProfile} from '../../../../state/ngrx/track.selectors';
 
 
 @Component({
@@ -11,7 +9,8 @@ import {getShowTrack} from '../../../../state/ngrx/track.selectors';
     styleUrls: ['./track-profile-page.component.scss']
 })
 export class TrackProfilePageComponent implements OnInit {
-    public readonly selectedTrack$: Observable<Track> = this.appStore.pipe(select(getShowTrack));
+    public readonly selectedTrack$ = this.appStore.pipe(select(getSelectedTrack));
+    public readonly selectedTrackProfile$ = this.appStore.pipe(select(getSelectedTrackProfile));
 
 
     constructor(private appStore: Store<any>) {

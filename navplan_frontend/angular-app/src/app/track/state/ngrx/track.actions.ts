@@ -1,5 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {Track} from '../../domain/model/track';
+import {TrackProfile} from '../../domain/model/track-profile';
 
 
 export class TrackActions {
@@ -64,5 +65,10 @@ export class TrackActions {
 
     public static readonly clear = createAction(
         '[ClearDialog] clear track'
+    );
+
+    public static readonly updateTrackProfile = createAction(
+        '[Tracks Effects] update track profile',
+        props<{ trackProfile: TrackProfile }>()
     );
 }

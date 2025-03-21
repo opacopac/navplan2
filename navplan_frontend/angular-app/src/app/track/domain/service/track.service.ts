@@ -10,10 +10,15 @@ import {Length} from '../../../geo-physics/domain/model/quantities/length';
 @Injectable()
 export class TrackService implements ITrackService {
     private static readonly MIN_TAXI_SPEED = Speed.ofKt(5);
-    private static readonly MAX_TAXI_SPEED = Speed.ofKt(40);
+    private static readonly MIN_FLIGHT_SPEED = Speed.ofKt(40);
+    private static readonly MIN_CONSECUTIVE_SPEEDS = 5;
 
 
     public calculateTrackProfile(track: Track): TrackProfile {
+        if (!track) {
+            return null;
+        }
+
         const altitudeProfile = this.calculateAltitudeProfile(track);
         const speedProfile = this.calculateSpeedProfile(track);
         const verticalSpeedProfile = this.calculateVerticalSpeedProfile(track);
@@ -72,45 +77,55 @@ export class TrackService implements ITrackService {
 
 
     private calculateBlockTime(speedProfile: [Speed, Date][]): [Date, Date] {
-        let offBlockTime = speedProfile[0][1];
-        let onBlockTime = speedProfile[speedProfile.length - 1][1];
-
-        for (let i = 0; i < speedProfile.length; i++) {
-            if (speedProfile[i][0].kt > TrackService.MIN_TAXI_SPEED.kt) {
-                offBlockTime = speedProfile[i][1];
-                break;
-            }
-        }
-
-        for (let i = speedProfile.length - 1; i >= 0; i--) {
-            if (speedProfile[i][0].kt > TrackService.MIN_TAXI_SPEED.kt) {
-                onBlockTime = speedProfile[i][1];
-                break;
-            }
-        }
-
-        return [offBlockTime, onBlockTime];
+        return [
+            this.findFirstSpeedDate(speedProfile, TrackService.MIN_TAXI_SPEED),
+            this.findLastSpeedDate(speedProfile, TrackService.MIN_TAXI_SPEED)
+        ];
     }
 
 
     private calculateFlightTime(speedProfile: [Speed, Date][]): [Date, Date] {
-        let takeOffTime = speedProfile[0][1];
-        let landingTime = speedProfile[speedProfile.length - 1][1];
+        return [
+            this.findFirstSpeedDate(speedProfile, TrackService.MIN_FLIGHT_SPEED),
+            this.findLastSpeedDate(speedProfile, TrackService.MIN_FLIGHT_SPEED)
+        ];
+    }
+
+
+    private findFirstSpeedDate(speedProfile: [Speed, Date][], minSpeed: Speed): Date {
+        let consecutiveSpeeds = 0;
 
         for (let i = 0; i < speedProfile.length; i++) {
-            if (speedProfile[i][0].kt > TrackService.MAX_TAXI_SPEED.kt) {
-                takeOffTime = speedProfile[i][1];
-                break;
+            if (speedProfile[i][0].kt > minSpeed.kt) {
+                if (consecutiveSpeeds > TrackService.MIN_CONSECUTIVE_SPEEDS) {
+                    return speedProfile[i][1];
+                } else {
+                    consecutiveSpeeds++;
+                }
+            } else {
+                consecutiveSpeeds = 0;
             }
         }
+
+        return speedProfile[0][1];
+    }
+
+
+    private findLastSpeedDate(speedProfile: [Speed, Date][], minSpeed: Speed): Date {
+        let consecutiveSpeeds = 0;
 
         for (let i = speedProfile.length - 1; i >= 0; i--) {
-            if (speedProfile[i][0].kt > TrackService.MAX_TAXI_SPEED.kt) {
-                landingTime = speedProfile[i][1];
-                break;
+            if (speedProfile[i][0].kt > minSpeed.kt) {
+                if (consecutiveSpeeds > TrackService.MIN_CONSECUTIVE_SPEEDS) {
+                    return speedProfile[i][1];
+                } else {
+                    consecutiveSpeeds++;
+                }
+            } else {
+                consecutiveSpeeds = 0;
             }
         }
 
-        return [takeOffTime, landingTime];
+        return speedProfile[speedProfile.length - 1][1];
     }
 }

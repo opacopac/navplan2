@@ -45,7 +45,7 @@ export class TrackEffects {
         ofType(TrackActions.toggleSelect),
         withLatestFrom(this.trackState$),
         map(([action, trackState]) => {
-            if (!trackState.showTrack || trackState.showTrack.id !== action.trackId) {
+            if (!trackState.selectedTrack || trackState.selectedTrack.id !== action.trackId) {
                 return TrackActions.read({trackId: action.trackId});
             } else {
                 return TrackActions.readSuccess({track: undefined});
@@ -63,6 +63,13 @@ export class TrackEffects {
     ));
 
 
+    readSuccess$ = createEffect(() => this.actions$.pipe(
+        ofType(TrackActions.readSuccess),
+        map(action => this.trackService.calculateTrackProfile(action.track)),
+        map(trackProfile => TrackActions.updateTrackProfile({trackProfile: trackProfile})),
+    ));
+
+
     updateTrack$ = createEffect(() => this.actions$.pipe(
         ofType(TrackActions.update),
         switchMap(action => this.trackRepoService.updateUserTrack(action.track).pipe(
@@ -74,10 +81,10 @@ export class TrackEffects {
                 })
             ]),
             catchError(error => of(MessageActions.showMessage({
-                message: Message.error('Error updating track: ', error)
-            }))
-        ))
-    )));
+                    message: Message.error('Error updating track: ', error)
+                }))
+            ))
+        )));
 
 
     deleteTrack$ = createEffect(() => this.actions$.pipe(

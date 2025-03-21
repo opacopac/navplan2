@@ -14,7 +14,7 @@ import {OlMetarContainer} from '../../../../metar-taf/view/ol-components/ol-meta
 import {OlNotamContainer} from '../../../../notam/view/ol-components/ol-notam-container';
 import {getNotamList} from '../../../../notam/state/ngrx/notam.selectors';
 import {OlTrackContainer} from '../../../../track/view/ol-components/ol-track-container';
-import {getShowTrack} from '../../../../track/state/ngrx/track.selectors';
+import {getSelectedTrack} from '../../../../track/state/ngrx/track.selectors';
 import {OlFlightrouteContainer} from '../../ol-components/ol-flightroute-container';
 import {getFlightroute} from '../../../../flightroute/state/ngrx/flightroute.selectors';
 import {OlTrafficContainer} from '../../../../traffic/view/ol-components/ol-traffic-container';
@@ -290,7 +290,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         );
         this.olTrack = new OlTrackContainer(
             trackLayer,
-            this.appStore.pipe(select(getShowTrack))
+            this.appStore.pipe(select(getSelectedTrack))
         );
         this.olFlightroute = new OlFlightrouteContainer(
             flightrouteLayer,

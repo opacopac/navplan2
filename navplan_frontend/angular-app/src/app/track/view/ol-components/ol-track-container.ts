@@ -10,9 +10,9 @@ export class OlTrackContainer {
 
     public constructor(
         private readonly trackLayer: OlVectorLayer,
-        showTrack$: Observable<Track>
+        selectedTrack$: Observable<Track>
     ) {
-        this.trackSubscription = showTrack$.subscribe((track) => {
+        this.trackSubscription = selectedTrack$.subscribe((track) => {
             this.clearFeatures();
             this.drawFeatures(track);
         });

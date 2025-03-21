@@ -15,6 +15,7 @@ import {ExportedFile} from '../../../exporter/domain/model/exported-file';
 import {IRestExportedFile} from '../../../exporter/rest/model/i-rest-exported-file';
 import {RestExportedFileConverter} from '../../../exporter/rest/model/rest-exported-file-converter';
 import {IRestSuccessResponse} from '../../../flightroute/rest/model/i-rest-success-response';
+import {Position4d} from '../../../geo-physics/domain/model/geometry/position4d';
 
 
 @Injectable()
@@ -52,7 +53,7 @@ export class RestTrackRepoService implements ITrackRepoService {
     }
 
 
-    createUserTrack(timestamp, name, positions): Observable<Track> {
+    createUserTrack(timestamp, name: string, positions: Position4d[]): Observable<Track> {
         return of(null);
     }
 

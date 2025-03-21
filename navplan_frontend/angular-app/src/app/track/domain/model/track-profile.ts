@@ -9,7 +9,7 @@ export class TrackProfile {
         public readonly verticalSpeedProfile: [Speed, Date][],
         public readonly offBlockTime: Date,
         public readonly takeoffTime: Date,
-        public readonly LandingTime: Date,
+        public readonly landingTime: Date,
         public readonly onBlockTime: Date,
     ) {
     }

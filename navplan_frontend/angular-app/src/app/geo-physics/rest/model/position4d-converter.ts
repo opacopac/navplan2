@@ -1,7 +1,7 @@
 import {IRestPosition4d} from './i-rest-position4d';
 import {Position4d} from '../../domain/model/geometry/position4d';
 import {Position2dConverter} from './position2d-converter';
-import {TimestampConverter} from './timestamp-converter';
+import {RestTimestampConverter} from './rest-timestamp-converter';
 import {RestAltitudeConverter} from './rest-altitude-converter';
 
 
@@ -12,7 +12,7 @@ export class Position4dConverter {
             pos2d.longitude,
             pos2d.latitude,
             RestAltitudeConverter.fromRest(restPos[1]),
-            TimestampConverter.fromRest(restPos[2])
+            RestTimestampConverter.fromRest(restPos[2])
         );
     }
 
@@ -26,7 +26,7 @@ export class Position4dConverter {
         return [
             Position2dConverter.toRest(pos),
             RestAltitudeConverter.toRest(pos.altitude),
-            TimestampConverter.toRest(pos.timestamp)
+            RestTimestampConverter.toRest(pos.timestamp)
         ];
     }
 

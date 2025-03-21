@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {Track} from '../../../../domain/model/track';
-import {getShowTrack, getTrackList} from '../../../../state/ngrx/track.selectors';
+import {getSelectedTrack, getTrackList} from '../../../../state/ngrx/track.selectors';
 import {TrackActions} from '../../../../state/ngrx/track.actions';
 
 
@@ -18,7 +18,7 @@ export class TrackListPageComponent implements OnInit {
 
     constructor(private appStore: Store<any>) {
         this.trackList$ = this.appStore.pipe(select(getTrackList));
-        this.selectedTrack$ = this.appStore.pipe(select(getShowTrack));
+        this.selectedTrack$ = this.appStore.pipe(select(getSelectedTrack));
     }
 
 

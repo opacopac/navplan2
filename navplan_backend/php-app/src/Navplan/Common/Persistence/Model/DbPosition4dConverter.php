@@ -30,7 +30,7 @@ class DbPosition4dConverter
                     $pos[1],
                     $pos[0],
                     Altitude::fromMtAmsl($pos[2]),
-                    Timestamp::fromS($pos[3])
+                    Timestamp::fromMs($pos[3])
                 );
             },
             $positions
@@ -58,7 +58,7 @@ class DbPosition4dConverter
                     $pos->longitude,
                     $pos->latitude,
                     $pos->altitude->value,
-                    $pos->timestamp->toS()
+                    $pos->timestamp->toMs()
                 ];
             },
             $position4dList

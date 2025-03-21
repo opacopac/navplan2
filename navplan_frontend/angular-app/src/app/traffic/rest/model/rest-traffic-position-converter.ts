@@ -3,7 +3,7 @@ import {TrafficPosition} from '../../domain/model/traffic-position';
 import {TrafficPositionMethod} from '../../domain/model/traffic-position-method';
 import {IRestTrafficPosition} from './i-rest-traffic-position';
 import {Position4dConverter} from '../../../geo-physics/rest/model/position4d-converter';
-import {TimestampConverter} from '../../../geo-physics/rest/model/timestamp-converter';
+import {RestTimestampConverter} from '../../../geo-physics/rest/model/rest-timestamp-converter';
 
 
 export class RestTrafficPositionConverter {
@@ -13,7 +13,7 @@ export class RestTrafficPositionConverter {
             source,
             TrafficPositionMethod[trafficPos.method],
             trafficPos.receiver,
-            TimestampConverter.fromRest(trafficPos.timestamp)
+            RestTimestampConverter.fromRest(trafficPos.timestamp)
         );
     }
 }

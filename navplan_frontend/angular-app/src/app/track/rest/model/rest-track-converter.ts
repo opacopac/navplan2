@@ -1,7 +1,7 @@
 import {Track} from '../../domain/model/track';
 import {IRestTrack} from './i-rest-track';
 import {Position4dConverter} from '../../../geo-physics/rest/model/position4d-converter';
-import {TimestampConverter} from '../../../geo-physics/rest/model/timestamp-converter';
+import {RestTimestampConverter} from '../../../geo-physics/rest/model/rest-timestamp-converter';
 
 
 export class RestTrackConverter {
@@ -10,7 +10,7 @@ export class RestTrackConverter {
             restTrack.id,
             restTrack.name,
             Position4dConverter.fromRestList(restTrack.positions),
-            TimestampConverter.fromRest(restTrack.savetime)
+            RestTimestampConverter.fromRest(restTrack.savetime)
         );
     }
 
@@ -25,7 +25,7 @@ export class RestTrackConverter {
             id: track.id,
             name: track.name,
             positions: Position4dConverter.toRestList(track.positionList),
-            savetime: TimestampConverter.toRest(track.saveTime)
+            savetime: RestTimestampConverter.toRest(track.saveTime)
         };
     }
 }
