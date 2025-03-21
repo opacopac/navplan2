@@ -8,8 +8,8 @@ export class TrackProfile {
         public readonly speedProfile: [Speed, Date][],
         public readonly verticalSpeedProfile: [Speed, Date][],
         public readonly offBlockTime: Date,
-        public readonly departureTime: Date,
-        public readonly arrivalTime: Date,
+        public readonly takeoffTime: Date,
+        public readonly LandingTime: Date,
         public readonly onBlockTime: Date,
     ) {
     }
