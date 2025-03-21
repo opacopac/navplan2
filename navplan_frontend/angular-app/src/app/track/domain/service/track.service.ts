@@ -68,7 +68,7 @@ export class TrackService implements ITrackService {
             const alt1 = pos1.altitude.getHeightAmsl();
             const alt2 = pos2.altitude.getHeightAmsl();
             const timeMs = pos2.timestamp.epochMs - pos1.timestamp.epochMs;
-            const verticalSpeed = Speed.ofFpm(alt2.ft - alt1.ft / timeMs * 1000);
+            const verticalSpeed = Speed.ofFpm((alt2.ft - alt1.ft) / (timeMs / 1000) * 60);
             verticalSpeedProfile.push([verticalSpeed, pos2.timestamp.date]);
         }
 
