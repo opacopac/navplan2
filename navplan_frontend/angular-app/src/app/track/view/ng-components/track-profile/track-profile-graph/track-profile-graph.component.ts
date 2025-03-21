@@ -24,6 +24,7 @@ export class TrackProfileGraphComponent implements OnInit, OnDestroy {
 
 
     ngOnInit(): void {
+        this.redrawSvg();
     }
 
 

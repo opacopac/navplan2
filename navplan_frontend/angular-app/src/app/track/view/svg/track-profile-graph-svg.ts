@@ -1,8 +1,7 @@
-import {Length} from '../../../geo-physics/domain/model/quantities/length';
-import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
-import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {SvgBuilder} from '../../../common/svg/svg-builder';
 import {TrackProfile} from '../../domain/model/track-profile';
+import {AltitudeProfileSvg} from './altitude-profile-svg';
+import {ImageTimePxDimensionsSvg} from '../../../common/svg/image-time-px-dimensions-svg';
 
 
 export class TrackProfileGraphSvg {
@@ -11,10 +10,9 @@ export class TrackProfileGraphSvg {
         imageWidthPx: number,
         imageHeightPx: number
     ): SVGSVGElement {
-        const imgDim = new ImageDimensionsSvg(
-            Length.ofZero(),
-            // new Length(cloudMeteogram.steps.length, LengthUnit.M), // TODO
-            new Length(20000, LengthUnit.FT), // TODO
+        const imgDim = new ImageTimePxDimensionsSvg(
+            trackProfile.offBlockTime,
+            trackProfile.onBlockTime,
             imageWidthPx,
             imageHeightPx
         );
@@ -24,6 +22,7 @@ export class TrackProfileGraphSvg {
             .setHeight(imageHeightPx.toString())
             .setCssClass('map-terrain-svg')
             .build();
+        svg.appendChild(AltitudeProfileSvg.create(trackProfile.altitudeProfile, imgDim));
         /*svg.appendChild(MeteogramTerrainSvg.create(cloudMeteogram.elevation, imgDim));
         svg.appendChild(MeteogramVerticalClouds.create(cloudMeteogram.steps, imgDim));
         svg.appendChild(HeightGridSvg.create(imgDim.maxHeight));
