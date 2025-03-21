@@ -1,7 +1,8 @@
 import {SvgBuilder} from '../../../common/svg/svg-builder';
 import {TrackProfile} from '../../domain/model/track-profile';
 import {AltitudeProfileSvg} from './altitude-profile-svg';
-import {ImageTimePxDimensionsSvg} from '../../../common/svg/image-time-px-dimensions-svg';
+import {ImageTimeLengthDimensionsSvg} from '../../../common/svg/image-time-length-dimensions-svg';
+import {Length} from '../../../geo-physics/domain/model/quantities/length';
 
 
 export class TrackProfileGraphSvg {
@@ -10,9 +11,11 @@ export class TrackProfileGraphSvg {
         imageWidthPx: number,
         imageHeightPx: number
     ): SVGSVGElement {
-        const imgDim = new ImageTimePxDimensionsSvg(
+        const imgDim = new ImageTimeLengthDimensionsSvg(
             trackProfile.offBlockTime,
             trackProfile.onBlockTime,
+            Length.ofZero(),
+            Length.ofFt(15000), // TODO
             imageWidthPx,
             imageHeightPx
         );
