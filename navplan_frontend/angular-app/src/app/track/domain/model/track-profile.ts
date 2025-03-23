@@ -59,8 +59,10 @@ export class TrackProfile {
             const pos1 = track.positionList[i - 1];
             const pos2 = track.positionList[i];
             const distM = GeodesyHelper.calcDistance(pos1, pos2).m;
-            accumulatedDistanceM = accumulatedDistanceM.add(Length.ofM(distM));
-            distanceProfile.push([accumulatedDistanceM, pos2.timestamp.date]);
+            if (distM > 0) {
+                accumulatedDistanceM = accumulatedDistanceM.add(Length.ofM(distM));
+                distanceProfile.push([accumulatedDistanceM, pos2.timestamp.date]);
+            }
         }
 
         return distanceProfile;
