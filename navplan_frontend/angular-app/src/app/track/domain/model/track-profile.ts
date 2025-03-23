@@ -10,6 +10,7 @@ export class TrackProfile {
     private static readonly MIN_CONSECUTIVE_SPEEDS = 3;
 
     public readonly altitudeProfile: [Length, Date][];
+    public readonly distanceProfile: [Length, Date][];
     public readonly speedProfile: [Speed, Date][];
     public readonly verticalSpeedProfile: [Speed, Date][];
     public readonly offBlockTime: Date;
@@ -19,7 +20,8 @@ export class TrackProfile {
 
     constructor(track: Track) {
         this.altitudeProfile = this.calculateAltitudeProfile(track);
-        this.speedProfile = this.calculateSpeedProfile(track);
+        this.distanceProfile = this.calculateDistanceProfile(track);
+        this.speedProfile = this.calculateSpeedProfile();
         this.verticalSpeedProfile = this.calculateVerticalSpeedProfile(track);
 
         const blockTimes = this.calculateBlockTime(this.speedProfile);
@@ -47,7 +49,41 @@ export class TrackProfile {
     }
 
 
-    private calculateSpeedProfile(track: Track): [Speed, Date][] {
+    private calculateDistanceProfile(track: Track): [Length, Date][] {
+        const distanceProfile: [Length, Date][] = [];
+
+        let accumulatedDistanceM = Length.ofM(0);
+        distanceProfile.push([accumulatedDistanceM, track.positionList[0].timestamp.date]);
+
+        for (let i = 1; i < track.positionList.length; i++) {
+            const pos1 = track.positionList[i - 1];
+            const pos2 = track.positionList[i];
+            const distM = GeodesyHelper.calcDistance(pos1, pos2).m;
+            accumulatedDistanceM = accumulatedDistanceM.add(Length.ofM(distM));
+            distanceProfile.push([accumulatedDistanceM, pos2.timestamp.date]);
+        }
+
+        return distanceProfile;
+    }
+
+
+    private calculateSpeedProfile(): [Speed, Date][] {
+        const speedProfile: [Speed, Date][] = [];
+
+        for (let i = 1; i < this.distanceProfile.length; i++) {
+            const lastPoint = this.distanceProfile[i - 1];
+            const currentPoint = this.distanceProfile[i];
+            const timeMs = currentPoint[1].getTime() - lastPoint[1].getTime();
+            const speed = Speed.ofMps((currentPoint[0].m - lastPoint[0].m) / timeMs * 1000);
+            speedProfile.push([speed, currentPoint[1]]);
+        }
+
+        return speedProfile;
+
+    }
+
+
+    private calculateSpeedProfile2(track: Track): [Speed, Date][] {
         const speedProfile: [Speed, Date][] = [];
 
         for (let i = 1; i < track.positionList.length; i++) {
