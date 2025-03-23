@@ -7,21 +7,23 @@ import {ImageTimeLengthDimensionsSvg} from '../../../common/svg/image-time-lengt
 export class BlockFlightTimeMarkersSvg {
     public static create(trackProfile: TrackProfile, imgDim: ImageTimeLengthDimensionsSvg): SVGElement {
         const g = SvgGroupElement.create();
+        const blockTimeColor = 'green';
+        const flightTimeColor = 'blue';
 
-        g.appendChild(this.createMarkerLine(imgDim, trackProfile.offBlockTime));
-        g.appendChild(this.createMarkerLine(imgDim, trackProfile.takeoffTime));
-        g.appendChild(this.createMarkerLine(imgDim, trackProfile.landingTime));
-        g.appendChild(this.createMarkerLine(imgDim, trackProfile.onBlockTime));
+        g.appendChild(this.createMarkerLine(imgDim, trackProfile.offBlockTime, blockTimeColor));
+        g.appendChild(this.createMarkerLine(imgDim, trackProfile.takeoffTime, flightTimeColor));
+        g.appendChild(this.createMarkerLine(imgDim, trackProfile.landingTime, flightTimeColor));
+        g.appendChild(this.createMarkerLine(imgDim, trackProfile.onBlockTime, blockTimeColor));
 
         return g;
     }
 
 
-    private static createMarkerLine(imgDim: ImageTimeLengthDimensionsSvg, time: Date): SVGElement {
+    private static createMarkerLine(imgDim: ImageTimeLengthDimensionsSvg, time: Date, color: string): SVGElement {
         return SvgLineBuilder.builder()
             .setStartXy([imgDim.calcX(time), imgDim.imageHeightPx])
             .setEndXy([imgDim.calcX(time), 0])
-            .setStrokeStyle('red', 1)
+            .setStrokeStyle(color, 1)
             .setStrokeDashArrayOnOff(5, 5)
             .build();
     }
