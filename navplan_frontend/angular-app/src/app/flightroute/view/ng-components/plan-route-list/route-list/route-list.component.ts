@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
@@ -10,10 +10,6 @@ import {Flightroute} from '../../../../domain/model/flightroute';
 import {
     FlightrouteDeleteConfirmDialogComponent
 } from '../../plan-route/flightroute-delete-confirm-dialog/flightroute-delete-confirm-dialog.component';
-import {
-    AircraftCreateFormDialogComponent
-} from '../../../../../aircraft/view/ng-components/aircraft-hangar/aircraft-create-form-dialog/aircraft-create-form-dialog.component';
-import {Aircraft} from '../../../../../aircraft/domain/model/aircraft';
 import {RouteCreateFormDialogComponent} from '../route-create-form-dialog/route-create-form-dialog.component';
 
 
@@ -28,8 +24,8 @@ export interface ListEntry {
     templateUrl: './route-list.component.html',
     styleUrls: ['./route-list.component.scss']
 })
-export class RouteListComponent implements OnInit, OnChanges {
-    @Input() routeList: FlightrouteListEntry[];
+export class RouteListComponent implements OnInit, OnChanges, AfterViewInit {
+    @Input() routeList: FlightrouteListEntry[] = [{id: 0, title: ''}];
     @Input() currentFlightroute: Flightroute;
     @Input() speedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
@@ -39,9 +35,9 @@ export class RouteListComponent implements OnInit, OnChanges {
     @Output() duplicateFlightrouteClick = new EventEmitter<number>();
     @Output() deleteFlightrouteClick = new EventEmitter<number>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    protected dataSource: MatTableDataSource<ListEntry>;
-    protected visibleColumns = ['title', 'icons'];
 
+    protected readonly dataSource = new MatTableDataSource<ListEntry>();
+    protected readonly visibleColumns = ['title', 'icons'];
     protected readonly ButtonColor = ButtonColor;
 
 
@@ -56,8 +52,13 @@ export class RouteListComponent implements OnInit, OnChanges {
 
 
     ngOnChanges() {
-        this.dataSource = new MatTableDataSource<ListEntry>(this.routeList);
+        this.initData();
+    }
+
+
+    ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
+        this.initData();
     }
 
 
@@ -97,5 +98,12 @@ export class RouteListComponent implements OnInit, OnChanges {
                 this.deleteFlightrouteClick.emit(route.id);
             }
         });
+    }
+
+
+    private initData(): void {
+        if (this.routeList && this.paginator) {
+            this.dataSource.data = this.routeList;
+        }
     }
 }

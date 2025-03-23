@@ -52,6 +52,7 @@ export class TrackListComponent implements OnInit, OnChanges, AfterViewInit {
 
 
     ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
         this.initData();
     }
 
@@ -106,7 +107,6 @@ export class TrackListComponent implements OnInit, OnChanges, AfterViewInit {
 
     private initData(): void {
         if (this.trackList && this.paginator) {
-            this.dataSource.paginator = this.paginator;
             this.dataSource.data = this.trackList;
         }
     }

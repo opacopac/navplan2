@@ -23,67 +23,64 @@
     </div>
 
     <!-- flightroute list -->
-    @if (this.routeList && this.routeList.length > 0) {
-        <table mat-table
-               [dataSource]="this.dataSource">
-            <ng-container matColumnDef="title">
-                <th mat-header-cell *matHeaderCellDef>Title</th>
-                <td mat-cell
-                    *matCellDef="let entry"
-                    class="clickable"
-                    (click)="this.selectFlightrouteClick.emit(entry.id)"
+    <table mat-table
+           [dataSource]="this.dataSource">
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Title</th>
+            <td mat-cell
+                *matCellDef="let entry"
+                class="clickable"
+                (click)="this.selectFlightrouteClick.emit(entry.id)"
+            >
+                {{ entry.title }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="icons">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let entry" class="button-cell">
+                <app-icon-button
+                    [color]="ButtonColor.GREEN"
+                    [tooltipText]="'Edit Flightroute Details'"
+                    [tooltipPosition]="'above'"
+                    (buttonClicked)="this.editFlightrouteClick.emit(entry.id)"
                 >
-                    {{ entry.title }}
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="icons">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let entry" class="button-cell">
-                    <app-icon-button
-                        [color]="ButtonColor.GREEN"
-                        [tooltipText]="'Edit Flightroute Details'"
-                        [tooltipPosition]="'above'"
-                        (buttonClicked)="this.editFlightrouteClick.emit(entry.id)"
-                    >
-                        <i class="fa-solid fa-pencil"></i>
-                    </app-icon-button>
-                    <app-icon-button
-                        [color]="ButtonColor.BLUE"
-                        [tooltipText]="'Duplicate Flightroute'"
-                        [tooltipPosition]="'above'"
-                        (buttonClicked)="this.duplicateFlightrouteClick.emit(entry.id)"
-                    >
-                        <i class="fa-solid fa-copy"></i>
-                    </app-icon-button>
-                    <app-icon-button
-                        [color]="ButtonColor.RED"
-                        [tooltipText]="'Delete Flightroute'"
-                        [tooltipPosition]="'above'"
-                        (buttonClicked)="this.onDeleteFlightrouteClick(entry)"
-                    >
-                        <i class="fa-solid fa-trash"></i>
-                    </app-icon-button>
-                </td>
-            </ng-container>
-            <tr mat-header-row
-                *matHeaderRowDef="this.visibleColumns"
-                class="header-row"
-            ></tr>
-            <tr mat-row
-                *matRowDef="let listEntry; let even = even; columns: this.visibleColumns"
-                [ngClass]="{ 'odd-row': !even, 'selected-row': this.currentFlightroute?.id === listEntry?.id }"
-            ></tr>
-        </table>
-        <mat-paginator
-            [pageSize]="10"
-            [pageSizeOptions]="[5, 10, 25, 100]"
-            showFirstLastButtons="true"
-        ></mat-paginator>
-    }
+                    <i class="fa-solid fa-pencil"></i>
+                </app-icon-button>
+                <app-icon-button
+                    [color]="ButtonColor.BLUE"
+                    [tooltipText]="'Duplicate Flightroute'"
+                    [tooltipPosition]="'above'"
+                    (buttonClicked)="this.duplicateFlightrouteClick.emit(entry.id)"
+                >
+                    <i class="fa-solid fa-copy"></i>
+                </app-icon-button>
+                <app-icon-button
+                    [color]="ButtonColor.RED"
+                    [tooltipText]="'Delete Flightroute'"
+                    [tooltipPosition]="'above'"
+                    (buttonClicked)="this.onDeleteFlightrouteClick(entry)"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                </app-icon-button>
+            </td>
+        </ng-container>
+        <tr mat-header-row
+            *matHeaderRowDef="this.visibleColumns"
+            class="header-row"
+        ></tr>
+        <tr mat-row
+            *matRowDef="let listEntry; let even = even; columns: this.visibleColumns"
+            [ngClass]="{ 'odd-row': !even, 'selected-row': this.currentFlightroute?.id === listEntry?.id }"
+        ></tr>
+        <tr *matNoDataRow>
+            <td><i>No saved flightroutes</i></td>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
 
-    @if (!this.routeList || this.routeList.length == 0) {
-        <div>
-            <i>No Saved Flightroutes</i>
-        </div>
-    }
+    <mat-paginator
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        showFirstLastButtons="true"
+    />
 </div>

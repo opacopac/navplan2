@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
@@ -26,7 +26,7 @@ export interface ListEntry {
     templateUrl: './aircraft-list.component.html',
     styleUrls: ['./aircraft-list.component.scss']
 })
-export class AircraftListComponent implements OnInit, OnChanges {
+export class AircraftListComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() aircraftList: AircraftListEntry[];
     @Input() currentAircraft: Aircraft;
     @Input() speedUnit: SpeedUnit;
@@ -37,9 +37,9 @@ export class AircraftListComponent implements OnInit, OnChanges {
     @Output() duplicateAircraftClick = new EventEmitter<number>();
     @Output() deleteAircraftClick = new EventEmitter<number>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    protected dataSource: MatTableDataSource<ListEntry>;
-    protected visibleColumns = ['vehicleType', 'registration', 'icaoType', 'icons'];
 
+    protected readonly dataSource = new MatTableDataSource<ListEntry>();
+    protected readonly visibleColumns = ['vehicleType', 'registration', 'icaoType', 'icons'];
     protected readonly ButtonColor = ButtonColor;
 
 
@@ -54,8 +54,13 @@ export class AircraftListComponent implements OnInit, OnChanges {
 
 
     ngOnChanges() {
-        this.dataSource = new MatTableDataSource<ListEntry>(this.aircraftList);
+        this.initData();
+    }
+
+
+    ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
+        this.initData();
     }
 
 
@@ -66,7 +71,8 @@ export class AircraftListComponent implements OnInit, OnChanges {
 
     protected getAircraftIconClass(aircraft: AircraftListEntry): string {
         switch (aircraft.vehicleType) {
-            case 'HELICOPTER': return 'fa-solid fa-helicopter';
+            case 'HELICOPTER':
+                return 'fa-solid fa-helicopter';
             case 'AIRPLANE':
             default:
                 return 'fa-solid fa-plane';
@@ -105,5 +111,12 @@ export class AircraftListComponent implements OnInit, OnChanges {
                 this.deleteAircraftClick.emit(aircraft.id);
             }
         });
+    }
+
+
+    private initData() {
+        if (this.aircraftList && this.paginator) {
+            this.dataSource.data = this.aircraftList;
+        }
     }
 }
