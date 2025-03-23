@@ -12,8 +12,7 @@ export class AltitudeProfileGridSvg {
         const svg = SvgGroupElement.create();
         const altMarks = AxisHelperSvg.calculateNiceDecimalScaleMarks(
             imgDim.minLength.getValue(lengthUnit),
-            imgDim.maxLength.getValue(lengthUnit),
-            10
+            imgDim.maxLength.getValue(lengthUnit)
         );
 
         altMarks.forEach(markAlt => {

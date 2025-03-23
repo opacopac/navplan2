@@ -8,10 +8,10 @@ import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {SpeedProfileSvg} from './speed-profile-svg';
 import {BlockFlightTimeMarkersSvg} from './block-flight-time-markers-svg';
 import {TrackProfileDateGridSvg} from './track-profile-date-grid-svg';
-import {VerticalSpeedProfileSvg} from './vertical-speed-profile-svg';
-import {DistanceProfileSvg} from './distance-profile-svg';
 import {AltitudeProfileGridSvg} from './altitude-profile-grid-svg';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
+import {SpeedProfileAxisSvg} from './speed-profile-axis-svg';
+import {SpeedUnit} from '../../../geo-physics/domain/model/quantities/speed-unit';
 
 
 export class TrackProfileGraphSvg {
@@ -60,13 +60,14 @@ export class TrackProfileGraphSvg {
             .setHeight(imageHeightPx.toString())
             .setCssClass('map-terrain-svg')
             .build();
-        svg.appendChild(VerticalSpeedProfileSvg.create(trackProfile.verticalSpeedProfile, imgDimVerticalSpeedProfile));
+        //svg.appendChild(VerticalSpeedProfileSvg.create(trackProfile.verticalSpeedProfile, imgDimVerticalSpeedProfile));
         svg.appendChild(SpeedProfileSvg.create(trackProfile.speedProfile, imgDimSpeedProfile));
-        svg.appendChild(DistanceProfileSvg.create(trackProfile.distanceProfile, imgDimDistProfile));
+        //svg.appendChild(DistanceProfileSvg.create(trackProfile.distanceProfile, imgDimDistProfile));
         svg.appendChild(AltitudeProfileSvg.create(trackProfile.altitudeProfile, imgDimAltProfile));
         svg.appendChild(BlockFlightTimeMarkersSvg.create(trackProfile, imgDimAltProfile));
         svg.appendChild(TrackProfileDateGridSvg.create(imgDimAltProfile));
         svg.appendChild(AltitudeProfileGridSvg.create(imgDimAltProfile, LengthUnit.FT));
+        svg.appendChild(SpeedProfileAxisSvg.create(imgDimSpeedProfile, SpeedUnit.KT));
 
         return svg;
     }
