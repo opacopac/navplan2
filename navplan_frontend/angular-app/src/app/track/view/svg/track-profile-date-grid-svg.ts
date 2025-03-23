@@ -1,16 +1,16 @@
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
 import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
-import {TrackProfile} from '../../domain/model/track-profile';
 import {DatetimeHelper} from '../../../system/domain/service/datetime/datetime-helper';
 import {ImageTimeLengthDimensionsSvg} from '../../../common/svg/image-time-length-dimensions-svg';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
+import {AxisHelperSvg} from '../../../common/svg/axis-helper-svg';
 
 
 export class TrackProfileDateGridSvg {
-    public static create(trackProfile: TrackProfile, imgDim: ImageTimeLengthDimensionsSvg): SVGGElement {
+    public static create(imgDim: ImageTimeLengthDimensionsSvg): SVGGElement {
         const svg = SvgGroupElement.create();
-        const dateMarks = TrackProfileDateGridSvg.calculate5MinuteMarks(trackProfile.getFirstDate(), trackProfile.getLastDate());
+        const dateMarks = AxisHelperSvg.calculateMinuteHourScaleMarks(imgDim.minDate, imgDim.maxDate);
 
         dateMarks.forEach(mark => {
             const point = imgDim.calcXy(mark, Length.ofZero());
@@ -21,23 +21,6 @@ export class TrackProfileDateGridSvg {
         });
 
         return svg;
-    }
-
-
-    private static calculate5MinuteMarks(minDate: Date, maxDate: Date): Date[] {
-        const dateMarks: Date[] = [];
-        const startMark = new Date(minDate);
-        startMark.setMinutes(Math.ceil(minDate.getMinutes() / 5) * 5);
-        startMark.setSeconds(0);
-        startMark.setMilliseconds(0);
-
-        let mark = startMark;
-        while (mark < maxDate) {
-            dateMarks.push(mark);
-            mark = new Date(mark.getTime() + 5 * 60 * 1000);
-        }
-
-        return dateMarks;
     }
 
 

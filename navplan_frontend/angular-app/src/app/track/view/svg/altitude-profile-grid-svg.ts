@@ -1,28 +1,27 @@
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
-import {WnbImageDimensionsSvg} from './wnb-image-dimensions-svg';
 import {AxisHelperSvg} from '../../../common/svg/axis-helper-svg';
-import {Weight} from '../../../geo-physics/domain/model/quantities/weight';
-import {WeightUnit} from '../../../geo-physics/domain/model/quantities/weight-unit';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
+import {ImageTimeLengthDimensionsSvg} from '../../../common/svg/image-time-length-dimensions-svg';
+import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 
 
-export class WnbWeightGridSvg {
-    public static create(imgDim: WnbImageDimensionsSvg, weightUnit: WeightUnit): SVGGElement {
+export class AltitudeProfileGridSvg {
+    public static create(imgDim: ImageTimeLengthDimensionsSvg, lengthUnit: LengthUnit): SVGGElement {
         const svg = SvgGroupElement.create();
-        const weightMarks = AxisHelperSvg.calculateDecimalScaleMarks(
-            imgDim.minHeight.getValue(weightUnit),
-            imgDim.maxHeight.getValue(weightUnit),
+        const altMarks = AxisHelperSvg.calculateDecimalScaleMarks(
+            imgDim.minLength.getValue(lengthUnit),
+            imgDim.maxLength.getValue(lengthUnit),
             10
         );
 
-        weightMarks.forEach(markKg => {
-            const weight = new Weight(markKg, weightUnit);
-            const point = imgDim.calcXy(Length.ofZero(), weight);
+        altMarks.forEach(markAlt => {
+            const alt = new Length(markAlt, lengthUnit);
+            const point = imgDim.calcXy(imgDim.minDate, alt);
             svg.appendChild(this.createGridLine(point[1], true));
 
-            const label = weight.getValueAndUnit(weightUnit, 0);
+            const label = alt.getValueAndUnit(lengthUnit, 0);
             svg.appendChild(this.createGridLabel(point[1], label));
         });
 

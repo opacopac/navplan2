@@ -11,7 +11,7 @@ import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 export class WnbArmGridSvg {
     public static create(imgDim: WnbImageDimensionsSvg, lengthUnit: LengthUnit): SVGGElement {
         const svg = SvgGroupElement.create();
-        const lengthMarks = AxisHelperSvg.calculateScaleMarks(
+        const lengthMarks = AxisHelperSvg.calculateDecimalScaleMarks(
             imgDim.minWidth.getValue(lengthUnit),
             imgDim.maxWidth.getValue(lengthUnit),
             10

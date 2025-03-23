@@ -13,6 +13,9 @@ export class TrackProfile {
     public readonly distanceProfile: [Length, Date][];
     public readonly speedProfile: [Speed, Date][];
     public readonly verticalSpeedProfile: [Speed, Date][];
+    public readonly maxAltitude: Length;
+    public readonly maxSpeed: Speed;
+    public readonly maxVerticalSpeed: Speed;
     public readonly offBlockTime: Date;
     public readonly takeoffTime: Date;
     public readonly landingTime: Date;
@@ -23,6 +26,10 @@ export class TrackProfile {
         this.distanceProfile = this.calculateDistanceProfile(track);
         this.speedProfile = this.calculateSpeedProfile();
         this.verticalSpeedProfile = this.calculateVerticalSpeedProfile(track);
+
+        this.maxAltitude = this.calculateMaxAltitude();
+        this.maxSpeed = this.calculateMaxSpeed();
+        this.maxVerticalSpeed = this.calculateMaxVerticalSpeed();
 
         const blockTimes = this.calculateBlockTime(this.speedProfile);
         const flightTimes = this.calculateFlightTime(this.speedProfile);
@@ -46,6 +53,27 @@ export class TrackProfile {
     private calculateAltitudeProfile(track: Track): [Length, Date][] {
         return track.positionList
             .map(pos => [pos.altitude.getHeightAmsl(), pos.timestamp.date]);
+    }
+
+
+    private calculateMaxAltitude(): Length {
+        return this.altitudeProfile
+            .reduce((max, cur) => cur[0].ft > max.ft ? cur[0] : max, Length.ofZero());
+    }
+
+
+    private calculateMaxSpeed(): Speed {
+        return this.speedProfile
+            .reduce((max, cur) => cur[0].mps > max.mps ? cur[0] : max, Speed.ofZero());
+    }
+
+
+    private calculateMaxVerticalSpeed(): Speed {
+        const maxAbsSpeedFpm = this.verticalSpeedProfile
+            .map(vSpeed => Math.abs(vSpeed[0].fpm))
+            .reduce((max, cur) => cur > max ? cur : max, 0);
+
+        return Speed.ofFpm(maxAbsSpeedFpm);
     }
 
 

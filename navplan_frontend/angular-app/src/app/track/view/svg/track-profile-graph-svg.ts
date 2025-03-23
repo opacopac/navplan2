@@ -10,9 +10,13 @@ import {BlockFlightTimeMarkersSvg} from './block-flight-time-markers-svg';
 import {TrackProfileDateGridSvg} from './track-profile-date-grid-svg';
 import {VerticalSpeedProfileSvg} from './vertical-speed-profile-svg';
 import {DistanceProfileSvg} from './distance-profile-svg';
+import {AltitudeProfileGridSvg} from './altitude-profile-grid-svg';
+import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 
 
 export class TrackProfileGraphSvg {
+    private static MAX_VALUE_BUFFER_FACTOR = 1.10;
+
     public static create(
         trackProfile: TrackProfile,
         imageWidthPx: number,
@@ -22,7 +26,7 @@ export class TrackProfileGraphSvg {
             trackProfile.getFirstDate(),
             trackProfile.getLastDate(),
             Length.ofZero(),
-            Length.ofFt(15000), // TODO
+            trackProfile.maxAltitude.multiplyBy(this.MAX_VALUE_BUFFER_FACTOR),
             imageWidthPx,
             imageHeightPx
         );
@@ -38,15 +42,15 @@ export class TrackProfileGraphSvg {
             trackProfile.getFirstDate(),
             trackProfile.getLastDate(),
             Speed.ofZero(),
-            Speed.ofKt(150), // TODO
+            trackProfile.maxSpeed.multiplyBy(this.MAX_VALUE_BUFFER_FACTOR),
             imageWidthPx,
             imageHeightPx
         );
         const imgDimVerticalSpeedProfile = new ImageTimeSpeedDimensionsSvg(
             trackProfile.getFirstDate(),
             trackProfile.getLastDate(),
-            Speed.ofFpm(-2000), // TODO
-            Speed.ofFpm(2000), // TODO
+            trackProfile.maxVerticalSpeed.multiplyBy(-this.MAX_VALUE_BUFFER_FACTOR),
+            trackProfile.maxVerticalSpeed.multiplyBy(this.MAX_VALUE_BUFFER_FACTOR),
             imageWidthPx,
             imageHeightPx
         );
@@ -61,7 +65,8 @@ export class TrackProfileGraphSvg {
         svg.appendChild(DistanceProfileSvg.create(trackProfile.distanceProfile, imgDimDistProfile));
         svg.appendChild(AltitudeProfileSvg.create(trackProfile.altitudeProfile, imgDimAltProfile));
         svg.appendChild(BlockFlightTimeMarkersSvg.create(trackProfile, imgDimAltProfile));
-        svg.appendChild(TrackProfileDateGridSvg.create(trackProfile, imgDimAltProfile));
+        svg.appendChild(TrackProfileDateGridSvg.create(imgDimAltProfile));
+        svg.appendChild(AltitudeProfileGridSvg.create(imgDimAltProfile, LengthUnit.FT));
 
         return svg;
     }
