@@ -7,6 +7,7 @@ import {ImageTimeSpeedDimensionsSvg} from '../../../common/svg/image-time-speed-
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {SpeedProfileSvg} from './speed-profile-svg';
 import {BlockFlightTimeMarkersSvg} from './block-flight-time-markers-svg';
+import {TrackProfileDateGridSvg} from './track-profile-date-grid-svg';
 
 
 export class TrackProfileGraphSvg {
@@ -40,6 +41,7 @@ export class TrackProfileGraphSvg {
         svg.appendChild(AltitudeProfileSvg.create(trackProfile.altitudeProfile, imgDimAltProfile));
         svg.appendChild(SpeedProfileSvg.create(trackProfile.speedProfile, imgDimSpeedProfile));
         svg.appendChild(BlockFlightTimeMarkersSvg.create(trackProfile, imgDimAltProfile));
+        svg.appendChild(TrackProfileDateGridSvg.create(trackProfile, imgDimAltProfile));
 
         return svg;
     }

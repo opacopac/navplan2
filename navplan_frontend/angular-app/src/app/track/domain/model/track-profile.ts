@@ -6,7 +6,7 @@ import {GeodesyHelper} from '../../../geo-physics/domain/service/geometry/geodes
 
 export class TrackProfile {
     private static readonly MIN_TAXI_SPEED = Speed.ofKt(5);
-    private static readonly MIN_FLIGHT_SPEED = Speed.ofKt(30);
+    private static readonly MIN_FLIGHT_SPEED = Speed.ofKt(35);
     private static readonly MIN_CONSECUTIVE_SPEEDS = 5;
 
     public readonly altitudeProfile: [Length, Date][];
@@ -102,7 +102,7 @@ export class TrackProfile {
         for (let i = 0; i < speedProfile.length; i++) {
             if (speedProfile[i][0].kt > minSpeed.kt) {
                 if (consecutiveSpeeds > TrackProfile.MIN_CONSECUTIVE_SPEEDS) {
-                    return speedProfile[i][1];
+                    return speedProfile[i - TrackProfile.MIN_CONSECUTIVE_SPEEDS][1];
                 } else {
                     consecutiveSpeeds++;
                 }
@@ -121,7 +121,7 @@ export class TrackProfile {
         for (let i = speedProfile.length - 1; i >= 0; i--) {
             if (speedProfile[i][0].kt > minSpeed.kt) {
                 if (consecutiveSpeeds > TrackProfile.MIN_CONSECUTIVE_SPEEDS) {
-                    return speedProfile[i][1];
+                    return speedProfile[i + TrackProfile.MIN_CONSECUTIVE_SPEEDS][1];
                 } else {
                     consecutiveSpeeds++;
                 }
