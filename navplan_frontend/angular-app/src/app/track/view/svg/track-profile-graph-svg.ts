@@ -8,6 +8,7 @@ import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {SpeedProfileSvg} from './speed-profile-svg';
 import {BlockFlightTimeMarkersSvg} from './block-flight-time-markers-svg';
 import {TrackProfileDateGridSvg} from './track-profile-date-grid-svg';
+import {VerticalSpeedProfileSvg} from './vertical-speed-profile-svg';
 
 
 export class TrackProfileGraphSvg {
@@ -32,14 +33,23 @@ export class TrackProfileGraphSvg {
             imageWidthPx,
             imageHeightPx
         );
+        const imgDimVerticalSpeedProfile = new ImageTimeSpeedDimensionsSvg(
+            trackProfile.getFirstDate(),
+            trackProfile.getLastDate(),
+            Speed.ofFpm(-2000), // TODO
+            Speed.ofFpm(2000), // TODO
+            imageWidthPx,
+            imageHeightPx
+        );
 
         const svg = SvgBuilder.builder()
             .setWidth(imageWidthPx.toString())
             .setHeight(imageHeightPx.toString())
             .setCssClass('map-terrain-svg')
             .build();
-        svg.appendChild(AltitudeProfileSvg.create(trackProfile.altitudeProfile, imgDimAltProfile));
+        svg.appendChild(VerticalSpeedProfileSvg.create(trackProfile.verticalSpeedProfile, imgDimVerticalSpeedProfile));
         svg.appendChild(SpeedProfileSvg.create(trackProfile.speedProfile, imgDimSpeedProfile));
+        svg.appendChild(AltitudeProfileSvg.create(trackProfile.altitudeProfile, imgDimAltProfile));
         svg.appendChild(BlockFlightTimeMarkersSvg.create(trackProfile, imgDimAltProfile));
         svg.appendChild(TrackProfileDateGridSvg.create(trackProfile, imgDimAltProfile));
 

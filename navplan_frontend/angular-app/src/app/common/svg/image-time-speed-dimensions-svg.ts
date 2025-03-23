@@ -21,10 +21,10 @@ export class ImageTimeSpeedDimensionsSvg {
 
 
     public calcY(speed: Speed): number {
-        const lengthHeight = this.maxSpeed.kt - this.minSpeed.kt;
+        const speedHeight = this.maxSpeed.kt - this.minSpeed.kt;
         const y = speed.kt - this.minSpeed.kt;
 
-        return this.imageHeightPx - Math.round(y / lengthHeight * this.imageHeightPx);
+        return this.imageHeightPx - Math.round(y / speedHeight * this.imageHeightPx);
     }
 
 
