@@ -13,4 +13,14 @@ export class TrackProfile {
         public readonly onBlockTime: Date,
     ) {
     }
+
+
+    public getFirstDate(): Date {
+        return this.altitudeProfile[0][1];
+    }
+
+
+    public getLastDate(): Date {
+        return this.altitudeProfile[this.altitudeProfile.length - 1][1];
+    }
 }
