@@ -8,32 +8,21 @@ export class BlockFlightTimeMarkersSvg {
     public static create(trackProfile: TrackProfile, imgDim: ImageTimeLengthDimensionsSvg): SVGElement {
         const g = SvgGroupElement.create();
 
-        const offBlockTimeMarker = SvgLineBuilder.builder()
-            .setStartXy([imgDim.calcX(trackProfile.offBlockTime), imgDim.imageHeightPx])
-            .setEndXy([imgDim.calcX(trackProfile.offBlockTime), imgDim.imageHeightPx - 25])
-            .setStrokeStyle('red', 2)
-            .build();
-        const onBlockMarker = SvgLineBuilder.builder()
-            .setStartXy([imgDim.calcX(trackProfile.onBlockTime), imgDim.imageHeightPx])
-            .setEndXy([imgDim.calcX(trackProfile.onBlockTime), imgDim.imageHeightPx - 25])
-            .setStrokeStyle('red', 2)
-            .build();
-        const takeoffTimeMarker = SvgLineBuilder.builder()
-            .setStartXy([imgDim.calcX(trackProfile.takeoffTime), imgDim.imageHeightPx])
-            .setEndXy([imgDim.calcX(trackProfile.takeoffTime), imgDim.imageHeightPx - 25])
-            .setStrokeStyle('red', 2)
-            .build();
-        const landingTimeMarker = SvgLineBuilder.builder()
-            .setStartXy([imgDim.calcX(trackProfile.landingTime), imgDim.imageHeightPx])
-            .setEndXy([imgDim.calcX(trackProfile.landingTime), imgDim.imageHeightPx - 25])
-            .setStrokeStyle('red', 2)
-            .build();
-
-        g.appendChild(offBlockTimeMarker);
-        g.appendChild(takeoffTimeMarker);
-        g.appendChild(landingTimeMarker);
-        g.appendChild(onBlockMarker);
+        g.appendChild(this.createMarkerLine(imgDim, trackProfile.offBlockTime));
+        g.appendChild(this.createMarkerLine(imgDim, trackProfile.takeoffTime));
+        g.appendChild(this.createMarkerLine(imgDim, trackProfile.landingTime));
+        g.appendChild(this.createMarkerLine(imgDim, trackProfile.onBlockTime));
 
         return g;
+    }
+
+
+    private static createMarkerLine(imgDim: ImageTimeLengthDimensionsSvg, time: Date): SVGElement {
+        return SvgLineBuilder.builder()
+            .setStartXy([imgDim.calcX(time), imgDim.imageHeightPx])
+            .setEndXy([imgDim.calcX(time), 0])
+            .setStrokeStyle('red', 1)
+            .setStrokeDashArrayOnOff(5, 5)
+            .build();
     }
 }

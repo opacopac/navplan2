@@ -1,10 +1,11 @@
 .trackprofile-graph {
-    width: 900px;
-    height: 300px;
-    max-width: calc(90vw);
+    margin: 10px;
+    width: calc(100% - 20px);
+    height: 500px;
     border-style: solid;
-    border-width: 1px;
-    border-color: green;
-    background: lightblue; /* For browsers that do not support gradients */
-    background: linear-gradient(#00CCFF, lightblue); /* Standard syntax */
+    border-width: 2px;
+    border-color: #455a64;
+    background: #eceff1; /* For browsers that do not support gradients */
+    background: linear-gradient(#eceff1, #cfd8dc); /* Standard syntax */
+    cursor: crosshair;
 }
