@@ -20,7 +20,9 @@ export class TrackProfileGraphSvg {
     public static create(
         trackProfile: TrackProfile,
         imageWidthPx: number,
-        imageHeightPx: number
+        imageHeightPx: number,
+        zoomInClickCallback: (Date) => void,
+        zoomOutClickCallback: (Date) => void
     ): SVGSVGElement {
         const imgDimAltProfile = new ImageTimeLengthDimensionsSvg(
             trackProfile.getFirstDate(),
@@ -60,6 +62,19 @@ export class TrackProfileGraphSvg {
             .setHeight(imageHeightPx.toString())
             .setCssClass('map-terrain-svg')
             .build();
+
+        if (zoomInClickCallback && zoomOutClickCallback) {
+            svg.onclick = (event: MouseEvent) => {
+                const date = this.getClickDate(event, svg, imgDimAltProfile);
+                console.log(date);
+                if (event.button === 0) {
+                    zoomInClickCallback(date);
+                } else if (event.button === 2) {
+                    zoomOutClickCallback(date);
+                }
+            };
+        }
+
         //svg.appendChild(VerticalSpeedProfileSvg.create(trackProfile.verticalSpeedProfile, imgDimVerticalSpeedProfile));
         svg.appendChild(SpeedProfileSvg.create(trackProfile.speedProfile, imgDimSpeedProfile));
         //svg.appendChild(DistanceProfileSvg.create(trackProfile.distanceProfile, imgDimDistProfile));
@@ -70,5 +85,16 @@ export class TrackProfileGraphSvg {
         svg.appendChild(SpeedProfileAxisSvg.create(imgDimSpeedProfile, SpeedUnit.KT));
 
         return svg;
+    }
+
+
+    private static getClickDate(event: MouseEvent, svg: SVGSVGElement, imgDim: ImageTimeLengthDimensionsSvg): Date {
+        const rect = svg.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+
+        const diffDateMs = imgDim.maxDate.getTime() - imgDim.minDate.getTime();
+        const clickDateMs = diffDateMs / imgDim.imageWidthPx * x + imgDim.minDate.getTime();
+
+        return new Date(clickDateMs);
     }
 }

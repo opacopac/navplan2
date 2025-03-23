@@ -55,12 +55,26 @@ export class TrackProfileGraphComponent implements OnInit, AfterViewInit, OnDest
             const svg = TrackProfileGraphSvg.create(
                 this.currentTrackProfile,
                 this.container.nativeElement.clientWidth,
-                this.container.nativeElement.clientHeight
+                this.container.nativeElement.clientHeight,
+                (date: Date) => this.onZoomInClicked(date),
+                (date: Date) => this.onZoomOutClicked(date)
             );
 
             this.container.nativeElement.innerHTML = svg.outerHTML;
         } else {
             this.container.nativeElement.innerHTML = '';
         }
+    }
+
+
+    private onZoomInClicked(date: Date) {
+        console.log('zoom in clicked: ' + date);
+        // TODO
+    }
+
+
+    private onZoomOutClicked(date: Date) {
+        console.log('zoom out clicked: ' + date);
+        // TODO
     }
 }
