@@ -17,6 +17,7 @@
         <table
             mat-table
             [dataSource]="this.dataSource"
+            [trackBy]="this.trackByFn"
         >
             <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef>Recorded</th>

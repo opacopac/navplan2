@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {Track} from '../../../../domain/model/track';
 import {DatetimeHelper} from '../../../../../system/domain/service/datetime/datetime-helper';
 import {MatPaginator} from '@angular/material/paginator';
@@ -22,7 +22,7 @@ export interface ListEntry {
     templateUrl: './track-list.component.html',
     styleUrls: ['./track-list.component.scss']
 })
-export class TrackListComponent implements OnInit, OnChanges {
+export class TrackListComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() public trackList: Track[];
     @Input() public selectedTrack: Track;
     @Output() public trackSelected = new EventEmitter<number>();
@@ -31,8 +31,8 @@ export class TrackListComponent implements OnInit, OnChanges {
     @Output() public exportKmlClicked = new EventEmitter<number>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    protected dataSource: MatTableDataSource<ListEntry>;
-    protected visibleColumns = ['date', 'name', 'status', 'icons'];
+    protected readonly dataSource = new MatTableDataSource<ListEntry>();
+    protected readonly visibleColumns = ['date', 'name', 'status', 'icons'];
     protected readonly ButtonColor = ButtonColor;
 
 
@@ -47,8 +47,17 @@ export class TrackListComponent implements OnInit, OnChanges {
 
 
     ngOnChanges() {
-        this.dataSource = new MatTableDataSource<ListEntry>(this.trackList);
-        this.dataSource.paginator = this.paginator;
+        this.initData();
+    }
+
+
+    ngAfterViewInit() {
+        this.initData();
+    }
+
+
+    protected trackByFn(index: number, item: ListEntry): number {
+        return item.id;
     }
 
 
@@ -92,5 +101,13 @@ export class TrackListComponent implements OnInit, OnChanges {
                 this.deleteTrackClicked.emit(track.id);
             }
         });
+    }
+
+
+    private initData(): void {
+        if (this.trackList && this.paginator) {
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.data = this.trackList;
+        }
     }
 }
