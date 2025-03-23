@@ -10,7 +10,7 @@ import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-un
 export class AltitudeProfileGridSvg {
     public static create(imgDim: ImageTimeLengthDimensionsSvg, lengthUnit: LengthUnit): SVGGElement {
         const svg = SvgGroupElement.create();
-        const altMarks = AxisHelperSvg.calculateDecimalScaleMarks(
+        const altMarks = AxisHelperSvg.calculateNiceDecimalScaleMarks(
             imgDim.minLength.getValue(lengthUnit),
             imgDim.maxLength.getValue(lengthUnit),
             10

@@ -1,5 +1,5 @@
 export class AxisHelperSvg {
-    public static calculateDecimalScaleMarks(min: number, max: number, desiredMarks: number = 10): number[] {
+    public static calculateNiceDecimalScaleMarks(min: number, max: number, desiredMarks: number = 10): number[] {
         // 1. Determine the range
         const range = max - min;
 
@@ -42,7 +42,7 @@ export class AxisHelperSvg {
     }
 
 
-    public static calculateMinuteHourScaleMarks(min: Date, max: Date, desiredMarks: number = 10): Date[] {
+    public static calculateNiceMinuteHourScaleMarks(min: Date, max: Date, desiredMarks: number = 10): Date[] {
         const niceMinutes = [1, 2, 5, 10, 15, 30, 60];
         const rangeMinutes = (max.getTime() - min.getTime()) / 60000;
         const approxStepSizeMinutes = rangeMinutes / desiredMarks;

@@ -10,7 +10,7 @@ import {AxisHelperSvg} from '../../../common/svg/axis-helper-svg';
 export class TrackProfileDateGridSvg {
     public static create(imgDim: ImageTimeLengthDimensionsSvg): SVGGElement {
         const svg = SvgGroupElement.create();
-        const dateMarks = AxisHelperSvg.calculateMinuteHourScaleMarks(imgDim.minDate, imgDim.maxDate);
+        const dateMarks = AxisHelperSvg.calculateNiceMinuteHourScaleMarks(imgDim.minDate, imgDim.maxDate);
 
         dateMarks.forEach(mark => {
             const point = imgDim.calcXy(mark, Length.ofZero());

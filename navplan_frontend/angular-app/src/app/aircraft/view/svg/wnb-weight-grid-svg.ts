@@ -11,7 +11,7 @@ import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 export class WnbWeightGridSvg {
     public static create(imgDim: WnbImageDimensionsSvg, weightUnit: WeightUnit): SVGGElement {
         const svg = SvgGroupElement.create();
-        const weightMarks = AxisHelperSvg.calculateDecimalScaleMarks(
+        const weightMarks = AxisHelperSvg.calculateNiceDecimalScaleMarks(
             imgDim.minHeight.getValue(weightUnit),
             imgDim.maxHeight.getValue(weightUnit),
             10
