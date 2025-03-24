@@ -51,18 +51,18 @@ export class TrackProfileGraphComponent implements OnInit, AfterViewInit, OnDest
             return;
         }
 
+        this.container.nativeElement.innerHTML = '';
+
         if (this.currentTrackProfile) {
             const svg = TrackProfileGraphSvg.create(
                 this.currentTrackProfile,
                 this.container.nativeElement.clientWidth,
                 this.container.nativeElement.clientHeight,
-                (date: Date) => this.onZoomInClicked(date),
-                (date: Date) => this.onZoomOutClicked(date)
+                (date) => this.onZoomInClicked(date),
+                (date) => this.onZoomOutClicked(date)
             );
 
-            this.container.nativeElement.innerHTML = svg.outerHTML;
-        } else {
-            this.container.nativeElement.innerHTML = '';
+            this.container.nativeElement.appendChild(svg);
         }
     }
 

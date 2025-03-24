@@ -60,20 +60,24 @@ export class TrackProfileGraphSvg {
         const svg = SvgBuilder.builder()
             .setWidth(imageWidthPx.toString())
             .setHeight(imageHeightPx.toString())
-            .setCssClass('map-terrain-svg')
             .build();
+
+        console.log(svg.onclick);
 
         if (zoomInClickCallback && zoomOutClickCallback) {
             svg.onclick = (event: MouseEvent) => {
                 const date = this.getClickDate(event, svg, imgDimAltProfile);
-                console.log(date);
                 if (event.button === 0) {
+                    event.stopPropagation();
                     zoomInClickCallback(date);
                 } else if (event.button === 2) {
+                    event.stopPropagation();
                     zoomOutClickCallback(date);
                 }
             };
         }
+
+        console.log(svg.onclick);
 
         //svg.appendChild(VerticalSpeedProfileSvg.create(trackProfile.verticalSpeedProfile, imgDimVerticalSpeedProfile));
         svg.appendChild(SpeedProfileSvg.create(trackProfile.speedProfile, imgDimSpeedProfile));
