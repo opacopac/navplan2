@@ -3,7 +3,7 @@ import {Timestamp} from '../../domain/model/quantities/timestamp';
 
 export class RestTimestampConverter {
     public static fromRest(restTimestampMs: number): Timestamp {
-        return Timestamp.createFromMs(restTimestampMs);
+        return Timestamp.fromEpochMs(restTimestampMs);
     }
 
 

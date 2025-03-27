@@ -11,21 +11,21 @@ export class Timestamp implements Clonable<Timestamp> {
 
 
     public static now(): Timestamp {
-        return this.createFromMs(Date.now());
+        return this.fromEpochMs(Date.now());
     }
 
 
-    public static createFromSec(epochSec: number): Timestamp {
+    public static fromEpochSec(epochSec: number): Timestamp {
         return new Timestamp(epochSec * 1000);
     }
 
 
-    public static createFromMs(epochMs: number): Timestamp {
+    public static fromEpochMs(epochMs: number): Timestamp {
         return new Timestamp(epochMs);
     }
 
 
-    public static createFromRelSec(relSec: number): Timestamp {
+    public static fromRelSec(relSec: number): Timestamp {
         return new Timestamp(Date.now() + relSec * 1000);
     }
 

@@ -108,7 +108,7 @@ export class LocationService implements ILocationService {
             position.coords.longitude,
             position.coords.latitude,
             new Altitude(position.coords.altitude, AltitudeUnit.M, AltitudeReference.MSL),
-            Timestamp.createFromSec(position.timestamp));
+            Timestamp.fromEpochSec(position.timestamp));
     }
 
 

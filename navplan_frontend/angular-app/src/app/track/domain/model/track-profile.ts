@@ -7,7 +7,7 @@ import {AltitudeUnit} from '../../../geo-physics/domain/model/geometry/altitude-
 import {AltitudeReference} from '../../../geo-physics/domain/model/geometry/altitude-reference';
 import {Position4d} from '../../../geo-physics/domain/model/geometry/position4d';
 import {Timestamp} from '../../../geo-physics/domain/model/quantities/timestamp';
-import { StatisticsHelper } from '../../../common/model/statistics-helper';
+import {StatisticsHelper} from '../../../common/model/statistics-helper';
 
 
 export class TrackProfile {
@@ -84,7 +84,7 @@ export class TrackProfile {
                 avgLonList[i],
                 avgLatList[i],
                 new Altitude(avgAltList[i], AltitudeUnit.M, AltitudeReference.MSL),
-                Timestamp.createFromMs(avgTimestampList[i])
+                Timestamp.fromEpochMs(avgTimestampList[i])
             );
             smoothedPos.push(smoothedPos4d);
         }

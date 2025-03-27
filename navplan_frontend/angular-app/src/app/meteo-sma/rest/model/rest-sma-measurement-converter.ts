@@ -17,7 +17,7 @@ export class RestSmaMeasurementConverter {
     public static fromRest(restSmaMeasurement: IRestSmaMeasurement): SmaMeasurement {
         return new SmaMeasurement(
             RestSmaStationConverter.fromRest(restSmaMeasurement.station),
-            restSmaMeasurement.measurement_time ? Timestamp.createFromSec(restSmaMeasurement.measurement_time) : undefined,
+            restSmaMeasurement.measurement_time ? Timestamp.fromEpochSec(restSmaMeasurement.measurement_time) : undefined,
             restSmaMeasurement.temp_c ? new Temperature(restSmaMeasurement.temp_c, TemperatureUnit.C) : undefined,
             restSmaMeasurement.sun_min ? RestTimeConverter.fromRest(restSmaMeasurement.sun_min) : undefined,
             restSmaMeasurement.precip_mm,

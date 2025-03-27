@@ -28,12 +28,12 @@ export class RestOpenskyTrafficConverter {
                 lon,
                 lat,
                 new Altitude(geo_alt, AltitudeUnit.M, AltitudeReference.MSL),
-                Timestamp.createFromSec(time_pos)
+                Timestamp.fromEpochSec(time_pos)
             ),
              TrafficDataSource.OPENSKY,
              pos_source === 2 ? TrafficPositionMethod.MLAT : TrafficPositionMethod.ADSB,
             pos_source === 2 ? 'OpenSky Network (MLAT)' : 'OpenSky Network (ADS-B)',
-            Timestamp.createFromSec(rec_time)
+            Timestamp.fromEpochSec(rec_time)
         );
 
         return [pos];

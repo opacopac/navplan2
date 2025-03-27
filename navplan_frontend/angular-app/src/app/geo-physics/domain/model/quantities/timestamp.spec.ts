@@ -18,14 +18,14 @@ describe('Timestamp', () => {
 
 
     it('creates an instance based on epoch seconds', () => {
-        const ts = Timestamp.createFromSec(epochSec1);
+        const ts = Timestamp.fromEpochSec(epochSec1);
         expect(ts.epochSec).toEqual(epochSec1);
         expect(ts.epochMs).toEqual(epochSec1 * 1000);
     });
 
 
     it('creates an instance based on epoch ms', () => {
-        const ts = Timestamp.createFromMs(epochMs2);
+        const ts = Timestamp.fromEpochMs(epochMs2);
         expect(ts.epochSec).toEqual(Math.round(epochMs2 / 1000));
         expect(ts.epochMs).toEqual(epochMs2);
     });
@@ -33,9 +33,9 @@ describe('Timestamp', () => {
 
     it('creates an instance based on relative seconds', () => {
         const ms = Date.now();
-        const ts = Timestamp.createFromRelSec(0);
-        const tsP3 = Timestamp.createFromRelSec(3);
-        const tsM5 = Timestamp.createFromRelSec(-5);
+        const ts = Timestamp.fromRelSec(0);
+        const tsP3 = Timestamp.fromRelSec(3);
+        const tsM5 = Timestamp.fromRelSec(-5);
         expect(ts.epochMs).toEqual(ms);
         expect(tsP3.epochMs).toEqual(ms + 3000);
         expect(tsM5.epochMs).toEqual(ms - 5000);
