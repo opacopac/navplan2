@@ -1,8 +1,12 @@
 <div class="single-page-container">
-    Off-Block Time: {{ (this.selectedTrackProfile$ | async)?.offBlockTime | date: 'HH:mm' }}<br>
-    Takeoff Time: {{ (this.selectedTrackProfile$ | async)?.takeoffTime | date: 'HH:mm' }}<br>
-    Landing Time: {{ (this.selectedTrackProfile$ | async)?.landingTime | date: 'HH:mm' }}<br>
-    On-Block Time: {{ (this.selectedTrackProfile$ | async)?.onBlockTime | date: 'HH:mm' }}<br>
-    TODO
+    TODO<br>
+    Off-Block Time: {{ this.getDateHhMmString((this.selectedTrackProfile$ | async)?.offBlockTime) }}<br>
+    On-Block Time: {{ this.getDateHhMmString((this.selectedTrackProfile$ | async)?.onBlockTime) }}<br>
+    Block Time: {{ this.getDurationString((this.selectedTrackProfile$ | async)?.blockTime) }}<br>
+    <br>
+    Takeoff Time: {{ this.getDateHhMmString((this.selectedTrackProfile$ | async)?.takeoffTime) }}<br>
+    Landing Time: {{ this.getDateHhMmString((this.selectedTrackProfile$ | async)?.landingTime) }}<br>
+    Flight Time: {{ this.getDurationString((this.selectedTrackProfile$ | async)?.flightTime) }}<br>
+    <br>
     <app-track-profile-graph/>
 </div>

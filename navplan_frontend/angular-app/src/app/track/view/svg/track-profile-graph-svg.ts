@@ -12,6 +12,8 @@ import {AltitudeProfileGridSvg} from './altitude-profile-grid-svg';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 import {SpeedProfileAxisSvg} from './speed-profile-axis-svg';
 import {SpeedUnit} from '../../../geo-physics/domain/model/quantities/speed-unit';
+import {VerticalSpeedProfileSvg} from './vertical-speed-profile-svg';
+import {DistanceProfileSvg} from './distance-profile-svg';
 
 
 export class TrackProfileGraphSvg {
@@ -79,9 +81,9 @@ export class TrackProfileGraphSvg {
 
         console.log(svg.onclick);
 
-        //svg.appendChild(VerticalSpeedProfileSvg.create(trackProfile.verticalSpeedProfile, imgDimVerticalSpeedProfile));
+        svg.appendChild(VerticalSpeedProfileSvg.create(trackProfile.verticalSpeedProfile, imgDimVerticalSpeedProfile));
         svg.appendChild(SpeedProfileSvg.create(trackProfile.speedProfile, imgDimSpeedProfile));
-        //svg.appendChild(DistanceProfileSvg.create(trackProfile.distanceProfile, imgDimDistProfile));
+        svg.appendChild(DistanceProfileSvg.create(trackProfile.distanceProfile, imgDimDistProfile));
         svg.appendChild(AltitudeProfileSvg.create(trackProfile.altitudeProfile, imgDimAltProfile));
         svg.appendChild(BlockFlightTimeMarkersSvg.create(trackProfile, imgDimAltProfile));
         svg.appendChild(TrackProfileDateGridSvg.create(imgDimAltProfile));

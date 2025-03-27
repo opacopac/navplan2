@@ -8,6 +8,8 @@ import {AltitudeReference} from '../../../geo-physics/domain/model/geometry/alti
 import {Position4d} from '../../../geo-physics/domain/model/geometry/position4d';
 import {Timestamp} from '../../../geo-physics/domain/model/quantities/timestamp';
 import {StatisticsHelper} from '../../../common/model/statistics-helper';
+import {Time} from '../../../geo-physics/domain/model/quantities/time';
+import {TimeUnit} from '../../../geo-physics/domain/model/quantities/time-unit';
 
 
 export class TrackProfile {
@@ -23,13 +25,15 @@ export class TrackProfile {
     public readonly maxSpeed: Speed;
     public readonly maxVerticalSpeed: Speed;
     public readonly offBlockTime: Date;
+    public readonly onBlockTime: Date;
+    public readonly blockTime: Time;
     public readonly takeoffTime: Date;
     public readonly landingTime: Date;
-    public readonly onBlockTime: Date;
+    public readonly flightTime: Time;
 
     constructor(track: Track) {
-        // const posList = track.positionList;
-        const posList = this.calcSmoothedPositions(track);
+        const posList = track.positionList;
+        //const posList = this.calcSmoothedPositions(track);
         this.altitudeProfile = this.calculateAltitudeProfile(posList);
         this.distanceProfile = this.calculateDistanceProfile(posList);
         this.speedProfile = this.calculateSpeedProfile();
@@ -40,11 +44,14 @@ export class TrackProfile {
         this.maxVerticalSpeed = this.calculateMaxVerticalSpeed();
 
         const blockTimes = this.calculateBlockTime(this.speedProfile);
-        const flightTimes = this.calculateFlightTime(this.speedProfile);
         this.offBlockTime = blockTimes[0];
+        this.onBlockTime = blockTimes[1];
+        this.blockTime = blockTimes[2];
+
+        const flightTimes = this.calculateFlightTime(this.speedProfile);
         this.takeoffTime = flightTimes[0];
         this.landingTime = flightTimes[1];
-        this.onBlockTime = blockTimes[1];
+        this.flightTime = flightTimes[2];
     }
 
 
@@ -188,19 +195,21 @@ export class TrackProfile {
     }
 
 
-    private calculateBlockTime(speedProfile: [Speed, Date][]): [Date, Date] {
-        return [
-            this.findFirstSpeedDate(speedProfile, TrackProfile.MIN_TAXI_SPEED),
-            this.findLastSpeedDate(speedProfile, TrackProfile.MIN_TAXI_SPEED)
-        ];
+    private calculateBlockTime(speedProfile: [Speed, Date][]): [Date, Date, Time] {
+        const offBlockTime = this.findFirstSpeedDate(speedProfile, TrackProfile.MIN_TAXI_SPEED);
+        const onBlockTime = this.findLastSpeedDate(speedProfile, TrackProfile.MIN_TAXI_SPEED);
+        const blockTime = new Time(onBlockTime.getTime() - offBlockTime.getTime(), TimeUnit.MS);
+
+        return [offBlockTime, onBlockTime, blockTime];
     }
 
 
-    private calculateFlightTime(speedProfile: [Speed, Date][]): [Date, Date] {
-        return [
-            this.findFirstSpeedDate(speedProfile, TrackProfile.MIN_FLIGHT_SPEED),
-            this.findLastSpeedDate(speedProfile, TrackProfile.MIN_FLIGHT_SPEED)
-        ];
+    private calculateFlightTime(speedProfile: [Speed, Date][]): [Date, Date, Time] {
+        const takeoffTime = this.findFirstSpeedDate(speedProfile, TrackProfile.MIN_FLIGHT_SPEED);
+        const landingTime = this.findLastSpeedDate(speedProfile, TrackProfile.MIN_FLIGHT_SPEED);
+        const flightTime = new Time(landingTime.getTime() - takeoffTime.getTime(), TimeUnit.MS);
+
+        return [takeoffTime, landingTime, flightTime];
     }
 
 
