@@ -7,6 +7,7 @@ import {AltitudeUnit} from '../../../geo-physics/domain/model/geometry/altitude-
 import {AltitudeReference} from '../../../geo-physics/domain/model/geometry/altitude-reference';
 import {Position4d} from '../../../geo-physics/domain/model/geometry/position4d';
 import {Timestamp} from '../../../geo-physics/domain/model/quantities/timestamp';
+import { StatisticsHelper } from '../../../common/model/statistics-helper';
 
 
 export class TrackProfile {
@@ -57,26 +58,35 @@ export class TrackProfile {
     }
 
 
-    // average over 3 points
+    // average over N points
     private calcSmoothedPositions(track: Track): Position4d[] {
+        const windowSize = 5;
+        const avgLatList = StatisticsHelper.movingAverage(
+            track.positionList.map(pos => pos.latitude),
+            windowSize
+        );
+        const avgLonList = StatisticsHelper.movingAverage(
+            track.positionList.map(pos => pos.longitude),
+            windowSize
+        );
+        const avgAltList = StatisticsHelper.movingAverage(
+            track.positionList.map(pos => pos.altitude.getHeightAmsl().m),
+            windowSize
+        );
+        const avgTimestampList = StatisticsHelper.movingAverage(
+            track.positionList.map(pos => pos.timestamp.epochMs),
+            windowSize
+        );
+
         const smoothedPos: Position4d[] = [];
-
-        for (let i = 1; i < track.positionList.length - 1; i++) {
-            const pos1 = track.positionList[i - 1];
-            const pos2 = track.positionList[i];
-            const pos3 = track.positionList[i + 1];
-            const smoothedLat = (pos1.longitude + pos2.longitude + pos3.longitude) / 3;
-            const smoothedLon = (pos1.latitude + pos2.latitude + pos3.latitude) / 3;
-            const smoothedAlt = new Altitude(
-                (pos1.altitude.getHeightAmsl().m + pos2.altitude.getHeightAmsl().m + pos3.altitude.getHeightAmsl().m) / 3,
-                AltitudeUnit.M,
-                AltitudeReference.MSL
+        for (let i = 0; i < avgLatList.length; i++) {
+            const smoothedPos4d = new Position4d(
+                avgLonList[i],
+                avgLatList[i],
+                new Altitude(avgAltList[i], AltitudeUnit.M, AltitudeReference.MSL),
+                Timestamp.createFromMs(avgTimestampList[i])
             );
-            const smoothedTimestamp = Timestamp.createFromMs(
-                Math.round((pos1.timestamp.epochMs + pos2.timestamp.epochMs + pos3.timestamp.epochMs) / 3)
-            );
-
-            smoothedPos.push(new Position4d(smoothedLat, smoothedLon, smoothedAlt, smoothedTimestamp));
+            smoothedPos.push(smoothedPos4d);
         }
 
         return smoothedPos;
