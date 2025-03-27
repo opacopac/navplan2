@@ -2,6 +2,11 @@ import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {Track} from './track';
 import {GeodesyHelper} from '../../../geo-physics/domain/service/geometry/geodesy-helper';
+import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';
+import {AltitudeUnit} from '../../../geo-physics/domain/model/geometry/altitude-unit';
+import {AltitudeReference} from '../../../geo-physics/domain/model/geometry/altitude-reference';
+import {Position4d} from '../../../geo-physics/domain/model/geometry/position4d';
+import {Timestamp} from '../../../geo-physics/domain/model/quantities/timestamp';
 
 
 export class TrackProfile {
@@ -22,10 +27,12 @@ export class TrackProfile {
     public readonly onBlockTime: Date;
 
     constructor(track: Track) {
-        this.altitudeProfile = this.calculateAltitudeProfile(track);
-        this.distanceProfile = this.calculateDistanceProfile(track);
+        // const posList = track.positionList;
+        const posList = this.calcSmoothedPositions(track);
+        this.altitudeProfile = this.calculateAltitudeProfile(posList);
+        this.distanceProfile = this.calculateDistanceProfile(posList);
         this.speedProfile = this.calculateSpeedProfile();
-        this.verticalSpeedProfile = this.calculateVerticalSpeedProfile(track);
+        this.verticalSpeedProfile = this.calculateVerticalSpeedProfile(posList);
 
         this.maxAltitude = this.calculateMaxAltitude();
         this.maxSpeed = this.calculateMaxSpeed();
@@ -50,9 +57,34 @@ export class TrackProfile {
     }
 
 
-    private calculateAltitudeProfile(track: Track): [Length, Date][] {
-        return track.positionList
-            .map(pos => [pos.altitude.getHeightAmsl(), pos.timestamp.date]);
+    // average over 3 points
+    private calcSmoothedPositions(track: Track): Position4d[] {
+        const smoothedPos: Position4d[] = [];
+
+        for (let i = 1; i < track.positionList.length - 1; i++) {
+            const pos1 = track.positionList[i - 1];
+            const pos2 = track.positionList[i];
+            const pos3 = track.positionList[i + 1];
+            const smoothedLat = (pos1.longitude + pos2.longitude + pos3.longitude) / 3;
+            const smoothedLon = (pos1.latitude + pos2.latitude + pos3.latitude) / 3;
+            const smoothedAlt = new Altitude(
+                (pos1.altitude.getHeightAmsl().m + pos2.altitude.getHeightAmsl().m + pos3.altitude.getHeightAmsl().m) / 3,
+                AltitudeUnit.M,
+                AltitudeReference.MSL
+            );
+            const smoothedTimestamp = Timestamp.createFromMs(
+                Math.round((pos1.timestamp.epochMs + pos2.timestamp.epochMs + pos3.timestamp.epochMs) / 3)
+            );
+
+            smoothedPos.push(new Position4d(smoothedLat, smoothedLon, smoothedAlt, smoothedTimestamp));
+        }
+
+        return smoothedPos;
+    }
+
+
+    private calculateAltitudeProfile(posList: Position4d[]): [Length, Date][] {
+        return posList.map(pos => [pos.altitude.getHeightAmsl(), pos.timestamp.date]);
     }
 
 
@@ -77,15 +109,15 @@ export class TrackProfile {
     }
 
 
-    private calculateDistanceProfile(track: Track): [Length, Date][] {
+    private calculateDistanceProfile(posList: Position4d[]): [Length, Date][] {
         const distanceProfile: [Length, Date][] = [];
 
         let accumulatedDistanceM = Length.ofM(0);
-        distanceProfile.push([accumulatedDistanceM, track.positionList[0].timestamp.date]);
+        distanceProfile.push([accumulatedDistanceM, posList[0].timestamp.date]);
 
-        for (let i = 1; i < track.positionList.length; i++) {
-            const pos1 = track.positionList[i - 1];
-            const pos2 = track.positionList[i];
+        for (let i = 1; i < posList.length; i++) {
+            const pos1 = posList[i - 1];
+            const pos2 = posList[i];
             const distM = GeodesyHelper.calcDistance(pos1, pos2).m;
             if (distM > 0) {
                 accumulatedDistanceM = accumulatedDistanceM.add(Length.ofM(distM));
@@ -113,12 +145,12 @@ export class TrackProfile {
     }
 
 
-    private calculateSpeedProfile2(track: Track): [Speed, Date][] {
+    private calculateSpeedProfile2(posList: Position4d[]): [Speed, Date][] {
         const speedProfile: [Speed, Date][] = [];
 
-        for (let i = 1; i < track.positionList.length; i++) {
-            const pos1 = track.positionList[i - 1];
-            const pos2 = track.positionList[i];
+        for (let i = 1; i < posList.length; i++) {
+            const pos1 = posList[i - 1];
+            const pos2 = posList[i];
             const distM = GeodesyHelper.calcDistance(pos1, pos2).m;
             const timeMs = pos2.timestamp.epochMs - pos1.timestamp.epochMs;
             const speed = Speed.ofMps(distM / timeMs * 1000);
@@ -129,12 +161,12 @@ export class TrackProfile {
     }
 
 
-    private calculateVerticalSpeedProfile(track: Track): [Speed, Date][] {
+    private calculateVerticalSpeedProfile(posList: Position4d[]): [Speed, Date][] {
         const verticalSpeedProfile: [Speed, Date][] = [];
 
-        for (let i = 1; i < track.positionList.length; i++) {
-            const pos1 = track.positionList[i - 1];
-            const pos2 = track.positionList[i];
+        for (let i = 1; i < posList.length; i++) {
+            const pos1 = posList[i - 1];
+            const pos2 = posList[i];
             const alt1 = pos1.altitude.getHeightAmsl();
             const alt2 = pos2.altitude.getHeightAmsl();
             const timeMs = pos2.timestamp.epochMs - pos1.timestamp.epochMs;
