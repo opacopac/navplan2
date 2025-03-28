@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
 import {Track} from '../../../../domain/model/track';
-import {getSelectedTrack, getTrackList} from '../../../../state/ngrx/track.selectors';
+import {getSelectedTrack, getTrackList, getTrackTableState} from '../../../../state/ngrx/track.selectors';
 import {TrackActions} from '../../../../state/ngrx/track.actions';
+import {TableState} from '../../../../../common/state/model/table-state';
 
 
 @Component({
@@ -12,13 +12,12 @@ import {TrackActions} from '../../../../state/ngrx/track.actions';
     styleUrls: ['./track-list-page.component.scss']
 })
 export class TrackListPageComponent implements OnInit {
-    public readonly trackList$: Observable<Track[]>;
-    public readonly selectedTrack$: Observable<Track>;
+    public readonly trackList$ = this.appStore.pipe(select(getTrackList));
+    public readonly selectedTrack$ = this.appStore.pipe(select(getSelectedTrack));
+    public readonly tableState$ = this.appStore.pipe(select(getTrackTableState));
 
 
     constructor(private appStore: Store<any>) {
-        this.trackList$ = this.appStore.pipe(select(getTrackList));
-        this.selectedTrack$ = this.appStore.pipe(select(getSelectedTrack));
     }
 
 
@@ -48,5 +47,10 @@ export class TrackListPageComponent implements OnInit {
         if (trackId) {
             this.appStore.dispatch(TrackActions.delete({trackId: trackId}));
         }
+    }
+
+
+    protected onTableStateChanged(tableState: TableState) {
+        this.appStore.dispatch(TrackActions.updateTrackTableState({tableState: tableState}));
     }
 }

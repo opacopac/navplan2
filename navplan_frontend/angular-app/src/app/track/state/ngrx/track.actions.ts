@@ -1,6 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 import {Track} from '../../domain/model/track';
 import {TrackProfile} from '../../domain/model/track-profile';
+import {TableState} from '../../../common/state/model/table-state';
 
 
 export class TrackActions {
@@ -70,5 +71,10 @@ export class TrackActions {
     public static readonly updateTrackProfile = createAction(
         '[Tracks Effects] update track profile',
         props<{ trackProfile: TrackProfile }>()
+    );
+
+    public static readonly updateTrackTableState = createAction(
+        '[Tracks Page] update track table state',
+        props<{ tableState: TableState }>()
     );
 }

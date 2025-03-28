@@ -1,13 +1,17 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {Track} from '../../../../domain/model/track';
 import {DatetimeHelper} from '../../../../../system/domain/service/datetime/datetime-helper';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
 import {Timestamp} from '../../../../../geo-physics/domain/model/quantities/timestamp';
 import {TrackDeleteConfirmDialogComponent} from '../track-delete-confirm-dialog/track-delete-confirm-dialog.component';
 import {TrackEditFormDialogComponent} from '../track-edit-form-dialog/track-edit-form-dialog.component';
+import {TableState} from '../../../../../common/state/model/table-state';
+import {PaginatorState} from '../../../../../common/state/model/paginator-state';
+import {TextFilterState} from '../../../../../common/state/model/text-filter-state';
+import {FormBuilder} from '@angular/forms';
 
 
 export interface ListEntry {
@@ -25,10 +29,12 @@ export interface ListEntry {
 export class TrackListComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() public trackList: Track[];
     @Input() public selectedTrack: Track;
+    @Input() public tableState: TableState;
     @Output() public trackSelected = new EventEmitter<number>();
     @Output() public updateTrackClicked = new EventEmitter<Track>();
     @Output() public deleteTrackClicked = new EventEmitter<number>();
     @Output() public exportKmlClicked = new EventEmitter<number>();
+    @Output() public tableStateChanged = new EventEmitter<TableState>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     protected readonly dataSource = new MatTableDataSource<ListEntry>();
@@ -37,6 +43,7 @@ export class TrackListComponent implements OnInit, OnChanges, AfterViewInit {
 
 
     constructor(
+        public formBuilder: FormBuilder,
         private dialog: MatDialog,
     ) {
     }
@@ -68,8 +75,11 @@ export class TrackListComponent implements OnInit, OnChanges, AfterViewInit {
         return DatetimeHelper.getYearMonthDayString(d) + ' ' + DatetimeHelper.getHourMinStringFromDate(d);
     }
 
+
     protected applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
+
+        this.tableStateChanged.emit(this.getTableState());
     }
 
 
@@ -105,9 +115,52 @@ export class TrackListComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
 
+    protected onPageChange($event: PageEvent) {
+        this.tableStateChanged.emit({
+            textFilterState: this.getTextFilterState(),
+            paginatorState: {
+                pageSize: $event.pageSize,
+                currentPage: $event.pageIndex
+            }
+        });
+    }
+
+
     private initData(): void {
         if (this.trackList && this.paginator) {
             this.dataSource.data = this.trackList;
         }
+
+        if (this.tableState && this.paginator) {
+            this.paginator.pageSize = this.tableState.paginatorState.pageSize;
+            this.paginator.pageIndex = this.tableState.paginatorState.currentPage;
+        }
+
+        if (this.tableState && this.dataSource) {
+            this.dataSource.filter = this.tableState.textFilterState.filterText;
+        }
+    }
+
+
+    private getTableState(): TableState {
+        return {
+            textFilterState: this.getTextFilterState(),
+            paginatorState: this.getPaginatorState()
+        };
+    }
+
+
+    private getPaginatorState(): PaginatorState {
+        return {
+            pageSize: this.paginator.pageSize,
+            currentPage: this.paginator.pageIndex
+        };
+    }
+
+
+    private getTextFilterState(): TextFilterState {
+        return {
+            filterText: this.dataSource.filter
+        };
     }
 }

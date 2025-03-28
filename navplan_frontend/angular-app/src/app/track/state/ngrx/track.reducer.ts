@@ -1,12 +1,14 @@
 import {TrackState} from '../state-model/track-state';
 import {TrackActions} from './track.actions';
 import {createReducer, on} from '@ngrx/store';
+import {initialTableState} from '../../../common/state/model/table-state';
 
 
 const initialState: TrackState = {
     trackList: [],
     selectedTrack: undefined,
-    selectedTrackProfile: undefined
+    selectedTrackProfile: undefined,
+    trackTableState: initialTableState
 };
 
 
@@ -36,5 +38,10 @@ export const trackReducer = createReducer(
     on(TrackActions.updateTrackProfile, (state, action) => ({
         ...state,
         selectedTrackProfile: action.trackProfile
+    })),
+
+    on(TrackActions.updateTrackTableState, (state, action) => ({
+        ...state,
+        trackTableState: action.tableState
     }))
 );
