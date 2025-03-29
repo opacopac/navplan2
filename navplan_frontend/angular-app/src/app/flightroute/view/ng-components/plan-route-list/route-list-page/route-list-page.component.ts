@@ -4,7 +4,12 @@ import {getConsumptionUnit, getSpeedUnit} from '../../../../../geo-physics/state
 import {FlightrouteListActions} from '../../../../state/ngrx/flightroute-list.actions';
 import {Flightroute} from '../../../../domain/model/flightroute';
 import {FlightrouteCrudActions} from '../../../../state/ngrx/flightroute-crud.actions';
-import {getFlightroute, getFlightrouteList} from '../../../../state/ngrx/flightroute.selectors';
+import {
+    getFlightroute,
+    getFlightrouteList,
+    getFlightrouteTableState
+} from '../../../../state/ngrx/flightroute.selectors';
+import {TableState} from '../../../../../common/state/model/table-state';
 
 
 @Component({
@@ -17,6 +22,7 @@ export class RouteListPageComponent implements OnInit {
     protected readonly currentFlightroute$ = this.appStore.pipe(select(getFlightroute));
     protected readonly speedUnit$ = this.appStore.pipe(select(getSpeedUnit));
     protected readonly consumptionUnit$ = this.appStore.pipe(select(getConsumptionUnit));
+    protected readonly tableState$ = this.appStore.pipe(select(getFlightrouteTableState));
 
     constructor(private appStore: Store<any>) {
     }
@@ -27,7 +33,7 @@ export class RouteListPageComponent implements OnInit {
     }
 
 
-    protected onCreateRoute(route: Flightroute) {
+    protected onRouteCreated(route: Flightroute) {
         // this.appStore.dispatch(FlightrouteCrudActions.createNewAircraft({aircraft: route}));
     }
 
@@ -49,5 +55,10 @@ export class RouteListPageComponent implements OnInit {
 
     protected onRouteDeleted(routeId: number) {
         this.appStore.dispatch(FlightrouteCrudActions.delete({flightrouteId: routeId}));
+    }
+
+
+    protected onTableStateChanged(tableState: TableState) {
+        this.appStore.dispatch(FlightrouteListActions.updateTableState({tableState: tableState}));
     }
 }

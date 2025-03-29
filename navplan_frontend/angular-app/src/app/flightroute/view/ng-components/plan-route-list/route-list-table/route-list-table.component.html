@@ -2,6 +2,7 @@
     <!-- text filter and create button -->
     <app-table-text-filter-and-create-button
         createButtonLabel="Create New Route"
+        [textFilterState]="this.tableState.textFilterState"
         (textFilterChanged)="this.onTextFilterChanged($event)"
         (createButtonClicked)="this.onCreateNewRouteClick()"
     />
@@ -66,5 +67,6 @@
         [pageSize]="10"
         [pageSizeOptions]="[5, 10, 25, 100]"
         showFirstLastButtons="true"
+        (page)="this.onPageChange($event)"
     />
 </div>

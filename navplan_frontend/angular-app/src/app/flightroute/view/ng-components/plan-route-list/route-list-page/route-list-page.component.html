@@ -4,9 +4,11 @@
     [currentFlightroute]="this.currentFlightroute$ | async"
     [speedUnit]="this.speedUnit$ | async"
     [consumptionUnit]="this.consumptionUnit$ | async"
-    (flightrouteAdded)="this.onCreateRoute($event)"
+    [tableState]="this.tableState$ | async"
+    (flightrouteCreated)="this.onRouteCreated($event)"
     (selectFlightrouteClick)="this.onRouteSelected($event)"
     (editFlightrouteClick)="this.onRouteEdited($event)"
     (duplicateFlightrouteClick)="this.onRouteDuplicated($event)"
     (deleteFlightrouteClick)="this.onRouteDeleted($event)"
+    (tableStateChanged)="this.onTableStateChanged($event)"
 />

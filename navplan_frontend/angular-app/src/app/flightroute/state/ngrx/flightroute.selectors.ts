@@ -7,3 +7,4 @@ export const getFlightrouteList = createSelector(getFlightrouteState, state => s
 export const getFlightroute = createSelector(getFlightrouteState, state => state.flightroute);
 export const getUseAircraftSpeedValue = createSelector(getFlightrouteState, state => state.useAircraftSpeedValue);
 export const getUseAircraftConsumptionValue = createSelector(getFlightrouteState, state => state.useAircraftConsumptionValue);
+export const getFlightrouteTableState = createSelector(getFlightrouteState, state => state.flightrouteTableState);

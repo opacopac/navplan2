@@ -12,6 +12,7 @@ import {ConsumptionUnit} from '../../../geo-physics/domain/model/quantities/cons
 import {FlightrouteActions} from './flightroute.actions';
 import {FlightrouteListActions} from './flightroute-list.actions';
 import {AircraftListActions} from '../../../aircraft/state/ngrx/aircraft-list.actions';
+import {initialTableState} from '../../../common/state/model/table-state';
 
 
 export const initialFlightrouteState: FlightrouteState = {
@@ -30,6 +31,7 @@ export const initialFlightrouteState: FlightrouteState = {
     ),
     useAircraftSpeedValue: false,
     useAircraftConsumptionValue: false,
+    flightrouteTableState: initialTableState
 };
 
 
@@ -43,6 +45,10 @@ export const flightRouteReducer = createReducer(
         flightrouteList: action.flightrouteList
     })),
 
+    on(FlightrouteListActions.updateTableState, (state, action) => ({
+        ...state,
+        flightrouteTableState: action.tableState
+    })),
 
     // TODO: user logout => route list = []
 

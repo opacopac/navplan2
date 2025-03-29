@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
@@ -12,6 +12,7 @@ import {
 } from '../../plan-route/flightroute-delete-confirm-dialog/flightroute-delete-confirm-dialog.component';
 import {RouteCreateFormDialogComponent} from '../route-create-form-dialog/route-create-form-dialog.component';
 import {TextFilterState} from '../../../../../common/state/model/text-filter-state';
+import {TableState} from '../../../../../common/state/model/table-state';
 
 
 export interface ListEntry {
@@ -30,11 +31,14 @@ export class RouteListTableComponent implements OnInit, OnChanges, AfterViewInit
     @Input() currentFlightroute: Flightroute;
     @Input() speedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
+    @Input() tableState: TableState;
     @Output() flightrouteCreated = new EventEmitter<Flightroute>();
     @Output() selectFlightrouteClick = new EventEmitter<number>();
     @Output() editFlightrouteClick = new EventEmitter<number>();
     @Output() duplicateFlightrouteClick = new EventEmitter<number>();
     @Output() deleteFlightrouteClick = new EventEmitter<number>();
+    @Output() tableStateChanged = new EventEmitter<TableState>();
+
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     protected readonly dataSource = new MatTableDataSource<ListEntry>();
@@ -53,18 +57,35 @@ export class RouteListTableComponent implements OnInit, OnChanges, AfterViewInit
 
 
     ngOnChanges() {
-        this.initData();
+        this.initTable();
     }
 
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
-        this.initData();
+        this.initTable();
     }
 
 
     protected onTextFilterChanged(textFilterState: TextFilterState) {
-        this.dataSource.filter = textFilterState.filterText.trim().toLowerCase();
+        this.tableStateChanged.emit({
+            textFilterState: textFilterState,
+            paginatorState: {
+                pageSize: this.paginator.pageSize,
+                currentPage: this.paginator.pageIndex
+            }
+        });
+    }
+
+
+    protected onPageChange($event: PageEvent) {
+        this.tableStateChanged.emit({
+            textFilterState: this.tableState.textFilterState,
+            paginatorState: {
+                pageSize: $event.pageSize,
+                currentPage: $event.pageIndex
+            }
+        });
     }
 
 
@@ -102,9 +123,18 @@ export class RouteListTableComponent implements OnInit, OnChanges, AfterViewInit
     }
 
 
-    private initData(): void {
+    private initTable(): void {
         if (this.routeList && this.paginator) {
             this.dataSource.data = this.routeList;
+        }
+
+        if (this.tableState && this.paginator) {
+            this.paginator.pageSize = this.tableState.paginatorState.pageSize;
+            this.paginator.pageIndex = this.tableState.paginatorState.currentPage;
+        }
+
+        if (this.tableState && this.dataSource) {
+            this.dataSource.filter = this.tableState.textFilterState.filterText;
         }
     }
 }
