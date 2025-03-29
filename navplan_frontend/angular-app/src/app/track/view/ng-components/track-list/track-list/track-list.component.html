@@ -1,16 +1,17 @@
 <div>
-    <!-- aircraft filter -->
-    <div class="filter-row">
-        <!-- filter aircraft list -->
+    <!-- text filter -->
+    <form class="filter-row" [formGroup]="this.parentForm">
         <mat-form-field>
             <input
                 matInput
-                (keyup)="this.applyFilter($event.target.value)"
+                formControlName="filter"
                 placeholder="Filter"
+                (keyup)="this.onFilterTextChanged()"
             >
             <mat-icon matPrefix>search</mat-icon>
+            <mat-icon matSuffix (click)="this.onClearFilterValueClicked()">close</mat-icon>
         </mat-form-field>
-    </div>
+    </form>
 
     <!-- track list -->
     <table

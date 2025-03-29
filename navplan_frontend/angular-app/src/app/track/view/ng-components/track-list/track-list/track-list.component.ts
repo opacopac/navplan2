@@ -11,7 +11,7 @@ import {TrackEditFormDialogComponent} from '../track-edit-form-dialog/track-edit
 import {TableState} from '../../../../../common/state/model/table-state';
 import {PaginatorState} from '../../../../../common/state/model/paginator-state';
 import {TextFilterState} from '../../../../../common/state/model/text-filter-state';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 
 export interface ListEntry {
@@ -37,30 +37,32 @@ export class TrackListComponent implements OnInit, OnChanges, AfterViewInit {
     @Output() public tableStateChanged = new EventEmitter<TableState>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
+    protected parentForm!: FormGroup;
     protected readonly dataSource = new MatTableDataSource<ListEntry>();
     protected readonly visibleColumns = ['date', 'name', 'status', 'icons'];
     protected readonly ButtonColor = ButtonColor;
 
 
     constructor(
-        public formBuilder: FormBuilder,
+        private formBuilder: FormBuilder,
         private dialog: MatDialog,
     ) {
     }
 
 
     ngOnInit() {
+        this.initForm();
     }
 
 
     ngOnChanges() {
-        this.initData();
+        this.initTable();
     }
 
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
-        this.initData();
+        this.initTable();
     }
 
 
@@ -76,11 +78,20 @@ export class TrackListComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
 
-    protected applyFilter(filterValue: string) {
+    protected onFilterTextChanged() {
+        const filterValue = this.parentForm.get('filter')?.value;
         this.dataSource.filter = filterValue.trim().toLowerCase();
 
         this.tableStateChanged.emit(this.getTableState());
     }
+
+
+
+    protected onClearFilterValueClicked() {
+        this.parentForm.get('filter')?.setValue('');
+        this.onFilterTextChanged();
+    }
+
 
 
     protected onEditTrackClick(track: Track) {
@@ -126,7 +137,14 @@ export class TrackListComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
 
-    private initData(): void {
+    private initForm(): void {
+        this.parentForm = this.formBuilder.group({
+            'filter': [this.tableState?.textFilterState.filterText],
+        });
+    }
+
+
+    private initTable(): void {
         if (this.trackList && this.paginator) {
             this.dataSource.data = this.trackList;
         }
