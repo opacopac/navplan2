@@ -33,6 +33,7 @@ export class TrackListTableComponent implements OnInit, OnChanges, AfterViewInit
     @Output() public deleteTrackClicked = new EventEmitter<number>();
     @Output() public exportKmlClicked = new EventEmitter<number>();
     @Output() public tableStateChanged = new EventEmitter<TableState>();
+
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     protected readonly dataSource = new MatTableDataSource<ListEntry>();

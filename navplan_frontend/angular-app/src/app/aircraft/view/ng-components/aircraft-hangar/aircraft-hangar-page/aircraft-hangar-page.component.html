@@ -4,9 +4,11 @@
     [currentAircraft]="this.currentAircraft$ | async"
     [speedUnit]="this.speedUnit$ | async"
     [consumptionUnit]="this.consumptionUnit$ | async"
+    [tableState]="this.tableState$ | async"
     (aircraftCreated)="this.onCreateNewAircraft($event)"
     (selectAircraftClick)="this.onAircraftSelected($event)"
     (editAircraftClick)="this.onAircraftEdited($event)"
     (duplicateAircraftClick)="this.onAircraftDuplicated($event)"
     (deleteAircraftClick)="this.onAircraftDeleted($event)"
+    (tableStateChanged)="this.onTableStateChanged($event)"
 />

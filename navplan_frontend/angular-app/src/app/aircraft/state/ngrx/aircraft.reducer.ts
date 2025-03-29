@@ -5,6 +5,7 @@ import {AircraftDetailsActions} from './aircraft-details.actions';
 import {AircraftWnbActions} from './aircraft-wnb.actions';
 import {AircraftCrudActions} from './aircraft-crud.actions';
 import {AircraftTypeDesignatorActions} from './aircraft-type-designator.actions';
+import {initialTableState} from '../../../common/state/model/table-state';
 
 
 const initialState: AircraftState = {
@@ -14,7 +15,8 @@ const initialState: AircraftState = {
         searchResults: undefined,
         selectedResultIndex: undefined,
         selectedSearchResult: undefined,
-    }
+    },
+    aircraftTableState: initialTableState
 };
 
 
@@ -31,6 +33,11 @@ export const aircraftReducer = createReducer(
     on(AircraftListActions.selectAircraftSuccess, (state, action) => ({
         ...state,
         currentAircraft: action.aircraft
+    })),
+
+    on(AircraftListActions.updateTableState, (state, action) => ({
+        ...state,
+        aircraftTableState: action.tableState
     })),
 
     // endregion

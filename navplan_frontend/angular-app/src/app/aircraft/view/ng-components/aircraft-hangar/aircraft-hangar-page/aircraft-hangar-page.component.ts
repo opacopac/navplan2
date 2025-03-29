@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {AircraftCrudActions} from '../../../../state/ngrx/aircraft-crud.actions';
-import {getAircraftList, getCurrentAircraft} from '../../../../state/ngrx/aircraft.selectors';
+import {getAcTableState, getAircraftList, getCurrentAircraft} from '../../../../state/ngrx/aircraft.selectors';
 import {AircraftListActions} from '../../../../state/ngrx/aircraft-list.actions';
 import {getConsumptionUnit, getSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {Aircraft} from '../../../../domain/model/aircraft';
+import {TableState} from '../../../../../common/state/model/table-state';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class AircraftHangarPageComponent implements OnInit {
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly speedUnit$ = this.appStore.pipe(select(getSpeedUnit));
     protected readonly consumptionUnit$ = this.appStore.pipe(select(getConsumptionUnit));
+    protected readonly tableState$ = this.appStore.pipe(select(getAcTableState));
 
     constructor(private appStore: Store<any>) {
     }
@@ -49,5 +51,10 @@ export class AircraftHangarPageComponent implements OnInit {
 
     protected onAircraftDeleted(aircraftId: number) {
         this.appStore.dispatch(AircraftCrudActions.deleteAircraft({aircraftId: aircraftId}));
+    }
+
+
+    protected onTableStateChanged(tableState: TableState) {
+        this.appStore.dispatch(AircraftListActions.updateTableState({tableState: tableState}));
     }
 }

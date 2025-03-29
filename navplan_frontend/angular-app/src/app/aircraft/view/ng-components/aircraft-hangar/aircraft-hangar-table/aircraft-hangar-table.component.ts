@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
 import {AircraftListEntry} from '../../../../domain/model/aircraft-list-entry';
@@ -12,6 +12,7 @@ import {
     AircraftDeleteConfirmDialogComponent
 } from '../aircraft-delete-confirm-dialog/aircraft-delete-confirm-dialog.component';
 import {TextFilterState} from '../../../../../common/state/model/text-filter-state';
+import {TableState} from '../../../../../common/state/model/table-state';
 
 
 export interface ListEntry {
@@ -32,11 +33,14 @@ export class AircraftHangarTableComponent implements OnInit, OnChanges, AfterVie
     @Input() currentAircraft: Aircraft;
     @Input() speedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
+    @Input() tableState: TableState;
     @Output() aircraftCreated = new EventEmitter<Aircraft>();
     @Output() selectAircraftClick = new EventEmitter<number>();
     @Output() editAircraftClick = new EventEmitter<number>();
     @Output() duplicateAircraftClick = new EventEmitter<number>();
     @Output() deleteAircraftClick = new EventEmitter<number>();
+    @Output() tableStateChanged = new EventEmitter<TableState>();
+
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     protected readonly dataSource = new MatTableDataSource<ListEntry>();
@@ -55,20 +59,36 @@ export class AircraftHangarTableComponent implements OnInit, OnChanges, AfterVie
 
 
     ngOnChanges() {
-        this.initData();
+        this.initTable();
     }
 
 
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
-        this.initData();
+        this.initTable();
     }
 
 
-    protected onFilterTextChanged($event: TextFilterState) {
-        this.dataSource.filter = $event.filterText.trim().toLowerCase();
+    protected onFilterTextChanged(textFilterState: TextFilterState) {
+        this.tableStateChanged.emit({
+            textFilterState: textFilterState,
+            paginatorState: {
+                pageSize: this.paginator.pageSize,
+                currentPage: this.paginator.pageIndex
+            }
+        });
     }
 
+
+    protected onPageChange($event: PageEvent) {
+        this.tableStateChanged.emit({
+            textFilterState: this.tableState.textFilterState,
+            paginatorState: {
+                pageSize: $event.pageSize,
+                currentPage: $event.pageIndex
+            }
+        });
+    }
 
 
     protected getAircraftIconClass(aircraft: AircraftListEntry): string {
@@ -116,9 +136,18 @@ export class AircraftHangarTableComponent implements OnInit, OnChanges, AfterVie
     }
 
 
-    private initData() {
+    private initTable() {
         if (this.aircraftList && this.paginator) {
             this.dataSource.data = this.aircraftList;
+        }
+
+        if (this.tableState && this.paginator) {
+            this.paginator.pageSize = this.tableState.paginatorState.pageSize;
+            this.paginator.pageIndex = this.tableState.paginatorState.currentPage;
+        }
+
+        if (this.tableState && this.dataSource) {
+            this.dataSource.filter = this.tableState.textFilterState.filterText;
         }
     }
 }
