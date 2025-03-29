@@ -8,4 +8,5 @@ export interface AircraftState {
     currentAircraft: Aircraft;
     acTypeDesignatorSearchState: AircraftTypeDesignatorSearchState;
     aircraftTableState: TableState;
+    selectedAircraftTab: string;
 }

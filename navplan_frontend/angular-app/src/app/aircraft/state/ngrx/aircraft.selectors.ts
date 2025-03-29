@@ -8,3 +8,4 @@ export const getCurrentAircraft = createSelector(getAircraftState, state => stat
 export const getAcTypeDesignatorSearchState = createSelector(getAircraftState, state => state.acTypeDesignatorSearchState);
 export const getAcTypeDesignatorSearchResults = createSelector(getAircraftState, state => state.acTypeDesignatorSearchState.searchResults);
 export const getAcTableState = createSelector(getAircraftState, state => state.aircraftTableState);
+export const getSelectedAircraftTab = createSelector(getAircraftState, state => state.selectedAircraftTab);
