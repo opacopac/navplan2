@@ -4,7 +4,7 @@ import {TrackStateModule} from '../state/track-state.module';
 import {TrackDomainModule} from '../domain/track-domain.module';
 import {TrackRestModule} from '../rest/track-rest.module';
 import {TrackListPageComponent} from './ng-components/track-list/track-list-page/track-list-page.component';
-import {TrackListComponent} from './ng-components/track-list/track-list/track-list.component';
+import {TrackTableComponent} from './ng-components/track-list/track-table/track-table.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -15,12 +15,16 @@ import {MatPaginator} from '@angular/material/paginator';
 import {
     TrackDeleteConfirmDialogComponent
 } from './ng-components/track-list/track-delete-confirm-dialog/track-delete-confirm-dialog.component';
-import {TrackEditFormDialogComponent} from './ng-components/track-list/track-edit-form-dialog/track-edit-form-dialog.component';
+import {
+    TrackEditFormDialogComponent
+} from './ng-components/track-list/track-edit-form-dialog/track-edit-form-dialog.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TrackTabsComponent} from './ng-components/track-tabs/track-tabs.component';
-import {MatTabGroup, MatTabsModule} from '@angular/material/tabs';
+import {MatTabsModule} from '@angular/material/tabs';
 import {TrackProfilePageComponent} from './ng-components/track-profile/track-profile-page/track-profile-page.component';
-import {TrackProfileGraphComponent} from './ng-components/track-profile/track-profile-graph/track-profile-graph.component';
+import {
+    TrackProfileGraphComponent
+} from './ng-components/track-profile/track-profile-graph/track-profile-graph.component';
 
 
 @NgModule({
@@ -42,7 +46,7 @@ import {TrackProfileGraphComponent} from './ng-components/track-profile/track-pr
     declarations: [
         TrackTabsComponent,
         TrackListPageComponent,
-        TrackListComponent,
+        TrackTableComponent,
         TrackEditFormDialogComponent,
         TrackDeleteConfirmDialogComponent,
         TrackProfilePageComponent,

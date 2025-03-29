@@ -22,11 +22,11 @@ export interface ListEntry {
 
 
 @Component({
-    selector: 'app-track-list',
-    templateUrl: './track-list.component.html',
-    styleUrls: ['./track-list.component.scss']
+    selector: 'app-track-table',
+    templateUrl: './track-table.component.html',
+    styleUrls: ['./track-table.component.scss']
 })
-export class TrackListComponent implements OnInit, OnChanges, AfterViewInit {
+export class TrackTableComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() public trackList: Track[];
     @Input() public selectedTrack: Track;
     @Input() public tableState: TableState;
