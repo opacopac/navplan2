@@ -21,7 +21,9 @@ import {
 import {AircraftDomainModule} from '../domain/aircraft-domain.module';
 import {AircraftRestModule} from '../rest/aircraft-rest.module';
 import {AircraftStateModule} from '../state/aircraft-state.module';
-import {AircraftListComponent} from './ng-components/aircraft-hangar/aircraft-list/aircraft-list.component';
+import {
+    AircraftHangarTableComponent
+} from './ng-components/aircraft-hangar/aircraft-hangar-table/aircraft-hangar-table.component';
 import {
     AircraftDetailsFormComponent
 } from './ng-components/aircraft-details/aircraft-details-form/aircraft-details-form.component';
@@ -120,7 +122,7 @@ import {MatIcon} from '@angular/material/icon';
     declarations: [
         AircraftTabsComponent,
         AircraftHangarPageComponent,
-        AircraftListComponent,
+        AircraftHangarTableComponent,
         AircraftCreateFormDialogComponent,
         AircraftDeleteConfirmDialogComponent,
         AircraftDetailsPageComponent,

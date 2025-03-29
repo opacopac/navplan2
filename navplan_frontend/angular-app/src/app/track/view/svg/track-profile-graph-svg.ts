@@ -64,8 +64,6 @@ export class TrackProfileGraphSvg {
             .setHeight(imageHeightPx.toString())
             .build();
 
-        console.log(svg.onclick);
-
         if (zoomInClickCallback && zoomOutClickCallback) {
             svg.onclick = (event: MouseEvent) => {
                 const date = this.getClickDate(event, svg, imgDimAltProfile);
@@ -78,8 +76,6 @@ export class TrackProfileGraphSvg {
                 }
             };
         }
-
-        console.log(svg.onclick);
 
         svg.appendChild(VerticalSpeedProfileSvg.create(trackProfile.verticalSpeedProfile, imgDimVerticalSpeedProfile));
         svg.appendChild(SpeedProfileSvg.create(trackProfile.speedProfile, imgDimSpeedProfile));

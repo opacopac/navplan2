@@ -56,7 +56,7 @@ import {
     MatExpansionPanelTitle
 } from '@angular/material/expansion';
 import {RouteListPageComponent} from './ng-components/plan-route-list/route-list-page/route-list-page.component';
-import {RouteListComponent} from './ng-components/plan-route-list/route-list/route-list.component';
+import {RouteListTableComponent} from './ng-components/plan-route-list/route-list-table/route-list-table.component';
 import {
     RouteDeleteConfirmDialogComponent
 } from './ng-components/plan-route-list/route-delete-confirm-dialog/route-delete-confirm-dialog.component';
@@ -117,7 +117,7 @@ import {RoutePickerComponent} from './ng-components/common/route-picker/route-pi
         FuelCalcInputFieldsComponent,
         FuelCalcTableComponent,
         RouteListPageComponent,
-        RouteListComponent,
+        RouteListTableComponent,
         RouteCreateFormDialogComponent,
         RouteDeleteConfirmDialogComponent,
         RoutePickerContainerComponent,

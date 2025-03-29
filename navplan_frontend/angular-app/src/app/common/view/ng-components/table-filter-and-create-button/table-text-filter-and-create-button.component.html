@@ -1,0 +1,26 @@
+<div class="filter-and-button-row">
+    <!-- text filter -->
+    <form [formGroup]="this.parentForm">
+        <mat-form-field>
+            <input
+                matInput
+                formControlName="filter"
+                placeholder="Filter"
+                (keyup)="this.onFilterTextChanged()"
+            >
+            <mat-icon matPrefix>search</mat-icon>
+            <mat-icon matSuffix (click)="this.onClearFilterValueClicked()">close</mat-icon>
+        </mat-form-field>
+    </form>
+
+    <!-- create button -->
+    <span class="create-button" *ngIf="this.createButtonLabel">
+          <button
+              mat-raised-button
+              color="accent"
+              (click)="this.onCreateButtonClicked()"
+          >
+            <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;{{ this.createButtonLabel }}
+          </button>
+    </span>
+</div>

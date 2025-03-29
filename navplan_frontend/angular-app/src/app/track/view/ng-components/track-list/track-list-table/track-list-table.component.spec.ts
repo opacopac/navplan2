@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {TrackTableComponent} from './track-table.component';
+import {TrackListTableComponent} from './track-list-table.component';
 
 
 xdescribe('TrackListComponent', () => {
-    let component: TrackTableComponent;
-    let fixture: ComponentFixture<TrackTableComponent>;
+    let component: TrackListTableComponent;
+    let fixture: ComponentFixture<TrackListTableComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [TrackTableComponent]
+            declarations: [TrackListTableComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(TrackTableComponent);
+        fixture = TestBed.createComponent(TrackListTableComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

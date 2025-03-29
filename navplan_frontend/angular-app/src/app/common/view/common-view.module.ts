@@ -14,7 +14,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
-import {TextFilterComponent} from './ng-components/text-filter/text-filter.component';
+import {
+    TableTextFilterAndCreateButtonComponent
+} from './ng-components/table-filter-and-create-button/table-text-filter-and-create-button.component';
 
 
 @NgModule({
@@ -36,7 +38,7 @@ import {TextFilterComponent} from './ng-components/text-filter/text-filter.compo
         ConfirmDeleteDialogComponent,
         FormDialogComponent,
         AutoCompleteComponent,
-        TextFilterComponent
+        TableTextFilterAndCreateButtonComponent
     ],
     exports: [
         IconButtonComponent,
@@ -45,7 +47,7 @@ import {TextFilterComponent} from './ng-components/text-filter/text-filter.compo
         ConfirmDeleteDialogComponent,
         FormDialogComponent,
         AutoCompleteComponent,
-        TextFilterComponent,
+        TableTextFilterAndCreateButtonComponent,
     ],
     providers: []
 })

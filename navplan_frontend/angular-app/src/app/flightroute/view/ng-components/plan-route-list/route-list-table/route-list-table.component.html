@@ -1,26 +1,10 @@
 <div>
-    <!-- flightroute filter -->
-    <div class="filter-and-button-row">
-        <mat-form-field>
-            <input
-                matInput
-                (keyup)="this.applyFilter($event.target.value)"
-                placeholder="Filter"
-            >
-            <mat-icon matPrefix>search</mat-icon>
-        </mat-form-field>
-
-        <!-- create new route button -->
-        <span class="create-route-button">
-          <button
-              mat-raised-button
-              color="accent"
-              (click)="this.onCreateNewRouteClick()"
-          >
-            <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Create New Route
-          </button>
-        </span>
-    </div>
+    <!-- text filter and create button -->
+    <app-table-text-filter-and-create-button
+        createButtonLabel="Create New Route"
+        (textFilterChanged)="this.onTextFilterChanged($event)"
+        (createButtonClicked)="this.onCreateNewRouteClick()"
+    />
 
     <!-- flightroute list -->
     <table mat-table

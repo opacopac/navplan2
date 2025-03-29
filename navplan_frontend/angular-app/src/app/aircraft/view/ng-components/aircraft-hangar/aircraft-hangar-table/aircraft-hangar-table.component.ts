@@ -11,6 +11,7 @@ import {AircraftCreateFormDialogComponent} from '../aircraft-create-form-dialog/
 import {
     AircraftDeleteConfirmDialogComponent
 } from '../aircraft-delete-confirm-dialog/aircraft-delete-confirm-dialog.component';
+import {TextFilterState} from '../../../../../common/state/model/text-filter-state';
 
 
 export interface ListEntry {
@@ -22,11 +23,11 @@ export interface ListEntry {
 
 
 @Component({
-    selector: 'app-aircraft-list',
-    templateUrl: './aircraft-list.component.html',
-    styleUrls: ['./aircraft-list.component.scss']
+    selector: 'app-aircraft-hangar-table',
+    templateUrl: './aircraft-hangar-table.component.html',
+    styleUrls: ['./aircraft-hangar-table.component.scss']
 })
-export class AircraftListComponent implements OnInit, OnChanges, AfterViewInit {
+export class AircraftHangarTableComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() aircraftList: AircraftListEntry[];
     @Input() currentAircraft: Aircraft;
     @Input() speedUnit: SpeedUnit;
@@ -64,9 +65,10 @@ export class AircraftListComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
 
-    protected applyFilter(filterValue: string) {
-        this.dataSource.filter = filterValue.trim().toLowerCase();
+    protected onFilterTextChanged($event: TextFilterState) {
+        this.dataSource.filter = $event.filterText.trim().toLowerCase();
     }
+
 
 
     protected getAircraftIconClass(aircraft: AircraftListEntry): string {

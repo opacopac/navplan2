@@ -1,0 +1,24 @@
+.filter-and-button-row {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.filter-and-button-row form {
+    flex: 1;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-icon {
+    color: slategray;
+}
+
+.create-button {
+    text-align: right !important;
+    flex-shrink: 0;
+}

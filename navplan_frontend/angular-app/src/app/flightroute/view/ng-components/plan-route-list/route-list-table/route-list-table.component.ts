@@ -11,6 +11,7 @@ import {
     FlightrouteDeleteConfirmDialogComponent
 } from '../../plan-route/flightroute-delete-confirm-dialog/flightroute-delete-confirm-dialog.component';
 import {RouteCreateFormDialogComponent} from '../route-create-form-dialog/route-create-form-dialog.component';
+import {TextFilterState} from '../../../../../common/state/model/text-filter-state';
 
 
 export interface ListEntry {
@@ -20,11 +21,11 @@ export interface ListEntry {
 
 
 @Component({
-    selector: 'app-route-list',
-    templateUrl: './route-list.component.html',
-    styleUrls: ['./route-list.component.scss']
+    selector: 'app-route-list-table',
+    templateUrl: './route-list-table.component.html',
+    styleUrls: ['./route-list-table.component.scss']
 })
-export class RouteListComponent implements OnInit, OnChanges, AfterViewInit {
+export class RouteListTableComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() routeList: FlightrouteListEntry[] = [{id: 0, title: ''}];
     @Input() currentFlightroute: Flightroute;
     @Input() speedUnit: SpeedUnit;
@@ -62,8 +63,8 @@ export class RouteListComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
 
-    protected applyFilter(filterValue: string) {
-        this.dataSource.filter = filterValue.trim().toLowerCase();
+    protected onTextFilterChanged(textFilterState: TextFilterState) {
+        this.dataSource.filter = textFilterState.filterText.trim().toLowerCase();
     }
 
 

@@ -1,27 +1,10 @@
 <div>
-    <!-- aircraft filter -->
-    <div class="filter-and-button-row">
-        <!-- filter aircraft list -->
-        <mat-form-field>
-            <input
-                matInput
-                (keyup)="this.applyFilter($event.target.value)"
-                placeholder="Filter"
-            >
-            <mat-icon matPrefix>search</mat-icon>
-        </mat-form-field>
-
-        <!-- create new aircraft button -->
-        <span class="create-aircraft-button">
-          <button
-              mat-raised-button
-              color="accent"
-              (click)="this.onCreateAircraftClick()"
-          >
-            <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Create New Aircraft
-          </button>
-        </span>
-    </div>
+    <!-- text filter and create button -->
+    <app-table-text-filter-and-create-button
+        createButtonLabel="Create New Aircraft"
+        (textFilterChanged)="this.onFilterTextChanged($event)"
+        (createButtonClicked)="this.onCreateAircraftClick()"
+    />
 
     <!-- aircraft list -->
     <table

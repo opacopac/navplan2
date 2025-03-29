@@ -4,13 +4,15 @@ import {TextFilterState} from '../../../state/model/text-filter-state';
 
 
 @Component({
-    selector: 'app-text-filter',
-    templateUrl: './text-filter.component.html',
-    styleUrls: ['./text-filter.component.scss']
+    selector: 'app-table-text-filter-and-create-button',
+    templateUrl: './table-text-filter-and-create-button.component.html',
+    styleUrls: ['./table-text-filter-and-create-button.component.scss']
 })
-export class TextFilterComponent implements OnInit, OnChanges {
+export class TableTextFilterAndCreateButtonComponent implements OnInit, OnChanges {
     @Input() public textFilterState: TextFilterState;
+    @Input() public createButtonLabel: string;
     @Output() public textFilterChanged = new EventEmitter<TextFilterState>();
+    @Output() public createButtonClicked = new EventEmitter<void>();
 
     protected parentForm!: FormGroup;
 
@@ -35,6 +37,11 @@ export class TextFilterComponent implements OnInit, OnChanges {
         this.textFilterChanged.emit({
             filterText: filterValue
         });
+    }
+
+
+    protected onCreateButtonClicked() {
+        this.createButtonClicked.emit();
     }
 
 

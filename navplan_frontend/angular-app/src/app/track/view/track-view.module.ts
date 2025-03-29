@@ -4,7 +4,7 @@ import {TrackStateModule} from '../state/track-state.module';
 import {TrackDomainModule} from '../domain/track-domain.module';
 import {TrackRestModule} from '../rest/track-rest.module';
 import {TrackListPageComponent} from './ng-components/track-list/track-list-page/track-list-page.component';
-import {TrackTableComponent} from './ng-components/track-list/track-table/track-table.component';
+import {TrackListTableComponent} from './ng-components/track-list/track-list-table/track-list-table.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -46,7 +46,7 @@ import {
     declarations: [
         TrackTabsComponent,
         TrackListPageComponent,
-        TrackTableComponent,
+        TrackListTableComponent,
         TrackEditFormDialogComponent,
         TrackDeleteConfirmDialogComponent,
         TrackProfilePageComponent,
