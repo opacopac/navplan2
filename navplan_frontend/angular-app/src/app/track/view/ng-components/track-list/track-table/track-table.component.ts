@@ -9,9 +9,7 @@ import {Timestamp} from '../../../../../geo-physics/domain/model/quantities/time
 import {TrackDeleteConfirmDialogComponent} from '../track-delete-confirm-dialog/track-delete-confirm-dialog.component';
 import {TrackEditFormDialogComponent} from '../track-edit-form-dialog/track-edit-form-dialog.component';
 import {TableState} from '../../../../../common/state/model/table-state';
-import {PaginatorState} from '../../../../../common/state/model/paginator-state';
 import {TextFilterState} from '../../../../../common/state/model/text-filter-state';
-import {FormBuilder, FormGroup} from '@angular/forms';
 
 
 export interface ListEntry {
@@ -37,21 +35,16 @@ export class TrackTableComponent implements OnInit, OnChanges, AfterViewInit {
     @Output() public tableStateChanged = new EventEmitter<TableState>();
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    protected parentForm!: FormGroup;
     protected readonly dataSource = new MatTableDataSource<ListEntry>();
     protected readonly visibleColumns = ['date', 'name', 'status', 'icons'];
     protected readonly ButtonColor = ButtonColor;
 
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private dialog: MatDialog,
-    ) {
+    constructor(private dialog: MatDialog) {
     }
 
 
     ngOnInit() {
-        this.initForm();
     }
 
 
@@ -76,22 +69,6 @@ export class TrackTableComponent implements OnInit, OnChanges, AfterViewInit {
 
         return DatetimeHelper.getYearMonthDayString(d) + ' ' + DatetimeHelper.getHourMinStringFromDate(d);
     }
-
-
-    protected onFilterTextChanged() {
-        const filterValue = this.parentForm.get('filter')?.value;
-        this.dataSource.filter = filterValue.trim().toLowerCase();
-
-        this.tableStateChanged.emit(this.getTableState());
-    }
-
-
-
-    protected onClearFilterValueClicked() {
-        this.parentForm.get('filter')?.setValue('');
-        this.onFilterTextChanged();
-    }
-
 
 
     protected onEditTrackClick(track: Track) {
@@ -126,20 +103,24 @@ export class TrackTableComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
 
-    protected onPageChange($event: PageEvent) {
+    protected onTextFilterChanged(textFilterState: TextFilterState) {
         this.tableStateChanged.emit({
-            textFilterState: this.getTextFilterState(),
+            textFilterState: textFilterState,
             paginatorState: {
-                pageSize: $event.pageSize,
-                currentPage: $event.pageIndex
+                pageSize: this.paginator.pageSize,
+                currentPage: this.paginator.pageIndex
             }
         });
     }
 
 
-    private initForm(): void {
-        this.parentForm = this.formBuilder.group({
-            'filter': [this.tableState?.textFilterState.filterText],
+    protected onPageChange($event: PageEvent) {
+        this.tableStateChanged.emit({
+            textFilterState: this.tableState.textFilterState,
+            paginatorState: {
+                pageSize: $event.pageSize,
+                currentPage: $event.pageIndex
+            }
         });
     }
 
@@ -157,28 +138,5 @@ export class TrackTableComponent implements OnInit, OnChanges, AfterViewInit {
         if (this.tableState && this.dataSource) {
             this.dataSource.filter = this.tableState.textFilterState.filterText;
         }
-    }
-
-
-    private getTableState(): TableState {
-        return {
-            textFilterState: this.getTextFilterState(),
-            paginatorState: this.getPaginatorState()
-        };
-    }
-
-
-    private getPaginatorState(): PaginatorState {
-        return {
-            pageSize: this.paginator.pageSize,
-            currentPage: this.paginator.pageIndex
-        };
-    }
-
-
-    private getTextFilterState(): TextFilterState {
-        return {
-            filterText: this.dataSource.filter
-        };
     }
 }
