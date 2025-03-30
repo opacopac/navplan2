@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {User} from '../../../../user/domain/model/user';
 import {Aircraft} from '../../../../aircraft/domain/model/aircraft';
 import {environment} from '../../../../../environments/environment';
@@ -9,9 +9,11 @@ import {environment} from '../../../../../environments/environment';
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnChanges {
     @Input() currentUser: User;
     @Input() currentAircraft: Aircraft;
+    @Input() selectedAircraftTab: string;
+    @Input() selectedTrackTab: string;
     @Output() onLogoffClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportPdfClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportExcelClick: EventEmitter<null> = new EventEmitter<null>();
@@ -31,7 +33,25 @@ export class NavbarComponent implements OnInit {
     }
 
 
+    ngOnChanges() {
+    }
+
+
     protected getAircraftText(): string {
         return this.currentAircraft ? this.currentAircraft.registration : 'Aircraft';
+    }
+
+
+    protected getAircraftRouterLink(): string {
+        return this.selectedAircraftTab
+            ? './aircraft/' + this.selectedAircraftTab
+            : './aircraft';
+    }
+
+
+    protected getTrackRouterLink(): string {
+        return this.selectedTrackTab
+            ? './track/' + this.selectedTrackTab
+            : './track';
     }
 }

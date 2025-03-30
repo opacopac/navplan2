@@ -5,6 +5,11 @@ import {TableState} from '../../../common/state/model/table-state';
 
 
 export class TrackActions {
+    public static readonly selectTrackTab = createAction(
+        '[Tracks Tabs] Select track tab',
+        props<{ selectedTab: string }>()
+    );
+
     public static readonly readList = createAction(
         '[Tracks Page] read track list'
     );

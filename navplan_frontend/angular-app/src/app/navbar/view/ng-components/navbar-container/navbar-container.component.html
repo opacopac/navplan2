@@ -1,11 +1,13 @@
 <app-navbar
-        [currentUser]="this.currentUser$ | async"
-        [currentAircraft]="this.currentAircraft$ | async"
-        (onLogoffClick)="this.onLogoffClick()"
-        (onExportPdfClick)="this.onExportPdfClick()"
-        (onExportExcelClick)="this.onExportExcelClick()"
-        (onExportKmlClick)="this.onExportKmlClick()"
-        (onExportGpxClick)="this.onExportGpxClick()"
-        (onExportFplClick)="this.onExportFplClick()"
-        (onClearClick)="this.openClearDialog()">
-</app-navbar>
+    [currentUser]="this.currentUser$ | async"
+    [currentAircraft]="this.currentAircraft$ | async"
+    [selectedAircraftTab]="this.selectedAircraftTab$ | async"
+    [selectedTrackTab]="this.selectedTrackTab$ | async"
+    (onLogoffClick)="this.onLogoffClick()"
+    (onExportPdfClick)="this.onExportPdfClick()"
+    (onExportExcelClick)="this.onExportExcelClick()"
+    (onExportKmlClick)="this.onExportKmlClick()"
+    (onExportGpxClick)="this.onExportGpxClick()"
+    (onExportFplClick)="this.onExportFplClick()"
+    (onClearClick)="this.openClearDialog()"
+/>

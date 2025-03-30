@@ -8,12 +8,19 @@ const initialState: TrackState = {
     trackList: [],
     selectedTrack: undefined,
     selectedTrackProfile: undefined,
-    trackTableState: initialTableState
+    trackTableState: initialTableState,
+    selectedTrackTab: undefined
 };
 
 
 export const trackReducer = createReducer(
     initialState,
+
+    on(TrackActions.selectTrackTab, (state, action) => ({
+        ...state,
+        selectedTrackTab: action.selectedTab
+    })),
+
     on(TrackActions.readListSuccess, (state, action) => ({
         ...state,
         trackList: action.trackList

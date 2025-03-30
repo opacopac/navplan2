@@ -7,3 +7,4 @@ export const getTrackList = createSelector(getTrackState, state => state.trackLi
 export const getSelectedTrack = createSelector(getTrackState, state => state.selectedTrack);
 export const getSelectedTrackProfile = createSelector(getTrackState, state => state.selectedTrackProfile);
 export const getTrackTableState = createSelector(getTrackState, state => state.trackTableState);
+export const getSelectedTrackTab = createSelector(getTrackState, state => state.selectedTrackTab);

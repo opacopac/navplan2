@@ -5,7 +5,8 @@ import {ExporterActions} from '../../../../exporter/state/ngrx/exporter.actions'
 import {ClearDialogComponent} from '../clear-dialog/clear-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {LogoutActions} from '../../../../user/state/ngrx/logout.actions';
-import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
+import {getCurrentAircraft, getSelectedAircraftTab} from '../../../../aircraft/state/ngrx/aircraft.selectors';
+import {getSelectedTrackTab} from '../../../../track/state/ngrx/track.selectors';
 
 
 @Component({
@@ -16,6 +17,8 @@ import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selec
 export class NavbarContainerComponent implements OnInit {
     public readonly currentUser$ = this.appStore.pipe(select(getCurrentUser));
     public readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
+    public readonly selectedAircraftTab$ = this.appStore.pipe(select(getSelectedAircraftTab));
+    public readonly selectedTrackTab$ = this.appStore.pipe(select(getSelectedTrackTab));
 
 
     constructor(

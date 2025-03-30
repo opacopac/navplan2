@@ -8,4 +8,5 @@ export interface TrackState {
     selectedTrack: Track;
     selectedTrackProfile: TrackProfile;
     trackTableState: TableState;
+    selectedTrackTab: string;
 }

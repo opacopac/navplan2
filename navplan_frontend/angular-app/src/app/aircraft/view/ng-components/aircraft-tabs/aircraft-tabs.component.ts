@@ -1,9 +1,8 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {combineLatest, Observable, Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {MatTabChangeEvent, MatTabGroup} from '@angular/material/tabs';
 import {Store} from '@ngrx/store';
-import {getSelectedAircraftTab} from '../../../state/ngrx/aircraft.selectors';
 import {AircraftActions} from '../../../state/ngrx/aircraft.actions';
 import {map} from 'rxjs/operators';
 
@@ -16,8 +15,7 @@ import {map} from 'rxjs/operators';
 export class AircraftTabsComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('tabGroup') public tabGroup: MatTabGroup;
 
-    private readonly routeTab$: Observable<string>;
-    private readonly stateTab$ = this.appStore.select(getSelectedAircraftTab);
+    private readonly tab$: Observable<string>;
     private tabSubscription: Subscription;
 
     private tabMap: { [key: number]: string } = {
@@ -33,7 +31,7 @@ export class AircraftTabsComponent implements OnInit, AfterViewInit, OnDestroy {
         private router: Router,
         private appStore: Store<any>
     ) {
-        this.routeTab$ = route.params.pipe(
+        this.tab$ = route.params.pipe(
             map(params => params['tab'])
         );
     }
@@ -44,13 +42,11 @@ export class AircraftTabsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     ngAfterViewInit() {
-        this.tabSubscription = combineLatest([this.routeTab$, this.stateTab$])
-            .subscribe(([routeTab, stateTab]) => {
-                const selectedTab = stateTab || routeTab;
-                if (this.tabGroup) {
-                    this.tabGroup.selectedIndex = this.getTabIndex(selectedTab);
-                }
-            });
+        this.tabSubscription = this.tab$.subscribe(tab => {
+            if (this.tabGroup) {
+                this.tabGroup.selectedIndex = this.getTabIndex(tab);
+            }
+        });
     }
 
 
@@ -62,8 +58,8 @@ export class AircraftTabsComponent implements OnInit, AfterViewInit, OnDestroy {
     protected onTabChange($event: MatTabChangeEvent) {
         const tabLabel = this.tabMap[$event.index];
         if (tabLabel) {
-            this.router.navigate(['/aircraft', tabLabel]);
             this.appStore.dispatch(AircraftActions.selectAircraftTab({selectedTab: tabLabel}));
+            this.router.navigate(['/aircraft', tabLabel]);
         }
     }
 
