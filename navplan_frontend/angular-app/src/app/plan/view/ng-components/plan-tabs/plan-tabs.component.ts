@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {map} from 'rxjs/operators';
 import {Observable, Subscription} from 'rxjs';
 import {MatTabChangeEvent, MatTabGroup} from '@angular/material/tabs';
+import {Store} from '@ngrx/store';
+import {FlightrouteActions} from '../../../../flightroute/state/ngrx/flightroute.actions';
 
 
 @Component({
@@ -28,8 +30,9 @@ export class PlanTabsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     constructor(
+        route: ActivatedRoute,
         private router: Router,
-        private route: ActivatedRoute
+        private appStore: Store<any>
     ) {
         this.tab$ = route.params.pipe(
             map(params => params['tab'])
@@ -58,6 +61,7 @@ export class PlanTabsComponent implements OnInit, AfterViewInit, OnDestroy {
     protected onTabChange($event: MatTabChangeEvent) {
         const tabLabel = this.tabMap[$event.index];
         if (tabLabel) {
+            this.appStore.dispatch(FlightrouteActions.selectRouteTab({selectedRouteTab: tabLabel}));
             this.router.navigate(['/plan', tabLabel]);
         }
     }

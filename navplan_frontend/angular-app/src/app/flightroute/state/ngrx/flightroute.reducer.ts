@@ -31,12 +31,18 @@ export const initialFlightrouteState: FlightrouteState = {
     ),
     useAircraftSpeedValue: false,
     useAircraftConsumptionValue: false,
-    flightrouteTableState: initialTableState
+    flightrouteTableState: initialTableState,
+    selectedRouteTab: undefined,
 };
 
 
 export const flightRouteReducer = createReducer(
     initialFlightrouteState,
+
+    on(FlightrouteActions.selectRouteTab, (state, action) => ({
+        ...state,
+        selectedRouteTab: action.selectedRouteTab
+    })),
 
     // FlightrouteListActions
 

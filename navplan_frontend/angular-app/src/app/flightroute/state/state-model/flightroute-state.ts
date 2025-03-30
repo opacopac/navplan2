@@ -9,4 +9,5 @@ export interface FlightrouteState {
     useAircraftSpeedValue: boolean;
     useAircraftConsumptionValue: boolean;
     flightrouteTableState: TableState;
+    selectedRouteTab: string;
 }

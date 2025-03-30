@@ -8,7 +8,7 @@
         <button mat-button routerLink="./map" routerLinkActive="button-active" title="Map">
             <i class="fa-solid fa-map"></i><span class="button-text">&nbsp;&nbsp;Map</span>
         </button>
-        <button mat-button routerLink="./plan" routerLinkActive="button-active" title="Flight Preparation">
+        <button mat-button [routerLink]="this.getFlightrouteRouterLink()" routerLinkActive="button-active" title="Flight Preparation">
             <i class="fa-solid fa-route"></i><span class="button-text">&nbsp;&nbsp;Plan</span>
         </button>
         <button mat-button [routerLink]="this.getAircraftRouterLink()" routerLinkActive="button-active" title="Aircraft">
@@ -78,8 +78,12 @@
 
 <!-- vertical menu for small screens -->
 <mat-menu #verticalMenu="matMenu">
-    <button mat-menu-item routerLink="./map" title="Map"><i class="fa-solid fa-map"></i>&nbsp;&nbsp;Map</button>
-    <button mat-menu-item routerLink="./plan" title="Plan"><i class="fa-solid fa-route"></i>&nbsp;&nbsp;Plan</button>
+    <button mat-menu-item routerLink="./map" title="Map">
+        <i class="fa-solid fa-map"></i>&nbsp;&nbsp;Map
+    </button>
+    <button mat-menu-item [routerLink]="this.getFlightrouteRouterLink()" title="Plan">
+        <i class="fa-solid fa-route"></i>&nbsp;&nbsp;Plan
+    </button>
     <button mat-menu-item [routerLink]="this.getAircraftRouterLink()" title="Aircraft"><i
         class="fa-solid fa-plane-up"></i>&nbsp;&nbsp;Aircraft
     </button>

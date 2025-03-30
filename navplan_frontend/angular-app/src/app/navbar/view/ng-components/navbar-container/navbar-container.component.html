@@ -1,6 +1,7 @@
 <app-navbar
     [currentUser]="this.currentUser$ | async"
     [currentAircraft]="this.currentAircraft$ | async"
+    [selectedRouteTab]="this.selectedRouteTab$ | async"
     [selectedAircraftTab]="this.selectedAircraftTab$ | async"
     [selectedTrackTab]="this.selectedTrackTab$ | async"
     (onLogoffClick)="this.onLogoffClick()"

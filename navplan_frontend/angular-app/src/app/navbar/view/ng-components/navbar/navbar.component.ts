@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit, OnChanges {
     @Input() currentAircraft: Aircraft;
     @Input() selectedAircraftTab: string;
     @Input() selectedTrackTab: string;
+    @Input() selectedRouteTab: string;
     @Output() onLogoffClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportPdfClick: EventEmitter<null> = new EventEmitter<null>();
     @Output() onExportExcelClick: EventEmitter<null> = new EventEmitter<null>();
@@ -39,6 +40,13 @@ export class NavbarComponent implements OnInit, OnChanges {
 
     protected getAircraftText(): string {
         return this.currentAircraft ? this.currentAircraft.registration : 'Aircraft';
+    }
+
+
+    protected getFlightrouteRouterLink(): string {
+        return this.selectedRouteTab
+            ? './plan/' + this.selectedRouteTab
+            : './plan';
     }
 
 
