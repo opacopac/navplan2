@@ -7,5 +7,5 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 global $diContainer;
 
-$controller = $diContainer->getNavaidDiContainer()->getNavaidController();
+$controller = $diContainer->getVerticalMapDiContainer()->getVerticalMapController();
 $controller->processRequest();
