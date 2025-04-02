@@ -19,18 +19,22 @@
             [volumeUnit]="this.volumeUnit$ | async"
             (weightItemChanged)="this.onWeightItemChanged($event)"
         />
-    }
-    @for (envelope of this.envelopes$ | async; track envelope) {
-        <div>
-            {{ envelope.name }}
-            <app-aircraft-wnb-envelope-chart
-                [envelope]="envelope"
-                [zeroFuelWnbCoordinate]="this.zeroFuelCoordinateLong$ | async"
-                [takeoffWnbCoordinate]="this.takeoffCoordinateLong$ | async"
-                [weightUnit]="this.weightUnit$ | async"
-                [lengthUnit]="this.lengthUnit$ | async"
-                [isEditable]="false"
-            />
+        @for (envelope of this.envelopes$ | async; track envelope) {
+            <div>
+                {{ envelope.name }}
+                <app-aircraft-wnb-envelope-chart
+                    [envelope]="envelope"
+                    [zeroFuelWnbCoordinate]="this.zeroFuelCoordinateLong$ | async"
+                    [takeoffWnbCoordinate]="this.takeoffCoordinateLong$ | async"
+                    [weightUnit]="this.weightUnit$ | async"
+                    [lengthUnit]="this.lengthUnit$ | async"
+                    [isEditable]="false"
+                />
+            </div>
+        }
+    } @else {
+        <div class="no-entry-line">
+            <i>Please choose an aircraft!</i>
         </div>
     }
 </div>

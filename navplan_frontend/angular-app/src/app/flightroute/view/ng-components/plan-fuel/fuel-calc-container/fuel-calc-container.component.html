@@ -6,22 +6,29 @@
             [showRouteName]="true"
         />
     </span>
-    <div class="fuel-consumption-line">
-        <app-fuel-calc-input-fields
-            [fuelConsumption]="this.aircraftConsumption$ | async"
-            [selectedAircraft]="this.selectedAircaft$ | async"
-            [useAircraftValue]="this.useAircraftValue$ | async"
-            [consumptionUnit]="this.consumptionUnit$ | async"
-            (fuelConsumptionChange)="this.onAircraftConsumptionChange($event)"
-            (useAircraftValueChange)="this.onUseAircraftConsumptionChanged($event)"
+    <!-- TODO: ugly -->
+    @if (!(this.routeFuel$ | async)?.tripTime.isZero()) {
+        <div class="fuel-consumption-line">
+            <app-fuel-calc-input-fields
+                [fuelConsumption]="this.aircraftConsumption$ | async"
+                [selectedAircraft]="this.selectedAircaft$ | async"
+                [useAircraftValue]="this.useAircraftValue$ | async"
+                [consumptionUnit]="this.consumptionUnit$ | async"
+                (fuelConsumptionChange)="this.onAircraftConsumptionChange($event)"
+                (useAircraftValueChange)="this.onUseAircraftConsumptionChanged($event)"
+            />
+            <app-aircraft-picker-container
+                [showRegistration]="false"
+            />
+        </div>
+        <app-fuel-calc-table
+            [routeFuel]="this.routeFuel$ | async"
+            [fuelUnit]="this.fuelUnit$ | async"
+            (extraTimeChanged)="this.onExtraTimeChange($event)"
         />
-        <app-aircraft-picker-container
-            [showRegistration]="false"
-        />
-    </div>
-    <app-fuel-calc-table
-        [routeFuel]="this.routeFuel$ | async"
-        [fuelUnit]="this.fuelUnit$ | async"
-        (extraTimeChanged)="this.onExtraTimeChange($event)"
-    />
+    } @else {
+        <div class="no-entry-line">
+            <i>please select a route!</i>
+        </div>
+    }
 </div>

@@ -9,19 +9,25 @@
         [showIcon]="true"
         [showRegistration]="true"
     />
-    <!-- airport performance list -->
-    <mat-accordion displayMode="flat" multi="false">
-        @for (adPerfState of this.getAirportPerfStates$ | async; let idx = $index; track idx) {
-            <app-plan-perf-airport
-                [airportPerfState]="adPerfState"
-                [pressureUnit]="this.pressureUnit$ | async"
-                [temperatureUnit]="this.temperatureUnit$ | async"
-                [altitudeUnit]="this.altitudeUnit$ | async"
-                [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
-                [speedUnit]="this.speedUnit$ | async"
-                (weatherFactorsChanged)="this.onWeatherFactorsChanged(idx, $event)"
-                (runwayFactorsChanged)="this.onRunwayFactorsChanged(idx, $event)"
-            />
-        }
-    </mat-accordion>
+    @if ((this.getAirportPerfStates$ | async)?.length > 0) {
+        <!-- airport performance list -->
+        <mat-accordion displayMode="flat" multi="false">
+            @for (adPerfState of this.getAirportPerfStates$ | async; let idx = $index; track idx) {
+                <app-plan-perf-airport
+                    [airportPerfState]="adPerfState"
+                    [pressureUnit]="this.pressureUnit$ | async"
+                    [temperatureUnit]="this.temperatureUnit$ | async"
+                    [altitudeUnit]="this.altitudeUnit$ | async"
+                    [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
+                    [speedUnit]="this.speedUnit$ | async"
+                    (weatherFactorsChanged)="this.onWeatherFactorsChanged(idx, $event)"
+                    (runwayFactorsChanged)="this.onRunwayFactorsChanged(idx, $event)"
+                />
+            }
+        </mat-accordion>
+    } @else {
+        <div class="no-entry-line">
+            <i>Please choose a route & an aircraft!</i>
+        </div>
+    }
 </div>

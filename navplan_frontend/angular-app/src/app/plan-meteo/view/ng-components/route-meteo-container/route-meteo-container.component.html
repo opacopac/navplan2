@@ -4,16 +4,21 @@
         [showIcon]="true"
         [showRouteName]="true"
     />
-    <app-route-meteo-radius
-        [routeMaxMeteoRadius]="this.maxRadius$ | async"
-        [distanceUnit]="this.distanceUnit$ | async"
-        (radiusChanged)="this.onMaxRadiusChanged($event)"
-        class="max-radius-field"
-    />
-    <app-route-meteo-table
-        [routeMetarTafList]="this.routeMetarTafs$ | async"
-        [showDistance]="false"
-        [noDataText]="'(empty)'"
-        [distanceUnit]="this.distanceUnit$ | async"
-    />
+    @if ((this.routeMetarTafs$ | async)?.length > 0) {
+        <app-route-meteo-radius
+            [routeMaxMeteoRadius]="this.maxRadius$ | async"
+            [distanceUnit]="this.distanceUnit$ | async"
+            (radiusChanged)="this.onMaxRadiusChanged($event)"
+            class="max-radius-field"
+        />
+        <app-route-meteo-table
+            [routeMetarTafList]="this.routeMetarTafs$ | async"
+            [showDistance]="false"
+            [distanceUnit]="this.distanceUnit$ | async"
+        />
+    } @else {
+        <div class="no-entry-line">
+            <i>Please choose a route!</i>
+        </div>
+    }
 </div>

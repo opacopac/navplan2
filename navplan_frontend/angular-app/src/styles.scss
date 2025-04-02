@@ -28,6 +28,14 @@ iframe {
     margin-top: 20px;
 }
 
+.no-entry-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding-top: 20px;
+}
+
 .clickable {
     cursor: pointer;
 }

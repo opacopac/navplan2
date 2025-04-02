@@ -12,7 +12,6 @@ import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 export class RouteMeteoTableComponent implements OnInit {
     @Input() public routeMetarTafList: RouteMetarTaf[];
     @Input() public showDistance: boolean;
-    @Input() public noDataText: string;
     @Input() public distanceUnit: LengthUnit;
 
 
