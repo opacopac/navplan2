@@ -1,12 +1,14 @@
 <div class="single-page-container">
-    TODO<br>
-    Off-Block Time: {{ this.getDateHhMmString((this.selectedTrackProfile$ | async)?.offBlockTime) }}<br>
-    On-Block Time: {{ this.getDateHhMmString((this.selectedTrackProfile$ | async)?.onBlockTime) }}<br>
-    Block Time: {{ this.getDurationString((this.selectedTrackProfile$ | async)?.blockTime) }}<br>
-    <br>
-    Takeoff Time: {{ this.getDateHhMmString((this.selectedTrackProfile$ | async)?.takeoffTime) }}<br>
-    Landing Time: {{ this.getDateHhMmString((this.selectedTrackProfile$ | async)?.landingTime) }}<br>
-    Flight Time: {{ this.getDurationString((this.selectedTrackProfile$ | async)?.flightTime) }}<br>
-    <br>
-    <app-track-profile-graph/>
+    @if (this.selectedTrackProfile$ | async) {
+        <app-track-profile-times
+            [trackProfile]="this.selectedTrackProfile$ | async"
+        />
+        <app-track-profile-graph
+            [trackProfile]="this.selectedTrackProfile$ | async"
+        />
+    } @else {
+        <div>
+            <i>No track selected</i>
+        </div>
+    }
 </div>

@@ -1,7 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {Subscription} from 'rxjs';
-import {getSelectedTrackProfile} from '../../../../state/ngrx/track.selectors';
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {TrackProfile} from '../../../../domain/model/track-profile';
 import {TrackProfileGraphSvg} from '../../../svg/track-profile-graph-svg';
 
@@ -11,15 +8,12 @@ import {TrackProfileGraphSvg} from '../../../svg/track-profile-graph-svg';
     templateUrl: './track-profile-graph.component.html',
     styleUrls: ['./track-profile-graph.component.scss']
 })
-export class TrackProfileGraphComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TrackProfileGraphComponent implements OnInit, OnChanges, AfterViewInit {
+    @Input() trackProfile: TrackProfile;
     @ViewChild('container') container: ElementRef;
-    private readonly trackProfile$ = this.appStore.pipe(select(getSelectedTrackProfile));
-    private readonly trackProfileSubscription: Subscription;
-    private currentTrackProfile: TrackProfile;
 
 
-    constructor(private appStore: Store<any>) {
-        this.trackProfileSubscription = this.trackProfile$.subscribe(trackProfile => this.onTrackProfileChanged(trackProfile));
+    constructor() {
     }
 
 
@@ -27,22 +21,13 @@ export class TrackProfileGraphComponent implements OnInit, AfterViewInit, OnDest
     }
 
 
-    ngAfterViewInit(): void {
+    ngOnChanges(): void {
         this.redrawSvg();
     }
 
 
-    ngOnDestroy() {
-        this.trackProfileSubscription.unsubscribe();
-    }
-
-
-    private onTrackProfileChanged(trackProfile: TrackProfile): void {
-        this.currentTrackProfile = trackProfile;
-
-        if (this.container) {
-            this.redrawSvg();
-        }
+    ngAfterViewInit(): void {
+        this.redrawSvg();
     }
 
 
@@ -53,9 +38,9 @@ export class TrackProfileGraphComponent implements OnInit, AfterViewInit, OnDest
 
         this.container.nativeElement.innerHTML = '';
 
-        if (this.currentTrackProfile) {
+        if (this.trackProfile) {
             const svg = TrackProfileGraphSvg.create(
-                this.currentTrackProfile,
+                this.trackProfile,
                 this.container.nativeElement.clientWidth,
                 this.container.nativeElement.clientHeight,
                 (date) => this.onZoomInClicked(date),

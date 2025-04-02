@@ -25,6 +25,7 @@ import {TrackProfilePageComponent} from './ng-components/track-profile/track-pro
 import {
     TrackProfileGraphComponent
 } from './ng-components/track-profile/track-profile-graph/track-profile-graph.component';
+import {TrackProfileTimesComponent} from './ng-components/track-profile/track-profile-times/track-profile-times.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import {
         TrackEditFormDialogComponent,
         TrackDeleteConfirmDialogComponent,
         TrackProfilePageComponent,
-        TrackProfileGraphComponent
+        TrackProfileGraphComponent,
+        TrackProfileTimesComponent
     ],
     exports: [
         TrackListPageComponent,
