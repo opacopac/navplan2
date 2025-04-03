@@ -41,9 +41,7 @@
         (routeCommentsChanged)="this.onFlightrouteCommentsChanged($event)"
     />
 
-    <!-- TODO: pass form valid instead of rout name -->
     <app-flightroute-save
-        [flightrouteName]="(this.currentFlightroute$ | async)?.title"
         [isUserLoggedIn]="this.isUserLoggedIn$ | async"
         (saveFlightrouteClick)="this.onSaveFlightrouteClick()"
     />

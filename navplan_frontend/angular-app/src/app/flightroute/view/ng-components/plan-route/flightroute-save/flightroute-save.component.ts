@@ -9,7 +9,6 @@ import {ButtonColor} from '../../../../../common/view/model/button-color';
     styleUrls: ['./flightroute-save.component.scss']
 })
 export class FlightrouteSaveComponent implements OnInit {
-    @Input() public flightrouteName: string;
     @Input() public isUserLoggedIn: boolean;
     @Output() public saveFlightrouteClick = new EventEmitter<null>();
 
@@ -24,7 +23,7 @@ export class FlightrouteSaveComponent implements OnInit {
 
 
     protected isSaveButtonEnabled(): boolean {
-        return this.isUserLoggedIn && this.flightrouteName.length > 0 && !this.parentForm.invalid;
+        return this.isUserLoggedIn && !this.parentForm.invalid;
     }
 
 

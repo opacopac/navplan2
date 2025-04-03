@@ -26,6 +26,6 @@ export class FlightrouteCommentsComponent implements OnInit {
 
 
     protected onRouteCommentsChanged(routeComments: string) {
-        this.routeCommentsChanged.emit(this.routeComments);
+        this.routeCommentsChanged.emit(routeComments);
     }
 }
