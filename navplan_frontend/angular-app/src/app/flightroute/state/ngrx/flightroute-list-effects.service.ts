@@ -1,19 +1,19 @@
 import {Injectable} from '@angular/core';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {UserState} from '../../../user/state/state-model/user-state';
-import {getUserState} from '../../../user/state/ngrx/user.selectors';
+import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {getCurrentUser} from '../../../user/state/ngrx/user.selectors';
 import {FlightrouteListActions} from './flightroute-list.actions';
 import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
 import {IFlightrouteService} from '../../domain/service/i-flightroute.service';
+import {User} from '../../../user/domain/model/user';
 
 
 @Injectable()
 export class FlightRouteListEffects {
-    private readonly userState$: Observable<UserState> = this.appStore.select(getUserState);
+    private currentUser$: Observable<User> = this.appStore.pipe(select(getCurrentUser));
 
 
     constructor(
@@ -26,14 +26,18 @@ export class FlightRouteListEffects {
 
     readFlightRouteListAction$ = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteListActions.readList),
-        withLatestFrom(this.userState$),
-        filter(([action, userState]) => userState.currentUser !== undefined),
-        switchMap(([action, userState]) => this.flightrouteService.readFlightrouteList(
-        ).pipe(
-            map(routeList => FlightrouteListActions.readListSuccess({flightrouteList: routeList})),
-            catchError(error => of(MessageActions.showMessage({
-                message: Message.error('Error reading flight route list: ', error)
-            })))
-        ))
+        withLatestFrom(this.currentUser$),
+        switchMap(([action, currentUser]) => {
+            if (currentUser) {
+                return this.flightrouteService.readFlightrouteList().pipe(
+                    map(routeList => FlightrouteListActions.readListSuccess({flightrouteList: routeList})),
+                    catchError(error => of(MessageActions.showMessage({
+                        message: Message.error('Error reading flight route list: ', error)
+                    })))
+                );
+            } else {
+                return of(FlightrouteListActions.readListSuccess({flightrouteList: []}));
+            }
+        })
     ));
 }

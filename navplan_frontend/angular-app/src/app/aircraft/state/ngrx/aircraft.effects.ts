@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {UserState} from '../../../user/state/state-model/user-state';
-import {getUserState} from '../../../user/state/ngrx/user.selectors';
+import {getCurrentUser, getUserState} from '../../../user/state/ngrx/user.selectors';
 import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
 import {IAircraftService} from '../../domain/service/i-aircraft.service';
@@ -13,12 +13,13 @@ import {AircraftState} from '../state-model/aircraft-state';
 import {getAircraftState} from './aircraft.selectors';
 import {AircraftCrudActions} from './aircraft-crud.actions';
 import {Router} from '@angular/router';
+import {User} from '../../../user/domain/model/user';
 
 
 @Injectable()
 export class AircraftEffects {
     private readonly aircraftState$: Observable<AircraftState> = this.appStore.select(getAircraftState);
-    private readonly userState$: Observable<UserState> = this.appStore.select(getUserState);
+    private currentUser$: Observable<User> = this.appStore.pipe(select(getCurrentUser));
 
 
     constructor(
@@ -32,14 +33,19 @@ export class AircraftEffects {
 
     readAircraftListAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftListActions.readList),
-        withLatestFrom(this.userState$),
-        filter(([action, userState]) => userState.currentUser !== undefined),
-        switchMap(([action, userState]) => this.aircraftService.readAircraftList().pipe(
-            map(aircraftList => AircraftListActions.readListSuccessful({aircraftList: aircraftList})),
-            catchError(error => of(MessageActions.showMessage({
-                message: Message.error('Error reading aircraft list: ', error)
-            })))
-        ))
+        withLatestFrom(this.currentUser$),
+        switchMap(([action, currentUser]) => {
+            if (currentUser) {
+                return this.aircraftService.readAircraftList().pipe(
+                    map(aircraftList => AircraftListActions.readListSuccessful({aircraftList: aircraftList})),
+                    catchError(error => of(MessageActions.showMessage({
+                        message: Message.error('Error reading aircraft list: ', error)
+                    })))
+                );
+            } else {
+                return of(AircraftListActions.readListSuccessful({aircraftList: []}));
+            }
+        })
     ));
 
     createNewAircraftAction$ = createEffect(() => this.actions$.pipe(

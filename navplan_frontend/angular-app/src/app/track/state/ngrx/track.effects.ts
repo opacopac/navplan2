@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {User} from '../../../user/domain/model/user';
 import {getCurrentUser} from '../../../user/state/ngrx/user.selectors';
@@ -32,12 +32,17 @@ export class TrackEffects {
 
     readTrackList$ = createEffect(() => this.actions$.pipe(
         ofType(TrackActions.readList),
-        switchMap(action => this.currentUser$),
-        filter(currentUser => currentUser !== undefined),
-        switchMap(currentUser => this.trackRepoService.readUserTrackList().pipe(
-            map(trackList => TrackActions.readListSuccess({trackList: trackList})),
-            catchError(error => of(TrackActions.readListError({error: error})))
-        ))
+        withLatestFrom(this.currentUser$),
+        switchMap(([action, currentUser]) => {
+            if (currentUser) {
+                return this.trackRepoService.readUserTrackList().pipe(
+                    map(trackList => TrackActions.readListSuccess({trackList: trackList})),
+                    catchError(error => of(TrackActions.readListError({error: error})))
+                );
+            } else {
+                return of(TrackActions.readListSuccess({trackList: []}));
+            }
+        })
     ));
 
 
