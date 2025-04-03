@@ -7,7 +7,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {LogoutActions} from '../../../../user/state/ngrx/logout.actions';
 import {getCurrentAircraft, getSelectedAircraftTab} from '../../../../aircraft/state/ngrx/aircraft.selectors';
 import {getSelectedTrackTab} from '../../../../track/state/ngrx/track.selectors';
-import {getSelectedRouteTab} from '../../../../flightroute/state/ngrx/flightroute.selectors';
+import {getSelectedPlanTab} from '../../../../plan-tabs/state/ngrx/plan-tab.selectors';
 
 
 @Component({
@@ -18,7 +18,7 @@ import {getSelectedRouteTab} from '../../../../flightroute/state/ngrx/flightrout
 export class NavbarContainerComponent implements OnInit {
     public readonly currentUser$ = this.appStore.pipe(select(getCurrentUser));
     public readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
-    public readonly selectedRouteTab$ = this.appStore.pipe(select(getSelectedRouteTab));
+    public readonly selectedPlanTab$ = this.appStore.pipe(select(getSelectedPlanTab));
     public readonly selectedAircraftTab$ = this.appStore.pipe(select(getSelectedAircraftTab));
     public readonly selectedTrackTab$ = this.appStore.pipe(select(getSelectedTrackTab));
 

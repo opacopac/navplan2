@@ -7,6 +7,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {PlanPerformanceViewModule} from '../../plan-performance/view/plan-performance-view.module';
 import {PlanWnbViewModule} from '../../plan-wnb/view/plan-wnb-view.module';
 import {PlanMeteoViewModule} from '../../plan-meteo/view/plan-meteo-view.module';
+import {PlanTabStateModule} from '../state/plan-tab-state.module';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import {PlanMeteoViewModule} from '../../plan-meteo/view/plan-meteo-view.module'
         CommonModule,
         CommonViewModule,
         MatTabsModule,
+        PlanTabStateModule,
         FlightrouteViewModule,
         PlanWnbViewModule,
         PlanPerformanceViewModule,

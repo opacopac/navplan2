@@ -54,9 +54,4 @@ export class FlightrouteActions {
         '[Misc Effects] Recalculate flight route',
         props<{ flightroute: Flightroute }>()
     );
-
-    public static readonly selectRouteTab = createAction(
-        '[Flightroute Tabs] Select route tab',
-        props<{ selectedRouteTab: string }>()
-    );
 }

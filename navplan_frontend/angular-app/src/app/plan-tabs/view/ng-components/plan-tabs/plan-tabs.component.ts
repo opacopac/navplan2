@@ -4,7 +4,7 @@ import {map} from 'rxjs/operators';
 import {Observable, Subscription} from 'rxjs';
 import {MatTabChangeEvent, MatTabGroup} from '@angular/material/tabs';
 import {Store} from '@ngrx/store';
-import {FlightrouteActions} from '../../../../flightroute/state/ngrx/flightroute.actions';
+import {PlanTabsActions} from '../../../state/ngrx/plan-tabs.actions';
 
 
 @Component({
@@ -61,7 +61,7 @@ export class PlanTabsComponent implements OnInit, AfterViewInit, OnDestroy {
     protected onTabChange($event: MatTabChangeEvent) {
         const tabLabel = this.tabMap[$event.index];
         if (tabLabel) {
-            this.appStore.dispatch(FlightrouteActions.selectRouteTab({selectedRouteTab: tabLabel}));
+            this.appStore.dispatch(PlanTabsActions.selectPlanTab({selectedPlanTab: tabLabel}));
             this.router.navigate(['/plan', tabLabel]);
         }
     }
