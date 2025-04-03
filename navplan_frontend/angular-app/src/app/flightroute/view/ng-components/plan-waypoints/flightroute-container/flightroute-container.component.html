@@ -28,7 +28,7 @@
         (flightrouteNameChange)="this.onFlightrouteNameChanged($event)"
     />
 
-    <app-flightroute-waypoint-list
+    <app-waypoints-table
         [flightroute]="this.currentFlightroute$ | async"
         [altitudeUnit]="this.altitudeUnit$ | async"
         (onEditWaypointClick)="this.onEditWaypointClick($event)"

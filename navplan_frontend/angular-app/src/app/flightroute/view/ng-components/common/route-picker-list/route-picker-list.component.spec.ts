@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {FlightrouteListDialogComponent} from './flightroute-list-dialog.component';
+import {RoutePickerListComponent} from './route-picker-list.component';
 
 
-xdescribe('FlightrouteListDialogComponent', () => {
-    let component: FlightrouteListDialogComponent;
-    let fixture: ComponentFixture<FlightrouteListDialogComponent>;
+xdescribe('FlightrouteListComponent', () => {
+    let component: RoutePickerListComponent;
+    let fixture: ComponentFixture<RoutePickerListComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [FlightrouteListDialogComponent]
+            declarations: [RoutePickerListComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(FlightrouteListDialogComponent);
+        fixture = TestBed.createComponent(RoutePickerListComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -5,8 +5,8 @@ import {getFlightroute, getFlightrouteList} from '../../../../state/ngrx/flightr
 import {FlightrouteListActions} from '../../../../state/ngrx/flightroute-list.actions';
 import {FlightrouteCrudActions} from '../../../../state/ngrx/flightroute-crud.actions';
 import {
-    FlightrouteListDialogComponent
-} from '../../plan-route/flightroute-list-dialog/flightroute-list-dialog.component';
+    RoutePickerListDialogComponent
+} from '../route-picker-list-dialog/route-picker-list-dialog.component';
 
 
 @Component({
@@ -36,7 +36,7 @@ export class RoutePickerContainerComponent implements OnInit {
     protected onPickFlightrouteClicked() {
         this.appStore.dispatch(FlightrouteListActions.readList());
 
-        const dialogRef = this.dialog.open(FlightrouteListDialogComponent, {
+        const dialogRef = this.dialog.open(RoutePickerListDialogComponent, {
             // height: '800px',
             // width: '600px',
             data: {

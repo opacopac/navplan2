@@ -12,11 +12,11 @@ export interface ListEntry {
 
 
 @Component({
-    selector: 'app-flightroute-list',
-    templateUrl: './flightroute-list.component.html',
-    styleUrls: ['./flightroute-list.component.scss']
+    selector: 'app-route-picker-list',
+    templateUrl: './route-picker-list.component.html',
+    styleUrls: ['./route-picker-list.component.scss']
 })
-export class FlightrouteListComponent implements OnInit, OnChanges {
+export class RoutePickerListComponent implements OnInit, OnChanges {
     @Input() flightrouteList: FlightrouteListEntry[];
     @Output() loadRouteClicked = new EventEmitter<number>();
     @ViewChild(MatPaginator) paginator: MatPaginator;

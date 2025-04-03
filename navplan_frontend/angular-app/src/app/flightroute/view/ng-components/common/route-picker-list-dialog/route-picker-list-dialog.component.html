@@ -1,10 +1,10 @@
 <div class="flightroute-dialog-container">
     <h3>Flightroutes</h3>
 
-    <app-flightroute-list
+    <app-route-picker-list
         [flightrouteList]="this.flightrouteList$ | async"
         (loadRouteClicked)="this.onLoadRouteClick($event)">
-    </app-flightroute-list>
+    </app-route-picker-list>
 
     <div>
         <button

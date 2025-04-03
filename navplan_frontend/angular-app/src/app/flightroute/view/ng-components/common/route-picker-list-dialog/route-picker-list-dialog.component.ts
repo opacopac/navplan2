@@ -7,16 +7,16 @@ import {getFlightrouteList} from '../../../../state/ngrx/flightroute.selectors';
 
 
 @Component({
-    selector: 'app-flightroute-list-dialog',
-    templateUrl: './flightroute-list-dialog.component.html',
-    styleUrls: ['./flightroute-list-dialog.component.scss']
+    selector: 'app-route-picker-list-dialog',
+    templateUrl: './route-picker-list-dialog.component.html',
+    styleUrls: ['./route-picker-list-dialog.component.scss']
 })
-export class FlightrouteListDialogComponent implements OnInit, OnDestroy {
+export class RoutePickerListDialogComponent implements OnInit, OnDestroy {
     public readonly flightrouteList$ = this.appStore.pipe(select(getFlightrouteList));
 
 
     constructor(
-        private dialogRef: MatDialogRef<FlightrouteListDialogComponent>,
+        private dialogRef: MatDialogRef<RoutePickerListDialogComponent>,
         private readonly appStore: Store<any>
     ) {
     }

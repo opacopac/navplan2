@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {WaypointListComponent} from './waypoint-list.component';
+import {RoutePickerListDialogComponent} from './route-picker-list-dialog.component';
 
 
-xdescribe('WaypointListComponent', () => {
-    let component: WaypointListComponent;
-    let fixture: ComponentFixture<WaypointListComponent>;
+xdescribe('FlightrouteListDialogComponent', () => {
+    let component: RoutePickerListDialogComponent;
+    let fixture: ComponentFixture<RoutePickerListDialogComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [WaypointListComponent]
+            declarations: [RoutePickerListDialogComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(WaypointListComponent);
+        fixture = TestBed.createComponent(RoutePickerListDialogComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

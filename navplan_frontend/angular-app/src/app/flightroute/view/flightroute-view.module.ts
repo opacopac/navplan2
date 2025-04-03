@@ -19,15 +19,15 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {ExporterViewModule} from '../../exporter/view/exporter-view.module';
 import {MatTabsModule} from '@angular/material/tabs';
-import {FlightrouteContainerComponent} from './ng-components/plan-route/flightroute-container/flightroute-container.component';
+import {FlightrouteContainerComponent} from './ng-components/plan-waypoints/flightroute-container/flightroute-container.component';
 import {
     FlightrouteAircraftSpeedComponent
-} from './ng-components/plan-route/flightroute-aircraft-speed/flightroute-aircraft-speed.component';
-import {FlightrouteCommentsComponent} from './ng-components/plan-route/flightroute-comment/flightroute-comments.component';
-import {FlightrouteListComponent} from './ng-components/plan-route/flightroute-list/flightroute-list.component';
-import {FlightrouteListDialogComponent} from './ng-components/plan-route/flightroute-list-dialog/flightroute-list-dialog.component';
-import {FlightrouteSaveComponent} from './ng-components/plan-route/flightroute-save/flightroute-save.component';
-import {WaypointListComponent} from './ng-components/plan-route/waypoint-list/waypoint-list.component';
+} from './ng-components/plan-waypoints/flightroute-aircraft-speed/flightroute-aircraft-speed.component';
+import {FlightrouteCommentsComponent} from './ng-components/plan-waypoints/flightroute-comment/flightroute-comments.component';
+import {RoutePickerListComponent} from './ng-components/common/route-picker-list/route-picker-list.component';
+import {RoutePickerListDialogComponent} from './ng-components/common/route-picker-list-dialog/route-picker-list-dialog.component';
+import {FlightrouteSaveComponent} from './ng-components/plan-waypoints/flightroute-save/flightroute-save.component';
+import {WaypointsTableComponent} from './ng-components/plan-waypoints/waypoints-table/waypoints-table.component';
 import {FuelCalcContainerComponent} from './ng-components/plan-fuel/fuel-calc-container/fuel-calc-container.component';
 import {FuelCalcInputFieldsComponent} from './ng-components/plan-fuel/fuel-calc-input-fields/fuel-calc-input-fields.component';
 import {FuelCalcTableComponent} from './ng-components/plan-fuel/fuel-calc-table/fuel-calc-table.component';
@@ -51,7 +51,7 @@ import {MatIcon} from '@angular/material/icon';
 import {RouteCreateFormDialogComponent} from './ng-components/plan-route-list/route-create-form-dialog/route-create-form-dialog.component';
 import {RoutePickerContainerComponent} from './ng-components/common/route-picker-container/route-picker-container.component';
 import {RoutePickerComponent} from './ng-components/common/route-picker/route-picker.component';
-import {FlightrouteNameComponent} from './ng-components/plan-route/flightroute-name/flightroute-name.component';
+import {FlightrouteNameComponent} from './ng-components/plan-waypoints/flightroute-name/flightroute-name.component';
 import {FuelSaveComponent} from './ng-components/plan-fuel/fuel-save/fuel-save.component';
 
 
@@ -94,10 +94,10 @@ import {FuelSaveComponent} from './ng-components/plan-fuel/fuel-save/fuel-save.c
         FlightrouteAircraftSpeedComponent,
         FlightrouteNameComponent,
         FlightrouteCommentsComponent,
-        FlightrouteListComponent,
-        FlightrouteListDialogComponent,
+        RoutePickerListComponent,
+        RoutePickerListDialogComponent,
         FlightrouteSaveComponent,
-        WaypointListComponent,
+        WaypointsTableComponent,
         FuelCalcContainerComponent,
         FuelCalcInputFieldsComponent,
         FuelCalcTableComponent,

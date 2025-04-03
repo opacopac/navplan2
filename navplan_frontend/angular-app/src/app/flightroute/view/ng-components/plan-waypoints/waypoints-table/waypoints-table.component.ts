@@ -17,11 +17,11 @@ interface WaypointListDataSourceRow {
 
 
 @Component({
-    selector: 'app-flightroute-waypoint-list',
-    templateUrl: './waypoint-list.component.html',
-    styleUrls: ['./waypoint-list.component.scss']
+    selector: 'app-waypoints-table',
+    templateUrl: './waypoints-table.component.html',
+    styleUrls: ['./waypoints-table.component.scss']
 })
-export class WaypointListComponent implements OnInit, OnDestroy {
+export class WaypointsTableComponent implements OnInit, OnDestroy {
     @Input()
     set flightroute(flightroute: Flightroute) {
         this._flightroute = flightroute;

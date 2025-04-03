@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {FlightrouteListComponent} from './flightroute-list.component';
+import {WaypointsTableComponent} from './waypoints-table.component';
 
 
-xdescribe('FlightrouteListComponent', () => {
-    let component: FlightrouteListComponent;
-    let fixture: ComponentFixture<FlightrouteListComponent>;
+xdescribe('WaypointListComponent', () => {
+    let component: WaypointsTableComponent;
+    let fixture: ComponentFixture<WaypointsTableComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [FlightrouteListComponent]
+            declarations: [WaypointsTableComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(FlightrouteListComponent);
+        fixture = TestBed.createComponent(WaypointsTableComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
