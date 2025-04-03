@@ -43,7 +43,6 @@ export class FuelCalcTableComponent implements OnInit {
 
 
     protected formatTime(time: Time): string {
-        console.log(this.routeFuel);
         if (time && time.min > 0) {
             const hm = time.getHourMinutes();
             return StringnumberHelper.zeroPad(hm[0], 2) + ':' + StringnumberHelper.zeroPad(hm[1], 2);

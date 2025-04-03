@@ -4,11 +4,11 @@ import {ButtonColor} from '../../../../../common/view/model/button-color';
 
 
 @Component({
-    selector: 'app-flightroute-save',
-    templateUrl: './flightroute-save.component.html',
-    styleUrls: ['./flightroute-save.component.scss']
+    selector: 'app-fuel-save',
+    templateUrl: './fuel-save.component.html',
+    styleUrls: ['./fuel-save.component.scss']
 })
-export class FlightrouteSaveComponent implements OnInit {
+export class FuelSaveComponent implements OnInit {
     @Input() public isUserLoggedIn: boolean;
     @Output() public saveClicked = new EventEmitter<null>();
 

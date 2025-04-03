@@ -1,4 +1,4 @@
-<div class="fuel-container">
+<div class="fuel-container" [formGroup]="this.fuelForm">
     <span>
         <app-route-picker-container
             labelText="Route:"
@@ -8,6 +8,7 @@
     </span>
     <!-- TODO: ugly -->
     @if (!(this.routeFuel$ | async)?.tripTime.isZero()) {
+        <!-- consumption fields -->
         <div class="fuel-consumption-line">
             <app-fuel-calc-input-fields
                 [fuelConsumption]="this.aircraftConsumption$ | async"
@@ -21,10 +22,18 @@
                 [showRegistration]="false"
             />
         </div>
+
+        <!-- fuel calculation table -->
         <app-fuel-calc-table
             [routeFuel]="this.routeFuel$ | async"
             [fuelUnit]="this.fuelUnit$ | async"
             (extraTimeChanged)="this.onExtraTimeChange($event)"
+        />
+
+        <!-- save button -->
+        <app-fuel-save
+            [isUserLoggedIn]="this.isUserLoggedIn$ | async"
+            (saveClicked)="this.onSaveClick()"
         />
     } @else {
         <div class="no-entry-line">

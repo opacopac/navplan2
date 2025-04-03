@@ -7,6 +7,9 @@ import {getConsumptionUnit, getVolumeUnit} from '../../../../../geo-physics/stat
 import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
 import {Time} from '../../../../../geo-physics/domain/model/quantities/time';
 import {getCurrentAircraft} from '../../../../../aircraft/state/ngrx/aircraft.selectors';
+import {getCurrentUser} from '../../../../../user/state/ngrx/user.selectors';
+import {FlightrouteCrudActions} from '../../../../state/ngrx/flightroute-crud.actions';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
     selector: 'app-fuel-calc-container',
@@ -14,7 +17,10 @@ import {getCurrentAircraft} from '../../../../../aircraft/state/ngrx/aircraft.se
     styleUrls: ['./fuel-calc-container.component.scss']
 })
 export class FuelCalcContainerComponent implements OnInit {
-    protected readonly Consumption = Consumption;
+    protected fuelForm: FormGroup;
+
+    protected readonly currentUser$ = this.appStore.pipe(select(getCurrentUser));
+    protected readonly isUserLoggedIn$ = this.currentUser$.pipe(map(user => user != null));
     protected readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
     protected readonly routeFuel$ = this.flightroute$.pipe(map(flightroute => flightroute.fuel));
     protected readonly aircraftConsumption$ = this.flightroute$.pipe(map(flightroute => flightroute.aircraftParams.consumption));
@@ -22,15 +28,18 @@ export class FuelCalcContainerComponent implements OnInit {
     protected readonly selectedAircaft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly fuelUnit$ = this.appStore.pipe(select(getVolumeUnit));
     protected readonly consumptionUnit$ = this.appStore.pipe(select(getConsumptionUnit));
+    protected readonly Consumption = Consumption;
 
 
     constructor(
-        private appStore: Store<any>
+        private appStore: Store<any>,
+        private formBuilder: FormBuilder
     ) {
     }
 
 
     ngOnInit() {
+        this.fuelForm = this.formBuilder.group({});
     }
 
 
@@ -46,5 +55,10 @@ export class FuelCalcContainerComponent implements OnInit {
 
     protected onExtraTimeChange(extraTime: Time) {
         this.appStore.dispatch(FlightrouteActions.updateExtraTime({extraTime: extraTime}));
+    }
+
+
+    protected onSaveClick() {
+        this.appStore.dispatch(FlightrouteCrudActions.save());
     }
 }

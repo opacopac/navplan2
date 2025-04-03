@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
-import {getFlightroute, getUseAircraftConsumptionValue, getUseAircraftSpeedValue} from '../../../../state/ngrx/flightroute.selectors';
+import {getFlightroute, getUseAircraftSpeedValue} from '../../../../state/ngrx/flightroute.selectors';
 import {getCurrentUser} from '../../../../../user/state/ngrx/user.selectors';
 import {Waypoint} from '../../../../domain/model/waypoint';
 import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
@@ -29,12 +29,10 @@ export class FlightrouteContainerComponent implements OnInit {
     protected readonly isUserLoggedIn$ = this.currentUser$.pipe(map(user => user != null));
     protected readonly currentFlightroute$ = this.appStore.pipe(select(getFlightroute));
     protected readonly flightrouteName$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.title));
-    protected readonly flightrouteId$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.id));
     protected readonly routeComments$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.comments));
     protected readonly routeSpeed$ = this.currentFlightroute$.pipe(map(flightroute => flightroute.aircraftParams.speed));
     protected readonly selectedAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly useAircraftSpeedValue$ = this.appStore.pipe(select(getUseAircraftSpeedValue));
-    protected readonly useAircraftConsumptionValue$ = this.appStore.pipe(select(getUseAircraftConsumptionValue));
     protected readonly speedUnit$ = this.appStore.pipe(select(getSpeedUnit));
     protected readonly altitudeUnit$ = this.appStore.pipe(select(getAltitudeUnit));
 

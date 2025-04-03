@@ -52,6 +52,7 @@ import {RouteCreateFormDialogComponent} from './ng-components/plan-route-list/ro
 import {RoutePickerContainerComponent} from './ng-components/common/route-picker-container/route-picker-container.component';
 import {RoutePickerComponent} from './ng-components/common/route-picker/route-picker.component';
 import {FlightrouteNameComponent} from './ng-components/plan-route/flightroute-name/flightroute-name.component';
+import {FuelSaveComponent} from './ng-components/plan-fuel/fuel-save/fuel-save.component';
 
 
 @NgModule({
@@ -100,6 +101,7 @@ import {FlightrouteNameComponent} from './ng-components/plan-route/flightroute-n
         FuelCalcContainerComponent,
         FuelCalcInputFieldsComponent,
         FuelCalcTableComponent,
+        FuelSaveComponent,
         RouteListPageComponent,
         RouteListTableComponent,
         RouteCreateFormDialogComponent,
