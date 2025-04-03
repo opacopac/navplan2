@@ -5,13 +5,13 @@
         [showRouteName]="true"
     />
     @if ((this.routeMetarTafs$ | async)?.length > 0) {
-        <app-route-meteo-radius
+        <app-plan-meteo-radius
             [routeMaxMeteoRadius]="this.maxRadius$ | async"
             [distanceUnit]="this.distanceUnit$ | async"
             (radiusChanged)="this.onMaxRadiusChanged($event)"
             class="max-radius-field"
         />
-        <app-route-meteo-table
+        <app-plan-meteo-table
             [routeMetarTafList]="this.routeMetarTafs$ | async"
             [showDistance]="false"
             [distanceUnit]="this.distanceUnit$ | async"

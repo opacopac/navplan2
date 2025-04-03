@@ -5,11 +5,11 @@ import {FormControl, Validators} from '@angular/forms';
 
 
 @Component({
-    selector: 'app-route-meteo-radius',
-    templateUrl: './route-meteo-radius.component.html',
-    styleUrls: ['./route-meteo-radius.component.scss']
+    selector: 'app-plan-meteo-radius',
+    templateUrl: './plan-meteo-radius.component.html',
+    styleUrls: ['./plan-meteo-radius.component.scss']
 })
-export class RouteMeteoRadiusComponent implements OnInit {
+export class PlanMeteoRadiusComponent implements OnInit {
     @Input() public routeMaxMeteoRadius: Length;
     @Input() public distanceUnit: LengthUnit;
     @Output() public radiusChanged = new EventEmitter<Length>();

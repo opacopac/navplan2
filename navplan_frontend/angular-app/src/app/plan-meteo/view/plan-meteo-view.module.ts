@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CommonViewModule} from '../../common/view/common-view.module';
-import {RouteMeteoContainerComponent} from './ng-components/route-meteo-container/route-meteo-container.component';
-import {RouteMeteoTableComponent} from './ng-components/route-meteo-table/route-meteo-table.component';
-import {RouteMeteoRadiusComponent} from './ng-components/route-meteo-radius/route-meteo-radius.component';
+import {PlanMeteoContainerComponent} from './ng-components/plan-meteo-container/plan-meteo-container.component';
+import {PlanMeteoTableComponent} from './ng-components/plan-meteo-table/plan-meteo-table.component';
+import {PlanMeteoRadiusComponent} from './ng-components/plan-meteo-radius/plan-meteo-radius.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
@@ -28,12 +28,12 @@ import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.mod
         FlightrouteViewModule,
     ],
     declarations: [
-        RouteMeteoContainerComponent,
-        RouteMeteoTableComponent,
-        RouteMeteoRadiusComponent
+        PlanMeteoContainerComponent,
+        PlanMeteoTableComponent,
+        PlanMeteoRadiusComponent
     ],
     exports: [
-        RouteMeteoContainerComponent
+        PlanMeteoContainerComponent
     ],
     providers: []
 })

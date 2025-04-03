@@ -1,20 +1,20 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {RouteMeteoContainerComponent} from './route-meteo-container.component';
+import {PlanMeteoContainerComponent} from './plan-meteo-container.component';
 
 describe('RouteMeteoContainerComponent', () => {
-  let component: RouteMeteoContainerComponent;
-  let fixture: ComponentFixture<RouteMeteoContainerComponent>;
+  let component: PlanMeteoContainerComponent;
+  let fixture: ComponentFixture<PlanMeteoContainerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RouteMeteoContainerComponent ]
+      declarations: [ PlanMeteoContainerComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RouteMeteoContainerComponent);
+    fixture = TestBed.createComponent(PlanMeteoContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,20 +1,20 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {RouteMeteoRadiusComponent} from './route-meteo-radius.component';
+import {PlanMeteoRadiusComponent} from './plan-meteo-radius.component';
 
 describe('RouteMeteoContainerComponent', () => {
-  let component: RouteMeteoRadiusComponent;
-  let fixture: ComponentFixture<RouteMeteoRadiusComponent>;
+  let component: PlanMeteoRadiusComponent;
+  let fixture: ComponentFixture<PlanMeteoRadiusComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RouteMeteoRadiusComponent ]
+      declarations: [ PlanMeteoRadiusComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RouteMeteoRadiusComponent);
+    fixture = TestBed.createComponent(PlanMeteoRadiusComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

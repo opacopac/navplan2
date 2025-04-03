@@ -5,11 +5,11 @@ import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 
 
 @Component({
-    selector: 'app-route-meteo-table',
-    templateUrl: './route-meteo-table.component.html',
-    styleUrls: ['./route-meteo-table.component.scss']
+    selector: 'app-plan-meteo-table',
+    templateUrl: './plan-meteo-table.component.html',
+    styleUrls: ['./plan-meteo-table.component.scss']
 })
-export class RouteMeteoTableComponent implements OnInit {
+export class PlanMeteoTableComponent implements OnInit {
     @Input() public routeMetarTafList: RouteMetarTaf[];
     @Input() public showDistance: boolean;
     @Input() public distanceUnit: LengthUnit;
