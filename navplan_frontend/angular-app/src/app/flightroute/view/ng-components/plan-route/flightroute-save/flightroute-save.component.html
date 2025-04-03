@@ -1,0 +1,10 @@
+<div class="flex-row-100">
+    <button
+        mat-raised-button
+        color="primary"
+        [disabled]="!this.isSaveButtonEnabled()"
+        (click)="this.onSaveFlightrouteClick()"
+    >
+        Save
+    </button>
+</div>

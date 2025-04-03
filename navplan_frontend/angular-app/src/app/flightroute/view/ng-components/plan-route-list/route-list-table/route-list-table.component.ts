@@ -7,12 +7,10 @@ import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/spee
 import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantities/consumption-unit';
 import {FlightrouteListEntry} from '../../../../domain/model/flightroute-list-entry';
 import {Flightroute} from '../../../../domain/model/flightroute';
-import {
-    FlightrouteDeleteConfirmDialogComponent
-} from '../../plan-route/flightroute-delete-confirm-dialog/flightroute-delete-confirm-dialog.component';
 import {RouteCreateFormDialogComponent} from '../route-create-form-dialog/route-create-form-dialog.component';
 import {TextFilterState} from '../../../../../common/state/model/text-filter-state';
 import {TableState} from '../../../../../common/state/model/table-state';
+import {RouteDeleteConfirmDialogComponent} from '../route-delete-confirm-dialog/route-delete-confirm-dialog.component';
 
 
 export interface ListEntry {
@@ -108,7 +106,7 @@ export class RouteListTableComponent implements OnInit, OnChanges, AfterViewInit
 
 
     protected onDeleteFlightrouteClick(route: FlightrouteListEntry) {
-        const dialogRef = this.dialog.open(FlightrouteDeleteConfirmDialogComponent, {
+        const dialogRef = this.dialog.open(RouteDeleteConfirmDialogComponent, {
             width: '400px',
             data: {
                 flightroute: route

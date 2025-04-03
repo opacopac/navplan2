@@ -23,13 +23,9 @@
         />
     </div>
 
-    <app-flightroute-name-load-save
+    <app-flightroute-name
         [flightrouteName]="this.flightrouteName$ | async"
-        [flightrouteId]="this.flightrouteId$ | async"
-        [isUserLoggedIn]="this.isUserLoggedIn$ | async"
         (flightrouteNameChange)="this.onFlightrouteNameChanged($event)"
-        (loadFlightrouteClick)="this.onLoadFlightrouteClick()"
-        (saveFlightrouteClick)="this.onSaveFlightrouteClick()"
     />
 
     <app-flightroute-waypoint-list
@@ -43,5 +39,12 @@
     <app-flightroute-comments
         [routeComments]="this.routeComments$ | async"
         (routeCommentsChanged)="this.onFlightrouteCommentsChanged($event)"
+    />
+
+    <!-- TODO: pass form valid instead of rout name -->
+    <app-flightroute-save
+        [flightrouteName]="(this.currentFlightroute$ | async)?.title"
+        [isUserLoggedIn]="this.isUserLoggedIn$ | async"
+        (saveFlightrouteClick)="this.onSaveFlightrouteClick()"
     />
 </form>

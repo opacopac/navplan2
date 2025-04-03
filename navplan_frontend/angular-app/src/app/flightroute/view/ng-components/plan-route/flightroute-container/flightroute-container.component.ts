@@ -2,11 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
-import {
-    getFlightroute,
-    getUseAircraftConsumptionValue,
-    getUseAircraftSpeedValue
-} from '../../../../state/ngrx/flightroute.selectors';
+import {getFlightroute, getUseAircraftConsumptionValue, getUseAircraftSpeedValue} from '../../../../state/ngrx/flightroute.selectors';
 import {getCurrentUser} from '../../../../../user/state/ngrx/user.selectors';
 import {Waypoint} from '../../../../domain/model/waypoint';
 import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';

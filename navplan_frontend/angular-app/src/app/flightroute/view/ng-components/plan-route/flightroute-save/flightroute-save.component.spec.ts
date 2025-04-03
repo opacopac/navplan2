@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {FlightrouteNameLoadSaveComponent} from './flightroute-name-load-save.component';
+import {FlightrouteSaveComponent} from './flightroute-save.component';
 
 
 xdescribe('FlightrouteContainerComponent', () => {
-    let component: FlightrouteNameLoadSaveComponent;
-    let fixture: ComponentFixture<FlightrouteNameLoadSaveComponent>;
+    let component: FlightrouteSaveComponent;
+    let fixture: ComponentFixture<FlightrouteSaveComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [FlightrouteNameLoadSaveComponent]
+            declarations: [FlightrouteSaveComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(FlightrouteNameLoadSaveComponent);
+        fixture = TestBed.createComponent(FlightrouteSaveComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
