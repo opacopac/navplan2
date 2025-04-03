@@ -19,7 +19,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {ExporterViewModule} from '../../exporter/view/exporter-view.module';
 import {MatTabsModule} from '@angular/material/tabs';
-import {FlightrouteContainerComponent} from './ng-components/plan-waypoints/flightroute-container/flightroute-container.component';
+import {WaypointsContainerComponent} from './ng-components/plan-waypoints/waypoints-container/waypoints-container.component';
 import {
     FlightrouteAircraftSpeedComponent
 } from './ng-components/plan-waypoints/flightroute-aircraft-speed/flightroute-aircraft-speed.component';
@@ -90,7 +90,7 @@ import {FuelSaveComponent} from './ng-components/plan-fuel/fuel-save/fuel-save.c
     declarations: [
         EditWaypointDialogComponent,
         EditWaypointFormComponent,
-        FlightrouteContainerComponent,
+        WaypointsContainerComponent,
         FlightrouteAircraftSpeedComponent,
         FlightrouteNameComponent,
         FlightrouteCommentsComponent,
@@ -111,7 +111,7 @@ import {FuelSaveComponent} from './ng-components/plan-fuel/fuel-save/fuel-save.c
     ],
     exports: [
         FuelCalcContainerComponent,
-        FlightrouteContainerComponent,
+        WaypointsContainerComponent,
         RouteListPageComponent,
         RoutePickerContainerComponent
     ],
