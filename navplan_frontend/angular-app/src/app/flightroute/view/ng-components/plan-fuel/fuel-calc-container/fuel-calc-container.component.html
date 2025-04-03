@@ -31,8 +31,8 @@
         />
 
         <!-- save button -->
-        <app-fuel-save
-            [isUserLoggedIn]="this.isUserLoggedIn$ | async"
+        <app-save-button
+            [isEnabled]="(this.isUserLoggedIn$ | async) && this.fuelForm.valid"
             (saveClicked)="this.onSaveClick()"
         />
     } @else {

@@ -26,7 +26,6 @@ import {
 import {FlightrouteCommentsComponent} from './ng-components/plan-waypoints/flightroute-comment/flightroute-comments.component';
 import {RoutePickerListComponent} from './ng-components/common/route-picker-list/route-picker-list.component';
 import {RoutePickerListDialogComponent} from './ng-components/common/route-picker-list-dialog/route-picker-list-dialog.component';
-import {FlightrouteSaveComponent} from './ng-components/plan-waypoints/flightroute-save/flightroute-save.component';
 import {WaypointsTableComponent} from './ng-components/plan-waypoints/waypoints-table/waypoints-table.component';
 import {FuelCalcContainerComponent} from './ng-components/plan-fuel/fuel-calc-container/fuel-calc-container.component';
 import {FuelCalcInputFieldsComponent} from './ng-components/plan-fuel/fuel-calc-input-fields/fuel-calc-input-fields.component';
@@ -52,7 +51,6 @@ import {RouteCreateFormDialogComponent} from './ng-components/plan-route-list/ro
 import {RoutePickerContainerComponent} from './ng-components/common/route-picker-container/route-picker-container.component';
 import {RoutePickerComponent} from './ng-components/common/route-picker/route-picker.component';
 import {FlightrouteNameComponent} from './ng-components/plan-waypoints/flightroute-name/flightroute-name.component';
-import {FuelSaveComponent} from './ng-components/plan-fuel/fuel-save/fuel-save.component';
 
 
 @NgModule({
@@ -96,12 +94,10 @@ import {FuelSaveComponent} from './ng-components/plan-fuel/fuel-save/fuel-save.c
         FlightrouteCommentsComponent,
         RoutePickerListComponent,
         RoutePickerListDialogComponent,
-        FlightrouteSaveComponent,
         WaypointsTableComponent,
         FuelCalcContainerComponent,
         FuelCalcInputFieldsComponent,
         FuelCalcTableComponent,
-        FuelSaveComponent,
         RouteListPageComponent,
         RouteListTableComponent,
         RouteCreateFormDialogComponent,

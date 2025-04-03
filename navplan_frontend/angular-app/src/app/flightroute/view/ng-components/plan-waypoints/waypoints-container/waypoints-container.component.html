@@ -41,8 +41,7 @@
         (routeCommentsChanged)="this.onFlightrouteCommentsChanged($event)"
     />
 
-    <app-flightroute-save
-        [isUserLoggedIn]="this.isUserLoggedIn$ | async"
-        (saveClicked)="this.onSaveFlightrouteClick()"
+    <app-save-button
+        [isEnabled]="(this.isUserLoggedIn$ | async) && this.flightrouteForm.valid"
     />
 </form>

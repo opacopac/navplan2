@@ -17,6 +17,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {
     TableTextFilterAndCreateButtonComponent
 } from './ng-components/table-filter-and-create-button/table-text-filter-and-create-button.component';
+import {SaveButtonComponent} from './ng-components/save-button/save-button.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import {
         ConfirmDeleteDialogComponent,
         FormDialogComponent,
         AutoCompleteComponent,
-        TableTextFilterAndCreateButtonComponent
+        TableTextFilterAndCreateButtonComponent,
+        SaveButtonComponent
     ],
     exports: [
         IconButtonComponent,
@@ -48,6 +50,7 @@ import {
         FormDialogComponent,
         AutoCompleteComponent,
         TableTextFilterAndCreateButtonComponent,
+        SaveButtonComponent,
     ],
     providers: []
 })

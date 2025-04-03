@@ -2,7 +2,7 @@
     <button
         mat-raised-button
         color="primary"
-        [disabled]="!this.isSaveButtonEnabled()"
+        [disabled]="!this.isEnabled"
         (click)="this.onSaveClicked()"
     >
         Save
