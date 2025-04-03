@@ -72,16 +72,11 @@
                     <mat-option [value]="FuelType.JET">JET</mat-option>
                 </mat-select>
             </mat-form-field>
-            <p>
-                <button
-                    mat-raised-button
-                    color="primary"
-                    [disabled]="!this.isFormValid()"
-                    (click)="this.onSaveAircraftDetailsClicked()"
-                >
-                    Save
-                </button>
-            </p>
+
+            <app-save-button
+                [isEnabled]="this.isFormValid()"
+                (saveClicked)="this.onSaveAircraftDetailsClicked()"
+            />
         </div>
     </form>
 }

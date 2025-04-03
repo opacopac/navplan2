@@ -13,7 +13,8 @@
                 [weightUnit]="this.weightUnit$ | async"
                 (changeBew)="this.onChangeBew($event)"
                 (changeMtow)="this.onChangeMtow($event)"
-            ></app-aircraft-wnb-weight-fields>
+            />
+
             <!-- weight items -->
             <app-aircraft-wnb-weight-item-table
                 [vehicleType]="this.vehicleType$ | async"
@@ -25,6 +26,7 @@
                 (editWeightItem)="this.onEditWeightItem($event)"
                 (deleteWeightItem)="this.onDeleteWeightItem($event)"
             />
+
             <!-- envelope list -->
             <app-aircraft-wnb-envelope-list
                 [currentAircraft]="this.currentAircraft$ | async"
@@ -36,17 +38,14 @@
                 (envelopeCoordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
                 (envelopeCoordinateUpdated)="this.onEnvelopeCoordinateUpdated($event)"
                 (envelopeCoordinateDeleted)="this.onEnvelopeCoordinateDeleted($event)"
-            ></app-aircraft-wnb-envelope-list>
+            />
+
             <!-- save button -->
-            <p>
-                <button
-                    mat-raised-button
-                    color="primary"
-                    (click)="this.onSaveAircraftWnb()"
-                >
-                    Save
-                </button>
-            </p>
+            <!-- TODO: add enabled condition -->
+            <app-save-button
+                [isEnabled]="true"
+                (saveClicked)="this.onSaveAircraftWnb()"
+            />
         </div>
     }
 </div>

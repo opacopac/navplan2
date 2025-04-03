@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormGroupDirective} from '@angular/forms';
-import { ButtonColor } from '../../model/button-color';
+import {ButtonColor} from '../../model/button-color';
 
 
 @Component({
@@ -15,7 +14,7 @@ export class SaveButtonComponent implements OnInit {
     protected readonly ButtonColor = ButtonColor;
 
 
-    constructor(public parentForm: FormGroupDirective) {
+    constructor() {
     }
 
 
