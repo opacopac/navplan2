@@ -1,5 +1,6 @@
-@use '../../../../../../../node_modules/@angular/material/index' as mat;
-@import "styles";
+.no-scroll-hack {
+    overflow: hidden;
+}
 
 .route-speed-row {
     display: inline-flex;
@@ -8,29 +9,4 @@
 
 .manual-aircraft-toggle {
     margin-left: 10px;
-}
-
-.route-comments {
-    margin-top: 20px;
-    width: 100%;
-}
-
-.button-load {
-    background-color: $navplan-color-green;
-    color: white;
-}
-
-.button-delete {
-    background-color: $navplan-color-red;
-    color: white;
-}
-
-.button-save {
-    background-color: $navplan-color-blue;
-    color: white;
-}
-
-.button-copy {
-    background-color: $navplan-color-blue;
-    color: white;
 }
