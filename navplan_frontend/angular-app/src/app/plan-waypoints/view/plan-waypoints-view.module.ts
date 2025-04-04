@@ -38,6 +38,7 @@ import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.
 import {WaypointsTableComponent} from './ng-components/waypoints-table/waypoints-table.component';
 import {EditWaypointDialogComponent} from './ng-components/edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {EditWaypointFormComponent} from './ng-components/edit-waypoint-form/edit-waypoint-form.component';
+import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import {EditWaypointFormComponent} from './ng-components/edit-waypoint-form/edit
         MatExpansionPanelHeader,
         MatExpansionPanelTitle,
         MatIcon,
-        FlightrouteViewModule
+        FlightrouteViewModule,
+        PlanRouteListViewModule
     ],
     declarations: [
         EditWaypointDialogComponent,

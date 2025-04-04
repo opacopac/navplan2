@@ -17,8 +17,6 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {ExporterViewModule} from '../../exporter/view/exporter-view.module';
 import {MatTabsModule} from '@angular/material/tabs';
-import {RoutePickerListComponent} from './ng-components/route-picker-list/route-picker-list.component';
-import {RoutePickerListDialogComponent} from './ng-components/route-picker-list-dialog/route-picker-list-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
@@ -31,8 +29,6 @@ import {
     MatExpansionPanelTitle
 } from '@angular/material/expansion';
 import {MatIcon} from '@angular/material/icon';
-import {RoutePickerContainerComponent} from './ng-components/route-picker-container/route-picker-container.component';
-import {RoutePickerComponent} from './ng-components/route-picker/route-picker.component';
 import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-list-state.module';
 
 
@@ -69,15 +65,8 @@ import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-l
         MatExpansionPanelTitle,
         MatIcon,
     ],
-    declarations: [
-        RoutePickerListComponent,
-        RoutePickerListDialogComponent,
-        RoutePickerContainerComponent,
-        RoutePickerComponent
-    ],
-    exports: [
-        RoutePickerContainerComponent
-    ],
+    declarations: [],
+    exports: [],
     providers: []
 })
 export class FlightrouteViewModule {

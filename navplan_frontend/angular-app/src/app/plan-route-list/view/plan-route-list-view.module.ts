@@ -33,6 +33,10 @@ import {RouteCreateFormDialogComponent} from './ng-components/route-create-form-
 import {PlanRouteListStateModule} from '../state/plan-route-list-state.module';
 import {FlightrouteDomainModule} from '../../flightroute/domain/flightroute-domain.module';
 import {FlightrouteRestModule} from '../../flightroute/rest/flightroute-rest.module';
+import {RoutePickerListComponent} from './ng-components/route-picker-list/route-picker-list.component';
+import {RoutePickerListDialogComponent} from './ng-components/route-picker-list-dialog/route-picker-list-dialog.component';
+import {RoutePickerContainerComponent} from './ng-components/route-picker-container/route-picker-container.component';
+import {RoutePickerComponent} from './ng-components/route-picker/route-picker.component';
 
 
 @NgModule({
@@ -68,10 +72,14 @@ import {FlightrouteRestModule} from '../../flightroute/rest/flightroute-rest.mod
         AircraftViewModule,
     ],
     declarations: [
-        RouteListPageComponent,
-        RouteListTableComponent,
         RouteCreateFormDialogComponent,
         RouteDeleteConfirmDialogComponent,
+        RouteListPageComponent,
+        RouteListTableComponent,
+        RoutePickerComponent,
+        RoutePickerContainerComponent,
+        RoutePickerListComponent,
+        RoutePickerListDialogComponent,
     ],
     exports: [
         RouteListPageComponent,

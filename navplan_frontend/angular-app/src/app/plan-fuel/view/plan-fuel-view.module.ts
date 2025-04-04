@@ -34,6 +34,7 @@ import {FlightrouteDomainModule} from '../../flightroute/domain/flightroute-doma
 import {FlightrouteRestModule} from '../../flightroute/rest/flightroute-rest.module';
 import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.module';
 import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
+import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.mod
         MatExpansionPanelTitle,
         MatIcon,
         FlightrouteViewModule,
+        PlanRouteListViewModule
     ],
     declarations: [
         FuelCalcContainerComponent,
