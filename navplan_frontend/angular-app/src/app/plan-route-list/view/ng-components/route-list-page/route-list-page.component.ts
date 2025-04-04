@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {getConsumptionUnit, getSpeedUnit} from '../../../geo-physics/state/ngrx/geo-physics.selectors';
-import {FlightrouteListActions} from '../../state/ngrx/flightroute-list.actions';
-import {Flightroute} from '../../../flightroute/domain/model/flightroute';
-import {FlightrouteCrudActions} from '../../../flightroute/state/ngrx/flightroute-crud.actions';
-import {getFlightroute, getFlightrouteTableState} from '../../../flightroute/state/ngrx/flightroute.selectors';
-import {TableState} from '../../../common/state/model/table-state';
-import {getFlightrouteList} from '../../state/ngrx/flightroute-list.selectors';
+import {getConsumptionUnit, getSpeedUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {FlightrouteListActions} from '../../../state/ngrx/flightroute-list.actions';
+import {Flightroute} from '../../../../flightroute/domain/model/flightroute';
+import {FlightrouteCrudActions} from '../../../../flightroute/state/ngrx/flightroute-crud.actions';
+import {getFlightroute, getFlightrouteTableState} from '../../../../flightroute/state/ngrx/flightroute.selectors';
+import {TableState} from '../../../../common/state/model/table-state';
+import {getFlightrouteList} from '../../../state/ngrx/flightroute-list.selectors';
 
 
 @Component({

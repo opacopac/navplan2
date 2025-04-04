@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {RouteFuel} from '../../../../domain/model/routefuel';
-import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
-import {Time} from '../../../../../geo-physics/domain/model/quantities/time';
-import {Volume} from '../../../../../geo-physics/domain/model/quantities/volume';
-import {VolumeUnit} from '../../../../../geo-physics/domain/model/quantities/volume-unit';
-import {TimeUnit} from '../../../../../geo-physics/domain/model/quantities/time-unit';
+import {RouteFuel} from '../../../../flightroute/domain/model/routefuel';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {Time} from '../../../../geo-physics/domain/model/quantities/time';
+import {Volume} from '../../../../geo-physics/domain/model/quantities/volume';
+import {VolumeUnit} from '../../../../geo-physics/domain/model/quantities/volume-unit';
+import {TimeUnit} from '../../../../geo-physics/domain/model/quantities/time-unit';
 
 
 interface FuelDataSourceRow {

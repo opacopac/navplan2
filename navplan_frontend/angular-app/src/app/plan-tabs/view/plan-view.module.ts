@@ -9,6 +9,7 @@ import {PlanWnbViewModule} from '../../plan-wnb/view/plan-wnb-view.module';
 import {PlanMeteoViewModule} from '../../plan-meteo/view/plan-meteo-view.module';
 import {PlanTabStateModule} from '../state/plan-tab-state.module';
 import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
+import {PlanFuelViewModule} from '../../plan-fuel/view/plan-fuel-view.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-lis
         PlanTabStateModule,
         PlanRouteListViewModule,
         FlightrouteViewModule,
+        PlanFuelViewModule,
         PlanWnbViewModule,
         PlanPerformanceViewModule,
         PlanMeteoViewModule,

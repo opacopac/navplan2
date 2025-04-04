@@ -1,10 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FlightrouteStateModule} from '../state/flightroute-state.module';
-import {FlightrouteDomainModule} from '../domain/flightroute-domain.module';
-import {FlightrouteRestModule} from '../rest/flightroute-rest.module';
-import {EditWaypointDialogComponent} from './ng-components/common/edit-waypoint-dialog/edit-waypoint-dialog.component';
-import {EditWaypointFormComponent} from './ng-components/common/edit-waypoint-form/edit-waypoint-form.component';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 import {CommonViewModule} from '../../common/view/common-view.module';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -19,14 +14,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {ExporterViewModule} from '../../exporter/view/exporter-view.module';
 import {MatTabsModule} from '@angular/material/tabs';
-import {WaypointsContainerComponent} from './ng-components/plan-waypoints/waypoints-container/waypoints-container.component';
-import {
-    FlightrouteAircraftSpeedComponent
-} from './ng-components/plan-waypoints/flightroute-aircraft-speed/flightroute-aircraft-speed.component';
-import {FlightrouteCommentsComponent} from './ng-components/plan-waypoints/flightroute-comment/flightroute-comments.component';
-import {RoutePickerListComponent} from './ng-components/common/route-picker-list/route-picker-list.component';
-import {RoutePickerListDialogComponent} from './ng-components/common/route-picker-list-dialog/route-picker-list-dialog.component';
-import {WaypointsTableComponent} from './ng-components/plan-waypoints/waypoints-table/waypoints-table.component';
+import {FuelCalcContainerComponent} from './ng-components/fuel-calc-container/fuel-calc-container.component';
+import {FuelCalcInputFieldsComponent} from './ng-components/fuel-calc-input-fields/fuel-calc-input-fields.component';
+import {FuelCalcTableComponent} from './ng-components/fuel-calc-table/fuel-calc-table.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
@@ -39,10 +29,11 @@ import {
     MatExpansionPanelTitle
 } from '@angular/material/expansion';
 import {MatIcon} from '@angular/material/icon';
-import {RoutePickerContainerComponent} from './ng-components/common/route-picker-container/route-picker-container.component';
-import {RoutePickerComponent} from './ng-components/common/route-picker/route-picker.component';
-import {FlightrouteNameComponent} from './ng-components/plan-waypoints/flightroute-name/flightroute-name.component';
 import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-list-state.module';
+import {FlightrouteDomainModule} from '../../flightroute/domain/flightroute-domain.module';
+import {FlightrouteRestModule} from '../../flightroute/rest/flightroute-rest.module';
+import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.module';
+import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
 
 
 @NgModule({
@@ -77,25 +68,17 @@ import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-l
         MatExpansionPanelHeader,
         MatExpansionPanelTitle,
         MatIcon,
+        FlightrouteViewModule,
     ],
     declarations: [
-        EditWaypointDialogComponent,
-        EditWaypointFormComponent,
-        WaypointsContainerComponent,
-        FlightrouteAircraftSpeedComponent,
-        FlightrouteNameComponent,
-        FlightrouteCommentsComponent,
-        RoutePickerListComponent,
-        RoutePickerListDialogComponent,
-        WaypointsTableComponent,
-        RoutePickerContainerComponent,
-        RoutePickerComponent
+        FuelCalcContainerComponent,
+        FuelCalcInputFieldsComponent,
+        FuelCalcTableComponent,
     ],
     exports: [
-        WaypointsContainerComponent,
-        RoutePickerContainerComponent
+        FuelCalcContainerComponent,
     ],
     providers: []
 })
-export class FlightrouteViewModule {
+export class PlanFuelViewModule {
 }

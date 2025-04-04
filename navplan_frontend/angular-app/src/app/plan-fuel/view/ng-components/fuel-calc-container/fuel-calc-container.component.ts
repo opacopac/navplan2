@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
-import {getFlightroute, getUseAircraftConsumptionValue} from '../../../../state/ngrx/flightroute.selectors';
-import {FlightrouteActions} from '../../../../state/ngrx/flightroute.actions';
-import {getConsumptionUnit, getVolumeUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
-import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
-import {Time} from '../../../../../geo-physics/domain/model/quantities/time';
-import {getCurrentAircraft} from '../../../../../aircraft/state/ngrx/aircraft.selectors';
-import {getCurrentUser} from '../../../../../user/state/ngrx/user.selectors';
-import {FlightrouteCrudActions} from '../../../../state/ngrx/flightroute-crud.actions';
+import {getFlightroute, getUseAircraftConsumptionValue} from '../../../../flightroute/state/ngrx/flightroute.selectors';
+import {FlightrouteActions} from '../../../../flightroute/state/ngrx/flightroute.actions';
+import {getConsumptionUnit, getVolumeUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
+import {Time} from '../../../../geo-physics/domain/model/quantities/time';
+import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
+import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
+import {FlightrouteCrudActions} from '../../../../flightroute/state/ngrx/flightroute-crud.actions';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({

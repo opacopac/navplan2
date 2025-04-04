@@ -25,11 +25,11 @@ import {
     MatExpansionPanelHeader,
     MatExpansionPanelTitle
 } from '@angular/material/expansion';
-import {RouteListPageComponent} from './route-list-page/route-list-page.component';
-import {RouteListTableComponent} from './route-list-table/route-list-table.component';
-import {RouteDeleteConfirmDialogComponent} from './route-delete-confirm-dialog/route-delete-confirm-dialog.component';
+import {RouteListPageComponent} from './ng-components/route-list-page/route-list-page.component';
+import {RouteListTableComponent} from './ng-components/route-list-table/route-list-table.component';
+import {RouteDeleteConfirmDialogComponent} from './ng-components/route-delete-confirm-dialog/route-delete-confirm-dialog.component';
 import {MatIcon} from '@angular/material/icon';
-import {RouteCreateFormDialogComponent} from './route-create-form-dialog/route-create-form-dialog.component';
+import {RouteCreateFormDialogComponent} from './ng-components/route-create-form-dialog/route-create-form-dialog.component';
 import {PlanRouteListStateModule} from '../state/plan-route-list-state.module';
 import {FlightrouteDomainModule} from '../../flightroute/domain/flightroute-domain.module';
 import {FlightrouteRestModule} from '../../flightroute/rest/flightroute-rest.module';

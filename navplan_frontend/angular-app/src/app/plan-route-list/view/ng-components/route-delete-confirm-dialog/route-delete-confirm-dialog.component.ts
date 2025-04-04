@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder} from '@angular/forms';
-import {FlightrouteListEntry} from '../../../flightroute/domain/model/flightroute-list-entry';
+import {FlightrouteListEntry} from '../../../../flightroute/domain/model/flightroute-list-entry';
 
 
 @Component({

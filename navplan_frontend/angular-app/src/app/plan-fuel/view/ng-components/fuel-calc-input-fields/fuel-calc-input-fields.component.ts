@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
-import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantities/consumption-unit';
+import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
+import {ConsumptionUnit} from '../../../../geo-physics/domain/model/quantities/consumption-unit';
 import {FormControl, Validators} from '@angular/forms';
-import {Aircraft} from '../../../../../aircraft/domain/model/aircraft';
+import {Aircraft} from '../../../../aircraft/domain/model/aircraft';
 
 @Component({
     selector: 'app-fuel-calc-input-fields',
