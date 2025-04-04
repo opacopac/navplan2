@@ -34,16 +34,16 @@ import {
     getFlightMapShowOverlay,
     getShowMapLayerSelection
 } from '../../../state/ngrx/flight-map.selectors';
-import {OlAirportContainer} from '../../../../aerodrome/view/ol-components/airport/ol-airport-container';
+import {OlAirportContainer} from '../../../../aerodrome/view/ol-components/ol-airport-container';
 import {
     OlAirportCircuitContainer
 } from '../../../../aerodrome-circuits/view/ol-components/ol-airport-circuit-container';
 import {
     OlReportingPointContainer
-} from '../../../../aerodrome/view/ol-components/reporting-point-sector/ol-reporting-point-container';
+} from '../../../../aerodrome-reporting/view/ol-components/ol-reporting-point-container';
 import {
     OlReportingSectorContainer
-} from '../../../../aerodrome/view/ol-components/reporting-point-sector/ol-reporting-sector-container';
+} from '../../../../aerodrome-reporting/view/ol-components/ol-reporting-sector-container';
 import {OlAirspaceContainer} from '../../../../airspace/view/ol-components/ol-airspace-container';
 import {OlNavaidContainer} from '../../../../navaid/view/ol-components/ol-navaid-container';
 import {OlWebcamContainer} from '../../../../webcam/view/ol-components/ol-webcam-container';
@@ -56,11 +56,11 @@ import {getWebcams} from '../../../../webcam/state/ngrx/webcam.selectors';
 import {getMetarTafs} from '../../../../metar-taf/state/ngrx/metar-taf.selectors';
 import {getAirspaces} from '../../../../airspace/state/ngrx/airspace.selectors';
 import {getNavaids} from '../../../../navaid/state/ngrx/navaid.selectors';
-import {getAirports} from '../../../../aerodrome/state/ngrx/airport/airport.selectors';
+import {getAirports} from '../../../../aerodrome/state/ngrx/airport.selectors';
 import {
     getReportingPoints,
     getReportingSectors
-} from '../../../../aerodrome/state/ngrx/reporting-point-sector/reporting-point-sector.selectors';
+} from '../../../../aerodrome-reporting/state/ngrx/reporting-point-sector.selectors';
 import {getAirportCircuits} from '../../../../aerodrome-circuits/state/ngrx/airport-circuit.selectors';
 import {getAirportCharts} from '../../../../aerodrome-charts/state/ngrx/airport-chart.selectors';
 import {MapPopupComponent} from '../map-popup/map-popup.component';

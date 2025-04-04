@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {combineLatest, Observable, of, pipe} from 'rxjs';
 import {getMetarTafState} from '../../../metar-taf/state/ngrx/metar-taf.selectors';
-import {getAirportState} from '../../../aerodrome/state/ngrx/airport/airport.selectors';
+import {getAirportState} from '../../../aerodrome/state/ngrx/airport.selectors';
 import {
     getReportingPointSectorState
-} from '../../../aerodrome/state/ngrx/reporting-point-sector/reporting-point-sector.selectors';
+} from '../../../aerodrome-reporting/state/ngrx/reporting-point-sector.selectors';
 import {getNavaidState} from '../../../navaid/state/ngrx/navaid.selectors';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {DataItem} from '../../../common/model/data-item';

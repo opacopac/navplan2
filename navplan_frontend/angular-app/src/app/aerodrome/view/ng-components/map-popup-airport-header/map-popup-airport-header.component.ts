@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {Airport} from '../../../domain/model/airport';
 import {AirportType} from '../../../domain/model/airport-type';
-import {OlAirportIcon} from '../../ol-components/airport/ol-airport-icon';
+import {OlAirportIcon} from '../../ol-components/ol-airport-icon';
 import {IWmmService} from '../../../../geo-physics/domain/service/wmm/i-wmm.service';
-import {OlAirportRunwayIcon} from '../../ol-components/airport/ol-airport-runway-icon';
+import {OlAirportRunwayIcon} from '../../ol-components/ol-airport-runway-icon';
 
 
 @Component({

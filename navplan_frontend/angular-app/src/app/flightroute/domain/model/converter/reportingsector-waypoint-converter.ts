@@ -1,5 +1,5 @@
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
-import {ReportingSector} from '../../../../aerodrome/domain/model/reporting-sector';
+import {ReportingSector} from '../../../../aerodrome-reporting/domain/model/reporting-sector';
 import {WaypointType} from '../waypoint-type';
 import {WaypointAltitude} from '../waypoint-altitude';
 import {Waypoint} from '../waypoint';

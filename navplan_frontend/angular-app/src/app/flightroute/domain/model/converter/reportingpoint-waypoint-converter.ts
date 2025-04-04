@@ -1,5 +1,5 @@
 import {WaypointType} from '../waypoint-type';
-import {ReportingPoint} from '../../../../aerodrome/domain/model/reporting-point';
+import {ReportingPoint} from '../../../../aerodrome-reporting/domain/model/reporting-point';
 import {WaypointAltitude} from '../waypoint-altitude';
 import {Waypoint} from '../waypoint';
 import {AltitudeUnit} from '../../../../geo-physics/domain/model/geometry/altitude-unit';
