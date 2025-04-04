@@ -1,5 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
-import {AirportChartState} from '../../state-model/airport-chart-state';
+import {AirportChartState} from '../state-model/airport-chart-state';
 
 
 export const getAirportChartState = createFeatureSelector<AirportChartState>('airportChartState');

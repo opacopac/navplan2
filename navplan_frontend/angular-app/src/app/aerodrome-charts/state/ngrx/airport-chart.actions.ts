@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-import {AirportChart} from '../../../domain/model/airport-chart';
+import {AirportChart} from '../../domain/model/airport-chart';
 
 
 export class AirportChartActions {

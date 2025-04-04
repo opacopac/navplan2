@@ -6,7 +6,7 @@ import {RestAirportRunwayConverter} from './rest-airport-runway-converter';
 import {RestWebcamConverter} from '../../../webcam/rest/model/rest-webcam-converter';
 import {RestAirportFeatureConverter} from './rest-airport-feature-converter';
 import {AirportType} from '../../domain/model/airport-type';
-import {RestAirportChart2Converter} from './rest-airport-chart2-converter';
+import {RestAirportChart2Converter} from '../../../aerodrome-charts/rest/converter/rest-airport-chart2-converter';
 import {RestAltitudeConverter} from '../../../geo-physics/rest/model/rest-altitude-converter';
 
 

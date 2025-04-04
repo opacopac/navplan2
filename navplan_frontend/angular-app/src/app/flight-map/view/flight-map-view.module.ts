@@ -61,6 +61,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSelectModule} from '@angular/material/select';
 import {AerodromeCircuitsViewModule} from '../../aerodrome-circuits/view/aerodrome-circuits-view.module';
+import {AerodromeChartsViewModule} from '../../aerodrome-charts/view/aerodrome-charts-view.module';
 
 @NgModule({
     declarations: [
@@ -92,6 +93,7 @@ import {AerodromeCircuitsViewModule} from '../../aerodrome-circuits/view/aerodro
         MatSelectModule,
         MatCardModule,
         AerodromeViewModule,
+        AerodromeChartsViewModule,
         AerodromeCircuitsViewModule,
         AirspaceViewModule,
         BaseMapViewModule,

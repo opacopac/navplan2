@@ -1,8 +1,7 @@
-@use '@angular/material' as mat;
-
 table.mat-mdc-table {
     width: 100%;
 }
+
 .mat-mdc-row:nth-child(even), .mat-mdc-header-cell {
     background-color: rgb(249, 249, 249);
 }

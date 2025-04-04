@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Airport} from '../../../domain/model/airport';
+import {Airport} from '../../../../aerodrome/domain/model/airport';
 import {Store} from '@ngrx/store';
 import {AirportChart} from '../../../domain/model/airport-chart';
-import {AirportChartActions} from '../../../state/ngrx/airport-chart/airport-chart.actions';
+import {AirportChartActions} from '../../../state/ngrx/airport-chart.actions';
 
 
 @Component({

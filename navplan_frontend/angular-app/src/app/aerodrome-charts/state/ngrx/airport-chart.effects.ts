@@ -4,10 +4,10 @@ import {Injectable} from '@angular/core';
 import {AirportChartActions} from './airport-chart.actions';
 import {throwError} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {environment} from '../../../../../environments/environment';
-import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';
-import {LoggingService} from '../../../../system/domain/service/logging/logging.service';
-import {IAirportChartService} from '../../../domain/service/i-airport-chart.service';
+import {environment} from '../../../../environments/environment';
+import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
+import {LoggingService} from '../../../system/domain/service/logging/logging.service';
+import {IAirportChartService} from '../../domain/service/i-airport-chart.service';
 
 
 @Injectable()

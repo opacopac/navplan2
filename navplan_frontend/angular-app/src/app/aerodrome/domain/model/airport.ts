@@ -7,7 +7,7 @@ import {AirportRadio} from './airport-radio';
 import {Webcam} from '../../../webcam/domain/model/webcam';
 import {AirportFeature} from './airport-feature';
 import {AirportType} from './airport-type';
-import {AirportChart} from './airport-chart';
+import {AirportChart} from '../../../aerodrome-charts/domain/model/airport-chart';
 import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';
 
 

@@ -49,7 +49,7 @@ import {OlNavaidContainer} from '../../../../navaid/view/ol-components/ol-navaid
 import {OlWebcamContainer} from '../../../../webcam/view/ol-components/ol-webcam-container';
 import {
     OlAirportChartContainer
-} from '../../../../aerodrome/view/ol-components/airport-chart/ol-airport-chart-container';
+} from '../../../../aerodrome-charts/view/ol-components/ol-airport-chart-container';
 import {OlPositionSearchContainer} from '../../../../search/view/ol-components/ol-position-search-container';
 import {getPositionSearchState} from '../../../../search/state/ngrx/search.selectors';
 import {getWebcams} from '../../../../webcam/state/ngrx/webcam.selectors';
@@ -62,7 +62,7 @@ import {
     getReportingSectors
 } from '../../../../aerodrome/state/ngrx/reporting-point-sector/reporting-point-sector.selectors';
 import {getAirportCircuits} from '../../../../aerodrome-circuits/state/ngrx/airport-circuit.selectors';
-import {getAirportCharts} from '../../../../aerodrome/state/ngrx/airport-chart/airport-chart.selectors';
+import {getAirportCharts} from '../../../../aerodrome-charts/state/ngrx/airport-chart.selectors';
 import {MapPopupComponent} from '../map-popup/map-popup.component';
 import {OverlayState} from '../../../state/ngrx/overlay-state';
 import {OlVectorLayer} from '../../../../base-map/view/ol-model/ol-vector-layer';

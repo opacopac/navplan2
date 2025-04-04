@@ -3,8 +3,8 @@ import {IRestAirportRunway} from './i-rest-airport-runway';
 import {IRestAirportRadio} from './i-rest-airport-radio';
 import {IRestWebcam} from '../../../webcam/rest/model/i-rest-webcam';
 import {IRestAirportFeature} from './i-rest-airport-feature';
-import {IRestAirportChart} from './i-rest-airport-chart';
-import {IRestAirportChart2} from './i-rest-airport-chart2';
+import {IRestAirportChart} from '../../../aerodrome-charts/rest/model/i-rest-airport-chart';
+import {IRestAirportChart2} from '../../../aerodrome-charts/rest/model/i-rest-airport-chart2';
 import {IRestAltitude} from '../../../geo-physics/rest/model/i-rest-altitude';
 
 

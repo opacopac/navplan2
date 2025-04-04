@@ -1,5 +1,5 @@
 import {Icon, Style} from 'ol/style';
-import {environment} from '../../../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 
 
 export class OlAirportChartCloserStyle {

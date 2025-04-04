@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
 import {OlAirportChartCloser} from './ol-airport-chart-closer';
-import {AirportChart} from '../../../domain/model/airport-chart';
-import {OlVectorLayer} from '../../../../base-map/view/ol-model/ol-vector-layer';
+import {AirportChart} from '../../domain/model/airport-chart';
+import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 
 
 export class OlAirportChartContainer {
