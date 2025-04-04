@@ -1,11 +1,11 @@
-import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
-import {ReportingSector} from '../../../../aerodrome-reporting/domain/model/reporting-sector';
-import {WaypointType} from '../waypoint-type';
-import {WaypointAltitude} from '../waypoint-altitude';
-import {Waypoint} from '../waypoint';
-import {Altitude} from '../../../../geo-physics/domain/model/geometry/altitude';
-import {AltitudeUnit} from '../../../../geo-physics/domain/model/geometry/altitude-unit';
-import {AltitudeReference} from '../../../../geo-physics/domain/model/geometry/altitude-reference';
+import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
+import {ReportingSector} from '../../../aerodrome-reporting/domain/model/reporting-sector';
+import {WaypointType} from '../model/waypoint-type';
+import {WaypointAltitude} from '../model/waypoint-altitude';
+import {Waypoint} from '../model/waypoint';
+import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';
+import {AltitudeUnit} from '../../../geo-physics/domain/model/geometry/altitude-unit';
+import {AltitudeReference} from '../../../geo-physics/domain/model/geometry/altitude-reference';
 
 
 export class ReportingsectorWaypointConverter {

@@ -8,6 +8,7 @@ import {PlanPerformanceViewModule} from '../../plan-performance/view/plan-perfor
 import {PlanWnbViewModule} from '../../plan-wnb/view/plan-wnb-view.module';
 import {PlanMeteoViewModule} from '../../plan-meteo/view/plan-meteo-view.module';
 import {PlanTabStateModule} from '../state/plan-tab-state.module';
+import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import {PlanTabStateModule} from '../state/plan-tab-state.module';
         CommonViewModule,
         MatTabsModule,
         PlanTabStateModule,
+        PlanRouteListViewModule,
         FlightrouteViewModule,
         PlanWnbViewModule,
         PlanPerformanceViewModule,

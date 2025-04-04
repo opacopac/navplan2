@@ -1,7 +1,7 @@
-import {Geoname} from '../../../../geoname/domain/model/geoname';
-import {WaypointType} from '../waypoint-type';
-import {Waypoint} from '../waypoint';
-import {WaypointAltitude} from '../waypoint-altitude';
+import {Geoname} from '../../../geoname/domain/model/geoname';
+import {WaypointType} from '../model/waypoint-type';
+import {Waypoint} from '../model/waypoint';
+import {WaypointAltitude} from '../model/waypoint-altitude';
 
 
 export class GeonameWaypointConverter {

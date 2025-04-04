@@ -1,7 +1,7 @@
 import {FlightMapState} from './flight-map-state';
 import {FlightMapActions} from './flight-map.actions';
 import {createReducer, on} from '@ngrx/store';
-import {WaypointConverter} from '../../../flightroute/domain/model/converter/waypoint-converter';
+import {WaypointConverter} from '../../../flightroute/domain/converter/waypoint-converter';
 import {MeteoLayer} from '../../domain/model/meteo-layer';
 
 

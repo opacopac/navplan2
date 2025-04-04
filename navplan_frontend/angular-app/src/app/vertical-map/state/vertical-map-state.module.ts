@@ -15,7 +15,6 @@ import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.
         StoreModule.forFeature('verticalMapState', verticalMapReducer),
         EffectsModule.forFeature([VerticalMapEffects]),
         FlightrouteStateModule,
-
     ],
     providers: [
     ]

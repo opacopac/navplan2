@@ -8,7 +8,7 @@ import {Waypoint} from '../../../../domain/model/waypoint';
 import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
 import {RoutePickerListDialogComponent} from '../../common/route-picker-list-dialog/route-picker-list-dialog.component';
 import {EditWaypointDialogComponent} from '../../common/edit-waypoint-dialog/edit-waypoint-dialog.component';
-import {FlightrouteListActions} from '../../../../state/ngrx/flightroute-list.actions';
+import {FlightrouteListActions} from '../../../../../plan-route-list/state/ngrx/flightroute-list.actions';
 import {FlightrouteCrudActions} from '../../../../state/ngrx/flightroute-crud.actions';
 import {WaypointActions} from '../../../../state/ngrx/waypoints.actions';
 import {FlightrouteActions} from '../../../../state/ngrx/flightroute.actions';

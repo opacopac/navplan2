@@ -1,12 +1,12 @@
 import {Component, Inject, OnChanges, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
-import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
-import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
-import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantities/consumption-unit';
-import {Flightroute} from '../../../../domain/model/flightroute';
-import {AircraftParams} from '../../../../domain/model/aircraftParams';
+import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
+import {Consumption} from '../../../geo-physics/domain/model/quantities/consumption';
+import {SpeedUnit} from '../../../geo-physics/domain/model/quantities/speed-unit';
+import {ConsumptionUnit} from '../../../geo-physics/domain/model/quantities/consumption-unit';
+import {Flightroute} from '../../../flightroute/domain/model/flightroute';
+import {AircraftParams} from '../../../flightroute/domain/model/aircraftParams';
 
 
 @Component({

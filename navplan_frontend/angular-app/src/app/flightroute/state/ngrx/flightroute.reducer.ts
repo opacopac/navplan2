@@ -10,7 +10,6 @@ import {SharedFlightRouteActions} from './shared-flight-route.actions';
 import {SpeedUnit} from '../../../geo-physics/domain/model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../geo-physics/domain/model/quantities/consumption-unit';
 import {FlightrouteActions} from './flightroute.actions';
-import {FlightrouteListActions} from './flightroute-list.actions';
 import {AircraftListActions} from '../../../aircraft/state/ngrx/aircraft-list.actions';
 import {initialTableState} from '../../../common/state/model/table-state';
 
@@ -37,21 +36,6 @@ export const initialFlightrouteState: FlightrouteState = {
 
 export const flightRouteReducer = createReducer(
     initialFlightrouteState,
-
-    // FlightrouteListActions
-
-    on(FlightrouteListActions.readListSuccess, (state, action) => ({
-        ...state,
-        flightrouteList: action.flightrouteList
-    })),
-
-    on(FlightrouteListActions.updateTableState, (state, action) => ({
-        ...state,
-        flightrouteTableState: action.tableState
-    })),
-
-    // TODO: user logout => route list = []
-
 
     // FlightrouteActions
 

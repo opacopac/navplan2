@@ -41,16 +41,11 @@ import {
     MatExpansionPanelHeader,
     MatExpansionPanelTitle
 } from '@angular/material/expansion';
-import {RouteListPageComponent} from './ng-components/plan-route-list/route-list-page/route-list-page.component';
-import {RouteListTableComponent} from './ng-components/plan-route-list/route-list-table/route-list-table.component';
-import {
-    RouteDeleteConfirmDialogComponent
-} from './ng-components/plan-route-list/route-delete-confirm-dialog/route-delete-confirm-dialog.component';
 import {MatIcon} from '@angular/material/icon';
-import {RouteCreateFormDialogComponent} from './ng-components/plan-route-list/route-create-form-dialog/route-create-form-dialog.component';
 import {RoutePickerContainerComponent} from './ng-components/common/route-picker-container/route-picker-container.component';
 import {RoutePickerComponent} from './ng-components/common/route-picker/route-picker.component';
 import {FlightrouteNameComponent} from './ng-components/plan-waypoints/flightroute-name/flightroute-name.component';
+import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-list-state.module';
 
 
 @NgModule({
@@ -60,6 +55,7 @@ import {FlightrouteNameComponent} from './ng-components/plan-waypoints/flightrou
         FlightrouteDomainModule,
         FlightrouteRestModule,
         FlightrouteStateModule,
+        PlanRouteListStateModule,
         GeoPhysicsViewModule,
         ReactiveFormsModule,
         MatFormFieldModule,
@@ -98,17 +94,12 @@ import {FlightrouteNameComponent} from './ng-components/plan-waypoints/flightrou
         FuelCalcContainerComponent,
         FuelCalcInputFieldsComponent,
         FuelCalcTableComponent,
-        RouteListPageComponent,
-        RouteListTableComponent,
-        RouteCreateFormDialogComponent,
-        RouteDeleteConfirmDialogComponent,
         RoutePickerContainerComponent,
         RoutePickerComponent
     ],
     exports: [
         FuelCalcContainerComponent,
         WaypointsContainerComponent,
-        RouteListPageComponent,
         RoutePickerContainerComponent
     ],
     providers: []

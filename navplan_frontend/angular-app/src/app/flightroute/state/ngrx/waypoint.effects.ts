@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {WaypointActions} from './waypoints.actions';
-import {WaypointConverter} from '../../domain/model/converter/waypoint-converter';
+import {WaypointConverter} from '../../domain/converter/waypoint-converter';
 import {ISearchService} from '../../../search/domain/service/i-search.service';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
 import {Observable} from 'rxjs';

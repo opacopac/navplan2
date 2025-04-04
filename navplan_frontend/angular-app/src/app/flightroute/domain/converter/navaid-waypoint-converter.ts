@@ -1,7 +1,7 @@
-import {WaypointType} from '../waypoint-type';
-import {Navaid} from '../../../../navaid/domain/model/navaid';
-import {Waypoint} from '../waypoint';
-import {WaypointAltitude} from '../waypoint-altitude';
+import {WaypointType} from '../model/waypoint-type';
+import {Navaid} from '../../../navaid/domain/model/navaid';
+import {Waypoint} from '../model/waypoint';
+import {WaypointAltitude} from '../model/waypoint-altitude';
 
 
 export class NavaidWaypointConverter {

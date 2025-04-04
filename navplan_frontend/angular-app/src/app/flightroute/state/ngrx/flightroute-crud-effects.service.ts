@@ -12,7 +12,7 @@ import {MessageActions} from '../../../message/state/ngrx/message.actions';
 import {Message} from '../../../message/domain/model/message';
 import {FlightrouteActions} from './flightroute.actions';
 import {IFlightrouteService} from '../../domain/service/i-flightroute.service';
-import {FlightrouteListActions} from './flightroute-list.actions';
+import {FlightrouteListActions} from '../../../plan-route-list/state/ngrx/flightroute-list.actions';
 
 
 @Injectable()

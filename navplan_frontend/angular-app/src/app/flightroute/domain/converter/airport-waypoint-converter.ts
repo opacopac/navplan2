@@ -1,8 +1,8 @@
-import {Airport} from '../../../../aerodrome/domain/model/airport';
-import {WaypointType} from '../waypoint-type';
-import {AirportRadio} from '../../../../aerodrome/domain/model/airport-radio';
-import {Waypoint} from '../waypoint';
-import {WaypointAltitude} from '../waypoint-altitude';
+import {Airport} from '../../../aerodrome/domain/model/airport';
+import {WaypointType} from '../model/waypoint-type';
+import {AirportRadio} from '../../../aerodrome/domain/model/airport-radio';
+import {Waypoint} from '../model/waypoint';
+import {WaypointAltitude} from '../model/waypoint-altitude';
 
 
 export class AirportWaypointConverter {

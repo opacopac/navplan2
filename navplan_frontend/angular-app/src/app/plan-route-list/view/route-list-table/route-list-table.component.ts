@@ -1,15 +1,15 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import {ButtonColor} from '../../../../../common/view/model/button-color';
+import {ButtonColor} from '../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
-import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
-import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantities/consumption-unit';
-import {FlightrouteListEntry} from '../../../../domain/model/flightroute-list-entry';
-import {Flightroute} from '../../../../domain/model/flightroute';
+import {SpeedUnit} from '../../../geo-physics/domain/model/quantities/speed-unit';
+import {ConsumptionUnit} from '../../../geo-physics/domain/model/quantities/consumption-unit';
+import {FlightrouteListEntry} from '../../../flightroute/domain/model/flightroute-list-entry';
+import {Flightroute} from '../../../flightroute/domain/model/flightroute';
 import {RouteCreateFormDialogComponent} from '../route-create-form-dialog/route-create-form-dialog.component';
-import {TextFilterState} from '../../../../../common/state/model/text-filter-state';
-import {TableState} from '../../../../../common/state/model/table-state';
+import {TextFilterState} from '../../../common/state/model/text-filter-state';
+import {TableState} from '../../../common/state/model/table-state';
 import {RouteDeleteConfirmDialogComponent} from '../route-delete-confirm-dialog/route-delete-confirm-dialog.component';
 
 
