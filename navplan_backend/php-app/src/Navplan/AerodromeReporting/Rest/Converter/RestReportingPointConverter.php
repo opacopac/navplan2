@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Rest\Converter;
+namespace Navplan\AerodromeReporting\Rest\Converter;
 
-use Navplan\Aerodrome\Domain\Model\ReportingPoint;
+use Navplan\AerodromeReporting\Domain\Model\ReportingPoint;
 use Navplan\Common\Rest\Converter\RestLengthConverter;
 use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 use Navplan\Common\Rest\Converter\RestRing2dConverter;

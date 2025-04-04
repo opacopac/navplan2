@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Domain\Service;
+namespace Navplan\AerodromeReporting\Domain\Service;
 
 
 interface IReportingPointRepo extends IReportingPointService {

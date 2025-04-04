@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Persistence\Repo;
+namespace Navplan\AerodromeReporting\Persistence\Repo;
 
 use BadMethodCallException;
-use Navplan\Aerodrome\Domain\Service\IReportingPointRepo;
-use Navplan\Aerodrome\Persistence\Model\DbReportingPointConverter;
+use Navplan\AerodromeReporting\Domain\Service\IReportingPointRepo;
+use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\Domain\Model\IDbResult;

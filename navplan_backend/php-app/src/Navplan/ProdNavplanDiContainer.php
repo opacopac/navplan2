@@ -10,6 +10,8 @@ use Navplan\AerodromeChart\IAerodromeChartDiContainer;
 use Navplan\AerodromeChart\ProdAerodromeChartDiContainer;
 use Navplan\AerodromeCircuit\IAerodromeCircuitDiContainer;
 use Navplan\AerodromeCircuit\ProdAerodromeCircuitsDiContainer;
+use Navplan\AerodromeReporting\IAerodromeReportingDiContainer;
+use Navplan\AerodromeReporting\ProdAerodromeReportingDiContainer;
 use Navplan\Aircraft\IAircraftDiContainer;
 use Navplan\Aircraft\ProdAircraftDiContainer;
 use Navplan\Airspace\IAirspaceDiContainer;
@@ -61,6 +63,7 @@ class ProdNavplanDiContainer
     private IAerodromeDiContainer $aerodromeDiContainer;
     private IAerodromeCircuitDiContainer $aerodromeCircuitDiContainer;
     private IAerodromeChartDiContainer $aerodromeChartDiContainer;
+    private IAerodromeReportingDiContainer $aerodromeReportingDiContainer;
     private IAircraftDiContainer $aircraftDiContainer;
     private IAirspaceDiContainer $airspaceDiContainer;
     private INavaidDiContainer $navaidDiContainer;
@@ -147,6 +150,19 @@ class ProdNavplanDiContainer
         }
 
         return $this->aerodromeCircuitDiContainer;
+    }
+
+
+    public function getAerodromeReportingDiContainer(): IAerodromeReportingDiContainer
+    {
+        if (!isset($this->aerodromeReportingDiContainer)) {
+            $this->aerodromeReportingDiContainer = new ProdAerodromeReportingDiContainer(
+                $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getHttpService()
+            );
+        }
+
+        return $this->aerodromeReportingDiContainer;
     }
 
 
@@ -315,7 +331,7 @@ class ProdNavplanDiContainer
                 $this->getAirspaceDiContainer()->getAirspaceService(),
                 $this->getNotamDiContainer()->getNotamService(),
                 $this->getAerodromeDiContainer()->getAirportService(),
-                $this->getAerodromeDiContainer()->getReportingPointService(),
+                $this->getAerodromeReportingDiContainer()->getReportingPointService(),
                 $this->getNavaidDiContainer()->getNavaidService(),
                 $this->getGeonameDiContainer()->getGeonameService(),
             );

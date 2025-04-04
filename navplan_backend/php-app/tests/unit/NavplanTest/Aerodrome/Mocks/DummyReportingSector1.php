@@ -2,7 +2,7 @@
 
 namespace NavplanTest\Aerodrome\Mocks;
 
-use Navplan\Aerodrome\Domain\Model\ReportingPoint;
+use Navplan\AerodromeReporting\Domain\Model\ReportingPoint;
 use Navplan\Common\Domain\Model\Ring2d;
 
 

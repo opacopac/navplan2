@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Rest\Controller;
+namespace Navplan\AerodromeReporting\Rest\Controller;
 
 use InvalidArgumentException;
-use Navplan\Aerodrome\Domain\Service\IReportingPointService;
-use Navplan\Aerodrome\Rest\Converter\RestReportingPointConverter;
+use Navplan\AerodromeReporting\Domain\Service\IReportingPointService;
+use Navplan\AerodromeReporting\Rest\Converter\RestReportingPointConverter;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestExtent2dConverter;
 use Navplan\System\Domain\Model\HttpRequestMethod;

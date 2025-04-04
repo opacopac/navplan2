@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Persistence\Model;
+namespace Navplan\AerodromeReporting\Persistence\Model;
 
-use Navplan\Aerodrome\Domain\Model\ReportingPoint;
+use Navplan\AerodromeReporting\Domain\Model\ReportingPoint;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Domain\Model\Ring2d;

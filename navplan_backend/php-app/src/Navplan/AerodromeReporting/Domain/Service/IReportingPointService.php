@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Domain\Service;
+namespace Navplan\AerodromeReporting\Domain\Service;
 
-use Navplan\Aerodrome\Domain\Model\ReportingPoint;
+use Navplan\AerodromeReporting\Domain\Model\ReportingPoint;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Position2d;
 

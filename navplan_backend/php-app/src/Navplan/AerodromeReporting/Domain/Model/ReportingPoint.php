@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Domain\Model;
+namespace Navplan\AerodromeReporting\Domain\Model;
 
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Position2d;
