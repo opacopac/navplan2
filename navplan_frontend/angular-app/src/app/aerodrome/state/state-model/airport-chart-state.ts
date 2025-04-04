@@ -1,4 +1,4 @@
-import {AirportChart} from '../../../domain/model/airport-chart';
+import {AirportChart} from '../../domain/model/airport-chart';
 
 
 export interface AirportChartState {

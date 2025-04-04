@@ -5,7 +5,7 @@ import {RestReportingpointConverter} from '../../../aerodrome/rest/converter/res
 import {RestReportingsectorConverter} from '../../../aerodrome/rest/converter/rest-reportingsector-converter';
 import {RestUserpointConverter} from '../../../user/rest/model/rest-userpoint-converter';
 import {RestGeonameConverter} from '../../../geoname/rest/model/rest-geoname-converter';
-import {RestAirportCircuitConverter} from '../../../aerodrome/rest/converter/rest-airport-circuit-converter';
+import {RestAirportCircuitConverter} from '../../../aerodrome-circuits/rest/converter/rest-airport-circuit-converter';
 import {IRestSearchResponse} from './i-rest-search-response';
 import {RestAirspaceConverter} from '../../../airspace/rest/model/rest-airspace-converter';
 

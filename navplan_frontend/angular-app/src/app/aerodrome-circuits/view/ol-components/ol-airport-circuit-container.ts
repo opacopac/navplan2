@@ -1,7 +1,7 @@
 import {Observable, Subscription} from 'rxjs';
-import {AirportCircuit} from '../../../domain/model/airport-circuit';
+import {AirportCircuit} from '../../domain/model/airport-circuit';
 import {OlAirportCircuit} from './ol-airport-circuit';
-import {OlVectorLayer} from '../../../../base-map/view/ol-model/ol-vector-layer';
+import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 
 
 export class OlAirportCircuitContainer {

@@ -1,20 +1,10 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {
-    MapPopupAirportHeaderComponent
-} from './ng-components/map-popup-airport-header/map-popup-airport-header.component';
-import {
-    MapPopupAirportChartTabComponent
-} from './ng-components/map-popup-airport-chart-tab/map-popup-airport-chart-tab.component';
-import {
-    MapPopupAirportInfoTabComponent
-} from './ng-components/map-popup-airport-info-tab/map-popup-airport-info-tab.component';
-import {
-    MapPopupAirportRunwayTabComponent
-} from './ng-components/map-popup-airport-runway-tab/map-popup-airport-runway-tab.component';
-import {
-    MapPopupAirportRadioTabComponent
-} from './ng-components/map-popup-airport-radio-tab/map-popup-airport-radio-tab.component';
+import {MapPopupAirportHeaderComponent} from './ng-components/map-popup-airport-header/map-popup-airport-header.component';
+import {MapPopupAirportChartTabComponent} from './ng-components/map-popup-airport-chart-tab/map-popup-airport-chart-tab.component';
+import {MapPopupAirportInfoTabComponent} from './ng-components/map-popup-airport-info-tab/map-popup-airport-info-tab.component';
+import {MapPopupAirportRunwayTabComponent} from './ng-components/map-popup-airport-runway-tab/map-popup-airport-runway-tab.component';
+import {MapPopupAirportRadioTabComponent} from './ng-components/map-popup-airport-radio-tab/map-popup-airport-radio-tab.component';
 import {
     MapPopupReportingpointHeaderComponent
 } from './ng-components/map-popup-reportingpoint-header/map-popup-reportingpoint-header.component';

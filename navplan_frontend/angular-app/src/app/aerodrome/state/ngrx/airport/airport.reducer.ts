@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import {AirportActions} from './airport.actions';
-import {AirportState} from '../state-model/airport-state';
+import {AirportState} from '../../state-model/airport-state';
 
 
 const initialState: AirportState = {

@@ -5,7 +5,7 @@ import {ReportingPointSectorActions} from './reporting-point-sector.actions';
 import {Observable, of, pipe} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {getReportingPointSectorState} from './reporting-point-sector.selectors';
-import {ReportingPointSectorState} from '../state-model/reporting-point-sector-state';
+import {ReportingPointSectorState} from '../../state-model/reporting-point-sector-state';
 import {environment} from '../../../../../environments/environment';
 import {IReportingPointService} from '../../../domain/service/i-reporting-point.service';
 import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';

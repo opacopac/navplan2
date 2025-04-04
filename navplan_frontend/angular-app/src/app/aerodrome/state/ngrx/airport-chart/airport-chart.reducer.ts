@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import {AirportChartActions} from './airport-chart.actions';
-import {AirportChartState} from '../state-model/airport-chart-state';
+import {AirportChartState} from '../../state-model/airport-chart-state';
 
 
 const initialState: AirportChartState = {

@@ -6,9 +6,9 @@ import {Observable, of, pipe} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {getAirportCircuitState} from './airport-circuit.selectors';
 import {AirportCircuitState} from '../state-model/airport-circuit-state';
-import {environment} from '../../../../../environments/environment';
-import {IAirportCircuitService} from '../../../domain/service/i-airport-circuit.service';
-import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';
+import {environment} from '../../../../environments/environment';
+import {IAirportCircuitService} from '../../domain/service/i-airport-circuit.service';
+import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 
 
 @Injectable()

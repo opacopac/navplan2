@@ -37,7 +37,7 @@ import {
 import {OlAirportContainer} from '../../../../aerodrome/view/ol-components/airport/ol-airport-container';
 import {
     OlAirportCircuitContainer
-} from '../../../../aerodrome/view/ol-components/airport-circuit/ol-airport-circuit-container';
+} from '../../../../aerodrome-circuits/view/ol-components/ol-airport-circuit-container';
 import {
     OlReportingPointContainer
 } from '../../../../aerodrome/view/ol-components/reporting-point-sector/ol-reporting-point-container';
@@ -61,7 +61,7 @@ import {
     getReportingPoints,
     getReportingSectors
 } from '../../../../aerodrome/state/ngrx/reporting-point-sector/reporting-point-sector.selectors';
-import {getAirportCircuits} from '../../../../aerodrome/state/ngrx/airport-circuit/airport-circuit.selectors';
+import {getAirportCircuits} from '../../../../aerodrome-circuits/state/ngrx/airport-circuit.selectors';
 import {getAirportCharts} from '../../../../aerodrome/state/ngrx/airport-chart/airport-chart.selectors';
 import {MapPopupComponent} from '../map-popup/map-popup.component';
 import {OverlayState} from '../../../state/ngrx/overlay-state';

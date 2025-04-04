@@ -51,12 +51,8 @@ import {
 import {
     MapPopupWaypointButtonSetAlternateComponent
 } from './ng-components/map-popup-waypoint-button-set-alternate/map-popup-waypoint-button-set-alternate.component';
-import {
-    MapPopupWaypointHeaderComponent
-} from './ng-components/map-popup-waypoint-header/map-popup-waypoint-header.component';
-import {
-    MapPopupWaypointInfoTabComponent
-} from './ng-components/map-popup-waypoint-info-tab/map-popup-waypoint-info-tab.component';
+import {MapPopupWaypointHeaderComponent} from './ng-components/map-popup-waypoint-header/map-popup-waypoint-header.component';
+import {MapPopupWaypointInfoTabComponent} from './ng-components/map-popup-waypoint-info-tab/map-popup-waypoint-info-tab.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
@@ -64,6 +60,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSelectModule} from '@angular/material/select';
+import {AerodromeCircuitsViewModule} from '../../aerodrome-circuits/view/aerodrome-circuits-view.module';
 
 @NgModule({
     declarations: [
@@ -95,6 +92,7 @@ import {MatSelectModule} from '@angular/material/select';
         MatSelectModule,
         MatCardModule,
         AerodromeViewModule,
+        AerodromeCircuitsViewModule,
         AirspaceViewModule,
         BaseMapViewModule,
         CommonModule,
