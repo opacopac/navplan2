@@ -36,6 +36,8 @@ import {FlightrouteDomainModule} from '../../flightroute/domain/flightroute-doma
 import {FlightrouteRestModule} from '../../flightroute/rest/flightroute-rest.module';
 import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.module';
 import {WaypointsTableComponent} from './ng-components/waypoints-table/waypoints-table.component';
+import {EditWaypointDialogComponent} from './ng-components/edit-waypoint-dialog/edit-waypoint-dialog.component';
+import {EditWaypointFormComponent} from './ng-components/edit-waypoint-form/edit-waypoint-form.component';
 
 
 @NgModule({
@@ -73,6 +75,8 @@ import {WaypointsTableComponent} from './ng-components/waypoints-table/waypoints
         FlightrouteViewModule
     ],
     declarations: [
+        EditWaypointDialogComponent,
+        EditWaypointFormComponent,
         FlightrouteAircraftSpeedComponent,
         FlightrouteNameComponent,
         FlightrouteCommentsComponent,

@@ -63,6 +63,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {AerodromeCircuitsViewModule} from '../../aerodrome-circuits/view/aerodrome-circuits-view.module';
 import {AerodromeChartsViewModule} from '../../aerodrome-charts/view/aerodrome-charts-view.module';
 import {AerodromeReportingViewModule} from '../../aerodrome-reporting/aerodrome-reporting-view.module';
+import {PlanWaypointsViewModule} from '../../plan-waypoints/view/plan-waypoints-view.module';
 
 @NgModule({
     declarations: [
@@ -103,6 +104,7 @@ import {AerodromeReportingViewModule} from '../../aerodrome-reporting/aerodrome-
         FlightMapStateModule,
         FlightTimerViewModule,
         FlightrouteViewModule,
+        PlanWaypointsViewModule,
         GeonameViewModule,
         GeoPhysicsViewModule,
         LocationViewModule,

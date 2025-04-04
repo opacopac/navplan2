@@ -3,8 +3,6 @@ import {CommonModule} from '@angular/common';
 import {FlightrouteStateModule} from '../state/flightroute-state.module';
 import {FlightrouteDomainModule} from '../domain/flightroute-domain.module';
 import {FlightrouteRestModule} from '../rest/flightroute-rest.module';
-import {EditWaypointDialogComponent} from './ng-components/edit-waypoint-dialog/edit-waypoint-dialog.component';
-import {EditWaypointFormComponent} from './ng-components/edit-waypoint-form/edit-waypoint-form.component';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 import {CommonViewModule} from '../../common/view/common-view.module';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -72,8 +70,6 @@ import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-l
         MatIcon,
     ],
     declarations: [
-        EditWaypointDialogComponent,
-        EditWaypointFormComponent,
         RoutePickerListComponent,
         RoutePickerListDialogComponent,
         RoutePickerContainerComponent,

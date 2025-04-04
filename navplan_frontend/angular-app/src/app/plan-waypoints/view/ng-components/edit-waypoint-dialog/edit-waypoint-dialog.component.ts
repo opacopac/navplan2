@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {Waypoint} from '../../../domain/model/waypoint';
+import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {Observable} from 'rxjs';
 
