@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ButtonColor} from '../../../../../common/view/model/button-color';
-import {Flightroute} from '../../../../domain/model/flightroute';
+import {ButtonColor} from '../../../../common/view/model/button-color';
+import {Flightroute} from '../../../domain/model/flightroute';
 
 
 @Component({

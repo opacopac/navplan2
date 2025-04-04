@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Waypoint} from '../../../../domain/model/waypoint';
-import {Flightroute} from '../../../../domain/model/flightroute';
-import {WaypointType} from '../../../../domain/model/waypoint-type';
-import {TimeUnit} from '../../../../../geo-physics/domain/model/quantities/time-unit';
-import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
-import {ButtonColor} from '../../../../../common/view/model/button-color';
-import {Length} from '../../../../../geo-physics/domain/model/quantities/length';
+import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
+import {Flightroute} from '../../../../flightroute/domain/model/flightroute';
+import {WaypointType} from '../../../../flightroute/domain/model/waypoint-type';
+import {TimeUnit} from '../../../../geo-physics/domain/model/quantities/time-unit';
+import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
+import {ButtonColor} from '../../../../common/view/model/button-color';
+import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 
 
 interface WaypointListDataSourceRow {

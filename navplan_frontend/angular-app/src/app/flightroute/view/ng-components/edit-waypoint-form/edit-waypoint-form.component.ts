@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Waypoint} from '../../../../domain/model/waypoint';
-import {Altitude} from '../../../../../geo-physics/domain/model/geometry/altitude';
-import {AltitudeReference} from '../../../../../geo-physics/domain/model/geometry/altitude-reference';
-import {ButtonColor} from '../../../../../common/view/model/button-color';
-import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
-import {Length} from '../../../../../geo-physics/domain/model/quantities/length';
+import {Waypoint} from '../../../domain/model/waypoint';
+import {Altitude} from '../../../../geo-physics/domain/model/geometry/altitude';
+import {AltitudeReference} from '../../../../geo-physics/domain/model/geometry/altitude-reference';
+import {ButtonColor} from '../../../../common/view/model/button-color';
+import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
+import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 
 
 @Component({

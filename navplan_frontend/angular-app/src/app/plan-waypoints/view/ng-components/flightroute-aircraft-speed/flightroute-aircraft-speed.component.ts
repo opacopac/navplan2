@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
-import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
+import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
+import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
-import {ButtonColor} from '../../../../../common/view/model/button-color';
+import {ButtonColor} from '../../../../common/view/model/button-color';
 
 
 @Component({

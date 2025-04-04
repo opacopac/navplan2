@@ -2,19 +2,19 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
-import {getFlightroute, getUseAircraftSpeedValue} from '../../../../state/ngrx/flightroute.selectors';
-import {getCurrentUser} from '../../../../../user/state/ngrx/user.selectors';
-import {Waypoint} from '../../../../domain/model/waypoint';
-import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
-import {RoutePickerListDialogComponent} from '../../common/route-picker-list-dialog/route-picker-list-dialog.component';
-import {EditWaypointDialogComponent} from '../../common/edit-waypoint-dialog/edit-waypoint-dialog.component';
-import {FlightrouteListActions} from '../../../../../plan-route-list/state/ngrx/flightroute-list.actions';
-import {FlightrouteCrudActions} from '../../../../state/ngrx/flightroute-crud.actions';
-import {WaypointActions} from '../../../../state/ngrx/waypoints.actions';
-import {FlightrouteActions} from '../../../../state/ngrx/flightroute.actions';
-import {getAltitudeUnit, getSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {getFlightroute, getUseAircraftSpeedValue} from '../../../../flightroute/state/ngrx/flightroute.selectors';
+import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
+import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
+import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
+import {RoutePickerListDialogComponent} from '../../../../flightroute/view/ng-components/route-picker-list-dialog/route-picker-list-dialog.component';
+import {EditWaypointDialogComponent} from '../../../../flightroute/view/ng-components/edit-waypoint-dialog/edit-waypoint-dialog.component';
+import {FlightrouteListActions} from '../../../../plan-route-list/state/ngrx/flightroute-list.actions';
+import {FlightrouteCrudActions} from '../../../../flightroute/state/ngrx/flightroute-crud.actions';
+import {WaypointActions} from '../../../../flightroute/state/ngrx/waypoints.actions';
+import {FlightrouteActions} from '../../../../flightroute/state/ngrx/flightroute.actions';
+import {getAltitudeUnit, getSpeedUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {getCurrentAircraft} from '../../../../../aircraft/state/ngrx/aircraft.selectors';
+import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
 
 
 @Component({

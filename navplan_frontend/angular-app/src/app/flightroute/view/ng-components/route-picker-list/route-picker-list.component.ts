@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import {FlightrouteListEntry} from '../../../../domain/model/flightroute-list-entry';
-import {ButtonColor} from '../../../../../common/view/model/button-color';
+import {FlightrouteListEntry} from '../../../domain/model/flightroute-list-entry';
+import {ButtonColor} from '../../../../common/view/model/button-color';
 
 
 export interface ListEntry {

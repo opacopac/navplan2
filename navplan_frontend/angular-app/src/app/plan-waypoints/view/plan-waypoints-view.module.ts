@@ -1,10 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FlightrouteStateModule} from '../state/flightroute-state.module';
-import {FlightrouteDomainModule} from '../domain/flightroute-domain.module';
-import {FlightrouteRestModule} from '../rest/flightroute-rest.module';
-import {EditWaypointDialogComponent} from './ng-components/edit-waypoint-dialog/edit-waypoint-dialog.component';
-import {EditWaypointFormComponent} from './ng-components/edit-waypoint-form/edit-waypoint-form.component';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 import {CommonViewModule} from '../../common/view/common-view.module';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -19,8 +14,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {ExporterViewModule} from '../../exporter/view/exporter-view.module';
 import {MatTabsModule} from '@angular/material/tabs';
-import {RoutePickerListComponent} from './ng-components/route-picker-list/route-picker-list.component';
-import {RoutePickerListDialogComponent} from './ng-components/route-picker-list-dialog/route-picker-list-dialog.component';
+import {WaypointsContainerComponent} from './ng-components/waypoints-container/waypoints-container.component';
+import {FlightrouteAircraftSpeedComponent} from './ng-components/flightroute-aircraft-speed/flightroute-aircraft-speed.component';
+import {FlightrouteCommentsComponent} from './ng-components/flightroute-comment/flightroute-comments.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
@@ -33,9 +29,13 @@ import {
     MatExpansionPanelTitle
 } from '@angular/material/expansion';
 import {MatIcon} from '@angular/material/icon';
-import {RoutePickerContainerComponent} from './ng-components/route-picker-container/route-picker-container.component';
-import {RoutePickerComponent} from './ng-components/route-picker/route-picker.component';
+import {FlightrouteNameComponent} from './ng-components/flightroute-name/flightroute-name.component';
 import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-list-state.module';
+import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
+import {FlightrouteDomainModule} from '../../flightroute/domain/flightroute-domain.module';
+import {FlightrouteRestModule} from '../../flightroute/rest/flightroute-rest.module';
+import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.module';
+import {WaypointsTableComponent} from './ng-components/waypoints-table/waypoints-table.component';
 
 
 @NgModule({
@@ -70,19 +70,19 @@ import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-l
         MatExpansionPanelHeader,
         MatExpansionPanelTitle,
         MatIcon,
+        FlightrouteViewModule
     ],
     declarations: [
-        EditWaypointDialogComponent,
-        EditWaypointFormComponent,
-        RoutePickerListComponent,
-        RoutePickerListDialogComponent,
-        RoutePickerContainerComponent,
-        RoutePickerComponent
+        FlightrouteAircraftSpeedComponent,
+        FlightrouteNameComponent,
+        FlightrouteCommentsComponent,
+        WaypointsContainerComponent,
+        WaypointsTableComponent,
     ],
     exports: [
-        RoutePickerContainerComponent
+        WaypointsContainerComponent,
     ],
     providers: []
 })
-export class FlightrouteViewModule {
+export class PlanWaypointsViewModule {
 }

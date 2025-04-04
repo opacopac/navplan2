@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
-import {ButtonColor} from '../../../../../common/view/model/button-color';
+import {ButtonColor} from '../../../../common/view/model/button-color';
 
 
 @Component({

@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {MatDialog} from '@angular/material/dialog';
-import {getFlightroute} from '../../../../state/ngrx/flightroute.selectors';
-import {FlightrouteListActions} from '../../../../../plan-route-list/state/ngrx/flightroute-list.actions';
-import {FlightrouteCrudActions} from '../../../../state/ngrx/flightroute-crud.actions';
+import {getFlightroute} from '../../../state/ngrx/flightroute.selectors';
+import {FlightrouteListActions} from '../../../../plan-route-list/state/ngrx/flightroute-list.actions';
+import {FlightrouteCrudActions} from '../../../state/ngrx/flightroute-crud.actions';
 import {RoutePickerListDialogComponent} from '../route-picker-list-dialog/route-picker-list-dialog.component';
-import {getFlightrouteList} from '../../../../../plan-route-list/state/ngrx/flightroute-list.selectors';
+import {getFlightrouteList} from '../../../../plan-route-list/state/ngrx/flightroute-list.selectors';
 
 
 @Component({
