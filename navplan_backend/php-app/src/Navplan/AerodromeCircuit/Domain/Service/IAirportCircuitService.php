@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Domain\Service;
+namespace Navplan\AerodromeCircuit\Domain\Service;
 
-use Navplan\Aerodrome\Domain\Model\AirportCircuit;
+use Navplan\AerodromeCircuit\Domain\Model\AirportCircuit;
 use Navplan\Common\Domain\Model\Extent2d;
 
 

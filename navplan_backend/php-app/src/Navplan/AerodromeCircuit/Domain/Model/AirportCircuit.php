@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Domain\Model;
+namespace Navplan\AerodromeCircuit\Domain\Model;
 
 
 class AirportCircuit {

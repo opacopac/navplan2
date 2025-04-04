@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Rest\Converter;
+namespace Navplan\AerodromeCircuit\Rest\Converter;
 
-use Navplan\Aerodrome\Domain\Model\AirportCircuit;
+use Navplan\AerodromeCircuit\Domain\Model\AirportCircuit;
 use Navplan\Common\Rest\Converter\RestLine2dConverter;
 
 

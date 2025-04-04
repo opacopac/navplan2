@@ -8,6 +8,8 @@ use Navplan\Aerodrome\IAerodromeDiContainer;
 use Navplan\Aerodrome\ProdAerodromeDiContainer;
 use Navplan\AerodromeChart\IAerodromeChartDiContainer;
 use Navplan\AerodromeChart\ProdAerodromeChartDiContainer;
+use Navplan\AerodromeCircuit\IAerodromeCircuitDiContainer;
+use Navplan\AerodromeCircuit\ProdAerodromeCircuitsDiContainer;
 use Navplan\Aircraft\IAircraftDiContainer;
 use Navplan\Aircraft\ProdAircraftDiContainer;
 use Navplan\Airspace\IAirspaceDiContainer;
@@ -57,6 +59,7 @@ class ProdNavplanDiContainer
     private IConfigDiContainer $configDiContainer;
     private IAdminDiContainer $adminDiContainer;
     private IAerodromeDiContainer $aerodromeDiContainer;
+    private IAerodromeCircuitDiContainer $aerodromeCircuitDiContainer;
     private IAerodromeChartDiContainer $aerodromeChartDiContainer;
     private IAircraftDiContainer $aircraftDiContainer;
     private IAirspaceDiContainer $airspaceDiContainer;
@@ -131,6 +134,19 @@ class ProdNavplanDiContainer
         }
 
         return $this->aerodromeChartDiContainer;
+    }
+
+
+    public function getAerodromeCircuitDiContainer(): IAerodromeCircuitDiContainer
+    {
+        if (!isset($this->aerodromeCircuitDiContainer)) {
+            $this->aerodromeCircuitDiContainer = new ProdAerodromeCircuitsDiContainer(
+                $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getHttpService()
+            );
+        }
+
+        return $this->aerodromeCircuitDiContainer;
     }
 
 

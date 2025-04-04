@@ -2,9 +2,9 @@
 
 namespace Navplan\Search\Rest\Model;
 
-use Navplan\Aerodrome\Rest\Converter\RestAirportCircuitConverter;
 use Navplan\Aerodrome\Rest\Converter\RestAirportConverter;
 use Navplan\Aerodrome\Rest\Converter\RestReportingPointConverter;
+use Navplan\AerodromeCircuit\Rest\Converter\RestAirportCircuitConverter;
 use Navplan\Airspace\Rest\Converter\RestAirspaceConverter;
 use Navplan\Geoname\Rest\Model\RestGeonameConverter;
 use Navplan\Navaid\Rest\Converter\RestNavaidConverter;

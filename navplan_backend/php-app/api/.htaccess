@@ -16,7 +16,7 @@ RewriteRule ^aerodromes$ %{ENV:BASEPATH}Aerodrome/Aerodrome.php [L,QSA]
 RewriteRule ^aerodromes/(\d+)$ %{ENV:BASEPATH}Aerodrome/Aerodrome.php?id=$1 [L,QSA]
 
 # Rewrite for /api/aerodromes/circuits
-RewriteRule ^aerodromes/circuits$ %{ENV:BASEPATH}Aerodrome/AdCircuit.php [L,QSA]
+RewriteRule ^aerodromes/circuits$ %{ENV:BASEPATH}AerodromeCircuit/AdCircuit.php [L,QSA]
 
 # Rewrite for /api/aerodromes/reportingpoints
 RewriteRule ^aerodromes/reportingpoints$ %{ENV:BASEPATH}Aerodrome/AdReportingPoint.php [L,QSA]

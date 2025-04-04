@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Persistence\Model;
+namespace Navplan\AerodromeCircuit\Persistence\Model;
 
-use Navplan\Aerodrome\Domain\Model\AirportCircuit;
+use Navplan\AerodromeCircuit\Domain\Model\AirportCircuit;
 use Navplan\Common\Persistence\Model\DbLine2dConverter;
 
 

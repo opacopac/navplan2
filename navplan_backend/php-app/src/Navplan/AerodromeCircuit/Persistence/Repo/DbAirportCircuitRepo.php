@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Persistence\Repo;
+namespace Navplan\AerodromeCircuit\Persistence\Repo;
 
-use Navplan\Aerodrome\Domain\Model\AirportCircuit;
-use Navplan\Aerodrome\Domain\Service\IAirportCircuitRepo;
-use Navplan\Aerodrome\Persistence\Model\DbAirportCircuitConverter;
+use Navplan\AerodromeCircuit\Domain\Model\AirportCircuit;
+use Navplan\AerodromeCircuit\Domain\Service\IAirportCircuitRepo;
+use Navplan\AerodromeCircuit\Persistence\Model\DbAirportCircuitConverter;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Persistence\Model\DbLine2dConverter;
 use Navplan\Common\Persistence\Model\DbRing2dConverter;

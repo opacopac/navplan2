@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Rest\Controller;
+namespace Navplan\AerodromeCircuit\Rest\Controller;
 
 use InvalidArgumentException;
-use Navplan\Aerodrome\Domain\Service\IAirportCircuitService;
-use Navplan\Aerodrome\Rest\Converter\RestAirportCircuitConverter;
+use Navplan\AerodromeCircuit\Domain\Service\IAirportCircuitService;
+use Navplan\AerodromeCircuit\Rest\Converter\RestAirportCircuitConverter;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestExtent2dConverter;
 use Navplan\System\Domain\Model\HttpRequestMethod;

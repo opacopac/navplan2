@@ -2,13 +2,10 @@
 
 namespace Navplan\Aerodrome;
 
-use Navplan\Aerodrome\Domain\Service\IAirportCircuitService;
 use Navplan\Aerodrome\Domain\Service\IAirportService;
 use Navplan\Aerodrome\Domain\Service\IReportingPointService;
-use Navplan\Aerodrome\Persistence\Repo\DbAirportCircuitRepo;
 use Navplan\Aerodrome\Persistence\Repo\DbAirportRepo;
 use Navplan\Aerodrome\Persistence\Repo\DbReportingPointRepo;
-use Navplan\Aerodrome\Rest\Controller\AdCircuitController;
 use Navplan\Aerodrome\Rest\Controller\AdReportingPointController;
 use Navplan\Aerodrome\Rest\Controller\AirportController;
 use Navplan\Common\Rest\Controller\IRestController;
@@ -20,10 +17,8 @@ use Navplan\System\Domain\Service\ILoggingService;
 class ProdAerodromeDiContainer implements IAerodromeDiContainer
 {
     private IRestController $airportController;
-    private IRestController $airportCircuitController;
     private IRestController $reportingPointController;
     private IAirportService $airportService;
-    private IAirportCircuitService $airportCircuitService;
     private IReportingPointService $reportingPointService;
 
 
@@ -46,19 +41,6 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
         }
 
         return $this->airportController;
-    }
-
-
-    public function getAirportCircuitController(): IRestController
-    {
-        if (!isset($this->airportCircuitController)) {
-            $this->airportCircuitController = new AdCircuitController(
-                $this->httpService,
-                $this->getAirportCircuitService()
-            );
-        }
-
-        return $this->airportCircuitController;
     }
 
 
@@ -85,16 +67,6 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
         }
 
         return $this->airportService;
-    }
-
-
-    function getAirportCircuitService(): IAirportCircuitService
-    {
-        if (!isset($this->airportCircuitService)) {
-            $this->airportCircuitService = new DbAirportCircuitRepo($this->dbService);
-        }
-
-        return $this->airportCircuitService;
     }
 
 
