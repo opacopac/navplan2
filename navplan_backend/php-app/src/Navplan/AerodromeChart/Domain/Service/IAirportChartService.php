@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Domain\Service;
+namespace Navplan\AerodromeChart\Domain\Service;
 
-use Navplan\Aerodrome\Domain\Model\AirportChart;
-use Navplan\Aerodrome\Domain\Model\AirportChart2;
+use Navplan\AerodromeChart\Domain\Model\AirportChart;
+use Navplan\AerodromeChart\Domain\Model\AirportChart2;
 
 
 interface IAirportChartService {

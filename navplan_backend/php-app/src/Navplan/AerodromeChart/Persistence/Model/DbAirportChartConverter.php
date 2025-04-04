@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Persistence\Model;
+namespace Navplan\AerodromeChart\Persistence\Model;
 
-use Navplan\Aerodrome\Domain\Model\AirportChart;
+use Navplan\AerodromeChart\Domain\Model\AirportChart;
 use Navplan\System\Domain\Model\IDbResult;
 
 

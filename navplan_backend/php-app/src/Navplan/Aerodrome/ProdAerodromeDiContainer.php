@@ -2,15 +2,12 @@
 
 namespace Navplan\Aerodrome;
 
-use Navplan\Aerodrome\Domain\Service\IAirportChartService;
 use Navplan\Aerodrome\Domain\Service\IAirportCircuitService;
 use Navplan\Aerodrome\Domain\Service\IAirportService;
 use Navplan\Aerodrome\Domain\Service\IReportingPointService;
-use Navplan\Aerodrome\Persistence\Repo\DbAirportChartRepo;
 use Navplan\Aerodrome\Persistence\Repo\DbAirportCircuitRepo;
 use Navplan\Aerodrome\Persistence\Repo\DbAirportRepo;
 use Navplan\Aerodrome\Persistence\Repo\DbReportingPointRepo;
-use Navplan\Aerodrome\Rest\Controller\AdChartController;
 use Navplan\Aerodrome\Rest\Controller\AdCircuitController;
 use Navplan\Aerodrome\Rest\Controller\AdReportingPointController;
 use Navplan\Aerodrome\Rest\Controller\AirportController;
@@ -25,17 +22,15 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
     private IRestController $airportController;
     private IRestController $airportCircuitController;
     private IRestController $reportingPointController;
-    private IRestController $airportChartController;
     private IAirportService $airportService;
-    private IAirportChartService $airportChartService;
     private IAirportCircuitService $airportCircuitService;
     private IReportingPointService $reportingPointService;
 
 
     public function __construct(
-        private IDbService $dbService,
+        private IDbService      $dbService,
         private ILoggingService $loggingService,
-        private IHttpService $httpService
+        private IHttpService    $httpService
     )
     {
     }
@@ -80,19 +75,6 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
     }
 
 
-    public function getAirportChartController(): IRestController
-    {
-        if (!isset($this->airportChartController)) {
-            $this->airportChartController = new AdChartController(
-                $this->httpService,
-                $this->getAirportChartService()
-            );
-        }
-
-        return $this->airportChartController;
-    }
-
-
     public function getAirportService(): IAirportService
     {
         if (!isset($this->airportService)) {
@@ -103,16 +85,6 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
         }
 
         return $this->airportService;
-    }
-
-
-    function getAirportChartService(): IAirportChartService
-    {
-        if (!isset($this->airportChartService)) {
-            $this->airportChartService = new DbAirportChartRepo($this->dbService);
-        }
-
-        return $this->airportChartService;
     }
 
 

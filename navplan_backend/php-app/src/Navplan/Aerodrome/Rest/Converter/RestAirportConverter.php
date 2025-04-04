@@ -3,6 +3,8 @@
 namespace Navplan\Aerodrome\Rest\Converter;
 
 use Navplan\Aerodrome\Domain\Model\Airport;
+use Navplan\AerodromeChart\Rest\Converter\RestAirportChart2Converter;
+use Navplan\AerodromeChart\Rest\Converter\RestAirportChartConverter;
 use Navplan\Common\Rest\Converter\RestAltitudeConverter;
 use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 use Navplan\Webcam\Rest\Model\RestWebcamConverter;

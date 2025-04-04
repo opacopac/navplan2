@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Rest\Converter;
+namespace Navplan\AerodromeChart\Rest\Converter;
 
-use Navplan\Aerodrome\Domain\Model\AirportChart;
+use Navplan\AerodromeChart\Domain\Model\AirportChart;
 
 
 class RestAirportChartConverter {

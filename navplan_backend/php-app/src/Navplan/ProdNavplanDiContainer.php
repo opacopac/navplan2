@@ -6,6 +6,8 @@ use Navplan\Admin\IAdminDiContainer;
 use Navplan\Admin\ProdAdminDiContainer;
 use Navplan\Aerodrome\IAerodromeDiContainer;
 use Navplan\Aerodrome\ProdAerodromeDiContainer;
+use Navplan\AerodromeChart\IAerodromeChartDiContainer;
+use Navplan\AerodromeChart\ProdAerodromeChartDiContainer;
 use Navplan\Aircraft\IAircraftDiContainer;
 use Navplan\Aircraft\ProdAircraftDiContainer;
 use Navplan\Airspace\IAirspaceDiContainer;
@@ -55,6 +57,7 @@ class ProdNavplanDiContainer
     private IConfigDiContainer $configDiContainer;
     private IAdminDiContainer $adminDiContainer;
     private IAerodromeDiContainer $aerodromeDiContainer;
+    private IAerodromeChartDiContainer $aerodromeChartDiContainer;
     private IAircraftDiContainer $aircraftDiContainer;
     private IAirspaceDiContainer $airspaceDiContainer;
     private INavaidDiContainer $navaidDiContainer;
@@ -115,6 +118,19 @@ class ProdNavplanDiContainer
         }
 
         return $this->aerodromeDiContainer;
+    }
+
+
+    public function getAerodromeChartDiContainer(): IAerodromeChartDiContainer
+    {
+        if (!isset($this->aerodromeChartDiContainer)) {
+            $this->aerodromeChartDiContainer = new ProdAerodromeChartDiContainer(
+                $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getHttpService()
+            );
+        }
+
+        return $this->aerodromeChartDiContainer;
     }
 
 

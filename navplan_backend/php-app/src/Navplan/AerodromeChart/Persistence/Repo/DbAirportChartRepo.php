@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aerodrome\Persistence\Repo;
+namespace Navplan\AerodromeChart\Persistence\Repo;
 
-use Navplan\Aerodrome\Domain\Model\AirportChart;
-use Navplan\Aerodrome\Domain\Model\AirportChart2;
-use Navplan\Aerodrome\Domain\Service\IAirportChartRepo;
-use Navplan\Aerodrome\Persistence\Model\DbAirportChart2Converter;
-use Navplan\Aerodrome\Persistence\Model\DbAirportChartConverter;
+use Navplan\AerodromeChart\Domain\Model\AirportChart;
+use Navplan\AerodromeChart\Domain\Model\AirportChart2;
+use Navplan\AerodromeChart\Domain\Service\IAirportChartRepo;
+use Navplan\AerodromeChart\Persistence\Model\DbAirportChart2Converter;
+use Navplan\AerodromeChart\Persistence\Model\DbAirportChartConverter;
 use Navplan\System\Domain\Service\IDbService;
 
 

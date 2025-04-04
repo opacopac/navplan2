@@ -22,7 +22,7 @@ RewriteRule ^aerodromes/circuits$ %{ENV:BASEPATH}Aerodrome/AdCircuit.php [L,QSA]
 RewriteRule ^aerodromes/reportingpoints$ %{ENV:BASEPATH}Aerodrome/AdReportingPoint.php [L,QSA]
 
 # Rewrite for /api/aerodromes/charts/{id}
-RewriteRule ^aerodromes/charts/(\d+)$ %{ENV:BASEPATH}Aerodrome/AdChart.php?id=$1 [L,QSA]
+RewriteRule ^aerodromes/charts/(\d+)$ %{ENV:BASEPATH}AerodromeChart/AdChart.php?id=$1 [L,QSA]
 
 
 ### aircrafts ###
