@@ -157,7 +157,7 @@ export class OlMap implements IBaseMap {
     }
 
 
-    private onSingleClick(event: MapBrowserEvent<UIEvent>): void {
+    private onSingleClick(event: MapBrowserEvent<PointerEvent>): void {
         const dataItem = this.getDataItemAtPixel(event.pixel, true);
         const eventPos = event.coordinate;
         const clickPos = OlGeometry.getPosFromMercator([eventPos[0], eventPos[1]]);
@@ -166,7 +166,7 @@ export class OlMap implements IBaseMap {
     }
 
 
-    private onPointerMove(event: MapBrowserEvent<UIEvent>): void {
+    private onPointerMove(event: MapBrowserEvent<PointerEvent>): void {
         if (event.dragging) {
             return;
         }
