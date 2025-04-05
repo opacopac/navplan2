@@ -69,22 +69,24 @@ export class TrackProfile {
 
 
     private calcKalmanFilter2(track: Track): Position4d[] {
+        const latLonFact = 10000;
         let prevPos = track.positionList[0];
 
-        const kfLat = new KalmanFilterConstAcc({x: prevPos.latitude, v: 0, a: 0}, 1.6e-6);
-        const kfLon = new KalmanFilterConstAcc({x: prevPos.longitude, v: 0, a: 0}, 1.6e-6);
+        const kfLat = new KalmanFilterConstAcc({x: prevPos.latitude * latLonFact, v: 0, a: 0}, 10);
+        const kfLon = new KalmanFilterConstAcc({x: prevPos.longitude * latLonFact, v: 0, a: 0}, 10);
         const kfAlt = new KalmanFilterConstAcc({x: prevPos.altitude.getHeightAmsl().m, v: 0, a: 0}, 1);
 
         const smoothedPos: Position4d[] = [];
         for (let i = 1; i < track.positionList.length; i++) {
             const pos = track.positionList[i];
-            const dt = pos.timestamp.epochSec - prevPos.timestamp.epochSec;
+            console.log('orig', pos);
+            const dt = (pos.timestamp.epochMs - prevPos.timestamp.epochMs) / 1000;
             kfLat.predict(dt);
             kfLon.predict(dt);
             kfAlt.predict(dt);
 
-            kfLat.update(pos.latitude);
-            kfLon.update(pos.longitude);
+            kfLat.update(pos.latitude * latLonFact);
+            kfLon.update(pos.longitude * latLonFact);
             kfAlt.update(pos.altitude.getHeightAmsl().m);
 
             const stateLat = kfLat.getState();
@@ -92,12 +94,14 @@ export class TrackProfile {
             const stateAlt = kfAlt.getState();
 
             if (!isNaN(stateLat.x) && !isNaN(stateLon.x) && !isNaN(stateAlt.x)) {
-                smoothedPos.push(new Position4d(
-                    stateLon.x,
-                    stateLat.x,
+                const newPos = new Position4d(
+                    stateLon.x / latLonFact,
+                    stateLat.x / latLonFact,
                     Altitude.fromLengthUnit(stateAlt.x, LengthUnit.M, AltitudeReference.MSL),
                     pos.timestamp
-                ));
+                );
+                console.log('smoothed', newPos);
+                smoothedPos.push(newPos);
             } else {
                 console.log('nan');
             }
