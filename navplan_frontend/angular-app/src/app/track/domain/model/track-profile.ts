@@ -10,6 +10,9 @@ import {Timestamp} from '../../../geo-physics/domain/model/quantities/timestamp'
 import {StatisticsHelper} from '../../../common/model/statistics-helper';
 import {Time} from '../../../geo-physics/domain/model/quantities/time';
 import {TimeUnit} from '../../../geo-physics/domain/model/quantities/time-unit';
+import {KalmanFilter} from 'kalman-filter';
+import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
+import {KalmanFilterConstAcc} from '../../../geo-physics/domain/service/kalman/kalman-filter-const-acc';
 
 
 export class TrackProfile {
@@ -18,7 +21,6 @@ export class TrackProfile {
     private static readonly MIN_CONSECUTIVE_SPEEDS = 3;
 
     public readonly altitudeProfile: [Length, Date][];
-    public readonly distanceProfile: [Length, Date][];
     public readonly speedProfile: [Speed, Date][];
     public readonly verticalSpeedProfile: [Speed, Date][];
     public readonly maxAltitude: Length;
@@ -32,11 +34,12 @@ export class TrackProfile {
     public readonly flightTime: Time;
 
     constructor(track: Track) {
-        const posList = track.positionList;
+        //const posList = track.positionList;
         //const posList = this.calcSmoothedPositions(track);
+        const posList = this.calcKalmanFilter2(track);
+
         this.altitudeProfile = this.calculateAltitudeProfile(posList);
-        this.distanceProfile = this.calculateDistanceProfile(posList);
-        this.speedProfile = this.calculateSpeedProfile();
+        this.speedProfile = this.calculateSpeedProfile(posList);
         this.verticalSpeedProfile = this.calculateVerticalSpeedProfile(posList);
 
         this.maxAltitude = this.calculateMaxAltitude();
@@ -65,9 +68,80 @@ export class TrackProfile {
     }
 
 
+    private calcKalmanFilter2(track: Track): Position4d[] {
+        let prevPos = track.positionList[0];
+
+        const kfLat = new KalmanFilterConstAcc({x: prevPos.latitude, v: 0, a: 0});
+        const kfLon = new KalmanFilterConstAcc({x: prevPos.longitude, v: 0, a: 0});
+        const kfAlt = new KalmanFilterConstAcc({x: prevPos.altitude.getHeightAmsl().m, v: 0, a: 0});
+
+        const smoothedPos: Position4d[] = [];
+        for (let i = 1; i < track.positionList.length; i++) {
+            const pos = track.positionList[i];
+            const dt = pos.timestamp.epochMs - prevPos.timestamp.epochMs;
+            kfLat.predict(dt);
+            kfLon.predict(dt);
+            kfAlt.predict(dt);
+
+            kfLat.update(pos.latitude);
+            kfLon.update(pos.longitude);
+            kfAlt.update(pos.altitude.getHeightAmsl().m);
+
+            const stateLat = kfLat.getState();
+            const stateLon = kfLon.getState();
+            const stateAlt = kfAlt.getState();
+
+            smoothedPos.push(new Position4d(
+                stateLat.x,
+                stateLon.x,
+                Altitude.fromLengthUnit(stateAlt.x, LengthUnit.M, AltitudeReference.MSL),
+                pos.timestamp
+            ));
+
+            prevPos = pos;
+        }
+
+        return smoothedPos;
+    }
+
+
+    private calcKalmanFilter(track: Track): Position4d[] {
+        /*const kf = new KalmanFilter();
+        let prevCorrected = null;
+        const smoothedPos: Position4d[] = [];
+        track.positionList.forEach(pos => {
+            const observation = [pos.latitude, pos.longitude, pos.altitude.getHeightAmsl().m];
+            prevCorrected = kf.filter({prevCorrected, observation});
+        });
+
+        return smoothedPos;*/
+
+
+        const kf = new KalmanFilter({
+            observation: {
+                sensorDimension: 3,
+                name: 'sensor'
+            },
+            dynamic: {
+                name: 'constant-acceleration',
+                timeStep: 1,
+                covariance: [30, 30, 30, 40, 40, 40, 50, 50, 50]
+            }
+        });
+        const pureNumbersPos = track.positionList.map(pos => [pos.latitude, pos.longitude, pos.altitude.getHeightAmsl().m]);
+        const smoothedNumers = kf.filterAll(pureNumbersPos);
+
+        return smoothedNumers.map(((num, index) => new Position4d(
+            num[1],
+            num[0],
+            Altitude.fromLengthUnit(num[2], LengthUnit.M, AltitudeReference.MSL),
+            track.positionList[index].timestamp
+        )));
+    }
+
+
     // average over N points
-    private calcSmoothedPositions(track: Track): Position4d[] {
-        const windowSize = 5;
+    private calcSmoothedPositions(track: Track, windowSize: number): Position4d[] {
         const avgLatList = StatisticsHelper.movingAverage(
             track.positionList.map(pos => pos.latitude),
             windowSize
@@ -126,43 +200,7 @@ export class TrackProfile {
     }
 
 
-    private calculateDistanceProfile(posList: Position4d[]): [Length, Date][] {
-        const distanceProfile: [Length, Date][] = [];
-
-        let accumulatedDistanceM = Length.ofM(0);
-        distanceProfile.push([accumulatedDistanceM, posList[0].timestamp.date]);
-
-        for (let i = 1; i < posList.length; i++) {
-            const pos1 = posList[i - 1];
-            const pos2 = posList[i];
-            const distM = GeodesyHelper.calcDistance(pos1, pos2).m;
-            if (distM > 0) {
-                accumulatedDistanceM = accumulatedDistanceM.add(Length.ofM(distM));
-                distanceProfile.push([accumulatedDistanceM, pos2.timestamp.date]);
-            }
-        }
-
-        return distanceProfile;
-    }
-
-
-    private calculateSpeedProfile(): [Speed, Date][] {
-        const speedProfile: [Speed, Date][] = [];
-
-        for (let i = 1; i < this.distanceProfile.length; i++) {
-            const lastPoint = this.distanceProfile[i - 1];
-            const currentPoint = this.distanceProfile[i];
-            const timeMs = currentPoint[1].getTime() - lastPoint[1].getTime();
-            const speed = Speed.ofMps((currentPoint[0].m - lastPoint[0].m) / timeMs * 1000);
-            speedProfile.push([speed, currentPoint[1]]);
-        }
-
-        return speedProfile;
-
-    }
-
-
-    private calculateSpeedProfile2(posList: Position4d[]): [Speed, Date][] {
+    private calculateSpeedProfile(posList: Position4d[]): [Speed, Date][] {
         const speedProfile: [Speed, Date][] = [];
 
         for (let i = 1; i < posList.length; i++) {

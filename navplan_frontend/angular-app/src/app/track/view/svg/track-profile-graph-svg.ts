@@ -13,7 +13,6 @@ import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-un
 import {SpeedProfileAxisSvg} from './speed-profile-axis-svg';
 import {SpeedUnit} from '../../../geo-physics/domain/model/quantities/speed-unit';
 import {VerticalSpeedProfileSvg} from './vertical-speed-profile-svg';
-import {DistanceProfileSvg} from './distance-profile-svg';
 
 
 export class TrackProfileGraphSvg {
@@ -31,14 +30,6 @@ export class TrackProfileGraphSvg {
             trackProfile.getLastDate(),
             Length.ofZero(),
             trackProfile.maxAltitude.multiplyBy(this.MAX_VALUE_BUFFER_FACTOR),
-            imageWidthPx,
-            imageHeightPx
-        );
-        const imgDimDistProfile = new ImageTimeLengthDimensionsSvg(
-            trackProfile.getFirstDate(),
-            trackProfile.getLastDate(),
-            Length.ofZero(),
-            trackProfile.distanceProfile[trackProfile.distanceProfile.length - 1][0],
             imageWidthPx,
             imageHeightPx
         );
@@ -79,7 +70,6 @@ export class TrackProfileGraphSvg {
 
         svg.appendChild(VerticalSpeedProfileSvg.create(trackProfile.verticalSpeedProfile, imgDimVerticalSpeedProfile));
         svg.appendChild(SpeedProfileSvg.create(trackProfile.speedProfile, imgDimSpeedProfile));
-        svg.appendChild(DistanceProfileSvg.create(trackProfile.distanceProfile, imgDimDistProfile));
         svg.appendChild(AltitudeProfileSvg.create(trackProfile.altitudeProfile, imgDimAltProfile));
         svg.appendChild(BlockFlightTimeMarkersSvg.create(trackProfile, imgDimAltProfile));
         svg.appendChild(TrackProfileDateGridSvg.create(imgDimAltProfile));
