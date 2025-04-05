@@ -15,7 +15,9 @@ import {MatCardModule} from '@angular/material/card';
 import {ExporterViewModule} from '../../exporter/view/exporter-view.module';
 import {MatTabsModule} from '@angular/material/tabs';
 import {WaypointsContainerComponent} from './ng-components/waypoints-container/waypoints-container.component';
-import {FlightrouteAircraftSpeedComponent} from './ng-components/flightroute-aircraft-speed/flightroute-aircraft-speed.component';
+import {
+    FlightrouteAircraftSpeedComponent
+} from './ng-components/flightroute-aircraft-speed/flightroute-aircraft-speed.component';
 import {FlightrouteCommentsComponent} from './ng-components/flightroute-comment/flightroute-comments.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
@@ -31,7 +33,6 @@ import {
 import {MatIcon} from '@angular/material/icon';
 import {FlightrouteNameComponent} from './ng-components/flightroute-name/flightroute-name.component';
 import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-list-state.module';
-import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
 import {FlightrouteDomainModule} from '../../flightroute/domain/flightroute-domain.module';
 import {FlightrouteRestModule} from '../../flightroute/rest/flightroute-rest.module';
 import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.module';
@@ -73,7 +74,6 @@ import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-lis
         MatExpansionPanelHeader,
         MatExpansionPanelTitle,
         MatIcon,
-        FlightrouteViewModule,
         PlanRouteListViewModule
     ],
     declarations: [

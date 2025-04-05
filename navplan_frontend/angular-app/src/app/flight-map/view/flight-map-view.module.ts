@@ -5,7 +5,6 @@ import {FlightTimerViewModule} from '../../flight-timer/view/flight-timer-view.m
 import {MapPopupWaypointComponent} from './ng-components/map-popup-waypoint/map-popup-waypoint.component';
 import {MapPopupComponent} from './ng-components/map-popup/map-popup.component';
 import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
-import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
 import {AerodromeViewModule} from '../../aerodrome/view/aerodrome-view.module';
 import {GeonameViewModule} from '../../geoname/view/geoname-view.module';
 import {MeteoSmaViewModule} from '../../meteo-sma/view/meteo-sma-view.module';
@@ -51,8 +50,12 @@ import {
 import {
     MapPopupWaypointButtonSetAlternateComponent
 } from './ng-components/map-popup-waypoint-button-set-alternate/map-popup-waypoint-button-set-alternate.component';
-import {MapPopupWaypointHeaderComponent} from './ng-components/map-popup-waypoint-header/map-popup-waypoint-header.component';
-import {MapPopupWaypointInfoTabComponent} from './ng-components/map-popup-waypoint-info-tab/map-popup-waypoint-info-tab.component';
+import {
+    MapPopupWaypointHeaderComponent
+} from './ng-components/map-popup-waypoint-header/map-popup-waypoint-header.component';
+import {
+    MapPopupWaypointInfoTabComponent
+} from './ng-components/map-popup-waypoint-info-tab/map-popup-waypoint-info-tab.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
@@ -103,7 +106,6 @@ import {PlanWaypointsViewModule} from '../../plan-waypoints/view/plan-waypoints-
         CommonModule,
         FlightMapStateModule,
         FlightTimerViewModule,
-        FlightrouteViewModule,
         PlanWaypointsViewModule,
         GeonameViewModule,
         GeoPhysicsViewModule,

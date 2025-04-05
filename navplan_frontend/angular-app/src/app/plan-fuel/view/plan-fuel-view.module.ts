@@ -33,7 +33,6 @@ import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-l
 import {FlightrouteDomainModule} from '../../flightroute/domain/flightroute-domain.module';
 import {FlightrouteRestModule} from '../../flightroute/rest/flightroute-rest.module';
 import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.module';
-import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
 import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
 
 
@@ -69,7 +68,6 @@ import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-lis
         MatExpansionPanelHeader,
         MatExpansionPanelTitle,
         MatIcon,
-        FlightrouteViewModule,
         PlanRouteListViewModule
     ],
     declarations: [

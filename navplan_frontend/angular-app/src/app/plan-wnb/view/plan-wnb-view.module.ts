@@ -11,7 +11,6 @@ import {PlanWnbTableComponent} from './ng-components/plan-wnb-table/plan-wnb-tab
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {PlanWnbStateModule} from '../state/plan-wnb-state.module';
-import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
 import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
 
 
@@ -28,7 +27,6 @@ import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-lis
         MatExpansionModule,
         MatTableModule,
         MatInputModule,
-        FlightrouteViewModule,
         PlanRouteListViewModule
     ],
     declarations: [
