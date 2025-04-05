@@ -11,12 +11,14 @@ export class KalmanFilterConstAcc {
 
 
     constructor(
-        initialState: { x: number; v: number; a: number } = {x: 0, v: 0, a: 0}
+        initialState: { x: number; v: number; a: number } = {x: 0, v: 0, a: 0},
+        measurementVariance: number = 1,
     ) {
+        console.log('kalman constructor');
         this.state = new Matrix([[initialState.x], [initialState.v], [initialState.a]]); // initial state
-        this.covariance = Matrix.eye(3);           // initial uncertainty
-        this.H = new Matrix([[1, 0, 0]]);          // only measuring position
-        this.R = new Matrix([[1]]);                // measurement variance (1m^2)
+        this.covariance = Matrix.eye(3);              // initial uncertainty
+        this.H = new Matrix([[1, 0, 0]]);             // only measuring position
+        this.R = new Matrix([[measurementVariance]]); // measurement variance (e.g. 1m^2)
         this.I = Matrix.eye(3);
 
         // Base process noise (can scale with dt)

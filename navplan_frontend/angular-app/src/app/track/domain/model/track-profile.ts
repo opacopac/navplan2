@@ -71,14 +71,14 @@ export class TrackProfile {
     private calcKalmanFilter2(track: Track): Position4d[] {
         let prevPos = track.positionList[0];
 
-        const kfLat = new KalmanFilterConstAcc({x: prevPos.latitude, v: 0, a: 0});
-        const kfLon = new KalmanFilterConstAcc({x: prevPos.longitude, v: 0, a: 0});
-        const kfAlt = new KalmanFilterConstAcc({x: prevPos.altitude.getHeightAmsl().m, v: 0, a: 0});
+        const kfLat = new KalmanFilterConstAcc({x: prevPos.latitude, v: 0, a: 0}, 1.6e-6);
+        const kfLon = new KalmanFilterConstAcc({x: prevPos.longitude, v: 0, a: 0}, 1.6e-6);
+        const kfAlt = new KalmanFilterConstAcc({x: prevPos.altitude.getHeightAmsl().m, v: 0, a: 0}, 1);
 
         const smoothedPos: Position4d[] = [];
         for (let i = 1; i < track.positionList.length; i++) {
             const pos = track.positionList[i];
-            const dt = pos.timestamp.epochMs - prevPos.timestamp.epochMs;
+            const dt = pos.timestamp.epochSec - prevPos.timestamp.epochSec;
             kfLat.predict(dt);
             kfLon.predict(dt);
             kfAlt.predict(dt);
@@ -91,12 +91,16 @@ export class TrackProfile {
             const stateLon = kfLon.getState();
             const stateAlt = kfAlt.getState();
 
-            smoothedPos.push(new Position4d(
-                stateLat.x,
-                stateLon.x,
-                Altitude.fromLengthUnit(stateAlt.x, LengthUnit.M, AltitudeReference.MSL),
-                pos.timestamp
-            ));
+            if (!isNaN(stateLat.x) && !isNaN(stateLon.x) && !isNaN(stateAlt.x)) {
+                smoothedPos.push(new Position4d(
+                    stateLon.x,
+                    stateLat.x,
+                    Altitude.fromLengthUnit(stateAlt.x, LengthUnit.M, AltitudeReference.MSL),
+                    pos.timestamp
+                ));
+            } else {
+                console.log('nan');
+            }
 
             prevPos = pos;
         }
