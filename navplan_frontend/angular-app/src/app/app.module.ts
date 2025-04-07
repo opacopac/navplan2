@@ -8,7 +8,6 @@ import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {FlightMapViewModule} from './flight-map/view/flight-map-view.module';
-import {AboutViewModule} from './about/view/about-view.module';
 import {RouterModule} from '@angular/router';
 import {appReducer} from './app.reducer';
 import {AppEffects} from './app.effects';
@@ -42,7 +41,6 @@ import {PlanViewModule} from './plan-tabs/view/plan-view.module';
             logOnly: environment.production, // Restrict extension to log-only mode
             connectInZone: true
         }),
-        AboutViewModule,
         ExporterViewModule,
         FlightMapViewModule,
         AircraftViewModule,
