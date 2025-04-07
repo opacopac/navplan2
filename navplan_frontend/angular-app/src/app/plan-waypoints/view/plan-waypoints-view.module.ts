@@ -9,28 +9,12 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSelectModule} from '@angular/material/select';
-import {MatCardModule} from '@angular/material/card';
 import {ExporterViewModule} from '../../exporter/view/exporter-view.module';
-import {MatTabsModule} from '@angular/material/tabs';
 import {WaypointsContainerComponent} from './ng-components/waypoints-container/waypoints-container.component';
-import {
-    FlightrouteAircraftSpeedComponent
-} from './ng-components/flightroute-aircraft-speed/flightroute-aircraft-speed.component';
+import {FlightrouteAircraftSpeedComponent} from './ng-components/flightroute-aircraft-speed/flightroute-aircraft-speed.component';
 import {FlightrouteCommentsComponent} from './ng-components/flightroute-comment/flightroute-comments.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
-import {
-    MatAccordion,
-    MatExpansionPanel,
-    MatExpansionPanelDescription,
-    MatExpansionPanelHeader,
-    MatExpansionPanelTitle
-} from '@angular/material/expansion';
-import {MatIcon} from '@angular/material/icon';
 import {FlightrouteNameComponent} from './ng-components/flightroute-name/flightroute-name.component';
 import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-list-state.module';
 import {FlightrouteDomainModule} from '../../flightroute/domain/flightroute-domain.module';
@@ -46,34 +30,21 @@ import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-lis
     imports: [
         CommonModule,
         CommonViewModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonToggleModule,
+        MatButtonModule,
+        MatTableModule,
+        MatTooltipModule,
+        ExporterViewModule,
+        AircraftViewModule,
         FlightrouteDomainModule,
         FlightrouteRestModule,
         FlightrouteStateModule,
         PlanRouteListStateModule,
         GeoPhysicsViewModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatButtonToggleModule,
-        MatInputModule,
-        MatButtonModule,
-        MatTableModule,
-        MatTooltipModule,
-        MatPaginatorModule,
-        MatSelectModule,
-        MatCardModule,
-        ExporterViewModule,
-        MatTabsModule,
-        MatDialogModule,
-        AircraftViewModule,
-        MatSlideToggleModule,
-        MatRadioButton,
-        MatRadioGroup,
-        MatAccordion,
-        MatExpansionPanel,
-        MatExpansionPanelDescription,
-        MatExpansionPanelHeader,
-        MatExpansionPanelTitle,
-        MatIcon,
         PlanRouteListViewModule
     ],
     declarations: [
