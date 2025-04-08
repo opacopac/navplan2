@@ -5,7 +5,6 @@ import {FlightTimerViewModule} from '../../flight-timer/view/flight-timer-view.m
 import {MapPopupWaypointComponent} from './ng-components/map-popup-waypoint/map-popup-waypoint.component';
 import {MapPopupComponent} from './ng-components/map-popup/map-popup.component';
 import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
-import {AerodromeViewModule} from '../../aerodrome/view/aerodrome-view.module';
 import {GeonameViewModule} from '../../geoname/view/geoname-view.module';
 import {MeteoSmaViewModule} from '../../meteo-sma/view/meteo-sma-view.module';
 import {NotamViewModule} from '../../notam/view/notam-view.module';
@@ -64,6 +63,18 @@ import {AerodromeReportingViewModule} from '../../aerodrome-reporting/aerodrome-
 import {PlanWaypointsViewModule} from '../../plan-waypoints/view/plan-waypoints-view.module';
 import {LocationButtonComponent} from '../../location/location-view/ng-components/location-button/location-button.component';
 import {FlightMapDomainModule} from '../domain/flight-map-domain.module';
+import {
+    MapPopupAirportHeaderComponent
+} from '../../aerodrome/view/ng-components/map-popup-airport-header/map-popup-airport-header.component';
+import {
+    MapPopupAirportInfoTabComponent
+} from '../../aerodrome/view/ng-components/map-popup-airport-info-tab/map-popup-airport-info-tab.component';
+import {
+    MapPopupAirportRunwayTabComponent
+} from '../../aerodrome/view/ng-components/map-popup-airport-runway-tab/map-popup-airport-runway-tab.component';
+import {
+    MapPopupAirportRadioTabComponent
+} from '../../aerodrome/view/ng-components/map-popup-airport-radio-tab/map-popup-airport-radio-tab.component';
 
 @NgModule({
     declarations: [
@@ -94,7 +105,6 @@ import {FlightMapDomainModule} from '../domain/flight-map-domain.module';
         MatButtonToggleModule,
         MatSelectModule,
         MatCardModule,
-        AerodromeViewModule,
         AerodromeReportingViewModule,
         AerodromeChartsViewModule,
         AerodromeCircuitsViewModule,
@@ -124,6 +134,10 @@ import {FlightMapDomainModule} from '../domain/flight-map-domain.module';
         WebcamViewModule,
         CommonViewModule,
         LocationButtonComponent,
+        MapPopupAirportHeaderComponent,
+        MapPopupAirportInfoTabComponent,
+        MapPopupAirportRunwayTabComponent,
+        MapPopupAirportRadioTabComponent,
     ],
     providers: []
 })

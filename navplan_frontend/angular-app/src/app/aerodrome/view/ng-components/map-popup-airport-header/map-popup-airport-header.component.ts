@@ -4,10 +4,17 @@ import {AirportType} from '../../../domain/model/airport-type';
 import {OlAirportIcon} from '../../ol-components/ol-airport-icon';
 import {IWmmService} from '../../../../geo-physics/domain/service/wmm/i-wmm.service';
 import {OlAirportRunwayIcon} from '../../ol-components/ol-airport-runway-icon';
+import {MatCardHeader, MatCardModule} from '@angular/material/card';
+import {CommonModule, NgStyle} from '@angular/common';
 
 
 @Component({
     selector: 'app-map-popup-airport-header',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatCardModule,
+    ],
     templateUrl: './map-popup-airport-header.component.html',
     styleUrls: ['./map-popup-airport-header.component.scss']
 })

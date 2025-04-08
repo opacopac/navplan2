@@ -1,10 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Airport} from '../../../domain/model/airport';
 import {AirportRunway} from '../../../domain/model/airport-runway';
+import {MatTable, MatTableModule} from '@angular/material/table';
 
 
 @Component({
     selector: 'app-map-popup-airport-runway-tab',
+    standalone: true,
+    imports: [
+        MatTableModule
+    ],
     templateUrl: './map-popup-airport-runway-tab.component.html',
     styleUrls: ['./map-popup-airport-runway-tab.component.scss']
 })

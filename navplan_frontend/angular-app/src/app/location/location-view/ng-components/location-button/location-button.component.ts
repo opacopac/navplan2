@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AsyncPipe} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {select, Store} from '@ngrx/store';
 import {LocationActions} from '../../../location-state/ngrx/location.actions';
 import {getLocationIsWatching, getLocationStatus} from '../../../location-state/ngrx/location.selectors';
@@ -12,8 +12,8 @@ import {CommonViewModule} from '../../../../common/view/common-view.module';
     selector: 'app-location-button',
     standalone: true,
     imports: [
+        CommonModule,
         CommonViewModule,
-        AsyncPipe
     ],
     templateUrl: './location-button.component.html',
     styleUrls: ['./location-button.component.scss']

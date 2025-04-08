@@ -1,10 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Airport} from '../../../domain/model/airport';
 import {Frequency} from '../../../../geo-physics/domain/model/quantities/frequency';
+import {MatTableModule} from '@angular/material/table';
 
 
 @Component({
     selector: 'app-map-popup-airport-radio-tab',
+    standalone: true,
+    imports: [
+        MatTableModule
+    ],
     templateUrl: './map-popup-airport-radio-tab.component.html',
     styleUrls: ['./map-popup-airport-radio-tab.component.scss']
 })
