@@ -19,7 +19,6 @@ import {MatCardModule} from '@angular/material/card';
 import {UserViewModule} from '../../user/view/user-view.module';
 import {TrafficViewModule} from '../../traffic/view/traffic-view.module';
 import {SearchViewModule} from '../../search/view/search-view.module';
-import {LocationViewModule} from '../../location/location-view/location-view.module';
 import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
 import {MeteoDwdViewModule} from '../../meteo-dwd/view/meteo-dwd-view.module';
 import {MeteoContainerComponent} from './ng-components/meteo-container/meteo-container.component';
@@ -50,12 +49,8 @@ import {
 import {
     MapPopupWaypointButtonSetAlternateComponent
 } from './ng-components/map-popup-waypoint-button-set-alternate/map-popup-waypoint-button-set-alternate.component';
-import {
-    MapPopupWaypointHeaderComponent
-} from './ng-components/map-popup-waypoint-header/map-popup-waypoint-header.component';
-import {
-    MapPopupWaypointInfoTabComponent
-} from './ng-components/map-popup-waypoint-info-tab/map-popup-waypoint-info-tab.component';
+import {MapPopupWaypointHeaderComponent} from './ng-components/map-popup-waypoint-header/map-popup-waypoint-header.component';
+import {MapPopupWaypointInfoTabComponent} from './ng-components/map-popup-waypoint-info-tab/map-popup-waypoint-info-tab.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
@@ -67,6 +62,8 @@ import {AerodromeCircuitsViewModule} from '../../aerodrome-circuits/view/aerodro
 import {AerodromeChartsViewModule} from '../../aerodrome-charts/view/aerodrome-charts-view.module';
 import {AerodromeReportingViewModule} from '../../aerodrome-reporting/aerodrome-reporting-view.module';
 import {PlanWaypointsViewModule} from '../../plan-waypoints/view/plan-waypoints-view.module';
+import {LocationButtonComponent} from '../../location/location-view/ng-components/location-button/location-button.component';
+import {FlightMapDomainModule} from '../domain/flight-map-domain.module';
 
 @NgModule({
     declarations: [
@@ -104,12 +101,12 @@ import {PlanWaypointsViewModule} from '../../plan-waypoints/view/plan-waypoints-
         AirspaceViewModule,
         BaseMapViewModule,
         CommonModule,
+        FlightMapDomainModule,
         FlightMapStateModule,
         FlightTimerViewModule,
         PlanWaypointsViewModule,
         GeonameViewModule,
         GeoPhysicsViewModule,
-        LocationViewModule,
         MatButtonModule,
         MatTabsModule,
         MatCardModule,
@@ -126,6 +123,7 @@ import {PlanWaypointsViewModule} from '../../plan-waypoints/view/plan-waypoints-
         VerticalMapViewModule,
         WebcamViewModule,
         CommonViewModule,
+        LocationButtonComponent,
     ],
     providers: []
 })
