@@ -8,6 +8,7 @@ import {LocationStateModule} from '../../location/location-state/location-state.
 import {AerodromeStateModule} from '../../aerodrome/state/aerodrome-state.module';
 import {AerodromeChartsStateModule} from '../../aerodrome-charts/state/aerodrome-charts-state.module';
 import {AerodromeCircuitsStateModule} from '../../aerodrome-circuits/state/aerodrome-circuits-state.module';
+import {AerodromeReportingStateModule} from '../../aerodrome-reporting/state/aerodrome-reporting-state.module';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {AerodromeCircuitsStateModule} from '../../aerodrome-circuits/state/aerod
         AerodromeStateModule,
         AerodromeChartsStateModule,
         AerodromeCircuitsStateModule,
+        AerodromeReportingStateModule,
         LocationStateModule,
     ],
     declarations: [],

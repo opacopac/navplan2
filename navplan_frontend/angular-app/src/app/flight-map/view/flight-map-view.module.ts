@@ -57,7 +57,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSelectModule} from '@angular/material/select';
-import {AerodromeReportingViewModule} from '../../aerodrome-reporting/aerodrome-reporting-view.module';
 import {PlanWaypointsViewModule} from '../../plan-waypoints/view/plan-waypoints-view.module';
 import {LocationButtonComponent} from '../../location/location-view/ng-components/location-button/location-button.component';
 import {FlightMapDomainModule} from '../domain/flight-map-domain.module';
@@ -76,6 +75,18 @@ import {
 import {
     MapPopupAirportChartTabComponent
 } from '../../aerodrome-charts/view/ng-components/map-popup-airport-chart-tab/map-popup-airport-chart-tab.component';
+import {
+    MapPopupReportingpointHeaderComponent
+} from '../../aerodrome-reporting/view/ng-components/map-popup-reportingpoint-header/map-popup-reportingpoint-header.component';
+import {
+    MapPopupReportingpointInfoTabComponent
+} from '../../aerodrome-reporting/view/ng-components/map-popup-reportingpoint-info-tab/map-popup-reportingpoint-info-tab.component';
+import {
+    MapPopupReportingsectorHeaderComponent
+} from '../../aerodrome-reporting/view/ng-components/map-popup-reportingsector-header/map-popup-reportingsector-header.component';
+import {
+    MapPopupReportingsectorInfoTabComponent
+} from '../../aerodrome-reporting/view/ng-components/map-popup-reportingsector-info-tab/map-popup-reportingsector-info-tab.component';
 
 @NgModule({
     declarations: [
@@ -106,7 +117,6 @@ import {
         MatButtonToggleModule,
         MatSelectModule,
         MatCardModule,
-        AerodromeReportingViewModule,
         AirspaceViewModule,
         BaseMapViewModule,
         CommonModule,
@@ -137,7 +147,11 @@ import {
         MapPopupAirportInfoTabComponent,
         MapPopupAirportRunwayTabComponent,
         MapPopupAirportRadioTabComponent,
-        MapPopupAirportChartTabComponent
+        MapPopupAirportChartTabComponent,
+        MapPopupReportingpointHeaderComponent,
+        MapPopupReportingpointInfoTabComponent,
+        MapPopupReportingsectorHeaderComponent,
+        MapPopupReportingsectorInfoTabComponent
     ],
     providers: []
 })

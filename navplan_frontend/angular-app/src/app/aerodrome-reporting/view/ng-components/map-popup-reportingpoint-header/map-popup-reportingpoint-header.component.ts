@@ -1,10 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ReportingPoint} from '../../../domain/model/reporting-point';
 import {OlReportingPointIcon} from '../../ol-components/ol-reporting-point-icon';
+import {MatCardModule} from '@angular/material/card';
 
 
 @Component({
     selector: 'app-map-popup-reportingpoint-header',
+    standalone: true,
+    imports: [
+        MatCardModule
+    ],
     templateUrl: './map-popup-reportingpoint-header.component.html',
     styleUrls: ['./map-popup-reportingpoint-header.component.scss']
 })
