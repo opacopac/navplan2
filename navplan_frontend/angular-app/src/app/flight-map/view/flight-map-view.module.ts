@@ -58,7 +58,6 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSelectModule} from '@angular/material/select';
 import {AerodromeCircuitsViewModule} from '../../aerodrome-circuits/view/aerodrome-circuits-view.module';
-import {AerodromeChartsViewModule} from '../../aerodrome-charts/view/aerodrome-charts-view.module';
 import {AerodromeReportingViewModule} from '../../aerodrome-reporting/aerodrome-reporting-view.module';
 import {PlanWaypointsViewModule} from '../../plan-waypoints/view/plan-waypoints-view.module';
 import {LocationButtonComponent} from '../../location/location-view/ng-components/location-button/location-button.component';
@@ -75,6 +74,9 @@ import {
 import {
     MapPopupAirportRadioTabComponent
 } from '../../aerodrome/view/ng-components/map-popup-airport-radio-tab/map-popup-airport-radio-tab.component';
+import {
+    MapPopupAirportChartTabComponent
+} from '../../aerodrome-charts/view/ng-components/map-popup-airport-chart-tab/map-popup-airport-chart-tab.component';
 
 @NgModule({
     declarations: [
@@ -106,7 +108,6 @@ import {
         MatSelectModule,
         MatCardModule,
         AerodromeReportingViewModule,
-        AerodromeChartsViewModule,
         AerodromeCircuitsViewModule,
         AirspaceViewModule,
         BaseMapViewModule,
@@ -138,6 +139,7 @@ import {
         MapPopupAirportInfoTabComponent,
         MapPopupAirportRunwayTabComponent,
         MapPopupAirportRadioTabComponent,
+        MapPopupAirportChartTabComponent
     ],
     providers: []
 })

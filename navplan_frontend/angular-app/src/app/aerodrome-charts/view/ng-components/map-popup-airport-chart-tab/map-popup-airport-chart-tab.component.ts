@@ -3,10 +3,15 @@ import {Airport} from '../../../../aerodrome/domain/model/airport';
 import {Store} from '@ngrx/store';
 import {AirportChart} from '../../../domain/model/airport-chart';
 import {AirportChartActions} from '../../../state/ngrx/airport-chart.actions';
+import {MatTable, MatTableModule} from '@angular/material/table';
 
 
 @Component({
     selector: 'app-map-popup-airport-chart-tab',
+    standalone: true,
+    imports: [
+        MatTableModule
+    ],
     templateUrl: './map-popup-airport-chart-tab.component.html',
     styleUrls: ['./map-popup-airport-chart-tab.component.scss']
 })
