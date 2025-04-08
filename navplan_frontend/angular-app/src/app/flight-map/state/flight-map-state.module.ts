@@ -6,14 +6,18 @@ import {FlightMapEffects} from './ngrx/flight-map.effects';
 import {FlightMapStateService} from './ngrx/flight-map-state.service';
 import {LocationStateModule} from '../../location/location-state/location-state.module';
 import {AerodromeStateModule} from '../../aerodrome/state/aerodrome-state.module';
+import {AerodromeChartsStateModule} from '../../aerodrome-charts/state/aerodrome-charts-state.module';
+import {AerodromeCircuitsStateModule} from '../../aerodrome-circuits/state/aerodrome-circuits-state.module';
 
 
 @NgModule({
     imports: [
-        LocationStateModule,
-        AerodromeStateModule,
         StoreModule.forFeature('flightMapState', flightMapReducer),
         EffectsModule.forFeature([FlightMapEffects]),
+        AerodromeStateModule,
+        AerodromeChartsStateModule,
+        AerodromeCircuitsStateModule,
+        LocationStateModule,
     ],
     declarations: [],
     exports: [],
