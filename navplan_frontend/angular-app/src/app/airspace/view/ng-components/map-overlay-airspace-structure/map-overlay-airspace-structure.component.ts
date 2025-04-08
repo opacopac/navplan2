@@ -5,10 +5,15 @@ import {Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import {getPositionSearchState} from '../../../../search/state/ngrx/search.selectors';
 import {PositionSearchState} from '../../../../search/state/state-model/position-search-state';
+import {MapOverlayAirspaceComponent} from '../map-overlay-airspace/map-overlay-airspace.component';
 
 
 @Component({
     selector: 'app-map-overlay-airspace-structure',
+    standalone: true,
+    imports: [
+        MapOverlayAirspaceComponent
+    ],
     templateUrl: './map-overlay-airspace-structure.component.html',
     styleUrls: ['./map-overlay-airspace-structure.component.scss']
 })

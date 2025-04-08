@@ -25,7 +25,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MeteoGramViewModule} from '../../meteo-gram/view/meteo-gram-view.module';
 import {FullScreenButtonComponent} from './ng-components/full-screen-button/full-screen-button.component';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
-import {AirspaceViewModule} from '../../airspace/view/airspace-view.module';
 import {CommonViewModule} from '../../common/view/common-view.module';
 import {
     MapPopupButtonEditUserpointComponent
@@ -87,6 +86,9 @@ import {
 import {
     MapPopupReportingsectorInfoTabComponent
 } from '../../aerodrome-reporting/view/ng-components/map-popup-reportingsector-info-tab/map-popup-reportingsector-info-tab.component';
+import {
+    MapOverlayAirspaceStructureComponent
+} from '../../airspace/view/ng-components/map-overlay-airspace-structure/map-overlay-airspace-structure.component';
 
 @NgModule({
     declarations: [
@@ -117,7 +119,6 @@ import {
         MatButtonToggleModule,
         MatSelectModule,
         MatCardModule,
-        AirspaceViewModule,
         BaseMapViewModule,
         CommonModule,
         FlightMapDomainModule,
@@ -151,7 +152,8 @@ import {
         MapPopupReportingpointHeaderComponent,
         MapPopupReportingpointInfoTabComponent,
         MapPopupReportingsectorHeaderComponent,
-        MapPopupReportingsectorInfoTabComponent
+        MapPopupReportingsectorInfoTabComponent,
+        MapOverlayAirspaceStructureComponent
     ],
     providers: []
 })
