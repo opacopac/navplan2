@@ -2,10 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {TimerService} from '../../../../system/domain/service/timer/timer.service';
 import {getLocationIsWatching} from '../../../../location/location-state/ngrx/location.selectors';
 import {select, Store} from '@ngrx/store';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-flighttimer',
+    standalone: true,
+    imports: [
+        CommonModule
+    ],
     templateUrl: './flighttimer.component.html',
     styleUrls: ['./flighttimer.component.scss']
 })
@@ -21,8 +26,6 @@ export class FlighttimerComponent implements OnInit {
 
     ngOnInit() {
     }
-
-
 
 
     /*public getStopTimeString(stopTime: Date): string {

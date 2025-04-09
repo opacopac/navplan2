@@ -11,6 +11,7 @@ import {AerodromeCircuitsStateModule} from '../../aerodrome-circuits/state/aerod
 import {AerodromeReportingStateModule} from '../../aerodrome-reporting/state/aerodrome-reporting-state.module';
 import {AirspaceStateModule} from '../../airspace/state/airspace-state.module';
 import {BaseMapStateModule} from '../../base-map/state/base-map-state.module';
+import {FlightTimerStateModule} from '../../flight-timer/state/flight-timer-state.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import {BaseMapStateModule} from '../../base-map/state/base-map-state.module';
         AerodromeReportingStateModule,
         AirspaceStateModule,
         BaseMapStateModule,
+        FlightTimerStateModule,
         LocationStateModule,
     ],
     declarations: [],

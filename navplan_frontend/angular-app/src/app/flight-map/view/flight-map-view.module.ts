@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FlightMapPageComponent} from './ng-components/flight-map-page/flight-map-page.component';
-import {FlightTimerViewModule} from '../../flight-timer/view/flight-timer-view.module';
 import {MapPopupWaypointComponent} from './ng-components/map-popup-waypoint/map-popup-waypoint.component';
 import {MapPopupComponent} from './ng-components/map-popup/map-popup.component';
 import {MetarTafViewModule} from '../../metar-taf/view/metar-taf-view.module';
@@ -98,6 +97,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MiniFabButtonComponent} from '../../common/view/ng-components/mini-fab-button/mini-fab-button.component';
 import {StatusButtonComponent} from '../../common/view/ng-components/status-button/status-button.component';
+import {FlighttimerComponent} from '../../flight-timer/view/ng-components/flighttimer/flighttimer.component';
 
 @NgModule({
     declarations: [
@@ -133,7 +133,6 @@ import {StatusButtonComponent} from '../../common/view/ng-components/status-butt
         CommonModule,
         FlightMapDomainModule,
         FlightMapStateModule,
-        FlightTimerViewModule,
         PlanWaypointsViewModule,
         GeonameViewModule,
         GeoPhysicsViewModule,
@@ -171,6 +170,7 @@ import {StatusButtonComponent} from '../../common/view/ng-components/status-butt
         ZoomButtonsComponent,
         MiniFabButtonComponent,
         StatusButtonComponent,
+        FlighttimerComponent
     ],
     providers: []
 })
