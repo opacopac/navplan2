@@ -4,14 +4,11 @@ import {MeteoSmaService} from './service/meteo-sma.service';
 
 
 @NgModule({
-    imports: [
-    ],
-    declarations: [
-    ],
-    exports: [
-    ],
+    imports: [],
+    declarations: [],
+    exports: [],
     providers: [
-        { provide: IMeteoSmaService, useClass: MeteoSmaService },
+        {provide: IMeteoSmaService, useClass: MeteoSmaService},
     ]
 })
 export class MeteoSmaDomainModule {
