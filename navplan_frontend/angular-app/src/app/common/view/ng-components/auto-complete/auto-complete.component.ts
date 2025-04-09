@@ -1,10 +1,22 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AutoCompleteResultItem} from '../../model/auto-complete-result-item';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatFormField, MatFormFieldModule} from '@angular/material/form-field';
+import {MatAutocompleteModule, MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {MatIcon, MatIconModule} from '@angular/material/icon';
+import {MatInput, MatInputModule} from '@angular/material/input';
 
 
 @Component({
     selector: 'app-auto-complete',
+    standalone: true,
+    imports: [
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        MatIconModule,
+        MatInputModule
+    ],
     templateUrl: './auto-complete.component.html',
     styleUrls: ['./auto-complete.component.scss']
 })

@@ -93,6 +93,7 @@ import {
 import {AircraftManualToggle} from './ng-components/aircraft-manual-toggle/aircraft-manual-toggle.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatIcon} from '@angular/material/icon';
+import {AutoCompleteComponent} from '../../common/view/ng-components/auto-complete/auto-complete.component';
 
 
 @NgModule({
@@ -118,6 +119,7 @@ import {MatIcon} from '@angular/material/icon';
         MatDialogModule,
         MatSlideToggleModule,
         MatIcon,
+        AutoCompleteComponent,
     ],
     declarations: [
         AircraftTabsComponent,

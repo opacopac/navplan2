@@ -8,7 +8,6 @@ import {MiniFabButtonComponent} from './ng-components/mini-fab-button/mini-fab-b
 import {MatDialogModule} from '@angular/material/dialog';
 import {FormDialogComponent} from './ng-components/form-dialog/form-dialog.component';
 import {ConfirmDeleteDialogComponent} from './ng-components/confirm-delete-dialog/confirm-delete-dialog.component';
-import {AutoCompleteComponent} from './ng-components/auto-complete/auto-complete.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -38,7 +37,6 @@ import {SaveButtonComponent} from './ng-components/save-button/save-button.compo
         StatusButtonComponent,
         ConfirmDeleteDialogComponent,
         FormDialogComponent,
-        AutoCompleteComponent,
         TableTextFilterAndCreateButtonComponent,
         SaveButtonComponent
     ],
@@ -48,7 +46,6 @@ import {SaveButtonComponent} from './ng-components/save-button/save-button.compo
         MiniFabButtonComponent,
         ConfirmDeleteDialogComponent,
         FormDialogComponent,
-        AutoCompleteComponent,
         TableTextFilterAndCreateButtonComponent,
         SaveButtonComponent,
     ],
