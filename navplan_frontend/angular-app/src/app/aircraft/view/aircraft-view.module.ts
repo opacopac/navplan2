@@ -96,6 +96,7 @@ import {MatIcon} from '@angular/material/icon';
 import {AutoCompleteComponent} from '../../common/view/ng-components/auto-complete/auto-complete.component';
 import {ConfirmDeleteDialogComponent} from '../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog.component';
 import {FormDialogComponent} from '../../common/view/ng-components/form-dialog/form-dialog.component';
+import {IconButtonComponent} from '../../common/view/ng-components/icon-button/icon-button.component';
 
 
 @NgModule({
@@ -124,6 +125,7 @@ import {FormDialogComponent} from '../../common/view/ng-components/form-dialog/f
         AutoCompleteComponent,
         ConfirmDeleteDialogComponent,
         FormDialogComponent,
+        IconButtonComponent,
     ],
     declarations: [
         AircraftTabsComponent,

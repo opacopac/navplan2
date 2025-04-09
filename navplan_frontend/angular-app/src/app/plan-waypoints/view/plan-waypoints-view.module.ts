@@ -24,6 +24,7 @@ import {WaypointsTableComponent} from './ng-components/waypoints-table/waypoints
 import {EditWaypointDialogComponent} from './ng-components/edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {EditWaypointFormComponent} from './ng-components/edit-waypoint-form/edit-waypoint-form.component';
 import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
+import {IconButtonComponent} from '../../common/view/ng-components/icon-button/icon-button.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-lis
         FlightrouteStateModule,
         PlanRouteListStateModule,
         GeoPhysicsViewModule,
-        PlanRouteListViewModule
+        PlanRouteListViewModule,
+        IconButtonComponent
     ],
     declarations: [
         EditWaypointDialogComponent,
