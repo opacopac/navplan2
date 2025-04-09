@@ -1,9 +1,15 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ButtonStatus} from '../../model/button-status';
-import {TooltipPosition} from '@angular/material/tooltip';
+import {MatTooltipModule, TooltipPosition} from '@angular/material/tooltip';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
     selector: 'app-status-button',
+    standalone: true,
+    imports: [
+        MatButtonModule,
+        MatTooltipModule
+    ],
     templateUrl: './status-button.component.html',
     styleUrls: ['./status-button.component.scss']
 })

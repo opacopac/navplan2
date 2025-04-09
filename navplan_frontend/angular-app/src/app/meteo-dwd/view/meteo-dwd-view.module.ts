@@ -16,6 +16,7 @@ import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
 import {CommonViewModule} from '../../common/view/common-view.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MeteoDwdTimelineMarkingsComponent} from './ng-components/meteo-dwd-timeline-markings/meteo-dwd-timeline-markings.component';
+import {StatusButtonComponent} from '../../common/view/ng-components/status-button/status-button.component';
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import {MeteoDwdTimelineMarkingsComponent} from './ng-components/meteo-dwd-timel
         BaseMapViewModule,
         CommonViewModule,
         ReactiveFormsModule,
+        StatusButtonComponent,
     ],
     declarations: [
         MeteoButtonComponent,
