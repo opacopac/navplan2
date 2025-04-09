@@ -99,6 +99,10 @@ import {StatusButtonComponent} from '../../common/view/ng-components/status-butt
 import {FlighttimerComponent} from '../../flight-timer/view/ng-components/flighttimer/flighttimer.component';
 import {MapOverlayPositionComponent} from '../../geo-physics/view/ng-components/map-overlay-position/map-overlay-position.component';
 import {MapOverlayVariationComponent} from '../../geo-physics/view/ng-components/map-overlay-variation/map-overlay-variation.component';
+import {MapPopupGeonameHeaderComponent} from '../../geoname/view/ng-components/map-popup-geoname-header/map-popup-geoname-header.component';
+import {
+    MapPopupGeonameInfoTabComponent
+} from '../../geoname/view/ng-components/map-popup-geoname-info-tab/map-popup-geoname-info-tab.component';
 
 @NgModule({
     declarations: [
@@ -172,7 +176,9 @@ import {MapOverlayVariationComponent} from '../../geo-physics/view/ng-components
         StatusButtonComponent,
         FlighttimerComponent,
         MapOverlayPositionComponent,
-        MapOverlayVariationComponent
+        MapOverlayVariationComponent,
+        MapPopupGeonameHeaderComponent,
+        MapPopupGeonameInfoTabComponent
     ],
     providers: []
 })

@@ -1,9 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Geoname} from '../../../domain/model/geoname';
+import {MatCardModule} from '@angular/material/card';
 
 
 @Component({
     selector: 'app-map-popup-geoname-header',
+    standalone: true,
+    imports: [
+        MatCardModule
+    ],
     templateUrl: './map-popup-geoname-header.component.html',
     styleUrls: ['./map-popup-geoname-header.component.scss']
 })
