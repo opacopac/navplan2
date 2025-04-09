@@ -24,6 +24,8 @@ import {PlanViewModule} from './plan-tabs/view/plan-view.module';
 import {CommonViewModule} from './common/view/common-view.module';
 import {DownloadContainerComponent} from './exporter/view/ng-components/download-container/download-container.component';
 import {ExporterStateModule} from './exporter/state/exporter-state.module';
+import {MessageContainerComponent} from './message/view/ng-components/message-container/message-container.component';
+import {MessageStateModule} from './message/state/message-state.module';
 
 
 @NgModule({
@@ -50,13 +52,15 @@ import {ExporterStateModule} from './exporter/state/exporter-state.module';
         AircraftViewModule,
         PlanViewModule,
         MessageViewModule,
+        MessageStateModule,
         NavbarViewModule,
         SettingsViewModule,
         TrackViewModule,
         UserViewModule,
         SearchViewModule,
         DownloadContainerComponent,
-        ExporterStateModule
+        ExporterStateModule,
+        MessageContainerComponent
     ],
     providers: [
         provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),

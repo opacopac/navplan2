@@ -5,7 +5,6 @@ import {NgModule} from '@angular/core';
     imports: [],
     declarations: [],
     exports: [],
-    providers: []
 })
-export class MessageDomainModule {
+export class LocationViewModule {
 }

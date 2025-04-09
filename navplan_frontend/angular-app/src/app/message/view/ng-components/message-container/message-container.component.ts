@@ -11,6 +11,8 @@ const AUTO_DISMISS_TIME_MS = 4000;
 
 @Component({
     selector: 'app-message-container',
+    standalone: true,
+    imports: [],
     templateUrl: './message-container.component.html',
     styleUrls: ['./message-container.component.scss']
 })
