@@ -97,6 +97,7 @@ import {AutoCompleteComponent} from '../../common/view/ng-components/auto-comple
 import {ConfirmDeleteDialogComponent} from '../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog.component';
 import {FormDialogComponent} from '../../common/view/ng-components/form-dialog/form-dialog.component';
 import {IconButtonComponent} from '../../common/view/ng-components/icon-button/icon-button.component';
+import {SaveButtonComponent} from '../../common/view/ng-components/save-button/save-button.component';
 
 
 @NgModule({
@@ -126,6 +127,7 @@ import {IconButtonComponent} from '../../common/view/ng-components/icon-button/i
         ConfirmDeleteDialogComponent,
         FormDialogComponent,
         IconButtonComponent,
+        SaveButtonComponent,
     ],
     declarations: [
         AircraftTabsComponent,

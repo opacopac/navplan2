@@ -1,9 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ButtonColor} from '../../model/button-color';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @Component({
     selector: 'app-save-button',
+    standalone: true,
+    imports: [
+        MatButtonModule
+    ],
     templateUrl: './save-button.component.html',
     styleUrls: ['./save-button.component.scss']
 })

@@ -1,9 +1,15 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ButtonColor} from '../../model/button-color';
-import {TooltipPosition} from '@angular/material/tooltip';
+import {MatTooltipModule, TooltipPosition} from '@angular/material/tooltip';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
     selector: 'app-mini-fab-button',
+    standalone: true,
+    imports: [
+        MatButtonModule,
+        MatTooltipModule
+    ],
     templateUrl: './mini-fab-button.component.html',
     styleUrls: ['./mini-fab-button.component.scss']
 })

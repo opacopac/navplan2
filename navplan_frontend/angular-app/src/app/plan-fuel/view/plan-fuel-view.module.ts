@@ -16,6 +16,7 @@ import {FlightrouteDomainModule} from '../../flightroute/domain/flightroute-doma
 import {FlightrouteRestModule} from '../../flightroute/rest/flightroute-rest.module';
 import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.module';
 import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
+import {SaveButtonComponent} from '../../common/view/ng-components/save-button/save-button.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-lis
         GeoPhysicsViewModule,
         ReactiveFormsModule,
         ExporterViewModule,
-        PlanRouteListViewModule
+        PlanRouteListViewModule,
+        SaveButtonComponent
     ],
     declarations: [
         FuelCalcContainerComponent,

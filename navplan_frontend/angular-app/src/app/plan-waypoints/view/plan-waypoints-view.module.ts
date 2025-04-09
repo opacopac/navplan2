@@ -25,6 +25,7 @@ import {EditWaypointDialogComponent} from './ng-components/edit-waypoint-dialog/
 import {EditWaypointFormComponent} from './ng-components/edit-waypoint-form/edit-waypoint-form.component';
 import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
 import {IconButtonComponent} from '../../common/view/ng-components/icon-button/icon-button.component';
+import {SaveButtonComponent} from '../../common/view/ng-components/save-button/save-button.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import {IconButtonComponent} from '../../common/view/ng-components/icon-button/i
         PlanRouteListStateModule,
         GeoPhysicsViewModule,
         PlanRouteListViewModule,
-        IconButtonComponent
+        IconButtonComponent,
+        SaveButtonComponent
     ],
     declarations: [
         EditWaypointDialogComponent,

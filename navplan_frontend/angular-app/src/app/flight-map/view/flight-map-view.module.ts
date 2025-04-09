@@ -97,6 +97,7 @@ import {MapLayerSelectionButtonComponent} from './ng-components/map-layer-select
 import {MapLayerSelectionContentComponent} from './ng-components/map-layer-selection-content/map-layer-selection-content.component';
 import {MatRadioGroup, MatRadioModule} from '@angular/material/radio';
 import {MatCheckbox, MatCheckboxModule} from '@angular/material/checkbox';
+import {MiniFabButtonComponent} from '../../common/view/ng-components/mini-fab-button/mini-fab-button.component';
 
 @NgModule({
     declarations: [
@@ -170,6 +171,7 @@ import {MatCheckbox, MatCheckboxModule} from '@angular/material/checkbox';
         AttributionsContentComponent,
         OlMapContainerComponent,
         ZoomButtonsComponent,
+        MiniFabButtonComponent,
     ],
     providers: []
 })
