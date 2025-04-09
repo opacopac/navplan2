@@ -26,6 +26,7 @@ import {
     TrackProfileGraphComponent
 } from './ng-components/track-profile/track-profile-graph/track-profile-graph.component';
 import {TrackProfileTimesComponent} from './ng-components/track-profile/track-profile-times/track-profile-times.component';
+import {ConfirmDeleteDialogComponent} from '../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog.component';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import {TrackProfileTimesComponent} from './ng-components/track-profile/track-pr
         TrackDomainModule,
         TrackRestModule,
         TrackStateModule,
+        ConfirmDeleteDialogComponent,
     ],
     declarations: [
         TrackTabsComponent,

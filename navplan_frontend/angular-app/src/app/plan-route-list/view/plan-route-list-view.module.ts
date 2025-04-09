@@ -21,6 +21,7 @@ import {RoutePickerListComponent} from './ng-components/route-picker-list/route-
 import {RoutePickerListDialogComponent} from './ng-components/route-picker-list-dialog/route-picker-list-dialog.component';
 import {RoutePickerContainerComponent} from './ng-components/route-picker-container/route-picker-container.component';
 import {RoutePickerComponent} from './ng-components/route-picker/route-picker.component';
+import {ConfirmDeleteDialogComponent} from '../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import {RoutePickerComponent} from './ng-components/route-picker/route-picker.co
         PlanRouteListStateModule,
         ExporterViewModule,
         AircraftViewModule,
+        ConfirmDeleteDialogComponent,
     ],
     declarations: [
         RouteCreateFormDialogComponent,
