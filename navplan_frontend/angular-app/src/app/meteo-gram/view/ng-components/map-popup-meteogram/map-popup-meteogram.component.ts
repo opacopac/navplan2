@@ -13,6 +13,8 @@ import {getCloudMeteogram} from '../../../state/ngrx/meteo-gram.selectors';
 
 @Component({
     selector: 'app-map-popup-meteogram',
+    standalone: true,
+    imports: [],
     templateUrl: './map-popup-meteogram.component.html',
     styleUrls: ['./map-popup-meteogram.component.scss']
 })
