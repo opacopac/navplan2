@@ -6,6 +6,8 @@ import {IWmmService} from '../../../domain/service/wmm/i-wmm.service';
 
 @Component({
     selector: 'app-map-overlay-variation',
+    standalone: true,
+    imports: [],
     templateUrl: './map-overlay-variation.component.html',
     styleUrls: ['./map-overlay-variation.component.scss']
 })

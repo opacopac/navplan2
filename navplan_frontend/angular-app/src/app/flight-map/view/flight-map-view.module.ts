@@ -23,7 +23,6 @@ import {MeteoContainerComponent} from './ng-components/meteo-container/meteo-con
 import {MatButtonModule} from '@angular/material/button';
 import {MeteoGramViewModule} from '../../meteo-gram/view/meteo-gram-view.module';
 import {FullScreenButtonComponent} from './ng-components/full-screen-button/full-screen-button.component';
-import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 import {
     MapPopupButtonEditUserpointComponent
 } from './ng-components/map-popup-button-edit-userpoint/map-popup-button-edit-userpoint.component';
@@ -98,6 +97,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MiniFabButtonComponent} from '../../common/view/ng-components/mini-fab-button/mini-fab-button.component';
 import {StatusButtonComponent} from '../../common/view/ng-components/status-button/status-button.component';
 import {FlighttimerComponent} from '../../flight-timer/view/ng-components/flighttimer/flighttimer.component';
+import {MapOverlayPositionComponent} from '../../geo-physics/view/ng-components/map-overlay-position/map-overlay-position.component';
+import {MapOverlayVariationComponent} from '../../geo-physics/view/ng-components/map-overlay-variation/map-overlay-variation.component';
 
 @NgModule({
     declarations: [
@@ -135,7 +136,6 @@ import {FlighttimerComponent} from '../../flight-timer/view/ng-components/flight
         FlightMapStateModule,
         PlanWaypointsViewModule,
         GeonameViewModule,
-        GeoPhysicsViewModule,
         MatButtonModule,
         MatTabsModule,
         MatCardModule,
@@ -170,7 +170,9 @@ import {FlighttimerComponent} from '../../flight-timer/view/ng-components/flight
         ZoomButtonsComponent,
         MiniFabButtonComponent,
         StatusButtonComponent,
-        FlighttimerComponent
+        FlighttimerComponent,
+        MapOverlayPositionComponent,
+        MapOverlayVariationComponent
     ],
     providers: []
 })

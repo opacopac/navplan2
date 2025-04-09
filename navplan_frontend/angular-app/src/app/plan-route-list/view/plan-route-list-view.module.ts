@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -37,7 +36,6 @@ import {
         MatTableModule,
         MatPaginatorModule,
         MatButtonModule,
-        GeoPhysicsViewModule,
         FlightrouteDomainModule,
         FlightrouteRestModule,
         PlanRouteListStateModule,

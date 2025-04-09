@@ -3,14 +3,14 @@ import {ReportingPoint} from '../../../domain/model/reporting-point';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
-import {GeoPhysicsViewModule} from '../../../../geo-physics/view/geo-physics-view.module';
+import {MapOverlayPositionComponent} from '../../../../geo-physics/view/ng-components/map-overlay-position/map-overlay-position.component';
 
 
 @Component({
     selector: 'app-map-popup-reportingpoint-info-tab',
     standalone: true,
     imports: [
-        GeoPhysicsViewModule
+        MapOverlayPositionComponent
     ],
     templateUrl: './map-popup-reportingpoint-info-tab.component.html',
     styleUrls: ['./map-popup-reportingpoint-info-tab.component.scss']

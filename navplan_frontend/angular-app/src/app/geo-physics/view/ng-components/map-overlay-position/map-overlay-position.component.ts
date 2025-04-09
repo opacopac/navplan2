@@ -5,6 +5,8 @@ import {Position2d} from '../../../domain/model/geometry/position2d';
 
 @Component({
     selector: 'app-map-overlay-position',
+    standalone: true,
+    imports: [],
     templateUrl: './map-overlay-position.component.html',
     styleUrls: ['./map-overlay-position.component.scss']
 })

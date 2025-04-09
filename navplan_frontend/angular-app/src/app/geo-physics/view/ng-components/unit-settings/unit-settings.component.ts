@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MatRadioChange} from '@angular/material/radio';
+import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
 import {select, Store} from '@ngrx/store';
 import {GeoPhysicsActions} from '../../../state/ngrx/geo-physics.actions';
 import {Observable} from 'rxjs';
@@ -23,10 +23,16 @@ import {Weight} from '../../../domain/model/quantities/weight';
 import {WeightUnit} from '../../../domain/model/quantities/weight-unit';
 import {Temperature} from '../../../domain/model/quantities/temperature';
 import {TemperatureUnit} from '../../../domain/model/quantities/temperature-unit';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-unit-settings',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatRadioModule,
+    ],
     templateUrl: './unit-settings.component.html',
     styleUrls: ['./unit-settings.component.scss']
 })
@@ -46,14 +52,14 @@ export class UnitSettingsComponent implements OnInit {
     protected readonly performanceDistanceUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getPerformanceDistanceUnit));
     protected readonly temperatureUnit$: Observable<TemperatureUnit> = this.appStore.pipe(select(getTemperatureUnit));
 
-    protected readonly altitudeUnits = [ LengthUnit.FT, LengthUnit.M ];
-    protected readonly routeDistanceUnits = [ LengthUnit.NM, LengthUnit.KM ];
-    protected readonly speedUnits = [ SpeedUnit.KT, SpeedUnit.KMH ];
-    protected readonly fuelUnits = [ VolumeUnit.L, VolumeUnit.GAL ];
-    protected readonly weightUnits = [ WeightUnit.KG, WeightUnit.LBS ];
-    protected readonly wnbLengthUnits = [ LengthUnit.M, LengthUnit.IN, LengthUnit.FT ];
-    protected readonly performanceDistanceUnits = [ LengthUnit.M, LengthUnit.FT ];
-    protected readonly temperatureUnits = [ TemperatureUnit.C, TemperatureUnit.F ];
+    protected readonly altitudeUnits = [LengthUnit.FT, LengthUnit.M];
+    protected readonly routeDistanceUnits = [LengthUnit.NM, LengthUnit.KM];
+    protected readonly speedUnits = [SpeedUnit.KT, SpeedUnit.KMH];
+    protected readonly fuelUnits = [VolumeUnit.L, VolumeUnit.GAL];
+    protected readonly weightUnits = [WeightUnit.KG, WeightUnit.LBS];
+    protected readonly wnbLengthUnits = [LengthUnit.M, LengthUnit.IN, LengthUnit.FT];
+    protected readonly performanceDistanceUnits = [LengthUnit.M, LengthUnit.FT];
+    protected readonly temperatureUnits = [TemperatureUnit.C, TemperatureUnit.F];
 
     constructor(private appStore: Store<any>) {
     }

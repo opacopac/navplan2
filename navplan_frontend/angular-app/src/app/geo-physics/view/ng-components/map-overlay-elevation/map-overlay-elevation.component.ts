@@ -6,6 +6,7 @@ import {Altitude} from '../../../domain/model/geometry/altitude';
 
 @Component({
     selector: 'app-map-overlay-elevation',
+    standalone: true,
     templateUrl: './map-overlay-elevation.component.html',
     styleUrls: ['./map-overlay-elevation.component.scss']
 })
