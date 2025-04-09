@@ -103,6 +103,7 @@ import {MapPopupGeonameHeaderComponent} from '../../geoname/view/ng-components/m
 import {
     MapPopupGeonameInfoTabComponent
 } from '../../geoname/view/ng-components/map-popup-geoname-info-tab/map-popup-geoname-info-tab.component';
+import {MapPopupMetarTafComponent} from '../../metar-taf/view/ng-components/map-popup-metar-taf/map-popup-metar-taf.component';
 
 @NgModule({
     declarations: [
@@ -178,7 +179,8 @@ import {
         MapOverlayPositionComponent,
         MapOverlayVariationComponent,
         MapPopupGeonameHeaderComponent,
-        MapPopupGeonameInfoTabComponent
+        MapPopupGeonameInfoTabComponent,
+        MapPopupMetarTafComponent
     ],
     providers: []
 })

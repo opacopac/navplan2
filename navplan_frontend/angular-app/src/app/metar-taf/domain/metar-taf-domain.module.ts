@@ -4,14 +4,11 @@ import {MetarTafService} from './service/metar-taf.service';
 
 
 @NgModule({
-    imports: [
-    ],
-    declarations: [
-    ],
-    exports: [
-    ],
+    imports: [],
+    declarations: [],
+    exports: [],
     providers: [
-        { provide: IMetarTafService, useClass: MetarTafService },
+        {provide: IMetarTafService, useClass: MetarTafService},
     ]
 })
 export class MetarTafDomainModule {
