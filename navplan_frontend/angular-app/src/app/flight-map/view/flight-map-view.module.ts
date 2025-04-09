@@ -89,6 +89,14 @@ import {
 import {
     MapOverlayAirspaceStructureComponent
 } from '../../airspace/view/ng-components/map-overlay-airspace-structure/map-overlay-airspace-structure.component';
+import {AttributionsButtonComponent} from '../../base-map/view/ng-components/attributions-button/attributions-button-component.component';
+import {AttributionsContentComponent} from '../../base-map/view/ng-components/attributions-content/attributions-content.component';
+import {OlMapContainerComponent} from '../../base-map/view/ng-components/ol-map-container/ol-map-container.component';
+import {ZoomButtonsComponent} from '../../base-map/view/ng-components/zoom-buttons/zoom-buttons.component';
+import {MapLayerSelectionButtonComponent} from './ng-components/map-layer-selection-button/map-layer-selection-button.component';
+import {MapLayerSelectionContentComponent} from './ng-components/map-layer-selection-content/map-layer-selection-content.component';
+import {MatRadioGroup, MatRadioModule} from '@angular/material/radio';
+import {MatCheckbox, MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
     declarations: [
@@ -106,6 +114,8 @@ import {
         MapPopupWaypointButtonSetAlternateComponent,
         MapPopupWaypointHeaderComponent,
         MapPopupWaypointInfoTabComponent,
+        MapLayerSelectionButtonComponent,
+        MapLayerSelectionContentComponent,
     ],
     imports: [
         CommonModule,
@@ -130,6 +140,8 @@ import {
         MatButtonModule,
         MatTabsModule,
         MatCardModule,
+        MatRadioModule,
+        MatCheckboxModule,
         MetarTafViewModule,
         MeteoSmaViewModule,
         MeteoDwdViewModule,
@@ -153,7 +165,11 @@ import {
         MapPopupReportingpointInfoTabComponent,
         MapPopupReportingsectorHeaderComponent,
         MapPopupReportingsectorInfoTabComponent,
-        MapOverlayAirspaceStructureComponent
+        MapOverlayAirspaceStructureComponent,
+        AttributionsButtonComponent,
+        AttributionsContentComponent,
+        OlMapContainerComponent,
+        ZoomButtonsComponent,
     ],
     providers: []
 })

@@ -1,10 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseMapActions} from '../../../state/ngrx/base-map.actions';
 import {Store} from '@ngrx/store';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @Component({
     selector: 'app-zoom-buttons',
+    standalone: true,
+    imports: [
+        MatButtonModule
+    ],
     templateUrl: './zoom-buttons.component.html',
     styleUrls: ['./zoom-buttons.component.scss']
 })
