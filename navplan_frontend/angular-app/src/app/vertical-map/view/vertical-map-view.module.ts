@@ -7,7 +7,6 @@ import {VerticalMapComponent} from './ng-components/vertical-map/vertical-map.co
 import {VerticalMapStateModule} from '../state/vertical-map-state.module';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {CommonViewModule} from '../../common/view/common-view.module';
 import {StatusButtonComponent} from '../../common/view/ng-components/status-button/status-button.component';
 
 
@@ -27,11 +26,9 @@ import {StatusButtonComponent} from '../../common/view/ng-components/status-butt
         VerticalMapDomainModule,
         VerticalMapRestModule,
         VerticalMapStateModule,
-        CommonViewModule,
         StatusButtonComponent
     ],
-    providers: [
-    ]
+    providers: []
 })
 export class VerticalMapViewModule {
 }

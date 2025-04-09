@@ -9,7 +9,6 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
-import {CommonViewModule} from '../../common/view/common-view.module';
 import {StatusButtonComponent} from '../../common/view/ng-components/status-button/status-button.component';
 
 
@@ -23,7 +22,6 @@ import {StatusButtonComponent} from '../../common/view/ng-components/status-butt
         TrafficRestModule,
         TrafficStateModule,
         BaseMapViewModule,
-        CommonViewModule,
         StatusButtonComponent,
     ],
     declarations: [
@@ -34,7 +32,7 @@ import {StatusButtonComponent} from '../../common/view/ng-components/status-butt
         MapPopupTrafficComponent,
         TrafficButtonComponent
     ],
-    providers: [
-    ]
+    providers: []
 })
-export class TrafficViewModule {}
+export class TrafficViewModule {
+}

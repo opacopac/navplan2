@@ -9,22 +9,17 @@ import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
-import {CommonViewModule} from '../../common/view/common-view.module';
 import {MatInputModule} from '@angular/material/input';
 import {MatPaginator} from '@angular/material/paginator';
 import {
     TrackDeleteConfirmDialogComponent
 } from './ng-components/track-list/track-delete-confirm-dialog/track-delete-confirm-dialog.component';
-import {
-    TrackEditFormDialogComponent
-} from './ng-components/track-list/track-edit-form-dialog/track-edit-form-dialog.component';
+import {TrackEditFormDialogComponent} from './ng-components/track-list/track-edit-form-dialog/track-edit-form-dialog.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TrackTabsComponent} from './ng-components/track-tabs/track-tabs.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {TrackProfilePageComponent} from './ng-components/track-profile/track-profile-page/track-profile-page.component';
-import {
-    TrackProfileGraphComponent
-} from './ng-components/track-profile/track-profile-graph/track-profile-graph.component';
+import {TrackProfileGraphComponent} from './ng-components/track-profile/track-profile-graph/track-profile-graph.component';
 import {TrackProfileTimesComponent} from './ng-components/track-profile/track-profile-times/track-profile-times.component';
 import {ConfirmDeleteDialogComponent} from '../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog.component';
 import {FormDialogComponent} from '../../common/view/ng-components/form-dialog/form-dialog.component';
@@ -45,7 +40,6 @@ import {
         MatPaginator,
         MatTabsModule,
         ReactiveFormsModule,
-        CommonViewModule,
         TrackDomainModule,
         TrackRestModule,
         TrackStateModule,

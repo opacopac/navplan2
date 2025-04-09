@@ -25,7 +25,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MeteoGramViewModule} from '../../meteo-gram/view/meteo-gram-view.module';
 import {FullScreenButtonComponent} from './ng-components/full-screen-button/full-screen-button.component';
 import {GeoPhysicsViewModule} from '../../geo-physics/view/geo-physics-view.module';
-import {CommonViewModule} from '../../common/view/common-view.module';
 import {
     MapPopupButtonEditUserpointComponent
 } from './ng-components/map-popup-button-edit-userpoint/map-popup-button-edit-userpoint.component';
@@ -95,8 +94,8 @@ import {OlMapContainerComponent} from '../../base-map/view/ng-components/ol-map-
 import {ZoomButtonsComponent} from '../../base-map/view/ng-components/zoom-buttons/zoom-buttons.component';
 import {MapLayerSelectionButtonComponent} from './ng-components/map-layer-selection-button/map-layer-selection-button.component';
 import {MapLayerSelectionContentComponent} from './ng-components/map-layer-selection-content/map-layer-selection-content.component';
-import {MatRadioGroup, MatRadioModule} from '@angular/material/radio';
-import {MatCheckbox, MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MiniFabButtonComponent} from '../../common/view/ng-components/mini-fab-button/mini-fab-button.component';
 import {StatusButtonComponent} from '../../common/view/ng-components/status-button/status-button.component';
 
@@ -121,7 +120,6 @@ import {StatusButtonComponent} from '../../common/view/ng-components/status-butt
     ],
     imports: [
         CommonModule,
-        CommonViewModule,
         ReactiveFormsModule,
         MatTableModule,
         MatButtonModule,
@@ -156,7 +154,6 @@ import {StatusButtonComponent} from '../../common/view/ng-components/status-butt
         UserViewModule,
         VerticalMapViewModule,
         WebcamViewModule,
-        CommonViewModule,
         LocationButtonComponent,
         MapPopupAirportHeaderComponent,
         MapPopupAirportInfoTabComponent,

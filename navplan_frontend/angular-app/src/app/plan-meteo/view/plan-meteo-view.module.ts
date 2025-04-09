@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CommonViewModule} from '../../common/view/common-view.module';
 import {PlanMeteoContainerComponent} from './ng-components/plan-meteo-container/plan-meteo-container.component';
 import {PlanMeteoTableComponent} from './ng-components/plan-meteo-table/plan-meteo-table.component';
 import {PlanMeteoRadiusComponent} from './ng-components/plan-meteo-radius/plan-meteo-radius.component';
@@ -17,7 +16,6 @@ import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-lis
 @NgModule({
     imports: [
         CommonModule,
-        CommonViewModule,
         PlanMeteoDomainModule,
         PlanMeteoStateModule,
         MatFormFieldModule,

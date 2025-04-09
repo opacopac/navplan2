@@ -21,6 +21,7 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import {SearchViewModule} from './search/view/search-view.module';
 import {AircraftViewModule} from './aircraft/view/aircraft-view.module';
 import {PlanViewModule} from './plan-tabs/view/plan-view.module';
+import {CommonViewModule} from './common/view/common-view.module';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import {PlanViewModule} from './plan-tabs/view/plan-view.module';
             logOnly: environment.production, // Restrict extension to log-only mode
             connectInZone: true
         }),
+        CommonViewModule,
         ExporterViewModule,
         FlightMapViewModule,
         AircraftViewModule,

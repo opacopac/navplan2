@@ -3,7 +3,6 @@ import {select, Store} from '@ngrx/store';
 import {getShowAttributions} from '../../../state/ngrx/base-map.selectors';
 import {BaseMapActions} from '../../../state/ngrx/base-map.actions';
 import {Observable} from 'rxjs';
-import {CommonViewModule} from '../../../../common/view/common-view.module';
 import {CommonModule} from '@angular/common';
 import {StatusButtonComponent} from '../../../../common/view/ng-components/status-button/status-button.component';
 
@@ -13,7 +12,6 @@ import {StatusButtonComponent} from '../../../../common/view/ng-components/statu
     standalone: true,
     imports: [
         CommonModule,
-        CommonViewModule,
         StatusButtonComponent
     ],
     templateUrl: './attributions-button-component.component.html',

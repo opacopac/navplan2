@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CommonViewModule} from '../../common/view/common-view.module';
 import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -17,7 +16,6 @@ import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-lis
 @NgModule({
     imports: [
         CommonModule,
-        CommonViewModule,
         PlanWnbStateModule,
         AircraftViewModule,
         MatRadioModule,

@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatButtonModule} from '@angular/material/button';
-import {CommonViewModule} from '../../common/view/common-view.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
@@ -12,21 +11,13 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {AircraftTabsComponent} from './ng-components/aircraft-tabs/aircraft-tabs.component';
-import {
-    AircraftHangarPageComponent
-} from './ng-components/aircraft-hangar/aircraft-hangar-page/aircraft-hangar-page.component';
-import {
-    AircraftDetailsPageComponent
-} from './ng-components/aircraft-details/aircraft-details-page/aircraft-details-page.component';
+import {AircraftHangarPageComponent} from './ng-components/aircraft-hangar/aircraft-hangar-page/aircraft-hangar-page.component';
+import {AircraftDetailsPageComponent} from './ng-components/aircraft-details/aircraft-details-page/aircraft-details-page.component';
 import {AircraftDomainModule} from '../domain/aircraft-domain.module';
 import {AircraftRestModule} from '../rest/aircraft-rest.module';
 import {AircraftStateModule} from '../state/aircraft-state.module';
-import {
-    AircraftHangarTableComponent
-} from './ng-components/aircraft-hangar/aircraft-hangar-table/aircraft-hangar-table.component';
-import {
-    AircraftDetailsFormComponent
-} from './ng-components/aircraft-details/aircraft-details-form/aircraft-details-form.component';
+import {AircraftHangarTableComponent} from './ng-components/aircraft-hangar/aircraft-hangar-table/aircraft-hangar-table.component';
+import {AircraftDetailsFormComponent} from './ng-components/aircraft-details/aircraft-details-form/aircraft-details-form.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {
     AircraftPerformancePageComponent
@@ -54,12 +45,8 @@ import {AircraftPickerComponent} from './ng-components/aircraft-common/aircraft-
 import {
     AircraftWeightItemTypeIconComponent
 } from './ng-components/aircraft-wnb/aircraft-weight-item-type-icon/aircraft-weight-item-type-icon.component';
-import {
-    AircraftPickerDialogComponent
-} from './ng-components/aircraft-common/aircraft-picker-dialog/aircraft-picker-dialog.component';
-import {
-    AircraftPickerListComponent
-} from './ng-components/aircraft-common/aircraft-picker-list/aircraft-picker-list.component';
+import {AircraftPickerDialogComponent} from './ng-components/aircraft-common/aircraft-picker-dialog/aircraft-picker-dialog.component';
+import {AircraftPickerListComponent} from './ng-components/aircraft-common/aircraft-picker-list/aircraft-picker-list.component';
 import {
     AircraftWnbEditEnvelopeComponent
 } from './ng-components/aircraft-wnb/aircraft-wnb-edit-envelope-container/aircraft-wnb-edit-envelope.component';
@@ -106,7 +93,6 @@ import {
 @NgModule({
     imports: [
         CommonModule,
-        CommonViewModule,
         ReactiveFormsModule,
         AircraftDomainModule,
         AircraftRestModule,
