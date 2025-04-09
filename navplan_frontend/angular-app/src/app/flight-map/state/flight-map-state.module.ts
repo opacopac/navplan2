@@ -13,6 +13,7 @@ import {AirspaceStateModule} from '../../airspace/state/airspace-state.module';
 import {BaseMapStateModule} from '../../base-map/state/base-map-state.module';
 import {FlightTimerStateModule} from '../../flight-timer/state/flight-timer-state.module';
 import {MetarTafStateModule} from '../../metar-taf/state/metar-taf-state.module';
+import {MeteoDwdStateModule} from '../../meteo-dwd/state/meteo-dwd-state.module';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {MetarTafStateModule} from '../../metar-taf/state/metar-taf-state.module'
         FlightTimerStateModule,
         LocationStateModule,
         MetarTafStateModule,
+        MeteoDwdStateModule
     ],
     declarations: [],
     exports: [],

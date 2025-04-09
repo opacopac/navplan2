@@ -104,6 +104,8 @@ import {
     MapPopupGeonameInfoTabComponent
 } from '../../geoname/view/ng-components/map-popup-geoname-info-tab/map-popup-geoname-info-tab.component';
 import {MapPopupMetarTafComponent} from '../../metar-taf/view/ng-components/map-popup-metar-taf/map-popup-metar-taf.component';
+import {MeteoDwdTimelineComponent} from '../../meteo-dwd/view/ng-components/meteo-dwd-timeline/meteo-dwd-timeline.component';
+import {MeteoButtonComponent} from './ng-components/meteo-button/meteo-button.component';
 
 @NgModule({
     declarations: [
@@ -123,6 +125,7 @@ import {MapPopupMetarTafComponent} from '../../metar-taf/view/ng-components/map-
         MapPopupWaypointInfoTabComponent,
         MapLayerSelectionButtonComponent,
         MapLayerSelectionContentComponent,
+        MeteoButtonComponent,
     ],
     imports: [
         CommonModule,
@@ -180,7 +183,8 @@ import {MapPopupMetarTafComponent} from '../../metar-taf/view/ng-components/map-
         MapOverlayVariationComponent,
         MapPopupGeonameHeaderComponent,
         MapPopupGeonameInfoTabComponent,
-        MapPopupMetarTafComponent
+        MapPopupMetarTafComponent,
+        MeteoDwdTimelineComponent
     ],
     providers: []
 })

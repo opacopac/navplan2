@@ -2,11 +2,21 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angula
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 import {ForecastRun} from '../../../domain/model/forecast-run';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {MatButton, MatButtonModule} from '@angular/material/button';
+import {MatSlider, MatSliderModule} from '@angular/material/slider';
+import {MeteoDwdTimelineMarkingsComponent} from '../meteo-dwd-timeline-markings/meteo-dwd-timeline-markings.component';
 
 
 @Component({
     selector: 'app-meteo-dwd-timeline',
+    standalone: true,
+    imports: [
+        MatButtonModule,
+        ReactiveFormsModule,
+        MatSliderModule,
+        MeteoDwdTimelineMarkingsComponent
+    ],
     templateUrl: './meteo-dwd-timeline.component.html',
     styleUrls: ['./meteo-dwd-timeline.component.scss']
 })
