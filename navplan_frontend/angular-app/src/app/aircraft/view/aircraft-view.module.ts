@@ -95,6 +95,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatIcon} from '@angular/material/icon';
 import {AutoCompleteComponent} from '../../common/view/ng-components/auto-complete/auto-complete.component';
 import {ConfirmDeleteDialogComponent} from '../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog.component';
+import {FormDialogComponent} from '../../common/view/ng-components/form-dialog/form-dialog.component';
 
 
 @NgModule({
@@ -122,6 +123,7 @@ import {ConfirmDeleteDialogComponent} from '../../common/view/ng-components/conf
         MatIcon,
         AutoCompleteComponent,
         ConfirmDeleteDialogComponent,
+        FormDialogComponent,
     ],
     declarations: [
         AircraftTabsComponent,

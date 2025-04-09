@@ -6,7 +6,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {StatusButtonComponent} from './ng-components/status-button/status-button.component';
 import {MiniFabButtonComponent} from './ng-components/mini-fab-button/mini-fab-button.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import {FormDialogComponent} from './ng-components/form-dialog/form-dialog.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -34,7 +33,6 @@ import {SaveButtonComponent} from './ng-components/save-button/save-button.compo
         IconButtonComponent,
         MiniFabButtonComponent,
         StatusButtonComponent,
-        FormDialogComponent,
         TableTextFilterAndCreateButtonComponent,
         SaveButtonComponent
     ],
@@ -42,7 +40,6 @@ import {SaveButtonComponent} from './ng-components/save-button/save-button.compo
         IconButtonComponent,
         StatusButtonComponent,
         MiniFabButtonComponent,
-        FormDialogComponent,
         TableTextFilterAndCreateButtonComponent,
         SaveButtonComponent,
     ],
