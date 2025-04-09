@@ -1,15 +1,21 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import {environment} from '../../../../../environments/environment';
 import {ExporterState} from '../../../state/state-model/exporter-state';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @Component({
     selector: 'app-download-dialog',
+    standalone: true,
+    imports: [
+        MatDialogModule,
+        MatButtonModule
+    ],
     templateUrl: './download-dialog.component.html',
     styleUrls: ['./download-dialog.component.scss']
 })
-export class DownloadDialogComponent implements OnInit, OnDestroy {
+export class DownloadDialogComponent implements OnInit {
     public filename: string;
     public mimeType: string;
     public downloadUrl: string;
@@ -23,9 +29,5 @@ export class DownloadDialogComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-    }
-
-
-    ngOnDestroy() {
     }
 }

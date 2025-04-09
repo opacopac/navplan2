@@ -9,6 +9,8 @@ import {ExporterState} from '../../../state/state-model/exporter-state';
 
 @Component({
     selector: 'app-download-container',
+    standalone: true,
+    imports: [],
     templateUrl: './download-container.component.html',
     styleUrls: ['./download-container.component.scss']
 })

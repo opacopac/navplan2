@@ -22,6 +22,8 @@ import {SearchViewModule} from './search/view/search-view.module';
 import {AircraftViewModule} from './aircraft/view/aircraft-view.module';
 import {PlanViewModule} from './plan-tabs/view/plan-view.module';
 import {CommonViewModule} from './common/view/common-view.module';
+import {DownloadContainerComponent} from './exporter/view/ng-components/download-container/download-container.component';
+import {ExporterStateModule} from './exporter/state/exporter-state.module';
 
 
 @NgModule({
@@ -52,7 +54,9 @@ import {CommonViewModule} from './common/view/common-view.module';
         SettingsViewModule,
         TrackViewModule,
         UserViewModule,
-        SearchViewModule
+        SearchViewModule,
+        DownloadContainerComponent,
+        ExporterStateModule
     ],
     providers: [
         provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),
