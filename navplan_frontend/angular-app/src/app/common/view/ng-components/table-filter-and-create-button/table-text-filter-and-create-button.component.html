@@ -14,13 +14,15 @@
     </form>
 
     <!-- create button -->
-    <span class="create-button" *ngIf="this.createButtonLabel">
-          <button
-              mat-raised-button
-              color="accent"
-              (click)="this.onCreateButtonClicked()"
-          >
+    @if (this.createButtonLabel) {
+        <span class="create-button">
+            <button
+                mat-raised-button
+                color="accent"
+                (click)="this.onCreateButtonClicked()"
+            >
             <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;{{ this.createButtonLabel }}
           </button>
     </span>
+    }
 </div>

@@ -98,6 +98,9 @@ import {ConfirmDeleteDialogComponent} from '../../common/view/ng-components/conf
 import {FormDialogComponent} from '../../common/view/ng-components/form-dialog/form-dialog.component';
 import {IconButtonComponent} from '../../common/view/ng-components/icon-button/icon-button.component';
 import {SaveButtonComponent} from '../../common/view/ng-components/save-button/save-button.component';
+import {
+    TableTextFilterAndCreateButtonComponent
+} from '../../common/view/ng-components/table-filter-and-create-button/table-text-filter-and-create-button.component';
 
 
 @NgModule({
@@ -128,6 +131,7 @@ import {SaveButtonComponent} from '../../common/view/ng-components/save-button/s
         FormDialogComponent,
         IconButtonComponent,
         SaveButtonComponent,
+        TableTextFilterAndCreateButtonComponent,
     ],
     declarations: [
         AircraftTabsComponent,

@@ -29,6 +29,9 @@ import {TrackProfileTimesComponent} from './ng-components/track-profile/track-pr
 import {ConfirmDeleteDialogComponent} from '../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog.component';
 import {FormDialogComponent} from '../../common/view/ng-components/form-dialog/form-dialog.component';
 import {IconButtonComponent} from '../../common/view/ng-components/icon-button/icon-button.component';
+import {
+    TableTextFilterAndCreateButtonComponent
+} from '../../common/view/ng-components/table-filter-and-create-button/table-text-filter-and-create-button.component';
 
 
 @NgModule({
@@ -49,6 +52,7 @@ import {IconButtonComponent} from '../../common/view/ng-components/icon-button/i
         ConfirmDeleteDialogComponent,
         FormDialogComponent,
         IconButtonComponent,
+        TableTextFilterAndCreateButtonComponent,
     ],
     declarations: [
         TrackTabsComponent,

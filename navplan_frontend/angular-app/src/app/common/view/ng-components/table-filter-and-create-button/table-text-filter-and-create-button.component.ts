@@ -1,10 +1,24 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {TextFilterState} from '../../../state/model/text-filter-state';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-table-text-filter-and-create-button',
+    standalone: true,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatButtonModule
+    ],
     templateUrl: './table-text-filter-and-create-button.component.html',
     styleUrls: ['./table-text-filter-and-create-button.component.scss']
 })
