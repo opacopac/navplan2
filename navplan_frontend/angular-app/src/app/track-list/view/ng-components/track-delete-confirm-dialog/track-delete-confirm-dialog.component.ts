@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder} from '@angular/forms';
-import {Track} from '../../../../domain/model/track';
+import {Track} from '../../../../track/domain/model/track';
 
 
 @Component({

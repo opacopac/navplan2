@@ -1,12 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {getSelectedTrack, getSelectedTrackProfile} from '../../../../state/ngrx/track.selectors';
-import {Time} from '../../../../../geo-physics/domain/model/quantities/time';
-import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {getSelectedTrack, getSelectedTrackProfile} from '../../../../track/state/ngrx/track.selectors';
+import {Time} from '../../../../geo-physics/domain/model/quantities/time';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {TrackProfileTimesComponent} from '../track-profile-times/track-profile-times.component';
+import {TrackProfileGraphComponent} from '../track-profile-graph/track-profile-graph.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-track-profile-page',
+    standalone: true,
+    imports: [
+        CommonModule,
+        TrackProfileTimesComponent,
+        TrackProfileGraphComponent
+    ],
     templateUrl: './track-profile-page.component.html',
     styleUrls: ['./track-profile-page.component.scss']
 })

@@ -1,13 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {getSelectedTrack, getSelectedTrackProfile} from '../../../../state/ngrx/track.selectors';
-import {Time} from '../../../../../geo-physics/domain/model/quantities/time';
-import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
-import {TrackProfile} from '../../../../domain/model/track-profile';
+import {getSelectedTrack, getSelectedTrackProfile} from '../../../../track/state/ngrx/track.selectors';
+import {Time} from '../../../../geo-physics/domain/model/quantities/time';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {TrackProfile} from '../../../../track/domain/model/track-profile';
 
 
 @Component({
     selector: 'app-track-profile-times',
+    standalone: true,
+    imports: [],
     templateUrl: './track-profile-times.component.html',
     styleUrls: ['./track-profile-times.component.scss']
 })

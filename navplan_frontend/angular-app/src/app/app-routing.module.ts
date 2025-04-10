@@ -10,7 +10,7 @@ import {ForgotPwStep1PageComponent} from './user/view/ng-components/user-profile
 import {ForgotPwStep2PageComponent} from './user/view/ng-components/user-profile/forgot-pw-step2-page/forgot-pw-step2-page.component';
 import {PlanTabsComponent} from './plan-tabs/view/ng-components/plan-tabs/plan-tabs.component';
 import {AircraftTabsComponent} from './aircraft/view/ng-components/aircraft-tabs/aircraft-tabs.component';
-import {TrackTabsComponent} from './track/view/ng-components/track-tabs/track-tabs.component';
+import {TrackTabsComponent} from './track-tabs/view/ng-components/track-tabs/track-tabs.component';
 
 const routes: Routes = [
     {path: '', redirectTo: 'map', pathMatch: 'full'},

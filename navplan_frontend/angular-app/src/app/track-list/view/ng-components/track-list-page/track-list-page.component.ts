@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Track} from '../../../../domain/model/track';
-import {getSelectedTrack, getTrackList, getTrackTableState} from '../../../../state/ngrx/track.selectors';
-import {TrackActions} from '../../../../state/ngrx/track.actions';
-import {TableState} from '../../../../../common/state/model/table-state';
+import {Track} from '../../../../track/domain/model/track';
+import {getSelectedTrack, getTrackList, getTrackTableState} from '../../../../track/state/ngrx/track.selectors';
+import {TrackActions} from '../../../../track/state/ngrx/track.actions';
+import {TableState} from '../../../../common/state/model/table-state';
 
 
 @Component({

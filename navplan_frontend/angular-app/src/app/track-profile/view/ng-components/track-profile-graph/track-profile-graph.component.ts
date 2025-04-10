@@ -1,10 +1,12 @@
 import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {TrackProfile} from '../../../../domain/model/track-profile';
-import {TrackProfileGraphSvg} from '../../../svg/track-profile-graph-svg';
+import {TrackProfile} from '../../../../track/domain/model/track-profile';
+import {TrackProfileGraphSvg} from '../../../../track/view/svg/track-profile-graph-svg';
 
 
 @Component({
     selector: 'app-track-profile-graph',
+    standalone: true,
+    imports: [],
     templateUrl: './track-profile-graph.component.html',
     styleUrls: ['./track-profile-graph.component.scss']
 })

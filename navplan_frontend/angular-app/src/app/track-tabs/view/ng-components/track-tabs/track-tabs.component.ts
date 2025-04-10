@@ -4,7 +4,7 @@ import {map} from 'rxjs/operators';
 import {Observable, Subscription} from 'rxjs';
 import {MatTabChangeEvent, MatTabGroup} from '@angular/material/tabs';
 import {Store} from '@ngrx/store';
-import {TrackActions} from '../../../state/ngrx/track.actions';
+import {TrackActions} from '../../../../track/state/ngrx/track.actions';
 
 
 @Component({
