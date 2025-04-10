@@ -2,13 +2,10 @@ import {NgModule} from '@angular/core';
 
 
 @NgModule({
-    imports: [
-    ],
-    declarations: [
-    ],
-    exports: [
-    ],
-    providers: [
-    ]
+    imports: [],
+    declarations: [],
+    exports: [],
+    providers: []
 })
-export class NavaidDomainModule {}
+export class NavaidDomainModule {
+}

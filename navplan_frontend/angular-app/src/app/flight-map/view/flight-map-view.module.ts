@@ -110,6 +110,10 @@ import {MapPopupMeteogramComponent} from '../../meteo-gram/view/ng-components/ma
 import {
     MapPopupPrecipTempGraphComponent
 } from '../../meteo-gram/view/ng-components/map-popup-precip-temp-graph/map-popup-precip-temp-graph.component';
+import {MapPopupNavaidHeaderComponent} from '../../navaid/view/ng-components/map-popup-navaid-header/map-popup-navaid-header.component';
+import {
+    MapPopupNavaidInfoTabComponent
+} from '../../navaid/view/ng-components/map-popup-navaid-info-tab/map-popup-navaid-info-tab.component';
 
 @NgModule({
     declarations: [
@@ -190,7 +194,9 @@ import {
         MapPopupMetarTafComponent,
         MeteoDwdTimelineComponent,
         MapPopupMeteogramComponent,
-        MapPopupPrecipTempGraphComponent
+        MapPopupPrecipTempGraphComponent,
+        MapPopupNavaidHeaderComponent,
+        MapPopupNavaidInfoTabComponent
     ],
     providers: []
 })

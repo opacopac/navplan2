@@ -2,11 +2,13 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ButtonStatus} from '../../model/button-status';
 import {MatTooltipModule, TooltipPosition} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
+import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-status-button',
     standalone: true,
     imports: [
+        CommonModule,
         MatButtonModule,
         MatTooltipModule
     ],

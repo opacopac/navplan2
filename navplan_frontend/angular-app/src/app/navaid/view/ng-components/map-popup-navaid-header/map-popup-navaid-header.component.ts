@@ -1,10 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Navaid} from '../../../domain/model/navaid';
 import {OlNavaidIcon} from '../../ol-components/ol-navaid-icon';
+import {MatCardModule} from '@angular/material/card';
 
 
 @Component({
     selector: 'app-map-popup-navaid-header',
+    standalone: true,
+    imports: [
+        MatCardModule
+    ],
     templateUrl: './map-popup-navaid-header.component.html',
     styleUrls: ['./map-popup-navaid-header.component.scss']
 })

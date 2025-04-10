@@ -16,6 +16,7 @@ import {MetarTafStateModule} from '../../metar-taf/state/metar-taf-state.module'
 import {MeteoDwdStateModule} from '../../meteo-dwd/state/meteo-dwd-state.module';
 import {MeteoGramStateModule} from '../../meteo-gram/state/meteo-gram-state.module';
 import {MeteoSmaStateModule} from '../../meteo-sma/state/meteo-sma-state.module';
+import {NavaidStateModule} from '../../navaid/state/navaid-state.module';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import {MeteoSmaStateModule} from '../../meteo-sma/state/meteo-sma-state.module'
         MetarTafStateModule,
         MeteoDwdStateModule,
         MeteoGramStateModule,
-        MeteoSmaStateModule
+        MeteoSmaStateModule,
+        NavaidStateModule,
     ],
     declarations: [],
     exports: [],
