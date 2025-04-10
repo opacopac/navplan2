@@ -1,5 +1,5 @@
 import {SvgBuilder} from '../../../common/svg/svg-builder';
-import {TrackProfile} from '../../domain/model/track-profile';
+import {TrackProfile} from '../../../track/domain/model/track-profile';
 import {AltitudeProfileSvg} from './altitude-profile-svg';
 import {ImageTimeLengthDimensionsSvg} from '../../../common/svg/image-time-length-dimensions-svg';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';

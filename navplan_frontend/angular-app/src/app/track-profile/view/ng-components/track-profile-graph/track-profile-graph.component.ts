@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {TrackProfile} from '../../../../track/domain/model/track-profile';
-import {TrackProfileGraphSvg} from '../../../../track/view/svg/track-profile-graph-svg';
+import {TrackProfileGraphSvg} from '../../svg/track-profile-graph-svg';
 
 
 @Component({

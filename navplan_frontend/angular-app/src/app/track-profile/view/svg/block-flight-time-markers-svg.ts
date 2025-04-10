@@ -1,6 +1,6 @@
 import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
-import {TrackProfile} from '../../domain/model/track-profile';
+import {TrackProfile} from '../../../track/domain/model/track-profile';
 import {ImageTimeLengthDimensionsSvg} from '../../../common/svg/image-time-length-dimensions-svg';
 
 
