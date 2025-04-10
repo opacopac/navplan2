@@ -9,10 +9,26 @@ import {Time} from '../../../../geo-physics/domain/model/quantities/time';
 import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
 import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
 import {FlightrouteCrudActions} from '../../../../flightroute/state/ngrx/flightroute-crud.actions';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {PlanRouteListViewModule} from '../../../../plan-route-list/view/plan-route-list-view.module';
+import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
+import {SaveButtonComponent} from '../../../../common/view/ng-components/save-button/save-button.component';
+import {CommonModule} from '@angular/common';
+import {FuelCalcTableComponent} from '../fuel-calc-table/fuel-calc-table.component';
+import {FuelCalcInputFieldsComponent} from '../fuel-calc-input-fields/fuel-calc-input-fields.component';
 
 @Component({
     selector: 'app-fuel-calc-container',
+    standalone: true,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        AircraftViewModule,
+        PlanRouteListViewModule,
+        SaveButtonComponent,
+        FuelCalcTableComponent,
+        FuelCalcInputFieldsComponent
+    ],
     templateUrl: './fuel-calc-container.component.html',
     styleUrls: ['./fuel-calc-container.component.scss']
 })

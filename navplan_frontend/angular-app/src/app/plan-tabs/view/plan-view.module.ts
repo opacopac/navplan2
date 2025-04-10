@@ -9,6 +9,7 @@ import {PlanTabStateModule} from '../state/plan-tab-state.module';
 import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
 import {PlanFuelViewModule} from '../../plan-fuel/view/plan-fuel-view.module';
 import {PlanWaypointsViewModule} from '../../plan-waypoints/view/plan-waypoints-view.module';
+import {FuelCalcContainerComponent} from '../../plan-fuel/view/ng-components/fuel-calc-container/fuel-calc-container.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import {PlanWaypointsViewModule} from '../../plan-waypoints/view/plan-waypoints-
         PlanWnbViewModule,
         PlanPerformanceViewModule,
         PlanMeteoViewModule,
+        FuelCalcContainerComponent,
     ],
     declarations: [
         PlanTabsComponent

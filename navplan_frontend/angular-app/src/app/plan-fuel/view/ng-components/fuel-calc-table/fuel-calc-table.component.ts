@@ -5,6 +5,10 @@ import {Time} from '../../../../geo-physics/domain/model/quantities/time';
 import {Volume} from '../../../../geo-physics/domain/model/quantities/volume';
 import {VolumeUnit} from '../../../../geo-physics/domain/model/quantities/volume-unit';
 import {TimeUnit} from '../../../../geo-physics/domain/model/quantities/time-unit';
+import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {CommonModule} from '@angular/common';
+import {MatInputModule} from '@angular/material/input';
 
 
 interface FuelDataSourceRow {
@@ -17,6 +21,13 @@ interface FuelDataSourceRow {
 
 @Component({
     selector: 'app-fuel-calc-table',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatInputModule,
+    ],
     templateUrl: './fuel-calc-table.component.html',
     styleUrls: ['./fuel-calc-table.component.scss']
 })

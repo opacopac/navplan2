@@ -1,11 +1,21 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
 import {ConsumptionUnit} from '../../../../geo-physics/domain/model/quantities/consumption-unit';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Aircraft} from '../../../../aircraft/domain/model/aircraft';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
+import {MatInputModule} from '@angular/material/input';
 
 @Component({
     selector: 'app-fuel-calc-input-fields',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        AircraftViewModule,
+    ],
     templateUrl: './fuel-calc-input-fields.component.html',
     styleUrls: ['./fuel-calc-input-fields.component.scss']
 })
