@@ -4,14 +4,11 @@ import {VerticalMapService} from './service/vertical-map.service';
 
 
 @NgModule({
-    declarations: [
-    ],
-    exports: [
-    ],
-    imports: [
-    ],
+    declarations: [],
+    exports: [],
+    imports: [],
     providers: [
-        { provide: IVerticalMapService, useClass: VerticalMapService },
+        {provide: IVerticalMapService, useClass: VerticalMapService},
     ]
 })
 export class VerticalMapDomainModule {

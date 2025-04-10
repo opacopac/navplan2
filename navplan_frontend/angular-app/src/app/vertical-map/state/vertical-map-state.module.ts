@@ -3,7 +3,9 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {verticalMapReducer} from './ngrx/vertical-map.reducer';
 import {VerticalMapEffects} from './ngrx/vertical-map.effects';
-import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
+import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.module';
+import {VerticalMapDomainModule} from '../domain/vertical-map-domain.module';
+import {VerticalMapRestModule} from '../rest/vertical-map-rest.module';
 
 
 @NgModule({
@@ -12,7 +14,9 @@ import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.mod
     imports: [
         StoreModule.forFeature('verticalMapState', verticalMapReducer),
         EffectsModule.forFeature([VerticalMapEffects]),
-        FlightrouteViewModule,
+        VerticalMapDomainModule,
+        VerticalMapRestModule,
+        FlightrouteStateModule,
     ],
     providers: []
 })

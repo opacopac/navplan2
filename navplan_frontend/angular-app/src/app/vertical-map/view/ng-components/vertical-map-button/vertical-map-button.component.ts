@@ -5,10 +5,17 @@ import {select, Store} from '@ngrx/store';
 import {getVerticalMapState} from '../../../state/ngrx/vertical-map.selectors';
 import {VerticalMapState} from '../../../state/state-model/vertical-map-state';
 import {ButtonStatus} from '../../../../common/view/model/button-status';
+import {StatusButtonComponent} from '../../../../common/view/ng-components/status-button/status-button.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-vertical-map-button',
+    standalone: true,
+    imports: [
+        CommonModule,
+        StatusButtonComponent
+    ],
     templateUrl: './vertical-map-button.component.html',
     styleUrls: ['./vertical-map-button.component.scss']
 })

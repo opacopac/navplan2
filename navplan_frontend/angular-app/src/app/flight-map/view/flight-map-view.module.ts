@@ -122,6 +122,8 @@ import {AerodromeCircuitsViewModule} from '../../aerodrome-circuits/view/aerodro
 import {AerodromeChartsViewModule} from '../../aerodrome-charts/view/aerodrome-charts-view.module';
 import {AerodromeViewModule} from '../../aerodrome/view/aerodrome-view.module';
 import {SearchContainerComponent} from '../../search/view/ng-components/search-container/search-container.component';
+import {VerticalMapButtonComponent} from '../../vertical-map/view/ng-components/vertical-map-button/vertical-map-button.component';
+import {VerticalMapComponent} from '../../vertical-map/view/ng-components/vertical-map/vertical-map.component';
 
 @NgModule({
     declarations: [
@@ -212,7 +214,9 @@ import {SearchContainerComponent} from '../../search/view/ng-components/search-c
         MapPopupNavaidHeaderComponent,
         MapPopupNavaidInfoTabComponent,
         MapPopupNotamTabComponent,
-        SearchContainerComponent
+        SearchContainerComponent,
+        VerticalMapButtonComponent,
+        VerticalMapComponent
     ],
     providers: []
 })
