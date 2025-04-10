@@ -53,7 +53,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSelectModule} from '@angular/material/select';
-import {PlanWaypointsViewModule} from '../../plan-waypoints/view/plan-waypoints-view.module';
 import {LocationButtonComponent} from '../../location/location-view/ng-components/location-button/location-button.component';
 import {FlightMapDomainModule} from '../domain/flight-map-domain.module';
 import {
@@ -158,7 +157,6 @@ import {AerodromeViewModule} from '../../aerodrome/view/aerodrome-view.module';
         CommonModule,
         FlightMapDomainModule,
         FlightMapStateModule,
-        PlanWaypointsViewModule,
         GeonameViewModule,
         MatButtonModule,
         MatTabsModule,

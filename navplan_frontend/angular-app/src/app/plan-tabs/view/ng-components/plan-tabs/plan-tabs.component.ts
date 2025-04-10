@@ -6,7 +6,6 @@ import {MatTabChangeEvent, MatTabGroup, MatTabsModule} from '@angular/material/t
 import {Store} from '@ngrx/store';
 import {PlanTabsActions} from '../../../state/ngrx/plan-tabs.actions';
 import {RouteListPageComponent} from '../../../../plan-route-list/view/ng-components/route-list-page/route-list-page.component';
-import {PlanWaypointsViewModule} from '../../../../plan-waypoints/view/plan-waypoints-view.module';
 import {FuelCalcContainerComponent} from '../../../../plan-fuel/view/ng-components/fuel-calc-container/fuel-calc-container.component';
 import {
     PlanPerfContainerComponent
@@ -22,7 +21,6 @@ import {PlanWnbContainerComponent} from '../../../../plan-wnb/view/ng-components
     imports: [
         MatTabsModule,
         RouteListPageComponent,
-        PlanWaypointsViewModule,
         FuelCalcContainerComponent,
         PlanPerfContainerComponent,
         PlanMeteoContainerComponent,
