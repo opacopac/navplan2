@@ -2,13 +2,21 @@ import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/c
 import {ActivatedRoute, Router} from '@angular/router';
 import {map} from 'rxjs/operators';
 import {Observable, Subscription} from 'rxjs';
-import {MatTabChangeEvent, MatTabGroup} from '@angular/material/tabs';
+import {MatTabChangeEvent, MatTabGroup, MatTabsModule} from '@angular/material/tabs';
 import {Store} from '@ngrx/store';
-import {TrackActions} from '../../../../track/state/ngrx/track.actions';
+import {TrackActions} from '../../../state/ngrx/track.actions';
+import {TrackListPageComponent} from '../../../../track-list/view/ng-components/track-list-page/track-list-page.component';
+import {TrackProfilePageComponent} from '../../../../track-profile/view/ng-components/track-profile-page/track-profile-page.component';
 
 
 @Component({
     selector: 'app-track-tabs',
+    standalone: true,
+    imports: [
+        MatTabsModule,
+        TrackListPageComponent,
+        TrackProfilePageComponent
+    ],
     templateUrl: './track-tabs.component.html',
     styleUrls: ['./track-tabs.component.scss'],
 })
