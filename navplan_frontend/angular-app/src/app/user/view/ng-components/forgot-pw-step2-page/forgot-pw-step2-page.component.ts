@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {ActivatedRoute} from '@angular/router';
 import {map} from 'rxjs/operators';
-import {LostPwActions} from '../../../../state/ngrx/lost-pw.actions';
+import {LostPwActions} from '../../../state/ngrx/lost-pw.actions';
 
 
 @Component({

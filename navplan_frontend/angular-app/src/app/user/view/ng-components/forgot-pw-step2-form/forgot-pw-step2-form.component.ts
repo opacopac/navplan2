@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {DatetimeHelper} from '../../../../../system/domain/service/datetime/datetime-helper';
-import {TokenService} from '../../../../domain/service/token.service';
+import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
+import {TokenService} from '../../../domain/service/token.service';
 
 
 export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): ValidationErrors | null => {

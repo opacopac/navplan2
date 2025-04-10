@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {RegisterActions} from '../../../../state/ngrx/register.actions';
+import {RegisterActions} from '../../../state/ngrx/register.actions';
 
 
 @Component({

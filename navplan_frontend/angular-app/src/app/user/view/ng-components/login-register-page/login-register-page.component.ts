@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {User} from '../../../../domain/model/user';
+import {User} from '../../../domain/model/user';
 import {select, Store} from '@ngrx/store';
-import {getCurrentUser, getRegisterEmailSentTo} from '../../../../state/ngrx/user.selectors';
-import {RegisterActions} from '../../../../state/ngrx/register.actions';
-import {LoginActions} from '../../../../state/ngrx/login.actions';
+import {getCurrentUser, getRegisterEmailSentTo} from '../../../state/ngrx/user.selectors';
+import {RegisterActions} from '../../../state/ngrx/register.actions';
+import {LoginActions} from '../../../state/ngrx/login.actions';
 
 @Component({
     selector: 'app-login-register-page',
