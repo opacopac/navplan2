@@ -2,10 +2,21 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angula
 import {User} from '../../../../user/domain/model/user';
 import {Aircraft} from '../../../../aircraft/domain/model/aircraft';
 import {environment} from '../../../../../environments/environment';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {RouterModule} from '@angular/router';
+import {MatButtonModule} from '@angular/material/button';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @Component({
     selector: 'app-navbar',
+    standalone: true,
+    imports: [
+        MatToolbarModule,
+        RouterModule,
+        MatButtonModule,
+        MatMenuModule,
+    ],
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.scss']
 })

@@ -26,6 +26,7 @@ import {DownloadContainerComponent} from './exporter/view/ng-components/download
 import {ExporterStateModule} from './exporter/state/exporter-state.module';
 import {MessageContainerComponent} from './message/view/ng-components/message-container/message-container.component';
 import {MessageStateModule} from './message/state/message-state.module';
+import {NavbarContainerComponent} from './navbar/view/ng-components/navbar-container/navbar-container.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import {MessageStateModule} from './message/state/message-state.module';
         SearchViewModule,
         DownloadContainerComponent,
         ExporterStateModule,
-        MessageContainerComponent
+        MessageContainerComponent,
+        NavbarContainerComponent
     ],
     providers: [
         provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),

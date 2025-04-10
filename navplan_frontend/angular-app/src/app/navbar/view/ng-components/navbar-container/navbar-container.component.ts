@@ -8,10 +8,17 @@ import {LogoutActions} from '../../../../user/state/ngrx/logout.actions';
 import {getCurrentAircraft, getSelectedAircraftTab} from '../../../../aircraft/state/ngrx/aircraft.selectors';
 import {getSelectedTrackTab} from '../../../../track/state/ngrx/track.selectors';
 import {getSelectedPlanTab} from '../../../../plan-tabs/state/ngrx/plan-tab.selectors';
+import {NavbarComponent} from '../navbar/navbar.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-navbar-container',
+    standalone: true,
+    imports: [
+        CommonModule,
+        NavbarComponent
+    ],
     templateUrl: './navbar-container.component.html',
     styleUrls: ['./navbar-container.component.scss']
 })
