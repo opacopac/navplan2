@@ -11,6 +11,7 @@ import {PlanFuelViewModule} from '../../plan-fuel/view/plan-fuel-view.module';
 import {PlanWaypointsViewModule} from '../../plan-waypoints/view/plan-waypoints-view.module';
 import {FuelCalcContainerComponent} from '../../plan-fuel/view/ng-components/fuel-calc-container/fuel-calc-container.component';
 import {PlanMeteoContainerComponent} from '../../plan-meteo/view/ng-components/plan-meteo-container/plan-meteo-container.component';
+import {PlanPerfContainerComponent} from '../../plan-performance/view/ng-components/plan-perf-container/plan-perf-container.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import {PlanMeteoContainerComponent} from '../../plan-meteo/view/ng-components/p
         PlanMeteoViewModule,
         FuelCalcContainerComponent,
         PlanMeteoContainerComponent,
+        PlanPerfContainerComponent,
     ],
     declarations: [
         PlanTabsComponent

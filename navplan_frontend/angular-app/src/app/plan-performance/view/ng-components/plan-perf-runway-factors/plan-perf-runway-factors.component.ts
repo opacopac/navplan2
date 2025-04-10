@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {Pressure} from '../../../../geo-physics/domain/model/quantities/pressure';
@@ -7,9 +7,25 @@ import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-
 import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
+import {MatFormField, MatFormFieldModule} from '@angular/material/form-field';
+import {MatOption, MatSelect, MatSelectModule} from '@angular/material/select';
+import {MatCheckbox, MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioButton, MatRadioGroup, MatRadioModule} from '@angular/material/radio';
+import {MatInput, MatInputModule} from '@angular/material/input';
+import {MatOptionModule} from '@angular/material/core';
 
 @Component({
     selector: 'app-plan-perf-runway-factors',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatRadioModule,
+        MatInputModule,
+        MatOptionModule
+    ],
     templateUrl: './plan-perf-runway-factors.component.html',
     styleUrls: ['./plan-perf-runway-factors.component.scss']
 })

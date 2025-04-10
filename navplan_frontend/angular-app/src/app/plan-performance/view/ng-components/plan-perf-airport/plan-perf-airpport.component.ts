@@ -9,9 +9,20 @@ import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-
 import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
 import {PlanPerfAirportType} from '../../../state/state-model/plan-perf-airport-type';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {PlanPerfWeatherFactorsComponent} from '../plan-perf-weather-factors/plan-perf-weather-factors.component';
+import {PlanPerfRunwayFactorsComponent} from '../plan-perf-runway-factors/plan-perf-runway-factors.component';
+import {PlanPerfCalculationComponent} from '../plan-perf-calculation/plan-perf-calculation.component';
 
 @Component({
     selector: 'app-plan-perf-airport',
+    standalone: true,
+    imports: [
+        MatExpansionModule,
+        PlanPerfWeatherFactorsComponent,
+        PlanPerfRunwayFactorsComponent,
+        PlanPerfCalculationComponent
+    ],
     templateUrl: './plan-perf-airpport.component.html',
     styleUrls: ['./plan-perf-airpport.component.scss']
 })

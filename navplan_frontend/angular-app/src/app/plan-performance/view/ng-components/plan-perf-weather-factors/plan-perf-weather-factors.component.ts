@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Pressure} from '../../../../geo-physics/domain/model/quantities/pressure';
 import {Temperature} from '../../../../geo-physics/domain/model/quantities/temperature';
 import {PressureUnit} from '../../../../geo-physics/domain/model/quantities/pressure-unit';
@@ -9,9 +9,17 @@ import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-
 import {PlanPerfWeatherCalculationState} from '../../../state/state-model/plan-perf-weather-calculation-state';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @Component({
     selector: 'app-plan-perf-weather-factors',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule
+    ],
     templateUrl: './plan-perf-weather-factors.component.html',
     styleUrls: ['./plan-perf-weather-factors.component.scss']
 })
