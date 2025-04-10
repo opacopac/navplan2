@@ -4,14 +4,12 @@ import {WebcamService} from './service/webcam.service';
 
 
 @NgModule({
-    imports: [
-    ],
-    declarations: [
-    ],
-    exports: [
-    ],
+    imports: [],
+    declarations: [],
+    exports: [],
     providers: [
-        { provide: IWebcamService, useClass: WebcamService }
+        {provide: IWebcamService, useClass: WebcamService}
     ]
 })
-export class WebcamDomainModule {}
+export class WebcamDomainModule {
+}
