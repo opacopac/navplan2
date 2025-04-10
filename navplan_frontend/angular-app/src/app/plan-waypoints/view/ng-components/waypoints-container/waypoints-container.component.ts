@@ -6,19 +6,43 @@ import {getFlightroute, getUseAircraftSpeedValue} from '../../../../flightroute/
 import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
-import {RoutePickerListDialogComponent} from '../../../../plan-route-list/view/ng-components/route-picker-list-dialog/route-picker-list-dialog.component';
+import {
+    RoutePickerListDialogComponent
+} from '../../../../plan-route-list/view/ng-components/route-picker-list-dialog/route-picker-list-dialog.component';
 import {EditWaypointDialogComponent} from '../edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {FlightrouteListActions} from '../../../../plan-route-list/state/ngrx/flightroute-list.actions';
 import {FlightrouteCrudActions} from '../../../../flightroute/state/ngrx/flightroute-crud.actions';
 import {WaypointActions} from '../../../../flightroute/state/ngrx/waypoints.actions';
 import {FlightrouteActions} from '../../../../flightroute/state/ngrx/flightroute.actions';
 import {getAltitudeUnit, getSpeedUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
+import {
+    RoutePickerContainerComponent
+} from '../../../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
+import {FlightrouteAircraftSpeedComponent} from '../flightroute-aircraft-speed/flightroute-aircraft-speed.component';
+import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
+import {FlightrouteNameComponent} from '../flightroute-name/flightroute-name.component';
+import {WaypointsTableComponent} from '../waypoints-table/waypoints-table.component';
+import {FlightrouteCommentsComponent} from '../flightroute-comment/flightroute-comments.component';
+import {SaveButtonComponent} from '../../../../common/view/ng-components/save-button/save-button.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-waypoints-container',
+    standalone: true,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RoutePickerContainerComponent,
+        FlightrouteAircraftSpeedComponent,
+        AircraftViewModule,
+        FlightrouteNameComponent,
+        WaypointsTableComponent,
+        FlightrouteCommentsComponent,
+        SaveButtonComponent
+    ],
     templateUrl: './waypoints-container.component.html',
     styleUrls: ['./waypoints-container.component.scss']
 })

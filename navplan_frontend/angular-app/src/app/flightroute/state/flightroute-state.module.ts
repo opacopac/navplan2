@@ -6,6 +6,8 @@ import {SharedFlightrouteEffects} from './ngrx/shared-flightroute.effects';
 import {WaypointEffects} from './ngrx/waypoint.effects';
 import {FlightRouteCrudEffects} from './ngrx/flightroute-crud-effects.service';
 import {FlightrouteEffects} from './ngrx/flightroute.effects';
+import {FlightrouteDomainModule} from '../domain/flightroute-domain.module';
+import {FlightrouteRestModule} from '../rest/flightroute-rest.module';
 
 
 @NgModule({
@@ -17,6 +19,8 @@ import {FlightrouteEffects} from './ngrx/flightroute.effects';
             SharedFlightrouteEffects,
             WaypointEffects,
         ]),
+        FlightrouteDomainModule,
+        FlightrouteRestModule,
     ],
     declarations: [],
     exports: [],

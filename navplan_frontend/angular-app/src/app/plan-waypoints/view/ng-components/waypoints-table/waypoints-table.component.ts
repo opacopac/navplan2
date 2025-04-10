@@ -6,6 +6,11 @@ import {TimeUnit} from '../../../../geo-physics/domain/model/quantities/time-uni
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
+import {MatTableModule} from '@angular/material/table';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {CommonModule} from '@angular/common';
+import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
 
 
 interface WaypointListDataSourceRow {
@@ -18,6 +23,14 @@ interface WaypointListDataSourceRow {
 
 @Component({
     selector: 'app-waypoints-table',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatButtonModule,
+        MatTooltipModule,
+        IconButtonComponent
+    ],
     templateUrl: './waypoints-table.component.html',
     styleUrls: ['./waypoints-table.component.scss']
 })

@@ -1,12 +1,20 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
-import {FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ButtonColor} from '../../../../common/view/model/button-color';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 @Component({
     selector: 'app-flightroute-aircraft-speed',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule
+    ],
     templateUrl: './flightroute-aircraft-speed.component.html',
     styleUrls: ['./flightroute-aircraft-speed.component.scss']
 })

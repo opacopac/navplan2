@@ -1,10 +1,18 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ButtonColor} from '../../../../common/view/model/button-color';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 @Component({
     selector: 'app-flightroute-name',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule
+    ],
     templateUrl: './flightroute-name.component.html',
     styleUrls: ['./flightroute-name.component.scss']
 })

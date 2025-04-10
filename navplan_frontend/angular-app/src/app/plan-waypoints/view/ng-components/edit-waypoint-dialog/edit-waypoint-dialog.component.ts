@@ -1,12 +1,20 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {Observable} from 'rxjs';
+import {EditWaypointFormComponent} from '../edit-waypoint-form/edit-waypoint-form.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-edit-waypoint-dialog',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        EditWaypointFormComponent
+    ],
     templateUrl: './edit-waypoint-dialog.component.html',
     styleUrls: ['./edit-waypoint-dialog.component.scss']
 })

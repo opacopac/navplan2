@@ -1,9 +1,17 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 @Component({
     selector: 'app-flightroute-comments',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule
+    ],
     templateUrl: './flightroute-comments.component.html',
     styleUrls: ['./flightroute-comments.component.scss']
 })

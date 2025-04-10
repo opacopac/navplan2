@@ -1,15 +1,29 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {Altitude} from '../../../../geo-physics/domain/model/geometry/altitude';
 import {AltitudeReference} from '../../../../geo-physics/domain/model/geometry/altitude-reference';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @Component({
     selector: 'app-edit-waypoint-form',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        IconButtonComponent,
+    ],
     templateUrl: './edit-waypoint-form.component.html',
     styleUrls: ['./edit-waypoint-form.component.scss']
 })
