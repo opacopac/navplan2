@@ -4,7 +4,7 @@ import {Airport} from '../../../aerodrome/domain/model/airport';
 import {Navaid} from '../../../navaid/domain/model/navaid';
 import {ReportingPoint} from '../../../aerodrome-reporting/domain/model/reporting-point';
 import {ReportingSector} from '../../../aerodrome-reporting/domain/model/reporting-sector';
-import {UserPoint} from '../../../user/domain/model/user-point';
+import {UserPoint} from '../../../user-point/domain/model/user-point';
 import {Geoname} from '../../../geoname/domain/model/geoname';
 import {Waypoint} from '../model/waypoint';
 import {AirportWaypointConverter} from './airport-waypoint-converter';

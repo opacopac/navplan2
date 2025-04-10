@@ -1,6 +1,6 @@
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {IPointSearchResult} from './i-point-search-result';
-import {UserPoint} from '../../../user/domain/model/user-point';
+import {UserPoint} from '../../../user-point/domain/model/user-point';
 import {DataItem} from '../../../common/model/data-item';
 
 

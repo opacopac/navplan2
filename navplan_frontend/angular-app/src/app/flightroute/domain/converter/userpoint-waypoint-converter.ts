@@ -1,4 +1,4 @@
-import {UserPoint} from '../../../user/domain/model/user-point';
+import {UserPoint} from '../../../user-point/domain/model/user-point';
 import {WaypointType} from '../model/waypoint-type';
 import {Waypoint} from '../model/waypoint';
 import {WaypointAltitude} from '../model/waypoint-altitude';

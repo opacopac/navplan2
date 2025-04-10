@@ -7,7 +7,7 @@ import {Navaid} from '../../../../navaid/domain/model/navaid';
 import {Geoname} from '../../../../geoname/domain/model/geoname';
 import {ReportingPoint} from '../../../../aerodrome-reporting/domain/model/reporting-point';
 import {ReportingSector} from '../../../../aerodrome-reporting/domain/model/reporting-sector';
-import {UserPoint} from '../../../../user/domain/model/user-point';
+import {UserPoint} from '../../../../user-point/domain/model/user-point';
 import {Notam} from '../../../../notam/domain/model/notam';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import Overlay from 'ol/Overlay';

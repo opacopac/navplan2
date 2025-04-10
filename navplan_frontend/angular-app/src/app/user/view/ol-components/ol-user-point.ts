@@ -1,5 +1,5 @@
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
-import {UserPoint} from '../../domain/model/user-point';
+import {UserPoint} from '../../../user-point/domain/model/user-point';
 import {OlUserpointIcon} from './ol-userpoint-icon';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';

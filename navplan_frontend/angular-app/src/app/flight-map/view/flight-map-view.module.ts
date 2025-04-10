@@ -124,6 +124,12 @@ import {AerodromeViewModule} from '../../aerodrome/view/aerodrome-view.module';
 import {SearchContainerComponent} from '../../search/view/ng-components/search-container/search-container.component';
 import {VerticalMapButtonComponent} from '../../vertical-map/view/ng-components/vertical-map-button/vertical-map-button.component';
 import {VerticalMapComponent} from '../../vertical-map/view/ng-components/vertical-map/vertical-map.component';
+import {
+    MapPopupUserpointInfoTabComponent
+} from '../../user-point/view/ng-components/map-popup-userpoint-info-tab/map-popup-userpoint-info-tab.component';
+import {
+    MapPopupUserpointHeaderComponent
+} from '../../user-point/view/ng-components/map-popup-userpoint-header/map-popup-userpoint-header.component';
 
 @NgModule({
     declarations: [
@@ -216,7 +222,9 @@ import {VerticalMapComponent} from '../../vertical-map/view/ng-components/vertic
         MapPopupNotamTabComponent,
         SearchContainerComponent,
         VerticalMapButtonComponent,
-        VerticalMapComponent
+        VerticalMapComponent,
+        MapPopupUserpointInfoTabComponent,
+        MapPopupUserpointHeaderComponent
     ],
     providers: []
 })

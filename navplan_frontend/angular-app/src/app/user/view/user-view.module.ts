@@ -11,10 +11,6 @@ import {ForgotPwStep1PageComponent} from './ng-components/user-profile/forgot-pw
 import {ForgotPwStep2PageComponent} from './ng-components/user-profile/forgot-pw-step2-page/forgot-pw-step2-page.component';
 import {ForgotPwStep1FormComponent} from './ng-components/user-profile/forgot-pw-step1-form/forgot-pw-step1-form.component';
 import {ForgotPwStep2FormComponent} from './ng-components/user-profile/forgot-pw-step2-form/forgot-pw-step2-form.component';
-import {MapPopupUserpointHeaderComponent} from './ng-components/user-point/map-popup-userpoint-header/map-popup-userpoint-header.component';
-import {
-    MapPopupUserpointInfoTabComponent
-} from './ng-components/user-point/map-popup-userpoint-info-tab/map-popup-userpoint-info-tab.component';
 import {UserDomainModule} from '../domain/user-domain.module';
 import {UserRestModule} from '../rest/user-rest.module';
 import {UserStateModule} from '../state/user-state.module';
@@ -63,13 +59,8 @@ import {MapOverlayVariationComponent} from '../../geo-physics/view/ng-components
         ForgotPwStep2PageComponent,
         ForgotPwStep1FormComponent,
         ForgotPwStep2FormComponent,
-        MapPopupUserpointHeaderComponent,
-        MapPopupUserpointInfoTabComponent
     ],
-    exports: [
-        MapPopupUserpointHeaderComponent,
-        MapPopupUserpointInfoTabComponent
-    ],
+    exports: [],
     providers: []
 })
 export class UserViewModule {
