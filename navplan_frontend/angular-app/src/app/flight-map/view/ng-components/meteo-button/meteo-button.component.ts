@@ -3,10 +3,17 @@ import {select, Store} from '@ngrx/store';
 import {getFlightMapMeteoLayer, getFlightMapShowMeteoLayer} from '../../../state/ngrx/flight-map.selectors';
 import {FlightMapActions} from '../../../state/ngrx/flight-map.actions';
 import {MeteoLayer} from '../../../domain/model/meteo-layer';
+import {StatusButtonComponent} from '../../../../common/view/ng-components/status-button/status-button.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-meteo-button',
+    standalone: true,
+    imports: [
+        CommonModule,
+        StatusButtonComponent
+    ],
     templateUrl: './meteo-button.component.html',
     styleUrls: ['./meteo-button.component.scss']
 })

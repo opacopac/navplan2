@@ -2,10 +2,27 @@ import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angu
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {OlOverlayBaseComponent} from '../../../../base-map/view/ng-components/ol-overlay-base.component';
+import {MatCardModule} from '@angular/material/card';
+import {
+    MapOverlayPositionComponent
+} from '../../../../geo-physics/view/ng-components/map-overlay-position/map-overlay-position.component';
+import {
+    MapOverlayVariationComponent
+} from '../../../../geo-physics/view/ng-components/map-overlay-variation/map-overlay-variation.component';
+import {
+    MapPopupWaypointButtonContainerComponent
+} from '../map-popup-waypoint-button-container/map-popup-waypoint-button-container.component';
 
 
 @Component({
     selector: 'app-map-popup-waypoint',
+    standalone: true,
+    imports: [
+        MatCardModule,
+        MapOverlayPositionComponent,
+        MapOverlayVariationComponent,
+        MapPopupWaypointButtonContainerComponent
+    ],
     templateUrl: './map-popup-waypoint.component.html',
     styleUrls: ['./map-popup-waypoint.component.scss']
 })

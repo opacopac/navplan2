@@ -2,10 +2,19 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angula
 import {Flightroute} from '../../../../flightroute/domain/model/flightroute';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {ButtonColor} from '../../../../common/view/model/button-color';
+import {MiniFabButtonComponent} from '../../../../common/view/ng-components/mini-fab-button/mini-fab-button.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 
 @Component({
     selector: 'app-map-popup-waypoint-button-add-to-route',
+    standalone: true,
+    imports: [
+        MiniFabButtonComponent,
+        MatFormFieldModule,
+        MatSelectModule
+    ],
     templateUrl: './map-popup-waypoint-button-add-to-route.component.html',
     styleUrls: ['./map-popup-waypoint-button-add-to-route.component.scss']
 })

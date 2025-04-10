@@ -3,10 +3,17 @@ import {select, Store} from '@ngrx/store';
 import {FlightMapActions} from '../../../state/ngrx/flight-map.actions';
 import {getFlightMapShowFullScreen} from '../../../state/ngrx/flight-map.selectors';
 import {Observable} from 'rxjs';
+import {StatusButtonComponent} from '../../../../common/view/ng-components/status-button/status-button.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-full-screen-button',
+    standalone: true,
+    imports: [
+        CommonModule,
+        StatusButtonComponent
+    ],
     templateUrl: './full-screen-button.component.html',
     styleUrls: ['./full-screen-button.component.scss']
 })

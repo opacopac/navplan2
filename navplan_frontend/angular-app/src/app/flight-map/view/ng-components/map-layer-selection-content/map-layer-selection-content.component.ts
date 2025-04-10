@@ -3,12 +3,20 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getSelectedMapBaseLayerType} from '../../../../base-map/state/ngrx/base-map.selectors';
 import {MapBaseLayerType} from '../../../../base-map/domain/model/map-base-layer-type';
-import {MatRadioChange} from '@angular/material/radio';
+import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
 import {BaseMapActions} from '../../../../base-map/state/ngrx/base-map.actions';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-map-layer-selection-content',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatRadioModule,
+        MatCheckboxModule,
+    ],
     templateUrl: './map-layer-selection-content.component.html',
     styleUrls: ['./map-layer-selection-content.component.scss']
 })
@@ -33,6 +41,6 @@ export class MapLayerSelectionContentComponent implements OnInit {
 
     public onMapBgSelected(change: MatRadioChange) {
         const mapLayerType = parseInt(change.value, 10);
-        this.appStore.dispatch(BaseMapActions.baseLayerSelected({ mapBaseLayerType: mapLayerType }));
+        this.appStore.dispatch(BaseMapActions.baseLayerSelected({mapBaseLayerType: mapLayerType}));
     }
 }

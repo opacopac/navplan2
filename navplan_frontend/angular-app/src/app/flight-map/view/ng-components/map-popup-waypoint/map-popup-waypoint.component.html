@@ -1,27 +1,27 @@
 <div #container class="ol-popup">
-  @if (this.waypoint) {
-    <mat-card appearance="outlined">
-      <mat-card-header>
-        <!--<img mat-card-avatar src="{{ this.getAvatarUrl() }}" />-->
-        <mat-card-title>
-          {{ this.waypoint.checkpoint }}
-        </mat-card-title>
-        <mat-card-subtitle>
-          Waypoint
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content class="card-body">
-        <app-map-overlay-position [position]="this.waypoint.position"></app-map-overlay-position>
-        <app-map-overlay-variation [position]="this.waypoint.position"></app-map-overlay-variation>
-        @if (this.waypoint.wpAlt.alt) {
-          <p>
-            Altitude:
-            {{ (this.waypoint.wpAlt.isminalt ? 'min. ' : 'max. ') + this.waypoint.wpAlt.alt.getHeightAmsl().ft + 'ft' }}
-          </p>
-        }
-        <!--<p *ngIf="this.userpoint.remark">Remark: {{ this.userpoint.remark }}</p>-->
-      </mat-card-content>
-      <app-map-popup-waypoint-button-container></app-map-popup-waypoint-button-container>
-    </mat-card>
-  }
+    @if (this.waypoint) {
+        <mat-card appearance="outlined">
+            <mat-card-header>
+                <!--<img mat-card-avatar src="{{ this.getAvatarUrl() }}" />-->
+                <mat-card-title>
+                    {{ this.waypoint.checkpoint }}
+                </mat-card-title>
+                <mat-card-subtitle>
+                    Waypoint
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="card-body">
+                <app-map-overlay-position [position]="this.waypoint.position"></app-map-overlay-position>
+                <app-map-overlay-variation [position]="this.waypoint.position"></app-map-overlay-variation>
+                @if (this.waypoint.wpAlt.alt) {
+                    <p>
+                        Altitude:
+                        {{ (this.waypoint.wpAlt.isminalt ? 'min. ' : 'max. ') + this.waypoint.wpAlt.alt.getHeightAmsl().ft + 'ft' }}
+                    </p>
+                }
+                <!--<p *ngIf="this.userpoint.remark">Remark: {{ this.userpoint.remark }}</p>-->
+            </mat-card-content>
+            <app-map-popup-waypoint-button-container></app-map-popup-waypoint-button-container>
+        </mat-card>
+    }
 </div>

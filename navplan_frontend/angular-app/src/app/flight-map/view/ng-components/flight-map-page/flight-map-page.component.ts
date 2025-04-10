@@ -47,9 +47,7 @@ import {
 import {OlAirspaceContainer} from '../../../../airspace/view/ol-components/ol-airspace-container';
 import {OlNavaidContainer} from '../../../../navaid/view/ol-components/ol-navaid-container';
 import {OlWebcamContainer} from '../../../../webcam/view/ol-components/ol-webcam-container';
-import {
-    OlAirportChartContainer
-} from '../../../../aerodrome-charts/view/ol-components/ol-airport-chart-container';
+import {OlAirportChartContainer} from '../../../../aerodrome-charts/view/ol-components/ol-airport-chart-container';
 import {OlPositionSearchContainer} from '../../../../search/view/ol-components/ol-position-search-container';
 import {getPositionSearchState} from '../../../../search/state/ngrx/search.selectors';
 import {getWebcams} from '../../../../webcam/state/ngrx/webcam.selectors';
@@ -83,10 +81,56 @@ import {
 import {OlDwdForecastMapTileLayer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-map-tile-layer';
 import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
 import {getAltitudeUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {TrafficViewModule} from '../../../../traffic/view/traffic-view.module';
+import {
+    SearchContainerComponent
+} from '../../../../search/view/ng-components/search-container/search-container.component';
+import {ZoomButtonsComponent} from '../../../../base-map/view/ng-components/zoom-buttons/zoom-buttons.component';
+import {
+    LocationButtonComponent
+} from '../../../../location/location-view/ng-components/location-button/location-button.component';
+import {FlighttimerComponent} from '../../../../flight-timer/view/ng-components/flighttimer/flighttimer.component';
+import {
+    VerticalMapButtonComponent
+} from '../../../../vertical-map/view/ng-components/vertical-map-button/vertical-map-button.component';
+import {MeteoButtonComponent} from '../meteo-button/meteo-button.component';
+import {FullScreenButtonComponent} from '../full-screen-button/full-screen-button.component';
+import {MapLayerSelectionButtonComponent} from '../map-layer-selection-button/map-layer-selection-button.component';
+import {MapLayerSelectionContentComponent} from '../map-layer-selection-content/map-layer-selection-content.component';
+import {
+    AttributionsButtonComponent
+} from '../../../../base-map/view/ng-components/attributions-button/attributions-button-component.component';
+import {
+    AttributionsContentComponent
+} from '../../../../base-map/view/ng-components/attributions-content/attributions-content.component';
+import {VerticalMapComponent} from '../../../../vertical-map/view/ng-components/vertical-map/vertical-map.component';
+import {MeteoContainerComponent} from '../meteo-container/meteo-container.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-flight-map-page',
+    standalone: true,
+    imports: [
+        CommonModule,
+        OlMapContainerComponent,
+        MapPopupComponent,
+        TrafficViewModule,
+        MapOverlayAirspaceStructureComponent,
+        SearchContainerComponent,
+        ZoomButtonsComponent,
+        LocationButtonComponent,
+        FlighttimerComponent,
+        VerticalMapButtonComponent,
+        MeteoButtonComponent,
+        FullScreenButtonComponent,
+        MapLayerSelectionButtonComponent,
+        MapLayerSelectionContentComponent,
+        AttributionsButtonComponent,
+        AttributionsContentComponent,
+        VerticalMapComponent,
+        MeteoContainerComponent
+    ],
     templateUrl: './flight-map-page.component.html',
     styleUrls: ['./flight-map-page.component.scss']
 })

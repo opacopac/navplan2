@@ -11,10 +11,35 @@ import {
 } from '../../../../plan-waypoints/view/ng-components/edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {getAltitudeUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {
+    MapPopupWaypointButtonAddToRouteComponent
+} from '../map-popup-waypoint-button-add-to-route/map-popup-waypoint-button-add-to-route.component';
+import {
+    MapPopupButtonEditWaypointComponent
+} from '../map-popup-waypoint-button-edit-waypoint/map-popup-button-edit-waypoint.component';
+import {
+    MapPopupWaypointButtonRemoveFromRouteComponent
+} from '../map-popup-waypoint-button-remove-from-route/map-popup-waypoint-button-remove-from-route.component';
+import {
+    MapPopupWaypointButtonSetAlternateComponent
+} from '../map-popup-waypoint-button-set-alternate/map-popup-waypoint-button-set-alternate.component';
+import {
+    MapPopupWaypointButtonRemoveAlternateComponent
+} from '../map-popup-waypoint-button-remove-alternate/map-popup-waypoint-button-remove-alternate.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-map-popup-waypoint-button-container',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MapPopupWaypointButtonAddToRouteComponent,
+        MapPopupButtonEditWaypointComponent,
+        MapPopupWaypointButtonRemoveFromRouteComponent,
+        MapPopupWaypointButtonSetAlternateComponent,
+        MapPopupWaypointButtonRemoveAlternateComponent
+    ],
     templateUrl: './map-popup-waypoint-button-container.component.html',
     styleUrls: ['./map-popup-waypoint-button-container.component.scss']
 })
@@ -88,7 +113,7 @@ export class MapPopupWaypointButtonContainerComponent implements OnInit {
         const dialogRef = this.dialog.open(EditWaypointDialogComponent, {
             // height: '800px',
             // width: '600px',
-            data: { editWaypoint: waypoint, altitudeUnit$: this.altitudeUnit$ }
+            data: {editWaypoint: waypoint, altitudeUnit$: this.altitudeUnit$}
         });
 
         dialogRef.afterClosed().subscribe((oldNewWp) => {

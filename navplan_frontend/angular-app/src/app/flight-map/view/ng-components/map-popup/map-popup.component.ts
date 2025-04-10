@@ -12,14 +12,104 @@ import {Notam} from '../../../../notam/domain/model/notam';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import Overlay from 'ol/Overlay';
 import {OverlayState} from '../../../state/ngrx/overlay-state';
-import {MatTabGroup} from '@angular/material/tabs';
+import {MatTabGroup, MatTabsModule} from '@angular/material/tabs';
 import {OlGeometry} from '../../../../base-map/view/ol-model/ol-geometry';
 import {timer} from 'rxjs';
 import {tap} from 'rxjs/operators';
+import {MatCardModule} from '@angular/material/card';
+import {
+    MapPopupAirportHeaderComponent
+} from '../../../../aerodrome/view/ng-components/map-popup-airport-header/map-popup-airport-header.component';
+import {
+    MapPopupReportingpointHeaderComponent
+} from '../../../../aerodrome-reporting/view/ng-components/map-popup-reportingpoint-header/map-popup-reportingpoint-header.component';
+import {
+    MapPopupReportingsectorHeaderComponent
+} from '../../../../aerodrome-reporting/view/ng-components/map-popup-reportingsector-header/map-popup-reportingsector-header.component';
+import {
+    MapPopupNavaidHeaderComponent
+} from '../../../../navaid/view/ng-components/map-popup-navaid-header/map-popup-navaid-header.component';
+import {
+    MapPopupGeonameHeaderComponent
+} from '../../../../geoname/view/ng-components/map-popup-geoname-header/map-popup-geoname-header.component';
+import {
+    MapPopupUserpointHeaderComponent
+} from '../../../../user-point/view/ng-components/map-popup-userpoint-header/map-popup-userpoint-header.component';
+import {MapPopupWaypointHeaderComponent} from '../map-popup-waypoint-header/map-popup-waypoint-header.component';
+import {
+    MapPopupAirportInfoTabComponent
+} from '../../../../aerodrome/view/ng-components/map-popup-airport-info-tab/map-popup-airport-info-tab.component';
+import {
+    MapPopupReportingpointInfoTabComponent
+} from '../../../../aerodrome-reporting/view/ng-components/map-popup-reportingpoint-info-tab/map-popup-reportingpoint-info-tab.component';
+import {
+    MapPopupReportingsectorInfoTabComponent
+} from '../../../../aerodrome-reporting/view/ng-components/map-popup-reportingsector-info-tab/map-popup-reportingsector-info-tab.component';
+import {
+    MapPopupNavaidInfoTabComponent
+} from '../../../../navaid/view/ng-components/map-popup-navaid-info-tab/map-popup-navaid-info-tab.component';
+import {
+    MapPopupGeonameInfoTabComponent
+} from '../../../../geoname/view/ng-components/map-popup-geoname-info-tab/map-popup-geoname-info-tab.component';
+import {
+    MapPopupUserpointInfoTabComponent
+} from '../../../../user-point/view/ng-components/map-popup-userpoint-info-tab/map-popup-userpoint-info-tab.component';
+import {MapPopupWaypointInfoTabComponent} from '../map-popup-waypoint-info-tab/map-popup-waypoint-info-tab.component';
+import {
+    MapPopupAirportRunwayTabComponent
+} from '../../../../aerodrome/view/ng-components/map-popup-airport-runway-tab/map-popup-airport-runway-tab.component';
+import {
+    MapPopupAirportRadioTabComponent
+} from '../../../../aerodrome/view/ng-components/map-popup-airport-radio-tab/map-popup-airport-radio-tab.component';
+import {
+    MapPopupMeteogramComponent
+} from '../../../../meteo-gram/view/ng-components/map-popup-meteogram/map-popup-meteogram.component';
+import {
+    MapPopupPrecipTempGraphComponent
+} from '../../../../meteo-gram/view/ng-components/map-popup-precip-temp-graph/map-popup-precip-temp-graph.component';
+import {
+    MapPopupMetarTafComponent
+} from '../../../../metar-taf/view/ng-components/map-popup-metar-taf/map-popup-metar-taf.component';
+import {
+    MapPopupNotamTabComponent
+} from '../../../../notam/view/ng-components/map-popup-notam-tab/map-popup-notam-tab.component';
+import {
+    MapPopupAirportChartTabComponent
+} from '../../../../aerodrome-charts/view/ng-components/map-popup-airport-chart-tab/map-popup-airport-chart-tab.component';
+import {
+    MapPopupWaypointButtonContainerComponent
+} from '../map-popup-waypoint-button-container/map-popup-waypoint-button-container.component';
 
 
 @Component({
     selector: 'app-map-popup',
+    standalone: true,
+    imports: [
+        MatCardModule,
+        MatTabsModule,
+        MapPopupAirportHeaderComponent,
+        MapPopupReportingpointHeaderComponent,
+        MapPopupReportingsectorHeaderComponent,
+        MapPopupNavaidHeaderComponent,
+        MapPopupGeonameHeaderComponent,
+        MapPopupUserpointHeaderComponent,
+        MapPopupWaypointHeaderComponent,
+        MapPopupAirportInfoTabComponent,
+        MapPopupReportingpointInfoTabComponent,
+        MapPopupReportingsectorInfoTabComponent,
+        MapPopupNavaidInfoTabComponent,
+        MapPopupGeonameInfoTabComponent,
+        MapPopupUserpointInfoTabComponent,
+        MapPopupWaypointInfoTabComponent,
+        MapPopupAirportRunwayTabComponent,
+        MapPopupAirportRadioTabComponent,
+        MapPopupMeteogramComponent,
+        MapPopupPrecipTempGraphComponent,
+        MapPopupMetarTafComponent,
+        MapPopupNotamTabComponent,
+        MapPopupAirportChartTabComponent,
+        MapPopupWaypointButtonContainerComponent
+    ],
     templateUrl: './map-popup.component.html',
     styleUrls: ['./map-popup.component.scss']
 })
@@ -118,7 +208,7 @@ export class MapPopupComponent implements AfterViewInit {
         timer(0).pipe(
             tap(x => overlay.panIntoView({
                 margin: 20,
-                animation: { duration: 250 }
+                animation: {duration: 250}
             }))
         ).subscribe();
     }
