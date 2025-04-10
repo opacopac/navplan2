@@ -2,10 +2,15 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder} from '@angular/forms';
 import {Track} from '../../../../track/domain/model/track';
+import {ConfirmDeleteDialogComponent} from '../../../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog.component';
 
 
 @Component({
     selector: 'app-track-delete-confirm-dialog',
+    standalone: true,
+    imports: [
+        ConfirmDeleteDialogComponent
+    ],
     templateUrl: './track-delete-confirm-dialog.component.html',
     styleUrls: ['./track-delete-confirm-dialog.component.scss']
 })

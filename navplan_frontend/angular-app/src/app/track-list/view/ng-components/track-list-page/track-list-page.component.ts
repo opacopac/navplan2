@@ -4,10 +4,17 @@ import {Track} from '../../../../track/domain/model/track';
 import {getSelectedTrack, getTrackList, getTrackTableState} from '../../../../track/state/ngrx/track.selectors';
 import {TrackActions} from '../../../../track/state/ngrx/track.actions';
 import {TableState} from '../../../../common/state/model/table-state';
+import {TrackListTableComponent} from '../track-list-table/track-list-table.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-track-list-page',
+    standalone: true,
+    imports: [
+        CommonModule,
+        TrackListTableComponent
+    ],
     templateUrl: './track-list-page.component.html',
     styleUrls: ['./track-list-page.component.scss']
 })

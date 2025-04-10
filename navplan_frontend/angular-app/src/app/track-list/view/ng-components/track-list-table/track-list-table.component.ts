@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {Track} from '../../../../track/domain/model/track';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
 import {Timestamp} from '../../../../geo-physics/domain/model/quantities/timestamp';
@@ -10,6 +10,11 @@ import {TrackDeleteConfirmDialogComponent} from '../track-delete-confirm-dialog/
 import {TrackEditFormDialogComponent} from '../track-edit-form-dialog/track-edit-form-dialog.component';
 import {TableState} from '../../../../common/state/model/table-state';
 import {TextFilterState} from '../../../../common/state/model/text-filter-state';
+import {
+    TableTextFilterAndCreateButtonComponent
+} from '../../../../common/view/ng-components/table-filter-and-create-button/table-text-filter-and-create-button.component';
+import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
+import {CommonModule} from '@angular/common';
 
 
 export interface ListEntry {
@@ -21,6 +26,14 @@ export interface ListEntry {
 
 @Component({
     selector: 'app-track-list-table',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatPaginatorModule,
+        IconButtonComponent,
+        TableTextFilterAndCreateButtonComponent,
+    ],
     templateUrl: './track-list-table.component.html',
     styleUrls: ['./track-list-table.component.scss']
 })

@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {TrackViewModule} from '../track/view/track-view.module';
+import {TrackViewModule} from '../../track/view/track-view.module';
 
 
 @NgModule({
@@ -10,5 +10,5 @@ import {TrackViewModule} from '../track/view/track-view.module';
     exports: [],
     providers: []
 })
-export class TrackProfileViewModule {
+export class TrackListViewModule {
 }

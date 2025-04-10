@@ -1,11 +1,21 @@
 import {Component, Inject, OnChanges, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Track} from '../../../../track/domain/model/track';
+import {FormDialogComponent} from '../../../../common/view/ng-components/form-dialog/form-dialog.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 @Component({
     selector: 'app-track-edit-form-dialog',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormDialogComponent,
+    ],
     templateUrl: './track-edit-form-dialog.component.html',
     styleUrls: ['./track-edit-form-dialog.component.scss']
 })
