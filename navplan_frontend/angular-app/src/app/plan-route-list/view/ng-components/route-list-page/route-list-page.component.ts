@@ -7,10 +7,17 @@ import {FlightrouteCrudActions} from '../../../../flightroute/state/ngrx/flightr
 import {getFlightroute, getFlightrouteTableState} from '../../../../flightroute/state/ngrx/flightroute.selectors';
 import {TableState} from '../../../../common/state/model/table-state';
 import {getFlightrouteList} from '../../../state/ngrx/flightroute-list.selectors';
+import {RouteListTableComponent} from '../route-list-table/route-list-table.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-route-list-page',
+    standalone: true,
+    imports: [
+        CommonModule,
+        RouteListTableComponent
+    ],
     templateUrl: './route-list-page.component.html',
     styleUrls: ['./route-list-page.component.scss'],
 })

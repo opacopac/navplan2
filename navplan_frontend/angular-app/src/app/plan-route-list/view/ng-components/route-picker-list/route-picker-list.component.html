@@ -1,42 +1,42 @@
 @if (this.flightrouteList && this.flightrouteList.length > 0) {
-  <div class="flightroute-list-container">
-    <mat-form-field>
-      <input
-        matInput
-        (keyup)="applyFilter($event.target.value)"
-        placeholder="Filter"
-        >
-      </mat-form-field>
-      <table mat-table
-        [dataSource]="this.dataSource">
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Route</th>
-          <td mat-cell
-            *matCellDef="let entry"
-            class="clickable"
-            (click)="this.loadRouteClicked.emit(entry.id)">
-            {{ entry.title }}
-          </td>
-        </ng-container>
-        <tr mat-header-row
-          *matHeaderRowDef="this.visibleColumns"
-          class="header-row"
-        ></tr>
-        <tr mat-row
-          *matRowDef="let routeListEntry; let even = even; columns: this.visibleColumns"
-          [ngClass]="{ 'odd-row': !even, 'selected-row': this.flightrouteList?.id === routeListEntry?.id }"
-        ></tr>
-      </table>
-      <mat-paginator
-        [pageSize]="10"
-        [pageSizeOptions]="[5, 10, 25, 100]"
-        showFirstLastButtons="true"
-      ></mat-paginator>
+    <div class="flightroute-list-container">
+        <mat-form-field>
+            <input
+                matInput
+                (keyup)="applyFilter($event.target.value)"
+                placeholder="Filter"
+            >
+        </mat-form-field>
+        <table mat-table
+               [dataSource]="this.dataSource">
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Route</th>
+                <td mat-cell
+                    *matCellDef="let entry"
+                    class="clickable"
+                    (click)="this.loadRouteClicked.emit(entry.id)">
+                    {{ entry.title }}
+                </td>
+            </ng-container>
+            <tr mat-header-row
+                *matHeaderRowDef="this.visibleColumns"
+                class="header-row"
+            ></tr>
+            <tr mat-row
+                *matRowDef="let routeListEntry; let even = even; columns: this.visibleColumns"
+                [ngClass]="{ 'odd-row': !even, 'selected-row': this.flightrouteList?.id === routeListEntry?.id }"
+            ></tr>
+        </table>
+        <mat-paginator
+            [pageSize]="10"
+            [pageSizeOptions]="[5, 10, 25, 100]"
+            showFirstLastButtons="true"
+        ></mat-paginator>
     </div>
-  }
+}
 
-  @if (!this.flightrouteList || this.flightrouteList.length == 0) {
+@if (!this.flightrouteList || this.flightrouteList.length == 0) {
     <div>
-      <i>No entries</i>
+        <i>No entries</i>
     </div>
-  }
+}

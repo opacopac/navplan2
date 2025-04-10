@@ -24,6 +24,9 @@ import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-lis
 import {IconButtonComponent} from '../../common/view/ng-components/icon-button/icon-button.component';
 import {SaveButtonComponent} from '../../common/view/ng-components/save-button/save-button.component';
 import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
+import {
+    RoutePickerContainerComponent
+} from '../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
 
 
 @NgModule({
@@ -45,7 +48,8 @@ import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.mod
         PlanRouteListStateModule,
         PlanRouteListViewModule,
         IconButtonComponent,
-        SaveButtonComponent
+        SaveButtonComponent,
+        RoutePickerContainerComponent
     ],
     declarations: [
         EditWaypointDialogComponent,

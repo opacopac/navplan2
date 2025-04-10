@@ -1,8 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {FlightrouteListEntry} from '../../../../flightroute/domain/model/flightroute-list-entry';
 import {ButtonColor} from '../../../../common/view/model/button-color';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {CommonModule} from '@angular/common';
 
 
 export interface ListEntry {
@@ -13,6 +16,14 @@ export interface ListEntry {
 
 @Component({
     selector: 'app-route-picker-list',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatFormFieldModule,
+        MatTableModule,
+        MatInputModule,
+        MatPaginatorModule
+    ],
     templateUrl: './route-picker-list.component.html',
     styleUrls: ['./route-picker-list.component.scss']
 })

@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
@@ -11,6 +11,11 @@ import {RouteCreateFormDialogComponent} from '../route-create-form-dialog/route-
 import {TextFilterState} from '../../../../common/state/model/text-filter-state';
 import {TableState} from '../../../../common/state/model/table-state';
 import {RouteDeleteConfirmDialogComponent} from '../route-delete-confirm-dialog/route-delete-confirm-dialog.component';
+import {
+    TableTextFilterAndCreateButtonComponent
+} from '../../../../common/view/ng-components/table-filter-and-create-button/table-text-filter-and-create-button.component';
+import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
+import {CommonModule} from '@angular/common';
 
 
 export interface ListEntry {
@@ -21,6 +26,14 @@ export interface ListEntry {
 
 @Component({
     selector: 'app-route-list-table',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatPaginatorModule,
+        IconButtonComponent,
+        TableTextFilterAndCreateButtonComponent,
+    ],
     templateUrl: './route-list-table.component.html',
     styleUrls: ['./route-list-table.component.scss']
 })

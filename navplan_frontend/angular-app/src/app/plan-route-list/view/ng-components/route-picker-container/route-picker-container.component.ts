@@ -6,10 +6,17 @@ import {FlightrouteListActions} from '../../../state/ngrx/flightroute-list.actio
 import {FlightrouteCrudActions} from '../../../../flightroute/state/ngrx/flightroute-crud.actions';
 import {RoutePickerListDialogComponent} from '../route-picker-list-dialog/route-picker-list-dialog.component';
 import {getFlightrouteList} from '../../../state/ngrx/flightroute-list.selectors';
+import {RoutePickerComponent} from '../route-picker/route-picker.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-route-picker-container',
+    standalone: true,
+    imports: [
+        CommonModule,
+        RoutePickerComponent
+    ],
     templateUrl: './route-picker-container.component.html',
     styleUrls: ['./route-picker-container.component.scss']
 })

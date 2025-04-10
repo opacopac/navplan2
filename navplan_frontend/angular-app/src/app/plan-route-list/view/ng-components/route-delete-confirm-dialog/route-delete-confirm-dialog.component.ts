@@ -2,10 +2,15 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder} from '@angular/forms';
 import {FlightrouteListEntry} from '../../../../flightroute/domain/model/flightroute-list-entry';
+import {ConfirmDeleteDialogComponent} from '../../../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog.component';
 
 
 @Component({
     selector: 'app-route-delete-confirm-dialog',
+    standalone: true,
+    imports: [
+        ConfirmDeleteDialogComponent
+    ],
     templateUrl: './route-delete-confirm-dialog.component.html',
     styleUrls: ['./route-delete-confirm-dialog.component.scss']
 })

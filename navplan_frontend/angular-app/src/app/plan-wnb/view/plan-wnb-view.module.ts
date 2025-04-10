@@ -11,6 +11,9 @@ import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {PlanWnbStateModule} from '../state/plan-wnb-state.module';
 import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
+import {
+    RoutePickerContainerComponent
+} from '../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
 
 
 @NgModule({
@@ -25,7 +28,8 @@ import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-lis
         MatExpansionModule,
         MatTableModule,
         MatInputModule,
-        PlanRouteListViewModule
+        PlanRouteListViewModule,
+        RoutePickerContainerComponent
     ],
     declarations: [
         PlanWnbContainerComponent,

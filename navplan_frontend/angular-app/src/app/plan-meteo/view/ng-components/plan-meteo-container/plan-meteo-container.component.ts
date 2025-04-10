@@ -9,6 +9,9 @@ import {PlanRouteListViewModule} from '../../../../plan-route-list/view/plan-rou
 import {PlanMeteoRadiusComponent} from '../plan-meteo-radius/plan-meteo-radius.component';
 import {PlanMeteoTableComponent} from '../plan-meteo-table/plan-meteo-table.component';
 import {CommonModule} from '@angular/common';
+import {
+    RoutePickerContainerComponent
+} from '../../../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
 
 
 @Component({
@@ -18,7 +21,8 @@ import {CommonModule} from '@angular/common';
         CommonModule,
         PlanRouteListViewModule,
         PlanMeteoRadiusComponent,
-        PlanMeteoTableComponent
+        PlanMeteoTableComponent,
+        RoutePickerContainerComponent
     ],
     templateUrl: './plan-meteo-container.component.html',
     styleUrls: ['./plan-meteo-container.component.scss']

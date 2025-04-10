@@ -17,6 +17,9 @@ import {PlanRouteListViewModule} from '../../../../plan-route-list/view/plan-rou
 import {MatAccordion} from '@angular/material/expansion';
 import {PlanPerfAirpportComponent} from '../plan-perf-airport/plan-perf-airpport.component';
 import {CommonModule} from '@angular/common';
+import {
+    RoutePickerContainerComponent
+} from '../../../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
 
 @Component({
     selector: 'app-plan-perf-container',
@@ -26,7 +29,8 @@ import {CommonModule} from '@angular/common';
         MatAccordion,
         AircraftViewModule,
         PlanRouteListViewModule,
-        PlanPerfAirpportComponent
+        PlanPerfAirpportComponent,
+        RoutePickerContainerComponent
     ],
     templateUrl: './plan-perf-container.component.html',
     styleUrls: ['./plan-perf-container.component.scss']

@@ -1,16 +1,26 @@
 import {Component, Inject, OnChanges, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../../geo-physics/domain/model/quantities/consumption-unit';
 import {Flightroute} from '../../../../flightroute/domain/model/flightroute';
 import {AircraftParams} from '../../../../flightroute/domain/model/aircraftParams';
+import {FormDialogComponent} from '../../../../common/view/ng-components/form-dialog/form-dialog.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 @Component({
     selector: 'app-route-create-form-dialog',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormDialogComponent,
+    ],
     templateUrl: './route-create-form-dialog.component.html',
     styleUrls: ['./route-create-form-dialog.component.scss']
 })
