@@ -1,8 +1,13 @@
 import {NgModule} from '@angular/core';
+import {NavaidStateModule} from '../state/navaid-state.module';
+import {NavaidDomainModule} from '../domain/navaid-domain.module';
 
 
 @NgModule({
-    imports: [],
+    imports: [
+        NavaidDomainModule,
+        NavaidStateModule
+    ],
     declarations: [],
     exports: [],
     providers: []

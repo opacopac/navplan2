@@ -114,6 +114,14 @@ import {MapPopupNavaidHeaderComponent} from '../../navaid/view/ng-components/map
 import {
     MapPopupNavaidInfoTabComponent
 } from '../../navaid/view/ng-components/map-popup-navaid-info-tab/map-popup-navaid-info-tab.component';
+import {MapPopupNotamTabComponent} from '../../notam/view/ng-components/map-popup-notam-tab/map-popup-notam-tab.component';
+import {LocationViewModule} from '../../location/location-view/location-view.module';
+import {FlightTimerViewModule} from '../../flight-timer/view/flight-timer-view.module';
+import {AirspaceViewModule} from '../../airspace/view/airspace-view.module';
+import {AerodromeReportingViewModule} from '../../aerodrome-reporting/view/aerodrome-reporting-view.module';
+import {AerodromeCircuitsViewModule} from '../../aerodrome-circuits/view/aerodrome-circuits-view.module';
+import {AerodromeChartsViewModule} from '../../aerodrome-charts/view/aerodrome-charts-view.module';
+import {AerodromeViewModule} from '../../aerodrome/view/aerodrome-view.module';
 
 @NgModule({
     declarations: [
@@ -169,6 +177,13 @@ import {
         UserViewModule,
         VerticalMapViewModule,
         WebcamViewModule,
+        FlightTimerViewModule,
+        AerodromeViewModule,
+        AerodromeChartsViewModule,
+        AerodromeCircuitsViewModule,
+        AerodromeReportingViewModule,
+        AirspaceViewModule,
+        LocationViewModule,
         LocationButtonComponent,
         MapPopupAirportHeaderComponent,
         MapPopupAirportInfoTabComponent,
@@ -196,7 +211,8 @@ import {
         MapPopupMeteogramComponent,
         MapPopupPrecipTempGraphComponent,
         MapPopupNavaidHeaderComponent,
-        MapPopupNavaidInfoTabComponent
+        MapPopupNavaidInfoTabComponent,
+        MapPopupNotamTabComponent
     ],
     providers: []
 })

@@ -1,10 +1,17 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Notam} from '../../../domain/model/notam';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {MatTableModule} from '@angular/material/table';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @Component({
     selector: 'app-map-popup-notam-tab',
+    standalone: true,
+    imports: [
+        MatTableModule,
+        MatIconModule
+    ],
     templateUrl: './map-popup-notam-tab.component.html',
     styleUrls: ['./map-popup-notam-tab.component.scss']
 })

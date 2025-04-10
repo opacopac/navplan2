@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
-import {UserStateModule} from '../../user/state/user-state.module';
-import {AircraftStateModule} from '../../aircraft/state/aircraft-state.module';
-import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.module';
-import {TrackStateModule} from '../../track/state/track-state.module';
+import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
+import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
+import {TrackViewModule} from '../../track/view/track-view.module';
+import {UserViewModule} from '../../user/view/user-view.module';
 
 
 @NgModule({
     imports: [
-        AircraftStateModule,
-        FlightrouteStateModule,
-        TrackStateModule,
-        UserStateModule,
+        AircraftViewModule,
+        FlightrouteViewModule,
+        TrackViewModule,
+        UserViewModule,
     ],
     declarations: [],
     exports: [],

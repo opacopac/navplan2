@@ -17,13 +17,13 @@ import {FlightrouteNameComponent} from './ng-components/flightroute-name/flightr
 import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-list-state.module';
 import {FlightrouteDomainModule} from '../../flightroute/domain/flightroute-domain.module';
 import {FlightrouteRestModule} from '../../flightroute/rest/flightroute-rest.module';
-import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.module';
 import {WaypointsTableComponent} from './ng-components/waypoints-table/waypoints-table.component';
 import {EditWaypointDialogComponent} from './ng-components/edit-waypoint-dialog/edit-waypoint-dialog.component';
 import {EditWaypointFormComponent} from './ng-components/edit-waypoint-form/edit-waypoint-form.component';
 import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
 import {IconButtonComponent} from '../../common/view/ng-components/icon-button/icon-button.component';
 import {SaveButtonComponent} from '../../common/view/ng-components/save-button/save-button.component';
+import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
 
 
 @NgModule({
@@ -41,7 +41,7 @@ import {SaveButtonComponent} from '../../common/view/ng-components/save-button/s
         AircraftViewModule,
         FlightrouteDomainModule,
         FlightrouteRestModule,
-        FlightrouteStateModule,
+        FlightrouteViewModule,
         PlanRouteListStateModule,
         PlanRouteListViewModule,
         IconButtonComponent,

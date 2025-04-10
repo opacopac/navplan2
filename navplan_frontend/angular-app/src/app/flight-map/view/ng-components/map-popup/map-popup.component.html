@@ -1,112 +1,112 @@
 <div #container class="ol-popup">
-  <mat-card appearance="outlined">
-    @if (this.airport) {
-      <app-map-popup-airport-header [airport]="this.airport"></app-map-popup-airport-header>
-    }
-    @if (this.reportingPoint) {
-      <app-map-popup-reportingpoint-header [reportingpoint]="this.reportingPoint"></app-map-popup-reportingpoint-header>
-    }
-    @if (this.reportingSector) {
-      <app-map-popup-reportingsector-header [reportingsector]="this.reportingSector"></app-map-popup-reportingsector-header>
-    }
-    @if (this.navaid) {
-      <app-map-popup-navaid-header [navaid]="this.navaid"></app-map-popup-navaid-header>
-    }
-    @if (this.geoname) {
-      <app-map-popup-geoname-header [geoname]="this.geoname"></app-map-popup-geoname-header>
-    }
-    @if (this.userPoint) {
-      <app-map-popup-userpoint-header [userpoint]="this.userPoint"></app-map-popup-userpoint-header>
-    }
-    @if (this.waypointItem) {
-      <app-map-popup-waypoint-header [waypoint]="this.waypointItem"></app-map-popup-waypoint-header>
-    }
-
-    <mat-card-content>
-      <mat-tab-group #tabGroup mat-stretch-tabs="false" headerPosition="below" animationDuration="0ms">
-        <!-- info tab -->
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <i class="fa-solid fa-info"></i>
-          </ng-template>
-          @if (this.airport) {
-            <app-map-popup-airport-info-tab [airport]="this.airport"></app-map-popup-airport-info-tab>
-          }
-          @if (this.reportingPoint) {
-            <app-map-popup-reportingpoint-info-tab [reportingpoint]="this.reportingPoint"></app-map-popup-reportingpoint-info-tab>
-          }
-          @if (this.reportingSector) {
-            <app-map-popup-reportingsector-info-tab [reportingsector]="this.reportingSector"></app-map-popup-reportingsector-info-tab>
-          }
-          @if (this.navaid) {
-            <app-map-popup-navaid-info-tab [navaid]="this.navaid"></app-map-popup-navaid-info-tab>
-          }
-          @if (this.geoname) {
-            <app-map-popup-geoname-info-tab [geoname]="this.geoname"></app-map-popup-geoname-info-tab>
-          }
-          @if (this.userPoint) {
-            <app-map-popup-userpoint-info-tab [userpoint]="this.userPoint"></app-map-popup-userpoint-info-tab>
-          }
-          @if (this.waypointItem) {
-            <app-map-popup-waypoint-info-tab [waypoint]="this.waypointItem"></app-map-popup-waypoint-info-tab>
-          }
-        </mat-tab>
-
-        <!-- airport runway tab -->
+    <mat-card appearance="outlined">
         @if (this.airport) {
-          <mat-tab>
-            <ng-template mat-tab-label>
-              <i class="fa-solid fa-road"></i>
-            </ng-template>
-            <app-map-popup-airport-runway-tab [airport]="this.airport"></app-map-popup-airport-runway-tab>
-          </mat-tab>
+            <app-map-popup-airport-header [airport]="this.airport"/>
+        }
+        @if (this.reportingPoint) {
+            <app-map-popup-reportingpoint-header [reportingpoint]="this.reportingPoint"/>
+        }
+        @if (this.reportingSector) {
+            <app-map-popup-reportingsector-header [reportingsector]="this.reportingSector"/>
+        }
+        @if (this.navaid) {
+            <app-map-popup-navaid-header [navaid]="this.navaid"/>
+        }
+        @if (this.geoname) {
+            <app-map-popup-geoname-header [geoname]="this.geoname"/>
+        }
+        @if (this.userPoint) {
+            <app-map-popup-userpoint-header [userpoint]="this.userPoint"/>
+        }
+        @if (this.waypointItem) {
+            <app-map-popup-waypoint-header [waypoint]="this.waypointItem"/>
         }
 
-        <!-- airport radio tab -->
-        @if (this.airport) {
-          <mat-tab>
-            <ng-template mat-tab-label>
-              <i class="fa-solid fa-broadcast-tower"></i>
-            </ng-template>
-            <app-map-popup-airport-radio-tab [airport]="this.airport"></app-map-popup-airport-radio-tab>
-          </mat-tab>
-        }
+        <mat-card-content>
+            <mat-tab-group #tabGroup mat-stretch-tabs="false" headerPosition="below" animationDuration="0ms">
+                <!-- info tab -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <i class="fa-solid fa-info"></i>
+                    </ng-template>
+                    @if (this.airport) {
+                        <app-map-popup-airport-info-tab [airport]="this.airport"/>
+                    }
+                    @if (this.reportingPoint) {
+                        <app-map-popup-reportingpoint-info-tab [reportingpoint]="this.reportingPoint"/>
+                    }
+                    @if (this.reportingSector) {
+                        <app-map-popup-reportingsector-info-tab [reportingsector]="this.reportingSector"/>
+                    }
+                    @if (this.navaid) {
+                        <app-map-popup-navaid-info-tab [navaid]="this.navaid"/>
+                    }
+                    @if (this.geoname) {
+                        <app-map-popup-geoname-info-tab [geoname]="this.geoname"/>
+                    }
+                    @if (this.userPoint) {
+                        <app-map-popup-userpoint-info-tab [userpoint]="this.userPoint"/>
+                    }
+                    @if (this.waypointItem) {
+                        <app-map-popup-waypoint-info-tab [waypoint]="this.waypointItem"/>
+                    }
+                </mat-tab>
 
-        <!-- meteo tab -->
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <i class="fa-solid fa-cloud-sun-rain"></i>
-          </ng-template>
-          <ng-template matTabContent>
-            <app-map-popup-meteogram [position]="this.position"></app-map-popup-meteogram>
-            <app-map-popup-precip-temp-graph [position]="this.position"></app-map-popup-precip-temp-graph>
-            @if (this.airport) {
-              <app-map-popup-metar-taf [metarTaf]="this.metarTaf"></app-map-popup-metar-taf>
-            }
-          </ng-template>
-        </mat-tab>
+                <!-- airport runway tab -->
+                @if (this.airport) {
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <i class="fa-solid fa-road"></i>
+                        </ng-template>
+                        <app-map-popup-airport-runway-tab [airport]="this.airport"/>
+                    </mat-tab>
+                }
 
-        <!-- notam tab -->
-        @if (this.notams && this.notams.length > 0) {
-          <mat-tab>
-            <ng-template mat-tab-label>
-              <i class="fa-solid fa-exclamation-triangle"></i>
-            </ng-template>
-            <app-map-popup-notam-tab [notams]="this.notams"></app-map-popup-notam-tab>
-          </mat-tab>
-        }
+                <!-- airport radio tab -->
+                @if (this.airport) {
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <i class="fa-solid fa-broadcast-tower"></i>
+                        </ng-template>
+                        <app-map-popup-airport-radio-tab [airport]="this.airport"/>
+                    </mat-tab>
+                }
 
-        <!-- charts tab -->
-        @if (this.airport) {
-          <mat-tab>
-            <ng-template mat-tab-label>
-              <i class="fa-solid fa-map"></i>
-            </ng-template>
-            <app-map-popup-airport-chart-tab [airport]="this.airport"></app-map-popup-airport-chart-tab>
-          </mat-tab>
-        }
-      </mat-tab-group>
-    </mat-card-content>
-    <app-map-popup-waypoint-button-container></app-map-popup-waypoint-button-container>
-  </mat-card>
+                <!-- meteo tab -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <i class="fa-solid fa-cloud-sun-rain"></i>
+                    </ng-template>
+                    <ng-template matTabContent>
+                        <app-map-popup-meteogram [position]="this.position"/>
+                        <app-map-popup-precip-temp-graph [position]="this.position"/>
+                        @if (this.airport) {
+                            <app-map-popup-metar-taf [metarTaf]="this.metarTaf"/>
+                        }
+                    </ng-template>
+                </mat-tab>
+
+                <!-- notam tab -->
+                @if (this.notams && this.notams.length > 0) {
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <i class="fa-solid fa-exclamation-triangle"></i>
+                        </ng-template>
+                        <app-map-popup-notam-tab [notams]="this.notams"/>
+                    </mat-tab>
+                }
+
+                <!-- charts tab -->
+                @if (this.airport) {
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <i class="fa-solid fa-map"></i>
+                        </ng-template>
+                        <app-map-popup-airport-chart-tab [airport]="this.airport"/>
+                    </mat-tab>
+                }
+            </mat-tab-group>
+        </mat-card-content>
+        <app-map-popup-waypoint-button-container/>
+    </mat-card>
 </div>

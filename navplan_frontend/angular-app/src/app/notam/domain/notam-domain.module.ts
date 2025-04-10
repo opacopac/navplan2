@@ -4,14 +4,12 @@ import {NotamService} from './service/notam.service';
 
 
 @NgModule({
-    imports: [
-    ],
-    declarations: [
-    ],
-    exports: [
-    ],
+    imports: [],
+    declarations: [],
+    exports: [],
     providers: [
-        { provide: INotamService, useClass: NotamService }
+        {provide: INotamService, useClass: NotamService}
     ]
 })
-export class NotamDomainModule {}
+export class NotamDomainModule {
+}

@@ -12,9 +12,9 @@ import {AircraftViewModule} from '../../aircraft/view/aircraft-view.module';
 import {PlanRouteListStateModule} from '../../plan-route-list/state/plan-route-list-state.module';
 import {FlightrouteDomainModule} from '../../flightroute/domain/flightroute-domain.module';
 import {FlightrouteRestModule} from '../../flightroute/rest/flightroute-rest.module';
-import {FlightrouteStateModule} from '../../flightroute/state/flightroute-state.module';
 import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
 import {SaveButtonComponent} from '../../common/view/ng-components/save-button/save-button.component';
+import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
 
 
 @NgModule({
@@ -26,7 +26,7 @@ import {SaveButtonComponent} from '../../common/view/ng-components/save-button/s
         AircraftViewModule,
         FlightrouteDomainModule,
         FlightrouteRestModule,
-        FlightrouteStateModule,
+        FlightrouteViewModule,
         PlanRouteListStateModule,
         ReactiveFormsModule,
         ExporterViewModule,

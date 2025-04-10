@@ -1,8 +1,13 @@
 import {NgModule} from '@angular/core';
+import {AerodromeStateModule} from '../state/aerodrome-state.module';
+import {AerodromeDomainModule} from '../domain/aerodrome-domain.module';
 
 
 @NgModule({
-    imports: [],
+    imports: [
+        AerodromeDomainModule,
+        AerodromeStateModule
+    ],
     declarations: [],
     exports: [],
     providers: []

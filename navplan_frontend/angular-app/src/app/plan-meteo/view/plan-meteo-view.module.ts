@@ -12,7 +12,6 @@ import {PlanMeteoDomainModule} from '../domain/plan-meteo-domain.module';
 import {PlanMeteoStateModule} from '../state/plan-meteo-state.module';
 import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
 import {MapPopupMetarTafComponent} from '../../metar-taf/view/ng-components/map-popup-metar-taf/map-popup-metar-taf.component';
-import {MetarTafStateModule} from '../../metar-taf/state/metar-taf-state.module';
 
 
 @NgModule({
@@ -25,7 +24,6 @@ import {MetarTafStateModule} from '../../metar-taf/state/metar-taf-state.module'
         MatInputModule,
         MatTableModule,
         MetarTafViewModule,
-        MetarTafStateModule,
         PlanRouteListViewModule,
         MapPopupMetarTafComponent,
     ],

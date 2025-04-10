@@ -1,8 +1,13 @@
 import {NgModule} from '@angular/core';
+import {ExporterDomainModule} from '../domain/exporter-domain.module';
+import {ExporterStateModule} from '../state/exporter-state.module';
 
 
 @NgModule({
-    imports: [],
+    imports: [
+        ExporterDomainModule,
+        ExporterStateModule,
+    ],
     declarations: [],
     exports: [],
     providers: [],

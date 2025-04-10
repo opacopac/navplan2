@@ -1,8 +1,11 @@
 import {NgModule} from '@angular/core';
+import {FlightTimerStateModule} from '../state/flight-timer-state.module';
 
 
 @NgModule({
-    imports: [],
+    imports: [
+        FlightTimerStateModule
+    ],
     declarations: [],
     exports: []
 })
