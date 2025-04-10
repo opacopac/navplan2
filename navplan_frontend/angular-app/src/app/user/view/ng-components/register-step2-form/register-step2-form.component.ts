@@ -1,7 +1,12 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 import {TokenService} from '../../../domain/service/token.service';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): ValidationErrors | null => {
@@ -14,6 +19,15 @@ export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): Valid
 
 @Component({
     selector: 'app-register-step2-form',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        MatCheckboxModule
+    ],
     templateUrl: './register-step2-form.component.html',
     styleUrls: ['./register-step2-form.component.scss']
 })

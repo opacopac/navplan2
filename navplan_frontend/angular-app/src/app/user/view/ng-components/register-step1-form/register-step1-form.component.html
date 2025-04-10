@@ -1,31 +1,32 @@
 <form [formGroup]="registerForm">
-  <div class="main-container">
-    <mat-form-field>
-      <mat-label>E-Mail</mat-label>
-      <input
-        matInput
-        type="email"
-        formControlName="email"
-        #email
-        required
-        />
-      <mat-error>Not a valid email</mat-error>
-    </mat-form-field>
-    <div>
-      <button
-        mat-raised-button
-        (click)="this.onSendRegisterEmailClick.emit(email.value)"
-        [disabled]="this.registerForm.invalid"
-        >
-        Verify E-Mail
-      </button>
+    <div class="main-container">
+        <mat-form-field>
+            <mat-label>E-Mail</mat-label>
+            <input
+                matInput
+                type="email"
+                formControlName="email"
+                #email
+                required
+            />
+            <mat-error>Not a valid email</mat-error>
+        </mat-form-field>
+        <div>
+            <button
+                mat-raised-button
+                (click)="this.onSendRegisterEmailClick.emit(email.value)"
+                [disabled]="this.registerForm.invalid"
+            >
+                Verify E-Mail
+            </button>
+        </div>
     </div>
-  </div>
 </form>
 <!-- message if register email has been sent successfully -->
 @if (this.registerEmailSentTo) {
-  <mat-error>
-    <p>An email has just been sent to <strong>{{ this.registerEmailSentTo }}</strong>. Please check your inbox and use
-  the enclosed activation link to finish the registration.</p>
-</mat-error>
+    <mat-error>
+        <p>An email has just been sent to <strong>{{ this.registerEmailSentTo }}</strong>. Please check your inbox and
+            use
+            the enclosed activation link to finish the registration.</p>
+    </mat-error>
 }

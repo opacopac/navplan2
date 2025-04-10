@@ -6,8 +6,8 @@
             </mat-expansion-panel-header>
             <app-login-form
                 [currentUser]="this.currentUser$ | async"
-                (onLoginClick)="this.onLoginClick($event)">
-            </app-login-form>
+                (onLoginClick)="this.onLoginClick($event)"
+            />
         </mat-expansion-panel>
         <mat-expansion-panel>
             <mat-expansion-panel-header>
@@ -15,8 +15,8 @@
             </mat-expansion-panel-header>
             <app-register-step1-form
                 [registerEmailSentTo]="this.registerEmailSentTo$ | async"
-                (onSendRegisterEmailClick)="this.onSendRegisterEmailClick($event)">
-            </app-register-step1-form>
+                (onSendRegisterEmailClick)="this.onSendRegisterEmailClick($event)"
+            />
         </mat-expansion-panel>
     </mat-accordion>
 </div>

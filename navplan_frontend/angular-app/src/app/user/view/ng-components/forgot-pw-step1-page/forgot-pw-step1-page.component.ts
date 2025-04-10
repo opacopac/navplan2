@@ -3,9 +3,16 @@ import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {getLostPwEmailSentTo} from '../../../state/ngrx/user.selectors';
 import {LostPwActions} from '../../../state/ngrx/lost-pw.actions';
+import {ForgotPwStep1FormComponent} from '../forgot-pw-step1-form/forgot-pw-step1-form.component';
+import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-forgot-pw-step1-page',
+    standalone: true,
+    imports: [
+        CommonModule,
+        ForgotPwStep1FormComponent
+    ],
     templateUrl: './forgot-pw-step1-page.component.html',
     styleUrls: ['./forgot-pw-step1-page.component.scss']
 })

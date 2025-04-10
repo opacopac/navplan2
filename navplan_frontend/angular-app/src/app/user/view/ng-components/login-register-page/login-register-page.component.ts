@@ -5,9 +5,20 @@ import {select, Store} from '@ngrx/store';
 import {getCurrentUser, getRegisterEmailSentTo} from '../../../state/ngrx/user.selectors';
 import {RegisterActions} from '../../../state/ngrx/register.actions';
 import {LoginActions} from '../../../state/ngrx/login.actions';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {LoginFormComponent} from '../login-form/login-form.component';
+import {RegisterStep1FormComponent} from '../register-step1-form/register-step1-form.component';
+import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-login-register-page',
+    standalone: true,
+    imports: [
+        CommonModule,
+        LoginFormComponent,
+        RegisterStep1FormComponent,
+        MatExpansionModule
+    ],
     templateUrl: './login-register-page.component.html',
     styleUrls: ['./login-register-page.component.scss']
 })

@@ -4,10 +4,17 @@ import {Store} from '@ngrx/store';
 import {ActivatedRoute} from '@angular/router';
 import {map} from 'rxjs/operators';
 import {LostPwActions} from '../../../state/ngrx/lost-pw.actions';
+import {ForgotPwStep2FormComponent} from '../forgot-pw-step2-form/forgot-pw-step2-form.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-forgot-pw-step2-page',
+    standalone: true,
+    imports: [
+        CommonModule,
+        ForgotPwStep2FormComponent
+    ],
     templateUrl: './forgot-pw-step2-page.component.html',
     styleUrls: ['./forgot-pw-step2-page.component.scss']
 })

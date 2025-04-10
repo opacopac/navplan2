@@ -1,6 +1,9 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {User} from '../../../domain/model/user';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 
 export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): ValidationErrors | null => {
@@ -13,6 +16,13 @@ export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): Valid
 
 @Component({
     selector: 'app-user-profile-form',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule
+    ],
     templateUrl: './user-profile-form.component.html',
     styleUrls: ['./user-profile-form.component.scss']
 })
@@ -41,6 +51,6 @@ export class UserProfileFormComponent implements OnInit, OnChanges {
             'oldPassword': ['', [Validators.required, Validators.minLength(6)]],
             'newPassword': ['', [Validators.required, Validators.minLength(6)]],
             'newPassword2': ['', [Validators.required, Validators.minLength(6)]]
-        }, { validator: identicalPasswordsValidator });
+        }, {validator: identicalPasswordsValidator});
     }
 }

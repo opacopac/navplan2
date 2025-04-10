@@ -4,10 +4,17 @@ import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {RegisterActions} from '../../../state/ngrx/register.actions';
+import {RegisterStep2FormComponent} from '../register-step2-form/register-step2-form.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-register-step2-page',
+    standalone: true,
+    imports: [
+        CommonModule,
+        RegisterStep2FormComponent
+    ],
     templateUrl: './register-step2-page.component.html',
     styleUrls: ['./register-step2-page.component.scss']
 })
