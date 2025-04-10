@@ -4,12 +4,17 @@ import {MapBaseLayerType} from '../../../../base-map/domain/model/map-base-layer
 import {Store} from '@ngrx/store';
 import {MessageActions} from '../../../../message/state/ngrx/message.actions';
 import {Message} from '../../../../message/domain/model/message';
+import {UnitSettingsComponent} from '../../../../geo-physics/view/ng-components/unit-settings/unit-settings.component';
 
 
 @Component({
-  selector: 'app-settings-page',
-  templateUrl: './settings-page.component.html',
-  styleUrls: ['./settings-page.component.scss']
+    selector: 'app-settings-page',
+    standalone: true,
+    imports: [
+        UnitSettingsComponent
+    ],
+    templateUrl: './settings-page.component.html',
+    styleUrls: ['./settings-page.component.scss']
 })
 export class SettingsPageComponent implements OnInit {
     settingsForm: FormGroup;
@@ -28,7 +33,7 @@ export class SettingsPageComponent implements OnInit {
         if (this.settingsForm.valid) {
             this.updateSettings();
             this.appStore.dispatch(
-                MessageActions.showMessage({ message: Message.success('Settings successfully saved!') })
+                MessageActions.showMessage({message: Message.success('Settings successfully saved!')})
             );
         }
     }
