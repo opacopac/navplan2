@@ -1,11 +1,19 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 @Component({
     selector: 'app-plan-meteo-radius',
+    standalone: true,
+    imports: [
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule
+    ],
     templateUrl: './plan-meteo-radius.component.html',
     styleUrls: ['./plan-meteo-radius.component.scss']
 })

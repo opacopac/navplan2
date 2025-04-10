@@ -5,10 +5,21 @@ import {getRouteMeteoState} from '../../../state/ngrx/route-meteo.selectors';
 import {map} from 'rxjs/operators';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {getRouteDistanceUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {PlanRouteListViewModule} from '../../../../plan-route-list/view/plan-route-list-view.module';
+import {PlanMeteoRadiusComponent} from '../plan-meteo-radius/plan-meteo-radius.component';
+import {PlanMeteoTableComponent} from '../plan-meteo-table/plan-meteo-table.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-plan-meteo-container',
+    standalone: true,
+    imports: [
+        CommonModule,
+        PlanRouteListViewModule,
+        PlanMeteoRadiusComponent,
+        PlanMeteoTableComponent
+    ],
     templateUrl: './plan-meteo-container.component.html',
     styleUrls: ['./plan-meteo-container.component.scss']
 })

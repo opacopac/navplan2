@@ -8,11 +8,11 @@ import {PlanMeteoDomainModule} from '../domain/plan-meteo-domain.module';
 
 @NgModule({
     imports: [
-        PlanMeteoDomainModule,
         StoreModule.forFeature('routeMeteoState', routeMeteoReducer),
         EffectsModule.forFeature([
             RouteMeteoEffects
         ]),
+        PlanMeteoDomainModule,
     ],
     declarations: [],
     exports: [],
