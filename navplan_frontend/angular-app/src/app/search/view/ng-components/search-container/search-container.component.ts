@@ -4,10 +4,17 @@ import {select, Store} from '@ngrx/store';
 import {SearchItem} from '../../../domain/model/search-item';
 import {SearchActions} from '../../../state/ngrx/search.actions';
 import {getFlightMapShowFullScreen} from '../../../../flight-map/state/ngrx/flight-map.selectors';
+import {SearchBoxComponent} from '../search-box/search-box.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-search-container',
+    standalone: true,
+    imports: [
+        CommonModule,
+        SearchBoxComponent
+    ],
     templateUrl: './search-container.component.html',
     styleUrls: ['./search-container.component.scss']
 })

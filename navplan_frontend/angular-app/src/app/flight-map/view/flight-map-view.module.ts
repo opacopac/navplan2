@@ -121,6 +121,7 @@ import {AerodromeReportingViewModule} from '../../aerodrome-reporting/view/aerod
 import {AerodromeCircuitsViewModule} from '../../aerodrome-circuits/view/aerodrome-circuits-view.module';
 import {AerodromeChartsViewModule} from '../../aerodrome-charts/view/aerodrome-charts-view.module';
 import {AerodromeViewModule} from '../../aerodrome/view/aerodrome-view.module';
+import {SearchContainerComponent} from '../../search/view/ng-components/search-container/search-container.component';
 
 @NgModule({
     declarations: [
@@ -210,7 +211,8 @@ import {AerodromeViewModule} from '../../aerodrome/view/aerodrome-view.module';
         MapPopupPrecipTempGraphComponent,
         MapPopupNavaidHeaderComponent,
         MapPopupNavaidInfoTabComponent,
-        MapPopupNotamTabComponent
+        MapPopupNotamTabComponent,
+        SearchContainerComponent
     ],
     providers: []
 })

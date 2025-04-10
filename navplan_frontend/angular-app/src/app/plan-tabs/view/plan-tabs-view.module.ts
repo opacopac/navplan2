@@ -12,13 +12,13 @@ import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.mod
 @NgModule({
     imports: [
         PlanTabStateModule,
+        FlightrouteViewModule,
         PlanRouteListViewModule,
         PlanWaypointsViewModule,
         PlanFuelViewModule,
         PlanWnbViewModule,
         PlanPerformanceViewModule,
         PlanMeteoViewModule,
-        FlightrouteViewModule,
     ],
     declarations: [],
     exports: [],

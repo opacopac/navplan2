@@ -2,10 +2,24 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {SearchItem} from '../../../domain/model/search-item';
 import {SearchItemList} from '../../../domain/model/search-item-list';
 import {ButtonColor} from '../../../../common/view/model/button-color';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatAutocompleteModule, MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {MatIconModule} from '@angular/material/icon';
+import {MatOptionModule} from '@angular/material/core';
 
 
 @Component({
     selector: 'app-search-box',
+    standalone: true,
+    imports: [
+        MatFormFieldModule,
+        MatInputModule,
+        MatAutocompleteTrigger,
+        MatIconModule,
+        MatAutocompleteModule,
+        MatOptionModule
+    ],
     templateUrl: './search-box.component.html',
     styleUrls: ['./search-box.component.scss']
 })

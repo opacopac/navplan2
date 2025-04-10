@@ -1,9 +1,9 @@
 @if (!(this.isFullScreen$ | async)) {
-  <app-search-box
-    [searchResults]="this.searchResults$ | async"
-    (onSearchInputChange)="this.onSearchInputChange($event)"
-    (onSearchButtonClick)="this.onSearchButtonClick($event)"
-    (onResultSelected)="this.onResultSelected($event)"
-    (onSearchResultsCleared)="this.onSearchResultsCleared()"
+    <app-search-box
+        [searchResults]="this.searchResults$ | async"
+        (onSearchInputChange)="this.onSearchInputChange($event)"
+        (onSearchButtonClick)="this.onSearchButtonClick($event)"
+        (onResultSelected)="this.onResultSelected($event)"
+        (onSearchResultsCleared)="this.onSearchResultsCleared()"
     />
 }

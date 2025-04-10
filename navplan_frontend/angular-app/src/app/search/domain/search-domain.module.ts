@@ -4,14 +4,12 @@ import {ISearchService} from './service/i-search.service';
 
 
 @NgModule({
-    imports: [
-    ],
-    declarations: [
-    ],
-    exports: [
-    ],
+    imports: [],
+    declarations: [],
+    exports: [],
     providers: [
-        { provide: ISearchService, useClass: SearchService },
+        {provide: ISearchService, useClass: SearchService},
     ]
 })
-export class SearchDomainModule {}
+export class SearchDomainModule {
+}
