@@ -4,14 +4,11 @@ import {ITrackService} from './service/i-track.service';
 
 
 @NgModule({
-    imports: [
-    ],
-    declarations: [
-    ],
-    exports: [
-    ],
+    imports: [],
+    declarations: [],
+    exports: [],
     providers: [
-        { provide: ITrackService, useClass: TrackService }
+        {provide: ITrackService, useClass: TrackService}
     ]
 })
 export class TrackDomainModule {

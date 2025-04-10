@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TrackStateModule} from '../state/track-state.module';
 import {TrackDomainModule} from '../domain/track-domain.module';
-import {TrackRestModule} from '../rest/track-rest.module';
 import {TrackListPageComponent} from './ng-components/track-list/track-list-page/track-list-page.component';
 import {TrackListTableComponent} from './ng-components/track-list/track-list-table/track-list-table.component';
 import {MatTableModule} from '@angular/material/table';
@@ -40,13 +39,12 @@ import {
         MatPaginator,
         MatTabsModule,
         ReactiveFormsModule,
-        TrackDomainModule,
-        TrackRestModule,
-        TrackStateModule,
         ConfirmDeleteDialogComponent,
         FormDialogComponent,
         IconButtonComponent,
         TableTextFilterAndCreateButtonComponent,
+        TrackDomainModule,
+        TrackStateModule,
     ],
     declarations: [
         TrackTabsComponent,
