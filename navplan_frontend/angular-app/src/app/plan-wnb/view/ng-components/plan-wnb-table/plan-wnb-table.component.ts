@@ -12,10 +12,23 @@ import {Volume} from '../../../../geo-physics/domain/model/quantities/volume';
 import {WeightItemType} from '../../../../aircraft/domain/model/weight-item-type';
 import {AircraftWnbService} from '../../../../aircraft/domain/service/aircraft-wnb.service';
 import {VehicleType} from '../../../../aircraft/domain/model/vehicle-type';
+import {MatTable, MatTableModule} from '@angular/material/table';
+import {MatFormField, MatFormFieldModule} from '@angular/material/form-field';
+import {MatInput, MatInputModule} from '@angular/material/input';
+import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-plan-wnb-table',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatFormFieldModule,
+        MatInputModule,
+        AircraftViewModule
+    ],
     templateUrl: './plan-wnb-table.component.html',
     styleUrls: ['./plan-wnb-table.component.scss']
 })

@@ -14,9 +14,22 @@ import {WeightItemType} from '../../../../aircraft/domain/model/weight-item-type
 import {WnbLonEnvelopeCoordinate} from '../../../../aircraft/domain/model/wnb-lon-envelope-coordinate';
 import {VehicleType} from '../../../../aircraft/domain/model/vehicle-type';
 import {WnbEnvelopeAxisType} from '../../../../aircraft/domain/model/wnb-envelope-axis-type';
+import {
+    RoutePickerContainerComponent
+} from '../../../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
+import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
+import {PlanWnbTableComponent} from '../plan-wnb-table/plan-wnb-table.component';
+import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-plan-wnb-container',
+    standalone: true,
+    imports: [
+        CommonModule,
+        RoutePickerContainerComponent,
+        AircraftViewModule,
+        PlanWnbTableComponent
+    ],
     templateUrl: './plan-wnb-container.component.html',
     styleUrls: ['./plan-wnb-container.component.scss']
 })

@@ -8,12 +8,12 @@ import {PlanTabsActions} from '../../../state/ngrx/plan-tabs.actions';
 import {RouteListPageComponent} from '../../../../plan-route-list/view/ng-components/route-list-page/route-list-page.component';
 import {PlanWaypointsViewModule} from '../../../../plan-waypoints/view/plan-waypoints-view.module';
 import {FuelCalcContainerComponent} from '../../../../plan-fuel/view/ng-components/fuel-calc-container/fuel-calc-container.component';
-import {PlanWnbViewModule} from '../../../../plan-wnb/view/plan-wnb-view.module';
 import {
     PlanPerfContainerComponent
 } from '../../../../plan-performance/view/ng-components/plan-perf-container/plan-perf-container.component';
 import {PlanMeteoContainerComponent} from '../../../../plan-meteo/view/ng-components/plan-meteo-container/plan-meteo-container.component';
 import {WaypointsContainerComponent} from '../../../../plan-waypoints/view/ng-components/waypoints-container/waypoints-container.component';
+import {PlanWnbContainerComponent} from '../../../../plan-wnb/view/ng-components/plan-wnb-container/plan-wnb-container.component';
 
 
 @Component({
@@ -24,10 +24,10 @@ import {WaypointsContainerComponent} from '../../../../plan-waypoints/view/ng-co
         RouteListPageComponent,
         PlanWaypointsViewModule,
         FuelCalcContainerComponent,
-        PlanWnbViewModule,
         PlanPerfContainerComponent,
         PlanMeteoContainerComponent,
-        WaypointsContainerComponent
+        WaypointsContainerComponent,
+        PlanWnbContainerComponent
     ],
     templateUrl: './plan-tabs.component.html',
     styleUrls: ['./plan-tabs.component.scss'],
