@@ -1,10 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Aircraft} from '../../../domain/model/aircraft';
-import {MatSlideToggleChange} from '@angular/material/slide-toggle';
+import {MatSlideToggle, MatSlideToggleChange} from '@angular/material/slide-toggle';
 
 
 @Component({
     selector: 'app-aircraft-manual-toggle',
+    standalone: true,
+    imports: [
+        MatSlideToggle
+    ],
     templateUrl: './aircraft-manual-toggle.component.html',
     styleUrls: ['./aircraft-manual-toggle.component.scss']
 })

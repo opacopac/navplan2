@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {MatTable, MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
 import {AircraftListEntry} from '../../../../domain/model/aircraft-list-entry';
 import {Aircraft} from '../../../../domain/model/aircraft';
@@ -13,6 +13,11 @@ import {
 } from '../aircraft-delete-confirm-dialog/aircraft-delete-confirm-dialog.component';
 import {TextFilterState} from '../../../../../common/state/model/text-filter-state';
 import {TableState} from '../../../../../common/state/model/table-state';
+import {
+    TableTextFilterAndCreateButtonComponent
+} from '../../../../../common/view/ng-components/table-filter-and-create-button/table-text-filter-and-create-button.component';
+import {IconButtonComponent} from '../../../../../common/view/ng-components/icon-button/icon-button.component';
+import {NgClass} from '@angular/common';
 
 
 export interface ListEntry {
@@ -25,6 +30,14 @@ export interface ListEntry {
 
 @Component({
     selector: 'app-aircraft-hangar-table',
+    standalone: true,
+    imports: [
+        MatTableModule,
+        MatPaginatorModule,
+        TableTextFilterAndCreateButtonComponent,
+        IconButtonComponent,
+        NgClass
+    ],
     templateUrl: './aircraft-hangar-table.component.html',
     styleUrls: ['./aircraft-hangar-table.component.scss']
 })

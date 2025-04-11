@@ -1,6 +1,6 @@
 import {Component, Inject, OnChanges, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
 import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
 import {VehicleType} from '../../../../domain/model/vehicle-type';
@@ -8,10 +8,28 @@ import {FuelType} from '../../../../domain/model/fuel-type';
 import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantities/consumption-unit';
 import {Aircraft} from '../../../../domain/model/aircraft';
+import {FormDialogComponent} from '../../../../../common/view/ng-components/form-dialog/form-dialog.component';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {
+    AircraftTypeDesignatorAutocompleteComponent
+} from '../../aircraft-details/aircraft-type-designator-autocomplete/aircraft-type-designator-autocomplete.component';
 
 
 @Component({
     selector: 'app-aircraft-create-form-dialog',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatRadioModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        FormDialogComponent,
+        AircraftTypeDesignatorAutocompleteComponent,
+    ],
     templateUrl: './aircraft-create-form-dialog.component.html',
     styleUrls: ['./aircraft-create-form-dialog.component.scss']
 })

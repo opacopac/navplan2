@@ -1,14 +1,28 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
-import {MatTabChangeEvent, MatTabGroup} from '@angular/material/tabs';
+import {MatTabChangeEvent, MatTabGroup, MatTabsModule} from '@angular/material/tabs';
 import {Store} from '@ngrx/store';
 import {AircraftActions} from '../../../state/ngrx/aircraft.actions';
 import {map} from 'rxjs/operators';
+import {AircraftHangarPageComponent} from '../aircraft-hangar/aircraft-hangar-page/aircraft-hangar-page.component';
+import {AircraftDetailsPageComponent} from '../aircraft-details/aircraft-details-page/aircraft-details-page.component';
+import {AircraftWnbPageComponent} from '../../../../aircraft-wnb/view/ng-components/aircraft-wnb-page/aircraft-wnb-page.component';
+import {
+    AircraftPerformancePageComponent
+} from '../../../../aircraft-performance/view/ng-components/aircraft-performance-page/aircraft-performance-page.component';
 
 
 @Component({
     selector: 'app-aircraft-tabs',
+    standalone: true,
+    imports: [
+        MatTabsModule,
+        AircraftHangarPageComponent,
+        AircraftDetailsPageComponent,
+        AircraftWnbPageComponent,
+        AircraftPerformancePageComponent,
+    ],
     templateUrl: './aircraft-tabs.component.html',
     styleUrls: ['./aircraft-tabs.component.scss'],
 })

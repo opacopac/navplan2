@@ -6,10 +6,17 @@ import {AircraftListActions} from '../../../../state/ngrx/aircraft-list.actions'
 import {getConsumptionUnit, getSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {Aircraft} from '../../../../domain/model/aircraft';
 import {TableState} from '../../../../../common/state/model/table-state';
+import {AircraftHangarTableComponent} from '../aircraft-hangar-table/aircraft-hangar-table.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-aircraft-hangar-page',
+    standalone: true,
+    imports: [
+        CommonModule,
+        AircraftHangarTableComponent
+    ],
     templateUrl: './aircraft-hangar-page.component.html',
     styleUrls: ['./aircraft-hangar-page.component.scss'],
 })

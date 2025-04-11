@@ -4,8 +4,8 @@ import {ConsumptionUnit} from '../../../../geo-physics/domain/model/quantities/c
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Aircraft} from '../../../../aircraft/domain/model/aircraft';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
 import {MatInputModule} from '@angular/material/input';
+import {AircraftManualToggle} from '../../../../aircraft/view/ng-components/aircraft-manual-toggle/aircraft-manual-toggle.component';
 
 @Component({
     selector: 'app-fuel-calc-input-fields',
@@ -14,7 +14,7 @@ import {MatInputModule} from '@angular/material/input';
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
-        AircraftViewModule,
+        AircraftManualToggle,
     ],
     templateUrl: './fuel-calc-input-fields.component.html',
     styleUrls: ['./fuel-calc-input-fields.component.scss']

@@ -6,6 +6,7 @@ import {AircraftListEntry} from '../../../../domain/model/aircraft-list-entry';
 import {Aircraft} from '../../../../domain/model/aircraft';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {CommonModule} from '@angular/common';
 
 
 export interface ListEntry {
@@ -20,6 +21,7 @@ export interface ListEntry {
     selector: 'app-aircraft-picker-list',
     standalone: true,
     imports: [
+        CommonModule,
         MatTableModule,
         MatInputModule,
         MatFormFieldModule,

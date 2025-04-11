@@ -21,7 +21,6 @@ import {
     RoutePickerContainerComponent
 } from '../../../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
 import {FlightrouteAircraftSpeedComponent} from '../flightroute-aircraft-speed/flightroute-aircraft-speed.component';
-import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
 import {FlightrouteNameComponent} from '../flightroute-name/flightroute-name.component';
 import {WaypointsTableComponent} from '../waypoints-table/waypoints-table.component';
 import {FlightrouteCommentsComponent} from '../flightroute-comment/flightroute-comments.component';
@@ -30,6 +29,7 @@ import {CommonModule} from '@angular/common';
 import {
     AircraftPickerContainerComponent
 } from '../../../../aircraft/view/ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
+import {AircraftManualToggle} from '../../../../aircraft/view/ng-components/aircraft-manual-toggle/aircraft-manual-toggle.component';
 
 
 @Component({
@@ -40,12 +40,12 @@ import {
         ReactiveFormsModule,
         RoutePickerContainerComponent,
         FlightrouteAircraftSpeedComponent,
-        AircraftViewModule,
         FlightrouteNameComponent,
         WaypointsTableComponent,
         FlightrouteCommentsComponent,
         SaveButtonComponent,
-        AircraftPickerContainerComponent
+        AircraftPickerContainerComponent,
+        AircraftManualToggle
     ],
     templateUrl: './waypoints-container.component.html',
     styleUrls: ['./waypoints-container.component.scss']

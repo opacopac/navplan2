@@ -17,7 +17,6 @@ import {WnbEnvelopeAxisType} from '../../../../aircraft-wnb/domain/model/wnb-env
 import {
     RoutePickerContainerComponent
 } from '../../../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
-import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
 import {PlanWnbTableComponent} from '../plan-wnb-table/plan-wnb-table.component';
 import {CommonModule} from '@angular/common';
 import {
@@ -33,7 +32,6 @@ import {
     imports: [
         CommonModule,
         RoutePickerContainerComponent,
-        AircraftViewModule,
         PlanWnbTableComponent,
         AircraftPickerContainerComponent,
         AircraftWnbEnvelopeChartComponent

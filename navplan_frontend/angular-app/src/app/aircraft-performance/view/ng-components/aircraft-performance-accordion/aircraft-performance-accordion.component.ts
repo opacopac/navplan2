@@ -4,8 +4,7 @@ import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-u
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
 import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/temperature-unit';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
-import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
-import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {AircraftPerformanceTableComponent} from '../aircraft-performance-table/aircraft-performance-table.component';
 import {
     AircraftPickerContainerComponent

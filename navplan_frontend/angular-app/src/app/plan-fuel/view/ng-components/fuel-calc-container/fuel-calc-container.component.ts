@@ -10,7 +10,6 @@ import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selec
 import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
 import {FlightrouteCrudActions} from '../../../../flightroute/state/ngrx/flightroute-crud.actions';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
 import {SaveButtonComponent} from '../../../../common/view/ng-components/save-button/save-button.component';
 import {CommonModule} from '@angular/common';
 import {FuelCalcTableComponent} from '../fuel-calc-table/fuel-calc-table.component';
@@ -28,7 +27,6 @@ import {
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        AircraftViewModule,
         SaveButtonComponent,
         FuelCalcTableComponent,
         FuelCalcInputFieldsComponent,

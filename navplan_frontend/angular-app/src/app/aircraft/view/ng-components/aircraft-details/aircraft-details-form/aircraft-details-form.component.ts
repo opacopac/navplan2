@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Aircraft} from '../../../../domain/model/aircraft';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
 import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
 import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
@@ -8,10 +8,28 @@ import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantitie
 import {VehicleType} from '../../../../domain/model/vehicle-type';
 import {FuelType} from '../../../../domain/model/fuel-type';
 import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {
+    AircraftTypeDesignatorAutocompleteComponent
+} from '../aircraft-type-designator-autocomplete/aircraft-type-designator-autocomplete.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatInputModule} from '@angular/material/input';
+import {SaveButtonComponent} from '../../../../../common/view/ng-components/save-button/save-button.component';
+import {MatSelectModule} from '@angular/material/select';
 
 
 @Component({
     selector: 'app-aircraft-details-form',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatRadioModule,
+        MatInputModule,
+        MatSelectModule,
+        SaveButtonComponent,
+        AircraftTypeDesignatorAutocompleteComponent,
+    ],
     templateUrl: './aircraft-details-form.component.html',
     styleUrls: ['./aircraft-details-form.component.scss']
 })

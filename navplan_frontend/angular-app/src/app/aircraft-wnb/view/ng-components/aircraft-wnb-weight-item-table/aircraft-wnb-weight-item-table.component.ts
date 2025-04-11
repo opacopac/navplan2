@@ -15,12 +15,14 @@ import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 import {AircraftWeightItemTypeIconComponent} from '../aircraft-weight-item-type-icon/aircraft-weight-item-type-icon.component';
 import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
+import {CommonModule, NgClass} from '@angular/common';
 
 
 @Component({
     selector: 'app-aircraft-wnb-weight-item-table',
     standalone: true,
     imports: [
+        CommonModule,
         MatTableModule,
         MatButtonModule,
         IconButtonComponent,

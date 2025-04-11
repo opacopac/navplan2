@@ -9,6 +9,7 @@ import {MatTableModule} from '@angular/material/table';
 import {
     AircraftPerformanceCorrectionFactorsComponent
 } from '../aircraft-performance-correction-factors/aircraft-performance-correction-factors.component';
+import {NgClass} from '@angular/common';
 
 
 @Component({
@@ -16,7 +17,8 @@ import {
     standalone: true,
     imports: [
         MatTableModule,
-        AircraftPerformanceCorrectionFactorsComponent
+        AircraftPerformanceCorrectionFactorsComponent,
+        NgClass
     ],
     templateUrl: './aircraft-performance-table.component.html',
     styleUrls: ['./aircraft-performance-table.component.scss']

@@ -5,10 +5,17 @@ import {select, Store} from '@ngrx/store';
 import {getAcTypeDesignatorSearchResults} from '../../../../state/ngrx/aircraft.selectors';
 import {map} from 'rxjs/operators';
 import {AircraftTypeDesignatorActions} from '../../../../state/ngrx/aircraft-type-designator.actions';
+import {AutoCompleteComponent} from '../../../../../common/view/ng-components/auto-complete/auto-complete.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-aircraft-type-designator-autocomplete',
+    standalone: true,
+    imports: [
+        CommonModule,
+        AutoCompleteComponent
+    ],
     templateUrl: './aircraft-type-designator-autocomplete.component.html',
     styleUrls: ['./aircraft-type-designator-autocomplete.component.scss']
 })

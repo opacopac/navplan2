@@ -12,7 +12,6 @@ import {getAirportPerfStates} from '../../../state/ngrx/plan-perf.selectors';
 import {PlanPerfActions} from '../../../state/ngrx/plan-perf.actions';
 import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
 import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-factors-state';
-import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {PlanPerfAirpportComponent} from '../plan-perf-airport/plan-perf-airpport.component';
 import {CommonModule} from '@angular/common';
@@ -29,7 +28,6 @@ import {
     imports: [
         CommonModule,
         MatExpansionModule,
-        AircraftViewModule,
         PlanPerfAirpportComponent,
         RoutePickerContainerComponent,
         AircraftPickerContainerComponent

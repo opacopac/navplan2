@@ -12,10 +12,9 @@ import {Volume} from '../../../../geo-physics/domain/model/quantities/volume';
 import {WeightItemType} from '../../../../aircraft-wnb/domain/model/weight-item-type';
 import {AircraftWnbService} from '../../../../aircraft-wnb/domain/service/aircraft-wnb.service';
 import {VehicleType} from '../../../../aircraft/domain/model/vehicle-type';
-import {MatTable, MatTableModule} from '@angular/material/table';
-import {MatFormField, MatFormFieldModule} from '@angular/material/form-field';
-import {MatInput, MatInputModule} from '@angular/material/input';
-import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
+import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 import {CommonModule} from '@angular/common';
 import {
     AircraftWeightItemTypeIconComponent
@@ -30,7 +29,6 @@ import {
         MatTableModule,
         MatFormFieldModule,
         MatInputModule,
-        AircraftViewModule,
         AircraftWeightItemTypeIconComponent
     ],
     templateUrl: './plan-wnb-table.component.html',

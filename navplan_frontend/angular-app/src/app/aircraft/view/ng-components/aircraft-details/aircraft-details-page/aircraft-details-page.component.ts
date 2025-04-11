@@ -10,10 +10,19 @@ import {Consumption} from '../../../../../geo-physics/domain/model/quantities/co
 import {AircraftDetailsActions} from '../../../../state/ngrx/aircraft-details.actions';
 import {FuelType} from '../../../../domain/model/fuel-type';
 import {AircraftCrudActions} from '../../../../state/ngrx/aircraft-crud.actions';
+import {AircraftPickerContainerComponent} from '../../aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
+import {AircraftDetailsFormComponent} from '../aircraft-details-form/aircraft-details-form.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-aircraft-details-page',
+    standalone: true,
+    imports: [
+        CommonModule,
+        AircraftPickerContainerComponent,
+        AircraftDetailsFormComponent
+    ],
     templateUrl: './aircraft-details-page.component.html',
     styleUrls: ['./aircraft-details-page.component.scss'],
 })
