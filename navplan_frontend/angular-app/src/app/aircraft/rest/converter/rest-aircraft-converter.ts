@@ -4,7 +4,7 @@ import {RestSpeedConverter} from '../../../geo-physics/rest/model/rest-speed-con
 import {RestConsumptionConverter} from '../../../geo-physics/rest/model/rest-consumption-converter';
 import {RestWeightConverter} from '../../../geo-physics/rest/model/rest-weight-converter';
 import {FuelType} from '../../domain/model/fuel-type';
-import {RestDistancePerformanceTableConverter} from './rest-distance-performance-table-converter';
+import {RestDistancePerformanceTableConverter} from '../../../aircraft-performance/rest/converter/rest-distance-performance-table-converter';
 import {RestWeightItemConverter} from './rest-weight-item-converter';
 import {RestWnbEnvelopeConverter} from './rest-wnb-envelope-converter';
 import {VehicleType} from '../../domain/model/vehicle-type';

@@ -1,7 +1,7 @@
 import {IRestSpeed} from '../../../geo-physics/rest/model/i-rest-speed';
 import {IRestConsumption} from '../../../geo-physics/rest/model/i-rest-consumption';
 import {IRestWeight} from '../../../geo-physics/rest/model/i-rest-weight';
-import {IRestDistancePerformanceTable} from './i-rest-distance-performance-table';
+import {IRestDistancePerformanceTable} from '../../../aircraft-performance/rest/model/i-rest-distance-performance-table';
 import {IRestWeightItem} from './i-rest-weight-item';
 import {IRestWnbEnvelope} from './i-rest-wnb-envelope';
 

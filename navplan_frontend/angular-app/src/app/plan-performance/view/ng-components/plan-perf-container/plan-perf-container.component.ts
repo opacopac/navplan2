@@ -19,6 +19,9 @@ import {CommonModule} from '@angular/common';
 import {
     RoutePickerContainerComponent
 } from '../../../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
+import {
+    AircraftPickerContainerComponent
+} from '../../../../aircraft/view/ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
 
 @Component({
     selector: 'app-plan-perf-container',
@@ -28,7 +31,8 @@ import {
         MatExpansionModule,
         AircraftViewModule,
         PlanPerfAirpportComponent,
-        RoutePickerContainerComponent
+        RoutePickerContainerComponent,
+        AircraftPickerContainerComponent
     ],
     templateUrl: './plan-perf-container.component.html',
     styleUrls: ['./plan-perf-container.component.scss']

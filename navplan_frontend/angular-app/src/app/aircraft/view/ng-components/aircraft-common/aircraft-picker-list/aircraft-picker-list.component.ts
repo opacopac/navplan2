@@ -1,9 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
 import {AircraftListEntry} from '../../../../domain/model/aircraft-list-entry';
 import {Aircraft} from '../../../../domain/model/aircraft';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 export interface ListEntry {
@@ -16,6 +18,13 @@ export interface ListEntry {
 
 @Component({
     selector: 'app-aircraft-picker-list',
+    standalone: true,
+    imports: [
+        MatTableModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatPaginatorModule,
+    ],
     templateUrl: './aircraft-picker-list.component.html',
     styleUrls: ['./aircraft-picker-list.component.scss']
 })
@@ -51,7 +60,8 @@ export class AircraftPickerListComponent implements OnInit, OnChanges {
 
     protected getAircraftIconClass(aircraft: AircraftListEntry): string {
         switch (aircraft.vehicleType) {
-            case 'HELICOPTER': return 'fa-solid fa-helicopter';
+            case 'HELICOPTER':
+                return 'fa-solid fa-helicopter';
             case 'AIRPLANE':
             default:
                 return 'fa-solid fa-plane';

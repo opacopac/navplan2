@@ -4,10 +4,17 @@ import {getAircraftList, getCurrentAircraft} from '../../../../state/ngrx/aircra
 import {MatDialog} from '@angular/material/dialog';
 import {AircraftPickerDialogComponent} from '../aircraft-picker-dialog/aircraft-picker-dialog.component';
 import {AircraftListActions} from '../../../../state/ngrx/aircraft-list.actions';
+import {AircraftPickerComponent} from '../aircraft-picker/aircraft-picker.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-aircraft-picker-container',
+    standalone: true,
+    imports: [
+        CommonModule,
+        AircraftPickerComponent
+    ],
     templateUrl: './aircraft-picker-container.component.html',
     styleUrls: ['./aircraft-picker-container.component.scss']
 })

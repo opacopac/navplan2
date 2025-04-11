@@ -19,19 +19,7 @@ import {AircraftStateModule} from '../state/aircraft-state.module';
 import {AircraftHangarTableComponent} from './ng-components/aircraft-hangar/aircraft-hangar-table/aircraft-hangar-table.component';
 import {AircraftDetailsFormComponent} from './ng-components/aircraft-details/aircraft-details-form/aircraft-details-form.component';
 import {MatRadioModule} from '@angular/material/radio';
-import {
-    AircraftPerformancePageComponent
-} from './ng-components/aircraft-performance/aircraft-performance-page/aircraft-performance-page.component';
-import {
-    AircraftPerformanceAccordionComponent
-} from './ng-components/aircraft-performance/aircraft-performance-accordion/aircraft-performance-accordion.component';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {
-    AircraftPerformanceTableComponent
-} from './ng-components/aircraft-performance/aircraft-performance-table/aircraft-performance-table.component';
-import {
-    AircraftPerformanceCorrectionFactorsComponent
-} from './ng-components/aircraft-performance/aircraft-performance-correction-factors/aircraft-performance-correction-factors.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {AircraftWnbPageComponent} from './ng-components/aircraft-wnb/aircraft-wnb-page/aircraft-wnb-page.component';
 import {
@@ -39,14 +27,8 @@ import {
 } from './ng-components/aircraft-wnb/aircraft-wnb-weight-item-table/aircraft-wnb-weight-item-table.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {
-    AircraftPickerContainerComponent
-} from './ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
-import {AircraftPickerComponent} from './ng-components/aircraft-common/aircraft-picker/aircraft-picker.component';
-import {
     AircraftWeightItemTypeIconComponent
 } from './ng-components/aircraft-wnb/aircraft-weight-item-type-icon/aircraft-weight-item-type-icon.component';
-import {AircraftPickerDialogComponent} from './ng-components/aircraft-common/aircraft-picker-dialog/aircraft-picker-dialog.component';
-import {AircraftPickerListComponent} from './ng-components/aircraft-common/aircraft-picker-list/aircraft-picker-list.component';
 import {
     AircraftWnbEditEnvelopeComponent
 } from './ng-components/aircraft-wnb/aircraft-wnb-edit-envelope-container/aircraft-wnb-edit-envelope.component';
@@ -88,6 +70,13 @@ import {SaveButtonComponent} from '../../common/view/ng-components/save-button/s
 import {
     TableTextFilterAndCreateButtonComponent
 } from '../../common/view/ng-components/table-filter-and-create-button/table-text-filter-and-create-button.component';
+import {AircraftPerformanceViewModule} from '../../aircraft-performance/view/aircraft-performance-view.module';
+import {
+    AircraftPerformancePageComponent
+} from '../../aircraft-performance/view/ng-components/aircraft-performance-page/aircraft-performance-page.component';
+import {
+    AircraftPickerContainerComponent
+} from './ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
 
 
 @NgModule({
@@ -97,6 +86,7 @@ import {
         AircraftDomainModule,
         AircraftRestModule,
         AircraftStateModule,
+        AircraftPerformanceViewModule,
         MatTableModule,
         MatButtonModule,
         MatInputModule,
@@ -118,6 +108,8 @@ import {
         IconButtonComponent,
         SaveButtonComponent,
         TableTextFilterAndCreateButtonComponent,
+        AircraftPerformancePageComponent,
+        AircraftPickerContainerComponent,
     ],
     declarations: [
         AircraftTabsComponent,
@@ -128,15 +120,7 @@ import {
         AircraftDetailsPageComponent,
         AircraftDetailsFormComponent,
         AircraftTypeDesignatorAutocompleteComponent,
-        AircraftPickerContainerComponent,
-        AircraftPickerComponent,
-        AircraftPickerDialogComponent,
-        AircraftPickerListComponent,
         AircraftManualToggle,
-        AircraftPerformancePageComponent,
-        AircraftPerformanceAccordionComponent,
-        AircraftPerformanceTableComponent,
-        AircraftPerformanceCorrectionFactorsComponent,
         AircraftWnbPageComponent,
         AircraftWnbWeightFieldsComponent,
         AircraftWnbWeightItemTableComponent,
@@ -149,7 +133,6 @@ import {
         AircraftWnbEditEnvelopeDefinitionFormDialogComponent
     ],
     exports: [
-        AircraftPickerContainerComponent,
         AircraftManualToggle,
         AircraftWeightItemTypeIconComponent,
         AircraftWnbEnvelopeChartComponent

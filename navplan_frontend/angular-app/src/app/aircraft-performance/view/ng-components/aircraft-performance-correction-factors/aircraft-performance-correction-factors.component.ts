@@ -1,13 +1,21 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
-import {DistancePerformanceCorrectionFactors} from '../../../../domain/model/distance-performance-correction-factors';
-import {FormControl, Validators} from '@angular/forms';
-import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
-import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
+import {DistancePerformanceCorrectionFactors} from '../../../domain/model/distance-performance-correction-factors';
+import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
+import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 @Component({
     selector: 'app-aircraft-performance-correction-factors',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+    ],
     templateUrl: './aircraft-performance-correction-factors.component.html',
     styleUrls: ['./aircraft-performance-correction-factors.component.scss']
 })

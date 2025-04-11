@@ -18,6 +18,9 @@ import {FuelCalcInputFieldsComponent} from '../fuel-calc-input-fields/fuel-calc-
 import {
     RoutePickerContainerComponent
 } from '../../../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
+import {
+    AircraftPickerContainerComponent
+} from '../../../../aircraft/view/ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
 
 @Component({
     selector: 'app-fuel-calc-container',
@@ -29,7 +32,8 @@ import {
         SaveButtonComponent,
         FuelCalcTableComponent,
         FuelCalcInputFieldsComponent,
-        RoutePickerContainerComponent
+        RoutePickerContainerComponent,
+        AircraftPickerContainerComponent
     ],
     templateUrl: './fuel-calc-container.component.html',
     styleUrls: ['./fuel-calc-container.component.scss']

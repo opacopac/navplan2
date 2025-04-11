@@ -27,6 +27,9 @@ import {WaypointsTableComponent} from '../waypoints-table/waypoints-table.compon
 import {FlightrouteCommentsComponent} from '../flightroute-comment/flightroute-comments.component';
 import {SaveButtonComponent} from '../../../../common/view/ng-components/save-button/save-button.component';
 import {CommonModule} from '@angular/common';
+import {
+    AircraftPickerContainerComponent
+} from '../../../../aircraft/view/ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
 
 
 @Component({
@@ -41,7 +44,8 @@ import {CommonModule} from '@angular/common';
         FlightrouteNameComponent,
         WaypointsTableComponent,
         FlightrouteCommentsComponent,
-        SaveButtonComponent
+        SaveButtonComponent,
+        AircraftPickerContainerComponent
     ],
     templateUrl: './waypoints-container.component.html',
     styleUrls: ['./waypoints-container.component.scss']

@@ -20,6 +20,9 @@ import {
 import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
 import {PlanWnbTableComponent} from '../plan-wnb-table/plan-wnb-table.component';
 import {CommonModule} from '@angular/common';
+import {
+    AircraftPickerContainerComponent
+} from '../../../../aircraft/view/ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
 
 @Component({
     selector: 'app-plan-wnb-container',
@@ -28,7 +31,8 @@ import {CommonModule} from '@angular/common';
         CommonModule,
         RoutePickerContainerComponent,
         AircraftViewModule,
-        PlanWnbTableComponent
+        PlanWnbTableComponent,
+        AircraftPickerContainerComponent
     ],
     templateUrl: './plan-wnb-container.component.html',
     styleUrls: ['./plan-wnb-container.component.scss']

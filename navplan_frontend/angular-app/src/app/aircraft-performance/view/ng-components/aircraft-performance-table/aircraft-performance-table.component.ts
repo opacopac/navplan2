@@ -1,14 +1,23 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
-import {DistancePerformanceTable} from '../../../../domain/model/distance-performance-table';
-import {WeightUnit} from '../../../../../geo-physics/domain/model/quantities/weight-unit';
-import {TemperatureUnit} from '../../../../../geo-physics/domain/model/quantities/temperature-unit';
-import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
-import {PerformanceTableAltitudeReference} from '../../../../domain/model/performance-table-altitude-reference';
+import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
+import {DistancePerformanceTable} from '../../../domain/model/distance-performance-table';
+import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
+import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/temperature-unit';
+import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
+import {PerformanceTableAltitudeReference} from '../../../domain/model/performance-table-altitude-reference';
+import {MatTableModule} from '@angular/material/table';
+import {
+    AircraftPerformanceCorrectionFactorsComponent
+} from '../aircraft-performance-correction-factors/aircraft-performance-correction-factors.component';
 
 
 @Component({
     selector: 'app-aircraft-performance-table',
+    standalone: true,
+    imports: [
+        MatTableModule,
+        AircraftPerformanceCorrectionFactorsComponent
+    ],
     templateUrl: './aircraft-performance-table.component.html',
     styleUrls: ['./aircraft-performance-table.component.scss']
 })
