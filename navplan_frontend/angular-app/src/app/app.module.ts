@@ -19,7 +19,7 @@ import {UserViewModule} from './user/view/user-view.module';
 import {MessageViewModule} from './message/view/message-view.module';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import {AircraftViewModule} from './aircraft/view/aircraft-view.module';
-import {PlanTabsViewModule} from './plan-tabs/view/plan-tabs-view.module';
+import {PlanViewModule} from './plan/view/plan-view.module';
 import {CommonViewModule} from './common/view/common-view.module';
 import {DownloadContainerComponent} from './exporter/view/ng-components/download-container/download-container.component';
 import {MessageContainerComponent} from './message/view/ng-components/message-container/message-container.component';
@@ -50,7 +50,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         ExporterViewModule,
         FlightMapViewModule,
         AircraftViewModule,
-        PlanTabsViewModule,
+        PlanViewModule,
         MessageViewModule,
         NavbarViewModule,
         SettingsViewModule,

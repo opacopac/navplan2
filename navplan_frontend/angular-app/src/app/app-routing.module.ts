@@ -8,7 +8,7 @@ import {LoginRegisterPageComponent} from './user/view/ng-components/login-regist
 import {RegisterStep2PageComponent} from './user/view/ng-components/register-step2-page/register-step2-page.component';
 import {ForgotPwStep1PageComponent} from './user/view/ng-components/forgot-pw-step1-page/forgot-pw-step1-page.component';
 import {ForgotPwStep2PageComponent} from './user/view/ng-components/forgot-pw-step2-page/forgot-pw-step2-page.component';
-import {PlanTabsComponent} from './plan-tabs/view/ng-components/plan-tabs/plan-tabs.component';
+import {PlanTabsComponent} from './plan/view/ng-components/plan-tabs/plan-tabs.component';
 import {AircraftTabsComponent} from './aircraft/view/ng-components/aircraft-tabs/aircraft-tabs.component';
 import {TrackTabsComponent} from './track/view/ng-components/track-tabs/track-tabs.component';
 

@@ -7,7 +7,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {LogoutActions} from '../../../../user/state/ngrx/logout.actions';
 import {getCurrentAircraft, getSelectedAircraftTab} from '../../../../aircraft/state/ngrx/aircraft.selectors';
 import {getSelectedTrackTab} from '../../../../track/state/ngrx/track.selectors';
-import {getSelectedPlanTab} from '../../../../plan-tabs/state/ngrx/plan-tab.selectors';
+import {getSelectedPlanTab} from '../../../../plan/state/ngrx/plan.selectors';
 import {NavbarComponent} from '../navbar/navbar.component';
 import {CommonModule} from '@angular/common';
 
