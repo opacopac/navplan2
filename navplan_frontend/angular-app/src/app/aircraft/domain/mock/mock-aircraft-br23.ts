@@ -5,8 +5,8 @@ import {Aircraft} from '../model/aircraft';
 import {FuelType} from '../model/fuel-type';
 import {VehicleType} from '../model/vehicle-type';
 import {MockPerfDistTablesBr23} from '../../../aircraft-performance/domain/mock/mock-perf-dist-tables-br23';
-import {MockWeightItemsBr23} from './mock-weight-items-br23';
-import {MockWnbEnvelopeBr23} from './mock-wnb-envelope-br23';
+import {MockWeightItemsBr23} from '../../../aircraft-wnb/domain/mock/mock-weight-items-br23';
+import {MockWnbEnvelopeBr23} from '../../../aircraft-wnb/domain/mock/mock-wnb-envelope-br23';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 
 

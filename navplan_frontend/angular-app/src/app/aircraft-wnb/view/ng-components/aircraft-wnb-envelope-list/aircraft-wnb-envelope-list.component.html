@@ -1,0 +1,37 @@
+<p class="add-envelope-button">
+    <button
+        mat-raised-button
+        color="accent"
+        (click)="this.onAddEnvelopeClick()"
+    >
+        <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add W&B Envelope
+    </button>
+</p>
+@for (envelope of this.currentAircraft.wnbEnvelopes; track envelope) {
+    <div>
+        <div>
+            {{ envelope.name }}
+            <app-icon-button
+                [color]="ButtonColor.GREEN"
+                tooltipText="Edit Envelope"
+                tooltipPosition="above"
+                (buttonClicked)="this.onEditEnvelopeDefinitionClick(envelope)"
+            >
+                <i class="fa-solid fa-pencil"></i>
+            </app-icon-button>
+        </div>
+        <app-aircraft-wnb-edit-envelope
+            [envelope]="envelope"
+            [lengthUnit]="this.wnbLengthUnit"
+            [weightUnit]="this.weightUnit"
+            (coordinateAdded)="this.onEnvelopeCoordinateAdded($event)"
+            (coordinateUpdated)="this.onEnvelopeCoordinateUpdated($event)"
+            (coordinateDeleted)="this.onEnvelopeCoordinateDeleted($event)"
+        />
+    </div>
+}
+@if (this.currentAircraft.wnbEnvelopes.length === 0) {
+    <div>
+        <i>No envelopes defined yet.</i>
+    </div>
+}

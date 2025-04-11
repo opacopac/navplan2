@@ -5,18 +5,21 @@ import {ButtonColor} from '../../../../common/view/model/button-color';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {VolumeUnit} from '../../../../geo-physics/domain/model/quantities/volume-unit';
 import {FormBuilder} from '@angular/forms';
-import {WeightItem} from '../../../../aircraft/domain/model/weight-item';
+import {WeightItem} from '../../../../aircraft-wnb/domain/model/weight-item';
 import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {Volume} from '../../../../geo-physics/domain/model/quantities/volume';
-import {WeightItemType} from '../../../../aircraft/domain/model/weight-item-type';
-import {AircraftWnbService} from '../../../../aircraft/domain/service/aircraft-wnb.service';
+import {WeightItemType} from '../../../../aircraft-wnb/domain/model/weight-item-type';
+import {AircraftWnbService} from '../../../../aircraft-wnb/domain/service/aircraft-wnb.service';
 import {VehicleType} from '../../../../aircraft/domain/model/vehicle-type';
 import {MatTable, MatTableModule} from '@angular/material/table';
 import {MatFormField, MatFormFieldModule} from '@angular/material/form-field';
 import {MatInput, MatInputModule} from '@angular/material/input';
 import {AircraftViewModule} from '../../../../aircraft/view/aircraft-view.module';
 import {CommonModule} from '@angular/common';
+import {
+    AircraftWeightItemTypeIconComponent
+} from '../../../../aircraft-wnb/view/ng-components/aircraft-weight-item-type-icon/aircraft-weight-item-type-icon.component';
 
 
 @Component({
@@ -27,7 +30,8 @@ import {CommonModule} from '@angular/common';
         MatTableModule,
         MatFormFieldModule,
         MatInputModule,
-        AircraftViewModule
+        AircraftViewModule,
+        AircraftWeightItemTypeIconComponent
     ],
     templateUrl: './plan-wnb-table.component.html',
     styleUrls: ['./plan-wnb-table.component.scss']

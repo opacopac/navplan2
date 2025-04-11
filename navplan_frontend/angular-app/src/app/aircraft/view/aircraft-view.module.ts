@@ -21,35 +21,7 @@ import {AircraftDetailsFormComponent} from './ng-components/aircraft-details/air
 import {MatRadioModule} from '@angular/material/radio';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
-import {AircraftWnbPageComponent} from './ng-components/aircraft-wnb/aircraft-wnb-page/aircraft-wnb-page.component';
-import {
-    AircraftWnbWeightItemTableComponent
-} from './ng-components/aircraft-wnb/aircraft-wnb-weight-item-table/aircraft-wnb-weight-item-table.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import {
-    AircraftWeightItemTypeIconComponent
-} from './ng-components/aircraft-wnb/aircraft-weight-item-type-icon/aircraft-weight-item-type-icon.component';
-import {
-    AircraftWnbEditEnvelopeComponent
-} from './ng-components/aircraft-wnb/aircraft-wnb-edit-envelope-container/aircraft-wnb-edit-envelope.component';
-import {
-    AircraftWnbWeightFieldsComponent
-} from './ng-components/aircraft-wnb/aircraft-wnb-weight-fields/aircraft-wnb-weight-fields.component';
-import {
-    AircraftWnbEnvelopeListComponent
-} from './ng-components/aircraft-wnb/aircraft-wnb-envelope-list/aircraft-wnb-envelope-list.component';
-import {
-    AircraftWnbEnvelopeChartComponent
-} from './ng-components/aircraft-wnb/aircraft-wnb-envelope-chart/aircraft-wnb-envelope-chart.component';
-import {
-    AircraftWnbEditEnvelopeDefinitionFormDialogComponent
-} from './ng-components/aircraft-wnb/aircraft-wnb-edit-envelope-definition-form-dialog/aircraft-wnb-edit-envelope-definition-form-dialog.component';
-import {
-    AircraftWnbEditEnvelopeCoordinateFormDialogComponent
-} from './ng-components/aircraft-wnb/aircraft-wnb-edit-envelope-coordinate-form-dialog/aircraft-wnb-edit-envelope-coordinate-form-dialog.component';
-import {
-    AircraftWnbEditWeightItemFormDialogComponent
-} from './ng-components/aircraft-wnb/aircraft-wnb-edit-weight-item-form-dialog/aircraft-wnb-edit-weight-item-form-dialog.component';
 import {
     AircraftCreateFormDialogComponent
 } from './ng-components/aircraft-hangar/aircraft-create-form-dialog/aircraft-create-form-dialog.component';
@@ -77,6 +49,8 @@ import {
 import {
     AircraftPickerContainerComponent
 } from './ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
+import {AircraftWnbViewModule} from '../../aircraft-wnb/view/aircraft-wnb-view.module';
+import {AircraftWnbPageComponent} from '../../aircraft-wnb/view/ng-components/aircraft-wnb-page/aircraft-wnb-page.component';
 
 
 @NgModule({
@@ -87,6 +61,7 @@ import {
         AircraftRestModule,
         AircraftStateModule,
         AircraftPerformanceViewModule,
+        AircraftWnbViewModule,
         MatTableModule,
         MatButtonModule,
         MatInputModule,
@@ -110,6 +85,7 @@ import {
         TableTextFilterAndCreateButtonComponent,
         AircraftPerformancePageComponent,
         AircraftPickerContainerComponent,
+        AircraftWnbPageComponent,
     ],
     declarations: [
         AircraftTabsComponent,
@@ -120,22 +96,10 @@ import {
         AircraftDetailsPageComponent,
         AircraftDetailsFormComponent,
         AircraftTypeDesignatorAutocompleteComponent,
-        AircraftManualToggle,
-        AircraftWnbPageComponent,
-        AircraftWnbWeightFieldsComponent,
-        AircraftWnbWeightItemTableComponent,
-        AircraftWnbEnvelopeListComponent,
-        AircraftWnbEditWeightItemFormDialogComponent,
-        AircraftWeightItemTypeIconComponent,
-        AircraftWnbEnvelopeChartComponent,
-        AircraftWnbEditEnvelopeComponent,
-        AircraftWnbEditEnvelopeCoordinateFormDialogComponent,
-        AircraftWnbEditEnvelopeDefinitionFormDialogComponent
+        AircraftManualToggle
     ],
     exports: [
         AircraftManualToggle,
-        AircraftWeightItemTypeIconComponent,
-        AircraftWnbEnvelopeChartComponent
     ],
     providers: []
 })

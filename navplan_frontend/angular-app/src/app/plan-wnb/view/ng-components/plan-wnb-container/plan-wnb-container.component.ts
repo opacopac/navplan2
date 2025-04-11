@@ -5,15 +5,15 @@ import {getFlightroute} from '../../../../flightroute/state/ngrx/flightroute.sel
 import {getVolumeUnit, getWeightUnit, getWnbLengthUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
 import {getPlanWnbWeightItems} from '../../../state/ngrx/plan-wnb.selectors';
-import {WeightItem} from '../../../../aircraft/domain/model/weight-item';
+import {WeightItem} from '../../../../aircraft-wnb/domain/model/weight-item';
 import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
 import {PlanWnbActions} from '../../../state/ngrx/plan-wnb.actions';
 import {Volume} from '../../../../geo-physics/domain/model/quantities/volume';
 import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
-import {WeightItemType} from '../../../../aircraft/domain/model/weight-item-type';
-import {WnbLonEnvelopeCoordinate} from '../../../../aircraft/domain/model/wnb-lon-envelope-coordinate';
+import {WeightItemType} from '../../../../aircraft-wnb/domain/model/weight-item-type';
+import {WnbLonEnvelopeCoordinate} from '../../../../aircraft-wnb/domain/model/wnb-lon-envelope-coordinate';
 import {VehicleType} from '../../../../aircraft/domain/model/vehicle-type';
-import {WnbEnvelopeAxisType} from '../../../../aircraft/domain/model/wnb-envelope-axis-type';
+import {WnbEnvelopeAxisType} from '../../../../aircraft-wnb/domain/model/wnb-envelope-axis-type';
 import {
     RoutePickerContainerComponent
 } from '../../../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
@@ -23,6 +23,9 @@ import {CommonModule} from '@angular/common';
 import {
     AircraftPickerContainerComponent
 } from '../../../../aircraft/view/ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
+import {
+    AircraftWnbEnvelopeChartComponent
+} from '../../../../aircraft-wnb/view/ng-components/aircraft-wnb-envelope-chart/aircraft-wnb-envelope-chart.component';
 
 @Component({
     selector: 'app-plan-wnb-container',
@@ -32,7 +35,8 @@ import {
         RoutePickerContainerComponent,
         AircraftViewModule,
         PlanWnbTableComponent,
-        AircraftPickerContainerComponent
+        AircraftPickerContainerComponent,
+        AircraftWnbEnvelopeChartComponent
     ],
     templateUrl: './plan-wnb-container.component.html',
     styleUrls: ['./plan-wnb-container.component.scss']

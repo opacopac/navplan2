@@ -1,0 +1,86 @@
+<div>
+    <p class="add-item-button">
+        <button
+            mat-raised-button
+            color="accent"
+            (click)="this.onAddWeightItemClick()"
+        >
+            <i class="fa-solid fa-plus"></i>&nbsp;&nbsp;Add Weight Item
+        </button>
+    </p>
+    <table mat-table [dataSource]="this.weightItems">
+        <!-- type column -->
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">&nbsp;</th>
+            <td mat-cell *matCellDef="let entry">
+                <app-aircraft-weight-item-type-icon [weightItemType]="entry.type" [vehicleType]="this.vehicleType"/>
+            </td>
+        </ng-container>
+
+        <!-- name column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Item</th>
+            <td mat-cell *matCellDef="let entry">{{ entry.name }}</td>
+        </ng-container>
+
+        <!-- longitudinal arm column -->
+        <ng-container matColumnDef="armLong">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">{{ this.getArmLongTitle() }}</th>
+            <td mat-cell *matCellDef="let entry">{{ this.getArmText(entry.armLong) }}</td>
+        </ng-container>
+
+        <!-- lateral arm column -->
+        <ng-container matColumnDef="armLat">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Arm (lat.)</th>
+            <td mat-cell *matCellDef="let entry">{{ this.getArmText(entry.armLat) }}</td>
+        </ng-container>
+
+        <!-- max weight column -->
+        <ng-container matColumnDef="maxWeight">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Max. Weight</th>
+            <td mat-cell *matCellDef="let entry">{{ this.maxWeightText(entry) }}</td>
+        </ng-container>
+
+        <!-- default weight column -->
+        <ng-container matColumnDef="defaultWeight">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Default Weight</th>
+            <td mat-cell *matCellDef="let entry">{{ this.defaultWeightText(entry) }}</td>
+        </ng-container>
+
+        <!-- icons column -->
+        <ng-container matColumnDef="icons">
+            <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+            <td mat-cell *matCellDef="let entry; let idx = index" class="button-cell">
+                <app-icon-button
+                    [color]="ButtonColor.RED"
+                    tooltipText="Delete Weight Item"
+                    tooltipPosition="above"
+                    (buttonClicked)="this.onDeleteWeightItemClick(idx)"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                </app-icon-button>
+            </td>
+        </ng-container>
+
+        <!-- no entry -->
+        <ng-container matColumnDef="no_entry">
+            <td mat-footer-cell *matFooterCellDef [attr.colspan]="4" class="no-entry-cell">
+                <i>No weight items configured.</i>
+            </td>
+        </ng-container>
+
+        <!-- row definition -->
+        <tr mat-header-row *matHeaderRowDef="this.getDisplayColumns()" class="header-row"></tr>
+        <tr mat-row
+            *matRowDef="let entry; columns: this.getDisplayColumns(); let even = even"
+            [ngClass]="{ 'odd-row': !even }"
+            class="clickable"
+            (click)="this.onEditWeightItemClick(entry)"
+        ></tr>
+
+        <tr mat-footer-row
+            *matFooterRowDef="['no_entry']"
+            [hidden]="this.weightItems && this.weightItems.length > 0"
+        ></tr>
+    </table>
+</div>

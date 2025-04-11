@@ -1,8 +1,8 @@
 import {createAction, props} from '@ngrx/store';
 import {Weight} from '../../../geo-physics/domain/model/quantities/weight';
-import {WeightItem} from '../../domain/model/weight-item';
-import {WnbLonEnvelopeCoordinate} from '../../domain/model/wnb-lon-envelope-coordinate';
-import {WnbEnvelope} from '../../domain/model/wnb-envelope';
+import {WeightItem} from '../../../aircraft-wnb/domain/model/weight-item';
+import {WnbLonEnvelopeCoordinate} from '../../../aircraft-wnb/domain/model/wnb-lon-envelope-coordinate';
+import {WnbEnvelope} from '../../../aircraft-wnb/domain/model/wnb-envelope';
 
 
 export class AircraftWnbActions {

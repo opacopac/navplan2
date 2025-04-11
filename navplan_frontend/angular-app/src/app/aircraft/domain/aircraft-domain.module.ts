@@ -4,11 +4,13 @@ import {AircraftService} from './service/aircraft.service';
 import {AircraftTypeDesignatorService} from './service/aircraft-type-designator.service';
 import {IAircraftTypeDesignatorService} from './service/i-aircraft-type-designator.service';
 import {AircraftPerformanceDomainModule} from '../../aircraft-performance/domain/aircraft-performance-domain.module';
+import {AircraftWnbDomainModule} from '../../aircraft-wnb/domain/aircraft-wnb-domain.module';
 
 
 @NgModule({
     imports: [
-        AircraftPerformanceDomainModule
+        AircraftPerformanceDomainModule,
+        AircraftWnbDomainModule
     ],
     declarations: [],
     exports: [],
