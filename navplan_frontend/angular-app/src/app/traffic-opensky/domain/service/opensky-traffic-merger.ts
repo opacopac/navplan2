@@ -1,10 +1,10 @@
-import {Traffic} from '../../model/traffic';
-import {TrafficPositionMerger} from '../traffic-position-merger';
-import {OpenskyTraffic} from '../../model/opensky-traffic';
-import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
-import {IDate} from '../../../../system/domain/service/date/i-date';
-import {TrafficMap} from '../../model/traffic-map';
-import {TrafficState} from '../../../state/state-model/traffic-state';
+import {Traffic} from '../../../traffic/domain/model/traffic';
+import {TrafficPositionMerger} from '../../../traffic/domain/service/traffic-position-merger';
+import {OpenskyTraffic} from '../model/opensky-traffic';
+import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
+import {IDate} from '../../../system/domain/service/date/i-date';
+import {TrafficMap} from '../../../traffic/domain/model/traffic-map';
+import {TrafficState} from '../../../traffic/state/state-model/traffic-state';
 
 
 export class OpenskyTrafficMerger {

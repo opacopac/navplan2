@@ -4,10 +4,10 @@ import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
-import {RestOpenskyTrafficResponseConverter} from '../model/opensky/rest-opensky-traffic-response-converter';
-import {IRestOpenskyTrafficResponse} from '../model/opensky/i-rest-opensky-traffic-response';
+import {RestOpenskyTrafficResponseConverter} from '../model/rest-opensky-traffic-response-converter';
+import {IRestOpenskyTrafficResponse} from '../model/i-rest-opensky-traffic-response';
 import {OpenskyTraffic} from '../../domain/model/opensky-traffic';
-import {IOpenskyTrafficService} from '../../domain/service/opensky-traffic/i-opensky-traffic-service';
+import {IOpenskyTrafficService} from '../../domain/service/i-opensky-traffic-service';
 
 
 @Injectable({
