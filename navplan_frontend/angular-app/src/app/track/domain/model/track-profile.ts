@@ -47,7 +47,7 @@ export class TrackProfile {
 
         // this.verticalSpeedProfile = this.calculateVerticalSpeedProfile(posList);
         const verticalSpeedProfile = this.calculateVerticalSpeedProfile(posList);
-        this.verticalSpeedProfile = this.filterAndSmoothVerticalSpeedProfile(verticalSpeedProfile, 10, 5000);
+        this.verticalSpeedProfile = this.filterAndSmoothVerticalSpeedProfile(verticalSpeedProfile, 10, 1000);
 
         this.maxAltitude = this.calculateMaxAltitude();
         this.maxSpeed = this.calculateMaxSpeed();

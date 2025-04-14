@@ -25,7 +25,7 @@ export class HampelFilter {
             if (deviation <= threshold * mad) {
                 filteredData.push(data[i]);  // Only keep the data point if it's not an outlier
             } else {
-                console.log(`Outlier detected at index ${i}: ${data[i]} (median: ${median}, MAD: ${mad})`);
+                // console.log(`Outlier detected at index ${i}: ${data[i]} (median: ${median}, MAD: ${mad})`);
             }
         }
 
