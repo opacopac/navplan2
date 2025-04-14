@@ -4,9 +4,10 @@ import {EffectsModule} from '@ngrx/effects';
 import {trafficReducer} from './ngrx/traffic.reducer';
 import {TrafficEffects} from './ngrx/traffic.effects';
 import {OgnTrafficEffects} from './ngrx/ogn-traffic.effects';
-import {AdsbexTrafficEffects} from './ngrx/adsbex-traffic.effects';
+import {AdsbexTrafficEffects} from '../../traffic-adsbex/state/ngrx/adsbex-traffic.effects';
 import {OpenskyTrafficEffects} from './ngrx/opensky-traffic.effects';
 import {TrafficDetailsEffects} from './ngrx/traffic-details.effects';
+import {TrafficAdsbexStateModule} from '../../traffic-adsbex/state/traffic-adsbex-state.module';
 
 
 @NgModule({
@@ -19,12 +20,11 @@ import {TrafficDetailsEffects} from './ngrx/traffic-details.effects';
             OpenskyTrafficEffects,
             TrafficDetailsEffects
         ]),
+        TrafficAdsbexStateModule
     ],
-    declarations: [
-    ],
-    exports: [
-    ],
-    providers: [
-    ]
+    declarations: [],
+    exports: [],
+    providers: []
 })
-export class TrafficStateModule {}
+export class TrafficStateModule {
+}

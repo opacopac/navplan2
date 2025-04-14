@@ -1,6 +1,6 @@
-import {Extent2d} from '../../../../geo-physics/domain/model/geometry/extent2d';
+import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {Observable} from 'rxjs';
-import {AdsbexTraffic} from '../../model/adsbex-traffic';
+import {AdsbexTraffic} from '../model/adsbex-traffic';
 
 
 export abstract  class IAdsbexTrafficService {

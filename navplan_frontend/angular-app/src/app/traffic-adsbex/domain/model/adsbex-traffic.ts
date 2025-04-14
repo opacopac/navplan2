@@ -1,5 +1,5 @@
-import {TrafficAddress} from './traffic-address';
-import {TrafficPosition} from './traffic-position';
+import {TrafficAddress} from '../../../traffic/domain/model/traffic-address';
+import {TrafficPosition} from '../../../traffic/domain/model/traffic-position';
 
 
 export class AdsbexTraffic {

@@ -1,5 +1,5 @@
 import {IRestAdsbexTrafficResponse} from './i-rest-adsbex-traffic-response';
-import {AdsbexTraffic} from '../../../domain/model/adsbex-traffic';
+import {AdsbexTraffic} from '../../domain/model/adsbex-traffic';
 import {RestAdsbexTrafficConverter} from './rest-adsbex-traffic-converter';
 
 

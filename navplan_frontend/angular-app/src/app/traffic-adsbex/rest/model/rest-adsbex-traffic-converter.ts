@@ -1,8 +1,8 @@
-import {RestTrafficPositionConverter} from '../rest-traffic-position-converter';
-import {RestTrafficAddressConverter} from '../rest-traffic-address-converter';
-import {AdsbexTraffic} from '../../../domain/model/adsbex-traffic';
+import {RestTrafficPositionConverter} from '../../../traffic/rest/model/rest-traffic-position-converter';
+import {RestTrafficAddressConverter} from '../../../traffic/rest/model/rest-traffic-address-converter';
+import {AdsbexTraffic} from '../../domain/model/adsbex-traffic';
 import {IRestAdsbexTraffic} from './i-rest-adsbex-traffic';
-import {TrafficDataSource} from '../../../domain/model/traffic-data-source';
+import {TrafficDataSource} from '../../../traffic/domain/model/traffic-data-source';
 
 
 export class RestAdsbexTrafficConverter {

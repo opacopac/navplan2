@@ -6,10 +6,10 @@ import {Observable} from 'rxjs/internal/Observable';
 import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
-import {IRestAdsbexTrafficResponse} from '../model/adsbex/i-rest-adsbex-traffic-response';
-import {RestAdsbexTrafficResponseConverter} from '../model/adsbex/rest-adsbex-traffic-response-converter';
+import {IRestAdsbexTrafficResponse} from '../model/i-rest-adsbex-traffic-response';
+import {RestAdsbexTrafficResponseConverter} from '../model/rest-adsbex-traffic-response-converter';
 import {AdsbexTraffic} from '../../domain/model/adsbex-traffic';
-import {IAdsbexTrafficService} from '../../domain/service/adsbex-traffic/i-adsbex-traffic-service';
+import {IAdsbexTrafficService} from '../../domain/service/i-adsbex-traffic-service';
 import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
 
 
