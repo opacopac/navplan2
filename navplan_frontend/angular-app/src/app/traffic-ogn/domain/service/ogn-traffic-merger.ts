@@ -1,10 +1,10 @@
-import {TrafficPositionMerger} from '../traffic-position-merger';
-import {OgnTraffic} from '../../model/ogn-traffic';
-import {TrafficAircraftType} from '../../model/traffic-aircraft-type';
-import {IDate} from '../../../../system/domain/service/date/i-date';
-import {TrafficMap} from '../../model/traffic-map';
-import {Traffic} from '../../model/traffic';
-import {TrafficState} from '../../../state/state-model/traffic-state';
+import {TrafficPositionMerger} from '../../../traffic/domain/service/traffic-position-merger';
+import {OgnTraffic} from '../model/ogn-traffic';
+import {TrafficAircraftType} from '../../../traffic/domain/model/traffic-aircraft-type';
+import {IDate} from '../../../system/domain/service/date/i-date';
+import {TrafficMap} from '../../../traffic/domain/model/traffic-map';
+import {Traffic} from '../../../traffic/domain/model/traffic';
+import {TrafficState} from '../../../traffic/state/state-model/traffic-state';
 
 
 export class OgnTrafficMerger {

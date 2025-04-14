@@ -1,9 +1,9 @@
-import {TrafficAircraftType} from '../../../domain/model/traffic-aircraft-type';
+import {TrafficAircraftType} from '../../../traffic/domain/model/traffic-aircraft-type';
 import {IRestOgnTraffic} from './i-rest-ogn-traffic';
-import {RestTrafficPositionConverter} from '../rest-traffic-position-converter';
-import {RestTrafficAddressConverter} from '../rest-traffic-address-converter';
-import {OgnTraffic} from '../../../domain/model/ogn-traffic';
-import {TrafficDataSource} from '../../../domain/model/traffic-data-source';
+import {RestTrafficPositionConverter} from '../../../traffic/rest/model/rest-traffic-position-converter';
+import {RestTrafficAddressConverter} from '../../../traffic/rest/model/rest-traffic-address-converter';
+import {OgnTraffic} from '../../domain/model/ogn-traffic';
+import {TrafficDataSource} from '../../../traffic/domain/model/traffic-data-source';
 
 
 export class RestOgnTrafficConverter {

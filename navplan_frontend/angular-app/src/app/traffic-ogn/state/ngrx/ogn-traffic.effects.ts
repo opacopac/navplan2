@@ -3,12 +3,12 @@ import {Action, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
-import {TrafficActions} from './traffic.actions';
-import {getTrafficState} from './traffic.selectors';
-import {TrafficState} from '../state-model/traffic-state';
-import {OgnTrafficMerger} from '../../domain/service/ogn-traffic/ogn-traffic-merger';
+import {TrafficActions} from '../../../traffic/state/ngrx/traffic.actions';
+import {getTrafficState} from '../../../traffic/state/ngrx/traffic.selectors';
+import {TrafficState} from '../../../traffic/state/state-model/traffic-state';
+import {OgnTrafficMerger} from '../../domain/service/ogn-traffic-merger';
 import {SystemConfig} from '../../../system/domain/service/system-config';
-import {IOgnTrafficService} from '../../domain/service/ogn-traffic/i-ogn-traffic-service';
+import {IOgnTrafficService} from '../../domain/service/i-ogn-traffic-service';
 
 
 @Injectable()

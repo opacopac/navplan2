@@ -1,6 +1,6 @@
-import {Extent2d} from '../../../../geo-physics/domain/model/geometry/extent2d';
+import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {Observable} from 'rxjs';
-import {OgnTraffic} from '../../model/ogn-traffic';
+import {OgnTraffic} from '../model/ogn-traffic';
 
 
 export abstract class IOgnTrafficService {
