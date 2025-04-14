@@ -18,6 +18,7 @@ import {NavaidViewModule} from '../../navaid/view/navaid-view.module';
 import {WebcamViewModule} from '../../webcam/view/webcam-view.module';
 import {MeteoGramViewModule} from '../../meteo-gram/view/meteo-gram-view.module';
 import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.module';
+import {TrafficViewModule} from '../../traffic/view/traffic-view.module';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.mod
         MeteoSmaViewModule,
         NavaidViewModule,
         NotamViewModule,
+        TrafficViewModule,
         SearchViewModule,
         VerticalMapViewModule,
         WebcamViewModule,

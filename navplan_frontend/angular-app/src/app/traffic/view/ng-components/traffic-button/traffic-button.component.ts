@@ -4,10 +4,17 @@ import {TrafficActions} from '../../../state/ngrx/traffic.actions';
 import {getTrafficStatus} from '../../../state/ngrx/traffic.selectors';
 import {TrafficServiceStatus} from '../../../domain/model/traffic-service-status';
 import {ButtonStatus} from '../../../../common/view/model/button-status';
+import {StatusButtonComponent} from '../../../../common/view/ng-components/status-button/status-button.component';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-traffic-button',
+    standalone: true,
+    imports: [
+        CommonModule,
+        StatusButtonComponent
+    ],
     templateUrl: './traffic-button.component.html',
     styleUrls: ['./traffic-button.component.scss']
 })
