@@ -3,13 +3,13 @@ import {Action, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, map, mergeMap, withLatestFrom} from 'rxjs/operators';
-import {TrafficActions} from './traffic.actions';
-import {getTrafficState} from './traffic.selectors';
-import {TrafficState} from '../state-model/traffic-state';
-import {TrafficDetailsMerger} from '../../domain/service/traffic-details/traffic-details-merger';
-import {TrafficMap} from '../../domain/model/traffic-map';
-import {Traffic} from '../../domain/model/traffic';
-import {ITrafficDetailsService} from '../../domain/service/traffic-details/i-traffic-details-service';
+import {TrafficActions} from '../../../traffic/state/ngrx/traffic.actions';
+import {getTrafficState} from '../../../traffic/state/ngrx/traffic.selectors';
+import {TrafficState} from '../../../traffic/state/state-model/traffic-state';
+import {TrafficDetailsMerger} from '../../domain/service/traffic-details-merger';
+import {TrafficMap} from '../../../traffic/domain/model/traffic-map';
+import {Traffic} from '../../../traffic/domain/model/traffic';
+import {ITrafficDetailsService} from '../../domain/service/i-traffic-details-service';
 
 
 @Injectable()

@@ -1,6 +1,6 @@
 import {IRestTrafficDetailsResponse} from './i-rest-traffic-details-response';
 import {RestTrafficDetailsConverter} from './rest-traffic-details-converter';
-import {TrafficDetails} from '../../../domain/model/traffic-details';
+import {TrafficDetails} from '../../domain/model/traffic-details';
 
 
 export class RestTrafficDetailsResponseConverter {

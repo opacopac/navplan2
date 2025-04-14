@@ -1,8 +1,8 @@
 import {IRestTrafficDetails} from './i-rest-traffic-details';
-import {TrafficDetails} from '../../../domain/model/traffic-details';
+import {TrafficDetails} from '../../domain/model/traffic-details';
 import {IRestTrafficDetailsRequestItem} from './i-rest-traffic-details-request-item';
-import {Traffic} from '../../../domain/model/traffic';
-import {RestTrafficAddressConverter} from '../rest-traffic-address-converter';
+import {Traffic} from '../../../traffic/domain/model/traffic';
+import {RestTrafficAddressConverter} from '../../../traffic/rest/model/rest-traffic-address-converter';
 
 
 export class RestTrafficDetailsConverter {

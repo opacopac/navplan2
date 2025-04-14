@@ -1,4 +1,4 @@
-import {IRestTrafficAddress} from '../i-rest-traffic-address';
+import {IRestTrafficAddress} from '../../../traffic/rest/model/i-rest-traffic-address';
 
 
 export interface IRestTrafficDetails {

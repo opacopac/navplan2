@@ -1,7 +1,7 @@
 import {RestTrafficDetailsConverter} from './rest-traffic-details-converter';
-import {Traffic} from '../../../domain/model/traffic';
+import {Traffic} from '../../../traffic/domain/model/traffic';
 import {IRestTrafficDetailsRequest} from './i-rest-traffic-details-request';
-import {TrafficAddressType} from '../../../domain/model/traffic-address-type';
+import {TrafficAddressType} from '../../../traffic/domain/model/traffic-address-type';
 
 
 export class RestTrafficDetailsRequestConverter {

@@ -1,4 +1,4 @@
-import {TrafficAddress} from './traffic-address';
+import {TrafficAddress} from '../../../traffic/domain/model/traffic-address';
 
 
 export class TrafficDetails {
