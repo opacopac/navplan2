@@ -13,6 +13,7 @@ import {TimeUnit} from '../../../geo-physics/domain/model/quantities/time-unit';
 import {KalmanFilter} from 'kalman-filter';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 import {KalmanFilterConstAcc} from '../../../geo-physics/domain/service/kalman/kalman-filter-const-acc';
+import {HampelFilter} from '../../../geo-physics/domain/service/hampel/hampel-filter';
 
 
 export class TrackProfile {
@@ -34,13 +35,19 @@ export class TrackProfile {
     public readonly flightTime: Time;
 
     constructor(track: Track) {
-        //const posList = track.positionList;
-        //const posList = this.calcSmoothedPositions(track);
-        const posList = this.calcKalmanFilter2(track);
+        const posList = track.positionList;
+        // const posList = this.calcSmoothedPositions(track);
+        // const posList = this.calcKalmanFilter2(track);
 
         this.altitudeProfile = this.calculateAltitudeProfile(posList);
-        this.speedProfile = this.calculateSpeedProfile(posList);
-        this.verticalSpeedProfile = this.calculateVerticalSpeedProfile(posList);
+
+        // this.speedProfile = this.calculateSpeedProfile(posList);
+        const speedProfile = this.calculateSpeedProfile(posList);
+        this.speedProfile = this.filterAndSmoothSpeedProfile(speedProfile, 10, 50);
+
+        // this.verticalSpeedProfile = this.calculateVerticalSpeedProfile(posList);
+        const verticalSpeedProfile = this.calculateVerticalSpeedProfile(posList);
+        this.verticalSpeedProfile = this.filterAndSmoothVerticalSpeedProfile(verticalSpeedProfile, 10, 5000);
 
         this.maxAltitude = this.calculateMaxAltitude();
         this.maxSpeed = this.calculateMaxSpeed();
@@ -224,6 +231,18 @@ export class TrackProfile {
     }
 
 
+    private filterAndSmoothSpeedProfile(speedList: [Speed, Date][], window: number, thresholdKt: number): [Speed, Date][] {
+        const speedValues = speedList.map(speed => speed[0].kt);
+        const filteredSpeedValues = HampelFilter.filter(speedValues, window, thresholdKt);
+        const smoothedSpeedValues = StatisticsHelper.movingAverage(filteredSpeedValues, window);
+
+        return smoothedSpeedValues.map((speed, index) => {
+            const originalDate = speedList[index][1];
+            return [Speed.ofKt(speed), originalDate];
+        });
+    }
+
+
     private calculateVerticalSpeedProfile(posList: Position4d[]): [Speed, Date][] {
         const verticalSpeedProfile: [Speed, Date][] = [];
 
@@ -238,6 +257,18 @@ export class TrackProfile {
         }
 
         return verticalSpeedProfile;
+    }
+
+
+    private filterAndSmoothVerticalSpeedProfile(verticalSpeedList: [Speed, Date][], window: number, thresholdFpm: number): [Speed, Date][] {
+        const verticalSpeedValues = verticalSpeedList.map(vSpeed => vSpeed[0].fpm);
+        const filteredVerticalSpeedValues = HampelFilter.filter(verticalSpeedValues, window, thresholdFpm);
+        const smoothedVerticalSpeedValues = StatisticsHelper.movingAverage(filteredVerticalSpeedValues, window);
+
+        return smoothedVerticalSpeedValues.map((vSpeed, index) => {
+            const originalDate = verticalSpeedList[index][1];
+            return [Speed.ofFpm(vSpeed), originalDate];
+        });
     }
 
 
