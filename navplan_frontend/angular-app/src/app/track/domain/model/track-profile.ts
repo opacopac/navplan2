@@ -21,7 +21,8 @@ export class TrackProfile {
     private static readonly MIN_FLIGHT_SPEED = Speed.ofKt(35);
     private static readonly MIN_CONSECUTIVE_SPEEDS = 3;
     private static readonly OUTLIER_THRESHOLD = 5;
-    private static readonly AVERAGE_WINDOW_SIZE = 10;
+    private static readonly OUTLIER_WINDOW_SIZE = 10;
+    private static readonly AVERAGE_WINDOW_SIZE = 5;
 
     public readonly altitudeProfile: [Length, Date][];
     public readonly speedProfile: [Speed, Date][];
@@ -47,15 +48,17 @@ export class TrackProfile {
         // this.speedProfile = this.calculateSpeedProfile(posList);
         this.speedProfile = this.filterAndSmoothSpeedProfile(
             this.calculateSpeedProfile(posList),
-            TrackProfile.AVERAGE_WINDOW_SIZE,
-            TrackProfile.OUTLIER_THRESHOLD
+            TrackProfile.OUTLIER_WINDOW_SIZE,
+            TrackProfile.OUTLIER_THRESHOLD,
+            TrackProfile.AVERAGE_WINDOW_SIZE
         );
 
         // this.verticalSpeedProfile = this.calculateVerticalSpeedProfile(posList);
         this.verticalSpeedProfile = this.filterAndSmoothVerticalSpeedProfile(
             this.calculateVerticalSpeedProfile(posList),
-            TrackProfile.AVERAGE_WINDOW_SIZE,
-            TrackProfile.OUTLIER_THRESHOLD
+            TrackProfile.OUTLIER_WINDOW_SIZE,
+            TrackProfile.OUTLIER_THRESHOLD,
+            TrackProfile.AVERAGE_WINDOW_SIZE
         );
 
         this.maxAltitude = this.calculateMaxAltitude();
@@ -240,10 +243,10 @@ export class TrackProfile {
     }
 
 
-    private filterAndSmoothSpeedProfile(speedList: [Speed, Date][], window: number, thresholdKt: number): [Speed, Date][] {
+    private filterAndSmoothSpeedProfile(speedList: [Speed, Date][], window: number, threshold: number, averageWindow: number): [Speed, Date][] {
         const speedValues = speedList.map(speed => speed[0].kt);
-        const filteredSpeedValues = HampelFilter.filter(speedValues, window, thresholdKt);
-        const smoothedSpeedValues = StatisticsHelper.movingAverage(filteredSpeedValues, window);
+        const filteredSpeedValues = HampelFilter.filter(speedValues, window, threshold);
+        const smoothedSpeedValues = StatisticsHelper.movingAverage(filteredSpeedValues, averageWindow);
 
         return smoothedSpeedValues.map((speed, index) => {
             const originalDate = speedList[index][1];
@@ -269,10 +272,10 @@ export class TrackProfile {
     }
 
 
-    private filterAndSmoothVerticalSpeedProfile(verticalSpeedList: [Speed, Date][], window: number, thresholdFpm: number): [Speed, Date][] {
+    private filterAndSmoothVerticalSpeedProfile(verticalSpeedList: [Speed, Date][], window: number, threshold: number, averageWindow: number): [Speed, Date][] {
         const verticalSpeedValues = verticalSpeedList.map(vSpeed => vSpeed[0].fpm);
-        const filteredVerticalSpeedValues = HampelFilter.filter(verticalSpeedValues, window, thresholdFpm);
-        const smoothedVerticalSpeedValues = StatisticsHelper.movingAverage(filteredVerticalSpeedValues, window);
+        const filteredVerticalSpeedValues = HampelFilter.filter(verticalSpeedValues, window, threshold);
+        const smoothedVerticalSpeedValues = StatisticsHelper.movingAverage(filteredVerticalSpeedValues, averageWindow);
 
         return smoothedVerticalSpeedValues.map((vSpeed, index) => {
             const originalDate = verticalSpeedList[index][1];
