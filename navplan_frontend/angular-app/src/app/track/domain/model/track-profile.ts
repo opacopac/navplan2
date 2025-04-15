@@ -20,8 +20,7 @@ export class TrackProfile {
     private static readonly MIN_TAXI_SPEED = Speed.ofKt(5);
     private static readonly MIN_FLIGHT_SPEED = Speed.ofKt(35);
     private static readonly MIN_CONSECUTIVE_SPEEDS = 3;
-    private static readonly OUTLIER_THRESHOLD_SPEED_KT = 50;
-    private static readonly OUTLIER_THRESHOLD_VERTICAL_SPEED_FPM = 1000;
+    private static readonly OUTLIER_THRESHOLD = 5;
     private static readonly AVERAGE_WINDOW_SIZE = 10;
 
     public readonly altitudeProfile: [Length, Date][];
@@ -49,14 +48,14 @@ export class TrackProfile {
         this.speedProfile = this.filterAndSmoothSpeedProfile(
             this.calculateSpeedProfile(posList),
             TrackProfile.AVERAGE_WINDOW_SIZE,
-            TrackProfile.OUTLIER_THRESHOLD_SPEED_KT
+            TrackProfile.OUTLIER_THRESHOLD
         );
 
         // this.verticalSpeedProfile = this.calculateVerticalSpeedProfile(posList);
         this.verticalSpeedProfile = this.filterAndSmoothVerticalSpeedProfile(
             this.calculateVerticalSpeedProfile(posList),
             TrackProfile.AVERAGE_WINDOW_SIZE,
-            TrackProfile.OUTLIER_THRESHOLD_VERTICAL_SPEED_FPM
+            TrackProfile.OUTLIER_THRESHOLD
         );
 
         this.maxAltitude = this.calculateMaxAltitude();
