@@ -40,7 +40,7 @@ export class TrackProfile {
 
     constructor(track: Track) {
         const posList = track.positionList;
-        // const posList = this.calcSmoothedPositions(track);
+        // const posList = this.calcSmoothedPositions(track, TrackProfile.AVERAGE_WINDOW_SIZE);
         // const posList = this.calcKalmanFilter2(track);
 
         this.altitudeProfile = this.calculateAltitudeProfile(posList);
