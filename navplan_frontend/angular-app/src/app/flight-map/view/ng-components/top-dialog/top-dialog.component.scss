@@ -1,0 +1,21 @@
+.top-dialog-container {
+    position: fixed;
+    top: 54px;
+    left: 100px;
+    right: 100px;
+    height: 250px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transform: translateY(-100%);
+    transition: transform 300ms ease;
+    z-index: 1000;
+    overflow: auto;
+}
+
+.top-dialog.open {
+    transform: translateY(0);
+}
+
+.top-dialog-content {
+    padding: 16px;
+}

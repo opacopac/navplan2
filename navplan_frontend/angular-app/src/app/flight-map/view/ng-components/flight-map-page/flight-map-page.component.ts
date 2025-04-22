@@ -76,6 +76,7 @@ import {VerticalMapComponent} from '../../../../vertical-map/view/ng-components/
 import {MeteoContainerComponent} from '../meteo-container/meteo-container.component';
 import {CommonModule} from '@angular/common';
 import {TrafficButtonComponent} from '../../../../traffic/view/ng-components/traffic-button/traffic-button.component';
+import {TopDialogComponent} from '../top-dialog/top-dialog.component';
 
 
 @Component({
@@ -100,7 +101,8 @@ import {TrafficButtonComponent} from '../../../../traffic/view/ng-components/tra
         VerticalMapComponent,
         MeteoContainerComponent,
         MapPopupTrafficComponent,
-        TrafficButtonComponent
+        TrafficButtonComponent,
+        TopDialogComponent
     ],
     templateUrl: './flight-map-page.component.html',
     styleUrls: ['./flight-map-page.component.scss']
