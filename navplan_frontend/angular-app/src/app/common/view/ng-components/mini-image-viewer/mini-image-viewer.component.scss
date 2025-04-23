@@ -1,0 +1,28 @@
+.image-container {
+    width: 500px;
+    height: 300px;
+    overflow: auto; /* Enable scroll bars */
+    border: 1px solid #ccc;
+    position: relative; /* Position relative to contain absolutely positioned elements */
+}
+
+.image-container img {
+    display: block; /* Ensures the image doesn't exceed container size initially */
+    transition: transform 0.2s;
+}
+
+.controls {
+    position: absolute; /* Position buttons absolutely within the container */
+    top: 10px;
+    left: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+button {
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+    border-radius: 5px;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+}
