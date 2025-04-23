@@ -13,6 +13,7 @@
 
 .controls {
     position: fixed;
+    margin: 10px;
     display: flex;
     gap: 5px;
     z-index: 1; /* Ensure buttons are above the image */
