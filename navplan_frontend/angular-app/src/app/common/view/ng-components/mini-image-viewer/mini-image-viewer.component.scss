@@ -12,11 +12,10 @@
 }
 
 .controls {
-    position: absolute; /* Position buttons absolutely within the container */
-    top: 10px;
-    left: 10px;
+    position: fixed;
     display: flex;
     gap: 5px;
+    z-index: 1; /* Ensure buttons are above the image */
 }
 
 button {
