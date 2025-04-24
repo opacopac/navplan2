@@ -4,19 +4,21 @@ import {MatButton} from '@angular/material/button';
 import {MatStepperModule} from '@angular/material/stepper';
 import {FormBuilder, Validators} from '@angular/forms';
 import {FlightMapActions} from '../../../../flight-map/state/ngrx/flight-map.actions';
+import {FileUploadComponent} from '../../../../common/view/ng-components/file-upload/file-upload.component';
 
 
 @Component({
-    selector: 'app-upload-chart-container',
+    selector: 'app-chart-upload-container',
     standalone: true,
     imports: [
         MatButton,
-        MatStepperModule
+        MatStepperModule,
+        FileUploadComponent
     ],
-    templateUrl: './upload-chart-container.component.html',
-    styleUrls: ['./upload-chart-container.component.scss']
+    templateUrl: './chart-upload-container.component.html',
+    styleUrls: ['./chart-upload-container.component.scss']
 })
-export class UploadChartContainerComponent implements OnInit {
+export class ChartUploadContainerComponent implements OnInit {
     protected firstFormGroup = this.formBuilder.group({
         firstCtrl: ['', Validators.required],
     });

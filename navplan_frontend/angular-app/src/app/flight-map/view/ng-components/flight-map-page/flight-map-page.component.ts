@@ -109,8 +109,8 @@ import {CommonModule} from '@angular/common';
 import {TrafficButtonComponent} from '../../../../traffic/view/ng-components/traffic-button/traffic-button.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {
-    UploadChartContainerComponent
-} from '../../../../aerodrome-charts/view/ng-components/upload-chart-container/upload-chart-container.component';
+    ChartUploadContainerComponent
+} from '../../../../aerodrome-charts/view/ng-components/upload-chart-container/chart-upload-container.component';
 
 
 @Component({
@@ -137,7 +137,7 @@ import {
         MeteoContainerComponent,
         MapPopupTrafficComponent,
         TrafficButtonComponent,
-        UploadChartContainerComponent,
+        ChartUploadContainerComponent,
     ],
     templateUrl: './flight-map-page.component.html',
     styleUrls: ['./flight-map-page.component.scss']

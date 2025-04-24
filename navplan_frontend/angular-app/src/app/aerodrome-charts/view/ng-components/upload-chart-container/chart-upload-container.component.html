@@ -4,16 +4,17 @@
         [linear]="false"
     >
         <mat-step [stepControl]="firstFormGroup" label="Upload File">
+            <app-file-upload/>
             <!--<form [formGroup]="firstFormGroup">
                 <ng-template matStepLabel>Fill out your name</ng-template>
                 <mat-form-field>
                     <mat-label>Name</mat-label>
                     <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
                 </mat-form-field>-->
-                <div>
-                    <button mat-button (click)="this.onCancelClicked()">Cancel</button>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
+            <div>
+                <button mat-button (click)="this.onCancelClicked()">Cancel</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
             <!--</form>-->
         </mat-step>
         <mat-step [stepControl]="secondFormGroup" label="Fill out your address">
@@ -23,10 +24,10 @@
                     <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
                            required>
                 </mat-form-field>-->
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
             <!--</form>-->
         </mat-step>
         <mat-step>

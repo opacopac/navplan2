@@ -1,0 +1,24 @@
+<div class="upload-container"
+     (dragover)="this.onDragOver($event)"
+     (drop)="this.onDrop($event)"
+     (dragleave)="this.onDragLeave($event)"
+     [class.dragover]="this.isDragOver">
+
+    <mat-icon class="upload-icon">cloud_upload</mat-icon>
+    <p>Drag & Drop your file here</p>
+    <p>or</p>
+
+    <button mat-raised-button color="primary" (click)="fileInput.click()">
+        <mat-icon>upload</mat-icon>
+        Choose File
+    </button>
+
+    <input type="file" hidden (change)="this.onFileSelected($event)" #fileInput/>
+</div>
+
+@if (this.selectedFile) {
+    <div class="file-info">
+        <p><strong>Selected:</strong> {{ this.selectedFile.name }}</p>
+        <button mat-button color="warn" (click)="this.clearFile()">Clear</button>
+    </div>
+}

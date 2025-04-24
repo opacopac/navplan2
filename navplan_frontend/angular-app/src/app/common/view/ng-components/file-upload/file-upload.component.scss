@@ -1,0 +1,22 @@
+.upload-container {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.upload-container.dragover {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.upload-icon {
+    font-size: 48px;
+    color: #2196f3;
+}
+
+.file-info {
+    margin-top: 15px;
+}
