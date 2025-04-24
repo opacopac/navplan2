@@ -21,6 +21,6 @@ export const airportChartReducer = createReducer(
     })),
     on(AirportChartActions.uploadAirportChartSuccess, (state, action) => ({
         ...state,
-        uploadedChart: action.chartInfo
+        uploadedChartInfo: action.chartInfo
     }))
 );
