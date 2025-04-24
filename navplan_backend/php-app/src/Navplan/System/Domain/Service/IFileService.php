@@ -19,4 +19,6 @@ interface IFileService {
     function createTempDir(): string;
 
     function glob(string $directory, int $flags): array|false;
+
+    function moveUploadedFile(string $from, string $to): bool;
 }

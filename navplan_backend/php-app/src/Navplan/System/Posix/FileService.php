@@ -106,6 +106,12 @@ class FileService implements IFileService
     }
 
 
+    public function moveUploadedFile(string $from, string $to): bool
+    {
+        return move_uploaded_file($from, $to);
+    }
+
+
     private function cleanUpTempDirs()
     {
         $tmpDirEntries = scandir($this->getTempDirBase());

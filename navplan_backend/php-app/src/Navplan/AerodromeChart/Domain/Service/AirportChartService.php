@@ -17,13 +17,30 @@ class AirportChartService implements IAirportChartService
 
     function uploadAdChart(UploadedFileInfo $fileInfo): UploadedChartInfo
     {
-        // TODO: Implement uploadAdChart() method.
+        if ($fileInfo->errorCode !== UPLOAD_ERR_OK) {
+            return new UploadedChartInfo(
+                false,
+                "Upload error code: " . $fileInfo->errorCode,
+                "",
+                "",
+                ""
+            );
+        }
+
+        $tmpDir = $this->fileService->createTempDir();
+        $destination = $this->fileService->getTempDirBase() . $tmpDir . "/" . $fileInfo->name;
+        $moveSuccess = $this->fileService->moveUploadedFile($fileInfo->tmpName, $destination);
+
+        if (!$moveSuccess) {
+            return new UploadedChartInfo(false, "could not move uploaded file", "", "", "");
+        }
+
         return new UploadedChartInfo(
-            $fileInfo->errorCode === UPLOAD_ERR_OK,
+            true,
             $this->getMessage($fileInfo),
             $fileInfo->name,
             $fileInfo->type,
-            $fileInfo->fullPath
+            $tmpDir . "/" . $fileInfo->name
         );
     }
 
