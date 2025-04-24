@@ -45,4 +45,13 @@ export class FlightMapActions {
         '[FlightMapPage] Select meteo layer',
         props<{ meteoLayer: MeteoLayer }>()
     );
+
+    public static readonly showSidebar = createAction(
+        '[FlightMapPage] Show sidebar',
+        props<{ airportId: number }>()
+    );
+
+    public static readonly hideSidebar = createAction(
+        '[FlightMapPage] Hide sidebar',
+    );
 }

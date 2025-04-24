@@ -8,4 +8,5 @@ export interface FlightMapState {
     showMapLayerSelection: boolean;
     showMeteoLayer: boolean;
     meteoLayer: MeteoLayer;
+    showSidebar: boolean;
 }

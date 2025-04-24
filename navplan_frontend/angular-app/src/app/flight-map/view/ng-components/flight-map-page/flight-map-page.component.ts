@@ -32,7 +32,8 @@ import {Subscription} from 'rxjs/internal/Subscription';
 import {
     getFlightMapShowMeteoLayer,
     getFlightMapShowOverlay,
-    getShowMapLayerSelection
+    getShowMapLayerSelection,
+    getShowSidebar
 } from '../../../state/ngrx/flight-map.selectors';
 import {OlAirportContainer} from '../../../../aerodrome/view/ol-components/ol-airport-container';
 import {
@@ -107,6 +108,9 @@ import {MeteoContainerComponent} from '../meteo-container/meteo-container.compon
 import {CommonModule} from '@angular/common';
 import {TrafficButtonComponent} from '../../../../traffic/view/ng-components/traffic-button/traffic-button.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {
+    UploadChartContainerComponent
+} from '../../../../aerodrome-charts/view/ng-components/upload-chart-container/upload-chart-container.component';
 
 
 @Component({
@@ -114,6 +118,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     standalone: true,
     imports: [
         CommonModule,
+        MatSidenavModule,
         OlMapContainerComponent,
         MapPopupComponent,
         MapOverlayAirspaceStructureComponent,
@@ -132,7 +137,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
         MeteoContainerComponent,
         MapPopupTrafficComponent,
         TrafficButtonComponent,
-        MatSidenavModule,
+        UploadChartContainerComponent,
     ],
     templateUrl: './flight-map-page.component.html',
     styleUrls: ['./flight-map-page.component.scss']
@@ -160,14 +165,15 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private olOwnPlane: OlOwnPlaneContainer;
     private olSmaMeasurementsContainer: OlSmaMeasurementContainer;
     private olDwdForecastContainer: OlDwdForecastContainer;
-    private flightroute$ = this.appStore.pipe(select(getFlightroute));
+    private readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
     private readonly showOverlay$: Observable<OverlayState> = this.appStore.pipe(select(getFlightMapShowOverlay));
-    public readonly showMeteoLayer$: Observable<boolean> = this.appStore.pipe(select(getFlightMapShowMeteoLayer));
     private readonly verticalMapState$ = this.appStore.pipe(select(getVerticalMapState));
-    public readonly showVerticalMapButton$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
-    public readonly showVerticalMap$ = this.verticalMapState$.pipe(map(state => state.buttonStatus === VerticalMapButtonStatus.CURRENT));
-    public readonly showMapLayerSelection$ = this.appStore.pipe(select(getShowMapLayerSelection));
-    public readonly showAttributions$ = this.appStore.pipe(select(getShowAttributions));
+    protected readonly showMeteoLayer$: Observable<boolean> = this.appStore.pipe(select(getFlightMapShowMeteoLayer));
+    protected readonly showVerticalMapButton$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
+    protected readonly showVerticalMap$ = this.verticalMapState$.pipe(map(state => state.buttonStatus === VerticalMapButtonStatus.CURRENT));
+    protected readonly showMapLayerSelection$ = this.appStore.pipe(select(getShowMapLayerSelection));
+    protected readonly showAttributions$ = this.appStore.pipe(select(getShowAttributions));
+    protected readonly showSidebar$ = this.appStore.pipe(select(getShowSidebar));
 
 
     constructor(

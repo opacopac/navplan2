@@ -1,34 +1,34 @@
 <h3 mat-dialog-title>{{ this.title }}</h3>
 <div mat-dialog-content>
-  <ng-content></ng-content>
+    <ng-content></ng-content>
 </div>
 <div mat-dialog-actions class="action-buttons">
-  <button
-    mat-raised-button
-    color="primary"
-    type="submit"
-    (click)="this.onSaveClicked()"
-    [disabled]="!this.isFormValid"
-    >
-    {{ this.saveButtonText }}
-  </button>
-  <button
-    mat-raised-button
-    color="accent"
-    type="button"
-    (click)="this.onCancelClicked()"
-    >
-    {{ this.cancelButtonText }}
-  </button>
-  @if (this.showDeleteButton) {
     <button
-      mat-raised-button
-      color="warn"
-      type="submit"
-      class="align-right"
-      (click)="this.onDeleteClicked()"
-      >
-      <i class="fa-regular fa-trash-can"></i>&nbsp;{{ this.deleteButtonText }}
+        mat-raised-button
+        color="primary"
+        type="submit"
+        (click)="this.onSaveClicked()"
+        [disabled]="!this.isFormValid"
+    >
+        {{ this.saveButtonText }}
     </button>
-  }
+    <button
+        mat-raised-button
+        color="accent"
+        type="button"
+        (click)="this.onCancelClicked()"
+    >
+        {{ this.cancelButtonText }}
+    </button>
+    @if (this.showDeleteButton) {
+        <button
+            mat-raised-button
+            color="warn"
+            type="submit"
+            class="align-right"
+            (click)="this.onDeleteClicked()"
+        >
+            <i class="fa-regular fa-trash-can"></i>&nbsp;{{ this.deleteButtonText }}
+        </button>
+    }
 </div>

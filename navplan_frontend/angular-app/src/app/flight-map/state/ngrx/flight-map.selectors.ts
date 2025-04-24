@@ -8,3 +8,4 @@ export const getFlightMapShowMeteoLayer = createSelector(getFlightMapState, stat
 export const getFlightMapMeteoLayer = createSelector(getFlightMapState, state => state.meteoLayer);
 export const getFlightMapShowFullScreen = createSelector(getFlightMapState, state => state.showFullScreen);
 export const getShowMapLayerSelection = createSelector(getFlightMapState, state => state.showMapLayerSelection);
+export const getShowSidebar = createSelector(getFlightMapState, state => state.showSidebar);

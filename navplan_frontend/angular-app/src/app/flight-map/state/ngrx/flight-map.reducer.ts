@@ -17,7 +17,8 @@ const initialState: FlightMapState = {
     showFullScreen: false,
     showMapLayerSelection: false,
     showMeteoLayer: false,
-    meteoLayer: MeteoLayer.SmaStationsLayer
+    meteoLayer: MeteoLayer.SmaStationsLayer,
+    showSidebar: false
 };
 
 
@@ -55,5 +56,14 @@ export const flightMapReducer = createReducer(
     on(FlightMapActions.selectMeteoLayer, (state, action) => ({
         ...state,
         meteoLayer: action.meteoLayer
+    })),
+    on(FlightMapActions.showSidebar, (state, action) => ({
+        ...state,
+        showSidebar: true,
+        airportId: action.airportId
+    })),
+    on(FlightMapActions.hideSidebar, (state) => ({
+        ...state,
+        showSidebar: false
     }))
 );

@@ -4,9 +4,9 @@
         class="drawer"
         mode="side"
         position="end"
-        [opened]="false"
+        [opened]="this.showSidebar$ | async"
     >
-        TODO: drawer content
+        <app-upload-chart-container/>
     </mat-drawer>
     <!-- base map -->
     <div class="base-map-container">
