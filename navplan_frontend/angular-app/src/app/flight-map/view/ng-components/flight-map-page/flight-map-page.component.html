@@ -1,4 +1,13 @@
-<div class="map-page-container">
+<mat-drawer-container class="map-page-container">
+    <mat-drawer
+        #drawer
+        class="drawer"
+        mode="side"
+        position="end"
+        [opened]="false"
+    >
+        TODO: drawer content
+    </mat-drawer>
     <!-- base map -->
     <div class="base-map-container">
         <app-ol-map-container/>
@@ -55,4 +64,4 @@
             <app-meteo-container/>
         }
     </div>
-</div>
+</mat-drawer-container>
