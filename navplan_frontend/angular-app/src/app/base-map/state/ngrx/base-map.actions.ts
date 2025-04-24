@@ -2,7 +2,7 @@ import {createAction, props} from '@ngrx/store';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
-import {DataItem} from '../../../common/model/data-item';
+import {DataItem} from '../../../common/domain/model/data-item';
 import {MapBaseLayerType} from '../../domain/model/map-base-layer-type';
 
 

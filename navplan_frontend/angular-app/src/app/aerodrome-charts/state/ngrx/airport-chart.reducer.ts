@@ -4,7 +4,8 @@ import {AirportChartState} from '../state-model/airport-chart-state';
 
 
 const initialState: AirportChartState = {
-    airportCharts: []
+    airportCharts: [],
+    uploadedChartInfo: null
 };
 
 
@@ -12,10 +13,14 @@ export const airportChartReducer = createReducer(
     initialState,
     on(AirportChartActions.showAirportChart, (state, action) => ({
         ...state,
-        airportCharts: [...state.airportCharts, action.chart ]
+        airportCharts: [...state.airportCharts, action.chart]
     })),
     on(AirportChartActions.closeAirportChart, (state, action) => ({
         ...state,
-        airportCharts: [ ...state.airportCharts.filter(chart => chart.id !== action.chartId) ]
+        airportCharts: [...state.airportCharts.filter(chart => chart.id !== action.chartId)]
     })),
+    on(AirportChartActions.uploadAirportChartSuccess, (state, action) => ({
+        ...state,
+        uploadedChart: action.chartInfo
+    }))
 );

@@ -4,7 +4,7 @@ import {filter, map, switchMap, take, tap, withLatestFrom} from 'rxjs/operators'
 import {combineLatest, Observable, of, pipe} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
-import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {DataItem, DataItemType} from '../../../common/domain/model/data-item';
 import {FlightMapActions} from './flight-map.actions';
 import {getFlightMapState} from './flight-map.selectors';
 import {SearchActions} from '../../../search/state/ngrx/search.actions';

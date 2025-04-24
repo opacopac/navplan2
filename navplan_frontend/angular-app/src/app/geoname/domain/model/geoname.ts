@@ -1,4 +1,4 @@
-import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {DataItem, DataItemType} from '../../../common/domain/model/data-item';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
 import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';

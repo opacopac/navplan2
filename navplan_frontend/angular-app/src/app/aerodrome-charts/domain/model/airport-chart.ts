@@ -1,5 +1,5 @@
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
-import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {DataItem, DataItemType} from '../../../common/domain/model/data-item';
 
 
 export class AirportChart extends DataItem {

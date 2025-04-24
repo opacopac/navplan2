@@ -1,4 +1,4 @@
-import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {DataItem, DataItemType} from '../../../common/domain/model/data-item';
 import {NotamLocationType} from './notam-location-type';
 import {NotamGeometry} from './notam-geometry';
 

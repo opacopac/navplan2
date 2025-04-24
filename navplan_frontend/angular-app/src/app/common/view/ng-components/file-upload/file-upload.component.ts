@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {UploadedChartInfo} from '../../../../aerodrome-charts/domain/model/uploaded-chart-info';
 
 
 @Component({
@@ -16,6 +17,9 @@ import {MatIconModule} from '@angular/material/icon';
     styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {
+    @Input() uploadedChartInfo: UploadedChartInfo;
+    @Output() fileUploaded = new EventEmitter<File>();
+
     protected selectedFile: File | null = null;
     protected isDragOver = false;
 
@@ -61,5 +65,14 @@ export class FileUploadComponent implements OnInit {
 
     protected clearFile() {
         this.selectedFile = null;
+    }
+
+
+    protected uploadFile() {
+        if (!this.selectedFile) {
+            return;
+        }
+
+        this.fileUploaded.emit(this.selectedFile);
     }
 }

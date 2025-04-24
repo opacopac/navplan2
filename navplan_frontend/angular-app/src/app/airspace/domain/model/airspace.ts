@@ -1,5 +1,5 @@
 import {Polygon} from '../../../geo-physics/domain/model/geometry/polygon';
-import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {DataItem, DataItemType} from '../../../common/domain/model/data-item';
 import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';
 import {Clonable} from '../../../system/domain/model/clonable';
 

@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {MetarTaf} from '../../../../metar-taf/domain/model/metar-taf';
-import {DataItem} from '../../../../common/model/data-item';
+import {DataItem} from '../../../../common/domain/model/data-item';
 import {Airport} from '../../../../aerodrome/domain/model/airport';
 import {Navaid} from '../../../../navaid/domain/model/navaid';
 import {Geoname} from '../../../../geoname/domain/model/geoname';

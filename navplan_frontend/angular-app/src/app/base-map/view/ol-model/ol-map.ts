@@ -5,7 +5,7 @@ import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {AngleUnit} from '../../../geo-physics/domain/model/quantities/angle-unit';
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {Observable, Subject} from 'rxjs';
-import {DataItem} from '../../../common/model/data-item';
+import {DataItem} from '../../../common/domain/model/data-item';
 import {ObjectEvent} from 'ol/Object';
 import {Pixel} from 'ol/pixel';
 import {OlFeature} from './ol-feature';

@@ -21,4 +21,14 @@
         <p><strong>Selected:</strong> {{ this.selectedFile.name }}</p>
         <button mat-button color="warn" (click)="this.clearFile()">Clear</button>
     </div>
+
+    <div>
+        <button mat-raised-button color="accent" (click)="this.uploadFile()">Upload</button>
+    </div>
+}
+
+@if (this.uploadedChartInfo) {
+    <div>
+        <p>{{ this.uploadedChartInfo.message }}</p>
+    </div>
 }

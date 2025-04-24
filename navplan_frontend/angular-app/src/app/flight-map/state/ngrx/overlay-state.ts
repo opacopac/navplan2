@@ -1,4 +1,4 @@
-import {DataItem} from '../../../common/model/data-item';
+import {DataItem} from '../../../common/domain/model/data-item';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {MetarTaf} from '../../../metar-taf/domain/model/metar-taf';
 import {Notam} from '../../../notam/domain/model/notam';

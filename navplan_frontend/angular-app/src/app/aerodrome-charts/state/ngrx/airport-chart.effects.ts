@@ -51,4 +51,17 @@ export class AirportChartEffects {
         ofType(AirportChartActions.closeAllAirportCharts),
         map(action => BaseMapActions.closeAllImages())
     ));
+
+
+    uploadAirportChartAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportChartActions.uploadAirportChart),
+        switchMap(action => this.airportChartService.uploadAdChart(action.file)),
+        catchError(error => {
+            LoggingService.logResponseError('ERROR uploading airport chart', error);
+            return throwError(error);
+        }),
+        map(uploadedChartInfo => AirportChartActions.uploadAirportChartSuccess({
+            chartInfo: uploadedChartInfo
+        }))
+    ));
 }

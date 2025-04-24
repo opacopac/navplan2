@@ -1,4 +1,4 @@
-import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {DataItem, DataItemType} from '../../../common/domain/model/data-item';
 import {Polygon} from '../../../geo-physics/domain/model/geometry/polygon';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 

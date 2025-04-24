@@ -1,7 +1,7 @@
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {IPointSearchResult} from './i-point-search-result';
 import {Geoname} from '../../../geoname/domain/model/geoname';
-import {DataItem} from '../../../common/model/data-item';
+import {DataItem} from '../../../common/domain/model/data-item';
 
 
 export class GeonameSearchResult implements IPointSearchResult {

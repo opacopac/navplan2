@@ -8,6 +8,9 @@ import {AirportChart} from '../../domain/model/airport-chart';
 import {IAirportChartRepoService} from '../../domain/service/i-airport-chart-repo.service';
 import {RestAirportChart2Converter} from '../converter/rest-airport-chart2-converter';
 import {IRestAirportChart2} from '../model/i-rest-airport-chart2';
+import {IRestUploadAdChartInfo} from '../model/i-rest-upload-ad-chart-info';
+import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
+import {RestUploadedChartInfoConverter} from '../converter/rest-uploaded-chart-info-converter';
 
 
 @Injectable()
@@ -22,9 +25,27 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
         return this.http
             .get<IRestAirportChart2>(url)
             .pipe(
-                map((response) => RestAirportChart2Converter.fromRest(response)),
+                map(response => RestAirportChart2Converter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading airport chart by id', err);
+                    return throwError(err);
+                })
+            );
+    }
+
+
+    public uploadAdChart(file: File): Observable<UploadedChartInfo> {
+        const url = environment.airportChartApiBaseUrl;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        return this.http
+            .post<IRestUploadAdChartInfo>(url, formData)
+            .pipe(
+                map(response => RestUploadedChartInfoConverter.fromRest(response)),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR uploading airport chart', err);
                     return throwError(err);
                 })
             );

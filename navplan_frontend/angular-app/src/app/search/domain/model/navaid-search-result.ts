@@ -1,7 +1,7 @@
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {IPointSearchResult} from './i-point-search-result';
 import {Navaid} from '../../../navaid/domain/model/navaid';
-import {DataItem} from '../../../common/model/data-item';
+import {DataItem} from '../../../common/domain/model/data-item';
 
 
 export class NavaidSearchResult implements IPointSearchResult {

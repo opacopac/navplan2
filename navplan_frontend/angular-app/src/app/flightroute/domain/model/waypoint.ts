@@ -6,7 +6,7 @@ import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {TimeUnit} from '../../../geo-physics/domain/model/quantities/time-unit';
 import {Time} from '../../../geo-physics/domain/model/quantities/time';
-import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {DataItem, DataItemType} from '../../../common/domain/model/data-item';
 import {AngleUnit} from '../../../geo-physics/domain/model/quantities/angle-unit';
 
 

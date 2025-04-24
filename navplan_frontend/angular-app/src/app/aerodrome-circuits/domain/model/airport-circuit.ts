@@ -1,4 +1,4 @@
-import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {DataItem, DataItemType} from '../../../common/domain/model/data-item';
 import {MultiLineString} from '../../../geo-physics/domain/model/geometry/multi-line-string';
 
 

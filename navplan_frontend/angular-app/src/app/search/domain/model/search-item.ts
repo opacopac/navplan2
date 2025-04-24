@@ -4,7 +4,7 @@ import {Airport} from '../../../aerodrome/domain/model/airport';
 import {ReportingPoint} from '../../../aerodrome-reporting/domain/model/reporting-point';
 import {ReportingSector} from '../../../aerodrome-reporting/domain/model/reporting-sector';
 import {Geoname} from '../../../geoname/domain/model/geoname';
-import {DataItem} from '../../../common/model/data-item';
+import {DataItem} from '../../../common/domain/model/data-item';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 
 

@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
-import {DataItem} from '../../../../common/model/data-item';
+import {DataItem} from '../../../../common/domain/model/data-item';
 import {BaseMapActions} from '../../../state/ngrx/base-map.actions';
 import {Angle} from '../../../../geo-physics/domain/model/quantities/angle';
 import Overlay from 'ol/Overlay';

@@ -1,6 +1,6 @@
 import {Observable} from 'rxjs';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
-import {DataItem} from '../../../common/model/data-item';
+import {DataItem} from '../../../common/domain/model/data-item';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {ShowImageState} from '../../state/state-model/show-image-state';

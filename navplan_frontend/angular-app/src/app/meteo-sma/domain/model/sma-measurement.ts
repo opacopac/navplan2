@@ -5,7 +5,7 @@ import {Time} from '../../../geo-physics/domain/model/quantities/time';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {Pressure} from '../../../geo-physics/domain/model/quantities/pressure';
-import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {DataItem, DataItemType} from '../../../common/domain/model/data-item';
 
 
 export class SmaMeasurement extends DataItem {

@@ -1,6 +1,6 @@
 import {Geometry} from 'ol/geom';
 import {Feature} from 'ol';
-import {DataItem} from '../../../common/model/data-item';
+import {DataItem} from '../../../common/domain/model/data-item';
 import {Style} from 'ol/style';
 import {OlGeometry} from './ol-geometry';
 

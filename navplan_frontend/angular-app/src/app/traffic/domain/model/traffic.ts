@@ -1,4 +1,4 @@
-import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {DataItem, DataItemType} from '../../../common/domain/model/data-item';
 import {TrafficPosition} from './traffic-position';
 import {Clonable} from '../../../system/domain/model/clonable';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';

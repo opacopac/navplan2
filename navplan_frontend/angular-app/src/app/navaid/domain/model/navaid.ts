@@ -1,5 +1,5 @@
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
-import {DataItem, DataItemType} from '../../../common/model/data-item';
+import {DataItem, DataItemType} from '../../../common/domain/model/data-item';
 import {NavaidType} from './navaid-type';
 import {Frequency} from '../../../geo-physics/domain/model/quantities/frequency';
 import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';

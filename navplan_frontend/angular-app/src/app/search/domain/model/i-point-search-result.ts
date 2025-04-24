@@ -1,5 +1,5 @@
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
-import {DataItem} from '../../../common/model/data-item';
+import {DataItem} from '../../../common/domain/model/data-item';
 
 
 export interface IPointSearchResult {

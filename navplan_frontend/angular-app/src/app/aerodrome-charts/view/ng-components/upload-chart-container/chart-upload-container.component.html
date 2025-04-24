@@ -4,7 +4,10 @@
         [linear]="false"
     >
         <mat-step [stepControl]="firstFormGroup" label="Upload File">
-            <app-file-upload/>
+            <app-file-upload
+                [uploadedChartInfo]="this.uploadedChartInfo$ | async"
+                (fileUploaded)="this.onFileUploaded($event)"
+            />
             <!--<form [formGroup]="firstFormGroup">
                 <ng-template matStepLabel>Fill out your name</ng-template>
                 <mat-form-field>
