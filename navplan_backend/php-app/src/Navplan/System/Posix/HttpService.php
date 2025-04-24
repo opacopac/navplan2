@@ -26,6 +26,11 @@ class HttpService implements IHttpService {
     }
 
 
+    public function getFileArgs(): array {
+        return $_FILES;
+    }
+
+
     public function getCookies(): array {
         return $_COOKIE;
     }

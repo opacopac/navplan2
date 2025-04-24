@@ -132,6 +132,7 @@ class ProdNavplanDiContainer
         if (!isset($this->aerodromeChartDiContainer)) {
             $this->aerodromeChartDiContainer = new ProdAerodromeChartDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getFileService(),
                 $this->getSystemDiContainer()->getHttpService()
             );
         }
