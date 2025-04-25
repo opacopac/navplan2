@@ -11,6 +11,7 @@ use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
+use Navplan\System\Domain\Service\IImageService;
 
 
 class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
@@ -23,6 +24,7 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
     public function __construct(
         private IDbService $dbService,
         private IFileService $fileService,
+        private IImageService $imageService,
         private IHttpService $httpService
     )
     {
@@ -46,7 +48,10 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
     function getAirportChartService(): IAirportChartService
     {
         if (!isset($this->airportChartService)) {
-            $this->airportChartService = new AirportChartService($this->fileService);
+            $this->airportChartService = new AirportChartService(
+                $this->fileService,
+                $this->imageService
+            );
         }
 
         return $this->airportChartService;

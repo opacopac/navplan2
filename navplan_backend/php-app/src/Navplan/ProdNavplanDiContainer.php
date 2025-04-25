@@ -133,6 +133,7 @@ class ProdNavplanDiContainer
             $this->aerodromeChartDiContainer = new ProdAerodromeChartDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getFileService(),
+                $this->getSystemDiContainer()->getImageService(),
                 $this->getSystemDiContainer()->getHttpService()
             );
         }
