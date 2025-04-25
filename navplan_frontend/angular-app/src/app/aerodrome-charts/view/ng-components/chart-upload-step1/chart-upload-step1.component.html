@@ -1,0 +1,29 @@
+<div>
+    <!-- file upload area -->
+    <app-file-upload
+        [autoUpload]="true"
+        [uploadedChartInfo]="this.uploadedChartInfo"
+        (fileUploaded)="this.onFileUploaded($event)"
+    />
+
+    <!-- file upload progress -->
+    @if (this.isUploading) {
+        <div class="upload-progress">
+            <mat-spinner diameter="30"></mat-spinner>
+            <p>Uploading Chart...</p>
+        </div>
+    }
+
+    <!-- input fields -->
+    <div>
+        <mat-form-field>
+            <mat-label>Chart Name</mat-label>
+            <input matInput placeholder="Enter chart name" formControlName="chartNameCtrl" required>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Chart Type</mat-label>
+            <input matInput placeholder="Enter chart type" formControlName="chartTypeCtrl" required>
+        </mat-form-field>
+    </div>
+</div>

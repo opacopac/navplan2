@@ -4,10 +4,9 @@
         [linear]="false"
     >
         <mat-step [stepControl]="firstFormGroup" label="Upload File">
-            <app-file-upload
-                [autoUpload]="true"
-                [uploadedChartInfo]="this.uploadedChartInfo$ | async"
+            <app-chart-upload-step1
                 [isUploading]="this.isUploading$ | async"
+                [uploadedChartInfo]="this.uploadedChartInfo$ | async"
                 (fileUploaded)="this.onFileUploaded($event)"
             />
             <!--<form [formGroup]="firstFormGroup">

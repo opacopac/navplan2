@@ -110,7 +110,7 @@ import {TrafficButtonComponent} from '../../../../traffic/view/ng-components/tra
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {
     ChartUploadContainerComponent
-} from '../../../../aerodrome-charts/view/ng-components/upload-chart-container/chart-upload-container.component';
+} from '../../../../aerodrome-charts/view/ng-components/chart-upload-container/chart-upload-container.component';
 
 
 @Component({

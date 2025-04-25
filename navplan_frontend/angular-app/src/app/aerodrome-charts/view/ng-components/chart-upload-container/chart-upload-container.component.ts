@@ -4,10 +4,10 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatStepperModule} from '@angular/material/stepper';
 import {FormBuilder, Validators} from '@angular/forms';
 import {FlightMapActions} from '../../../../flight-map/state/ngrx/flight-map.actions';
-import {FileUploadComponent} from '../../../../common/view/ng-components/file-upload/file-upload.component';
 import {getIsUploading, getUploadedChartInfo} from '../../../state/ngrx/airport-chart.selectors';
 import {AirportChartActions} from '../../../state/ngrx/airport-chart.actions';
 import {CommonModule} from '@angular/common';
+import {ChartUploadStep1Component} from '../chart-upload-step1/chart-upload-step1.component';
 
 
 @Component({
@@ -17,7 +17,7 @@ import {CommonModule} from '@angular/common';
         CommonModule,
         MatButtonModule,
         MatStepperModule,
-        FileUploadComponent
+        ChartUploadStep1Component
     ],
     templateUrl: './chart-upload-container.component.html',
     styleUrls: ['./chart-upload-container.component.scss']

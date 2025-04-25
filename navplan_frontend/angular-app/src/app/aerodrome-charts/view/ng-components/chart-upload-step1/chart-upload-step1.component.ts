@@ -1,0 +1,44 @@
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {UploadedChartInfo} from '../../../domain/model/uploaded-chart-info';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {FileUploadComponent} from '../../../../common/view/ng-components/file-upload/file-upload.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+
+
+@Component({
+    selector: 'app-chart-upload-step1',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatIconModule,
+        MatButtonModule,
+        MatProgressSpinnerModule,
+        FileUploadComponent,
+        MatFormFieldModule,
+        MatInputModule
+    ],
+    templateUrl: './chart-upload-step1.component.html',
+    styleUrls: ['./chart-upload-step1.component.scss']
+})
+export class ChartUploadStep1Component implements OnInit {
+    @Input() uploadedChartInfo: UploadedChartInfo;
+    @Input() isUploading: boolean;
+    @Output() fileUploaded = new EventEmitter<File>();
+
+
+    constructor() {
+    }
+
+
+    ngOnInit() {
+    }
+
+
+    protected onFileUploaded(file: File) {
+        this.fileUploaded.emit(file);
+    }
+}
