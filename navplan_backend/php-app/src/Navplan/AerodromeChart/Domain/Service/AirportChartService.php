@@ -20,7 +20,7 @@ class AirportChartService implements IAirportChartService
         if ($fileInfo->errorCode !== UPLOAD_ERR_OK) {
             return new UploadedChartInfo(
                 false,
-                "Upload error code: " . $fileInfo->errorCode,
+                $fileInfo->getErrorMessage(),
                 "",
                 "",
                 ""
