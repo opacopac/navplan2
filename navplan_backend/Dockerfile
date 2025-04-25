@@ -14,6 +14,8 @@ RUN apt-get install -y libmagickwand-dev
 # Install the Imagick extension
 RUN pecl install imagick
 RUN docker-php-ext-enable imagick
+# Modify the ImageMagick policy file to allow PDF processing
+RUN sed -i 's|<policy domain="coder" rights="none" pattern="PDF" />|<policy domain="coder" rights="read" pattern="PDF" />|' /etc/ImageMagick-6/policy.xml
 
 # Install GD dependencies
 RUN apt-get install -y libjpeg-dev libfreetype6-dev libpng-dev

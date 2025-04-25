@@ -9,6 +9,9 @@ use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IImageService;
 
 
+// TBD: increase memory limit for image processing
+ini_set('memory_limit', '512M');
+
 class AirportChartService implements IAirportChartService
 {
     public function __construct(
