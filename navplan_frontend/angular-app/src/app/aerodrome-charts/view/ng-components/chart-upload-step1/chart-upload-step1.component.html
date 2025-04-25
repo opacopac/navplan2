@@ -15,15 +15,22 @@
     }
 
     <!-- input fields -->
-    <div>
-        <mat-form-field>
-            <mat-label>Chart Name</mat-label>
-            <input matInput placeholder="Enter chart name" formControlName="chartNameCtrl" required>
-        </mat-form-field>
+    @if (this.uploadedChartInfo && this.uploadedChartInfo.success) {
+        <div>
+            <mat-form-field>
+                <mat-label>Chart Name</mat-label>
+                <input matInput placeholder="Enter chart name" formControlName="chartNameCtrl" required>
+            </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Chart Type</mat-label>
-            <input matInput placeholder="Enter chart type" formControlName="chartTypeCtrl" required>
-        </mat-form-field>
-    </div>
+            <mat-form-field>
+                <mat-label>Chart Type</mat-label>
+                <input matInput placeholder="Enter chart type" formControlName="chartTypeCtrl" required>
+            </mat-form-field>
+        </div>
+
+        <!-- mini viewer -->
+        <app-mini-image-viewer
+            [imageSrc]="'http://localhost:8080/tmp/' + this.uploadedChartInfo.url"
+        />
+    }
 </div>

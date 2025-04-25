@@ -7,6 +7,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {FileUploadComponent} from '../../../../common/view/ng-components/file-upload/file-upload.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {
+    MiniImageViewerComponent
+} from '../../../../common/view/ng-components/mini-image-viewer/mini-image-viewer.component';
 
 
 @Component({
@@ -19,7 +22,8 @@ import {MatInputModule} from '@angular/material/input';
         MatProgressSpinnerModule,
         FileUploadComponent,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        MiniImageViewerComponent
     ],
     templateUrl: './chart-upload-step1.component.html',
     styleUrls: ['./chart-upload-step1.component.scss']
