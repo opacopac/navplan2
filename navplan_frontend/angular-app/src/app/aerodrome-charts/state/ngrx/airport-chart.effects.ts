@@ -2,7 +2,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {AirportChartActions} from './airport-chart.actions';
-import {throwError} from 'rxjs';
+import {of, throwError} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {environment} from '../../../../environments/environment';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
@@ -43,7 +43,7 @@ export class AirportChartEffects {
 
     closeAirportChartAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.closeAirportChart),
-        map(action => BaseMapActions.closeImage({ id: action.chartId }))
+        map(action => BaseMapActions.closeImage({id: action.chartId}))
     ));
 
 
@@ -55,13 +55,14 @@ export class AirportChartEffects {
 
     uploadAirportChartAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.uploadAirportChart),
-        switchMap(action => this.airportChartService.uploadAdChart(action.file)),
-        catchError(error => {
-            LoggingService.logResponseError('ERROR uploading airport chart', error);
-            return throwError(error);
-        }),
-        map(uploadedChartInfo => AirportChartActions.uploadAirportChartSuccess({
-            chartInfo: uploadedChartInfo
-        }))
+        switchMap(action => this.airportChartService.uploadAdChart(action.file).pipe(
+            map(uploadedChartInfo => AirportChartActions.uploadAirportChartSuccess({
+                chartInfo: uploadedChartInfo
+            })),
+            catchError(error => {
+                LoggingService.logResponseError('ERROR uploading airport chart', error);
+                return of(AirportChartActions.uploadAirportChartError({error: error}));
+            })
+        ))
     ));
 }

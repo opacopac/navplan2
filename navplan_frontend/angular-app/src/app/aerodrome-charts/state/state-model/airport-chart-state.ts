@@ -5,4 +5,5 @@ import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
 export interface AirportChartState {
     airportCharts: AirportChart[];
     uploadedChartInfo: UploadedChartInfo;
+    isUploading: boolean;
 }

@@ -32,4 +32,9 @@ export class AirportChartActions {
         '[AirportChartEffects] Upload airport chart success',
         props<{ chartInfo: UploadedChartInfo }>()
     );
+
+    public static readonly uploadAirportChartError = createAction(
+        '[AirportChartEffects] Upload airport chart error',
+        props<{ error: Error }>()
+    );
 }

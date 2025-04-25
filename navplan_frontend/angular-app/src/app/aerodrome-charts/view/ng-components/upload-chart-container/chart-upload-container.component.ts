@@ -5,7 +5,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {FormBuilder, Validators} from '@angular/forms';
 import {FlightMapActions} from '../../../../flight-map/state/ngrx/flight-map.actions';
 import {FileUploadComponent} from '../../../../common/view/ng-components/file-upload/file-upload.component';
-import {getUploadedChartInfo} from '../../../state/ngrx/airport-chart.selectors';
+import {getIsUploading, getUploadedChartInfo} from '../../../state/ngrx/airport-chart.selectors';
 import {AirportChartActions} from '../../../state/ngrx/airport-chart.actions';
 import {CommonModule} from '@angular/common';
 
@@ -24,6 +24,7 @@ import {CommonModule} from '@angular/common';
 })
 export class ChartUploadContainerComponent implements OnInit {
     protected uploadedChartInfo$ = this.appStore.select(getUploadedChartInfo);
+    protected isUploading$ = this.appStore.select(getIsUploading);
     protected firstFormGroup = this.formBuilder.group({
         firstCtrl: ['', Validators.required],
     });

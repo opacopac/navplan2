@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {UploadedChartInfo} from '../../../../aerodrome-charts/domain/model/uploaded-chart-info';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @Component({
@@ -10,14 +11,17 @@ import {UploadedChartInfo} from '../../../../aerodrome-charts/domain/model/uploa
     standalone: true,
     imports: [
         CommonModule,
+        MatIconModule,
         MatButtonModule,
-        MatIconModule
+        MatProgressSpinnerModule
     ],
     templateUrl: './file-upload.component.html',
     styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {
     @Input() uploadedChartInfo: UploadedChartInfo;
+    @Input() autoUpload: boolean;
+    @Input() isUploading: false;
     @Output() fileUploaded = new EventEmitter<File>();
 
     protected selectedFile: File | null = null;
@@ -36,6 +40,10 @@ export class FileUploadComponent implements OnInit {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files.length > 0) {
             this.selectedFile = input.files[0];
+
+            if (this.autoUpload) {
+                this.uploadFile();
+            }
         }
     }
 

@@ -16,7 +16,7 @@
     <input type="file" hidden (change)="this.onFileSelected($event)" #fileInput/>
 </div>
 
-@if (this.selectedFile) {
+@if (this.selectedFile && !this.autoUpload) {
     <div class="file-info">
         <p><strong>Selected:</strong> {{ this.selectedFile.name }}</p>
         <button mat-button color="warn" (click)="this.clearFile()">Clear</button>
@@ -24,6 +24,13 @@
 
     <div>
         <button mat-raised-button color="accent" (click)="this.uploadFile()">Upload</button>
+    </div>
+}
+
+@if (this.isUploading) {
+    <div class="upload-progress">
+        <mat-spinner diameter="30"></mat-spinner>
+        <p>Uploading Chart...</p>
     </div>
 }
 

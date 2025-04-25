@@ -5,7 +5,9 @@
     >
         <mat-step [stepControl]="firstFormGroup" label="Upload File">
             <app-file-upload
+                [autoUpload]="true"
                 [uploadedChartInfo]="this.uploadedChartInfo$ | async"
+                [isUploading]="this.isUploading$ | async"
                 (fileUploaded)="this.onFileUploaded($event)"
             />
             <!--<form [formGroup]="firstFormGroup">
