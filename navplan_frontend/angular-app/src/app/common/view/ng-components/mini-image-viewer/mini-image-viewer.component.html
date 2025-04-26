@@ -3,10 +3,13 @@
         <button mat-icon-button (click)="this.zoomIn()">+</button>
         <button mat-icon-button (click)="this.zoomOut()">-</button>
     </div>
-    <div class="image-container">
+    <div #imgContainer class="image-container">
         <img
             [src]="this.imageSrc"
+            [style.width.px]="this.naturalWidth * this.scale"
+            [style.height.px]="this.naturalHeight * this.scale"
             [ngStyle]="this.getImageStyle()"
+            (load)="this.onImageLoad($event)"
             (click)="this.onImageClicked($event)"
         />
     </div>

@@ -1,2 +1,25 @@
 .upload-chart-container {
+    width: 100%;
+    height: 100%;
+}
+
+mat-stepper,
+mat-step {
+    width: 100%;
+    height: 100%;
+}
+
+::ng-deep .mat-horizontal-stepper-wrapper {
+    height: 100%;
+    //background-color: purple;
+
+    .mat-horizontal-content-container {
+        height: 100%;
+        //background-color: aqua;
+    }
+
+    .mat-horizontal-stepper-content {
+        height: 100%;
+        //background-color: pink;
+    }
 }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
@@ -19,7 +19,10 @@ export class MiniImageViewerComponent implements OnInit {
     @Input() public imageSrc;
     @Input() public isClickable = false;
     @Output() public imageClicked = new EventEmitter<{ x: number, y: number }>();
+    @ViewChild('imgContainer') imgContainer: ElementRef;
 
+    protected naturalWidth = 0;
+    protected naturalHeight = 0;
     protected scale = 1;
 
 
@@ -31,9 +34,16 @@ export class MiniImageViewerComponent implements OnInit {
     }
 
 
+    protected onImageLoad(event: Event) {
+        const img = event.target as HTMLImageElement;
+        this.naturalWidth = img.naturalWidth;
+        this.naturalHeight = img.naturalHeight;
+        this.fitImageToContainer();
+    }
+
+
     protected getImageStyle(): {[p: string]: any} | null | undefined {
         return {
-            'transform' : 'scale(' + this.scale + ')',
             'cursor' : this.isClickable ? 'crosshair' : 'auto',
         };
     }
@@ -49,6 +59,23 @@ export class MiniImageViewerComponent implements OnInit {
     }
 
 
+    protected fitImageToContainer() {
+        if (!this.imgContainer) {
+            return;
+        }
+
+        const imgContainerElement = this.imgContainer.nativeElement;
+
+        const containerWidth = imgContainerElement.clientWidth;
+        const containerHeight = imgContainerElement.clientHeight;
+
+        const widthRatio = containerWidth / this.naturalWidth;
+        const heightRatio = containerHeight / this.naturalHeight;
+
+        this.scale = Math.min(widthRatio, heightRatio, 1); // don't upscale if image is smaller
+    }
+
+
     protected onImageClicked(event: MouseEvent) {
         if (!this.isClickable) {
             return;
@@ -61,6 +88,6 @@ export class MiniImageViewerComponent implements OnInit {
         const adjustedX = clickX / this.scale;
         const adjustedY = clickY / this.scale;
 
-        this.imageClicked.emit({x: adjustedX, y: adjustedY});
+        this.imageClicked.emit({ x: adjustedX, y: adjustedY });
     }
 }

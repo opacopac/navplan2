@@ -1,30 +1,30 @@
 .viewer-container {
     position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 .image-container {
+    position: relative;
     width: 100%;
     height: 100%;
+    background: #cccccc; /* TODO: temporary background color */
     overflow: auto; /* Enable scroll bars if needed */
-    border: 1px solid #ccc;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border: 1px solid #999999;
 }
 
 .image-container img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* Makes image fit nicely */
-    transition: transform 0.2s ease;
-    transform-origin: center center; /* Important for zooming centered */
+    transition: all 0.2s ease;
+    display: block;
 }
 
 .zoom-controls {
-    position: fixed;
-    margin: 10px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
     display: flex;
+    flex-direction: column;
     gap: 5px;
     z-index: 1000;
 }
