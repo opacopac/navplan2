@@ -9,6 +9,7 @@ use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\Traffic\Rest\Model\RestTrafficAdsbexListResponseConverter;
 use Navplan\Traffic\Rest\Model\RestTrafficAdsbexReadRequestConverter;
+use Navplan\Traffic\Rest\Model\RestTrafficAdsbexWithDetailsListResponseConverter;
 use Navplan\Traffic\Rest\Model\RestTrafficDetailListResponseConverter;
 use Navplan\Traffic\Rest\Model\RestTrafficDetailReadRequestConverter;
 use Navplan\Traffic\Rest\Model\RestTrafficOgnListResponseConverter;
@@ -25,6 +26,7 @@ class TrafficController implements IRestController
     public const ARG_PARAM_ADSBEX = "adsbex";
     public const ARG_PARAM_OGN = "ogn";
     public const ARG_PARAM_DETAILS = "details";
+    public const ARG_PARAM_ADSBEX_DETAILS = "adsbex_details";
 
 
     public function __construct(
@@ -54,6 +56,11 @@ class TrafficController implements IRestController
                         $request = RestTrafficAdsbexReadRequestConverter::fromArgs($getArgs);
                         $trafficList = $this->readAdsbexTrafficUc->read($request);
                         $response = RestTrafficAdsbexListResponseConverter::toRest($trafficList);
+                        break;
+                    case self::ARG_PARAM_ADSBEX_DETAILS:
+                        $request = RestTrafficAdsbexReadRequestConverter::fromArgs($getArgs);
+                        $trafficList = $this->readAdsbexTrafficWithDetailsUc->read($request);
+                        $response = RestTrafficAdsbexWithDetailsListResponseConverter::toRest($trafficList);
                         break;
                     default:
                         throw new InvalidArgumentException("invalid parameter '" . $param . "'");
