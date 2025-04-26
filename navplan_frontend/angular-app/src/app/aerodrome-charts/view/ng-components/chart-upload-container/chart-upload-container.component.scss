@@ -19,7 +19,11 @@ mat-step {
     }
 
     .mat-horizontal-stepper-content {
-        height: 100%;
+        height: calc(100% - 36px);
         //background-color: pink;
     }
+}
+
+.buttons {
+    margin-top: 10px;
 }

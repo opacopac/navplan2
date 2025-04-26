@@ -34,7 +34,7 @@
     </div>
 }
 
-@if (this.uploadedChartInfo) {
+@if (this.uploadedChartInfo && !this.uploadedChartInfo.success) {
     <div>
         <p>{{ this.uploadedChartInfo.message }}</p>
     </div>

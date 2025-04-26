@@ -67,6 +67,10 @@ export class FileUploadComponent implements OnInit {
         if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
             this.selectedFile = event.dataTransfer.files[0];
             event.dataTransfer.clearData();
+
+            if (this.autoUpload) {
+                this.uploadFile();
+            }
         }
     }
 

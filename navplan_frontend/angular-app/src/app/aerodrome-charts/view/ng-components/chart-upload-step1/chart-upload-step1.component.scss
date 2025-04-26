@@ -9,3 +9,8 @@
     flex-grow: 1;
     min-height: 100px;
 }
+
+.form-fields {
+    display: flex;
+    flex-direction: column;
+}

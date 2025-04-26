@@ -33,6 +33,9 @@ RUN docker-php-ext-install zip
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Set php file upload parameters
+RUN echo "upload_max_filesize=50M\npost_max_size=50M" > /usr/local/etc/php/conf.d/uploads.ini
+
 # Create log directory & set permissions
 RUN mkdir -p /var/log/navplan/
 RUN chmod -R 777 /var/log/navplan/
