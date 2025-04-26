@@ -12,9 +12,10 @@ class RestUploadedChartInfoConverter
         return array(
             "success" => $chartInfo->success,
             "message" => $chartInfo->message,
-            "filename" => $chartInfo->filename,
-            "type" => $chartInfo->type,
-            "url" => $chartInfo->url,
+            "filename" => $chartInfo->originalFileName,
+            "type" => $chartInfo->originalFileType,
+            "url" => $chartInfo->chartUrl,
+            "nameproposal" => $chartInfo->chartNameProposal,
         );
     }
 }

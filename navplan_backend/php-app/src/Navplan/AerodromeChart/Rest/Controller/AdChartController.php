@@ -7,6 +7,7 @@ use Navplan\AerodromeChart\Domain\Service\IAirportChartRepo;
 use Navplan\AerodromeChart\Domain\Service\IAirportChartService;
 use Navplan\AerodromeChart\Rest\Converter\RestAirportChart2Converter;
 use Navplan\AerodromeChart\Rest\Converter\RestUploadedChartInfoConverter;
+use Navplan\AerodromeChart\Rest\Converter\RestUploadedPdfInfoConverter;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestFileConverter;
 use Navplan\Common\Rest\Converter\RestIdConverter;
@@ -39,7 +40,8 @@ class AdChartController implements IRestController
                 break;
             case HttpRequestMethod::POST:
                 $fileInfo = RestFileConverter::getUploadedFileInfo($this->httpService->getFileArgs(), self::ARG_FILE);
-                $chartInfo = $this->airportChartService->uploadAdChart($fileInfo);
+                $pdfInfo = RestUploadedPdfInfoConverter::fromRest($this->httpService->getPostArgs());
+                $chartInfo = $this->airportChartService->uploadAdChart($fileInfo, $pdfInfo);
                 $response = RestUploadedChartInfoConverter::toRest($chartInfo);
                 $this->httpService->sendArrayResponse($response);
                 break;

@@ -3,7 +3,7 @@
 namespace Navplan\AerodromeChart\Domain\Service;
 
 use Navplan\AerodromeChart\Domain\Model\UploadedChartInfo;
-use Navplan\Common\Domain\Model\Angle;
+use Navplan\AerodromeChart\Domain\Model\UploadedPdfInfo;
 use Navplan\Common\Domain\Model\UploadedFileInfo;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IImageService;
@@ -15,22 +15,16 @@ ini_set('memory_limit', '512M');
 class AirportChartService implements IAirportChartService
 {
     public function __construct(
-        private IFileService  $fileService,
+        private IFileService $fileService,
         private IImageService $imageService
     )
     {
     }
 
-    function uploadAdChart(UploadedFileInfo $fileInfo): UploadedChartInfo
+    function uploadAdChart(UploadedFileInfo $fileInfo, UploadedPdfInfo $pdfInfo): UploadedChartInfo
     {
         if ($fileInfo->errorCode !== UPLOAD_ERR_OK) {
-            return new UploadedChartInfo(
-                false,
-                $fileInfo->getErrorMessage(),
-                "",
-                "",
-                ""
-            );
+            return UploadedChartInfo::createError($fileInfo->getErrorMessage());
         }
 
         switch ($fileInfo->type) {
@@ -40,39 +34,30 @@ class AirportChartService implements IAirportChartService
                 $img = $this->imageService->loadImage($fileInfo->tmpName);
                 break;
             case "application/pdf":
-                $img = $this->imageService->loadPdf($fileInfo->tmpName, 200, 0, Angle::fromDeg(0));
+                $img = $this->imageService->loadPdf(
+                    $fileInfo->tmpName,
+                    $pdfInfo->dpi,
+                    $pdfInfo->page,
+                    $pdfInfo->rotation
+                );
+                $vfrmParams = VfrmService::getVfrmChartNameProposal($fileInfo->name);
                 break;
             default:
-                return new UploadedChartInfo(false, "invalid file type", "", "", "");
+                return UploadedChartInfo::createError("invalid file type");
         }
 
         $filename = "chart.png";
         $tmpDir = $this->fileService->createTempDir();
         $targetFile = $this->fileService->getTempDirBase() . $tmpDir . "/" . $filename;
         $img->saveImage($targetFile);
-        /*$moveSuccess = $this->fileService->moveUploadedFile($fileInfo->tmpName, $targetFile);
-
-        if (!$moveSuccess) {
-            return new UploadedChartInfo(false, "could not move uploaded file", "", "", "");
-        }*/
 
         return new UploadedChartInfo(
             true,
-            $this->getMessage($fileInfo),
-            $filename,
+            "",
+            $fileInfo->name,
             $fileInfo->type,
-            $tmpDir . "/" . $filename
+            $tmpDir . "/" . $filename,
+            $vfrmParams->chartNameProposal ?? "",
         );
-    }
-
-
-    private function getMessage(UploadedFileInfo $fileInfo): string
-    {
-        return "Code: " . $fileInfo->errorCode
-            . ", Name: " . $fileInfo->name
-            . ", Type: " . $fileInfo->type
-            . ", Size: " . $fileInfo->sizeBytes
-            . ", tmpName: " . $fileInfo->tmpName
-            . ", FullPath: " . $fileInfo->fullPath;
     }
 }

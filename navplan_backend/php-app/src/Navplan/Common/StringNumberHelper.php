@@ -61,6 +61,14 @@ class StringNumberHelper
     }
 
 
+    public static function parseIntOrDefault(array $keyValues, string $key, int $defaultValue): int
+    {
+        $value = self::parseIntOrNull($keyValues, $key);
+
+        return $value !== NULL ? $value : $defaultValue;
+    }
+
+
     public static function parseIntOrError(array $keyValues, string|int $key): int
     {
         if (!isset($keyValues[$key])) {

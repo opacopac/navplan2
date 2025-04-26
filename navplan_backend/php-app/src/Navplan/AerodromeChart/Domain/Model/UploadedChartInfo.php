@@ -8,10 +8,17 @@ class UploadedChartInfo
     public function __construct(
         public bool $success,
         public string $message,
-        public string $filename,
-        public string $type,
-        public string $url,
+        public string $originalFileName,
+        public string $originalFileType,
+        public string $chartUrl,
+        public string $chartNameProposal,
     )
     {
+    }
+
+
+    public static function createError(string $message): UploadedChartInfo
+    {
+        return new UploadedChartInfo(false, $message, "", "", "", "");
     }
 }
