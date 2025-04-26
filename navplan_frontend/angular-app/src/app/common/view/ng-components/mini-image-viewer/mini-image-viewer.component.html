@@ -1,7 +1,9 @@
-<div class="image-container">
-    <div class="controls">
+<div class="viewer-container">
+    <div class="zoom-controls">
         <button mat-icon-button (click)="this.zoomIn()">+</button>
         <button mat-icon-button (click)="this.zoomOut()">-</button>
     </div>
-    <img [src]="this.imageSrc" [ngStyle]="{'transform': 'scale(' + this.scale + ')'}" />
+    <div class="image-container">
+        <img [src]="this.imageSrc" [ngStyle]="{'transform': 'scale(' + this.scale + ')'}"/>
+    </div>
 </div>
