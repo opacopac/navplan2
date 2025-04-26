@@ -1,0 +1,9 @@
+.step1-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.image-viewer {
+    flex-grow: 1;
+}

@@ -7,4 +7,9 @@ export class UploadedChartInfo {
         public url: string,
     ) {
     }
+
+
+    public isPdf(): boolean {
+        return this.type === 'application/pdf';
+    }
 }

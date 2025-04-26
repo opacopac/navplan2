@@ -16,7 +16,7 @@ import {CommonModule} from '@angular/common';
     styleUrls: ['./mini-image-viewer.component.scss']
 })
 export class MiniImageViewerComponent implements OnInit {
-    @Input() public imageSrc = 'https://www.navplan.ch/charts/LSZB_AD_INFO_1.png'; // TODO
+    @Input() public imageSrc;
 
     protected scale = 1;
 

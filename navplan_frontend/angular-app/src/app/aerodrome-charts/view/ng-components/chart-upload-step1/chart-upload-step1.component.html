@@ -1,4 +1,4 @@
-<div>
+<div class="step1-container">
     <!-- file upload area -->
     <app-file-upload
         [autoUpload]="true"
@@ -16,20 +16,33 @@
 
     <!-- input fields -->
     @if (this.uploadedChartInfo && this.uploadedChartInfo.success) {
-        <div>
+        <p>File: {{ this.uploadedChartInfo.filename }}</p>
+
+        <mat-form-field>
+            <mat-label>Chart Name</mat-label>
+            <input matInput placeholder="Enter chart name" formControlName="chartName" required>
+        </mat-form-field>
+
+        @if (this.uploadedChartInfo.isPdf()) {
             <mat-form-field>
-                <mat-label>Chart Name</mat-label>
-                <input matInput placeholder="Enter chart name" formControlName="chartNameCtrl" required>
+                <mat-label>PDF Page</mat-label>
+                <input matInput placeholder="Select PDF page" formControlName="pdfPage" required>
             </mat-form-field>
 
             <mat-form-field>
-                <mat-label>Chart Type</mat-label>
-                <input matInput placeholder="Enter chart type" formControlName="chartTypeCtrl" required>
+                <mat-label>Rotation</mat-label>
+                <input matInput placeholder="Select page rotation" formControlName="pdfRotationDeg" required>
             </mat-form-field>
-        </div>
+
+            <mat-form-field>
+                <mat-label>DPI</mat-label>
+                <input matInput placeholder="Enter chart type" formControlName="dpi" required>
+            </mat-form-field>
+        }
 
         <!-- mini viewer -->
         <app-mini-image-viewer
+            class="image-viewer"
             [imageSrc]="'http://localhost:8080/tmp/' + this.uploadedChartInfo.url"
         />
     }
