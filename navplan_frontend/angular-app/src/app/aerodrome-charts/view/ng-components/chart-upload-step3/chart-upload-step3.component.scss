@@ -1,0 +1,43 @@
+.step2-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.image-viewer {
+    flex-grow: 1;
+    min-height: 100px;
+}
+
+.form-fields {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.coordInput {
+    width: 50px;
+}
+
+.refPoint1Icon {
+    font-size: 20px;
+    color: dodgerblue;
+}
+
+.refPoint2Icon {
+    font-size: 20px;
+    color: orange;
+}
+
+.checkIcon {
+    font-size: 20px;
+    color: green;
+}

@@ -8,6 +8,8 @@ import {
     getChartReference1,
     getChartReference2,
     getIsUploading,
+    getMapReference1,
+    getMapReference2,
     getPdfParameters,
     getSelectedChartFile,
     getUploadedChartInfo
@@ -18,6 +20,8 @@ import {ChartUploadStep1Component} from '../chart-upload-step1/chart-upload-step
 import {ChartUploadParameters} from '../../../domain/model/chart-upload-parameters';
 import {ChartUploadStep2Component} from '../chart-upload-step2/chart-upload-step2.component';
 import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
+import {ChartUploadStep3Component} from '../chart-upload-step3/chart-upload-step3.component';
+import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 
 
 @Component({
@@ -30,6 +34,7 @@ import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
         MatStepperModule,
         ChartUploadStep1Component,
         ChartUploadStep2Component,
+        ChartUploadStep3Component,
     ],
     templateUrl: './chart-upload-container.component.html',
     styleUrls: ['./chart-upload-container.component.scss']
@@ -37,12 +42,15 @@ import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
 export class ChartUploadContainerComponent implements OnInit {
     public step1FormGroup: FormGroup;
     public step2FormGroup: FormGroup;
+    public step3FormGroup: FormGroup;
 
     protected selectedFile$ = this.appStore.select(getSelectedChartFile);
     protected pdfParameters$ = this.appStore.select(getPdfParameters);
     protected uploadedChartInfo$ = this.appStore.select(getUploadedChartInfo);
     protected chartReference1$ = this.appStore.select(getChartReference1);
     protected chartReference2$ = this.appStore.select(getChartReference2);
+    protected mapReference1$ = this.appStore.select(getMapReference1);
+    protected mapReference2$ = this.appStore.select(getMapReference2);
     protected isUploading$ = this.appStore.select(getIsUploading);
 
 
@@ -56,6 +64,7 @@ export class ChartUploadContainerComponent implements OnInit {
     ngOnInit() {
         this.step1FormGroup = this.formBuilder.group({});
         this.step2FormGroup = this.formBuilder.group({});
+        this.step3FormGroup = this.formBuilder.group({});
     }
 
 
@@ -88,6 +97,20 @@ export class ChartUploadContainerComponent implements OnInit {
     protected onChartReference2Selected(coordinates: XyCoord) {
         this.appStore.dispatch(
             AirportChartActions.chartReference2Changed({chartReference2: coordinates})
+        );
+    }
+
+
+    protected onMapReference1Selected(pos: Position2d) {
+        this.appStore.dispatch(
+            AirportChartActions.mapReference1Changed({mapReference1: pos})
+        );
+    }
+
+
+    protected onMapReference2Selected(pos: Position2d) {
+        this.appStore.dispatch(
+            AirportChartActions.mapReference2Changed({mapReference2: pos})
         );
     }
 }

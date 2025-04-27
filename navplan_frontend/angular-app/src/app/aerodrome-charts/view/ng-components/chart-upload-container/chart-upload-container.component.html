@@ -36,11 +36,21 @@
         </mat-step>
         <mat-step>
             <ng-template matStepLabel>Map Reference</ng-template>
-            <p>You are now done.</p>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
-            </div>
+            <form [formGroup]="this.step3FormGroup" class="step-form">
+                <app-chart-upload-step3
+                    [uploadedChartInfo]="this.uploadedChartInfo$ | async"
+                    [chartRefPoint1]="this.chartReference1$ | async"
+                    [chartRefPoint2]="this.chartReference2$ | async"
+                    [mapRefPoint1]="this.mapReference1$ | async"
+                    [mapRefPoint2]="this.mapReference2$ | async"
+                    (mapRefPoint1Selected)="this.onMapReference1Selected($event)"
+                    (mapRefPoint2Selected)="this.onMapReference2Selected($event)"
+                />
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext [disabled]="this.step3FormGroup.invalid">Next</button>
+                </div>
+            </form>
         </mat-step>
     </mat-stepper>
 </div>

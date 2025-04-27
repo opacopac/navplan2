@@ -1,0 +1,82 @@
+<div class="step2-container">
+    <!-- input fields -->
+    @if (this.uploadedChartInfo && this.uploadedChartInfo.success) {
+        <div [formGroup]="this.formGroup" class="form-fields">
+            <p>File: {{ this.uploadedChartInfo.filename }}</p>
+
+            <div class="form-row">
+                Reference Point 1:
+                <i class="fa-solid fa-crosshairs refPoint1Icon"></i>
+
+                <mat-form-field class="coordInput">
+                    <mat-label>Latitude</mat-label>
+                    <input
+                        matInput
+                        formControlName="refLat1"
+                        required
+                        (change)="this.onRefPoint1Changed()"
+                    >
+                    <span matTextSuffix>°N</span>
+                </mat-form-field>
+
+                <mat-form-field class="coordInput">
+                    <mat-label>Longitude</mat-label>
+                    <input
+                        matInput
+                        formControlName="refLon1"
+                        required
+                        (change)="this.onRefPoint1Changed()"
+                    >
+                    <span matTextSuffix>°E</span>
+                </mat-form-field>
+
+                <i [hidden]="this.mapRefPoint1">(pick on map)</i>
+                <span [hidden]="!this.mapRefPoint1">
+                    <i class="fa-solid fa-check-circle checkIcon"></i>
+                </span>
+            </div>
+
+            <div class="form-row">
+                Reference Point 2:
+                <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
+
+                <mat-form-field class="coordInput">
+                    <mat-label>Latitude</mat-label>
+                    <input
+                        matInput
+                        formControlName="refLat2"
+                        required
+                        (change)="this.onRefPoint2Changed()"
+                    >
+                    <span matTextSuffix>°N</span>
+                </mat-form-field>
+
+                <mat-form-field class="coordInput">
+                    <mat-label>Longitude</mat-label>
+                    <input
+                        matInput
+                        formControlName="refLon2"
+                        required
+                        (change)="this.onRefPoint2Changed()"
+                    >
+                    <span matTextSuffix>°E</span>
+                </mat-form-field>
+
+                <i [hidden]="this.mapRefPoint2 || !this.mapRefPoint1">(pick on map)</i>
+                <span [hidden]="!this.mapRefPoint2">
+                    <i class="fa-solid fa-check-circle checkIcon"></i>
+                </span>
+            </div>
+        </div>
+
+        <!-- mini viewer -->
+        <app-mini-image-viewer
+            class="image-viewer"
+            [imageSrc]="'http://localhost:8080/tmp/' + this.uploadedChartInfo.url"
+            [isClickable]="false"
+            [fitImage]="false"
+            [overlayIcons]="this.getOverlayIcons()"
+            (imageClicked)="this.onImageClicked($event)"
+        />
+    }
+</div>

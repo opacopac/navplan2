@@ -11,7 +11,9 @@ const initialState: AirportChartState = {
     uploadedChartInfo: null,
     isUploading: false,
     chartReference1: null,
-    chartReference2: null
+    chartReference2: null,
+    mapReference1: null,
+    mapReference2: null
 };
 
 
@@ -59,5 +61,15 @@ export const airportChartReducer = createReducer(
     on(AirportChartActions.chartReference2Changed, (state, action) => ({
         ...state,
         chartReference2: action.chartReference2
-    }))
+    })),
+
+    on(AirportChartActions.mapReference1Changed, (state, action) => ({
+        ...state,
+        mapReference1: action.mapReference1
+    })),
+
+    on(AirportChartActions.mapReference2Changed, (state, action) => ({
+        ...state,
+        mapReference2: action.mapReference2
+    })),
 );

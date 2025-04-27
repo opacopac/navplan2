@@ -10,3 +10,7 @@ export const getUploadedChartInfo = createSelector(getAirportChartState, state =
 export const getIsUploading = createSelector(getAirportChartState, state => state.isUploading);
 export const getChartReference1 = createSelector(getAirportChartState, state => state.chartReference1);
 export const getChartReference2 = createSelector(getAirportChartState, state => state.chartReference2);
+
+export const getMapReference1 = createSelector(getAirportChartState, state => state.mapReference1);
+
+export const getMapReference2 = createSelector(getAirportChartState, state => state.mapReference2);
