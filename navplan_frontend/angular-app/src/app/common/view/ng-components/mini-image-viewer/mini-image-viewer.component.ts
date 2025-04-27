@@ -1,4 +1,14 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild
+} from '@angular/core';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
@@ -16,11 +26,13 @@ import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
     templateUrl: './mini-image-viewer.component.html',
     styleUrls: ['./mini-image-viewer.component.scss']
 })
-export class MiniImageViewerComponent implements OnInit {
+export class MiniImageViewerComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() public imageSrc;
     @Input() public isClickable = false;
+    @Input() public fitImage = false;
     @Output() public imageClicked = new EventEmitter<XyCoord>();
     @ViewChild('imgContainer') imgContainer: ElementRef;
+    @ViewChild('img') img: ElementRef;
 
     protected naturalWidth = 0;
     protected naturalHeight = 0;
@@ -35,11 +47,22 @@ export class MiniImageViewerComponent implements OnInit {
     }
 
 
+    ngOnChanges() {
+    }
+
+
+    ngAfterViewInit() {
+    }
+
+
     protected onImageLoad(event: Event) {
         const img = event.target as HTMLImageElement;
         this.naturalWidth = img.naturalWidth;
         this.naturalHeight = img.naturalHeight;
-        this.fitImageToContainer();
+
+        if (this.fitImage) {
+            this.fitImageToContainer();
+        }
     }
 
 
@@ -69,6 +92,10 @@ export class MiniImageViewerComponent implements OnInit {
 
         const containerWidth = imgContainerElement.clientWidth;
         const containerHeight = imgContainerElement.clientHeight;
+
+        if (containerWidth === 0 || containerHeight === 0) {
+            return;
+        }
 
         const widthRatio = containerWidth / this.naturalWidth;
         const heightRatio = containerHeight / this.naturalHeight;
