@@ -22,6 +22,7 @@ export class FileUploadComponent implements OnInit {
     @Input() uploadedChartInfo: UploadedChartInfo;
     @Input() autoUpload: boolean;
     @Input() isUploading: false;
+    @Output() fileSelected = new EventEmitter<File>();
     @Output() fileUploaded = new EventEmitter<File>();
 
     protected selectedFile: File | null = null;
@@ -40,6 +41,8 @@ export class FileUploadComponent implements OnInit {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files.length > 0) {
             this.selectedFile = input.files[0];
+
+            this.selectFile();
 
             if (this.autoUpload) {
                 this.uploadFile();
@@ -68,6 +71,8 @@ export class FileUploadComponent implements OnInit {
             this.selectedFile = event.dataTransfer.files[0];
             event.dataTransfer.clearData();
 
+            this.selectFile();
+
             if (this.autoUpload) {
                 this.uploadFile();
             }
@@ -77,6 +82,15 @@ export class FileUploadComponent implements OnInit {
 
     protected clearFile() {
         this.selectedFile = null;
+    }
+
+
+    protected selectFile() {
+        if (!this.selectedFile) {
+            return;
+        }
+
+        this.fileSelected.emit(this.selectedFile);
     }
 
 

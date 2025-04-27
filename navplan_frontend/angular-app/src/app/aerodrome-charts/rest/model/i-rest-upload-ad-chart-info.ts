@@ -4,4 +4,5 @@ export interface IRestUploadAdChartInfo {
     filename: string;
     type: string;
     url: string;
+    nameproposal: string;
 }

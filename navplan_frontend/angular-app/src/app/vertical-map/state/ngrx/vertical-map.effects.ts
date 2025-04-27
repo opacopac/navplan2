@@ -62,7 +62,7 @@ export class VerticalMapEffects {
         ofType(VerticalMapActions.read),
         withLatestFrom(this.flightroute$, this.forecastSelection$),
         switchMap(([action, flightroute, fcSelection]) => this.vmService.readVerticalMap(flightroute, fcSelection).pipe(
-            map(verticalMap => VerticalMapActions.readSuccess({ verticalMap: verticalMap })),
+            map(verticalMap => VerticalMapActions.readSuccess({verticalMap: verticalMap})),
             catchError(error => of(VerticalMapActions.readError({
                 message: 'Error loading vertical map', error: error
             })))
@@ -75,7 +75,7 @@ export class VerticalMapEffects {
         withLatestFrom(this.flightroute$, this.vmState$, this.forecastSelection$),
         filter(([action, flightroute, vmState]) => vmState.buttonStatus !== VerticalMapButtonStatus.OFF),
         switchMap(([action, flightroute, vmState, fcSelection]) => this.vmService.readVerticalMap(flightroute, fcSelection).pipe(
-            map(verticalMap => VerticalMapActions.readSuccess({ verticalMap: verticalMap })),
+            map(verticalMap => VerticalMapActions.readSuccess({verticalMap: verticalMap})),
             catchError(error => of(VerticalMapActions.readError({
                 message: 'Error loading vertical map', error: error
             })))
@@ -84,7 +84,12 @@ export class VerticalMapEffects {
 
 
     private static convertForecastSelection(state: MeteoDwdState): ForecastSelection {
-        if (state.status !== MeteoDwdStatus.CURRENT || state.showLayer === null || state.forecastRun === null || state.selectedStep === null) {
+        if (
+            state.status !== MeteoDwdStatus.CURRENT
+            || state.showLayer === null
+            || state.forecastRun === null
+            || state.selectedStep === null
+        ) {
             return null;
         }
 
