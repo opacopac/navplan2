@@ -4,7 +4,12 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatStepperModule} from '@angular/material/stepper';
 import {FormBuilder, Validators} from '@angular/forms';
 import {FlightMapActions} from '../../../../flight-map/state/ngrx/flight-map.actions';
-import {getIsUploading, getSelectedChartFile, getUploadedChartInfo} from '../../../state/ngrx/airport-chart.selectors';
+import {
+    getIsUploading,
+    getPdfParameters,
+    getSelectedChartFile,
+    getUploadedChartInfo
+} from '../../../state/ngrx/airport-chart.selectors';
 import {AirportChartActions} from '../../../state/ngrx/airport-chart.actions';
 import {CommonModule} from '@angular/common';
 import {ChartUploadStep1Component} from '../chart-upload-step1/chart-upload-step1.component';
@@ -25,6 +30,7 @@ import {ChartUploadParameters} from '../../../domain/model/chart-upload-paramete
 })
 export class ChartUploadContainerComponent implements OnInit {
     protected selectedFile$ = this.appStore.select(getSelectedChartFile);
+    protected pdfParameters$ = this.appStore.select(getPdfParameters);
     protected uploadedChartInfo$ = this.appStore.select(getUploadedChartInfo);
     protected isUploading$ = this.appStore.select(getIsUploading);
     protected firstFormGroup = this.formBuilder.group({

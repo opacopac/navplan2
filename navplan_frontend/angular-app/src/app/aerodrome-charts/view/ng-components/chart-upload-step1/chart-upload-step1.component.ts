@@ -15,6 +15,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {PdfParameters} from '../../../domain/model/pdf-parameters';
 import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
 import {ButtonColor} from '../../../../common/view/model/button-color';
+import {Angle} from '../../../../geo-physics/domain/model/quantities/angle';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
     @Input() uploadedChartInfo: UploadedChartInfo;
     @Input() isUploading: boolean;
     @Input() selectedChartFile: File;
+    @Input() pdfParameters: PdfParameters;
     @Output() fileSelected = new EventEmitter<File>();
     @Output() fileUploaded = new EventEmitter<ChartUploadParameters>();
 
@@ -73,7 +75,6 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
     }
 
 
-
     protected onPdfParamtersChanged() {
         const pdfParameters = this.getPdfParameters();
         const chartUploadParameters = new ChartUploadParameters(this.selectedChartFile, pdfParameters);
@@ -95,7 +96,9 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
                 ]
             ],
             'pdfPage': [
-                PdfParameters.DEFAULT_PAGE + 1,
+                this.pdfParameters
+                    ? this.pdfParameters.page + 1
+                    : PdfParameters.DEFAULT_PAGE + 1,
                 [
                     Validators.required,
                     Validators.min(1),
@@ -103,7 +106,9 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
                 ]
             ],
             'pdfRotationDeg': [
-                PdfParameters.DEFAULT_ROTATION_DEG,
+                this.pdfParameters && this.pdfParameters.rotation
+                    ? this.pdfParameters.rotation.deg
+                    : PdfParameters.DEFAULT_ROTATION_DEG,
                 [
                     Validators.required,
                     Validators.min(0),
@@ -111,7 +116,9 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
                 ]
             ],
             'pdfDpi': [
-                PdfParameters.DEFAULT_DPI,
+                this.pdfParameters
+                    ? this.pdfParameters.dpi
+                    : PdfParameters.DEFAULT_DPI,
                 [
                     Validators.required,
                     Validators.min(1),
@@ -125,9 +132,8 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
     private getPdfParameters(): PdfParameters {
         return new PdfParameters(
             this.uploadStep1Form.get('pdfPage').value - 1,
-            this.uploadStep1Form.get('pdfRotationDeg').value,
+            Angle.fromDeg(this.uploadStep1Form.get('pdfRotationDeg').value),
             this.uploadStep1Form.get('pdfDpi').value
         );
     }
 }
-

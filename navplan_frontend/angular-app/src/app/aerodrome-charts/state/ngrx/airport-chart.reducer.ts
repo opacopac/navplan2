@@ -1,11 +1,13 @@
 import {createReducer, on} from '@ngrx/store';
 import {AirportChartActions} from './airport-chart.actions';
 import {AirportChartState} from '../state-model/airport-chart-state';
+import {PdfParameters} from '../../domain/model/pdf-parameters';
 
 
 const initialState: AirportChartState = {
     airportCharts: [],
     selectedChartFile: null,
+    pdfParameters: PdfParameters.createDefault(),
     uploadedChartInfo: null,
     isUploading: false
 };
@@ -31,7 +33,8 @@ export const airportChartReducer = createReducer(
     on(AirportChartActions.uploadAirportChart, (state, action) => ({
         ...state,
         uploadedChartInfo: null,
-        isUploading: true
+        isUploading: true,
+        pdfParameters: action.chartUploadParameters.pdfParameters
     })),
 
     on(AirportChartActions.uploadAirportChartSuccess, (state, action) => ({
