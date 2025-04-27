@@ -26,7 +26,6 @@ export class AirportChartActions {
         '[Clear Dialog] Close all airport charts'
     );
 
-
     public static readonly chartFileSelected = createAction(
         '[Chart Upload Dialog] Chart file selected',
         props<{ file: File }>()

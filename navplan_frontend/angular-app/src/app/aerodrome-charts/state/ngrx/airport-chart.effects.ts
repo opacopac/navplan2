@@ -1,5 +1,5 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {AirportChartActions} from './airport-chart.actions';
 import {of, throwError} from 'rxjs';
@@ -8,6 +8,7 @@ import {environment} from '../../../../environments/environment';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {IAirportChartService} from '../../domain/service/i-airport-chart.service';
+import {getAirportChartState} from './airport-chart.selectors';
 
 
 @Injectable()
@@ -66,5 +67,20 @@ export class AirportChartEffects {
                 return of(AirportChartActions.uploadAirportChartError({error: error}));
             })
         ))
+    ));
+
+
+    mapReferenceSelected$ = createEffect(() => this.actions$.pipe(
+        ofType(BaseMapActions.mapClicked),
+        withLatestFrom(this.appStore.select(getAirportChartState)),
+        filter(([action, state]) => state.chartReference1 !== null && state.chartReference2 !== null),
+        filter(([action, state]) => state.mapReference1 === null || state.mapReference2 === null),
+        map(([action, state]) => {
+            if (state.mapReference1 === null) {
+                return AirportChartActions.mapReference1Changed({mapReference1: action.clickPos});
+            } else if (state.mapReference2 === null) {
+                return AirportChartActions.mapReference2Changed({mapReference2: action.clickPos});
+            }
+        })
     ));
 }
