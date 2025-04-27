@@ -24,6 +24,14 @@ mat-step {
     }
 }
 
+.step-form {
+    height: 100%;
+    width: 100%;
+}
+
 .buttons {
     margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }

@@ -17,59 +17,57 @@
 
     <!-- input fields -->
     @if (this.uploadedChartInfo && this.uploadedChartInfo.success) {
-        <form [formGroup]="uploadStep1Form">
-            <div class="form-fields">
-                <p>File: {{ this.uploadedChartInfo.filename }}</p>
+        <div [formGroup]="this.formGroup" class="form-fields">
+            <p>File: {{ this.uploadedChartInfo.filename }}</p>
 
+            <mat-form-field>
+                <mat-label>Chart Name</mat-label>
+                <input
+                    matInput
+                    placeholder="Enter chart name"
+                    formControlName="chartName"
+                    required
+                >
+            </mat-form-field>
+
+            @if (this.uploadedChartInfo.isPdf()) {
                 <mat-form-field>
-                    <mat-label>Chart Name</mat-label>
+                    <mat-label>PDF Page</mat-label>
                     <input
                         matInput
-                        placeholder="Enter chart name"
-                        formControlName="chartName"
+                        placeholder="Select PDF page"
+                        formControlName="pdfPage"
                         required
                     >
                 </mat-form-field>
 
-                @if (this.uploadedChartInfo.isPdf()) {
-                    <mat-form-field>
-                        <mat-label>PDF Page</mat-label>
-                        <input
-                            matInput
-                            placeholder="Select PDF page"
-                            formControlName="pdfPage"
-                            required
-                        >
-                    </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Rotation</mat-label>
+                    <input
+                        matInput
+                        placeholder="Select page rotation"
+                        formControlName="pdfRotationDeg"
+                        required
+                    >
+                    <span matTextSuffix>°</span>
+                </mat-form-field>
 
-                    <mat-form-field>
-                        <mat-label>Rotation</mat-label>
-                        <input
-                            matInput
-                            placeholder="Select page rotation"
-                            formControlName="pdfRotationDeg"
-                            required
-                        >
-                        <span matTextSuffix>°</span>
-                    </mat-form-field>
+                <mat-form-field>
+                    <mat-label>DPI</mat-label>
+                    <input
+                        matInput
+                        placeholder="Enter chart type"
+                        formControlName="pdfDpi"
+                        required
+                    >
+                </mat-form-field>
 
-                    <mat-form-field>
-                        <mat-label>DPI</mat-label>
-                        <input
-                            matInput
-                            placeholder="Enter chart type"
-                            formControlName="pdfDpi"
-                            required
-                        >
-                    </mat-form-field>
-
-                    <app-icon-button
-                        [color]="ButtonColor.BLUE"
-                        (buttonClicked)="this.onPdfParamtersChanged()"
-                    />
-                }
-            </div>
-        </form>
+                <app-icon-button
+                    [color]="ButtonColor.BLUE"
+                    (buttonClicked)="this.onPdfParamtersChanged()"
+                />
+            }
+        </div>
 
         <!-- mini viewer -->
         <app-mini-image-viewer

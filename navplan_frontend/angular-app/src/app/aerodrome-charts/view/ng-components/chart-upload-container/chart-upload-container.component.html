@@ -1,44 +1,34 @@
 <div class="upload-chart-container">
     <mat-stepper
         #stepper
-        [linear]="false"
+        [linear]="true"
     >
-        <mat-step [stepControl]="firstFormGroup" label="Upload File">
-            <app-chart-upload-step1
-                [selectedChartFile]="this.selectedFile$ | async"
-                [pdfParameters]="this.pdfParameters$ | async"
-                [isUploading]="this.isUploading$ | async"
-                [uploadedChartInfo]="this.uploadedChartInfo$ | async"
-                (fileSelected)="this.onFileSelected($event)"
-                (fileUploaded)="this.onFileUploaded($event)"
-            />
-            <!--<form [formGroup]="firstFormGroup">
-                <ng-template matStepLabel>Fill out your name</ng-template>
-                <mat-form-field>
-                    <mat-label>Name</mat-label>
-                    <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-                </mat-form-field>-->
-            <div class="buttons">
-                <button mat-button (click)="this.onCancelClicked()">Cancel</button>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-            <!--</form>-->
+        <mat-step [stepControl]="this.step1FormGroup" label="Upload Chart">
+            <form [formGroup]="this.step1FormGroup" class="step-form">
+                <app-chart-upload-step1
+                    [selectedChartFile]="this.selectedFile$ | async"
+                    [pdfParameters]="this.pdfParameters$ | async"
+                    [isUploading]="this.isUploading$ | async"
+                    [uploadedChartInfo]="this.uploadedChartInfo$ | async"
+                    (fileSelected)="this.onFileSelected($event)"
+                    (fileUploaded)="this.onFileUploaded($event)"
+                />
+                <div class="buttons">
+                    <button mat-button (click)="this.onCancelClicked()">Cancel</button>
+                    <button mat-button matStepperNext [disabled]="this.step1FormGroup.invalid">Next</button>
+                </div>
+            </form>
         </mat-step>
-        <mat-step [stepControl]="secondFormGroup" label="Fill out your address">
-            <!--<form [formGroup]="secondFormGroup">
-                <mat-form-field>
-                    <mat-label>Address</mat-label>
-                    <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-                           required>
-                </mat-form-field>-->
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-            <!--</form>-->
+        <mat-step [stepControl]="this.step2FormGroup" label="Chart Reference">
+            <form [formGroup]="this.step2FormGroup">
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext [disabled]="this.step2FormGroup.invalid">Next</button>
+                </div>
+            </form>
         </mat-step>
         <mat-step>
-            <ng-template matStepLabel>Done</ng-template>
+            <ng-template matStepLabel>Map Reference</ng-template>
             <p>You are now done.</p>
             <div>
                 <button mat-button matStepperPrevious>Back</button>
