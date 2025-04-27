@@ -9,7 +9,9 @@ const initialState: AirportChartState = {
     selectedChartFile: null,
     pdfParameters: PdfParameters.createDefault(),
     uploadedChartInfo: null,
-    isUploading: false
+    isUploading: false,
+    chartReference1: null,
+    chartReference2: null
 };
 
 
@@ -47,5 +49,15 @@ export const airportChartReducer = createReducer(
         ...state,
         uploadedChartInfo: null,
         isUploading: false
+    })),
+
+    on(AirportChartActions.chartReference1Changed, (state, action) => ({
+        ...state,
+        chartReference1: action.chartReference1,
+    })),
+
+    on(AirportChartActions.chartReference2Changed, (state, action) => ({
+        ...state,
+        chartReference2: action.chartReference2
     }))
 );

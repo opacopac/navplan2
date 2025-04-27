@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
+import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
 
 
 @Component({
@@ -18,7 +19,7 @@ import {CommonModule} from '@angular/common';
 export class MiniImageViewerComponent implements OnInit {
     @Input() public imageSrc;
     @Input() public isClickable = false;
-    @Output() public imageClicked = new EventEmitter<{ x: number, y: number }>();
+    @Output() public imageClicked = new EventEmitter<XyCoord>();
     @ViewChild('imgContainer') imgContainer: ElementRef;
 
     protected naturalWidth = 0;
@@ -42,9 +43,9 @@ export class MiniImageViewerComponent implements OnInit {
     }
 
 
-    protected getImageStyle(): {[p: string]: any} | null | undefined {
+    protected getImageStyle(): { [p: string]: any } | null | undefined {
         return {
-            'cursor' : this.isClickable ? 'crosshair' : 'auto',
+            'cursor': this.isClickable ? 'crosshair' : 'auto',
         };
     }
 
@@ -87,7 +88,8 @@ export class MiniImageViewerComponent implements OnInit {
         const clickY = event.clientY - rect.top;
         const adjustedX = clickX / this.scale;
         const adjustedY = clickY / this.scale;
+        const coord = new XyCoord(adjustedX, adjustedY);
 
-        this.imageClicked.emit({ x: adjustedX, y: adjustedY });
+        this.imageClicked.emit(coord);
     }
 }

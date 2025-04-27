@@ -20,7 +20,14 @@
             </form>
         </mat-step>
         <mat-step [stepControl]="this.step2FormGroup" label="Chart Reference">
-            <form [formGroup]="this.step2FormGroup">
+            <form [formGroup]="this.step2FormGroup" class="step-form">
+                <app-chart-upload-step2
+                    [uploadedChartInfo]="this.uploadedChartInfo$ | async"
+                    [selectedRefPoint1]="this.chartReference1$ | async"
+                    [selectedRefPoint2]="this.chartReference2$ | async"
+                    (reference1Selected)="this.onChartReference1Selected($event)"
+                    (reference2Selected)="this.onChartReference2Selected($event)"
+                />
                 <div>
                     <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext [disabled]="this.step2FormGroup.invalid">Next</button>

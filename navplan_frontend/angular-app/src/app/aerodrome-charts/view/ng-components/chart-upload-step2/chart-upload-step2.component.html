@@ -1,0 +1,76 @@
+<div class="step2-container">
+    <!-- input fields -->
+    @if (this.uploadedChartInfo && this.uploadedChartInfo.success) {
+        <div [formGroup]="this.formGroup" class="form-fields">
+            <p>File: {{ this.uploadedChartInfo.filename }}</p>
+
+            <div class="form-row">
+                Reference Point 1:
+                <i class="fa-solid fa-crosshairs refPoint1Icon"></i>
+                <i>(pick on chart)</i>
+
+                <mat-form-field class="coordInput">
+                    <mat-label>X</mat-label>
+                    <input
+                        matInput
+                        formControlName="refX1"
+                        required
+                        (change)="this.onRefPoint1Changed()"
+                    >
+                    <span matTextSuffix>px</span>
+                </mat-form-field>
+
+                <mat-form-field class="coordInput">
+                    <mat-label>Y</mat-label>
+                    <input
+                        matInput
+                        formControlName="refY1"
+                        required
+                        (change)="this.onRefPoint1Changed()"
+                    >
+                    <span matTextSuffix>px</span>
+                </mat-form-field>
+
+                <i class="fa-solid fa-check-circle checkIcon" [hidden]="!this.selectedRefPoint1"></i>
+            </div>
+
+            <div class="form-row">
+                Reference Point 2:
+                <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
+                <i>(pick on chart)</i>
+
+                <mat-form-field class="coordInput">
+                    <mat-label>X</mat-label>
+                    <input
+                        matInput
+                        formControlName="refX2"
+                        required
+                        (change)="this.onRefPoint2Changed()"
+                    >
+                    <span matTextSuffix>px</span>
+                </mat-form-field>
+
+                <mat-form-field class="coordInput">
+                    <mat-label>Y</mat-label>
+                    <input
+                        matInput
+                        formControlName="refY2"
+                        required
+                        (change)="this.onRefPoint2Changed()"
+                    >
+                    <span matTextSuffix>px</span>
+                </mat-form-field>
+
+                <i class="fa-solid fa-check-circle checkIcon" [hidden]="!this.selectedRefPoint2"></i>
+            </div>
+        </div>
+
+        <!-- mini viewer -->
+        <app-mini-image-viewer
+            class="image-viewer"
+            [imageSrc]="'http://localhost:8080/tmp/' + this.uploadedChartInfo.url"
+            [isClickable]="true"
+            (imageClicked)="this.onImageClicked($event)"
+        />
+    }
+</div>

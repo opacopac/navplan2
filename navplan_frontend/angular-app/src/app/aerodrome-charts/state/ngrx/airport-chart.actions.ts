@@ -2,6 +2,7 @@ import {createAction, props} from '@ngrx/store';
 import {AirportChart} from '../../domain/model/airport-chart';
 import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
 import {ChartUploadParameters} from '../../domain/model/chart-upload-parameters';
+import {XyCoord} from '../../../geo-physics/domain/model/geometry/xyCoord';
 
 
 export class AirportChartActions {
@@ -43,5 +44,15 @@ export class AirportChartActions {
     public static readonly uploadAirportChartError = createAction(
         '[AirportChartEffects] Upload airport chart error',
         props<{ error: Error }>()
+    );
+
+    public static readonly chartReference1Changed = createAction(
+        '[Chart Upload Dialog] Chart reference 1 changed',
+        props<{ chartReference1: XyCoord }>()
+    );
+
+    public static readonly chartReference2Changed = createAction(
+        '[Chart Upload Dialog] Chart reference 2 changed',
+        props<{ chartReference2: XyCoord }>()
     );
 }
