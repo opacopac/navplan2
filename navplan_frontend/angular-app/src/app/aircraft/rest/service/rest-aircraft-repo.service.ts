@@ -67,7 +67,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
             return this.http
                 .put<IRestAircraftResponse>(
                     environment.aircraftApiBaseUrl + '/' + aircraft.id,
-                    JSON.stringify(requestBody),
+                    requestBody,
                     HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
                 ).pipe(
                     map(response => RestAircraftConverter.fromRest(response.aircraft)),
@@ -80,7 +80,7 @@ export class RestAircraftRepoService implements IAircraftRepoService {
             return this.http
                 .post<IRestAircraftResponse>(
                     environment.aircraftApiBaseUrl,
-                    JSON.stringify(requestBody),
+                    requestBody,
                     HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
                 ).pipe(
                     map(response => RestAircraftConverter.fromRest(response.aircraft)),

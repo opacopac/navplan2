@@ -3,7 +3,7 @@ import {HttpParams} from '@angular/common/http';
 export class HttpHelper {
     public static HTTP_OPTIONS_WITH_CREDENTIALS = {withCredentials: true};
 
-    public static HTTP_EMPTY_BODY = JSON.stringify({});
+    public static HTTP_EMPTY_BODY = {};
 
     public static mergeParameters(paramsList: HttpParams[]): HttpParams {
         let mergedParams = new HttpParams();

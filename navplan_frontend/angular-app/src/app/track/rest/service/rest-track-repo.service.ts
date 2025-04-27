@@ -65,7 +65,7 @@ export class RestTrackRepoService implements ITrackRepoService {
         return this.http
             .put<IRestTrackResponse>(
                 url,
-                JSON.stringify(body),
+                body,
                 HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
             )
             .pipe(

@@ -30,7 +30,7 @@ export class ExporterRestService implements IExporterService {
         return this.http
             .post<IRestExportedFile>(
                 url,
-                JSON.stringify(requestBody)
+                requestBody
             ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response)),
                 catchError(err => {
@@ -48,7 +48,7 @@ export class ExporterRestService implements IExporterService {
         return this.http
             .post<IRestExportedFile>(
                 url,
-                JSON.stringify(requestBody)
+                requestBody
             ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response)),
                 catchError(err => {
@@ -66,7 +66,7 @@ export class ExporterRestService implements IExporterService {
         return this.http
             .post<IRestExportedFile>(
                 url,
-                JSON.stringify(requestBody)
+                requestBody
             ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response)),
                 catchError(err => {
@@ -84,7 +84,7 @@ export class ExporterRestService implements IExporterService {
         return this.http
             .post<IRestExportedFile>(
                 url,
-                JSON.stringify(requestBody)
+                requestBody
             ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response)),
                 catchError(err => {
@@ -102,7 +102,7 @@ export class ExporterRestService implements IExporterService {
         return this.http
             .post<IRestExportedFile>(
                 url,
-                JSON.stringify(requestBody)
+                requestBody
             ).pipe(
                 map(response => RestExportedFileConverter.fromRest(response)),
                 catchError(err => {

@@ -68,7 +68,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
             return this.http
                 .put<IRestFlightrouteResponse>(
                     environment.flightrouteApiBaseUrl + '/' + flightroute.id,
-                    JSON.stringify(requestBody),
+                    requestBody,
                     HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
                 ).pipe(
                     map(response => RestFlightrouteConverter.fromRest(response.navplan))
@@ -77,7 +77,7 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
             return this.http
                 .post<IRestFlightrouteResponse>(
                     environment.flightrouteApiBaseUrl,
-                    JSON.stringify(requestBody),
+                    requestBody,
                     HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
                 ).pipe(
                     map(response => RestFlightrouteConverter.fromRest(response.navplan))

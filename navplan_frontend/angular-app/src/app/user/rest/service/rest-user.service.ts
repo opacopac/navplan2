@@ -59,7 +59,7 @@ export class RestUserRepoService implements IUserRepoService {
         return this.http
             .post<IRestTokenResponse>(
                 url,
-                JSON.stringify(requestBody)
+                requestBody
             ).pipe(
                 switchMap((response) => {
                     switch (response.resultcode) {
@@ -90,7 +90,7 @@ export class RestUserRepoService implements IUserRepoService {
         return this.http
             .post<IRestTokenResponse>(
                 url,
-                JSON.stringify(requestBody)
+                requestBody
             ).pipe(
                 switchMap(response => {
                     switch (response.resultcode) {
@@ -127,7 +127,7 @@ export class RestUserRepoService implements IUserRepoService {
         return this.http
             .post<IRestTokenResponse>(
                 url,
-                JSON.stringify(requestBody)
+                requestBody
             ).pipe(
                 switchMap(response => {
                     switch (response.resultcode) {
@@ -160,7 +160,7 @@ export class RestUserRepoService implements IUserRepoService {
         return this.http
             .post<IRestTokenResponse>(
                 url,
-                JSON.stringify(requestBody),
+                requestBody,
                 HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
             ).pipe(
                 switchMap(response => {
@@ -196,7 +196,7 @@ export class RestUserRepoService implements IUserRepoService {
         return this.http
             .post<IRestTokenResponse>(
                 url,
-                JSON.stringify(requestBody),
+                requestBody,
                 HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
             ).pipe(
                 switchMap(response => {
@@ -234,7 +234,7 @@ export class RestUserRepoService implements IUserRepoService {
         return this.http
             .post<IRestSimpleResponse>(
                 url,
-                JSON.stringify(requestBody),
+                requestBody,
                 HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
             ).pipe(
                 switchMap(response => {
