@@ -75,6 +75,7 @@
             [imageSrc]="'http://localhost:8080/tmp/' + this.uploadedChartInfo.url"
             [isClickable]="true"
             [fitImage]="false"
+            [overlayIcons]="this.getOverlayIcons()"
             (imageClicked)="this.onImageClicked($event)"
         />
     }

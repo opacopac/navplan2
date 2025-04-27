@@ -36,3 +36,9 @@ button {
     padding: 5px;
     cursor: pointer;
 }
+
+.overlay-icon {
+    position: absolute;
+    font-size: 24px;
+    z-index: 1000;
+}

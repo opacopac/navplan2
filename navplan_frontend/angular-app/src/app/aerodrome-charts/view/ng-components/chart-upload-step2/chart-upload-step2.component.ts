@@ -56,6 +56,29 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
     }
 
 
+    protected getOverlayIcons(): { icon: string, xyCoord: XyCoord, color: string }[] {
+        const overlayIcons = [];
+
+        if (this.selectedRefPoint1) {
+            overlayIcons.push({
+                icon: 'fa-solid fa-crosshairs',
+                xyCoord: this.selectedRefPoint1,
+                color: 'dodgerblue'
+            });
+        }
+
+        if (this.selectedRefPoint2) {
+            overlayIcons.push({
+                icon: 'fa-solid fa-crosshairs',
+                xyCoord: this.selectedRefPoint2,
+                color: 'orange'
+            });
+        }
+
+        return  overlayIcons;
+    }
+
+
     protected onImageClicked(coord: XyCoord) {
         coord.round(0);
 
@@ -63,6 +86,34 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
             this.reference1Selected.emit(coord);
         } else if (!this.selectedRefPoint2) {
             this.reference2Selected.emit(coord);
+        }
+    }
+
+
+
+
+    protected onRefPoint1Changed() {
+        const x = this.formGroup.get('refX1')?.value;
+        const y = this.formGroup.get('refY1')?.value;
+
+        if (x && y) {
+            const coord = new XyCoord(x, y).round(0);
+            this.reference1Selected.emit(coord);
+        } else {
+            this.reference1Selected.emit(null);
+        }
+    }
+
+
+    protected onRefPoint2Changed() {
+        const x = this.formGroup.get('refX2')?.value;
+        const y = this.formGroup.get('refY2')?.value;
+
+        if (x && y) {
+            const coord = new XyCoord(x, y).round(0);
+            this.reference2Selected.emit(coord);
+        } else {
+            this.reference2Selected.emit(null);
         }
     }
 
@@ -113,32 +164,6 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
         if (this.selectedRefPoint2) {
             this.formGroup.get('refX2')?.setValue(this.selectedRefPoint2.x);
             this.formGroup.get('refY2')?.setValue(this.selectedRefPoint2.y);
-        }
-    }
-
-
-    protected onRefPoint1Changed() {
-        const x = this.formGroup.get('refX1')?.value;
-        const y = this.formGroup.get('refY1')?.value;
-
-        if (x && y) {
-            const coord = new XyCoord(x, y).round(0);
-            this.reference1Selected.emit(coord);
-        } else {
-            this.reference1Selected.emit(null);
-        }
-    }
-
-
-    protected onRefPoint2Changed() {
-        const x = this.formGroup.get('refX2')?.value;
-        const y = this.formGroup.get('refY2')?.value;
-
-        if (x && y) {
-            const coord = new XyCoord(x, y).round(0);
-            this.reference2Selected.emit(coord);
-        } else {
-            this.reference2Selected.emit(null);
         }
     }
 }
