@@ -7,7 +7,6 @@
             <div class="form-row">
                 Reference Point 1:
                 <i class="fa-solid fa-crosshairs refPoint1Icon"></i>
-                <i>(pick on chart)</i>
 
                 <mat-form-field class="coordInput">
                     <mat-label>X</mat-label>
@@ -31,13 +30,15 @@
                     <span matTextSuffix>px</span>
                 </mat-form-field>
 
-                <i class="fa-solid fa-check-circle checkIcon" [hidden]="!this.selectedRefPoint1"></i>
+                <i [hidden]="this.selectedRefPoint1">(pick on chart)</i>
+                <span [hidden]="!this.selectedRefPoint1">
+                    <i class="fa-solid fa-check-circle checkIcon"></i>
+                </span>
             </div>
 
             <div class="form-row">
                 Reference Point 2:
                 <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
-                <i>(pick on chart)</i>
 
                 <mat-form-field class="coordInput">
                     <mat-label>X</mat-label>
@@ -61,7 +62,10 @@
                     <span matTextSuffix>px</span>
                 </mat-form-field>
 
-                <i class="fa-solid fa-check-circle checkIcon" [hidden]="!this.selectedRefPoint2"></i>
+                <i [hidden]="this.selectedRefPoint2 || !this.selectedRefPoint1">(pick on chart)</i>
+                <span [hidden]="!this.selectedRefPoint2">
+                    <i class="fa-solid fa-check-circle checkIcon"></i>
+                </span>
             </div>
         </div>
 
