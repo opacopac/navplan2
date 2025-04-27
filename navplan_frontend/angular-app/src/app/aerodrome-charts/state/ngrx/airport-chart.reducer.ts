@@ -31,7 +31,11 @@ export const airportChartReducer = createReducer(
 
     on(AirportChartActions.chartFileSelected, (state, action) => ({
         ...state,
-        selectedChartFile: action.file
+        selectedChartFile: action.file,
+        chartReference1: null,
+        chartReference2: null,
+        mapReference1: null,
+        mapReference2: null
     })),
 
     on(AirportChartActions.uploadAirportChart, (state, action) => ({

@@ -5,56 +5,52 @@ WORKDIR /var/www/html/php
 # Enable mod_rewrite
 RUN a2enmod rewrite
 
-# Install system dependencies
-RUN apt-get update
+# Install system dependencies (for Rust + PHP extensions) and cleanup
+RUN apt-get update && apt-get install -y \
+    curl \
+    build-essential \
+    libssl-dev \
+    pkg-config \
+    libmagickwand-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libpng-dev \
+    libzip-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install ImageMagick dependencies
-RUN apt-get install -y libmagickwand-dev
+# Install Rust using rustup
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
-# Install the Imagick extension
-RUN pecl install imagick
-RUN docker-php-ext-enable imagick
-# Modify the ImageMagick policy file to allow PDF processing
+# Add Rust binaries to PATH
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Install and enable PHP extensions
+RUN pecl install imagick && docker-php-ext-enable imagick \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd mysqli zip \
+    && docker-php-ext-enable mysqli
+
+# Allow PDF processing in ImageMagick
 RUN sed -i 's|<policy domain="coder" rights="none" pattern="PDF" />|<policy domain="coder" rights="read" pattern="PDF" />|' /etc/ImageMagick-6/policy.xml
 
-# Install GD dependencies
-RUN apt-get install -y libjpeg-dev libfreetype6-dev libpng-dev
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install -j$(nproc) gd
-
-# Install MySQLi extension
-RUN docker-php-ext-install mysqli
-RUN docker-php-ext-enable mysqli
-
-# Install libzip and the Zip extension
-RUN apt-get install -y libzip-dev
-RUN docker-php-ext-install zip
+# Set PHP file upload parameters
+RUN echo "upload_max_filesize=50M\npost_max_size=50M" > /usr/local/etc/php/conf.d/uploads.ini
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Set php file upload parameters
-RUN echo "upload_max_filesize=50M\npost_max_size=50M" > /usr/local/etc/php/conf.d/uploads.ini
+# Create log & temp directories and set permissions
+RUN mkdir -p /var/log/navplan/ /var/www/html/tmp/ && chmod -R 777 /var/log/navplan/ /var/www/html/tmp/
 
-# Create log directory & set permissions
-RUN mkdir -p /var/log/navplan/
-RUN chmod -R 777 /var/log/navplan/
-
-# Create temp directory & set permissions
-RUN mkdir -p /var/www/html/tmp/
-RUN chmod -R 777 /var/www/html/tmp/
-
-# Copy Meteo DWD sample files
+# Copy sample data
 COPY meteo_dwd /var/www/html/meteo_dwd
 
-# Copy composer files
+# Install PHP dependencies
 COPY php-app/composer.json /var/www/html/php/composer.json
 RUN composer update
 
-# Copy url rewrite configuration
+# Copy application code files
 COPY php-app/api /var/www/html/api
-
-# Copy Code
 COPY php-app/src /var/www/html/php
 COPY php-app/config /var/www/html/php/config
 
