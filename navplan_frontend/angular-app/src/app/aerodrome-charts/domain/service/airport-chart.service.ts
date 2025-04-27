@@ -4,6 +4,7 @@ import {IAirportChartService} from './i-airport-chart.service';
 import {IAirportChartRepoService} from './i-airport-chart-repo.service';
 import {Injectable} from '@angular/core';
 import {UploadedChartInfo} from '../model/uploaded-chart-info';
+import {ChartUploadParameters} from '../model/chart-upload-parameters';
 
 
 @Injectable()
@@ -17,7 +18,7 @@ export class AirportChartService implements IAirportChartService {
     }
 
 
-    public uploadAdChart(file: File): Observable<UploadedChartInfo> {
-        return this.airportChartRepo.uploadAdChart(file);
+    public uploadAdChart(chartUploadParameters: ChartUploadParameters): Observable<UploadedChartInfo> {
+        return this.airportChartRepo.uploadAdChart(chartUploadParameters);
     }
 }

@@ -10,6 +10,7 @@ import {MatInputModule} from '@angular/material/input';
 import {
     MiniImageViewerComponent
 } from '../../../../common/view/ng-components/mini-image-viewer/mini-image-viewer.component';
+import {ChartUploadParameters} from '../../../domain/model/chart-upload-parameters';
 
 
 @Component({
@@ -31,7 +32,7 @@ import {
 export class ChartUploadStep1Component implements OnInit {
     @Input() uploadedChartInfo: UploadedChartInfo;
     @Input() isUploading: boolean;
-    @Output() fileUploaded = new EventEmitter<File>();
+    @Output() fileUploaded = new EventEmitter<ChartUploadParameters>();
 
 
     constructor() {
@@ -43,6 +44,8 @@ export class ChartUploadStep1Component implements OnInit {
 
 
     protected onFileUploaded(file: File) {
-        this.fileUploaded.emit(file);
+        const chartUploadParameters = new ChartUploadParameters(file); // TODO: add pdf parameters
+
+        this.fileUploaded.emit(chartUploadParameters);
     }
 }

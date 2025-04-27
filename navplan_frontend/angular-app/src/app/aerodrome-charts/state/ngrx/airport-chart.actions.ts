@@ -1,6 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 import {AirportChart} from '../../domain/model/airport-chart';
 import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
+import {ChartUploadParameters} from '../../domain/model/chart-upload-parameters';
 
 
 export class AirportChartActions {
@@ -25,7 +26,7 @@ export class AirportChartActions {
 
     public static readonly uploadAirportChart = createAction(
         '[Chart Upload Dialog] Upload airport chart',
-        props<{ file: File }>()
+        props<{ chartUploadParameters: ChartUploadParameters }>()
     );
 
     public static readonly uploadAirportChartSuccess = createAction(

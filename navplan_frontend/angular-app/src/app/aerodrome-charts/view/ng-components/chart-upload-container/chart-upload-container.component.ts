@@ -8,6 +8,7 @@ import {getIsUploading, getUploadedChartInfo} from '../../../state/ngrx/airport-
 import {AirportChartActions} from '../../../state/ngrx/airport-chart.actions';
 import {CommonModule} from '@angular/common';
 import {ChartUploadStep1Component} from '../chart-upload-step1/chart-upload-step1.component';
+import {ChartUploadParameters} from '../../../domain/model/chart-upload-parameters';
 
 
 @Component({
@@ -49,7 +50,9 @@ export class ChartUploadContainerComponent implements OnInit {
     }
 
 
-    protected onFileUploaded(file: File) {
-        this.appStore.dispatch(AirportChartActions.uploadAirportChart({file: file}));
+    protected onFileUploaded(chartUploadParameters: ChartUploadParameters) {
+        this.appStore.dispatch(AirportChartActions.uploadAirportChart({
+            chartUploadParameters: chartUploadParameters,
+        }));
     }
 }

@@ -6,62 +6,82 @@ use InvalidArgumentException;
 use Navplan\System\Domain\Service\IHttpService;
 
 
-class HttpService implements IHttpService {
-    public function __construct() {
+class HttpService implements IHttpService
+{
+    public function __construct()
+    {
     }
 
 
-    public function getRequestMethod(): string {
+    public function getRequestMethod(): string
+    {
         return $_SERVER['REQUEST_METHOD'];
     }
 
 
-    public function getGetArgs(): array {
+    public function getGetArgs(): array
+    {
         return $_GET;
     }
 
 
-    public function getPostArgs(): array {
-        return json_decode(file_get_contents('php://input'), TRUE);
+    public function getPostArgs(): array
+    {
+        $contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+
+        if (stripos($contentType, 'multipart/form-data') === 0) {
+            return $_POST;
+        } else {
+            $json = json_decode(file_get_contents('php://input'), true); // TODO: only use when content type is application/json
+            return is_array($json) ? $json : [];
+        }
     }
 
 
-    public function getFileArgs(): array {
+    public function getFileArgs(): array
+    {
         return $_FILES;
     }
 
 
-    public function getCookies(): array {
+    public function getCookies(): array
+    {
         return $_COOKIE;
     }
 
 
-    function getCallbackArg(string $key = "callback"): ?string {
+    function getCallbackArg(string $key = "callback"): ?string
+    {
         return $this->getGetArgs()[$key] ?? NULL;
     }
 
 
-    public function hasGetArg(string $key): bool {
+    public function hasGetArg(string $key): bool
+    {
         return isset($this->getGetArgs()[$key]);
     }
 
 
-    public function hasPostArg(string $key): bool {
+    public function hasPostArg(string $key): bool
+    {
         return isset($this->getPostArgs()[$key]);
     }
 
 
-    public function sendHeader(string $header) {
+    public function sendHeader(string $header)
+    {
         header($header);
     }
 
 
-    public function sendPayload(string $data) {
+    public function sendPayload(string $data)
+    {
         echo $data;
     }
 
 
-    public function sendArrayResponse(array $data, ?string $callbackKey = NULL, ?bool $jsonNumericCheck = FALSE) {
+    public function sendArrayResponse(array $data, ?string $callbackKey = NULL, ?bool $jsonNumericCheck = FALSE)
+    {
         $this->sendStringResponse(
             json_encode($data, $jsonNumericCheck ? JSON_NUMERIC_CHECK : 0),
             $callbackKey
@@ -69,7 +89,8 @@ class HttpService implements IHttpService {
     }
 
 
-    public function sendStringResponse(string $data, ?string $callbackKey = NULL) {
+    public function sendStringResponse(string $data, ?string $callbackKey = NULL)
+    {
         if ($callbackKey === NULL) {
             $callbackKeyFromReq = $this->getCallbackArg();
             if ($callbackKeyFromReq) {
@@ -87,7 +108,8 @@ class HttpService implements IHttpService {
     }
 
 
-    private function decorateWithCallback(string $data, ?string $callbackKey): string {
+    private function decorateWithCallback(string $data, ?string $callbackKey): string
+    {
         if ($callbackKey !== NULL && strlen($callbackKey) === 0) {
             throw new InvalidArgumentException('callback must not be empty string');
         }
@@ -100,13 +122,15 @@ class HttpService implements IHttpService {
     }
 
 
-    private function sendJson(string $data) {
+    private function sendJson(string $data)
+    {
         $this->sendHeader("Content-Type: application/json; charset=UTF-8");
         $this->sendPayload($data);
     }
 
 
-    private function sendJsonp(string $data) {
+    private function sendJsonp(string $data)
+    {
         $this->sendHeader("Content-Type: application/javascript; charset=UTF-8");
         $this->sendPayload($data);
     }

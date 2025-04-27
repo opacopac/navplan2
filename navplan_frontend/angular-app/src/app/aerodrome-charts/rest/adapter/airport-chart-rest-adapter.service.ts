@@ -11,6 +11,7 @@ import {IRestAirportChart2} from '../model/i-rest-airport-chart2';
 import {IRestUploadAdChartInfo} from '../model/i-rest-upload-ad-chart-info';
 import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
 import {RestUploadedChartInfoConverter} from '../converter/rest-uploaded-chart-info-converter';
+import {ChartUploadParameters} from '../../domain/model/chart-upload-parameters';
 
 
 @Injectable()
@@ -34,11 +35,14 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
     }
 
 
-    public uploadAdChart(file: File): Observable<UploadedChartInfo> {
+    public uploadAdChart(chartUploadParameters: ChartUploadParameters): Observable<UploadedChartInfo> {
         const url = environment.airportChartApiBaseUrl;
 
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('file', chartUploadParameters.file);
+        formData.append('page', chartUploadParameters.pdfParameters.page.toString());
+        formData.append('rotation', chartUploadParameters.pdfParameters.rotation.deg.toString());
+        formData.append('dpi', chartUploadParameters.pdfParameters.dpi.toString());
 
         return this.http
             .post<IRestUploadAdChartInfo>(url, formData)

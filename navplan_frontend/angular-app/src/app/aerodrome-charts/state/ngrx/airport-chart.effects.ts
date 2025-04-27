@@ -55,7 +55,9 @@ export class AirportChartEffects {
 
     uploadAirportChartAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.uploadAirportChart),
-        switchMap(action => this.airportChartService.uploadAdChart(action.file).pipe(
+        switchMap(action => this.airportChartService.uploadAdChart(
+            action.chartUploadParameters
+        ).pipe(
             map(uploadedChartInfo => AirportChartActions.uploadAirportChartSuccess({
                 chartInfo: uploadedChartInfo
             })),
