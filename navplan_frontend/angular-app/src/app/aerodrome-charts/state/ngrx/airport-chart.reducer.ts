@@ -2,18 +2,20 @@ import {createReducer, on} from '@ngrx/store';
 import {AirportChartActions} from './airport-chart.actions';
 import {AirportChartState} from '../state-model/airport-chart-state';
 import {PdfParameters} from '../../domain/model/pdf-parameters';
+import {FlightMapActions} from '../../../flight-map/state/ngrx/flight-map.actions';
 
 
 const initialState: AirportChartState = {
     airportCharts: [],
-    selectedChartFile: null,
+    selectedAirport: undefined,
+    selectedChartFile: undefined,
     pdfParameters: PdfParameters.createDefault(),
-    uploadedChartInfo: null,
+    uploadedChartInfo: undefined,
     isUploading: false,
-    chartReference1: null,
-    chartReference2: null,
-    mapReference1: null,
-    mapReference2: null
+    chartReference1: undefined,
+    chartReference2: undefined,
+    mapReference1: undefined,
+    mapReference2: undefined
 };
 
 
@@ -29,18 +31,23 @@ export const airportChartReducer = createReducer(
         airportCharts: [...state.airportCharts.filter(chart => chart.id !== action.chartId)]
     })),
 
+    on(FlightMapActions.showUploadChartSidebar, (state, action) => ({
+        ...state,
+        selectedAirport: action.selectedAirport,
+    })),
+
     on(AirportChartActions.chartFileSelected, (state, action) => ({
         ...state,
         selectedChartFile: action.file,
-        chartReference1: null,
-        chartReference2: null,
-        mapReference1: null,
-        mapReference2: null
+        chartReference1: undefined,
+        chartReference2: undefined,
+        mapReference1: undefined,
+        mapReference2: undefined
     })),
 
     on(AirportChartActions.uploadAirportChart, (state, action) => ({
         ...state,
-        uploadedChartInfo: null,
+        uploadedChartInfo: undefined,
         isUploading: true,
         pdfParameters: action.chartUploadParameters.pdfParameters
     })),
@@ -53,7 +60,7 @@ export const airportChartReducer = createReducer(
 
     on(AirportChartActions.uploadAirportChartError, (state, action) => ({
         ...state,
-        uploadedChartInfo: null,
+        uploadedChartInfo: undefined,
         isUploading: false
     })),
 

@@ -12,6 +12,7 @@ import {
 import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
+import {Airport} from '../../../../aerodrome/domain/model/airport';
 
 
 @Component({
@@ -31,6 +32,7 @@ import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
     styleUrls: ['./chart-upload-step2.component.scss']
 })
 export class ChartUploadStep2Component implements OnInit, OnChanges {
+    @Input() selectedAirport: Airport;
     @Input() uploadedChartInfo: UploadedChartInfo;
     @Input() selectedRefPoint1: XyCoord;
     @Input() selectedRefPoint2: XyCoord;

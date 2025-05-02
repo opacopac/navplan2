@@ -12,6 +12,7 @@ import {IRestUploadAdChartInfo} from '../model/i-rest-upload-ad-chart-info';
 import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
 import {RestUploadedChartInfoConverter} from '../converter/rest-uploaded-chart-info-converter';
 import {ChartUploadParameters} from '../../domain/model/chart-upload-parameters';
+import {ChartSaveParameters} from '../../domain/model/chart-save-parameters';
 
 
 @Injectable()
@@ -35,8 +36,8 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
     }
 
 
-    public uploadAdChart(chartUploadParameters: ChartUploadParameters): Observable<UploadedChartInfo> {
-        const url = environment.airportChartApiBaseUrl;
+    public uploadAdChart(airportId: number, chartUploadParameters: ChartUploadParameters): Observable<UploadedChartInfo> {
+        const url = environment.airportApiBaseUrl + '/' + airportId + '/charts/upload';
 
         const formData = new FormData();
         formData.append('file', chartUploadParameters.file);
@@ -50,6 +51,25 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
                 map(response => RestUploadedChartInfoConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR uploading airport chart', err);
+                    return throwError(err);
+                })
+            );
+    }
+
+
+    public saveAdChart(airportId: number, chartSaveParameters: ChartSaveParameters): Observable<AirportChart> {
+        const url = environment.airportApiBaseUrl + '/' + airportId + '/charts/save';
+        const requestBody = {
+            filepath: chartSaveParameters.url
+            // TODO
+        };
+
+        return this.http
+            .post<IRestAirportChart2>(url, requestBody)
+            .pipe(
+                map(response => RestAirportChart2Converter.fromRest(response)),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR saving airport chart', err);
                     return throwError(err);
                 })
             );

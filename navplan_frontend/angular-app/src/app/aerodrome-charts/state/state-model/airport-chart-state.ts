@@ -3,10 +3,12 @@ import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
 import {PdfParameters} from '../../domain/model/pdf-parameters';
 import {XyCoord} from '../../../geo-physics/domain/model/geometry/xyCoord';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
+import {Airport} from '../../../aerodrome/domain/model/airport';
 
 
 export interface AirportChartState {
     airportCharts: AirportChart[];
+    selectedAirport: Airport;
     selectedChartFile: File;
     pdfParameters: PdfParameters;
     uploadedChartInfo: UploadedChartInfo;

@@ -59,6 +59,6 @@ export class MapPopupAirportChartTabComponent implements OnInit {
 
 
     protected onAddChartClicked() {
-        this.appStore.dispatch(FlightMapActions.showSidebar({ airportId: this.airport.id }));
+        this.appStore.dispatch(FlightMapActions.showUploadChartSidebar({ selectedAirport: this.airport }));
     }
 }

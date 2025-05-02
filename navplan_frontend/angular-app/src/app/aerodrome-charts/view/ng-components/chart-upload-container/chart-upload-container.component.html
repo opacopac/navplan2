@@ -9,6 +9,7 @@
                     [selectedChartFile]="this.selectedFile$ | async"
                     [pdfParameters]="this.pdfParameters$ | async"
                     [isUploading]="this.isUploading$ | async"
+                    [selectedAirport]="this.selectedAirport$ | async"
                     [uploadedChartInfo]="this.uploadedChartInfo$ | async"
                     (fileSelected)="this.onFileSelected($event)"
                     (fileUploaded)="this.onFileUploaded($event)"
@@ -22,6 +23,7 @@
         <mat-step [stepControl]="this.step2FormGroup" label="Chart Reference">
             <form [formGroup]="this.step2FormGroup" class="step-form">
                 <app-chart-upload-step2
+                    [selectedAirport]="this.selectedAirport$ | async"
                     [uploadedChartInfo]="this.uploadedChartInfo$ | async"
                     [selectedRefPoint1]="this.chartReference1$ | async"
                     [selectedRefPoint2]="this.chartReference2$ | async"
@@ -38,6 +40,7 @@
             <ng-template matStepLabel>Map Reference</ng-template>
             <form [formGroup]="this.step3FormGroup" class="step-form">
                 <app-chart-upload-step3
+                    [selectedAirport]="this.selectedAirport$ | async"
                     [uploadedChartInfo]="this.uploadedChartInfo$ | async"
                     [chartRefPoint1]="this.chartReference1$ | async"
                     [chartRefPoint2]="this.chartReference2$ | async"
@@ -48,7 +51,7 @@
                 />
                 <div>
                     <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext [disabled]="this.step3FormGroup.invalid">Next</button>
+                    <button mat-button matStepperNext [disabled]="this.step3FormGroup.invalid" (submit)="onSaveClicked()">Next</button>
                 </div>
             </form>
         </mat-step>

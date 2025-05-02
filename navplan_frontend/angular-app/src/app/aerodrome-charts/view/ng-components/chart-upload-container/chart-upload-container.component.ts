@@ -10,7 +10,7 @@ import {
     getIsUploading,
     getMapReference1,
     getMapReference2,
-    getPdfParameters,
+    getPdfParameters, getSelectedAirport,
     getSelectedChartFile,
     getUploadedChartInfo
 } from '../../../state/ngrx/airport-chart.selectors';
@@ -46,6 +46,7 @@ export class ChartUploadContainerComponent implements OnInit {
 
     protected selectedFile$ = this.appStore.select(getSelectedChartFile);
     protected pdfParameters$ = this.appStore.select(getPdfParameters);
+    protected selectedAirport$ = this.appStore.select(getSelectedAirport);
     protected uploadedChartInfo$ = this.appStore.select(getUploadedChartInfo);
     protected chartReference1$ = this.appStore.select(getChartReference1);
     protected chartReference2$ = this.appStore.select(getChartReference2);
@@ -65,11 +66,6 @@ export class ChartUploadContainerComponent implements OnInit {
         this.step1FormGroup = this.formBuilder.group({});
         this.step2FormGroup = this.formBuilder.group({});
         this.step3FormGroup = this.formBuilder.group({});
-    }
-
-
-    protected onCancelClicked() {
-        this.appStore.dispatch(FlightMapActions.hideSidebar());
     }
 
 
@@ -112,5 +108,17 @@ export class ChartUploadContainerComponent implements OnInit {
         this.appStore.dispatch(
             AirportChartActions.mapReference2Changed({mapReference2: pos})
         );
+    }
+
+    protected onCancelClicked() {
+        this.appStore.dispatch(FlightMapActions.hideSidebar());
+    }
+
+
+    protected onSaveClicked() {
+        /*this.appStore.dispatch([
+            AirportChartActions.saveAirportChart({ chartSaveParameters: undefined }), // TODO
+            FlightMapActions.hideSidebar()
+        ]);*/
     }
 }

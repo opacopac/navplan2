@@ -56,7 +56,9 @@ export class AirportChartEffects {
 
     uploadAirportChartAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.uploadAirportChart),
-        switchMap(action => this.airportChartService.uploadAdChart(
+        withLatestFrom(this.appStore.select(getAirportChartState)),
+        switchMap(([action, state]) => this.airportChartService.uploadAdChart(
+            state.selectedAirport.id,
             action.chartUploadParameters
         ).pipe(
             map(uploadedChartInfo => AirportChartActions.uploadAirportChartSuccess({
@@ -82,5 +84,23 @@ export class AirportChartEffects {
                 return AirportChartActions.mapReference2Changed({mapReference2: action.clickPos});
             }
         })
+    ));
+
+
+    saveAirportChartAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportChartActions.saveAirportChart),
+        withLatestFrom(this.appStore.select(getAirportChartState)),
+        switchMap(([action, state]) => this.airportChartService.saveAdChart(
+            state.selectedAirport.id,
+            action.chartSaveParameters
+        ).pipe(
+            map(chart => AirportChartActions.saveAirportChartSuccess({
+                chart: chart
+            })),
+            catchError(error => {
+                LoggingService.logResponseError('ERROR saving airport chart', error);
+                return of(AirportChartActions.saveAirportChartError({error: error}));
+            })
+        ))
     ));
 }

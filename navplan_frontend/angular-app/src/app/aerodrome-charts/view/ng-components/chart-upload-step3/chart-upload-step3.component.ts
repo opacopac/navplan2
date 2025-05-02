@@ -13,6 +13,7 @@ import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validat
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
+import {Airport} from '../../../../aerodrome/domain/model/airport';
 
 
 @Component({
@@ -32,6 +33,7 @@ import {Position2d} from '../../../../geo-physics/domain/model/geometry/position
     styleUrls: ['./chart-upload-step3.component.scss']
 })
 export class ChartUploadStep3Component implements OnInit, OnChanges {
+    @Input() selectedAirport: Airport;
     @Input() uploadedChartInfo: UploadedChartInfo;
     @Input() chartRefPoint1: XyCoord;
     @Input() chartRefPoint2: XyCoord;

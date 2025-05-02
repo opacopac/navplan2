@@ -13,6 +13,7 @@ export const environment = {
     aircraftApiBaseUrl: WEBSITE_BASE_URL + 'api/aircrafts',
     aircraftTypeDesignatorApiBaseUrl: WEBSITE_BASE_URL + 'api/aircrafts/typedesignators',
     airportApiBaseUrl: WEBSITE_BASE_URL + 'api/aerodromes',
+    airportChartApiUrlSuffix: '/charts',
     airportChartApiBaseUrl: WEBSITE_BASE_URL + 'api/aerodromes/charts',
     airportCircuitApiBaseUrl: WEBSITE_BASE_URL + 'api/aerodromes/circuits',
     airportReportingPointApiBaseUrl: WEBSITE_BASE_URL + 'api/aerodromes/reportingpoints',

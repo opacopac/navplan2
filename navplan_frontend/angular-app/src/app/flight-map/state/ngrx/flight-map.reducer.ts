@@ -3,6 +3,7 @@ import {FlightMapActions} from './flight-map.actions';
 import {createReducer, on} from '@ngrx/store';
 import {WaypointConverter} from '../../../flightroute/domain/converter/waypoint-converter';
 import {MeteoLayer} from '../../domain/model/meteo-layer';
+import {SidebarMode} from './sidebar-mode';
 
 
 const initialState: FlightMapState = {
@@ -18,7 +19,9 @@ const initialState: FlightMapState = {
     showMapLayerSelection: false,
     showMeteoLayer: false,
     meteoLayer: MeteoLayer.SmaStationsLayer,
-    showSidebar: false
+    sidebarState: {
+        mode: SidebarMode.OFF,
+    }
 };
 
 
@@ -57,13 +60,18 @@ export const flightMapReducer = createReducer(
         ...state,
         meteoLayer: action.meteoLayer
     })),
-    on(FlightMapActions.showSidebar, (state, action) => ({
+    on(FlightMapActions.showUploadChartSidebar, (state, action) => ({
         ...state,
-        showSidebar: true,
-        airportId: action.airportId
+        sidebarState: {
+            ...state.sidebarState,
+            mode: SidebarMode.UPLOAD_AD_CHART,
+        },
     })),
     on(FlightMapActions.hideSidebar, (state) => ({
         ...state,
-        showSidebar: false
+        sidebarState: {
+            ...state.sidebarState,
+            mode: SidebarMode.OFF
+        }
     }))
 );

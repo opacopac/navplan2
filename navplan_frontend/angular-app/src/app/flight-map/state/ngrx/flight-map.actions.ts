@@ -5,6 +5,7 @@ import {MetarTaf} from '../../../metar-taf/domain/model/metar-taf';
 import {Notam} from '../../../notam/domain/model/notam';
 import {Waypoint} from '../../../flightroute/domain/model/waypoint';
 import {MeteoLayer} from '../../domain/model/meteo-layer';
+import {Airport} from '../../../aerodrome/domain/model/airport';
 
 
 export class FlightMapActions {
@@ -46,9 +47,9 @@ export class FlightMapActions {
         props<{ meteoLayer: MeteoLayer }>()
     );
 
-    public static readonly showSidebar = createAction(
-        '[FlightMapPage] Show sidebar',
-        props<{ airportId: number }>()
+    public static readonly showUploadChartSidebar = createAction(
+        '[FlightMapPage] Show sidebar to upload chart',
+        props<{ selectedAirport: Airport }>()
     );
 
     public static readonly hideSidebar = createAction(

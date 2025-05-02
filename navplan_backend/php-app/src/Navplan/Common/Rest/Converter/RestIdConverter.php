@@ -10,14 +10,14 @@ class RestIdConverter
     const ARG_ID = "id";
 
 
-    public static function getId(array $args): int
+    public static function getId(array $args, string $key = self::ARG_ID): int
     {
-        return StringNumberHelper::parseIntOrError($args, self::ARG_ID);
+        return StringNumberHelper::parseIntOrError($args, $key);
     }
 
 
-    public static function getIdOrNull(array $args): ?int
+    public static function getIdOrNull(array $args, string $key = self::ARG_ID): ?int
     {
-        return StringNumberHelper::parseIntOrNull($args, self::ARG_ID);
+        return StringNumberHelper::parseIntOrNull($args, $key);
     }
 }

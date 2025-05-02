@@ -16,6 +16,7 @@ import {PdfParameters} from '../../../domain/model/pdf-parameters';
 import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {Angle} from '../../../../geo-physics/domain/model/quantities/angle';
+import {Airport} from '../../../../aerodrome/domain/model/airport';
 
 
 @Component({
@@ -37,6 +38,7 @@ import {Angle} from '../../../../geo-physics/domain/model/quantities/angle';
     styleUrls: ['./chart-upload-step1.component.scss']
 })
 export class ChartUploadStep1Component implements OnInit, OnChanges {
+    @Input() selectedAirport: Airport;
     @Input() uploadedChartInfo: UploadedChartInfo;
     @Input() isUploading: boolean;
     @Input() selectedChartFile: File;

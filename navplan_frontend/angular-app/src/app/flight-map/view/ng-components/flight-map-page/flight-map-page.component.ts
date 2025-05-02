@@ -4,12 +4,7 @@ import {Position2d} from '../../../../geo-physics/domain/model/geometry/position
 import {Angle} from '../../../../geo-physics/domain/model/quantities/angle';
 import {combineLatest} from 'rxjs';
 import {map, take} from 'rxjs/operators';
-import {
-    getMapPosition,
-    getMapRotation,
-    getMapZoom,
-    getShowAttributions,
-} from '../../../../base-map/state/ngrx/base-map.selectors';
+import {getMapPosition, getMapRotation, getMapZoom, getShowAttributions,} from '../../../../base-map/state/ngrx/base-map.selectors';
 import {OlMetarContainer} from '../../../../metar-taf/view/ol-components/ol-metar-container';
 import {OlNotamContainer} from '../../../../notam/view/ol-components/ol-notam-container';
 import {getNotamList} from '../../../../notam/state/ngrx/notam.selectors';
@@ -21,30 +16,20 @@ import {OlTrafficContainer} from '../../../../traffic/view/ol-components/ol-traf
 import {getTrafficState} from '../../../../traffic/state/ngrx/traffic.selectors';
 import {OlOwnPlaneContainer} from '../../../../location/location-view/ol-components/ol-own-plane-container';
 import {getLocationState} from '../../../../location/location-state/ngrx/location.selectors';
-import {
-    OlMapContainerComponent
-} from '../../../../base-map/view/ng-components/ol-map-container/ol-map-container.component';
-import {
-    MapPopupTrafficComponent
-} from '../../../../traffic/view/ng-components/map-popup-traffic/map-popup-traffic.component';
+import {OlMapContainerComponent} from '../../../../base-map/view/ng-components/ol-map-container/ol-map-container.component';
+import {MapPopupTrafficComponent} from '../../../../traffic/view/ng-components/map-popup-traffic/map-popup-traffic.component';
 import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {
     getFlightMapShowMeteoLayer,
     getFlightMapShowOverlay,
     getShowMapLayerSelection,
-    getShowSidebar
+    getSidebarMode
 } from '../../../state/ngrx/flight-map.selectors';
 import {OlAirportContainer} from '../../../../aerodrome/view/ol-components/ol-airport-container';
-import {
-    OlAirportCircuitContainer
-} from '../../../../aerodrome-circuits/view/ol-components/ol-airport-circuit-container';
-import {
-    OlReportingPointContainer
-} from '../../../../aerodrome-reporting/view/ol-components/ol-reporting-point-container';
-import {
-    OlReportingSectorContainer
-} from '../../../../aerodrome-reporting/view/ol-components/ol-reporting-sector-container';
+import {OlAirportCircuitContainer} from '../../../../aerodrome-circuits/view/ol-components/ol-airport-circuit-container';
+import {OlReportingPointContainer} from '../../../../aerodrome-reporting/view/ol-components/ol-reporting-point-container';
+import {OlReportingSectorContainer} from '../../../../aerodrome-reporting/view/ol-components/ol-reporting-sector-container';
 import {OlAirspaceContainer} from '../../../../airspace/view/ol-components/ol-airspace-container';
 import {OlNavaidContainer} from '../../../../navaid/view/ol-components/ol-navaid-container';
 import {OlWebcamContainer} from '../../../../webcam/view/ol-components/ol-webcam-container';
@@ -56,10 +41,7 @@ import {getMetarTafs} from '../../../../metar-taf/state/ngrx/metar-taf.selectors
 import {getAirspaces} from '../../../../airspace/state/ngrx/airspace.selectors';
 import {getNavaids} from '../../../../navaid/state/ngrx/navaid.selectors';
 import {getAirports} from '../../../../aerodrome/state/ngrx/airport.selectors';
-import {
-    getReportingPoints,
-    getReportingSectors
-} from '../../../../aerodrome-reporting/state/ngrx/reporting-point-sector.selectors';
+import {getReportingPoints, getReportingSectors} from '../../../../aerodrome-reporting/state/ngrx/reporting-point-sector.selectors';
 import {getAirportCircuits} from '../../../../aerodrome-circuits/state/ngrx/airport-circuit.selectors';
 import {getAirportCharts} from '../../../../aerodrome-charts/state/ngrx/airport-chart.selectors';
 import {MapPopupComponent} from '../map-popup/map-popup.component';
@@ -82,17 +64,11 @@ import {
 import {OlDwdForecastMapTileLayer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-map-tile-layer';
 import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
 import {getAltitudeUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
-import {
-    SearchContainerComponent
-} from '../../../../search/view/ng-components/search-container/search-container.component';
+import {SearchContainerComponent} from '../../../../search/view/ng-components/search-container/search-container.component';
 import {ZoomButtonsComponent} from '../../../../base-map/view/ng-components/zoom-buttons/zoom-buttons.component';
-import {
-    LocationButtonComponent
-} from '../../../../location/location-view/ng-components/location-button/location-button.component';
+import {LocationButtonComponent} from '../../../../location/location-view/ng-components/location-button/location-button.component';
 import {FlighttimerComponent} from '../../../../flight-timer/view/ng-components/flighttimer/flighttimer.component';
-import {
-    VerticalMapButtonComponent
-} from '../../../../vertical-map/view/ng-components/vertical-map-button/vertical-map-button.component';
+import {VerticalMapButtonComponent} from '../../../../vertical-map/view/ng-components/vertical-map-button/vertical-map-button.component';
 import {MeteoButtonComponent} from '../meteo-button/meteo-button.component';
 import {FullScreenButtonComponent} from '../full-screen-button/full-screen-button.component';
 import {MapLayerSelectionButtonComponent} from '../map-layer-selection-button/map-layer-selection-button.component';
@@ -100,9 +76,7 @@ import {MapLayerSelectionContentComponent} from '../map-layer-selection-content/
 import {
     AttributionsButtonComponent
 } from '../../../../base-map/view/ng-components/attributions-button/attributions-button-component.component';
-import {
-    AttributionsContentComponent
-} from '../../../../base-map/view/ng-components/attributions-content/attributions-content.component';
+import {AttributionsContentComponent} from '../../../../base-map/view/ng-components/attributions-content/attributions-content.component';
 import {VerticalMapComponent} from '../../../../vertical-map/view/ng-components/vertical-map/vertical-map.component';
 import {MeteoContainerComponent} from '../meteo-container/meteo-container.component';
 import {CommonModule} from '@angular/common';
@@ -111,6 +85,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {
     ChartUploadContainerComponent
 } from '../../../../aerodrome-charts/view/ng-components/chart-upload-container/chart-upload-container.component';
+import {SidebarMode} from '../../../state/ngrx/sidebar-mode';
 
 
 @Component({
@@ -173,7 +148,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     protected readonly showVerticalMap$ = this.verticalMapState$.pipe(map(state => state.buttonStatus === VerticalMapButtonStatus.CURRENT));
     protected readonly showMapLayerSelection$ = this.appStore.pipe(select(getShowMapLayerSelection));
     protected readonly showAttributions$ = this.appStore.pipe(select(getShowAttributions));
-    protected readonly showSidebar$ = this.appStore.pipe(select(getShowSidebar));
+    protected readonly sidebarMode$ = this.appStore.pipe(select(getSidebarMode));
+    protected readonly SidebarMode = SidebarMode;
 
 
     constructor(

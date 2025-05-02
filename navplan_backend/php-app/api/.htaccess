@@ -22,8 +22,11 @@ RewriteRule ^aerodromes/circuits$ %{ENV:BASEPATH}AerodromeCircuit/AdCircuit.php 
 RewriteRule ^aerodromes/reportingpoints$ %{ENV:BASEPATH}AerodromeReporting/AdReportingPoint.php [L,QSA]
 
 # Rewrite for /api/aerodromes/charts
-RewriteCond %{REQUEST_METHOD} ^(POST)$
-RewriteRule ^aerodromes/charts$ %{ENV:BASEPATH}AerodromeChart/AdChart.php [L,QSA]
+#RewriteCond %{REQUEST_METHOD} ^(POST)$
+#RewriteRule ^aerodromes/charts$ %{ENV:BASEPATH}AerodromeChart/AdChart.php [L,QSA]
+
+# Rewrite for /api/aerodromes/{id}/charts/{action}
+RewriteRule ^aerodromes/(\d+)/charts/([^/]+)$ %{ENV:BASEPATH}AerodromeChart/AdChart.php?adid=$1&action=$2 [L,QSA]
 
 # Rewrite for /api/aerodromes/charts/{id}
 RewriteRule ^aerodromes/charts/(\d+)$ %{ENV:BASEPATH}AerodromeChart/AdChart.php?id=$1 [L,QSA]

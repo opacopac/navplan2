@@ -4,6 +4,8 @@ import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
 import {ChartUploadParameters} from '../../domain/model/chart-upload-parameters';
 import {XyCoord} from '../../../geo-physics/domain/model/geometry/xyCoord';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
+import {AirportChartEffects} from './airport-chart.effects';
+import {ChartSaveParameters} from '../../domain/model/chart-save-parameters';
 
 
 export class AirportChartActions {
@@ -64,5 +66,24 @@ export class AirportChartActions {
     public static readonly mapReference2Changed = createAction(
         '[Chart Upload Dialog] Map reference 2 changed',
         props<{ mapReference2: Position2d }>()
+    );
+
+    public static readonly cancelUploadAirportChart = createAction(
+        '[Chart Upload Dialog] Close upload airport chart dialog'
+    );
+
+    public static readonly saveAirportChart = createAction(
+        '[Chart Upload Dialog] Save airport chart',
+        props<{ chartSaveParameters: ChartSaveParameters }>()
+    );
+
+    public static readonly saveAirportChartSuccess = createAction(
+        '[AirportChartEffects] Save airport chart success',
+        props<{ chart: AirportChart }>()
+    );
+
+    public static readonly saveAirportChartError = createAction(
+        '[AirportChartEffects] Save airport chart error',
+        props<{ error: Error }>()
     );
 }

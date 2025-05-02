@@ -4,9 +4,13 @@
         class="drawer"
         mode="side"
         position="end"
-        [opened]="this.showSidebar$ | async"
+        [opened]="(this.sidebarMode$ | async) !== SidebarMode.OFF"
     >
-        <app-chart-upload-container/>
+        @if ((this.sidebarMode$ | async) === SidebarMode.UPLOAD_AD_CHART) {
+            <app-chart-upload-container/>
+        } @else if ((this.sidebarMode$ | async) === SidebarMode.EDIT_AD_CIRCUIT) {
+            <!-- TODO -->
+        }
     </mat-drawer>
     <!-- base map -->
     <div class="base-map-container">
