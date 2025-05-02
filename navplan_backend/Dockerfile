@@ -42,8 +42,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Create log & temp directories and set permissions
 RUN mkdir -p /var/log/navplan/ /var/www/html/tmp/ && chmod -R 777 /var/log/navplan/ /var/www/html/tmp/
 
-# Copy sample data
+# Copy sample meteo data
 COPY meteo_dwd /var/www/html/meteo_dwd
+
+# Copy sample terrain tiles
+RUN mkdir -p /var/www/html/terraintiles && \
+    for tile in N46E006 N46E007 N46E008 N46E009 N46E010 N47E006 N47E007 N47E008 N47E009 N47E010; do \
+        curl -o /var/www/html/terraintiles/${tile}.hgt https://www.navplan.ch/terraintiles/${tile}.hgt; \
+    done
 
 # Install PHP dependencies
 COPY php-app/composer.json /var/www/html/php/composer.json

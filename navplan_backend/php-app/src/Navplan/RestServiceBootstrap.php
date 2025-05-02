@@ -14,9 +14,11 @@ if ($_SERVER['HTTP_HOST'] === 'localhost:8080') {
 } else {
     header("Access-Control-Allow-Origin: https://www.navplan.ch");
 }
-header("Access-Control-Allow-Credentials: true");
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Headers: Content-Type");
 
+// handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204);
     exit();
