@@ -3,16 +3,18 @@
 namespace Navplan\AerodromeChart\Persistence\Model;
 
 use Navplan\AerodromeChart\Domain\Model\AirportChart2;
-use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Persistence\Model\DbExtent2dConverter;
 use Navplan\System\Domain\Model\IDbResult;
 
 
-class DbAirportChart2Converter {
+class DbAirportChart2Converter
+{
     /**
      * @param IDbResult $result
      * @return AirportChart2[]
      */
-    public static function fromDbResult(IDbResult $result): array {
+    public static function fromDbResult(IDbResult $result): array
+    {
         $charts = [];
         while ($row = $result->fetch_assoc()) {
             $charts[] = self::fromDbRow($row);
@@ -22,19 +24,17 @@ class DbAirportChart2Converter {
     }
 
 
-    public static function fromDbRow(array $row): AirportChart2 {
+    public static function fromDbRow(array $row): AirportChart2
+    {
         return new AirportChart2(
-            intval($row["id"]),
-            $row["ad_icao"],
-            $row["source"],
-            $row["type"],
-            $row["filename"],
-            Extent2d::createFromCoords(
-                floatval($row["minlon"]),
-                floatval($row["minlat"]),
-                floatval($row["maxlon"]),
-                floatval($row["maxlat"])
-            )
+            intval($row[DbTableAirportCharts::COL_ID]),
+            $row[DbTableAirportCharts::COL_AD_ICAO],
+            $row[DbTableAirportCharts::COL_SOURCE],
+            $row[DbTableAirportCharts::COL_TYPE],
+            $row[DbTableAirportCharts::COL_FILENAME],
+            DbExtent2dConverter::fromDbRow($row),
+            DbOriginalFileParametersConverter::fromDbRow($row),
+            DbChartRegistrationConverter::fromDbRow($row),
         );
     }
 }
