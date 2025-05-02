@@ -10,7 +10,8 @@ import {
     getIsUploading,
     getMapReference1,
     getMapReference2,
-    getPdfParameters, getSelectedAirport,
+    getPdfParameters,
+    getSelectedAirport,
     getSelectedChartFile,
     getUploadedChartInfo
 } from '../../../state/ngrx/airport-chart.selectors';
@@ -110,15 +111,13 @@ export class ChartUploadContainerComponent implements OnInit {
         );
     }
 
+
     protected onCancelClicked() {
-        this.appStore.dispatch(FlightMapActions.hideSidebar());
+        this.appStore.dispatch(AirportChartActions.cancelUploadAirportChart());
     }
 
 
     protected onSaveClicked() {
-        /*this.appStore.dispatch([
-            AirportChartActions.saveAirportChart({ chartSaveParameters: undefined }), // TODO
-            FlightMapActions.hideSidebar()
-        ]);*/
+        this.appStore.dispatch(AirportChartActions.saveAirportChart());
     }
 }

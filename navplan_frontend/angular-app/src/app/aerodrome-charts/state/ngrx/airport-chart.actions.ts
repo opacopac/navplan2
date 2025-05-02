@@ -73,8 +73,7 @@ export class AirportChartActions {
     );
 
     public static readonly saveAirportChart = createAction(
-        '[Chart Upload Dialog] Save airport chart',
-        props<{ chartSaveParameters: ChartSaveParameters }>()
+        '[Chart Upload Dialog] Save airport chart'
     );
 
     public static readonly saveAirportChartSuccess = createAction(

@@ -9,6 +9,8 @@ import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {IAirportChartService} from '../../domain/service/i-airport-chart.service';
 import {getAirportChartState} from './airport-chart.selectors';
+import {FlightMapActions} from '../../../flight-map/state/ngrx/flight-map.actions';
+import {ChartSaveParameters} from '../../domain/model/chart-save-parameters';
 
 
 @Injectable()
@@ -92,7 +94,13 @@ export class AirportChartEffects {
         withLatestFrom(this.appStore.select(getAirportChartState)),
         switchMap(([action, state]) => this.airportChartService.saveAdChart(
             state.selectedAirport.id,
-            action.chartSaveParameters
+            new ChartSaveParameters(
+                state.uploadedChartInfo.url,
+                state.chartReference1,
+                state.chartReference2,
+                state.mapReference1,
+                state.mapReference2
+            )
         ).pipe(
             map(chart => AirportChartActions.saveAirportChartSuccess({
                 chart: chart
@@ -102,5 +110,11 @@ export class AirportChartEffects {
                 return of(AirportChartActions.saveAirportChartError({error: error}));
             })
         ))
+    ));
+
+
+    hideSidebarAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportChartActions.cancelUploadAirportChart, AirportChartActions.saveAirportChartSuccess),
+        map(action => FlightMapActions.hideSidebar())
     ));
 }
