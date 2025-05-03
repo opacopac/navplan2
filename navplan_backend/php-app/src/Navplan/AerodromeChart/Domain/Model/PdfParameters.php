@@ -8,9 +8,9 @@ use Navplan\Common\Domain\Model\Angle;
 class PdfParameters
 {
     public function __construct(
-        public int $pdfPage,
-        public Angle $pdfRotation,
-        public int $pdfDpi,
+        public int $page,
+        public Angle $rotation,
+        public int $dpi,
     )
     {
     }

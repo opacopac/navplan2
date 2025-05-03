@@ -16,4 +16,16 @@ class RestAngleConverter {
             $angle->unit->value
         ];
     }
+
+
+    public static function fromRest(?array $args): ?Angle {
+        if (!$args) {
+            return NULL;
+        }
+
+        return new Angle(
+            $args[0],
+            $args[1]
+        );
+    }
 }

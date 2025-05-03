@@ -42,7 +42,7 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
         const formData = new FormData();
         formData.append('file', chartUploadParameters.file);
         formData.append('page', chartUploadParameters.pdfParameters.page.toString());
-        formData.append('rotation', chartUploadParameters.pdfParameters.rotation.deg.toString());
+        formData.append('rotationDeg', chartUploadParameters.pdfParameters.rotation.deg.toString());
         formData.append('dpi', chartUploadParameters.pdfParameters.dpi.toString());
 
         return this.http

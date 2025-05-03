@@ -64,9 +64,9 @@ class AirportChartService implements IAirportChartService
             case "application/pdf":
                 $img = $this->imageService->loadPdf(
                     $fileInfo->tmpName,
-                    $pdfParameters->pdfDpi,
-                    $pdfParameters->pdfPage,
-                    $pdfParameters->pdfRotation
+                    $pdfParameters->dpi,
+                    $pdfParameters->page,
+                    $pdfParameters->rotation
                 );
                 $vfrmParams = VfrmService::getVfrmChartNameProposal($fileInfo->name);
                 break;

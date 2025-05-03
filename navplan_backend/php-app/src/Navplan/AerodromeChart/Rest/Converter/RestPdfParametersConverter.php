@@ -4,6 +4,9 @@ namespace Navplan\AerodromeChart\Rest\Converter;
 
 use Navplan\AerodromeChart\Domain\Model\PdfParameters;
 use Navplan\Common\Domain\Model\Angle;
+use Navplan\Common\Domain\Model\AngleUnit;
+use Navplan\Common\Rest\Converter\RestAngleConverter;
+use Navplan\Common\StringNumberHelper;
 
 
 class RestPdfParametersConverter
@@ -11,9 +14,9 @@ class RestPdfParametersConverter
     public static function fromRest(array $pdfParams): PdfParameters
     {
         return new PdfParameters(
-            $pdfParams["pdfPage"],
-            Angle::fromDeg($pdfParams["pdfRotationDeg"]),
-            $pdfParams["pdfDpi"]
+            StringNumberHelper::parseIntOrZero($pdfParams, "page"),
+            new Angle(StringNumberHelper::parseFloatOrZero($pdfParams, "rotationDeg"), AngleUnit::DEG),
+            StringNumberHelper::parseIntOrZero($pdfParams, "dpi")
         );
     }
 
@@ -21,9 +24,9 @@ class RestPdfParametersConverter
     public static function toRest(PdfParameters $pdfParams): array
     {
         return array(
-            "pdfPage" => $pdfParams->pdfPage,
-            "pdfRotationDeg" => $pdfParams->pdfRotation->toDeg(),
-            "pdfDpi" => $pdfParams->pdfDpi
+            "page" => $pdfParams->page,
+            "rotation" => RestAngleConverter::toRest($pdfParams->rotation),
+            "dpi" => $pdfParams->dpi
         );
     }
 }
