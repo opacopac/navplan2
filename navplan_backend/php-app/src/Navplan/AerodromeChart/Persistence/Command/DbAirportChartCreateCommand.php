@@ -32,7 +32,7 @@ class DbAirportChartCreateCommand implements IAirportChartCreateCommand
     {
         $query = "INSERT INTO " . DbTableAirportCharts::TABLE_NAME . " (";
         $query .= join(",", [
-            DbTableAirportCharts::COL_AIRPORT_ID,
+            DbTableAirportCharts::COL_AD_ICAO,
             DbTableAirportCharts::COL_SOURCE,
             DbTableAirportCharts::COL_NAME,
             DbTableAirportCharts::COL_ACTIVE,

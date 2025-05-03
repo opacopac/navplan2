@@ -28,7 +28,7 @@ class DbAirportChart2Converter
     {
         return new AirportChart(
             intval($row[DbTableAirportCharts::COL_ID]),
-            $row[DbTableAirportCharts::COL_AIRPORT_ID],
+            $row[DbTableAirportCharts::COL_AD_ICAO],
             $row[DbTableAirportCharts::COL_SOURCE],
             $row[DbTableAirportCharts::COL_NAME],
             $row[DbTableAirportCharts::COL_FILENAME],

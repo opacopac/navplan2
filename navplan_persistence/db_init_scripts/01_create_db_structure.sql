@@ -45,10 +45,9 @@ CREATE TABLE IF NOT EXISTS `ad_charts` (
 --
 -- Table structure for table `ad_charts2`
 --
-
 CREATE TABLE `ad_charts2` (
                               `id` int(11) NOT NULL,
-                              `airport_id` int(11) UNSIGNED NOT NULL,
+                              `ad_icao` varchar(4) NOT NULL,
                               `user_id` int(11) UNSIGNED DEFAULT NULL,
                               `source` varchar(20) NOT NULL,
                               `name` varchar(50) NOT NULL,
@@ -85,7 +84,9 @@ CREATE TABLE `ad_charts2` (
 -- Indizes für die Tabelle `ad_charts2`
 --
 ALTER TABLE `ad_charts2`
-    ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`),
+  ADD KEY `ad_icao` (`ad_icao`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT für exportierte Tabellen
@@ -96,6 +97,7 @@ ALTER TABLE `ad_charts2`
 --
 ALTER TABLE `ad_charts2`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
 
 
 -- --------------------------------------------------------

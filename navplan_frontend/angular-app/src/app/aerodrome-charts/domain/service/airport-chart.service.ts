@@ -19,12 +19,12 @@ export class AirportChartService implements IAirportChartService {
     }
 
 
-    public uploadAdChart(airportId: number, chartUploadParameters: ChartUploadParameters): Observable<UploadedChartInfo> {
-        return this.airportChartRepo.uploadAdChart(airportId, chartUploadParameters);
+    public uploadAdChart(adIcao: string, chartUploadParameters: ChartUploadParameters): Observable<UploadedChartInfo> {
+        return this.airportChartRepo.uploadAdChart(adIcao, chartUploadParameters);
     }
 
 
-    public saveAdChart(airportId: number, chartSaveParameters: ChartSaveParameters): Observable<AirportChart> {
-        return this.airportChartRepo.saveAdChart(airportId, chartSaveParameters);
+    public saveAdChart(adIcao: string, chartSaveParameters: ChartSaveParameters): Observable<AirportChart> {
+        return this.airportChartRepo.saveAdChart(adIcao, chartSaveParameters);
     }
 }

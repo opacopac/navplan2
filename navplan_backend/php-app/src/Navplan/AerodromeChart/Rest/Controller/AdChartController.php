@@ -3,7 +3,6 @@
 namespace Navplan\AerodromeChart\Rest\Controller;
 
 use InvalidArgumentException;
-use Navplan\AerodromeChart\Domain\Service\IAirportChartRepo;
 use Navplan\AerodromeChart\Domain\Service\IAirportChartService;
 use Navplan\AerodromeChart\Rest\Converter\RestAirportChart2Converter;
 use Navplan\AerodromeChart\Rest\Converter\RestUploadedChartInfoConverter;
@@ -12,6 +11,8 @@ use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestActionConverter;
 use Navplan\Common\Rest\Converter\RestFileConverter;
 use Navplan\Common\Rest\Converter\RestIdConverter;
+use Navplan\Common\StringNumberHelper;
+use Navplan\Flightroute\Rest\Converter\RestSuccessResponse;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\User\Rest\Model\RestTokenConverter;
@@ -21,7 +22,7 @@ class AdChartController implements IRestController
 {
     const ARG_ACTION_UPLOAD = "upload";
     const ARG_ACTION_SAVE = "save";
-    const ARG_AD_ID = "adid";
+    const ARG_AD_ICAO = "adicao";
     const ARG_FILE = "file";
 
 
@@ -44,18 +45,22 @@ class AdChartController implements IRestController
                 $response = RestAirportChart2Converter::toRest($adChart);
                 break;
             case HttpRequestMethod::POST:
-                $adid = RestIdConverter::getId($this->httpService->getGetArgs(), self::ARG_AD_ID);
+                $adIcao = StringNumberHelper::parseStringOrError($this->httpService->getGetArgs(), self::ARG_AD_ICAO);
                 $action = RestActionConverter::getAction($this->httpService->getGetArgs());
-
-                if ($action === self::ARG_ACTION_UPLOAD) {
-                    $fileInfo = RestFileConverter::getUploadedFileInfo($this->httpService->getFileArgs(), self::ARG_FILE);
-                    $pdfInfo = RestUploadedPdfInfoConverter::fromRest($this->httpService->getPostArgs());
-                    $chartInfo = $this->airportChartService->uploadAdChart($fileInfo, $pdfInfo);
-                    $response = RestUploadedChartInfoConverter::toRest($chartInfo);
-                } elseif ($action === self::ARG_ACTION_SAVE) {
-                    // TODO
-                } else {
-                    throw new InvalidArgumentException("invalid arguments");
+                switch ($action) {
+                    case self::ARG_ACTION_UPLOAD:
+                        $fileInfo = RestFileConverter::getUploadedFileInfo($this->httpService->getFileArgs(), self::ARG_FILE);
+                        $pdfInfo = RestUploadedPdfInfoConverter::fromRest($this->httpService->getPostArgs());
+                        $chartInfo = $this->airportChartService->uploadAdChart($fileInfo, $pdfInfo);
+                        $response = RestUploadedChartInfoConverter::toRest($chartInfo);
+                        break;
+                    case self::ARG_ACTION_SAVE:
+                        // TODO
+                        $success = $this->airportChartService->saveAdChart(null, $token); // TODO
+                        $response = RestSuccessResponse::toRest($success);
+                        break;
+                    default:
+                        throw new InvalidArgumentException("invalid arguments");
                 }
                 break;
             default:

@@ -36,8 +36,8 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
     }
 
 
-    public uploadAdChart(airportId: number, chartUploadParameters: ChartUploadParameters): Observable<UploadedChartInfo> {
-        const url = environment.airportApiBaseUrl + '/' + airportId + '/charts/upload';
+    public uploadAdChart(adIcao: string, chartUploadParameters: ChartUploadParameters): Observable<UploadedChartInfo> {
+        const url = environment.airportApiBaseUrl + '/' + adIcao + '/charts/upload';
 
         const formData = new FormData();
         formData.append('file', chartUploadParameters.file);
@@ -57,8 +57,8 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
     }
 
 
-    public saveAdChart(airportId: number, chartSaveParameters: ChartSaveParameters): Observable<AirportChart> {
-        const url = environment.airportApiBaseUrl + '/' + airportId + '/charts/save';
+    public saveAdChart(adIcao: string, chartSaveParameters: ChartSaveParameters): Observable<AirportChart> {
+        const url = environment.airportApiBaseUrl + '/' + adIcao + '/charts/save';
         const requestBody = {
             filepath: chartSaveParameters.url
             // TODO

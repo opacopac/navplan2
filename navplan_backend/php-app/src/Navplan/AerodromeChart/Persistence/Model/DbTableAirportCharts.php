@@ -7,7 +7,7 @@ class DbTableAirportCharts
 {
     public const TABLE_NAME = "ad_charts2";
     public const COL_ID = "id";
-    public const COL_AIRPORT_ID = "airport_id";
+    public const COL_AD_ICAO = "ad_icao";
     public const COL_USER_ID = "user_id";
     public const COL_SOURCE = "source";
     public const COL_NAME = "name";
