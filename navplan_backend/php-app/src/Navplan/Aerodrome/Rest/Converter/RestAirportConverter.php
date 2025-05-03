@@ -4,7 +4,6 @@ namespace Navplan\Aerodrome\Rest\Converter;
 
 use Navplan\Aerodrome\Domain\Model\Airport;
 use Navplan\AerodromeChart\Rest\Converter\RestAirportChartConverter;
-use Navplan\AerodromeChart\Rest\Converter\RestAirportChartConverter;
 use Navplan\Common\Rest\Converter\RestAltitudeConverter;
 use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 use Navplan\Webcam\Rest\Model\RestWebcamConverter;
@@ -27,8 +26,7 @@ class RestAirportConverter {
             "runways" => array_map(function($rwy) { return RestAirportRunwayConverter::toRest($rwy); }, $airport->runways),
             "radios" => array_map(function($radio) { return RestAirportRadioConverter::toRest($radio); }, $airport->radios),
             "webcams" => array_map(function($cam) { return RestWebcamConverter::toRest($cam); }, $airport->webcams),
-            "charts" => array_map(function($chart) { return RestAirportChartConverter::toRest($chart); }, $airport->charts),
-            "charts2" => array_map(function($chart2) { return RestAirportChartConverter::toRest($chart2); }, $airport->charts2),
+            "charts" => array_map(function($chart2) { return RestAirportChartConverter::toRest($chart2); }, $airport->charts2),
             "mapfeatures" => array_map(function($feat) { return RestAirportFeatureConverter::toRest($feat); }, $airport->mapfeatures)
         );
     }

@@ -291,13 +291,13 @@ class DbAirportRepo implements IAirportRepo {
     private function loadAirportCharts2(array &$airports, string $apIcaoList) {
         // TODO => use chart repo
         $query = "SELECT *,";
-        $query .= "  (CASE WHEN type LIKE 'AREA%' THEN 1 WHEN type LIKE 'VAC%' THEN 2 WHEN type LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
+        $query .= "  (CASE WHEN name LIKE 'AREA%' THEN 1 WHEN name LIKE 'VAC%' THEN 2 WHEN name LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
         $query .= " FROM ad_charts2 ";
         $query .= " WHERE ad_icao IN (" .  $apIcaoList . ")";
         $query .= " ORDER BY";
         $query .= "   source ASC,";
         $query .= "   sortorder1 ASC,";
-        $query .= "   type ASC";
+        $query .= "   name ASC";
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading charts");
 
