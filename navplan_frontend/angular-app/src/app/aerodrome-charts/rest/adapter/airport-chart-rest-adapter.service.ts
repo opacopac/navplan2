@@ -6,8 +6,8 @@ import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {AirportChart} from '../../domain/model/airport-chart';
 import {IAirportChartRepoService} from '../../domain/service/i-airport-chart-repo.service';
-import {RestAirportChart2Converter} from '../converter/rest-airport-chart2-converter';
-import {IRestAirportChart2} from '../model/i-rest-airport-chart2';
+import {RestAirportChartConverter} from '../converter/rest-airport-chart-converter';
+import {IRestAirportChart} from '../model/i-rest-airport-chart';
 import {IRestUploadAdChartInfo} from '../model/i-rest-upload-ad-chart-info';
 import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
 import {RestUploadedChartInfoConverter} from '../converter/rest-uploaded-chart-info-converter';
@@ -25,9 +25,9 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
         const url: string = environment.airportChartApiBaseUrl + '/' + chartId;
 
         return this.http
-            .get<IRestAirportChart2>(url)
+            .get<IRestAirportChart>(url)
             .pipe(
-                map(response => RestAirportChart2Converter.fromRest(response)),
+                map(response => RestAirportChartConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR reading airport chart by id', err);
                     return throwError(err);
@@ -65,9 +65,9 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
         };
 
         return this.http
-            .post<IRestAirportChart2>(url, requestBody)
+            .post<IRestAirportChart>(url, requestBody)
             .pipe(
-                map(response => RestAirportChart2Converter.fromRest(response)),
+                map(response => RestAirportChartConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR saving airport chart', err);
                     return throwError(err);

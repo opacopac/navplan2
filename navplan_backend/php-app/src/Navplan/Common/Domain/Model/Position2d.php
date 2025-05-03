@@ -3,6 +3,7 @@
 namespace Navplan\Common\Domain\Model;
 
 use InvalidArgumentException;
+use Navplan\AerodromeChart\Domain\Model\GeoCoordinateType;
 
 
 class Position2d implements IGeometry2d, GeoCoordinate {
@@ -44,6 +45,12 @@ class Position2d implements IGeometry2d, GeoCoordinate {
 
     public function equals(Position2d $position): bool {
         return $this->longitude === $position->longitude && $this->latitude === $position->latitude;
+    }
+
+
+    public function getType(): GeoCoordinateType
+    {
+        return GeoCoordinateType::LAT_LON;
     }
 
 

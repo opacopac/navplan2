@@ -1,27 +1,40 @@
 import {AirportChart} from '../../domain/model/airport-chart';
+import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
 import {IRestAirportChart} from '../model/i-rest-airport-chart';
-import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
+import {RestOriginalFileParametersConverter} from './rest-original-file-parameters-converter';
+import {RestChartRegistrationConverter} from './rest-chart-registration-converter';
 
 
 export class RestAirportChartConverter {
     public static fromRest(restAdChart: IRestAirportChart): AirportChart {
         return new AirportChart(
             restAdChart.id,
-            restAdChart.airport_icao,
+            restAdChart.airportIcao,
             restAdChart.source,
-            restAdChart.type,
+            restAdChart.name,
             restAdChart.filename,
-            OlGeometry.getExtentFromMercator([
-                parseInt(restAdChart.mercator_w, 10),
-                parseInt(restAdChart.mercator_s, 10),
-                parseInt(restAdChart.mercator_e, 10),
-                parseInt(restAdChart.mercator_n, 10)
-            ])
+            RestExtent2dConverter.fromRest(restAdChart.extent),
+            RestOriginalFileParametersConverter.fromRest(restAdChart.originalFileParameters),
+            RestChartRegistrationConverter.fromRest(restAdChart.chartRegistration)
         );
     }
 
 
+    public static toRest(adChart: AirportChart): IRestAirportChart {
+        return {
+            id: adChart.id,
+            airportIcao: adChart.airportIcao,
+            source: adChart.source,
+            name: adChart.name,
+            filename: adChart.fileName,
+            extent: RestExtent2dConverter.toRest(adChart.extent),
+            originalFileParameters: RestOriginalFileParametersConverter.toRest(adChart.originalFileParameters),
+            chartRegistration: RestChartRegistrationConverter.toRest(adChart.chartRegistration)
+        };
+    }
+
+
     public static fromRestList(restAdChartList: IRestAirportChart[]): AirportChart[] {
-        return restAdChartList.map(restAdChart => RestAirportChartConverter.fromRest(restAdChart));
+        return restAdChartList.map(restAdChart => this.fromRest(restAdChart));
     }
 }

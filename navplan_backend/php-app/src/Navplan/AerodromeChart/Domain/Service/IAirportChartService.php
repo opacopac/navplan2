@@ -3,8 +3,8 @@
 namespace Navplan\AerodromeChart\Domain\Service;
 
 use Navplan\AerodromeChart\Domain\Model\AirportChart;
+use Navplan\AerodromeChart\Domain\Model\PdfParameters;
 use Navplan\AerodromeChart\Domain\Model\UploadedChartInfo;
-use Navplan\AerodromeChart\Domain\Model\UploadedPdfInfo;
 use Navplan\Common\Domain\Model\UploadedFileInfo;
 
 
@@ -13,13 +13,13 @@ interface IAirportChartService
     function readById(int $id, ?string $token): AirportChart;
 
     /**
-     * @param string $adId
-     * @param string $token
+     * @param string $adIcao
+     * @param ?string $token
      * @return AirportChart[]
      */
-    function readByAdId(int $adId, ?string $token): array;
+    function readByAdIcao(string $adIcao, ?string $token): array;
 
-    function uploadAdChart(UploadedFileInfo $fileInfo, UploadedPdfInfo $pdfInfo): UploadedChartInfo;
+    function uploadAdChart(UploadedFileInfo $fileInfo, PdfParameters $pdfParameters): UploadedChartInfo;
 
-    function saveAdChart(AirportChart $adChart, string $token): bool;
+    function saveAdChart(AirportChart $adChart, string $token): AirportChart;
 }

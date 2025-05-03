@@ -2,9 +2,10 @@
 
 namespace Navplan\AerodromeChart\Domain\Service;
 
+use Navplan\AerodromeChart\Domain\Command\IAirportChartCreateCommand;
 use Navplan\AerodromeChart\Domain\Model\AirportChart;
+use Navplan\AerodromeChart\Domain\Model\PdfParameters;
 use Navplan\AerodromeChart\Domain\Model\UploadedChartInfo;
-use Navplan\AerodromeChart\Domain\Model\UploadedPdfInfo;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByAirportQuery;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByIdQuery;
 use Navplan\Common\Domain\Model\UploadedFileInfo;
@@ -24,6 +25,7 @@ class AirportChartService implements IAirportChartService
         private IUserService $userService,
         private IAirportChartByIdQuery $airportChartByIdQuery,
         private IAirportChartByAirportQuery $airportChartByAirportQuery,
+        private IAirportChartCreateCommand $airportChartCreateCommand
     )
     {
     }
@@ -38,16 +40,16 @@ class AirportChartService implements IAirportChartService
     }
 
 
-    function readByAdId(int $adId, ?string $token): array
+    function readByAdIcao(string $adIcao, ?string $token): array
     {
         $userId = $token !== null
             ? $this->userService->getUserOrThrow($token)->id
             : 0;
-        return $this->airportChartByAirportQuery->readList($adId, $userId);
+        return $this->airportChartByAirportQuery->readList($adIcao, $userId);
     }
 
 
-    function uploadAdChart(UploadedFileInfo $fileInfo, UploadedPdfInfo $pdfInfo): UploadedChartInfo
+    function uploadAdChart(UploadedFileInfo $fileInfo, PdfParameters $pdfParameters): UploadedChartInfo
     {
         if ($fileInfo->errorCode !== UPLOAD_ERR_OK) {
             return UploadedChartInfo::createError($fileInfo->getErrorMessage());
@@ -62,9 +64,9 @@ class AirportChartService implements IAirportChartService
             case "application/pdf":
                 $img = $this->imageService->loadPdf(
                     $fileInfo->tmpName,
-                    $pdfInfo->dpi,
-                    $pdfInfo->page,
-                    $pdfInfo->rotation
+                    $pdfParameters->pdfDpi,
+                    $pdfParameters->pdfPage,
+                    $pdfParameters->pdfRotation
                 );
                 $vfrmParams = VfrmService::getVfrmChartNameProposal($fileInfo->name);
                 break;
@@ -88,9 +90,10 @@ class AirportChartService implements IAirportChartService
     }
 
 
-    function saveAdChart(AirportChart $adChart, string $token): bool
+    function saveAdChart(AirportChart $adChart, string $token): AirportChart
     {
-        return false;
-        // TODO: Implement saveAdChart() method.
+        $userId = $this->userService->getUserOrThrow($token)->id;
+
+        return $this->airportChartCreateCommand->create($adChart, $userId);
     }
 }

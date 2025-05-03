@@ -2,6 +2,7 @@
 
 namespace Navplan\Common\Domain\SwissTopo;
 
+use Navplan\AerodromeChart\Domain\Model\GeoCoordinateType;
 use Navplan\Common\Domain\Model\GeoCoordinate;
 use Navplan\Common\Domain\Model\Position2d;
 
@@ -25,6 +26,12 @@ class Lv95Coordinate implements GeoCoordinate
         public float $n
     )
     {
+    }
+
+
+    public function getType(): GeoCoordinateType
+    {
+        return GeoCoordinateType::LV95;
     }
 
 

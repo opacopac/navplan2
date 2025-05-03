@@ -134,6 +134,7 @@ class ProdNavplanDiContainer
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getFileService(),
                 $this->getSystemDiContainer()->getImageService(),
+                $this->getUserDiContainer()->getUserService(),
                 $this->getSystemDiContainer()->getHttpService()
             );
         }

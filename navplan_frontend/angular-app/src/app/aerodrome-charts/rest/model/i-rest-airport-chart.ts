@@ -1,11 +1,15 @@
+import {IRestExtent2d} from '../../../geo-physics/rest/model/i-rest-extent2d';
+import {IRestOriginalFileParameters} from './i-rest-original-file-parameters';
+import {IRestChartRegistration} from './i-rest-chart-registration';
+
+
 export interface IRestAirportChart {
     id: number;
-    airport_icao: string;
+    airportIcao: string;
     source: string;
-    type: string;
+    name: string;
     filename: string;
-    mercator_n: string;
-    mercator_s: string;
-    mercator_e: string;
-    mercator_w: string;
+    extent: IRestExtent2d;
+    originalFileParameters: IRestOriginalFileParameters;
+    chartRegistration: IRestChartRegistration;
 }
