@@ -51,7 +51,7 @@
                 />
                 <div>
                     <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext [disabled]="this.step3FormGroup.invalid" (submit)="onSaveClicked()">Next</button>
+                    <button mat-button matStepperNext [disabled]="this.step3FormGroup.invalid" (click)="onSaveClicked()">Save</button>
                 </div>
             </form>
         </mat-step>

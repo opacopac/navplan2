@@ -77,12 +77,12 @@ export class AirportChartEffects {
     mapReferenceSelected$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
         withLatestFrom(this.appStore.select(getAirportChartState)),
-        filter(([action, state]) => state.chartReference1 !== null && state.chartReference2 !== null),
-        filter(([action, state]) => state.mapReference1 === null || state.mapReference2 === null),
+        filter(([action, state]) => state.chartReference1 !== undefined && state.chartReference2 !== undefined),
+        filter(([action, state]) => !state.mapReference1 || !state.mapReference2),
         map(([action, state]) => {
-            if (state.mapReference1 === null) {
+            if (!state.mapReference1) {
                 return AirportChartActions.mapReference1Changed({mapReference1: action.clickPos});
-            } else if (state.mapReference2 === null) {
+            } else if (!state.mapReference2) {
                 return AirportChartActions.mapReference2Changed({mapReference2: action.clickPos});
             }
         })
