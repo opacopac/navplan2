@@ -4,8 +4,6 @@ import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
 import {ChartUploadParameters} from '../../domain/model/chart-upload-parameters';
 import {XyCoord} from '../../../geo-physics/domain/model/geometry/xyCoord';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
-import {AirportChartEffects} from './airport-chart.effects';
-import {ChartSaveParameters} from '../../domain/model/chart-save-parameters';
 
 
 export class AirportChartActions {

@@ -60,7 +60,7 @@ export class AirportChartEffects {
         ofType(AirportChartActions.uploadAirportChart),
         withLatestFrom(this.appStore.select(getAirportChartState)),
         switchMap(([action, state]) => this.airportChartService.uploadAdChart(
-            state.selectedAirport.id,
+            state.selectedAirport.icao,
             action.chartUploadParameters
         ).pipe(
             map(uploadedChartInfo => AirportChartActions.uploadAirportChartSuccess({
@@ -93,7 +93,7 @@ export class AirportChartEffects {
         ofType(AirportChartActions.saveAirportChart),
         withLatestFrom(this.appStore.select(getAirportChartState)),
         switchMap(([action, state]) => this.airportChartService.saveAdChart(
-            state.selectedAirport.id,
+            state.selectedAirport.icao,
             new ChartSaveParameters(
                 state.uploadedChartInfo.url,
                 state.chartReference1,
