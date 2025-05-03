@@ -1,9 +1,11 @@
 import {Geometry2d, Geometry2dType} from './geometry2d';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {Clonable} from '../../../../system/domain/model/clonable';
+import {GeoCoordinate} from './geo-coordinate';
+import {GeoCoordinateType} from '../../../../aerodrome-charts/domain/model/geo-coordinate-type';
 
 
-export class Position2d implements Geometry2d, Clonable<Position2d> {
+export class Position2d implements Geometry2d, Clonable<Position2d>, GeoCoordinate {
     public constructor(
         public longitude: number,
         public latitude: number
@@ -12,7 +14,6 @@ export class Position2d implements Geometry2d, Clonable<Position2d> {
             throw new Error('parameter is not a number');
         }
     }
-
 
     public static createFromArray(lonLat: [number, number]): Position2d {
         return new Position2d(lonLat[0], lonLat[1]);
@@ -43,5 +44,20 @@ export class Position2d implements Geometry2d, Clonable<Position2d> {
 
     public toArray(): [number, number] {
         return [ this.longitude, this.latitude ];
+    }
+
+
+    public getType(): GeoCoordinateType {
+        return GeoCoordinateType.LAT_LON;
+    }
+
+
+    public getE(): number {
+        return this.longitude;
+    }
+
+
+    public getN(): number {
+        return this.latitude;
     }
 }

@@ -4,6 +4,7 @@ namespace Navplan\AerodromeChart\Domain\Service;
 
 use Navplan\AerodromeChart\Domain\Command\IAirportChartCreateCommand;
 use Navplan\AerodromeChart\Domain\Model\AirportChart;
+use Navplan\AerodromeChart\Domain\Model\ChartSaveParameters;
 use Navplan\AerodromeChart\Domain\Model\PdfParameters;
 use Navplan\AerodromeChart\Domain\Model\UploadedChartInfo;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByAirportQuery;
@@ -90,10 +91,12 @@ class AirportChartService implements IAirportChartService
     }
 
 
-    function saveAdChart(AirportChart $adChart, string $token): AirportChart
+    function reprojectAndSaveAdChart(ChartSaveParameters $saveParams, string $token): AirportChart
     {
         $userId = $this->userService->getUserOrThrow($token)->id;
 
-        return $this->airportChartCreateCommand->create($adChart, $userId);
+        // TODO reproject chart
+
+        return $this->airportChartCreateCommand->create(null, $userId);
     }
 }

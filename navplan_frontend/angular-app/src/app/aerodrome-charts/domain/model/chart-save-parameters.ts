@@ -1,13 +1,12 @@
-import {XyCoord} from '../../../geo-physics/domain/model/geometry/xyCoord';
-import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
+import {ChartRegistration} from './chart-registration';
+import {OriginalFileParameters} from './original-file-parameters';
 
 export class ChartSaveParameters {
     constructor(
-        public url: string,
-        public chartReference1: XyCoord,
-        public chartReference2: XyCoord,
-        public mapReference1: Position2d,
-        public mapReference2: Position2d,
+        public chartUrl: string,
+        public chartName: string,
+        public originalFileParameters: OriginalFileParameters,
+        public chartRegistration: ChartRegistration
     ) {
     }
 }

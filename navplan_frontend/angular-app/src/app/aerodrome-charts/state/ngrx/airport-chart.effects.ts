@@ -11,6 +11,10 @@ import {IAirportChartService} from '../../domain/service/i-airport-chart.service
 import {getAirportChartState} from './airport-chart.selectors';
 import {FlightMapActions} from '../../../flight-map/state/ngrx/flight-map.actions';
 import {ChartSaveParameters} from '../../domain/model/chart-save-parameters';
+import {OriginalFileParameters} from '../../domain/model/original-file-parameters';
+import {ChartRegistration} from '../../domain/model/chart-registration';
+import {ChartRegistrationType} from '../../domain/model/chart-registration-type';
+import {GeoCoordinateType} from '../../domain/model/geo-coordinate-type';
 
 
 @Injectable()
@@ -96,10 +100,21 @@ export class AirportChartEffects {
             state.selectedAirport.icao,
             new ChartSaveParameters(
                 state.uploadedChartInfo.url,
-                state.chartReference1,
-                state.chartReference2,
-                state.mapReference1,
-                state.mapReference2
+                state.uploadedChartInfo.nameproposal, // TODO
+                new OriginalFileParameters(
+                    state.uploadedChartInfo.filename,
+                    '',
+                    state.pdfParameters
+                ),
+                new ChartRegistration(
+                    ChartRegistrationType.POS1_POS2, // TODO
+                    GeoCoordinateType.LV03,  // TODO
+                    state.chartReference1,
+                    state.mapReference1,
+                    state.chartReference2,
+                    state.mapReference2,
+                    0, // TODO
+                )
             )
         ).pipe(
             map(chart => AirportChartActions.saveAirportChartSuccess({

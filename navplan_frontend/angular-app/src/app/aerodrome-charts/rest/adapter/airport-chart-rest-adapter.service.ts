@@ -13,6 +13,7 @@ import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
 import {RestUploadedChartInfoConverter} from '../converter/rest-uploaded-chart-info-converter';
 import {ChartUploadParameters} from '../../domain/model/chart-upload-parameters';
 import {ChartSaveParameters} from '../../domain/model/chart-save-parameters';
+import {RestChartSaveParametersConverter} from '../converter/rest-chart-save-parameters-converter';
 
 
 @Injectable()
@@ -59,10 +60,7 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
 
     public saveAdChart(adIcao: string, chartSaveParameters: ChartSaveParameters): Observable<AirportChart> {
         const url = environment.airportApiBaseUrl + '/' + adIcao + '/charts/save';
-        const requestBody = {
-            filepath: chartSaveParameters.url
-            // TODO
-        };
+        const requestBody = RestChartSaveParametersConverter.toRest(chartSaveParameters);
 
         return this.http
             .post<IRestAirportChart>(url, requestBody)

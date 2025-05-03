@@ -5,6 +5,7 @@ namespace Navplan\AerodromeChart\Rest\Controller;
 use InvalidArgumentException;
 use Navplan\AerodromeChart\Domain\Service\IAirportChartService;
 use Navplan\AerodromeChart\Rest\Converter\RestAirportChartConverter;
+use Navplan\AerodromeChart\Rest\Converter\RestChartSaveParametersConverter;
 use Navplan\AerodromeChart\Rest\Converter\RestPdfParametersConverter;
 use Navplan\AerodromeChart\Rest\Converter\RestUploadedChartInfoConverter;
 use Navplan\Common\Rest\Controller\IRestController;
@@ -54,8 +55,8 @@ class AdChartController implements IRestController
                         $response = RestUploadedChartInfoConverter::toRest($chartInfo);
                         break;
                     case self::ARG_ACTION_SAVE:
-                        $newAdChart = RestAirportChartConverter::fromRest($this->httpService->getPostArgs(), $adIcao);
-                        $savedAdChart = $this->airportChartService->saveAdChart($newAdChart, $token);
+                        $chartSaveParams = RestChartSaveParametersConverter::fromRest($this->httpService->getPostArgs());
+                        $savedAdChart = $this->airportChartService->reprojectAndSaveAdChart($chartSaveParams, $token);
                         $response = RestAirportChartConverter::toRest($savedAdChart);
                         break;
                     default:

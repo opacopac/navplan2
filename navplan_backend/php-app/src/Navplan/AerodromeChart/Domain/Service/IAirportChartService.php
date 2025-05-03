@@ -3,6 +3,7 @@
 namespace Navplan\AerodromeChart\Domain\Service;
 
 use Navplan\AerodromeChart\Domain\Model\AirportChart;
+use Navplan\AerodromeChart\Domain\Model\ChartSaveParameters;
 use Navplan\AerodromeChart\Domain\Model\PdfParameters;
 use Navplan\AerodromeChart\Domain\Model\UploadedChartInfo;
 use Navplan\Common\Domain\Model\UploadedFileInfo;
@@ -21,5 +22,5 @@ interface IAirportChartService
 
     function uploadAdChart(UploadedFileInfo $fileInfo, PdfParameters $pdfParameters): UploadedChartInfo;
 
-    function saveAdChart(AirportChart $adChart, string $token): AirportChart;
+    function reprojectAndSaveAdChart(ChartSaveParameters $saveParams, string $token): AirportChart;
 }
