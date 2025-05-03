@@ -10,5 +10,5 @@ export abstract class IAirportChartService {
 
     public abstract uploadAdChart(adIcao: string, chartUploadParameters: ChartUploadParameters): Observable<UploadedChartInfo>;
 
-    public abstract saveAdChart(adIcao: string, chartSaveParameters: ChartSaveParameters): Observable<AirportChart>;
+    public abstract reprojectAndSaveAdChart(adIcao: string, chartSaveParameters: ChartSaveParameters): Observable<AirportChart>;
 }

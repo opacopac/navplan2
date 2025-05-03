@@ -58,7 +58,7 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
     }
 
 
-    public saveAdChart(adIcao: string, chartSaveParameters: ChartSaveParameters): Observable<AirportChart> {
+    public reprojectAndSaveAdChart(adIcao: string, chartSaveParameters: ChartSaveParameters): Observable<AirportChart> {
         const url = environment.airportApiBaseUrl + '/' + adIcao + '/charts/save';
         const requestBody = RestChartSaveParametersConverter.toRest(chartSaveParameters);
 

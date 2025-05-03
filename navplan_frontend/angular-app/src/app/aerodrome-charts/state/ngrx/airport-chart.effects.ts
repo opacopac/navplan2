@@ -96,7 +96,7 @@ export class AirportChartEffects {
     saveAirportChartAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.saveAirportChart),
         withLatestFrom(this.appStore.select(getAirportChartState)),
-        switchMap(([action, state]) => this.airportChartService.saveAdChart(
+        switchMap(([action, state]) => this.airportChartService.reprojectAndSaveAdChart(
             state.selectedAirport.icao,
             new ChartSaveParameters(
                 state.uploadedChartInfo.url,
