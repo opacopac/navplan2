@@ -21,8 +21,14 @@ class DbAirportChartByAirportQuery implements IAirportChartByAirportQuery
     public function readList(string $airportIcao, int $userId): array
     {
         $query = "SELECT * FROM " . DbTableAirportCharts::TABLE_NAME;
-        $query .= " WHERE " . DbTableAirportCharts::COL_AD_ICAO . "=" . DbHelper::getDbStringValue($this->dbService, $airportIcao);
-        //$query .= " AND " . DbTableAirportCharts::COL_ID_USER . "=" . DbHelper::getDbIntValue($userId);
+        $query .= " WHERE " . DbTableAirportCharts::COL_AIRPORT_ID . "=" . DbHelper::getDbStringValue($this->dbService, $airportIcao);
+        $query .= " AND " . DbTableAirportCharts::COL_ACTIVE . "=1";
+
+        if ($userId > 0) {
+            $query .= " AND " . DbTableAirportCharts::COL_USER_ID . "=" . DbHelper::getDbIntValue($userId);
+        } else {
+            $query .= " AND " . DbTableAirportCharts::COL_USER_ID . " IS NULL";
+        }
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading airport chart list");
 

@@ -5,7 +5,7 @@ namespace Navplan\Common\Domain\Model;
 use InvalidArgumentException;
 
 
-class Position2d implements IGeometry2d {
+class Position2d implements IGeometry2d, GeoCoordinate {
     public static function createFromString(string $lonLatString, string $separator = ' '): Position2d {
         $lonLat = explode($separator, trim($lonLatString));
         if (count($lonLat) === 2 && is_numeric(trim($lonLat[0])) && is_numeric(trim($lonLat[1]))) {
@@ -44,5 +44,23 @@ class Position2d implements IGeometry2d {
 
     public function equals(Position2d $position): bool {
         return $this->longitude === $position->longitude && $this->latitude === $position->latitude;
+    }
+
+
+    public function getE(): float
+    {
+        return $this->longitude;
+    }
+
+
+    public function getN(): float
+    {
+        return $this->latitude;
+    }
+
+
+    public function toLatLon(): Position2d
+    {
+        return $this;
     }
 }

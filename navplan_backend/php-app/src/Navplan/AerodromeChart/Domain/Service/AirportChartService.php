@@ -2,11 +2,15 @@
 
 namespace Navplan\AerodromeChart\Domain\Service;
 
+use Navplan\AerodromeChart\Domain\Model\AirportChart;
 use Navplan\AerodromeChart\Domain\Model\UploadedChartInfo;
 use Navplan\AerodromeChart\Domain\Model\UploadedPdfInfo;
+use Navplan\AerodromeChart\Domain\Query\IAirportChartByAirportQuery;
+use Navplan\AerodromeChart\Domain\Query\IAirportChartByIdQuery;
 use Navplan\Common\Domain\Model\UploadedFileInfo;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IImageService;
+use Navplan\User\Domain\Service\IUserService;
 
 
 // TBD: increase memory limit for image processing
@@ -16,10 +20,32 @@ class AirportChartService implements IAirportChartService
 {
     public function __construct(
         private IFileService $fileService,
-        private IImageService $imageService
+        private IImageService $imageService,
+        private IUserService $userService,
+        private IAirportChartByIdQuery $airportChartByIdQuery,
+        private IAirportChartByAirportQuery $airportChartByAirportQuery,
     )
     {
     }
+
+
+    function readById(int $id, ?string $token): AirportChart
+    {
+        $userId = $token !== null
+            ? $this->userService->getUserOrThrow($token)->id
+            : 0;
+        return $this->airportChartByIdQuery->read($id, $userId);
+    }
+
+
+    function readByAdId(int $adId, ?string $token): array
+    {
+        $userId = $token !== null
+            ? $this->userService->getUserOrThrow($token)->id
+            : 0;
+        return $this->airportChartByAirportQuery->readList($adId, $userId);
+    }
+
 
     function uploadAdChart(UploadedFileInfo $fileInfo, UploadedPdfInfo $pdfInfo): UploadedChartInfo
     {
@@ -59,5 +85,12 @@ class AirportChartService implements IAirportChartService
             $tmpDir . "/" . $filename,
             $vfrmParams->chartNameProposal ?? "",
         );
+    }
+
+
+    function saveAdChart(AirportChart $adChart, string $token): bool
+    {
+        return false;
+        // TODO: Implement saveAdChart() method.
     }
 }

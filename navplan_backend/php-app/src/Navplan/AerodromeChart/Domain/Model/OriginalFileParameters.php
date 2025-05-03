@@ -7,6 +7,7 @@ class OriginalFileParameters
 {
     public function __construct(
         public string $importFilename,
+        public string $importChecksum,
         public ?PdfParameters $pdfParameters,
     )
     {

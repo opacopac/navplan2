@@ -46,32 +46,57 @@ CREATE TABLE IF NOT EXISTS `ad_charts` (
 -- Table structure for table `ad_charts2`
 --
 
-CREATE TABLE IF NOT EXISTS `ad_charts2` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ad_icao` varchar(4) NOT NULL,
-  `source` varchar(20) NOT NULL,
-  `type` varchar(20) NOT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT 0,
-  `filename` varchar(255) NOT NULL,
-  `minlon` float DEFAULT NULL,
-  `minlat` float DEFAULT NULL,
-  `maxlon` float DEFAULT NULL,
-  `maxlat` float DEFAULT NULL,
-  `import_filename` varchar(255) DEFAULT NULL,
-  `pdf_page` int(11) DEFAULT NULL,
-  `pdf_rot_deg` float DEFAULT NULL,
-  `registration_type` varchar(20) DEFAULT NULL,
-  `pos1_pixel_x` int(11) DEFAULT NULL,
-  `pos1_pixel_y` int(11) DEFAULT NULL,
-  `pos1_coord_lv03_e` int(11) DEFAULT NULL,
-  `pos1_coord_lv03_n` int(11) DEFAULT NULL,
-  `chart_scale` int(11) DEFAULT NULL,
-  `pos2_pixel_x` int(11) DEFAULT NULL,
-  `pos2_pixel_y` int(11) DEFAULT NULL,
-  `pos2_coord_lv03_e` int(11) DEFAULT NULL,
-  `pos2_coord_lv03_n` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `ad_charts2` (
+                              `id` int(11) NOT NULL,
+                              `airport_id` int(11) UNSIGNED NOT NULL,
+                              `user_id` int(11) UNSIGNED DEFAULT NULL,
+                              `source` varchar(20) NOT NULL,
+                              `name` varchar(50) NOT NULL,
+                              `active` tinyint(1) NOT NULL DEFAULT 0,
+                              `filename` varchar(255) NOT NULL,
+                              `minlon` float NOT NULL,
+                              `minlat` float NOT NULL,
+                              `maxlon` float NOT NULL,
+                              `maxlat` float NOT NULL,
+                              `import_filename` varchar(255) NOT NULL,
+                              `import_checksum` varchar(255) NOT NULL,
+                              `pdf_page` int(10) UNSIGNED DEFAULT NULL,
+                              `pdf_rot_deg` float DEFAULT NULL,
+                              `pdf_dpi` int(10) UNSIGNED DEFAULT NULL,
+                              `registration_type` varchar(20) NOT NULL,
+                              `geocoord_type` varchar(20) NOT NULL,
+                              `pos1_pixel_x` int(10) UNSIGNED DEFAULT NULL,
+                              `pos1_pixel_y` int(10) UNSIGNED DEFAULT NULL,
+                              `pos1_geocoord_e` float DEFAULT NULL,
+                              `pos1_geocoord_n` float DEFAULT NULL,
+                              `chart_scale` int(10) UNSIGNED DEFAULT NULL,
+                              `pos2_pixel_x` int(10) UNSIGNED DEFAULT NULL,
+                              `pos2_pixel_y` int(10) UNSIGNED DEFAULT NULL,
+                              `pos2_geocoord_e` float DEFAULT NULL,
+                              `pos2_geocoord_n` float DEFAULT NULL,
+                              `createdtime` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `ad_charts2`
+--
+ALTER TABLE `ad_charts2`
+    ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT für exportierte Tabellen
+--
+
+--
+-- AUTO_INCREMENT für Tabelle `ad_charts2`
+--
+ALTER TABLE `ad_charts2`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 
 -- --------------------------------------------------------
 

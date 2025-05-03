@@ -10,12 +10,19 @@ use Navplan\Common\StringNumberHelper;
 
 class DbPdfParametersConverter
 {
-    public static function fromDbRow(array $row): PdfParameters
+    public static function fromDbRow(array $row): ?PdfParameters
     {
+        if (StringNumberHelper::isNullOrEmpty($row, DbTableAirportCharts::COL_PDF_PAGE)
+            || StringNumberHelper::isNullOrEmpty($row, DbTableAirportCharts::COL_PDF_ROT_DEG)
+            || StringNumberHelper::isNullOrEmpty($row, DbTableAirportCharts::COL_IMPORT_FILENAME)
+        ) {
+            return null;
+        }
+
         return new PdfParameters(
-            StringNumberHelper::parseIntOrZero($row, DbTableAirportCharts::COL_PDF_PAGE),
-            new Angle(StringNumberHelper::parseFloatOrZero($row, DbTableAirportCharts::COL_PDF_ROT_DEG), AngleUnit::DEG),
-            200 // TODO
+            StringNumberHelper::parseIntOrError($row, DbTableAirportCharts::COL_PDF_PAGE),
+            new Angle(StringNumberHelper::parseFloatOrError($row, DbTableAirportCharts::COL_PDF_ROT_DEG), AngleUnit::DEG),
+            StringNumberHelper::parseIntOrError($row, DbTableAirportCharts::COL_IMPORT_FILENAME),
         );
     }
 }

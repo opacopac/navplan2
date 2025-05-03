@@ -10,7 +10,7 @@ class PdfParameters
     public function __construct(
         public int $pdfPage,
         public Angle $pdfRotation,
-        public float $pdfDpi,
+        public int $pdfDpi,
     )
     {
     }

@@ -26,9 +26,8 @@ class AdChartController implements IRestController
 
 
     public function __construct(
-        private IHttpService         $httpService,
-        private IAirportChartService $airportChartService,
-        private IAirportChartRepo    $airportChartRepo,
+        private IHttpService $httpService,
+        private IAirportChartService $airportChartService
     )
     {
     }
@@ -41,7 +40,7 @@ class AdChartController implements IRestController
         switch ($this->httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
                 $id = RestIdConverter::getId($this->httpService->getGetArgs());
-                $adChart = $this->airportChartRepo->getAdChart2ById($id);
+                $adChart = $this->airportChartService->readById($id, $token);
                 $response = RestAirportChart2Converter::toRest($adChart);
                 break;
             case HttpRequestMethod::POST:

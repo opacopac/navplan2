@@ -3,14 +3,14 @@
 namespace Navplan\AerodromeChart\Domain\Query;
 
 
-use Navplan\AerodromeChart\Domain\Model\AirportChart2;
+use Navplan\AerodromeChart\Domain\Model\AirportChart;
 
 interface IAirportChartByAirportQuery
 {
     /**
      * @param string $airportIcao
      * @param int $userId
-     * @return AirportChart2[]
+     * @return AirportChart[]
      */
     function readList(string $airportIcao, int $userId): array;
 }

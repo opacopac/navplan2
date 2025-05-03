@@ -6,7 +6,7 @@ use Navplan\Common\Domain\Model\GeoCoordinate;
 use Navplan\Common\Domain\Model\Position2d;
 
 
-class Ch1903Coordinate implements GeoCoordinate
+class Lv03Coordinate implements GeoCoordinate
 {
     public function __construct(
         public float $e,
@@ -16,15 +16,15 @@ class Ch1903Coordinate implements GeoCoordinate
     }
 
 
-    public function getIntE(): int
+    public function getE(): float
     {
-        return (int) round($this->e);
+        return $this->e;
     }
 
 
-    public function getIntN(): int
+    public function getN(): float
     {
-        return (int) round($this->n);
+        return $this->n;
     }
 
 

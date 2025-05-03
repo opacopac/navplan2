@@ -11,6 +11,7 @@ class DbOriginalFileParametersConverter
     {
         return new OriginalFileParameters(
             $row[DbTableAirportCharts::COL_IMPORT_FILENAME],
+            $row[DbTableAirportCharts::COL_IMPORT_CHECKSUM],
             DbPdfParametersConverter::fromDbRow($row),
         );
     }

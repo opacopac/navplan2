@@ -2,10 +2,10 @@
 
 namespace Navplan\AerodromeChart\Domain\Command;
 
-use Navplan\AerodromeChart\Domain\Model\AirportChart2;
+use Navplan\AerodromeChart\Domain\Model\AirportChart;
 
 
 interface IAirportChartCreateCommand
 {
-    function create(AirportChart2 $airportChart, int $userId): AirportChart2;
+    function create(AirportChart $airportChart, int $userId): AirportChart;
 }
