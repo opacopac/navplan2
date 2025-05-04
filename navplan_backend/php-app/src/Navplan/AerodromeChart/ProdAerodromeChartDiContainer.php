@@ -7,6 +7,8 @@ use Navplan\AerodromeChart\Domain\Query\IAirportChartByAirportQuery;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByIdQuery;
 use Navplan\AerodromeChart\Domain\Service\AirportChartService;
 use Navplan\AerodromeChart\Domain\Service\IAirportChartService;
+use Navplan\AerodromeChart\Domain\Service\ISwissGridChartTransformerService;
+use Navplan\AerodromeChart\Domain\Service\SwissGridChartTransformerService;
 use Navplan\AerodromeChart\Persistence\Command\DbAirportChartCreateCommand;
 use Navplan\AerodromeChart\Persistence\Query\DbAirportChartByAirportQuery;
 use Navplan\AerodromeChart\Persistence\Query\DbAirportChartByIdQuery;
@@ -23,6 +25,7 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
 {
     private IRestController $airportChartController;
     private IAirportChartService $airportChartService;
+    private ISwissGridChartTransformerService $swissGridChartTransformerService;
     private IAirportChartByIdQuery $airportChartByIdQuery;
     private IAirportChartByAirportQuery $airportChartByAirportQuery;
     private IAirportChartCreateCommand $airportChartCreateCommand;
@@ -59,6 +62,7 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
                 $this->fileService,
                 $this->imageService,
                 $this->userService,
+                $this->getSwissGridChartTransformerService(),
                 $this->getAirportChartByIdQuery(),
                 $this->getAirportChartByAirportQuery(),
                 $this->getAirportChartCreateCommand()
@@ -66,6 +70,18 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
         }
 
         return $this->airportChartService;
+    }
+
+
+    function getSwissGridChartTransformerService(): ISwissGridChartTransformerService
+    {
+        if (!isset($this->swissGridChartTransformerService)) {
+            $this->swissGridChartTransformerService = new SwissGridChartTransformerService(
+                $this->fileService
+            );
+        }
+
+        return $this->swissGridChartTransformerService;
     }
 
 

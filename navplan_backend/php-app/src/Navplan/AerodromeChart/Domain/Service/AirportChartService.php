@@ -24,6 +24,7 @@ class AirportChartService implements IAirportChartService
         private IFileService $fileService,
         private IImageService $imageService,
         private IUserService $userService,
+        private ISwissGridChartTransformerService $swissGridChartTransformerService,
         private IAirportChartByIdQuery $airportChartByIdQuery,
         private IAirportChartByAirportQuery $airportChartByAirportQuery,
         private IAirportChartCreateCommand $airportChartCreateCommand
@@ -95,26 +96,14 @@ class AirportChartService implements IAirportChartService
     {
         $userId = $this->userService->getUserOrThrow($token)->id;
 
-        // TODO reproject chart
-        // USAGE: swissgrid_chart_transformer [OPTIONS] --chart <CHART> --output <OUTPUT>
-        // options: z.b. pos1_pos2_rot: TBD (e.g. 10,10,7.0,47.0,20,20,8.0,46.0)
-        $exe = "/var/www/html/tools/swissgrid_chart_transformer";
-        $options = "--pos1_pos2_rot "
-            . $saveParams->chartRegistration->pixelXy1->getIntX() . " "
-            . $saveParams->chartRegistration->pixelXy1->getIntY() . " "
-            . $saveParams->chartRegistration->geoCoord1->getE() . " "
-            . $saveParams->chartRegistration->geoCoord1->getN() . " "
-            . $saveParams->chartRegistration->pixelXy2->getIntX() . " "
-            . $saveParams->chartRegistration->pixelXy2->getIntY() . " "
-            . $saveParams->chartRegistration->geoCoord2->getE() . " "
-            . $saveParams->chartRegistration->geoCoord2->getN();
-        $chart = $saveParams->chartUrl;
-        $output = "/var/www/html/tmp/asdf.png";
-        $command = "$exe $options --chart $chart --output $output";
+        $outFile = $this->swissGridChartTransformerService->createChartProjektion(
+            $saveParams->chartUrl,
+            $saveParams->chartRegistration
+        );
 
-        $output = shell_exec($command);
-        echo $output;
-
+        // TODO: outfile to chart folder & parse worldfile
+        // TODO: save to db
+ 
         return $this->airportChartCreateCommand->create(null, $userId);
     }
 }
