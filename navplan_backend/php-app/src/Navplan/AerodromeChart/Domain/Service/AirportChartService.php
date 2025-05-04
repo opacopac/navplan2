@@ -97,8 +97,22 @@ class AirportChartService implements IAirportChartService
 
         // TODO reproject chart
         // USAGE: swissgrid_chart_transformer [OPTIONS] --chart <CHART> --output <OUTPUT>
-        
-        $output = shell_exec('/var/www/html/tools/swissgrid_chart_transformer --chart ');
+        // options: z.b. pos1_pos2_rot: TBD (e.g. 10,10,7.0,47.0,20,20,8.0,46.0)
+        $exe = "/var/www/html/tools/swissgrid_chart_transformer";
+        $options = "--pos1_pos2_rot "
+            . $saveParams->chartRegistration->pixelXy1->getIntX() . " "
+            . $saveParams->chartRegistration->pixelXy1->getIntY() . " "
+            . $saveParams->chartRegistration->geoCoord1->getE() . " "
+            . $saveParams->chartRegistration->geoCoord1->getN() . " "
+            . $saveParams->chartRegistration->pixelXy2->getIntX() . " "
+            . $saveParams->chartRegistration->pixelXy2->getIntY() . " "
+            . $saveParams->chartRegistration->geoCoord2->getE() . " "
+            . $saveParams->chartRegistration->geoCoord2->getN();
+        $chart = $saveParams->chartUrl;
+        $output = "/var/www/html/tmp/asdf.png";
+        $command = "$exe $options --chart $chart --output $output";
+
+        $output = shell_exec($command);
         echo $output;
 
         return $this->airportChartCreateCommand->create(null, $userId);
