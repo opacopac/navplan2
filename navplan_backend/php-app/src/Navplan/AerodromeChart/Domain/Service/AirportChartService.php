@@ -16,7 +16,7 @@ use Navplan\User\Domain\Service\IUserService;
 
 
 // TBD: increase memory limit for image processing
-ini_set('memory_limit', '512M');
+ini_set('memory_limit', '1024M');
 
 class AirportChartService implements IAirportChartService
 {
