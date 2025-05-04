@@ -48,7 +48,7 @@ export class Position2d implements Geometry2d, Clonable<Position2d>, GeoCoordina
 
 
     public getType(): GeoCoordinateType {
-        return GeoCoordinateType.LAT_LON;
+        return GeoCoordinateType.LON_LAT;
     }
 
 

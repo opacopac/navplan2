@@ -50,7 +50,7 @@ class Position2d implements IGeometry2d, GeoCoordinate {
 
     public function getType(): GeoCoordinateType
     {
-        return GeoCoordinateType::LAT_LON;
+        return GeoCoordinateType::LON_LAT;
     }
 
 

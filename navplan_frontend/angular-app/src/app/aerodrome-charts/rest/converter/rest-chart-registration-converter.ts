@@ -9,7 +9,7 @@ import {RestGeocoordinateConverter} from '../../../geo-physics/rest/model/rest-g
 export class RestChartRegistrationConverter {
     public static fromRest(restChartReg: IRestChartRegistration): ChartRegistration {
         return new ChartRegistration(
-            ChartRegistrationType[restChartReg.chartRegistrationType],
+            ChartRegistrationType[restChartReg.registrationType],
             GeoCoordinateType[restChartReg.coordinateType],
             RestXycoordConverter.fromRest(restChartReg.pixelXy1),
             RestGeocoordinateConverter.fromRest(restChartReg.geoCoord1),
@@ -22,7 +22,7 @@ export class RestChartRegistrationConverter {
 
     public static toRest(chartReg: ChartRegistration): IRestChartRegistration {
         return {
-            chartRegistrationType: ChartRegistrationType[chartReg.chartRegistrationType],
+            registrationType: ChartRegistrationType[chartReg.registrationType],
             coordinateType: GeoCoordinateType[chartReg.coordinateType],
             pixelXy1: RestXycoordConverter.toRest(chartReg.pixelXy1),
             geoCoord1: RestGeocoordinateConverter.toRest(chartReg.geoCoord1),

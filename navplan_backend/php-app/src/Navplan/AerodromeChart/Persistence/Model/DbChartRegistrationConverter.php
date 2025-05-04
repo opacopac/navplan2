@@ -67,7 +67,7 @@ class DbChartRegistrationConverter
                     return new Lv03Coordinate($eValue, $nValue);
                 case GeoCoordinateType::LV95:
                     return new Lv95Coordinate($eValue, $nValue);
-                case GeoCoordinateType::LAT_LON:
+                case GeoCoordinateType::LON_LAT:
                     return new Position2d($eValue, $nValue);
                 default:
                     throw new InvalidArgumentException("Unknown coordinate type: $coordinateType->value");

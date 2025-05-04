@@ -34,7 +34,7 @@ class RestGeoCoordConverter
                 return new Lv03Coordinate($e, $n);
             case GeoCoordinateType::LV95:
                 return new Lv95Coordinate($e, $n);
-            case GeoCoordinateType::LAT_LON:
+            case GeoCoordinateType::LON_LAT:
                 return new Position2d($e, $n);
             default:
                 throw new InvalidArgumentException("Invalid coordinate type: " . $type->value);

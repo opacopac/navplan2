@@ -8,13 +8,13 @@ use Navplan\Common\StringNumberHelper;
 
 class RestChartSaveParametersConverter
 {
-    public static function fromRest(array $pdfParams): ChartSaveParameters
+    public static function fromRest(array $args): ChartSaveParameters
     {
         return new ChartSaveParameters(
-            StringNumberHelper::parseStringOrError($pdfParams, "chartUrl"),
-            StringNumberHelper::parseStringOrError($pdfParams, "chartName"),
-            RestOriginalFileParametersConverter::fromRest($pdfParams),
-            RestChartRegistrationConverter::fromRest($pdfParams)
+            StringNumberHelper::parseStringOrError($args, "chartUrl"),
+            StringNumberHelper::parseStringOrError($args, "chartName"),
+            RestOriginalFileParametersConverter::fromRest($args['originalFileParameters']),
+            RestChartRegistrationConverter::fromRest($args['chartRegistration']),
         );
     }
 }

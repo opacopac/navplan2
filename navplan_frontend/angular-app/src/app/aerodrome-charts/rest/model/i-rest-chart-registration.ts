@@ -3,7 +3,7 @@ import {IRestGeocoordinate} from '../../../geo-physics/rest/model/i-rest-geocoor
 
 
 export interface IRestChartRegistration {
-    chartRegistrationType: string;
+    registrationType: string;
     coordinateType: string;
     pixelXy1: IRestXycoord;
     geoCoord1: IRestGeocoordinate;

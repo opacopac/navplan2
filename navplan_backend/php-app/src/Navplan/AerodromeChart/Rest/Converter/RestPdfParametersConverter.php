@@ -11,9 +11,9 @@ use Navplan\Common\StringNumberHelper;
 
 class RestPdfParametersConverter
 {
-    public static function fromRest(array $pdfParams): ?PdfParameters
+    public static function fromRest(?array $pdfParams): ?PdfParameters
     {
-        if (!isset($pdfParams["page"]) || !isset($pdfParams["rotationDeg"]) || !isset($pdfParams["dpi"])) {
+        if (!$pdfParams || !isset($pdfParams["page"]) || !isset($pdfParams["rotationDeg"]) || !isset($pdfParams["dpi"])) {
             return null;
         }
 
@@ -25,7 +25,7 @@ class RestPdfParametersConverter
     }
 
 
-    public static function toRest(PdfParameters $pdfParams): ?array
+    public static function toRest(?PdfParameters $pdfParams): ?array
     {
         if ($pdfParams === null) {
             return null;
@@ -33,7 +33,7 @@ class RestPdfParametersConverter
 
         return array(
             "page" => $pdfParams->page,
-            "rotation" => RestAngleConverter::toRest($pdfParams->rotation),
+            "rotationDeg" => $pdfParams->rotation->toDeg(),
             "dpi" => $pdfParams->dpi
         );
     }

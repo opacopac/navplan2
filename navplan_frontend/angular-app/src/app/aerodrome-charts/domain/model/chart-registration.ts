@@ -6,7 +6,7 @@ import {GeoCoordinateType} from './geo-coordinate-type';
 
 export class ChartRegistration {
     constructor(
-        public chartRegistrationType: ChartRegistrationType,
+        public registrationType: ChartRegistrationType,
         public coordinateType: GeoCoordinateType,
         public pixelXy1: XyCoord,
         public geoCoord1: GeoCoordinate,
