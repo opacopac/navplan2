@@ -14,6 +14,7 @@ import {RestUploadedChartInfoConverter} from '../converter/rest-uploaded-chart-i
 import {ChartUploadParameters} from '../../domain/model/chart-upload-parameters';
 import {ChartSaveParameters} from '../../domain/model/chart-save-parameters';
 import {RestChartSaveParametersConverter} from '../converter/rest-chart-save-parameters-converter';
+import { HttpHelper } from '../../../system/domain/service/http/http-helper';
 
 
 @Injectable()
@@ -26,7 +27,10 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
         const url: string = environment.airportChartApiBaseUrl + '/' + chartId;
 
         return this.http
-            .get<IRestAirportChart>(url)
+            .get<IRestAirportChart>(
+                url,
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            )
             .pipe(
                 map(response => RestAirportChartConverter.fromRest(response)),
                 catchError(err => {
@@ -47,7 +51,11 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
         formData.append('dpi', chartUploadParameters.pdfParameters.dpi.toString());
 
         return this.http
-            .post<IRestUploadAdChartInfo>(url, formData)
+            .post<IRestUploadAdChartInfo>(
+                url,
+                formData,
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            )
             .pipe(
                 map(response => RestUploadedChartInfoConverter.fromRest(response)),
                 catchError(err => {
@@ -63,7 +71,11 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
         const requestBody = RestChartSaveParametersConverter.toRest(chartSaveParameters);
 
         return this.http
-            .post<IRestAirportChart>(url, requestBody)
+            .post<IRestAirportChart>(
+                url,
+                requestBody,
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            )
             .pipe(
                 map(response => RestAirportChartConverter.fromRest(response)),
                 catchError(err => {
