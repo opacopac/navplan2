@@ -2,7 +2,10 @@
 
 namespace Navplan\AerodromeChart\Domain\Service;
 
+use InvalidArgumentException;
 use Navplan\AerodromeChart\Domain\Model\ChartRegistration;
+use Navplan\AerodromeChart\Domain\Model\WorldFileInfo;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\ILoggingService;
 
@@ -16,7 +19,7 @@ class SwissGridChartTransformerService implements ISwissGridChartTransformerServ
     }
 
 
-    function createChartProjektion(string $chartUrl, ChartRegistration $chartReg): string
+    public function createChartProjektion(string $chartUrl, ChartRegistration $chartReg): string
     {
         // TODO reproject chart
         // USAGE: swissgrid_chart_transformer [OPTIONS] --chart <CHART> --output <OUTPUT>
@@ -39,6 +42,45 @@ class SwissGridChartTransformerService implements ISwissGridChartTransformerServ
 
         $shelloutput = shell_exec($command);
 
+        $worldFile = "/var/www/html/tmp/asdf.pfw";
+        $worldFileInfo = $this->parseWorldFile($worldFile);
+
+        var_dump($worldFileInfo);
+
         return $outputChart;
+    }
+
+
+    public function parseWorldFile(string $worldFile): WorldFileInfo {
+        $file = $this->fileService->fopen($worldFile, "r");
+        if ($file === false) {
+            $error = "Could not open world file: $worldFile";
+            $this->loggingService->error($error);
+            throw new InvalidArgumentException($error);
+        }
+
+        $lines = [];
+        for ($i = 0; $i < 6; $i++) {
+            $line = fgets($file);
+            if ($line === false) {
+                $error = "Could not read line $i from world file: $worldFile";
+                $this->loggingService->error($error);
+                throw new InvalidArgumentException($error);
+            }
+            $lines[] = floatval(trim($line));
+        }
+
+        fclose($file);
+
+        return new WorldFileInfo(
+            $lines[0],
+            $lines[1],
+            $lines[2],
+            $lines[3],
+            new Position2d(
+                $lines[5],
+                $lines[4]
+            )
+        );
     }
 }
