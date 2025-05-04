@@ -18,6 +18,7 @@ use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\IImageService;
+use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\User\Domain\Service\IUserService;
 
 
@@ -37,6 +38,7 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
         private IImageService $imageService,
         private IUserService $userService,
         private IHttpService $httpService,
+        private ILoggingService $loggingService
     )
     {
     }
@@ -77,7 +79,8 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
     {
         if (!isset($this->swissGridChartTransformerService)) {
             $this->swissGridChartTransformerService = new SwissGridChartTransformerService(
-                $this->fileService
+                $this->fileService,
+                $this->loggingService
             );
         }
 

@@ -97,7 +97,7 @@ class AirportChartService implements IAirportChartService
         $userId = $this->userService->getUserOrThrow($token)->id;
 
         $outFile = $this->swissGridChartTransformerService->createChartProjektion(
-            $saveParams->chartUrl,
+            $this->fileService->getTempDirBase() . $saveParams->chartUrl,
             $saveParams->chartRegistration
         );
 
