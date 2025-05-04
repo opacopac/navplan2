@@ -51,6 +51,10 @@ RUN mkdir -p /var/www/html/terraintiles && \
         curl -o /var/www/html/terraintiles/${tile}.hgt https://www.navplan.ch/terraintiles/${tile}.hgt; \
     done
 
+# Copy Tools (e.g. map projection)
+RUN mkdir -p /var/www/html/tools && chmod -R 755 /var/www/html/tools
+COPY tools /var/www/html/tools
+
 # Install PHP dependencies
 COPY php-app/composer.json /var/www/html/php/composer.json
 RUN composer update

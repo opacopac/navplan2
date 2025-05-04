@@ -50,7 +50,7 @@ class AirportChartService implements IAirportChartService
     }
 
 
-    function uploadAdChart(UploadedFileInfo $fileInfo, PdfParameters $pdfParameters): UploadedChartInfo
+    function uploadAdChart(UploadedFileInfo $fileInfo, ?PdfParameters $pdfParameters): UploadedChartInfo
     {
         if ($fileInfo->errorCode !== UPLOAD_ERR_OK) {
             return UploadedChartInfo::createError($fileInfo->getErrorMessage());
@@ -96,6 +96,8 @@ class AirportChartService implements IAirportChartService
         $userId = $this->userService->getUserOrThrow($token)->id;
 
         // TODO reproject chart
+        $output = shell_exec('/var/www/html/tools/swissgrid_chart_transformer arg1 arg2');
+        echo $output;
 
         return $this->airportChartCreateCommand->create(null, $userId);
     }
