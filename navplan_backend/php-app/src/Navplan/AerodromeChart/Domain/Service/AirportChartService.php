@@ -96,7 +96,9 @@ class AirportChartService implements IAirportChartService
         $userId = $this->userService->getUserOrThrow($token)->id;
 
         // TODO reproject chart
-        $output = shell_exec('/var/www/html/tools/swissgrid_chart_transformer arg1 arg2');
+        // USAGE: swissgrid_chart_transformer [OPTIONS] --chart <CHART> --output <OUTPUT>
+        
+        $output = shell_exec('/var/www/html/tools/swissgrid_chart_transformer --chart ');
         echo $output;
 
         return $this->airportChartCreateCommand->create(null, $userId);
