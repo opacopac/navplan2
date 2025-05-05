@@ -2,13 +2,17 @@
 
 namespace Navplan\AerodromeChart\Domain\Service;
 
+use InvalidArgumentException;
 use Navplan\AerodromeChart\Domain\Command\IAirportChartCreateCommand;
 use Navplan\AerodromeChart\Domain\Model\AirportChart;
 use Navplan\AerodromeChart\Domain\Model\ChartSaveParameters;
+use Navplan\AerodromeChart\Domain\Model\GeoCoordinateType;
 use Navplan\AerodromeChart\Domain\Model\PdfParameters;
 use Navplan\AerodromeChart\Domain\Model\UploadedChartInfo;
+use Navplan\AerodromeChart\Domain\Model\WorldFileInfo;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByAirportQuery;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByIdQuery;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\UploadedFileInfo;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IImageService;
@@ -21,6 +25,7 @@ ini_set('memory_limit', '1024M');
 class AirportChartService implements IAirportChartService
 {
     public function __construct(
+        private IAerodromeChartConfig $aerodromeChartConfig,
         private IFileService $fileService,
         private IImageService $imageService,
         private IUserService $userService,
@@ -33,7 +38,7 @@ class AirportChartService implements IAirportChartService
     }
 
 
-    function readById(int $id, ?string $token): AirportChart
+    public function readById(int $id, ?string $token): AirportChart
     {
         $userId = $token !== null
             ? $this->userService->getUserOrThrow($token)->id
@@ -42,7 +47,7 @@ class AirportChartService implements IAirportChartService
     }
 
 
-    function readByAdIcao(string $adIcao, ?string $token): array
+    public function readByAdIcao(string $adIcao, ?string $token): array
     {
         $userId = $token !== null
             ? $this->userService->getUserOrThrow($token)->id
@@ -51,7 +56,7 @@ class AirportChartService implements IAirportChartService
     }
 
 
-    function uploadAdChart(UploadedFileInfo $fileInfo, ?PdfParameters $pdfParameters): UploadedChartInfo
+    public function uploadAdChart(UploadedFileInfo $fileInfo, ?PdfParameters $pdfParameters): UploadedChartInfo
     {
         if ($fileInfo->errorCode !== UPLOAD_ERR_OK) {
             return UploadedChartInfo::createError($fileInfo->getErrorMessage());
@@ -92,18 +97,64 @@ class AirportChartService implements IAirportChartService
     }
 
 
-    function reprojectAndSaveAdChart(ChartSaveParameters $saveParams, string $token): AirportChart
+    public function reprojectAndSaveAdChart(ChartSaveParameters $saveParams, string $token): AirportChart
     {
         $userId = $this->userService->getUserOrThrow($token)->id;
 
-        $outFile = $this->swissGridChartTransformerService->createChartProjektion(
+        // calculate reprojection
+        $projectionResult = $this->swissGridChartTransformerService->createChartProjektion(
             $this->fileService->getTempDirBase() . $saveParams->chartUrl,
             $saveParams->chartRegistration
         );
 
-        // TODO: outfile to chart folder & parse worldfile
-        // TODO: save to db
- 
-        return $this->airportChartCreateCommand->create(null, $userId);
+        // move file to chart folder
+        $targetFile = $this->moveFileToChartFolder($projectionResult->outputChartFile);
+
+        // calc extent
+        $extent = $this->calcExtent($targetFile, $projectionResult->worldFileInfo);
+
+        // save to db
+        $adChart = new AirportChart(
+            0,
+            "TODO",
+            "TODO",
+            $saveParams->chartName,
+            basename($targetFile),
+            $extent,
+            $saveParams->originalFileParameters,
+            $saveParams->chartRegistration
+        );
+
+        return $this->airportChartCreateCommand->create($adChart, $userId);
+    }
+
+
+    private function moveFileToChartFolder(string $chartFile): string
+    {
+        $newFilename = $this->fileService->getRandomFilename($chartFile);
+        $targetDir = $this->aerodromeChartConfig->getChartBaseDir();
+        $targetFile = $targetDir . $newFilename;
+        $this->fileService->rename($chartFile, $targetFile);
+
+        return $targetFile;
+    }
+
+
+    private function calcExtent(string $chartFile, WorldFileInfo $worldFileInfo): Extent2d {
+        if ($worldFileInfo->geoCoordTopLeft->getType() !== GeoCoordinateType::LON_LAT) {
+            throw new InvalidArgumentException("Invalid coordinate type in world file");
+        }
+
+        $img = $this->imageService->loadImage($chartFile);
+
+        $posTl = $worldFileInfo->geoCoordTopLeft;
+        $posR = $posTl->getE() + $img->getWidth() * $worldFileInfo->xCompPixelWidth;
+        $posB = $posTl->getN() + $img->getHeight() * $worldFileInfo->yCompPixelHeight;
+        $minN = min($posTl->getN(), $posB);
+        $maxN = max($posTl->getN(), $posB);
+        $minE = min($posTl->getE(), $posR);
+        $maxE = max($posTl->getE(), $posR);
+
+        return Extent2d::createFromCoords($minE, $minN, $maxE, $maxN);
     }
 }

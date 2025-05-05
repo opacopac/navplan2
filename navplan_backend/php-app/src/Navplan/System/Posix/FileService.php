@@ -112,6 +112,12 @@ class FileService implements IFileService
     }
 
 
+    public function rename(string $from, string $to, $context = null): bool
+    {
+        return rename($from, $to, $context);
+    }
+
+
     private function cleanUpTempDirs()
     {
         $tmpDirEntries = scandir($this->getTempDirBase());
@@ -165,5 +171,24 @@ class FileService implements IFileService
         } else {
             throw new FileServiceException($msg);
         }
+    }
+
+    public function appendFilename(string $filename, string $appendix): string
+    {
+        $pathInfo = pathinfo($filename);
+        $newFilename = $pathInfo["dirname"] . '/' . $pathInfo["filename"] . $appendix;
+
+        if (isset($pathInfo["extension"])) {
+            $newFilename .= '.' . $pathInfo["extension"];
+        }
+
+        return $newFilename;
+    }
+
+    function getRandomFilename(string $originalFilename): string
+    {
+        return StringNumberHelper::createRandomString(20)
+            . "."
+            . pathinfo($originalFilename, PATHINFO_EXTENSION);
     }
 }

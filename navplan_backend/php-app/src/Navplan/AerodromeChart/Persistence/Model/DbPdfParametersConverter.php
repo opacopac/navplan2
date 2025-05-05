@@ -14,7 +14,7 @@ class DbPdfParametersConverter
     {
         if (StringNumberHelper::isNullOrEmpty($row, DbTableAirportCharts::COL_PDF_PAGE)
             || StringNumberHelper::isNullOrEmpty($row, DbTableAirportCharts::COL_PDF_ROT_DEG)
-            || StringNumberHelper::isNullOrEmpty($row, DbTableAirportCharts::COL_IMPORT_FILENAME)
+            || StringNumberHelper::isNullOrEmpty($row, DbTableAirportCharts::COL_PDF_DPI)
         ) {
             return null;
         }
@@ -22,7 +22,7 @@ class DbPdfParametersConverter
         return new PdfParameters(
             StringNumberHelper::parseIntOrError($row, DbTableAirportCharts::COL_PDF_PAGE),
             new Angle(StringNumberHelper::parseFloatOrError($row, DbTableAirportCharts::COL_PDF_ROT_DEG), AngleUnit::DEG),
-            StringNumberHelper::parseIntOrError($row, DbTableAirportCharts::COL_IMPORT_FILENAME),
+            StringNumberHelper::parseIntOrError($row, DbTableAirportCharts::COL_PDF_DPI),
         );
     }
 }

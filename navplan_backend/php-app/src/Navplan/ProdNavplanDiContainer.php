@@ -131,11 +131,13 @@ class ProdNavplanDiContainer
     {
         if (!isset($this->aerodromeChartDiContainer)) {
             $this->aerodromeChartDiContainer = new ProdAerodromeChartDiContainer(
+                $this->getConfigDiContainer(),
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getFileService(),
                 $this->getSystemDiContainer()->getImageService(),
                 $this->getUserDiContainer()->getUserService(),
                 $this->getSystemDiContainer()->getHttpService(),
+                $this->getSystemDiContainer()->getProcService(),
                 $this->getSystemDiContainer()->getLoggingService(),
             );
         }

@@ -3,6 +3,7 @@
 namespace Navplan\Config\IniFile\Service;
 
 use InvalidArgumentException;
+use Navplan\AerodromeChart\Domain\Service\IAerodromeChartConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\OpenAip\Config\IOpenAipConfig;
@@ -17,7 +18,7 @@ use Navplan\User\Domain\Service\ITokenConfig;
 
 
 class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexConfig,
-    INotamConfig, IMeteoDwdConfig, ITerrainConfig, ISystemConfig {
+    INotamConfig, IMeteoDwdConfig, ITerrainConfig, IAerodromeChartConfig, ISystemConfig {
     private readonly DbCredentials $credentials;
     private readonly TokenCredentials $tokenCredentials;
     private readonly string $icaoApiKey;
@@ -25,6 +26,7 @@ class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexC
     private readonly string $openAipApiKey;
     private readonly string $meteoDwdBaseDir;
     private readonly string $terrainTilesBaseDir;
+    private readonly string $chartBaseDir;
     private readonly string $tmpDir;
     private readonly string $logDir;
     private readonly string $logFile;
@@ -52,6 +54,7 @@ class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexC
         $this->openAipApiKey = $iniValues['openaip_api_key'];
         $this->meteoDwdBaseDir = $iniValues['meteo_dwd_base_dir'];
         $this->terrainTilesBaseDir = $iniValues['terrain_tiles_base_dir'];
+        $this->chartBaseDir = $iniValues['chart_base_dir'];
         $this->tmpDir = $iniValues['tmp_dir'];
         $this->logDir = $iniValues['log_dir'];
         $this->logFile = $iniValues['log_file'];
@@ -91,6 +94,11 @@ class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexC
 
     public function getTerrainTilesBaseDir(): string {
         return $this->terrainTilesBaseDir;
+    }
+
+
+    public function getChartBaseDir(): string {
+        return $this->chartBaseDir;
     }
 
 

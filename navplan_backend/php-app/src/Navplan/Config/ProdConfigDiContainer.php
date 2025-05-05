@@ -14,66 +14,85 @@ class ProdConfigDiContainer implements IConfigDiContainer
     private IniFileConfig $iniFileConfig;
 
 
-    public function __construct() {
+    public function __construct()
+    {
     }
 
 
-    public function getCredentials(): DbCredentials {
+    public function getCredentials(): DbCredentials
+    {
         return $this->getIniFileConfig()->getCredentials();
     }
 
 
-    public function getOpenAipApiKey(): string {
+    public function getOpenAipApiKey(): string
+    {
         return $this->getIniFileConfig()->getOpenAipApiKey();
     }
 
 
-    public function getAdsbExchangeApiKey(): string {
+    public function getAdsbExchangeApiKey(): string
+    {
         return $this->getIniFileConfig()->getAdsbExchangeApiKey();
     }
 
 
-    public function getIcaoApiKey(): string {
+    public function getIcaoApiKey(): string
+    {
         return $this->getIniFileConfig()->getIcaoApiKey();
     }
 
 
-    function getTokenCredentials(): TokenCredentials {
+    public function getTokenCredentials(): TokenCredentials
+    {
         return $this->getIniFileConfig()->getTokenCredentials();
     }
 
 
-    function getMeteoDwdBaseDir(): string {
+    public function getMeteoDwdBaseDir(): string
+    {
         return $this->getIniFileConfig()->getMeteoDwdBaseDir();
     }
 
 
-    function getTerrainTilesBaseDir(): string {
+    public function getTerrainTilesBaseDir(): string
+    {
         return $this->getIniFileConfig()->getTerrainTilesBaseDir();
     }
 
 
-    function getTempDir(): string {
+    public function getChartBaseDir(): string
+    {
+        return $this->getIniFileConfig()->getChartBaseDir();
+    }
+
+
+    public function getTempDir(): string
+    {
         return $this->getIniFileConfig()->getTempDir();
     }
 
 
-    function getLogDir(): string {
+    public function getLogDir(): string
+    {
         return $this->getIniFileConfig()->getLogDir();
     }
 
 
-    function getLogFile(): string {
+    public function getLogFile(): string
+    {
         return $this->getIniFileConfig()->getLogFile();
     }
 
 
-    function getLogLevel(): int {
+    public function getLogLevel(): int
+    {
         return $this->getIniFileConfig()->getLogLevel();
     }
 
 
-    private function getIniFileConfig(): IniFileConfig {
+    private function getIniFileConfig(): IniFileConfig
+    {
         if (!isset($this->iniFileConfig)) {
             $this->iniFileConfig = new IniFileConfig(self::CONFIG_FILE);
         }

@@ -21,4 +21,10 @@ interface IFileService {
     function glob(string $directory, int $flags): array|false;
 
     function moveUploadedFile(string $from, string $to): bool;
+
+    function rename(string $from, string $to, $context = null): bool;
+
+    function appendFilename(string $filename, string $appendix): string;
+
+    function getRandomFilename(string $originalFilename): string;
 }

@@ -6,6 +6,7 @@ use Navplan\AerodromeChart\Domain\Command\IAirportChartCreateCommand;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByAirportQuery;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByIdQuery;
 use Navplan\AerodromeChart\Domain\Service\AirportChartService;
+use Navplan\AerodromeChart\Domain\Service\IAerodromeChartConfig;
 use Navplan\AerodromeChart\Domain\Service\IAirportChartService;
 use Navplan\AerodromeChart\Domain\Service\ISwissGridChartTransformerService;
 use Navplan\AerodromeChart\Domain\Service\SwissGridChartTransformerService;
@@ -19,6 +20,7 @@ use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\IImageService;
 use Navplan\System\Domain\Service\ILoggingService;
+use Navplan\System\Domain\Service\IProcService;
 use Navplan\User\Domain\Service\IUserService;
 
 
@@ -33,11 +35,13 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
 
 
     public function __construct(
+        private IAerodromeChartConfig $aerodromeChartConfig,
         private IDbService $dbService,
         private IFileService $fileService,
         private IImageService $imageService,
         private IUserService $userService,
         private IHttpService $httpService,
+        private IProcService $procService,
         private ILoggingService $loggingService
     )
     {
@@ -61,6 +65,7 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
     {
         if (!isset($this->airportChartService)) {
             $this->airportChartService = new AirportChartService(
+                $this->aerodromeChartConfig,
                 $this->fileService,
                 $this->imageService,
                 $this->userService,
@@ -80,6 +85,7 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
         if (!isset($this->swissGridChartTransformerService)) {
             $this->swissGridChartTransformerService = new SwissGridChartTransformerService(
                 $this->fileService,
+                $this->procService,
                 $this->loggingService
             );
         }

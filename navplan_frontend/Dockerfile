@@ -1,5 +1,5 @@
 # Use a base image with Node.js and Nginx
-FROM node:latest as build
+FROM node:latest AS build
 
 # Set the working directory in the container
 WORKDIR /app

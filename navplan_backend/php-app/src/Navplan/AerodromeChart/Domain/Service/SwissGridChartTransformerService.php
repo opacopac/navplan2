@@ -3,27 +3,29 @@
 namespace Navplan\AerodromeChart\Domain\Service;
 
 use InvalidArgumentException;
+use Navplan\AerodromeChart\Domain\Model\ChartProjectionResult;
 use Navplan\AerodromeChart\Domain\Model\ChartRegistration;
 use Navplan\AerodromeChart\Domain\Model\WorldFileInfo;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\SwissTopo\Lv03Coordinate;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\ILoggingService;
+use Navplan\System\Domain\Service\IProcService;
 
 
 class SwissGridChartTransformerService implements ISwissGridChartTransformerService
 {
     public function __construct(
         private IFileService $fileService,
-        private ILoggingService $loggingService
+        private IProcService $procService,
+        private ILoggingService $loggingService,
     )
     {
     }
 
 
-    public function createChartProjektion(string $chartUrl, ChartRegistration $chartReg): string
+    public function createChartProjektion(string $chartFile, ChartRegistration $chartReg): ChartProjectionResult
     {
-        // TODO reproject chart
         $coord1 = Lv03Coordinate::fromLatLon($chartReg->geoCoord1->toLatLon());
         $coord2 = Lv03Coordinate::fromLatLon($chartReg->geoCoord2->toLatLon());
         $exe = "/var/www/html/tools/swissgrid_chart_transformer";
@@ -36,18 +38,30 @@ class SwissGridChartTransformerService implements ISwissGridChartTransformerServ
             . $chartReg->pixelXy2->getIntY() . " "
             . $coord2->getE() . " "
             . $coord2->getN();
-        $chart = $chartUrl;
-        $outputChart = "/var/www/html/tmp/asdf.png";
-        $command = "$exe $options --chart $chart --output $outputChart";
+        $outputChart = $this->fileService->appendFilename($chartFile, "_output");
+        $command = "$exe $options --chart $chartFile --output $outputChart";
 
         $this->loggingService->debug("Executing Shell Command: $command");
+        $this->procService->shell_exec($command);
 
-        $shelloutput = shell_exec($command);
-
-        $worldFile = "/var/www/html/tmp/asdf.pfw";
+        $worldFile = $this->getWorldFile($outputChart);
         $worldFileInfo = $this->parseWorldFile($worldFile);
 
-        return $outputChart;
+        return new ChartProjectionResult(
+            $outputChart,
+            $worldFileInfo
+        );
+    }
+
+
+    public function getWorldFile(string $chartFile): string
+    {
+        $extension = pathinfo($chartFile, PATHINFO_EXTENSION);
+        if ($extension === "") {
+            return $chartFile . ".wld";
+        } else {
+            return $chartFile . "w";
+        }
     }
 
 
