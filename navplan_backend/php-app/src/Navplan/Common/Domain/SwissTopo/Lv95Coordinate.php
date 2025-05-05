@@ -13,6 +13,17 @@ class Lv95Coordinate implements GeoCoordinate
     public const LV95_TO_LV93_N_OFFSET = 1000000;
 
 
+    public static function fromLatLon(?Position2d $pos): ?Lv95Coordinate
+    {
+        if ($pos === null) {
+            return null;
+        }
+
+        $lv03 = Lv03Coordinate::fromLatLon($pos);
+        return self::fromLv03($lv03);
+    }
+
+
     public static function fromLv03(Lv03Coordinate $lv03): Lv95Coordinate
     {
         $e = $lv03->getE() + self::LV95_TO_LV03_E_OFFSET;

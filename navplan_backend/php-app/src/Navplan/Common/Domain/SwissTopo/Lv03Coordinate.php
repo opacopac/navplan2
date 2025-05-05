@@ -9,6 +9,18 @@ use Navplan\Common\Domain\Model\Position2d;
 
 class Lv03Coordinate implements GeoCoordinate
 {
+    public static function fromLatLon(?Position2d $pos): ?Lv03Coordinate
+    {
+        if ($pos === null) {
+            return null;
+        }
+
+        $e = SwissTopoService::WgsToChE($pos->latitude, $pos->longitude);
+        $n = SwissTopoService::WgsToChN($pos->latitude, $pos->longitude);
+        return new Lv03Coordinate($e, $n);
+    }
+
+
     public function __construct(
         public float $e,
         public float $n
