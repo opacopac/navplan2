@@ -47,8 +47,6 @@ class SwissGridChartTransformerService implements ISwissGridChartTransformerServ
         $worldFile = "/var/www/html/tmp/asdf.pfw";
         $worldFileInfo = $this->parseWorldFile($worldFile);
 
-        var_dump($worldFileInfo);
-
         return $outputChart;
     }
 
@@ -74,15 +72,17 @@ class SwissGridChartTransformerService implements ISwissGridChartTransformerServ
 
         $file->fclose();
 
-        return new WorldFileInfo(
+        $wfInfo = new WorldFileInfo(
             $lines[0],
             $lines[1],
             $lines[2],
             $lines[3],
             new Position2d(
-                $lines[5],
-                $lines[4]
+                $lines[4],
+                $lines[5]
             )
         );
+
+        return $wfInfo;
     }
 }

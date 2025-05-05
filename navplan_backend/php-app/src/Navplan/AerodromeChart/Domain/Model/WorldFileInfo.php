@@ -8,11 +8,11 @@ use Navplan\Common\Domain\Model\GeoCoordinate;
 class WorldFileInfo
 {
     public function __construct(
-        float $xCompPixelWidth,
-        float $yCompPixelWidth,
-        float $xCompPixelHeight,
-        float $yCompPixelHeight,
-        GeoCoordinate $geoCoordTopLeft,
+        public float $xCompPixelWidth,
+        public float $yCompPixelWidth,
+        public float $xCompPixelHeight,
+        public float $yCompPixelHeight,
+        public GeoCoordinate $geoCoordTopLeft,
     )
     {
     }
