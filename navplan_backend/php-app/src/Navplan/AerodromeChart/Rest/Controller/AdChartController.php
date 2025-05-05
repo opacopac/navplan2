@@ -56,7 +56,7 @@ class AdChartController implements IRestController
                         break;
                     case self::ARG_ACTION_SAVE:
                         $chartSaveParams = RestChartSaveParametersConverter::fromRest($this->httpService->getPostArgs());
-                        $savedAdChart = $this->airportChartService->reprojectAndSaveAdChart($chartSaveParams, $token);
+                        $savedAdChart = $this->airportChartService->reprojectAndSaveAdChart($adIcao, $chartSaveParams, $token);
                         $response = RestAirportChartConverter::toRest($savedAdChart);
                         break;
                     default:

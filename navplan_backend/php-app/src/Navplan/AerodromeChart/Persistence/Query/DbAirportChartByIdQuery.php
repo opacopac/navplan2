@@ -22,16 +22,17 @@ class DbAirportChartByIdQuery implements IAirportChartByIdQuery
     public function read(int $id, int $userId): AirportChart
     {
         $query = "SELECT * FROM " . DbTableAirportCharts::TABLE_NAME;
-        $query .= " WHERE " . DbTableAirportCharts::COL_ACTIVE . "=1";
+        $query .= " WHERE " . DbTableAirportCharts::COL_ID . "=" . DbHelper::getDbIntValue($id);
+        $query .= " AND " . DbTableAirportCharts::COL_ACTIVE . "=1";
 
         if ($userId > 0) {
-            $query .= " AND " . DbTableAirportCharts::COL_USER_ID . "=" . DbHelper::getDbIntValue($userId);
-            $query .= " OR " . DbTableAirportCharts::COL_USER_ID . " IS NULL";
+            $query .= " AND (" . DbTableAirportCharts::COL_USER_ID . "=" . DbHelper::getDbIntValue($userId);
+            $query .= " OR " . DbTableAirportCharts::COL_USER_ID . " IS NULL)";
         } else {
             $query .= " AND " . DbTableAirportCharts::COL_USER_ID . " IS NULL";
         }
 
-        $result = $this->dbService->execSingleResultQuery($query, false, "error reading airport chart list");
+        $result = $this->dbService->execSingleResultQuery($query, false, "error reading chart by id");
 
         return DbAirportChart2Converter::fromDbRow($result->fetch_assoc());
     }

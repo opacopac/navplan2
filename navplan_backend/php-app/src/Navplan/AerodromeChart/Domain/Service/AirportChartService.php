@@ -97,7 +97,7 @@ class AirportChartService implements IAirportChartService
     }
 
 
-    public function reprojectAndSaveAdChart(ChartSaveParameters $saveParams, string $token): AirportChart
+    public function reprojectAndSaveAdChart(string $adIcao, ChartSaveParameters $saveParams, string $token): AirportChart
     {
         $userId = $this->userService->getUserOrThrow($token)->id;
 
@@ -116,8 +116,8 @@ class AirportChartService implements IAirportChartService
         // save to db
         $adChart = new AirportChart(
             0,
-            "TODO",
-            "TODO",
+            $adIcao,
+            "VFRM", // TODO
             $saveParams->chartName,
             basename($targetFile),
             $extent,

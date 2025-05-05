@@ -22,5 +22,5 @@ interface IAirportChartService
 
     function uploadAdChart(UploadedFileInfo $fileInfo, PdfParameters $pdfParameters): UploadedChartInfo;
 
-    function reprojectAndSaveAdChart(ChartSaveParameters $saveParams, string $token): AirportChart;
+    function reprojectAndSaveAdChart(string $adIcao, ChartSaveParameters $saveParams, string $token): AirportChart;
 }
