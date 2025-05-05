@@ -6,10 +6,10 @@
                 <td mat-cell class="clickable" *matCellDef="let chart" (click)="onChartClicked(chart.id)"><i
                     class="fa-regular fa-file"></i></td>
             </ng-container>
-            <ng-container matColumnDef="type">
-                <th mat-header-cell *matHeaderCellDef>Type</th>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
                 <td mat-cell class="clickable" *matCellDef="let chart"
-                    (click)="onChartClicked(chart.id)">{{ chart.type }}
+                    (click)="onChartClicked(chart.id)">{{ chart.name }}
                 </td>
             </ng-container>
             <ng-container matColumnDef="source">

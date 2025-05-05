@@ -26,6 +26,7 @@ class DbAirportChartByIdQuery implements IAirportChartByIdQuery
 
         if ($userId > 0) {
             $query .= " AND " . DbTableAirportCharts::COL_USER_ID . "=" . DbHelper::getDbIntValue($userId);
+            $query .= " OR " . DbTableAirportCharts::COL_USER_ID . " IS NULL";
         } else {
             $query .= " AND " . DbTableAirportCharts::COL_USER_ID . " IS NULL";
         }

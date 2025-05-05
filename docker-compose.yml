@@ -35,7 +35,8 @@ services:
         depends_on:
             - navplan_persistence
         volumes:
-            - navplan_data:/var/log/navplan
+            - navplan_logs:/var/log/navplan
+            - navplan_charts:/var/www/html/charts
 
     navplan_frontend:
         build:
@@ -47,6 +48,8 @@ services:
             - navplan_backend
 volumes:
     navplan_data:
+    navplan_logs:
+    navplan_charts:
 
 secrets:
     db_root_pw:

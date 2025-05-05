@@ -33,7 +33,7 @@ export class MapPopupAirportChartTabComponent implements OnInit {
 
 
     protected getChartColumns(): string[] {
-        return ['filename', 'type', 'source'];
+        return ['filename', 'name', 'source'];
     }
 
 

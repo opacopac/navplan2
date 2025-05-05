@@ -37,7 +37,7 @@ export const environment = {
     userApiBaseUrl: WEBSITE_BASE_URL + 'api/user',
     verticalMapApiBaseUrl: WEBSITE_BASE_URL + 'api/verticalmap',
     webcamApiBaseUrl: WEBSITE_BASE_URL + 'api/webcams',
-    chartBaseUrl: WEBSITE_BASE_URL + 'charts2/',
+    chartBaseUrl: WEBSITE_BASE_URL + 'charts/',
     mapTilesIcaoChartUrl: WEBSITE_BASE_URL + 'maptiles/icao_ch_aero/',
     mapTilesGliderChartUrl: WEBSITE_BASE_URL + 'maptiles/icao_ch_glider/',
 };
