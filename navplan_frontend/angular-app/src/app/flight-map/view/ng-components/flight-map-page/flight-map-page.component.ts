@@ -112,7 +112,6 @@ import {
     ChartUploadContainerComponent
 } from '../../../../aerodrome-charts/view/ng-components/chart-upload-container/chart-upload-container.component';
 import {SidebarMode} from '../../../state/ngrx/sidebar-mode';
-import {OlImageLayer} from '../../../../base-map/view/ol-model/ol-image-layer';
 
 
 @Component({
@@ -246,7 +245,6 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         zoom: number,
         rotation: Angle
     ) {
-        const chartLayer = new OlImageLayer();
         const flightrouteLayer = new OlVectorLayer();
         const ownPlaneLayer = new OlVectorLayer();
         const metarTafLayer = new OlVectorLayer();
@@ -271,7 +269,6 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
         const olMap = this.mapContainer.createMap(
             [
-                chartLayer,
                 chartCloserLayer,
                 circuitLayer,
                 airspaceLayer,
@@ -309,7 +306,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             this.appStore.pipe(select(getAirports))
         );
         this.olAirportChartContainer = new OlAirportChartContainer(
-            chartLayer,
+            olMap,
             chartCloserLayer,
             this.appStore.pipe(select(getAirportCharts))
         );

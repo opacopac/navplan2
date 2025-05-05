@@ -26,11 +26,12 @@ export class OlImageLayer implements OlLayer {
 
 
     public setImageSource(extent: Extent2d, url: string): void {
-        debugger;
+        //debugger;
         const mercatorExtent = OlGeometry.getExtentAsMercator(extent);
         const source = new ImageStatic({
             url: url,
             imageExtent: mercatorExtent,
+            projection: 'EPSG:3857',
         });
         this.imageLayer.setSource(source);
     }

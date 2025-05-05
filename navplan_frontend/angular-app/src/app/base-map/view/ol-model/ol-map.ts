@@ -263,7 +263,7 @@ export class OlMap implements IBaseMap {
     private getImageLayer(imageId: number, imageUrl: string, extent2d: Extent2d, opacity: number): ImageLayer<ImageStatic> {
         const extent = OlGeometry.getExtentAsMercator(extent2d);
         const projection = new Projection({
-            code: 'chart',
+            code: 'EPSG:3857',
             units: 'm',
             extent: extent
         });
