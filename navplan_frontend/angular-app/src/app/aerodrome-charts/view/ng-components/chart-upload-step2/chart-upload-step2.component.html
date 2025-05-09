@@ -4,6 +4,18 @@
         <div [formGroup]="this.formGroup" class="form-fields">
             <p>File: {{ this.uploadedChartInfo.filename }}</p>
 
+            <!-- chart registration type -->
+            <mat-radio-group
+                color="primary"
+                formControlName="chartRegistrationType"
+                (change)="this.onChartRegistrationTypeChanged()"
+            >
+                <mat-radio-button [value]="ChartRegistrationType.POS1_POS2">Pick 2 reference points</mat-radio-button>
+                <mat-radio-button [value]="ChartRegistrationType.POS1_SCALE">Pick 1 reference point &amp; chart scale
+                </mat-radio-button>
+            </mat-radio-group>
+
+            <!-- reference point 1 -->
             <div class="form-row">
                 Reference Point 1:
                 <i class="fa-solid fa-crosshairs refPoint1Icon"></i>
@@ -36,37 +48,51 @@
                 </span>
             </div>
 
-            <div class="form-row">
-                Reference Point 2:
-                <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
+            <!-- reference point 2 -->
+            @if (this.isPos1Pos2()) {
+                <div class="form-row">
+                    Reference Point 2:
+                    <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
 
-                <mat-form-field class="coordInput">
-                    <mat-label>X</mat-label>
-                    <input
-                        matInput
-                        formControlName="refX2"
-                        required
-                        (change)="this.onRefPoint2Changed()"
-                    >
-                    <span matTextSuffix>px</span>
-                </mat-form-field>
+                    <mat-form-field class="coordInput">
+                        <mat-label>X</mat-label>
+                        <input
+                            matInput
+                            formControlName="refX2"
+                            [required]="this.isPos1Pos2()"
+                            (change)="this.onRefPoint2Changed()"
+                        >
+                        <span matTextSuffix>px</span>
+                    </mat-form-field>
 
-                <mat-form-field class="coordInput">
-                    <mat-label>Y</mat-label>
-                    <input
-                        matInput
-                        formControlName="refY2"
-                        required
-                        (change)="this.onRefPoint2Changed()"
-                    >
-                    <span matTextSuffix>px</span>
-                </mat-form-field>
+                    <mat-form-field class="coordInput">
+                        <mat-label>Y</mat-label>
+                        <input
+                            matInput
+                            formControlName="refY2"
+                            [required]="this.isPos1Pos2()"
+                            (change)="this.onRefPoint2Changed()"
+                        >
+                        <span matTextSuffix>px</span>
+                    </mat-form-field>
 
-                <i [hidden]="this.selectedRefPoint2 || !this.selectedRefPoint1">(pick on chart)</i>
-                <span [hidden]="!this.selectedRefPoint2">
+                    <i [hidden]="this.selectedRefPoint2 || !this.selectedRefPoint1">(pick on chart)</i>
+                    <span [hidden]="!this.selectedRefPoint2">
                     <i class="fa-solid fa-check-circle checkIcon"></i>
                 </span>
-            </div>
+                </div>
+            } @else {
+                <mat-form-field>
+                    <mat-label>Scale</mat-label>
+                    <input
+                        matInput
+                        formControlName="scale"
+                        [required]="!this.isPos1Pos2()"
+                        (change)="this.onScaleChanged()"
+                    >
+                    <span matTextPrefix>1:</span>
+                </mat-form-field>
+            }
         </div>
 
         <!-- mini viewer -->

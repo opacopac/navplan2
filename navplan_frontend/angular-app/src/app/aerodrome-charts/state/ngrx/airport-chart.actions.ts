@@ -4,6 +4,7 @@ import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
 import {ChartUploadParameters} from '../../domain/model/chart-upload-parameters';
 import {XyCoord} from '../../../geo-physics/domain/model/geometry/xyCoord';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
+import {ChartRegistrationType} from '../../domain/model/chart-registration-type';
 
 
 export class AirportChartActions {
@@ -46,6 +47,11 @@ export class AirportChartActions {
         props<{ error: Error }>()
     );
 
+    public static readonly chartRegistrationTypeChanged = createAction(
+        '[Chart Upload Dialog] Chart registration type changed',
+        props<{ chartRegistrationType: ChartRegistrationType }>()
+    );
+
     public static readonly chartReference1Changed = createAction(
         '[Chart Upload Dialog] Chart reference 1 changed',
         props<{ chartReference1: XyCoord }>()
@@ -54,6 +60,11 @@ export class AirportChartActions {
     public static readonly chartReference2Changed = createAction(
         '[Chart Upload Dialog] Chart reference 2 changed',
         props<{ chartReference2: XyCoord }>()
+    );
+
+    public static readonly chartScaleChanged = createAction(
+        '[Chart Upload Dialog] Chart scale changed',
+        props<{ chartScale: number }>()
     );
 
     public static readonly mapReference1Changed = createAction(

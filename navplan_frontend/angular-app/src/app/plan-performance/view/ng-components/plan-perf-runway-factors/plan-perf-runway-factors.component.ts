@@ -7,11 +7,11 @@ import {PlanPerfRwyFactorsState} from '../../../state/state-model/plan-perf-rwy-
 import {AirportRunway} from '../../../../aerodrome/domain/model/airport-runway';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
-import {MatFormField, MatFormFieldModule} from '@angular/material/form-field';
-import {MatOption, MatSelect, MatSelectModule} from '@angular/material/select';
-import {MatCheckbox, MatCheckboxModule} from '@angular/material/checkbox';
-import {MatRadioButton, MatRadioGroup, MatRadioModule} from '@angular/material/radio';
-import {MatInput, MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatInputModule} from '@angular/material/input';
 import {MatOptionModule} from '@angular/material/core';
 
 @Component({

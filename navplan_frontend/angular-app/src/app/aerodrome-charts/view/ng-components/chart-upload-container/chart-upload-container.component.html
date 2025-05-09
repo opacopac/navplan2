@@ -25,8 +25,11 @@
                 <app-chart-upload-step2
                     [selectedAirport]="this.selectedAirport$ | async"
                     [uploadedChartInfo]="this.uploadedChartInfo$ | async"
+                    [chartRegistrationType]="this.chartRegistrationType$ | async"
                     [selectedRefPoint1]="this.chartReference1$ | async"
                     [selectedRefPoint2]="this.chartReference2$ | async"
+                    [chartScale]="this.chartScale$ | async"
+                    (chartRegistrationTypeChanged)="this.onChartRegistrationTypeChanged($event)"
                     (reference1Selected)="this.onChartReference1Selected($event)"
                     (reference2Selected)="this.onChartReference2Selected($event)"
                 />
