@@ -10,9 +10,8 @@
                 formControlName="chartRegistrationType"
                 (change)="this.onChartRegistrationTypeChanged()"
             >
-                <mat-radio-button [value]="ChartRegistrationType.POS1_POS2">Pick 2 reference points</mat-radio-button>
-                <mat-radio-button [value]="ChartRegistrationType.POS1_SCALE">Pick 1 reference point &amp; chart scale
-                </mat-radio-button>
+                <mat-radio-button [value]="ChartRegistrationType.POS1_POS2">Two reference points</mat-radio-button>
+                <mat-radio-button [value]="ChartRegistrationType.POS1_SCALE">One reference point &amp; chart scale</mat-radio-button>
             </mat-radio-group>
 
             <!-- reference point 1 -->
