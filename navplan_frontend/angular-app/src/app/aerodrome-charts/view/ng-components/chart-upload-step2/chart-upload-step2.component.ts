@@ -46,6 +46,30 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
     @Output() reference2Selected = new EventEmitter<XyCoord>();
     @Output() scaleChanged = new EventEmitter<number>();
 
+    protected get refX1Control(): FormControl {
+        return this.formGroup.get('refX1') as FormControl;
+    }
+
+    protected get refY1Control(): FormControl {
+        return this.formGroup.get('refY1') as FormControl;
+    }
+
+    protected get refX2Control(): FormControl {
+        return this.formGroup.get('refX2') as FormControl;
+    }
+
+    protected get refY2Control(): FormControl {
+        return this.formGroup.get('refY2') as FormControl;
+    }
+
+    protected get scaleControl(): FormControl {
+        return this.formGroup.get('scale') as FormControl;
+    }
+
+    protected get chartRegistrationTypeControl(): FormControl {
+        return this.formGroup.get('chartRegistrationType') as FormControl;
+    }
+
     protected formGroup: FormGroup;
     protected readonly ButtonColor = ButtonColor;
     protected readonly ChartRegistrationType = ChartRegistrationType;
@@ -107,15 +131,15 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
 
         if (!this.selectedRefPoint1) {
             this.reference1Selected.emit(coord);
-        } else if (!this.selectedRefPoint2) {
+        } else if (this.chartRegistrationType === ChartRegistrationType.POS1_POS2 && !this.selectedRefPoint2) {
             this.reference2Selected.emit(coord);
         }
     }
 
 
     protected onRefPoint1Changed() {
-        const x = this.formGroup.get('refX1')?.value;
-        const y = this.formGroup.get('refY1')?.value;
+        const x = this.refX1Control?.value;
+        const y = this.refY1Control?.value;
 
         if (x && y) {
             const coord = new XyCoord(x, y).round(0);
@@ -127,8 +151,8 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
 
 
     protected onRefPoint2Changed() {
-        const x = this.formGroup.get('refX2')?.value;
-        const y = this.formGroup.get('refY2')?.value;
+        const x = this.refX2Control?.value;
+        const y = this.refY2Control?.value;
 
         if (x && y) {
             const coord = new XyCoord(x, y).round(0);
@@ -140,7 +164,7 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
 
 
     protected onScaleChanged() {
-        const scale = this.formGroup.get('scale')?.value;
+        const scale = this.scaleControl?.value;
         if (scale) {
             this.scaleChanged.emit(scale);
         }
@@ -181,25 +205,39 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
             return;
         }
 
-        if (this.chartRegistrationType) {
-            this.formGroup.get('chartRegistrationType')?.setValue(this.chartRegistrationType);
-            this.formGroup.get('refX2')?.setValidators(this.isPos1Pos2() ? [Validators.required] : []);
-            this.formGroup.get('refY2')?.setValidators(this.isPos1Pos2() ? [Validators.required] : []);
-            this.formGroup.get('scale')?.setValidators(this.isPos1Pos2() ? [] : [Validators.required]);
+        if (this.chartRegistrationType !== undefined) {
+            this.chartRegistrationTypeControl?.setValue(this.chartRegistrationType);
+
+            if (this.refX2Control && this.refY2Control && this.scaleControl) {
+                if (this.isPos1Pos2()) {
+                    this.refX2Control.setValidators([Validators.required]);
+                    this.refY2Control.setValidators([Validators.required]);
+                    this.scaleControl.clearValidators();
+                } else {
+                    this.refX2Control.clearValidators();
+                    this.refY2Control.clearValidators();
+                    this.scaleControl.setValidators([Validators.required]);
+                }
+
+                this.refX2Control.updateValueAndValidity();
+                this.refY2Control.updateValueAndValidity();
+                this.scaleControl.updateValueAndValidity();
+            }
         }
 
         if (this.selectedRefPoint1) {
-            this.formGroup.get('refX1')?.setValue(this.selectedRefPoint1.x);
-            this.formGroup.get('refY1')?.setValue(this.selectedRefPoint1.y);
+            this.refX1Control?.setValue(this.selectedRefPoint1.x);
+            this.refY1Control?.setValue(this.selectedRefPoint1.y);
         }
 
         if (this.selectedRefPoint2) {
-            this.formGroup.get('refX2')?.setValue(this.selectedRefPoint2.x);
-            this.formGroup.get('refY2')?.setValue(this.selectedRefPoint2.y);
+            this.refX2Control?.setValue(this.selectedRefPoint2.x);
+            this.refY2Control?.setValue(this.selectedRefPoint2.y);
         }
 
         if (this.chartScale) {
-            this.formGroup.get('scale')?.setValue(this.chartScale);
+            this.scaleControl?.setValue(this.chartScale);
         }
     }
+
 }
