@@ -5,6 +5,7 @@ import {XyCoord} from '../../../geo-physics/domain/model/geometry/xyCoord';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {Airport} from '../../../aerodrome/domain/model/airport';
 import {ChartRegistrationType} from '../../domain/model/chart-registration-type';
+import {GeoCoordinateType} from '../../domain/model/geo-coordinate-type';
 
 
 export interface AirportChartState {
@@ -18,6 +19,7 @@ export interface AirportChartState {
     chartReference1: XyCoord;
     chartReference2: XyCoord;
     chartScale: number;
+    geoCoordinateType: GeoCoordinateType;
     mapReference1: Position2d;
     mapReference2: Position2d;
 }

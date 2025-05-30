@@ -3,10 +3,11 @@ import {Store} from '@ngrx/store';
 import {MatButtonModule} from '@angular/material/button';
 import {MatStepperModule} from '@angular/material/stepper';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {FlightMapActions} from '../../../../flight-map/state/ngrx/flight-map.actions';
 import {
     getChartReference1,
-    getChartReference2, getChartRegistrationType, getChartScale,
+    getChartReference2,
+    getChartRegistrationType,
+    getChartScale,
     getIsUploading,
     getMapReference1,
     getMapReference2,
@@ -24,6 +25,7 @@ import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
 import {ChartUploadStep3Component} from '../chart-upload-step3/chart-upload-step3.component';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {ChartRegistrationType} from '../../../domain/model/chart-registration-type';
+import {GeoCoordinateType} from '../../../domain/model/geo-coordinate-type';
 
 
 @Component({
@@ -54,6 +56,7 @@ export class ChartUploadContainerComponent implements OnInit {
     protected chartReference1$ = this.appStore.select(getChartReference1);
     protected chartReference2$ = this.appStore.select(getChartReference2);
     protected chartScale$ = this.appStore.select(getChartScale);
+    protected geoCoordinateType$ = this.appStore.select(state => state.airportChartState.geoCoordinateType);
     protected mapReference1$ = this.appStore.select(getMapReference1);
     protected mapReference2$ = this.appStore.select(getMapReference2);
     protected isUploading$ = this.appStore.select(getIsUploading);
@@ -90,6 +93,13 @@ export class ChartUploadContainerComponent implements OnInit {
     protected onChartRegistrationTypeChanged(chartRegistrationType: ChartRegistrationType) {
         this.appStore.dispatch(
             AirportChartActions.chartRegistrationTypeChanged({chartRegistrationType: chartRegistrationType})
+        );
+    }
+
+
+    protected onGeoCoordinateTypeChanged($event: GeoCoordinateType) {
+        this.appStore.dispatch(
+            AirportChartActions.geoCoordinateTypeChanged({geoCoordinateType: $event})
         );
     }
 

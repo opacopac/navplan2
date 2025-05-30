@@ -4,6 +4,7 @@ import {AirportChartState} from '../state-model/airport-chart-state';
 import {PdfParameters} from '../../domain/model/pdf-parameters';
 import {FlightMapActions} from '../../../flight-map/state/ngrx/flight-map.actions';
 import {ChartRegistrationType} from '../../domain/model/chart-registration-type';
+import {GeoCoordinateType} from '../../domain/model/geo-coordinate-type';
 
 
 const initialState: AirportChartState = {
@@ -17,6 +18,7 @@ const initialState: AirportChartState = {
     chartReference1: undefined,
     chartReference2: undefined,
     chartScale: undefined,
+    geoCoordinateType: GeoCoordinateType.LON_LAT,
     mapReference1: undefined,
     mapReference2: undefined
 };
@@ -85,6 +87,11 @@ export const airportChartReducer = createReducer(
     on(AirportChartActions.chartScaleChanged, (state, action) => ({
         ...state,
         chartScale: action.chartScale
+    })),
+
+    on(AirportChartActions.geoCoordinateTypeChanged, (state, action) => ({
+        ...state,
+        geoCoordinateType: action.geoCoordinateType
     })),
 
     on(AirportChartActions.mapReference1Changed, (state, action) => ({

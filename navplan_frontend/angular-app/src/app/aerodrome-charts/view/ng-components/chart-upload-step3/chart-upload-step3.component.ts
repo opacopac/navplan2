@@ -15,7 +15,9 @@ import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {Airport} from '../../../../aerodrome/domain/model/airport';
 import {ChartRegistrationType} from '../../../domain/model/chart-registration-type';
-import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
+import {MatRadioModule} from '@angular/material/radio';
+import {GeoCoordinateType} from '../../../domain/model/geo-coordinate-type';
+import {MatSelectModule} from '@angular/material/select';
 
 
 @Component({
@@ -30,8 +32,8 @@ import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
         MatInputModule,
         MiniImageViewerComponent,
         ReactiveFormsModule,
-        MatRadioButton,
-        MatRadioGroup
+        MatRadioModule,
+        MatSelectModule
     ],
     templateUrl: './chart-upload-step3.component.html',
     styleUrls: ['./chart-upload-step3.component.scss']
@@ -42,19 +44,27 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
     @Input() chartRegistrationType: ChartRegistrationType;
     @Input() chartRefPoint1: XyCoord;
     @Input() chartRefPoint2: XyCoord;
+    @Input() geoCoordinateType: GeoCoordinateType;
     @Input() mapRefPoint1: Position2d;
     @Input() mapRefPoint2: Position2d;
     @Output() chartRegistrationTypeChanged = new EventEmitter<ChartRegistrationType>();
+    @Output() geoCoordinateTypeChanged = new EventEmitter<GeoCoordinateType>();
     @Output() mapRefPoint1Selected = new EventEmitter<Position2d>();
     @Output() mapRefPoint2Selected = new EventEmitter<Position2d>();
 
     protected formGroup: FormGroup;
     protected readonly ButtonColor = ButtonColor;
     protected readonly ChartRegistrationType = ChartRegistrationType;
+    protected readonly GeoCoordinateType = GeoCoordinateType;
 
 
     protected get chartRegistrationTypeControl(): FormControl {
         return this.formGroup.get('chartRegistrationType') as FormControl;
+    }
+
+
+    protected get geoCoordinateTypeControl(): FormControl {
+        return this.formGroup.get('geoCoordinateType') as FormControl;
     }
 
 
@@ -169,6 +179,10 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
             this.chartRegistrationType,
             [Validators.required]
         ));
+        this.formGroup.addControl('geoCoordinateType', new FormControl(
+            this.geoCoordinateType,
+            this.isPos1Pos2() || this.isPos1Scale() ? [Validators.required] : [],
+        ));
         this.formGroup.addControl('refLat1', new FormControl(
             this.mapRefPoint1 ? this.mapRefPoint1.latitude : '',
             this.isPos1Pos2() || this.isPos1Scale ? [Validators.required] : []
@@ -196,29 +210,44 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
         if (this.chartRegistrationType !== undefined) {
             this.chartRegistrationTypeControl?.setValue(this.chartRegistrationType);
 
-            if (this.refLat1Control && this.refLon1Control && this.refLat2Control && this.refLon2Control) {
-                if (this.isPos1Pos2()) {
-                    this.refLat1Control.setValidators([Validators.required]);
-                    this.refLon1Control.setValidators([Validators.required]);
-                    this.refLat2Control.setValidators([Validators.required]);
-                    this.refLon2Control.setValidators([Validators.required]);
-                } else if (this.isPos1Scale()) {
-                    this.refLat1Control.setValidators([Validators.required]);
-                    this.refLon1Control.setValidators([Validators.required]);
-                    this.refLat2Control.clearValidators();
-                    this.refLon2Control.clearValidators();
-                } else {
-                    this.refLat1Control.clearValidators();
-                    this.refLon1Control.clearValidators();
-                    this.refLat2Control.clearValidators();
-                    this.refLon2Control.clearValidators();
+            if (this.geoCoordinateTypeControl && this.refLat1Control && this.refLon1Control && this.refLat2Control && this.refLon2Control) {
+                switch (this.chartRegistrationType) {
+                    case ChartRegistrationType.POS1_POS2: {
+                        this.geoCoordinateTypeControl.setValidators([Validators.required]);
+                        this.refLat1Control.setValidators([Validators.required]);
+                        this.refLon1Control.setValidators([Validators.required]);
+                        this.refLat2Control.setValidators([Validators.required]);
+                        this.refLon2Control.setValidators([Validators.required]);
+                        break;
+                    }
+                    case ChartRegistrationType.POS1_SCALE: {
+                        this.geoCoordinateTypeControl.setValidators([Validators.required]);
+                        this.refLat1Control.setValidators([Validators.required]);
+                        this.refLon1Control.setValidators([Validators.required]);
+                        this.refLat2Control.clearValidators();
+                        this.refLon2Control.clearValidators();
+                        break;
+                    }
+                    case ChartRegistrationType.ARP_SCALE: {
+                        this.geoCoordinateTypeControl.clearValidators();
+                        this.refLat1Control.clearValidators();
+                        this.refLon1Control.clearValidators();
+                        this.refLat2Control.clearValidators();
+                        this.refLon2Control.clearValidators();
+                        break;
+                    }
                 }
 
+                this.chartRegistrationTypeControl.updateValueAndValidity();
                 this.refLat1Control.updateValueAndValidity();
                 this.refLon1Control.updateValueAndValidity();
                 this.refLat2Control.updateValueAndValidity();
                 this.refLon2Control.updateValueAndValidity();
             }
+        }
+
+        if (this.geoCoordinateType !== undefined) {
+            this.geoCoordinateTypeControl?.setValue(this.geoCoordinateType);
         }
 
         if (this.mapRefPoint1) {
