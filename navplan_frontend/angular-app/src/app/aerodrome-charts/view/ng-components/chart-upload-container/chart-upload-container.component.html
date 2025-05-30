@@ -45,10 +45,12 @@
                 <app-chart-upload-step3
                     [selectedAirport]="this.selectedAirport$ | async"
                     [uploadedChartInfo]="this.uploadedChartInfo$ | async"
+                    [chartRegistrationType]="this.chartRegistrationType$ | async"
                     [chartRefPoint1]="this.chartReference1$ | async"
                     [chartRefPoint2]="this.chartReference2$ | async"
                     [mapRefPoint1]="this.mapReference1$ | async"
                     [mapRefPoint2]="this.mapReference2$ | async"
+                    (chartRegistrationTypeChanged)="this.onChartRegistrationTypeChanged($event)"
                     (mapRefPoint1Selected)="this.onMapReference1Selected($event)"
                     (mapRefPoint2Selected)="this.onMapReference2Selected($event)"
                 />

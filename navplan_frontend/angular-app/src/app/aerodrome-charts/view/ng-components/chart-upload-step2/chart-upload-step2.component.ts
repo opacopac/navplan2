@@ -46,33 +46,39 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
     @Output() reference2Selected = new EventEmitter<XyCoord>();
     @Output() scaleChanged = new EventEmitter<number>();
 
+    protected formGroup: FormGroup;
+    protected readonly ButtonColor = ButtonColor;
+    protected readonly ChartRegistrationType = ChartRegistrationType;
+
+
     protected get refX1Control(): FormControl {
         return this.formGroup.get('refX1') as FormControl;
     }
+
 
     protected get refY1Control(): FormControl {
         return this.formGroup.get('refY1') as FormControl;
     }
 
+
     protected get refX2Control(): FormControl {
         return this.formGroup.get('refX2') as FormControl;
     }
+
 
     protected get refY2Control(): FormControl {
         return this.formGroup.get('refY2') as FormControl;
     }
 
+
     protected get scaleControl(): FormControl {
         return this.formGroup.get('scale') as FormControl;
     }
 
+
     protected get chartRegistrationTypeControl(): FormControl {
         return this.formGroup.get('chartRegistrationType') as FormControl;
     }
-
-    protected formGroup: FormGroup;
-    protected readonly ButtonColor = ButtonColor;
-    protected readonly ChartRegistrationType = ChartRegistrationType;
 
 
     constructor(private parentForm: FormGroupDirective) {
@@ -119,7 +125,7 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
 
 
     protected onChartRegistrationTypeChanged() {
-        const chartRegistrationType = this.formGroup.get('chartRegistrationType')?.value;
+        const chartRegistrationType = this.chartRegistrationTypeControl?.value;
         if (chartRegistrationType !== null) {
             this.chartRegistrationTypeChanged.emit(chartRegistrationType);
         }
@@ -176,7 +182,10 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
             return;
         }
 
-        this.formGroup.addControl('chartRegistrationType', new FormControl(this.chartRegistrationType, [Validators.required]));
+        this.formGroup.addControl('chartRegistrationType', new FormControl(
+            this.chartRegistrationType,
+            [Validators.required]
+        ));
         this.formGroup.addControl('refX1', new FormControl(
             this.selectedRefPoint1?.x,
             [Validators.required]

@@ -4,69 +4,88 @@
         <div [formGroup]="this.formGroup" class="form-fields">
             <p>File: {{ this.uploadedChartInfo.filename }}</p>
 
-            <div class="form-row">
-                Reference Point 1:
-                <i class="fa-solid fa-crosshairs refPoint1Icon"></i>
+            <!-- chart registration type -->
+            @if (this.chartRegistrationType === ChartRegistrationType.POS1_SCALE || this.chartRegistrationType === ChartRegistrationType.ARP_SCALE) {
+                <mat-radio-group
+                    color="primary"
+                    formControlName="chartRegistrationType"
+                    (change)="this.onChartRegistrationTypeChanged()"
+                >
+                    <mat-radio-button [value]="ChartRegistrationType.POS1_SCALE">One reference point</mat-radio-button>
+                    <mat-radio-button [value]="ChartRegistrationType.ARP_SCALE">Use airport ARP</mat-radio-button>
+                </mat-radio-group>
+            }
 
-                <mat-form-field class="coordInput">
-                    <mat-label>Latitude</mat-label>
-                    <input
-                        matInput
-                        formControlName="refLat1"
-                        required
-                        (change)="this.onRefPoint1Changed()"
-                    >
-                    <span matTextSuffix>°N</span>
-                </mat-form-field>
+            <!-- map reference point 1 -->
+            @if (this.chartRegistrationType === ChartRegistrationType.POS1_POS2 || this.chartRegistrationType === ChartRegistrationType.POS1_SCALE) {
+                <div class="form-row">
+                    Reference Point 1:
+                    <i class="fa-solid fa-crosshairs refPoint1Icon"></i>
 
-                <mat-form-field class="coordInput">
-                    <mat-label>Longitude</mat-label>
-                    <input
-                        matInput
-                        formControlName="refLon1"
-                        required
-                        (change)="this.onRefPoint1Changed()"
-                    >
-                    <span matTextSuffix>°E</span>
-                </mat-form-field>
+                    <mat-form-field class="coordInput">
+                        <mat-label>Latitude</mat-label>
+                        <input
+                            matInput
+                            formControlName="refLat1"
+                            required
+                            (change)="this.onRefPoint1Changed()"
+                        >
+                        <span matTextSuffix>°N</span>
+                    </mat-form-field>
 
-                <i [hidden]="this.mapRefPoint1">(pick on map)</i>
-                <span [hidden]="!this.mapRefPoint1">
-                    <i class="fa-solid fa-check-circle checkIcon"></i>
-                </span>
-            </div>
+                    <mat-form-field class="coordInput">
+                        <mat-label>Longitude</mat-label>
+                        <input
+                            matInput
+                            formControlName="refLon1"
+                            required
+                            (change)="this.onRefPoint1Changed()"
+                        >
+                        <span matTextSuffix>°E</span>
+                    </mat-form-field>
 
-            <div class="form-row">
-                Reference Point 2:
-                <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
+                    <i [hidden]="this.mapRefPoint1">(pick on map)</i>
+                    <span [hidden]="!this.mapRefPoint1">
+                        <i class="fa-solid fa-check-circle checkIcon"></i>
+                    </span>
+                </div>
+            }
 
-                <mat-form-field class="coordInput">
-                    <mat-label>Latitude</mat-label>
-                    <input
-                        matInput
-                        formControlName="refLat2"
-                        required
-                        (change)="this.onRefPoint2Changed()"
-                    >
-                    <span matTextSuffix>°N</span>
-                </mat-form-field>
+            <!-- map reference point 2 -->
+            @if (this.chartRegistrationType === ChartRegistrationType.POS1_POS2) {
+                <div class="form-row">
+                    Reference Point 2:
+                    <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
 
-                <mat-form-field class="coordInput">
-                    <mat-label>Longitude</mat-label>
-                    <input
-                        matInput
-                        formControlName="refLon2"
-                        required
-                        (change)="this.onRefPoint2Changed()"
-                    >
-                    <span matTextSuffix>°E</span>
-                </mat-form-field>
+                    <mat-form-field class="coordInput">
+                        <mat-label>Latitude</mat-label>
+                        <input
+                            matInput
+                            formControlName="refLat2"
+                            required
+                            (change)="this.onRefPoint2Changed()"
+                        >
+                        <span matTextSuffix>°N</span>
+                    </mat-form-field>
 
-                <i [hidden]="this.mapRefPoint2 || !this.mapRefPoint1">(pick on map)</i>
-                <span [hidden]="!this.mapRefPoint2">
-                    <i class="fa-solid fa-check-circle checkIcon"></i>
-                </span>
-            </div>
+                    <mat-form-field class="coordInput">
+                        <mat-label>Longitude</mat-label>
+                        <input
+                            matInput
+                            formControlName="refLon2"
+                            required
+                            (change)="this.onRefPoint2Changed()"
+                        >
+                        <span matTextSuffix>°E</span>
+                    </mat-form-field>
+
+                    <i [hidden]="this.mapRefPoint2 || !this.mapRefPoint1">(pick on map)</i>
+                    <span [hidden]="!this.mapRefPoint2">
+                        <i class="fa-solid fa-check-circle checkIcon"></i>
+                    </span>
+                </div>
+            }
+
         </div>
 
         <!-- mini viewer -->
