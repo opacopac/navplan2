@@ -71,7 +71,13 @@ export const airportChartReducer = createReducer(
 
     on(AirportChartActions.chartRegistrationTypeChanged, (state, action) => ({
         ...state,
-        chartRegistrationType: action.chartRegistrationType
+        chartRegistrationType: action.chartRegistrationType,
+        mapReference1: action.chartRegistrationType === ChartRegistrationType.ARP_SCALE
+            ? state.selectedAirport.position
+            : state.mapReference1,
+        mapReference2: action.chartRegistrationType === ChartRegistrationType.ARP_SCALE
+            ? undefined
+            : state.mapReference2,
     })),
 
     on(AirportChartActions.chartReference1Changed, (state, action) => ({
@@ -91,7 +97,7 @@ export const airportChartReducer = createReducer(
 
     on(AirportChartActions.geoCoordinateTypeChanged, (state, action) => ({
         ...state,
-        geoCoordinateType: action.geoCoordinateType
+        geoCoordinateType: action.geoCoordinateType,
     })),
 
     on(AirportChartActions.mapReference1Changed, (state, action) => ({

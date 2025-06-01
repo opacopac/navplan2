@@ -9,7 +9,7 @@ import {MatInputModule} from '@angular/material/input';
 import {
     MiniImageViewerComponent
 } from '../../../../common/view/ng-components/mini-image-viewer/mini-image-viewer.component';
-import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
@@ -126,16 +126,6 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
     }
 
 
-    protected isPos1Pos2(): boolean {
-        return this.chartRegistrationType === ChartRegistrationType.POS1_POS2;
-    }
-
-
-    protected isPos1Scale(): boolean {
-        return this.chartRegistrationType === ChartRegistrationType.POS1_SCALE;
-    }
-
-
     protected onChartRegistrationTypeChanged() {
         const chartRegistrationType = this.chartRegistrationTypeControl?.value;
         if (chartRegistrationType !== null) {
@@ -177,27 +167,27 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
 
         this.formGroup.addControl('chartRegistrationType', new FormControl(
             this.chartRegistrationType,
-            [Validators.required]
+            this.getChartRegistrationTypeValidators()
         ));
         this.formGroup.addControl('geoCoordinateType', new FormControl(
             this.geoCoordinateType,
-            this.isPos1Pos2() || this.isPos1Scale() ? [Validators.required] : [],
+            this.getGeoCoordinateTypeValidators()
         ));
         this.formGroup.addControl('refLat1', new FormControl(
             this.mapRefPoint1 ? this.mapRefPoint1.latitude : '',
-            this.isPos1Pos2() || this.isPos1Scale ? [Validators.required] : []
+            this.getRef1Validators()
         ));
         this.formGroup.addControl('refLon1', new FormControl(
             this.mapRefPoint1 ? this.mapRefPoint1.longitude : '',
-            this.isPos1Pos2() || this.isPos1Scale ? [Validators.required] : []
+            this.getRef1Validators()
         ));
         this.formGroup.addControl('refLat2', new FormControl(
             this.mapRefPoint2 ? this.mapRefPoint2.latitude : '',
-            this.isPos1Pos2() ? [Validators.required] : []
+            this.getRef2Validators()
         ));
         this.formGroup.addControl('refLon2', new FormControl(
             this.mapRefPoint2 ? this.mapRefPoint2.longitude : '',
-            this.isPos1Pos2() ? [Validators.required] : []
+            this.getRef2Validators()
         ));
     }
 
@@ -209,41 +199,6 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
 
         if (this.chartRegistrationType !== undefined) {
             this.chartRegistrationTypeControl?.setValue(this.chartRegistrationType);
-
-            if (this.geoCoordinateTypeControl && this.refLat1Control && this.refLon1Control && this.refLat2Control && this.refLon2Control) {
-                switch (this.chartRegistrationType) {
-                    case ChartRegistrationType.POS1_POS2: {
-                        this.geoCoordinateTypeControl.setValidators([Validators.required]);
-                        this.refLat1Control.setValidators([Validators.required]);
-                        this.refLon1Control.setValidators([Validators.required]);
-                        this.refLat2Control.setValidators([Validators.required]);
-                        this.refLon2Control.setValidators([Validators.required]);
-                        break;
-                    }
-                    case ChartRegistrationType.POS1_SCALE: {
-                        this.geoCoordinateTypeControl.setValidators([Validators.required]);
-                        this.refLat1Control.setValidators([Validators.required]);
-                        this.refLon1Control.setValidators([Validators.required]);
-                        this.refLat2Control.clearValidators();
-                        this.refLon2Control.clearValidators();
-                        break;
-                    }
-                    case ChartRegistrationType.ARP_SCALE: {
-                        this.geoCoordinateTypeControl.clearValidators();
-                        this.refLat1Control.clearValidators();
-                        this.refLon1Control.clearValidators();
-                        this.refLat2Control.clearValidators();
-                        this.refLon2Control.clearValidators();
-                        break;
-                    }
-                }
-
-                this.chartRegistrationTypeControl.updateValueAndValidity();
-                this.refLat1Control.updateValueAndValidity();
-                this.refLon1Control.updateValueAndValidity();
-                this.refLat2Control.updateValueAndValidity();
-                this.refLon2Control.updateValueAndValidity();
-            }
         }
 
         if (this.geoCoordinateType !== undefined) {
@@ -258,6 +213,69 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
         if (this.mapRefPoint2) {
             this.refLat2Control?.setValue(this.mapRefPoint2.latitude);
             this.refLon2Control?.setValue(this.mapRefPoint2.longitude);
+        }
+
+        // validators
+        this.chartRegistrationTypeControl?.setValidators(this.getChartRegistrationTypeValidators());
+        this.geoCoordinateTypeControl?.setValidators(this.getGeoCoordinateTypeValidators());
+        this.refLat1Control?.setValidators(this.getRef1Validators());
+        this.refLon1Control?.setValidators(this.getRef1Validators());
+        this.refLat2Control?.setValidators(this.getRef2Validators());
+        this.refLon2Control?.setValidators(this.getRef2Validators());
+
+        this.chartRegistrationTypeControl?.updateValueAndValidity();
+        this.chartRegistrationTypeControl?.updateValueAndValidity();
+        this.refLat1Control?.updateValueAndValidity();
+        this.refLon1Control?.updateValueAndValidity();
+        this.refLat2Control?.updateValueAndValidity();
+        this.refLon2Control?.updateValueAndValidity();
+    }
+
+
+    private getChartRegistrationTypeValidators(): ValidatorFn[] {
+        switch (this.chartRegistrationType) {
+            case ChartRegistrationType.POS1_POS2:
+                return [];
+            case ChartRegistrationType.POS1_SCALE:
+            case ChartRegistrationType.ARP_SCALE:
+            default:
+                return [Validators.required];
+        }
+    }
+
+
+    private getGeoCoordinateTypeValidators(): ValidatorFn[] {
+        switch (this.chartRegistrationType) {
+            case ChartRegistrationType.ARP_SCALE:
+                return [];
+            case ChartRegistrationType.POS1_SCALE:
+            case ChartRegistrationType.POS1_POS2:
+            default:
+                return [Validators.required];
+        }
+    }
+
+
+    private getRef1Validators(): ValidatorFn[] {
+        switch (this.chartRegistrationType) {
+            case ChartRegistrationType.ARP_SCALE:
+                return [];
+            case ChartRegistrationType.POS1_SCALE:
+            case ChartRegistrationType.POS1_POS2:
+            default:
+                return [Validators.required];
+        }
+    }
+
+
+    private getRef2Validators(): ValidatorFn[] {
+        switch (this.chartRegistrationType) {
+            case ChartRegistrationType.ARP_SCALE:
+            case ChartRegistrationType.POS1_SCALE:
+                return [];
+            case ChartRegistrationType.POS1_POS2:
+            default:
+                return [Validators.required];
         }
     }
 }

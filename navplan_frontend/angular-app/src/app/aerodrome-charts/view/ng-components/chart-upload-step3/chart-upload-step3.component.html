@@ -17,51 +17,47 @@
             }
 
             <!-- geo coordinate type -->
-            @if (this.chartRegistrationType === ChartRegistrationType.POS1_POS2 || this.chartRegistrationType === ChartRegistrationType.POS1_SCALE) {
-                <mat-form-field>
-                    <mat-label>Coordinate System</mat-label>
-                    <mat-select>
-                        <mat-option [value]="GeoCoordinateType.LON_LAT">WGS84 (Latitude / Longitude)</mat-option>
-                        <mat-option [value]="GeoCoordinateType.LV03">Swiss Coordinates LV03 (CH1903)</mat-option>
-                        <mat-option [value]="GeoCoordinateType.LV95">Swiss Coordinates LV95 (CH1903+)</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            }
+            <mat-form-field>
+                <mat-label>Coordinate System</mat-label>
+                <mat-select>
+                    <mat-option [value]="GeoCoordinateType.LON_LAT">WGS84 (Latitude / Longitude)</mat-option>
+                    <mat-option [value]="GeoCoordinateType.LV03">Swiss Coordinates LV03 (CH1903)</mat-option>
+                    <mat-option [value]="GeoCoordinateType.LV95">Swiss Coordinates LV95 (CH1903+)</mat-option>
+                </mat-select>
+            </mat-form-field>
 
             <!-- map reference point 1 -->
-            @if (this.chartRegistrationType === ChartRegistrationType.POS1_POS2 || this.chartRegistrationType === ChartRegistrationType.POS1_SCALE) {
-                <div class="form-row">
-                    Reference Point 1:
-                    <i class="fa-solid fa-crosshairs refPoint1Icon"></i>
+            <div class="form-row">
+                Reference Point 1:
+                <i class="fa-solid fa-crosshairs refPoint1Icon"></i>
 
-                    <mat-form-field class="coordInput">
-                        <mat-label>Latitude</mat-label>
-                        <input
-                            matInput
-                            formControlName="refLat1"
-                            required
-                            (change)="this.onRefPoint1Changed()"
-                        >
-                        <span matTextSuffix>°N</span>
-                    </mat-form-field>
+                <mat-form-field class="coordInput">
+                    <mat-label>Latitude</mat-label>
+                    <input
+                        matInput
+                        formControlName="refLat1"
+                        required
+                        (change)="this.onRefPoint1Changed()"
+                    >
+                    <span matTextSuffix>°N</span>
+                </mat-form-field>
 
-                    <mat-form-field class="coordInput">
-                        <mat-label>Longitude</mat-label>
-                        <input
-                            matInput
-                            formControlName="refLon1"
-                            required
-                            (change)="this.onRefPoint1Changed()"
-                        >
-                        <span matTextSuffix>°E</span>
-                    </mat-form-field>
+                <mat-form-field class="coordInput">
+                    <mat-label>Longitude</mat-label>
+                    <input
+                        matInput
+                        formControlName="refLon1"
+                        required
+                        (change)="this.onRefPoint1Changed()"
+                    >
+                    <span matTextSuffix>°E</span>
+                </mat-form-field>
 
-                    <i [hidden]="this.mapRefPoint1">(pick on map)</i>
-                    <span [hidden]="!this.mapRefPoint1">
+                <i [hidden]="this.mapRefPoint1">(pick on map)</i>
+                <span [hidden]="!this.mapRefPoint1">
                         <i class="fa-solid fa-check-circle checkIcon"></i>
                     </span>
-                </div>
-            }
+            </div>
 
             <!-- map reference point 2 -->
             @if (this.chartRegistrationType === ChartRegistrationType.POS1_POS2) {
