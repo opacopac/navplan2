@@ -13,8 +13,12 @@ use Navplan\Common\StringNumberHelper;
 
 class RestGeoCoordConverter
 {
-    public static function toRest(GeoCoordinate $coord): array
+    public static function toRest(?GeoCoordinate $coord): ?array
     {
+        if ($coord === null) {
+            return null;
+        }
+
         return [
             $coord->getType()->value,
             $coord->getE(),
@@ -23,21 +27,21 @@ class RestGeoCoordConverter
     }
 
 
-    public static function fromRest(array $args): GeoCoordinate
+    public static function fromRest(?array $args): ?GeoCoordinate
     {
+        if ($args === null || count($args) < 3) {
+            return null;
+        }
+
         $type = GeoCoordinateType::from($args[0]);
         $e = StringNumberHelper::parseFloatOrError($args, 1);
         $n = StringNumberHelper::parseFloatOrError($args, 2);
 
-        switch ($type) {
-            case GeoCoordinateType::LV03:
-                return new Lv03Coordinate($e, $n);
-            case GeoCoordinateType::LV95:
-                return new Lv95Coordinate($e, $n);
-            case GeoCoordinateType::LON_LAT:
-                return new Position2d($e, $n);
-            default:
-                throw new InvalidArgumentException("Invalid coordinate type: " . $type->value);
-        }
+        return match ($type) {
+            GeoCoordinateType::LV03 => new Lv03Coordinate($e, $n),
+            GeoCoordinateType::LV95 => new Lv95Coordinate($e, $n),
+            GeoCoordinateType::LON_LAT => new Position2d($e, $n),
+            default => throw new InvalidArgumentException("Invalid coordinate type: " . $type->value),
+        };
     }
 }

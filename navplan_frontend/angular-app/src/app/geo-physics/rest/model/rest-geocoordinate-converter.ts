@@ -5,7 +5,11 @@ import {GeoCoordinateType} from '../../../aerodrome-charts/domain/model/geo-coor
 
 
 export class RestGeocoordinateConverter {
-    public static fromRest(restCoord: IRestGeocoordinate): GeoCoordinate {
+    public static fromRest(restCoord: IRestGeocoordinate): GeoCoordinate | null {
+        if (!restCoord) {
+            return null;
+        }
+
         return new GenericGeoCoordinate(
             GeoCoordinateType[restCoord[0]],
             restCoord[1],
@@ -14,7 +18,11 @@ export class RestGeocoordinateConverter {
     }
 
 
-    public static toRest(coord: GeoCoordinate): IRestGeocoordinate {
+    public static toRest(coord: GeoCoordinate): IRestGeocoordinate | null {
+        if (!coord) {
+            return null;
+        }
+
         return [
             GeoCoordinateType[coord.getType()],
             coord.getE(),
