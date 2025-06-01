@@ -5,4 +5,5 @@ export interface IRestUploadAdChartInfo {
     type: string;
     url: string;
     nameproposal: string;
+    scaleproposal: number;
 }

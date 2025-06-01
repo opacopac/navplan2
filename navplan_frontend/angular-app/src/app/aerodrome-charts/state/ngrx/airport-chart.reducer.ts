@@ -60,6 +60,7 @@ export const airportChartReducer = createReducer(
     on(AirportChartActions.uploadAirportChartSuccess, (state, action) => ({
         ...state,
         uploadedChartInfo: action.chartInfo,
+        chartScale: action.chartInfo.scaleproposal > 0 ? action.chartInfo.scaleproposal : state.chartScale,
         isUploading: false
     })),
 

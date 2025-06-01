@@ -16,6 +16,7 @@ class RestUploadedChartInfoConverter
             "type" => $chartInfo->originalFileType,
             "url" => $chartInfo->chartUrl,
             "nameproposal" => $chartInfo->chartNameProposal,
+            "scaleproposal" => $chartInfo->scaleProposal,
         );
     }
 }

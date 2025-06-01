@@ -12,6 +12,7 @@ class UploadedChartInfo
         public string $originalFileType,
         public string $chartUrl,
         public string $chartNameProposal,
+        public int $scaleProposal
     )
     {
     }
@@ -19,6 +20,6 @@ class UploadedChartInfo
 
     public static function createError(string $message): UploadedChartInfo
     {
-        return new UploadedChartInfo(false, $message, "", "", "", "");
+        return new UploadedChartInfo(false, $message, "", "", "", "", 0);
     }
 }

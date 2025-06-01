@@ -93,6 +93,7 @@ class AirportChartService implements IAirportChartService
             $fileInfo->type,
             $tmpDir . "/" . $filename,
             $vfrmParams->chartNameProposal ?? "",
+            $vfrmParams->scaleProposal ?? 0
         );
     }
 

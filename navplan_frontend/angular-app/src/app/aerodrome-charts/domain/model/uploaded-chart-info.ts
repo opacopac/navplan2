@@ -5,7 +5,8 @@ export class UploadedChartInfo {
         public filename: string,
         public type: string,
         public url: string,
-        public nameproposal: string
+        public nameproposal: string,
+        public scaleproposal: number
     ) {
     }
 

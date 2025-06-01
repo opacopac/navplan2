@@ -10,7 +10,8 @@ export class RestUploadedChartInfoConverter {
             chartInfo.filename,
             chartInfo.type,
             chartInfo.url,
-            chartInfo.nameproposal
+            chartInfo.nameproposal,
+            chartInfo.scaleproposal
         );
     }
 }
