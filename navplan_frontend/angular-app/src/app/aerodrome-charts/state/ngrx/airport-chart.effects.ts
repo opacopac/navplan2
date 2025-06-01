@@ -128,13 +128,13 @@ export class AirportChartEffects {
                     state.pdfParameters
                 ),
                 new ChartRegistration(
-                    ChartRegistrationType.POS1_POS2, // TODO
-                    GeoCoordinateType.LV03,  // TODO
+                    state.chartRegistrationType,
+                    state.geoCoordinateType,
                     state.chartReference1,
                     state.mapReference1,
                     state.chartReference2,
                     state.mapReference2,
-                    0, // TODO
+                    state.chartScale,
                 )
             )
         ).pipe(
