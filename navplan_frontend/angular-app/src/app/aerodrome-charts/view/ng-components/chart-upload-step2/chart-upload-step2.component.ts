@@ -170,8 +170,8 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
 
 
     protected onScaleChanged() {
-        const scale = this.scaleControl?.value;
-        if (scale) {
+        const scale = Number(this.scaleControl?.value);
+        if (!isNaN(scale) && scale >= 0) {
             this.scaleChanged.emit(scale);
         }
     }

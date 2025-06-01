@@ -27,6 +27,7 @@
                     <input
                         matInput
                         formControlName="refX1"
+                        type="number"
                         required
                         (change)="this.onRefPoint1Changed()"
                     >
@@ -38,6 +39,7 @@
                     <input
                         matInput
                         formControlName="refY1"
+                        type="number"
                         required
                         (change)="this.onRefPoint1Changed()"
                     >
@@ -61,6 +63,7 @@
                         <input
                             matInput
                             formControlName="refX2"
+                            type="number"
                             [required]="this.isPos1Pos2()"
                             (change)="this.onRefPoint2Changed()"
                         >
@@ -72,6 +75,7 @@
                         <input
                             matInput
                             formControlName="refY2"
+                            type="number"
                             [required]="this.isPos1Pos2()"
                             (change)="this.onRefPoint2Changed()"
                         >
@@ -89,6 +93,7 @@
                     <input
                         matInput
                         formControlName="scale"
+                        type="number"
                         [required]="!this.isPos1Pos2()"
                         (change)="this.onScaleChanged()"
                     >

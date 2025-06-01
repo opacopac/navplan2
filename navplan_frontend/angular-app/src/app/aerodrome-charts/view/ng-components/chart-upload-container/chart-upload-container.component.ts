@@ -132,6 +132,13 @@ export class ChartUploadContainerComponent implements OnInit {
     }
 
 
+    protected onChartScaleChanged($event: number) {
+        this.appStore.dispatch(
+            AirportChartActions.chartScaleChanged({chartScale: $event})
+        );
+    }
+
+
     protected onCancelClicked() {
         this.appStore.dispatch(AirportChartActions.cancelUploadAirportChart());
     }
