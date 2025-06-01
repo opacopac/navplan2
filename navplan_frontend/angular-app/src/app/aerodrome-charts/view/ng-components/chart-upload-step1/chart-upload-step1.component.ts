@@ -50,6 +50,26 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
     protected readonly ButtonColor = ButtonColor;
 
 
+    protected get chartNameControl(): FormControl {
+        return this.formGroup.get('chartName') as FormControl;
+    }
+
+
+    protected get pdfPageControl(): FormControl {
+        return this.formGroup.get('pdfPage') as FormControl;
+    }
+
+
+    protected get pdfRotationDegControl(): FormControl {
+        return this.formGroup.get('pdfRotationDeg') as FormControl;
+    }
+
+
+    protected get pdfDpiControl(): FormControl {
+        return this.formGroup.get('pdfDpi') as FormControl;
+    }
+
+
     constructor(private parentForm: FormGroupDirective) {
     }
 
@@ -132,22 +152,22 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
             return;
         }
 
-        this.formGroup.get('chartName')?.setValue(
+        this.chartNameControl?.setValue(
             this.uploadedChartInfo
                 ? this.uploadedChartInfo.nameproposal
                 : ''
         );
-        this.formGroup.get('pdfPage')?.setValue(
+        this.pdfPageControl?.setValue(
             this.pdfParameters
                 ? this.pdfParameters.page + 1
                 : PdfParameters.DEFAULT_PAGE + 1
         );
-        this.formGroup.get('pdfRotationDeg')?.setValue(
+        this.pdfRotationDegControl?.setValue(
             this.pdfParameters && this.pdfParameters.rotation
                 ? this.pdfParameters.rotation.deg
                 : PdfParameters.DEFAULT_ROTATION_DEG
         );
-        this.formGroup.get('pdfDpi')?.setValue(
+        this.pdfDpiControl?.setValue(
             this.pdfParameters
                 ? this.pdfParameters.dpi
                 : PdfParameters.DEFAULT_DPI
@@ -157,9 +177,9 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
 
     protected getPdfParametersFromForm(): PdfParameters {
         return new PdfParameters(
-            this.formGroup.get('pdfPage').value - 1,
-            Angle.fromDeg(this.formGroup.get('pdfRotationDeg').value),
-            this.formGroup.get('pdfDpi').value
+            this.pdfPageControl.value - 1,
+            Angle.fromDeg(this.pdfRotationDegControl.value),
+            this.pdfDpiControl.value
         );
     }
 }

@@ -64,8 +64,12 @@
 
                 <app-icon-button
                     [color]="ButtonColor.BLUE"
+                    tooltipText="Update PDF Parameters"
+                    tooltipPosition="above"
                     (buttonClicked)="this.onPdfParamtersChanged()"
-                />
+                >
+                    <i class="fa-solid fa-refresh"></i>
+                </app-icon-button>
             }
         </div>
 
