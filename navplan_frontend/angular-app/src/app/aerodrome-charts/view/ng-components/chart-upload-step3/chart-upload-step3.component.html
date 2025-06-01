@@ -5,16 +5,17 @@
             <p>File: {{ this.uploadedChartInfo.filename }}</p>
 
             <!-- chart registration type -->
-            @if (this.chartRegistrationType === ChartRegistrationType.POS1_SCALE || this.chartRegistrationType === ChartRegistrationType.ARP_SCALE) {
-                <mat-radio-group
-                    color="primary"
-                    formControlName="chartRegistrationType"
-                    (change)="this.onChartRegistrationTypeChanged()"
-                >
-                    <mat-radio-button [value]="ChartRegistrationType.POS1_SCALE">One reference point</mat-radio-button>
-                    <mat-radio-button [value]="ChartRegistrationType.ARP_SCALE">Use aerodrome ARP</mat-radio-button>
-                </mat-radio-group>
-            }
+            <mat-radio-group
+                color="primary"
+                formControlName="chartRegistrationType"
+                (change)="this.onChartRegistrationTypeChanged()"
+            >
+                <mat-radio-button [value]="ChartRegistrationType.POS1_POS2">Two reference points</mat-radio-button>
+                <mat-radio-button [value]="ChartRegistrationType.POS1_SCALE">One reference point &amp; chart scale
+                </mat-radio-button>
+                <mat-radio-button [value]="ChartRegistrationType.ARP_SCALE">Aerodrome ARP &amp; chart scale
+                </mat-radio-button>
+            </mat-radio-group>
 
             <!-- geo coordinate type -->
             <mat-form-field>

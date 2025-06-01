@@ -3,6 +3,7 @@ import {StringnumberHelper} from '../../../../system/domain/service/stringnumber
 import {Clonable} from '../../../../system/domain/model/clonable';
 import {GeoCoordinate} from './geo-coordinate';
 import {GeoCoordinateType} from '../../../../aerodrome-charts/domain/model/geo-coordinate-type';
+import {XyCoord} from './xyCoord';
 
 
 export class Position2d implements Geometry2d, Clonable<Position2d>, GeoCoordinate {
@@ -44,6 +45,14 @@ export class Position2d implements Geometry2d, Clonable<Position2d>, GeoCoordina
 
     public toArray(): [number, number] {
         return [ this.longitude, this.latitude ];
+    }
+
+
+    public toXYCoord(): XyCoord {
+        return new XyCoord(
+            this.longitude,
+            this.latitude
+        );
     }
 
 

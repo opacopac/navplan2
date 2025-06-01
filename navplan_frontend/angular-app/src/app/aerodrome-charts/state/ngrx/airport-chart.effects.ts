@@ -1,8 +1,8 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {AirportChartActions} from './airport-chart.actions';
-import {of, throwError} from 'rxjs';
+import {EMPTY, from, of, throwError} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {environment} from '../../../../environments/environment';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
@@ -75,6 +75,27 @@ export class AirportChartEffects {
                 return of(AirportChartActions.uploadAirportChartError({error: error}));
             })
         ))
+    ));
+
+
+    chartRegistrationTypeChanged$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportChartActions.chartRegistrationTypeChanged),
+        withLatestFrom(this.appStore.select(getAirportChartState)),
+        mergeMap(([action, state]) => {
+            switch (action.chartRegistrationType) {
+                case ChartRegistrationType.ARP_SCALE:
+                    return from([
+                        AirportChartActions.mapReference1Changed({
+                            mapReference1: state.selectedAirport.position
+                        }),
+                        AirportChartActions.geoCoordinateTypeChanged({
+                            geoCoordinateType: GeoCoordinateType.LON_LAT
+                        })
+                    ]);
+                default:
+                    return EMPTY;
+            }
+        })
     ));
 
 
