@@ -20,7 +20,10 @@
             <!-- geo coordinate type -->
             <mat-form-field>
                 <mat-label>Coordinate System</mat-label>
-                <mat-select>
+                <mat-select
+                    formControlName="geoCoordinateType"
+                    (selectionChange)="this.onGeoCoordinateTypeChanged()"
+                >
                     <mat-option [value]="GeoCoordinateType.LON_LAT">WGS84 (Latitude / Longitude)</mat-option>
                     <mat-option [value]="GeoCoordinateType.LV03">Swiss Coordinates LV03 (CH1903)</mat-option>
                     <mat-option [value]="GeoCoordinateType.LV95">Swiss Coordinates LV95 (CH1903+)</mat-option>

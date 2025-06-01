@@ -134,6 +134,14 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
     }
 
 
+    protected onGeoCoordinateTypeChanged() {
+        const geoCoordinateType = this.geoCoordinateTypeControl?.value;
+        if (geoCoordinateType !== null) {
+            this.geoCoordinateTypeChanged.emit(geoCoordinateType);
+        }
+    }
+
+
     protected onRefPoint1Changed() {
         const lat = this.refLat1Control?.value;
         const lon = this.refLon1Control?.value;
