@@ -223,6 +223,16 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
             this.refLon2Control?.setValue(this.mapRefPoint2.longitude);
         }
 
+        if (this.chartRegistrationType === ChartRegistrationType.ARP_SCALE) {
+            this.geoCoordinateTypeControl?.disable();
+            this.refLat1Control?.disable();
+            this.refLon1Control?.disable();
+        } else {
+            this.geoCoordinateTypeControl?.enable();
+            this.refLat1Control?.enable();
+            this.refLon1Control?.enable();
+        }
+
         // validators
         this.chartRegistrationTypeControl?.setValidators(this.getChartRegistrationTypeValidators());
         this.geoCoordinateTypeControl?.setValidators(this.getGeoCoordinateTypeValidators());
