@@ -3,6 +3,8 @@ import {OlAirportChartCloser} from './ol-airport-chart-closer';
 import {AirportChart} from '../../domain/model/airport-chart';
 import {OlVectorLayer} from '../../../base-map/view/ol-model/ol-vector-layer';
 import {IBaseMap} from '../../../base-map/domain/model/i-base-map';
+import {ShowImageState} from '../../../base-map/state/state-model/show-image-state';
+import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 
 
 export class OlAirportChartContainer {
@@ -44,6 +46,15 @@ export class OlAirportChartContainer {
 
 
     private clearFeatures() {
+        // TODO
+        const emtpyShowImageState: ShowImageState = {
+            imageId: 0,
+            imageUrl: undefined,
+            extent: undefined,
+            opacity: 0,
+            fitInView: false,
+        };
+        this.baseMap.showImage(emtpyShowImageState);
         this.chartCloserLayer.clear();
     }
 }
