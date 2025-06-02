@@ -4,10 +4,11 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatStepperModule} from '@angular/material/stepper';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {
+    getChartName,
     getChartReference1,
     getChartReference2,
     getChartRegistrationType,
-    getChartScale,
+    getChartScale, getGeoCoordinateType,
     getIsUploading,
     getMapReference1,
     getMapReference2,
@@ -52,11 +53,12 @@ export class ChartUploadContainerComponent implements OnInit {
     protected pdfParameters$ = this.appStore.select(getPdfParameters);
     protected selectedAirport$ = this.appStore.select(getSelectedAirport);
     protected uploadedChartInfo$ = this.appStore.select(getUploadedChartInfo);
+    protected chartName$ = this.appStore.select(getChartName);
     protected chartRegistrationType$ = this.appStore.select(getChartRegistrationType);
     protected chartReference1$ = this.appStore.select(getChartReference1);
     protected chartReference2$ = this.appStore.select(getChartReference2);
     protected chartScale$ = this.appStore.select(getChartScale);
-    protected geoCoordinateType$ = this.appStore.select(state => state.airportChartState.geoCoordinateType);
+    protected geoCoordinateType$ = this.appStore.select(getGeoCoordinateType);
     protected mapReference1$ = this.appStore.select(getMapReference1);
     protected mapReference2$ = this.appStore.select(getMapReference2);
     protected isUploading$ = this.appStore.select(getIsUploading);
@@ -86,6 +88,13 @@ export class ChartUploadContainerComponent implements OnInit {
     protected onFileUploaded(chartUploadParameters: ChartUploadParameters) {
         this.appStore.dispatch(
             AirportChartActions.uploadAirportChart({chartUploadParameters: chartUploadParameters})
+        );
+    }
+
+
+    protected onChartNameChanged(chartName: string) {
+        this.appStore.dispatch(
+            AirportChartActions.chartNameChanged({chartName: chartName})
         );
     }
 

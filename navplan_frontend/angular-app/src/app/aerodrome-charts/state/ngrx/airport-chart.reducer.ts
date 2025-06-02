@@ -14,6 +14,7 @@ const initialState: AirportChartState = {
     pdfParameters: PdfParameters.createDefault(),
     uploadedChartInfo: undefined,
     isUploading: false,
+    chartName: undefined,
     chartRegistrationType: ChartRegistrationType.POS1_POS2,
     chartReference1: undefined,
     chartReference2: undefined,
@@ -60,6 +61,7 @@ export const airportChartReducer = createReducer(
     on(AirportChartActions.uploadAirportChartSuccess, (state, action) => ({
         ...state,
         uploadedChartInfo: action.chartInfo,
+        chartName: action.chartInfo.nameproposal ? action.chartInfo.nameproposal : state.chartName,
         chartScale: action.chartInfo.scaleproposal > 0 ? action.chartInfo.scaleproposal : state.chartScale,
         isUploading: false
     })),
@@ -68,6 +70,11 @@ export const airportChartReducer = createReducer(
         ...state,
         uploadedChartInfo: undefined,
         isUploading: false
+    })),
+
+    on(AirportChartActions.chartNameChanged, (state, action) => ({
+        ...state,
+        chartName: action.chartName
     })),
 
     on(AirportChartActions.chartRegistrationTypeChanged, (state, action) => ({

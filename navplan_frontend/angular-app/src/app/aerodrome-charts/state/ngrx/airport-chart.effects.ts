@@ -121,7 +121,7 @@ export class AirportChartEffects {
             state.selectedAirport.icao,
             new ChartSaveParameters(
                 state.uploadedChartInfo.url,
-                state.uploadedChartInfo.nameproposal, // TODO
+                state.chartName,
                 new OriginalFileParameters(
                     state.uploadedChartInfo.filename,
                     '',

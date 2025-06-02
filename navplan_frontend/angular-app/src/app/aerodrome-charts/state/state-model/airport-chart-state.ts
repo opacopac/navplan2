@@ -15,6 +15,7 @@ export interface AirportChartState {
     pdfParameters: PdfParameters;
     uploadedChartInfo: UploadedChartInfo;
     isUploading: boolean;
+    chartName: string;
     chartRegistrationType: ChartRegistrationType;
     chartReference1: XyCoord;
     chartReference2: XyCoord;

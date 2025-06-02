@@ -41,10 +41,12 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
     @Input() selectedAirport: Airport;
     @Input() uploadedChartInfo: UploadedChartInfo;
     @Input() isUploading: boolean;
+    @Input() chartName: string;
     @Input() selectedChartFile: File;
     @Input() pdfParameters: PdfParameters;
     @Output() fileSelected = new EventEmitter<File>();
     @Output() fileUploaded = new EventEmitter<ChartUploadParameters>();
+    @Output() chartNameChanged = new EventEmitter<string>();
 
     protected formGroup: FormGroup;
     protected readonly ButtonColor = ButtonColor;
@@ -98,6 +100,14 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
     }
 
 
+    protected onChartNameChanged() {
+        const chartName = this.chartNameControl?.value.trim();
+        if (chartName && chartName.length > 0) {
+            this.chartNameChanged.emit(chartName);
+        }
+    }
+
+
     protected onPdfParamtersChanged() {
         const pdfParameters = this.getPdfParametersFromForm();
         const chartUploadParameters = new ChartUploadParameters(this.selectedChartFile, pdfParameters);
@@ -112,7 +122,7 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
         }
 
         this.formGroup.addControl('chartName', new FormControl(
-            '',
+            this.chartName ?? '',
             [
                 Validators.required,
                 Validators.minLength(1),
@@ -152,11 +162,7 @@ export class ChartUploadStep1Component implements OnInit, OnChanges {
             return;
         }
 
-        this.chartNameControl?.setValue(
-            this.uploadedChartInfo
-                ? this.uploadedChartInfo.nameproposal
-                : ''
-        );
+        this.chartNameControl?.setValue(this.chartName ?? '');
         this.pdfPageControl?.setValue(
             this.pdfParameters
                 ? this.pdfParameters.page + 1

@@ -48,6 +48,11 @@ export class AirportChartActions {
         props<{ error: Error }>()
     );
 
+    public static readonly chartNameChanged = createAction(
+        '[Chart Upload Dialog] Chart name changed',
+        props<{ chartName: string }>()
+    );
+
     public static readonly chartRegistrationTypeChanged = createAction(
         '[Chart Upload Dialog] Chart registration type changed',
         props<{ chartRegistrationType: ChartRegistrationType }>()

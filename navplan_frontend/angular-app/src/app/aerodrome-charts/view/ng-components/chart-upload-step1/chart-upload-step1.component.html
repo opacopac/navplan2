@@ -27,6 +27,7 @@
                     placeholder="Enter chart name"
                     formControlName="chartName"
                     required
+                    (change)="this.onChartNameChanged()"
                 >
             </mat-form-field>
 

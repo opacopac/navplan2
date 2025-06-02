@@ -10,6 +10,7 @@ export const getSelectedAirport = createSelector(getAirportChartState, state => 
 export const getUploadedChartInfo = createSelector(getAirportChartState, state => state.uploadedChartInfo);
 export const getChartRegistrationType = createSelector(getAirportChartState, state => state.chartRegistrationType);
 export const getIsUploading = createSelector(getAirportChartState, state => state.isUploading);
+export const getChartName = createSelector(getAirportChartState, state => state.chartName);
 export const getChartReference1 = createSelector(getAirportChartState, state => state.chartReference1);
 export const getChartReference2 = createSelector(getAirportChartState, state => state.chartReference2);
 export const getChartScale = createSelector(getAirportChartState, state => state.chartScale);
