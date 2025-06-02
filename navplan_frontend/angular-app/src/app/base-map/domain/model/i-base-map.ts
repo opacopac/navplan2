@@ -27,5 +27,9 @@ export interface IBaseMap {
 
     showImage(showImageState: ShowImageState): void;
 
+    closeImage(imageId: number): void;
+
+    clearImages(): void;
+
     changeBaseLayer(baseLayerType: MapBaseLayerType): void;
 }

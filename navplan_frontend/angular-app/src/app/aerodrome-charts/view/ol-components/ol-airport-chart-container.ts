@@ -46,15 +46,7 @@ export class OlAirportChartContainer {
 
 
     private clearFeatures() {
-        // TODO
-        const emtpyShowImageState: ShowImageState = {
-            imageId: 0,
-            imageUrl: undefined,
-            extent: undefined,
-            opacity: 0,
-            fitInView: false,
-        };
-        this.baseMap.showImage(emtpyShowImageState);
+        this.baseMap.clearImages();
         this.chartCloserLayer.clear();
     }
 }

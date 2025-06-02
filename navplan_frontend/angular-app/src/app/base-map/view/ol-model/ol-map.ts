@@ -246,16 +246,24 @@ export class OlMap implements IBaseMap {
                 this.fitInView(showImageState.extent);
             }
         } else if (showImageState.imageId) {
-            // close single image
-            const closeLayer = this.imageLayers.find(layer => layer.get(OlMap.IMAGE_ID_KEY) === showImageState.imageId);
-            this.map.removeLayer(closeLayer);
-            ArrayHelper.removeFromArray(this.imageLayers, closeLayer);
+            this.closeImage(showImageState.imageId); // TODO => remove
         } else {
-            // close all images
-            while (this.imageLayers.length > 0) {
-                const layer = this.imageLayers.pop();
-                this.map.removeLayer(layer);
-            }
+            this.clearImages(); // TODO => remove
+        }
+    }
+
+
+    public closeImage(imageId: number) {
+        const closeLayer = this.imageLayers.find(layer => layer.get(OlMap.IMAGE_ID_KEY) === imageId);
+        this.map.removeLayer(closeLayer);
+        ArrayHelper.removeFromArray(this.imageLayers, closeLayer);
+    }
+
+
+    public clearImages(): void {
+        while (this.imageLayers.length > 0) {
+            const layer = this.imageLayers.pop();
+            this.map.removeLayer(layer);
         }
     }
 
