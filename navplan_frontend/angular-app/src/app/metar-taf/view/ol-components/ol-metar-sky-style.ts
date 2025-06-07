@@ -45,8 +45,8 @@ export class OlMetarSkyStyle {
                 text: wx_cond,
                 fill: new Fill({color: '#000000'}),
                 stroke: new Stroke({color: '#FFFFFF', width: 2}),
-                offsetX: 43,
-                offsetY: -8
+                offsetX: 57,
+                offsetY: -10
             })
         });
     }
