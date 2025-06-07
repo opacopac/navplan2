@@ -11,4 +11,11 @@ table.mat-mdc-table {
 }
 
 .chart-container {
+    /*overflow-y: hidden;*/
+    display: flex;
+    flex-direction: column;
+}
+
+.add-chart-button {
+    margin: 10px 0;
 }

@@ -7,6 +7,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {FlightMapActions} from '../../../../flight-map/state/ngrx/flight-map.actions';
+import {MatTooltip} from '@angular/material/tooltip';
 
 
 @Component({
@@ -15,7 +16,8 @@ import {FlightMapActions} from '../../../../flight-map/state/ngrx/flight-map.act
     imports: [
         MatTableModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        MatTooltip
     ],
     templateUrl: './map-popup-airport-chart-tab.component.html',
     styleUrls: ['./map-popup-airport-chart-tab.component.scss']
