@@ -40,12 +40,12 @@ export class OlMetarSkyStyle {
                 src: src
             })),
             text: new Text({
-                textAlign: 'end',
+                textAlign: 'start',
                 font: '13px Calibri,sans-serif',
                 text: wx_cond,
                 fill: new Fill({color: '#000000'}),
                 stroke: new Stroke({color: '#FFFFFF', width: 2}),
-                offsetX: 57,
+                offsetX: 47,
                 offsetY: -10
             })
         });
