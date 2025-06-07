@@ -8,7 +8,7 @@ import {environment} from '../../../../environments/environment';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {IAirportChartService} from '../../domain/service/i-airport-chart.service';
-import {getAirportChartState} from './airport-chart.selectors';
+import {getUploadAirportChartState} from './airport-chart.selectors';
 import {FlightMapActions} from '../../../flight-map/state/ngrx/flight-map.actions';
 import {ChartSaveParameters} from '../../domain/model/chart-save-parameters';
 import {OriginalFileParameters} from '../../domain/model/original-file-parameters';
@@ -62,7 +62,7 @@ export class AirportChartEffects {
 
     uploadAirportChartAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.uploadAirportChart),
-        withLatestFrom(this.appStore.select(getAirportChartState)),
+        withLatestFrom(this.appStore.select(getUploadAirportChartState)),
         switchMap(([action, state]) => this.airportChartService.uploadAdChart(
             state.selectedAirport.icao,
             action.chartUploadParameters
@@ -80,7 +80,7 @@ export class AirportChartEffects {
 
     chartRegistrationTypeChanged$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.chartRegistrationTypeChanged),
-        withLatestFrom(this.appStore.select(getAirportChartState)),
+        withLatestFrom(this.appStore.select(getUploadAirportChartState)),
         mergeMap(([action, state]) => {
             switch (action.chartRegistrationType) {
                 case ChartRegistrationType.ARP_SCALE:
@@ -101,7 +101,7 @@ export class AirportChartEffects {
 
     mapReferenceSelected$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
-        withLatestFrom(this.appStore.select(getAirportChartState)),
+        withLatestFrom(this.appStore.select(getUploadAirportChartState)),
         filter(([action, state]) => state.chartReference1 !== undefined && state.chartReference2 !== undefined),
         filter(([action, state]) => !state.mapReference1 || !state.mapReference2),
         map(([action, state]) => {
@@ -116,7 +116,7 @@ export class AirportChartEffects {
 
     saveAirportChartAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.saveAirportChart),
-        withLatestFrom(this.appStore.select(getAirportChartState)),
+        withLatestFrom(this.appStore.select(getUploadAirportChartState)),
         switchMap(([action, state]) => this.airportChartService.reprojectAndSaveAdChart(
             state.selectedAirport.icao,
             new ChartSaveParameters(
