@@ -1,3 +1,9 @@
+.chart-container {
+    /*overflow-y: hidden;*/
+    display: flex;
+    flex-direction: column;
+}
+
 table.mat-mdc-table {
     width: 100%;
 }
@@ -8,12 +14,6 @@ table.mat-mdc-table {
 
 .mat-mdc-row:nth-child(odd) {
     background-color: white;
-}
-
-.chart-container {
-    /*overflow-y: hidden;*/
-    display: flex;
-    flex-direction: column;
 }
 
 .add-chart-button {
