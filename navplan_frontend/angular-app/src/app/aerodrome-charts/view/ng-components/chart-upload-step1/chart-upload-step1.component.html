@@ -32,45 +32,47 @@
             </mat-form-field>
 
             @if (this.uploadedChartInfo.isPdf()) {
-                <mat-form-field>
-                    <mat-label>PDF Page</mat-label>
-                    <input
-                        matInput
-                        placeholder="Select PDF page"
-                        formControlName="pdfPage"
-                        required
-                    >
-                </mat-form-field>
+                <div class="form-row">
+                    <mat-form-field>
+                        <mat-label>PDF Page</mat-label>
+                        <input
+                            matInput
+                            placeholder="Select PDF page"
+                            formControlName="pdfPage"
+                            required
+                        >
+                    </mat-form-field>
 
-                <mat-form-field>
-                    <mat-label>Rotation</mat-label>
-                    <input
-                        matInput
-                        placeholder="Select page rotation"
-                        formControlName="pdfRotationDeg"
-                        required
-                    >
-                    <span matTextSuffix>°</span>
-                </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Rotation</mat-label>
+                        <input
+                            matInput
+                            placeholder="Select page rotation"
+                            formControlName="pdfRotationDeg"
+                            required
+                        >
+                        <span matTextSuffix>°</span>
+                    </mat-form-field>
 
-                <mat-form-field>
-                    <mat-label>DPI</mat-label>
-                    <input
-                        matInput
-                        placeholder="Enter chart type"
-                        formControlName="pdfDpi"
-                        required
-                    >
-                </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>DPI</mat-label>
+                        <input
+                            matInput
+                            placeholder="Enter chart type"
+                            formControlName="pdfDpi"
+                            required
+                        >
+                    </mat-form-field>
 
-                <app-icon-button
-                    [color]="ButtonColor.BLUE"
-                    tooltipText="Update PDF Parameters"
-                    tooltipPosition="above"
-                    (buttonClicked)="this.onPdfParamtersChanged()"
-                >
-                    <i class="fa-solid fa-refresh"></i>
-                </app-icon-button>
+                    <app-icon-button
+                        [color]="ButtonColor.BLUE"
+                        tooltipText="Update PDF Parameters"
+                        tooltipPosition="above"
+                        (buttonClicked)="this.onPdfParamtersChanged()"
+                    >
+                        <i class="fa-solid fa-refresh"></i>
+                    </app-icon-button>
+                </div>
             }
         </div>
 
