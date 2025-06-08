@@ -25,7 +25,10 @@ RUN ng build --configuration=development
 FROM nginx:latest
 
 # Copy the built Angular app from the build container to the Nginx web root
-COPY --from=build /app/dist/ /usr/share/nginx/html
+COPY --from=build /app/dist/browser/ /usr/share/nginx/html/
+
+# Use a custom Nginx config to handle Angular routing
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80 for serving the application
 EXPOSE 80
