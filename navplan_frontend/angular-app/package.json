@@ -34,7 +34,7 @@
         "core-js": "^3.37.1",
         "kalman-filter": "^2.3.0",
         "ml-matrix": "^6.12.1",
-        "ol": "^10.0.0",
+        "ol": "^10.5.0",
         "ol-mapbox-style": "^12.3.4",
         "postcss": "^8.4.39",
         "rxjs": "^7.8.1",
