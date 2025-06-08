@@ -13,7 +13,6 @@ import {
 
 @Component({
     selector: 'app-aircraft-performance-accordion',
-    standalone: true,
     imports: [
         MatExpansionModule,
         AircraftPerformanceTableComponent,

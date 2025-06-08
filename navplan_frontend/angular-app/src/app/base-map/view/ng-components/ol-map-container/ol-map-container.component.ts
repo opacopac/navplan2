@@ -22,7 +22,6 @@ import {IBaseMap} from '../../../domain/model/i-base-map';
 
 @Component({
     selector: 'app-ol-map-container',
-    standalone: true,
     imports: [],
     templateUrl: './ol-map-container.component.html',
     styleUrls: ['./ol-map-container.component.scss']

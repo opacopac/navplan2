@@ -9,7 +9,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-edit-waypoint-dialog',
-    standalone: true,
     imports: [
         CommonModule,
         MatDialogModule,

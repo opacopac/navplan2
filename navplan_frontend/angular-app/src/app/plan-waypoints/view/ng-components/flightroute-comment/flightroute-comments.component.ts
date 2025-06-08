@@ -6,7 +6,6 @@ import {MatInputModule} from '@angular/material/input';
 
 @Component({
     selector: 'app-flightroute-comments',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

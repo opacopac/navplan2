@@ -1,12 +1,10 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {MatTooltip, MatTooltipModule, TooltipPosition} from '@angular/material/tooltip';
+import {MatTooltipModule, TooltipPosition} from '@angular/material/tooltip';
 import {ButtonColor} from '../../model/button-color';
-import {MatButtonModule, MatIconButton} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
     selector: 'app-icon-button',
-    standalone: true,
     imports: [
         MatButtonModule,
         MatTooltipModule

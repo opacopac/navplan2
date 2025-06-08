@@ -11,7 +11,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-aircraft-type-designator-autocomplete',
-    standalone: true,
     imports: [
         CommonModule,
         AutoCompleteComponent

@@ -10,7 +10,6 @@ import {MapOverlayAirspaceComponent} from '../map-overlay-airspace/map-overlay-a
 
 @Component({
     selector: 'app-map-overlay-airspace-structure',
-    standalone: true,
     imports: [
         MapOverlayAirspaceComponent
     ],

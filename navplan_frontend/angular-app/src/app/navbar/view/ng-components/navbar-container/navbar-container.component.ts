@@ -14,7 +14,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-navbar-container',
-    standalone: true,
     imports: [
         CommonModule,
         NavbarComponent

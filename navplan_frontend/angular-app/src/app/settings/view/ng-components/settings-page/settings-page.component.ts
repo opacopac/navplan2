@@ -9,7 +9,6 @@ import {UnitSettingsComponent} from '../../../../geo-physics/view/ng-components/
 
 @Component({
     selector: 'app-settings-page',
-    standalone: true,
     imports: [
         UnitSettingsComponent
     ],

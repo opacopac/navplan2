@@ -9,7 +9,6 @@ import {MatSelectModule} from '@angular/material/select';
 
 @Component({
     selector: 'app-map-popup-waypoint-button-add-to-route',
-    standalone: true,
     imports: [
         MiniFabButtonComponent,
         MatFormFieldModule,

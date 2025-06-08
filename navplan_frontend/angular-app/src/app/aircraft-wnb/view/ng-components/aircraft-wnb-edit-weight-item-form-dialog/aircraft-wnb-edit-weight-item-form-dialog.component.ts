@@ -20,7 +20,6 @@ import {MatInputModule} from '@angular/material/input';
 
 @Component({
     selector: 'app-aircraft-wnb-edit-weight-item-form-dialog',
-    standalone: true,
     imports: [
         FormDialogComponent,
         ReactiveFormsModule,

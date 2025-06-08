@@ -7,7 +7,6 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
 
 @Component({
     selector: 'app-map-popup-reportingsector-info-tab',
-    standalone: true,
     imports: [],
     templateUrl: './map-popup-reportingsector-info-tab.component.html',
     styleUrls: ['./map-popup-reportingsector-info-tab.component.scss']

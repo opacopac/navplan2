@@ -19,7 +19,6 @@ export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): Valid
 
 @Component({
     selector: 'app-forgot-pw-step2-form',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

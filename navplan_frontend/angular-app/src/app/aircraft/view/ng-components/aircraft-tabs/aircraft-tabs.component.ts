@@ -7,7 +7,9 @@ import {AircraftActions} from '../../../state/ngrx/aircraft.actions';
 import {map} from 'rxjs/operators';
 import {AircraftHangarPageComponent} from '../aircraft-hangar/aircraft-hangar-page/aircraft-hangar-page.component';
 import {AircraftDetailsPageComponent} from '../aircraft-details/aircraft-details-page/aircraft-details-page.component';
-import {AircraftWnbPageComponent} from '../../../../aircraft-wnb/view/ng-components/aircraft-wnb-page/aircraft-wnb-page.component';
+import {
+    AircraftWnbPageComponent
+} from '../../../../aircraft-wnb/view/ng-components/aircraft-wnb-page/aircraft-wnb-page.component';
 import {
     AircraftPerformancePageComponent
 } from '../../../../aircraft-performance/view/ng-components/aircraft-performance-page/aircraft-performance-page.component';
@@ -15,7 +17,6 @@ import {
 
 @Component({
     selector: 'app-aircraft-tabs',
-    standalone: true,
     imports: [
         MatTabsModule,
         AircraftHangarPageComponent,
@@ -24,7 +25,7 @@ import {
         AircraftPerformancePageComponent,
     ],
     templateUrl: './aircraft-tabs.component.html',
-    styleUrls: ['./aircraft-tabs.component.scss'],
+    styleUrls: ['./aircraft-tabs.component.scss']
 })
 export class AircraftTabsComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('tabGroup') public tabGroup: MatTabGroup;

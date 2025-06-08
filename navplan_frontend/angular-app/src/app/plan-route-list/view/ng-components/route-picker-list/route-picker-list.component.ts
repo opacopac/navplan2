@@ -16,7 +16,6 @@ export interface ListEntry {
 
 @Component({
     selector: 'app-route-picker-list',
-    standalone: true,
     imports: [
         CommonModule,
         MatFormFieldModule,

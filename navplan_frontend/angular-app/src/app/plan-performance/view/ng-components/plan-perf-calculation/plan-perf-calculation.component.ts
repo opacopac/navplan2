@@ -6,7 +6,6 @@ import {PlanPerfTkofLdgChartComponent} from '../plan-perf-tkof-ldg-chart/plan-pe
 
 @Component({
     selector: 'app-plan-perf-calculation',
-    standalone: true,
     imports: [
         PlanPerfTkofLdgChartComponent
     ],

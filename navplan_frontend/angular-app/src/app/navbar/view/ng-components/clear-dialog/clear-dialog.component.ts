@@ -9,7 +9,6 @@ import {MatButtonModule} from '@angular/material/button';
 
 @Component({
     selector: 'app-clear-dialog',
-    standalone: true,
     imports: [
         MatDialogModule,
         MatButtonModule

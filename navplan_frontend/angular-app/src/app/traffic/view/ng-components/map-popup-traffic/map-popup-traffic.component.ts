@@ -6,7 +6,6 @@ import {Position2d} from '../../../../geo-physics/domain/model/geometry/position
 import {OlTrafficIcon} from '../../ol-components/ol-traffic-icon';
 import {OlOverlayBaseComponent} from '../../../../base-map/view/ng-components/ol-overlay-base.component';
 import {MatCardModule} from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 
 
@@ -31,7 +30,6 @@ const TRAFFIC_TYPE_DESCRIPTION = {
 
 @Component({
     selector: 'app-map-popup-traffic',
-    standalone: true,
     imports: [
         MatCardModule,
         MatButtonModule

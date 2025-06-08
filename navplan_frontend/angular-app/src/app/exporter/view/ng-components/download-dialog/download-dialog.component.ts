@@ -7,7 +7,6 @@ import {MatButtonModule} from '@angular/material/button';
 
 @Component({
     selector: 'app-download-dialog',
-    standalone: true,
     imports: [
         MatDialogModule,
         MatButtonModule

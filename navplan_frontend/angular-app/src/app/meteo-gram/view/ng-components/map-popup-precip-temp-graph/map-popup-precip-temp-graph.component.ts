@@ -13,7 +13,6 @@ import {PrecipTempGraphSvg} from '../../svg/precip-temp-graph-svg';
 
 @Component({
     selector: 'app-map-popup-precip-temp-graph',
-    standalone: true,
     imports: [],
     templateUrl: './map-popup-precip-temp-graph.component.html',
     styleUrls: ['./map-popup-precip-temp-graph.component.scss']

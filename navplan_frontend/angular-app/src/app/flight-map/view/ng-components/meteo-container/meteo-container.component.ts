@@ -15,7 +15,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-meteo-container',
-    standalone: true,
     imports: [
         CommonModule,
         MeteoDwdTimelineComponent

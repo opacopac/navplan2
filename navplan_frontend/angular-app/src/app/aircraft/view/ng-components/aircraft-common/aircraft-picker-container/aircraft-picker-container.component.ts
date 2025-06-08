@@ -10,7 +10,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-aircraft-picker-container',
-    standalone: true,
     imports: [
         CommonModule,
         AircraftPickerComponent

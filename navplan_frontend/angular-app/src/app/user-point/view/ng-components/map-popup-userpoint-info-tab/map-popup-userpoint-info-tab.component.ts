@@ -1,7 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {UserPoint} from '../../../domain/model/user-point';
 import {IWmmService} from '../../../../geo-physics/domain/service/wmm/i-wmm.service';
-import {MapOverlayPositionComponent} from '../../../../geo-physics/view/ng-components/map-overlay-position/map-overlay-position.component';
+import {
+    MapOverlayPositionComponent
+} from '../../../../geo-physics/view/ng-components/map-overlay-position/map-overlay-position.component';
 import {
     MapOverlayVariationComponent
 } from '../../../../geo-physics/view/ng-components/map-overlay-variation/map-overlay-variation.component';
@@ -9,7 +11,6 @@ import {
 
 @Component({
     selector: 'app-map-popup-userpoint-info-tab',
-    standalone: true,
     imports: [
         MapOverlayPositionComponent,
         MapOverlayVariationComponent

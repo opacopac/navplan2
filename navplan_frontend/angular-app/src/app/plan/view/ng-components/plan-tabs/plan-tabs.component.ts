@@ -17,7 +17,6 @@ import {PlanWnbContainerComponent} from '../../../../plan-wnb/view/ng-components
 
 @Component({
     selector: 'app-plan-tabs',
-    standalone: true,
     imports: [
         MatTabsModule,
         RouteListPageComponent,
@@ -28,7 +27,7 @@ import {PlanWnbContainerComponent} from '../../../../plan-wnb/view/ng-components
         PlanWnbContainerComponent
     ],
     templateUrl: './plan-tabs.component.html',
-    styleUrls: ['./plan-tabs.component.scss'],
+    styleUrls: ['./plan-tabs.component.scss']
 })
 export class PlanTabsComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('tabGroup') public tabGroup: MatTabGroup;

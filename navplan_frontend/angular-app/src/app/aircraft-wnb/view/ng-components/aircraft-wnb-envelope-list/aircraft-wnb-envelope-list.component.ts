@@ -12,12 +12,13 @@ import {ButtonColor} from '../../../../common/view/model/button-color';
 import {VehicleType} from '../../../../aircraft/domain/model/vehicle-type';
 import {MatButtonModule} from '@angular/material/button';
 import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
-import {AircraftWnbEditEnvelopeComponent} from '../aircraft-wnb-edit-envelope-container/aircraft-wnb-edit-envelope.component';
+import {
+    AircraftWnbEditEnvelopeComponent
+} from '../aircraft-wnb-edit-envelope-container/aircraft-wnb-edit-envelope.component';
 
 
 @Component({
     selector: 'app-aircraft-wnb-envelope-list',
-    standalone: true,
     imports: [
         MatButtonModule,
         IconButtonComponent,

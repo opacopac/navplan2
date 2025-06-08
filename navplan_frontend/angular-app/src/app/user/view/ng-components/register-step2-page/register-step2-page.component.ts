@@ -10,7 +10,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-register-step2-page',
-    standalone: true,
     imports: [
         CommonModule,
         RegisterStep2FormComponent

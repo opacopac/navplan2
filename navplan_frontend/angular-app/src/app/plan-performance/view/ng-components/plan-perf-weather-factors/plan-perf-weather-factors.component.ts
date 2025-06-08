@@ -14,7 +14,6 @@ import {MatInputModule} from '@angular/material/input';
 
 @Component({
     selector: 'app-plan-perf-weather-factors',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

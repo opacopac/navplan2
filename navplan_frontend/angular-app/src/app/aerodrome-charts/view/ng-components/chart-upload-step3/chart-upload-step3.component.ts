@@ -22,7 +22,6 @@ import {MatSelectModule} from '@angular/material/select';
 
 @Component({
     selector: 'app-chart-upload-step3',
-    standalone: true,
     imports: [
         CommonModule,
         MatIconModule,

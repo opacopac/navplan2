@@ -6,7 +6,6 @@ import {MatButtonModule} from '@angular/material/button';
 
 @Component({
     selector: 'app-forgot-pw-step1-form',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

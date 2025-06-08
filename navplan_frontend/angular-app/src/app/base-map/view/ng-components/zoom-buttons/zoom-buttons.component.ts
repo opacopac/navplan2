@@ -6,7 +6,6 @@ import {MatButtonModule} from '@angular/material/button';
 
 @Component({
     selector: 'app-zoom-buttons',
-    standalone: true,
     imports: [
         MatButtonModule
     ],

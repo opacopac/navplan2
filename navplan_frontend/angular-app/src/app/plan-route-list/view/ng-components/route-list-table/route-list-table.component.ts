@@ -26,7 +26,6 @@ export interface ListEntry {
 
 @Component({
     selector: 'app-route-list-table',
-    standalone: true,
     imports: [
         CommonModule,
         MatTableModule,

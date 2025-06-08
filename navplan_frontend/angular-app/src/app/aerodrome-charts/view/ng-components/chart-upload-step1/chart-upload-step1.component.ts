@@ -21,7 +21,6 @@ import {Airport} from '../../../../aerodrome/domain/model/airport';
 
 @Component({
     selector: 'app-chart-upload-step1',
-    standalone: true,
     imports: [
         CommonModule,
         MatIconModule,

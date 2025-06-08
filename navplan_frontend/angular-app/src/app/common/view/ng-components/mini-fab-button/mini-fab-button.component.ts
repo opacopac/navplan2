@@ -5,7 +5,6 @@ import {MatButtonModule} from '@angular/material/button';
 
 @Component({
     selector: 'app-mini-fab-button',
-    standalone: true,
     imports: [
         MatButtonModule,
         MatTooltipModule

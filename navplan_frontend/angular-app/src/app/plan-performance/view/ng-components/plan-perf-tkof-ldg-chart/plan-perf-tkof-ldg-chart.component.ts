@@ -7,7 +7,6 @@ import {PlanPerfLandingCalculationState} from '../../../state/state-model/plan-p
 
 @Component({
     selector: 'app-plan-perf-tkof-ldg-chart',
-    standalone: true,
     imports: [],
     templateUrl: './plan-perf-tkof-ldg-chart.component.html',
     styleUrls: ['./plan-perf-tkof-ldg-chart.component.scss']

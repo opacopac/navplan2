@@ -19,7 +19,6 @@ export interface ListEntry {
 
 @Component({
     selector: 'app-aircraft-picker-list',
-    standalone: true,
     imports: [
         CommonModule,
         MatTableModule,

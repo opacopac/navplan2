@@ -10,7 +10,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-aircraft-picker-dialog',
-    standalone: true,
     imports: [
         CommonModule,
         MatDialogModule,

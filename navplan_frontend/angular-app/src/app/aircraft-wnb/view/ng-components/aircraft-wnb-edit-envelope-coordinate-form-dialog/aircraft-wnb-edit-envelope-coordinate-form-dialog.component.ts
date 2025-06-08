@@ -15,7 +15,6 @@ import {MatSelectModule} from '@angular/material/select';
 
 @Component({
     selector: 'app-aircraft-wnb-edit-envelope-coordinate-form-dialog',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

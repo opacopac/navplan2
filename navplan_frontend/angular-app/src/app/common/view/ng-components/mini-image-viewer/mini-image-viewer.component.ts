@@ -17,7 +17,6 @@ import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
 
 @Component({
     selector: 'app-mini-image-viewer',
-    standalone: true,
     imports: [
         CommonModule,
         MatButtonModule,

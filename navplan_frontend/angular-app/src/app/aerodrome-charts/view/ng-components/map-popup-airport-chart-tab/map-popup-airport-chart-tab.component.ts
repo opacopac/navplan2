@@ -12,7 +12,6 @@ import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-map-popup-airport-chart-tab',
-    standalone: true,
     imports: [
         MatTableModule,
         MatIconModule,

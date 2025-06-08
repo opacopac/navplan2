@@ -5,7 +5,6 @@ import {MeteoDwdTimelineMarkingsSvg} from '../../svg/meteo-dwd-timeline-markings
 
 @Component({
     selector: 'app-meteo-dwd-timeline-markings',
-    standalone: true,
     imports: [],
     templateUrl: './meteo-dwd-timeline-markings.component.html',
     styleUrls: ['./meteo-dwd-timeline-markings.component.scss']

@@ -7,7 +7,6 @@ import {MatInputModule} from '@angular/material/input';
 
 @Component({
     selector: 'app-register-step1-form',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

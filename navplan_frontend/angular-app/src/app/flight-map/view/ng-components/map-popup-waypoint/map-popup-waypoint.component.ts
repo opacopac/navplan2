@@ -16,7 +16,6 @@ import {
 
 @Component({
     selector: 'app-map-popup-waypoint',
-    standalone: true,
     imports: [
         MatCardModule,
         MapOverlayPositionComponent,

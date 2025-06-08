@@ -10,7 +10,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-search-container',
-    standalone: true,
     imports: [
         CommonModule,
         SearchBoxComponent

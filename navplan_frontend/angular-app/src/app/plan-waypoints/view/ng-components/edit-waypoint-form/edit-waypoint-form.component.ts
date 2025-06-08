@@ -15,7 +15,6 @@ import {MatButtonModule} from '@angular/material/button';
 
 @Component({
     selector: 'app-edit-waypoint-form',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

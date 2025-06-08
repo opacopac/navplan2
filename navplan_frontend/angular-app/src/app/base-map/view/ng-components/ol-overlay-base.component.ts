@@ -4,7 +4,10 @@ import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d'
 import {OlGeometry} from '../ol-model/ol-geometry';
 
 
-@Component({ template: '' })
+@Component({
+    template: '',
+    standalone: false
+})
 export abstract class OlOverlayBaseComponent implements AfterViewInit {
     public olOverlay: Overlay;
 

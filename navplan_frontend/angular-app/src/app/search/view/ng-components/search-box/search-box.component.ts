@@ -11,7 +11,6 @@ import {MatOptionModule} from '@angular/material/core';
 
 @Component({
     selector: 'app-search-box',
-    standalone: true,
     imports: [
         MatFormFieldModule,
         MatInputModule,

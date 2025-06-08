@@ -23,7 +23,6 @@ import {
 
 @Component({
     selector: 'app-plan-wnb-table',
-    standalone: true,
     imports: [
         CommonModule,
         MatTableModule,

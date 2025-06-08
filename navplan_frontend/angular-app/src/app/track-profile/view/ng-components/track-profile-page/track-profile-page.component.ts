@@ -10,7 +10,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-track-profile-page',
-    standalone: true,
     imports: [
         CommonModule,
         TrackProfileTimesComponent,

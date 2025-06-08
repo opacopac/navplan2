@@ -11,7 +11,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-vertical-map-button',
-    standalone: true,
     imports: [
         CommonModule,
         StatusButtonComponent

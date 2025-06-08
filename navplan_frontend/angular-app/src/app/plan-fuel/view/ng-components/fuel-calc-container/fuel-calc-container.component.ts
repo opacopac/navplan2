@@ -23,7 +23,6 @@ import {
 
 @Component({
     selector: 'app-fuel-calc-container',
-    standalone: true,
     imports: [
         CommonModule,
         ReactiveFormsModule,

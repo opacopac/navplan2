@@ -116,7 +116,6 @@ import {SidebarMode} from '../../../state/ngrx/sidebar-mode';
 
 @Component({
     selector: 'app-flight-map-page',
-    standalone: true,
     imports: [
         CommonModule,
         MatSidenavModule,

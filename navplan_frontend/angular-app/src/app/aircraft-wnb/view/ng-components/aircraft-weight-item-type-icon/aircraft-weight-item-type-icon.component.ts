@@ -5,7 +5,6 @@ import {VehicleType} from '../../../../aircraft/domain/model/vehicle-type';
 
 @Component({
     selector: 'app-aircraft-weight-item-type-icon',
-    standalone: true,
     imports: [],
     templateUrl: './aircraft-weight-item-type-icon.component.html',
     styleUrls: ['./aircraft-weight-item-type-icon.component.scss']

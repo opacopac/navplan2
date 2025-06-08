@@ -28,7 +28,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-unit-settings',
-    standalone: true,
     imports: [
         CommonModule,
         MatRadioModule,

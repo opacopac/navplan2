@@ -11,7 +11,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-map-layer-selection-content',
-    standalone: true,
     imports: [
         CommonModule,
         MatRadioModule,

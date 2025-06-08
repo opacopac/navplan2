@@ -6,7 +6,6 @@ import {StringnumberHelper} from '../../../../system/domain/service/stringnumber
 
 @Component({
     selector: 'app-map-popup-metar-taf',
-    standalone: true,
     imports: [],
     templateUrl: './map-popup-metar-taf.component.html',
     styleUrls: ['./map-popup-metar-taf.component.scss']

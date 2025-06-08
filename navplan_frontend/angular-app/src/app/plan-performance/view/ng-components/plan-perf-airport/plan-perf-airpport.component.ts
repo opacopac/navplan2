@@ -16,7 +16,6 @@ import {PlanPerfCalculationComponent} from '../plan-perf-calculation/plan-perf-c
 
 @Component({
     selector: 'app-plan-perf-airport',
-    standalone: true,
     imports: [
         MatExpansionModule,
         PlanPerfWeatherFactorsComponent,

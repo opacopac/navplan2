@@ -19,7 +19,6 @@ import {ChartRegistrationType} from '../../../domain/model/chart-registration-ty
 
 @Component({
     selector: 'app-chart-upload-step2',
-    standalone: true,
     imports: [
         CommonModule,
         MatIconModule,

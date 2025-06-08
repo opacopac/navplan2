@@ -6,7 +6,6 @@ import {IconButtonComponent} from '../../../../common/view/ng-components/icon-bu
 
 @Component({
     selector: 'app-route-picker',
-    standalone: true,
     imports: [
         IconButtonComponent
     ],

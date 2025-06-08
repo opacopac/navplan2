@@ -10,7 +10,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-table-text-filter-and-create-button',
-    standalone: true,
     imports: [
         CommonModule,
         ReactiveFormsModule,

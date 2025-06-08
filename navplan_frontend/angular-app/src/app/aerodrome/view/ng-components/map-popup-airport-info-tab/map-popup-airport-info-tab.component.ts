@@ -4,7 +4,9 @@ import {MatIconModule} from '@angular/material/icon';
 import {
     MapOverlayElevationComponent
 } from '../../../../geo-physics/view/ng-components/map-overlay-elevation/map-overlay-elevation.component';
-import {MapOverlayPositionComponent} from '../../../../geo-physics/view/ng-components/map-overlay-position/map-overlay-position.component';
+import {
+    MapOverlayPositionComponent
+} from '../../../../geo-physics/view/ng-components/map-overlay-position/map-overlay-position.component';
 import {
     MapOverlayVariationComponent
 } from '../../../../geo-physics/view/ng-components/map-overlay-variation/map-overlay-variation.component';
@@ -12,7 +14,6 @@ import {
 
 @Component({
     selector: 'app-map-popup-airport-info-tab',
-    standalone: true,
     imports: [
         MatIconModule,
         MapOverlayElevationComponent,

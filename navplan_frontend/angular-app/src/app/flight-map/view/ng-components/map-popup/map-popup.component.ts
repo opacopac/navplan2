@@ -83,7 +83,6 @@ import {
 
 @Component({
     selector: 'app-map-popup',
-    standalone: true,
     imports: [
         MatCardModule,
         MatTabsModule,

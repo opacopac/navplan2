@@ -7,7 +7,6 @@ import {ConfirmDeleteDialogComponent} from '../../../../common/view/ng-component
 
 @Component({
     selector: 'app-track-delete-confirm-dialog',
-    standalone: true,
     imports: [
         ConfirmDeleteDialogComponent
     ],

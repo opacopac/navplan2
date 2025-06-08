@@ -9,7 +9,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-plan-meteo-table',
-    standalone: true,
     imports: [
         CommonModule,
         MatTableModule,

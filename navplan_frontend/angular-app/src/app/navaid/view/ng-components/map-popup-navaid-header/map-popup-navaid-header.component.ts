@@ -6,7 +6,6 @@ import {MatCardModule} from '@angular/material/card';
 
 @Component({
     selector: 'app-map-popup-navaid-header',
-    standalone: true,
     imports: [
         MatCardModule
     ],

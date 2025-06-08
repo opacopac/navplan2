@@ -10,7 +10,6 @@ import {
 
 @Component({
     selector: 'app-map-popup-waypoint-info-tab',
-    standalone: true,
     imports: [
         MapOverlayPositionComponent,
         MapOverlayVariationComponent

@@ -6,7 +6,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-status-button',
-    standalone: true,
     imports: [
         CommonModule,
         MatButtonModule,

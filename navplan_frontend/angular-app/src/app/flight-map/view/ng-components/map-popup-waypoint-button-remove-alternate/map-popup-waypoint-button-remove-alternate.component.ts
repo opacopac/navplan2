@@ -5,7 +5,6 @@ import {MiniFabButtonComponent} from '../../../../common/view/ng-components/mini
 
 @Component({
     selector: 'app-map-popup-waypoint-button-remove-alternate',
-    standalone: true,
     imports: [
         MiniFabButtonComponent
     ],

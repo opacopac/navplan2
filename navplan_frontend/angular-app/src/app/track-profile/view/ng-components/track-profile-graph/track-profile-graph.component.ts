@@ -5,7 +5,6 @@ import {TrackProfileGraphSvg} from '../../svg/track-profile-graph-svg';
 
 @Component({
     selector: 'app-track-profile-graph',
-    standalone: true,
     imports: [],
     templateUrl: './track-profile-graph.component.html',
     styleUrls: ['./track-profile-graph.component.scss']

@@ -23,7 +23,6 @@ interface WaypointListDataSourceRow {
 
 @Component({
     selector: 'app-waypoints-table',
-    standalone: true,
     imports: [
         CommonModule,
         MatTableModule,

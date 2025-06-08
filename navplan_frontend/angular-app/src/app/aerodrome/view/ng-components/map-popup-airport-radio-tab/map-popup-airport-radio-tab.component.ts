@@ -6,7 +6,6 @@ import {MatTableModule} from '@angular/material/table';
 
 @Component({
     selector: 'app-map-popup-airport-radio-tab',
-    standalone: true,
     imports: [
         MatTableModule
     ],

@@ -18,7 +18,6 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
 
 @Component({
     selector: 'app-aircraft-wnb-envelope-chart',
-    standalone: true,
     imports: [],
     templateUrl: './aircraft-wnb-envelope-chart.component.html',
     styleUrls: ['./aircraft-wnb-envelope-chart.component.scss']

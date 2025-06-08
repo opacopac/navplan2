@@ -8,7 +8,6 @@ import {MatInputModule} from '@angular/material/input';
 
 @Component({
     selector: 'app-plan-meteo-radius',
-    standalone: true,
     imports: [
         MatFormFieldModule,
         ReactiveFormsModule,

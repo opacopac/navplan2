@@ -9,7 +9,6 @@ import {StatusButtonComponent} from '../../../../common/view/ng-components/statu
 
 @Component({
     selector: 'app-attributions-button',
-    standalone: true,
     imports: [
         CommonModule,
         StatusButtonComponent

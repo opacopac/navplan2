@@ -12,7 +12,9 @@ import {
     AircraftPickerContainerComponent
 } from '../../../../aircraft/view/ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
 import {AircraftWnbWeightFieldsComponent} from '../aircraft-wnb-weight-fields/aircraft-wnb-weight-fields.component';
-import {AircraftWnbWeightItemTableComponent} from '../aircraft-wnb-weight-item-table/aircraft-wnb-weight-item-table.component';
+import {
+    AircraftWnbWeightItemTableComponent
+} from '../aircraft-wnb-weight-item-table/aircraft-wnb-weight-item-table.component';
 import {AircraftWnbEnvelopeListComponent} from '../aircraft-wnb-envelope-list/aircraft-wnb-envelope-list.component';
 import {SaveButtonComponent} from '../../../../common/view/ng-components/save-button/save-button.component';
 import {CommonModule} from '@angular/common';
@@ -20,7 +22,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-aircraft-wnb-page',
-    standalone: true,
     imports: [
         CommonModule,
         SaveButtonComponent,
@@ -30,7 +31,7 @@ import {CommonModule} from '@angular/common';
         AircraftWnbEnvelopeListComponent,
     ],
     templateUrl: './aircraft-wnb-page.component.html',
-    styleUrls: ['./aircraft-wnb-page.component.scss'],
+    styleUrls: ['./aircraft-wnb-page.component.scss']
 })
 export class AircraftWnbPageComponent implements OnInit {
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));

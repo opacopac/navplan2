@@ -6,7 +6,6 @@ import {IconButtonComponent} from '../../../../../common/view/ng-components/icon
 
 @Component({
     selector: 'app-aircraft-picker',
-    standalone: true,
     imports: [
         IconButtonComponent
     ],

@@ -9,7 +9,6 @@ import {MatInputModule} from '@angular/material/input';
 
 @Component({
     selector: 'app-track-edit-form-dialog',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

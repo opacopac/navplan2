@@ -15,7 +15,6 @@ import {
 
 @Component({
     selector: 'app-plan-meteo-container',
-    standalone: true,
     imports: [
         CommonModule,
         PlanMeteoRadiusComponent,

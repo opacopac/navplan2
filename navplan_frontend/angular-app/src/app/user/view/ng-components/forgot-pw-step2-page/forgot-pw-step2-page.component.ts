@@ -10,7 +10,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-forgot-pw-step2-page',
-    standalone: true,
     imports: [
         CommonModule,
         ForgotPwStep2FormComponent

@@ -14,7 +14,6 @@ import {MatInputModule} from '@angular/material/input';
 
 @Component({
     selector: 'app-route-create-form-dialog',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

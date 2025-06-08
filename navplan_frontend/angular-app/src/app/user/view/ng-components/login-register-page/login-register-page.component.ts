@@ -12,7 +12,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-login-register-page',
-    standalone: true,
     imports: [
         CommonModule,
         LoginFormComponent,

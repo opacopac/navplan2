@@ -11,7 +11,8 @@ import {AutoLoginActions} from './user/state/ngrx/auto-login.actions';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AppComponent implements OnInit {
     public currentUser$: Observable<User>;

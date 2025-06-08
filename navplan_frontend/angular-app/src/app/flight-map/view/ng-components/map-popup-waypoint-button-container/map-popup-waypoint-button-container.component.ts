@@ -31,7 +31,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-map-popup-waypoint-button-container',
-    standalone: true,
     imports: [
         CommonModule,
         MapPopupWaypointButtonAddToRouteComponent,

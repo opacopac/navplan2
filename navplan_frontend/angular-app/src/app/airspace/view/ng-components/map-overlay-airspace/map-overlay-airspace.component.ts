@@ -5,7 +5,6 @@ import {AltitudeReference} from '../../../../geo-physics/domain/model/geometry/a
 
 @Component({
     selector: 'app-map-overlay-airspace',
-    standalone: true,
     imports: [],
     templateUrl: './map-overlay-airspace.component.html',
     styleUrls: ['./map-overlay-airspace.component.scss']

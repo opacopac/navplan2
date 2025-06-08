@@ -24,7 +24,6 @@ import {
 
 @Component({
     selector: 'app-plan-perf-container',
-    standalone: true,
     imports: [
         CommonModule,
         MatExpansionModule,

@@ -10,7 +10,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-track-list-page',
-    standalone: true,
     imports: [
         CommonModule,
         TrackListTableComponent

@@ -10,7 +10,6 @@ import {MatInputModule} from '@angular/material/input';
 
 @Component({
     selector: 'app-aircraft-wnb-weight-fields',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

@@ -10,19 +10,20 @@ import {
     getTemperatureUnit,
     getWeightUnit
 } from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
-import {AircraftPerformanceAccordionComponent} from '../aircraft-performance-accordion/aircraft-performance-accordion.component';
+import {
+    AircraftPerformanceAccordionComponent
+} from '../aircraft-performance-accordion/aircraft-performance-accordion.component';
 import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-aircraft-performance-page',
-    standalone: true,
     imports: [
         CommonModule,
         AircraftPerformanceAccordionComponent,
     ],
     templateUrl: './aircraft-performance-page.component.html',
-    styleUrls: ['./aircraft-performance-page.component.scss'],
+    styleUrls: ['./aircraft-performance-page.component.scss']
 })
 export class AircraftPerformancePageComponent implements OnInit {
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));

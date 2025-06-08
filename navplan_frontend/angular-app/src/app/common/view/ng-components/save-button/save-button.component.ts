@@ -5,7 +5,6 @@ import {MatButtonModule} from '@angular/material/button';
 
 @Component({
     selector: 'app-save-button',
-    standalone: true,
     imports: [
         MatButtonModule
     ],

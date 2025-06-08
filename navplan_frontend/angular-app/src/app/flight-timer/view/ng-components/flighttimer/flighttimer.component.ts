@@ -7,7 +7,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-flighttimer',
-    standalone: true,
     imports: [
         CommonModule
     ],

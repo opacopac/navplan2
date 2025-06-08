@@ -12,7 +12,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-route-picker-container',
-    standalone: true,
     imports: [
         CommonModule,
         RoutePickerComponent

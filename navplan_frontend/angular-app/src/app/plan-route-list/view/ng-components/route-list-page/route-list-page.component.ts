@@ -13,13 +13,12 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-route-list-page',
-    standalone: true,
     imports: [
         CommonModule,
         RouteListTableComponent
     ],
     templateUrl: './route-list-page.component.html',
-    styleUrls: ['./route-list-page.component.scss'],
+    styleUrls: ['./route-list-page.component.scss']
 })
 export class RouteListPageComponent implements OnInit {
     protected readonly flightrouteList$ = this.appStore.pipe(select(getFlightrouteList));

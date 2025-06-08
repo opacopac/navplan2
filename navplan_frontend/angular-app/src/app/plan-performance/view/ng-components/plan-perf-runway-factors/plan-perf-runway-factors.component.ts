@@ -16,7 +16,6 @@ import {MatOptionModule} from '@angular/material/core';
 
 @Component({
     selector: 'app-plan-perf-runway-factors',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

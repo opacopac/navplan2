@@ -9,7 +9,6 @@ import {VerticalMapSvg} from '../../svg/vertical-map-svg';
 
 @Component({
     selector: 'app-vertical-map',
-    standalone: true,
     imports: [],
     templateUrl: './vertical-map.component.html',
     styleUrls: ['./vertical-map.component.scss']

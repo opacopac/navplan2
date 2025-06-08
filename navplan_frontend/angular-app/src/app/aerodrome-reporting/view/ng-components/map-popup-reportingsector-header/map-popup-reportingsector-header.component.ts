@@ -5,7 +5,6 @@ import {MatCardModule} from '@angular/material/card';
 
 @Component({
     selector: 'app-map-popup-reportingsector-header',
-    standalone: true,
     imports: [
         MatCardModule
     ],

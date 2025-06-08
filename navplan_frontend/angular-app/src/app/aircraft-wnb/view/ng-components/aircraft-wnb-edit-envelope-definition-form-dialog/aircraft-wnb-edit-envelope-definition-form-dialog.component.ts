@@ -14,7 +14,6 @@ import {MatSelectModule} from '@angular/material/select';
 
 @Component({
     selector: 'app-aircraft-wnb-edit-envelope-definition-form-dialog',
-    standalone: true,
     imports: [
         FormDialogComponent,
         ReactiveFormsModule,

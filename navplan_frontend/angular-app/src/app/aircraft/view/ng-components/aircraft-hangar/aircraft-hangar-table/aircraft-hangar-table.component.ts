@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
-import {MatTable, MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
 import {AircraftListEntry} from '../../../../domain/model/aircraft-list-entry';
 import {Aircraft} from '../../../../domain/model/aircraft';
@@ -30,7 +30,6 @@ export interface ListEntry {
 
 @Component({
     selector: 'app-aircraft-hangar-table',
-    standalone: true,
     imports: [
         MatTableModule,
         MatPaginatorModule,

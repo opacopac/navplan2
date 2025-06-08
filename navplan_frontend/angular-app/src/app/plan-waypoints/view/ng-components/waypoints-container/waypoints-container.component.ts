@@ -29,12 +29,13 @@ import {CommonModule} from '@angular/common';
 import {
     AircraftPickerContainerComponent
 } from '../../../../aircraft/view/ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
-import {AircraftManualToggle} from '../../../../aircraft/view/ng-components/aircraft-manual-toggle/aircraft-manual-toggle.component';
+import {
+    AircraftManualToggle
+} from '../../../../aircraft/view/ng-components/aircraft-manual-toggle/aircraft-manual-toggle.component';
 
 
 @Component({
     selector: 'app-waypoints-container',
-    standalone: true,
     imports: [
         CommonModule,
         ReactiveFormsModule,

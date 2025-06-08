@@ -9,7 +9,6 @@ import {MatInputModule} from '@angular/material/input';
 
 @Component({
     selector: 'app-flightroute-aircraft-speed',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

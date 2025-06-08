@@ -9,7 +9,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-map-layer-selection-button',
-    standalone: true,
     imports: [
         CommonModule,
         StatusButtonComponent

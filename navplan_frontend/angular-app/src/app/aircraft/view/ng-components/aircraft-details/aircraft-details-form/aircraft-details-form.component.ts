@@ -20,7 +20,6 @@ import {MatSelectModule} from '@angular/material/select';
 
 @Component({
     selector: 'app-aircraft-details-form',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

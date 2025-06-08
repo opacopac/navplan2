@@ -28,7 +28,6 @@ import {
 
 @Component({
     selector: 'app-plan-wnb-container',
-    standalone: true,
     imports: [
         CommonModule,
         RoutePickerContainerComponent,

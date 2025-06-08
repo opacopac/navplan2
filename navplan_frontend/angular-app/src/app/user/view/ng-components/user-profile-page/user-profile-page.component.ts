@@ -10,7 +10,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-user-profile-page',
-    standalone: true,
     imports: [
         CommonModule,
         UserProfileFormComponent

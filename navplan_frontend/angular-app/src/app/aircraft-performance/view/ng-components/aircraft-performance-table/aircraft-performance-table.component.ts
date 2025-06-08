@@ -14,7 +14,6 @@ import {NgClass} from '@angular/common';
 
 @Component({
     selector: 'app-aircraft-performance-table',
-    standalone: true,
     imports: [
         MatTableModule,
         AircraftPerformanceCorrectionFactorsComponent,

@@ -6,7 +6,6 @@ import {MiniFabButtonComponent} from '../../../../common/view/ng-components/mini
 
 @Component({
     selector: 'app-map-popup-button-edit-userpoint',
-    standalone: true,
     imports: [
         MiniFabButtonComponent
     ],

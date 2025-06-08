@@ -5,11 +5,12 @@ import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Aircraft} from '../../../../aircraft/domain/model/aircraft';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import {AircraftManualToggle} from '../../../../aircraft/view/ng-components/aircraft-manual-toggle/aircraft-manual-toggle.component';
+import {
+    AircraftManualToggle
+} from '../../../../aircraft/view/ng-components/aircraft-manual-toggle/aircraft-manual-toggle.component';
 
 @Component({
     selector: 'app-fuel-calc-input-fields',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

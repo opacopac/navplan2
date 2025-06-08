@@ -21,7 +21,6 @@ interface FuelDataSourceRow {
 
 @Component({
     selector: 'app-fuel-calc-table',
-    standalone: true,
     imports: [
         CommonModule,
         MatTableModule,

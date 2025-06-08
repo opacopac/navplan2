@@ -12,13 +12,12 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-aircraft-hangar-page',
-    standalone: true,
     imports: [
         CommonModule,
         AircraftHangarTableComponent
     ],
     templateUrl: './aircraft-hangar-page.component.html',
-    styleUrls: ['./aircraft-hangar-page.component.scss'],
+    styleUrls: ['./aircraft-hangar-page.component.scss']
 })
 export class AircraftHangarPageComponent implements OnInit {
     protected readonly aircraftList$ = this.appStore.pipe(select(getAircraftList));

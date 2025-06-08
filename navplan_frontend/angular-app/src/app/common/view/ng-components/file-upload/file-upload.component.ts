@@ -8,7 +8,6 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-file-upload',
-    standalone: true,
     imports: [
         CommonModule,
         MatIconModule,

@@ -9,13 +9,16 @@
 			"projectType": "application",
 			"architect": {
 				"build": {
-					"builder": "@angular-devkit/build-angular:browser",
+					"builder": "@angular-devkit/build-angular:application",
 					"options": {
-						"outputPath": "dist",
-						"index": "src/index.html",
-						"main": "src/main.ts",
+						"outputPath": {
+              "base": "dist"
+            },
+            "index": "src/index.html",
 						"tsConfig": "src/tsconfig.app.json",
-						"polyfills": "src/polyfills.ts",
+						"polyfills": [
+              "src/polyfills.ts"
+            ],
 						"assets": [
 							"src/assets",
 							"src/php",
@@ -35,7 +38,8 @@
 							"src/navplan-app-theme.scss",
 							"src/styles.scss"
 						],
-						"scripts": []
+            "scripts": [],
+            "browser": "src/main.ts"
 					},
 					"configurations": {
 						"production": {
@@ -44,9 +48,7 @@
 							"sourceMap": true,
 							"namedChunks": false,
 							"aot": true,
-							"extractLicenses": true,
-							"vendorChunk": false,
-							"buildOptimizer": false,
+              "extractLicenses": true,
 							"fileReplacements": [
 								{
 									"replace": "src/environments/environment.ts",
@@ -54,10 +56,8 @@
 								}
 							]
 						},
-						"development": {
-							"buildOptimizer": false,
-							"optimization": false,
-							"vendorChunk": true,
+            "development": {
+              "optimization": false,
 							"extractLicenses": false,
 							"sourceMap": true,
 							"namedChunks": true

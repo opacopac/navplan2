@@ -7,7 +7,6 @@ import {MatIconModule} from '@angular/material/icon';
 
 @Component({
     selector: 'app-map-popup-notam-tab',
-    standalone: true,
     imports: [
         MatTableModule,
         MatIconModule

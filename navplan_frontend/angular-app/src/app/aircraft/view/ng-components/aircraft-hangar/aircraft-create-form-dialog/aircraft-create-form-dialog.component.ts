@@ -20,7 +20,6 @@ import {
 
 @Component({
     selector: 'app-aircraft-create-form-dialog',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatRadioModule,

@@ -5,7 +5,6 @@ import {MatSlideToggle, MatSlideToggleChange} from '@angular/material/slide-togg
 
 @Component({
     selector: 'app-aircraft-manual-toggle',
-    standalone: true,
     imports: [
         MatSlideToggle
     ],

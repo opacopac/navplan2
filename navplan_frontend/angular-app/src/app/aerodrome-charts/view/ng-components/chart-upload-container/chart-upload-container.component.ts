@@ -8,7 +8,8 @@ import {
     getChartReference1,
     getChartReference2,
     getChartRegistrationType,
-    getChartScale, getGeoCoordinateType,
+    getChartScale,
+    getGeoCoordinateType,
     getIsUploading,
     getMapReference1,
     getMapReference2,
@@ -31,7 +32,6 @@ import {GeoCoordinateType} from '../../../domain/model/geo-coordinate-type';
 
 @Component({
     selector: 'app-chart-upload-container',
-    standalone: true,
     imports: [
         CommonModule,
         ReactiveFormsModule,

@@ -11,7 +11,6 @@ import {AircraftWnbEnvelopeChartComponent} from '../aircraft-wnb-envelope-chart/
 
 @Component({
     selector: 'app-aircraft-wnb-edit-envelope',
-    standalone: true,
     imports: [
         AircraftWnbEnvelopeChartComponent
     ],

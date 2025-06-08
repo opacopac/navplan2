@@ -16,7 +16,6 @@ export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): Valid
 
 @Component({
     selector: 'app-user-profile-form',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

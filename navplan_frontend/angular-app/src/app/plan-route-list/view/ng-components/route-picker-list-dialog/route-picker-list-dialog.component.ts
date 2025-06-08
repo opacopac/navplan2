@@ -11,7 +11,6 @@ import {CommonModule} from '@angular/common';
 
 @Component({
     selector: 'app-route-picker-list-dialog',
-    standalone: true,
     imports: [
         CommonModule,
         MatButtonModule,
