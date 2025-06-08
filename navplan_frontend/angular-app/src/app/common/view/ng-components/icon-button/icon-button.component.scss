@@ -1,5 +1,5 @@
 @use '../../../../../../node_modules/@angular/material/index' as mat;
-@import "styles";
+@use "styles" as *;
 
 .icon-button {
     scale: 70%;

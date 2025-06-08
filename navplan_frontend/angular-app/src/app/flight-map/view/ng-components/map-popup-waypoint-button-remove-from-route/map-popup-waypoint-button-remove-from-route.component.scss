@@ -1,4 +1,4 @@
-@import "styles";
+@use "styles" as *;
 
 button.mat-mdc-mini-fab {
     background-color: $navplan-color-red;
