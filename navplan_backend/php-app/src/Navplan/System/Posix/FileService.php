@@ -30,6 +30,7 @@ class FileService implements IFileService
     public function fileGetContents(string $filename, bool $use_include_path = FALSE, $context = NULL): string
     {
         try {
+            $this->loggingService->debug("reading file or stream '" . $filename . "'...");
             // TODO: handle warnings (currently suppressed with @ operator)
             $result = @file_get_contents($filename, $use_include_path, $context);
         } catch (Exception $ex) {
@@ -50,6 +51,7 @@ class FileService implements IFileService
     public function filePutContents(string $filename, $data, int $flags = 0, $context = null): int
     {
         try {
+            $this->loggingService->debug("writing file or stream '" . $filename . "'...");
             $result = file_put_contents($filename, $data, $flags, $context);
         } catch (Exception $ex) {
             $this->logAndThrowException('error writing file or stream', $ex);

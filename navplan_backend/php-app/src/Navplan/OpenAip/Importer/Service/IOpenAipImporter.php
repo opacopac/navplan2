@@ -2,8 +2,8 @@
 
 namespace Navplan\OpenAip\Importer\Service;
 
-use Navplan\OpenAip\Importer\Model\ImportResult;
 use Navplan\OpenAip\ApiAdapter\Service\OpenAipImportFilter;
+use Navplan\OpenAip\Importer\Model\ImportResult;
 
 
 interface IOpenAipImporter {
@@ -14,4 +14,6 @@ interface IOpenAipImporter {
     function importAirspaces(): ImportResult;
 
     function importNavaids(): ImportResult;
+
+    function testConnection(): bool;
 }

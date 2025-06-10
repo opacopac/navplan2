@@ -2,6 +2,7 @@
 
 namespace Navplan\OpenAip\Importer\Service;
 
+use Exception;
 use Navplan\Aerodrome\Domain\Service\IAirportService;
 use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Navaid\Domain\Service\INavaidService;
@@ -16,7 +17,8 @@ use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 
 
-class OpenAipImporter implements IOpenAipImporter {
+class OpenAipImporter implements IOpenAipImporter
+{
     private ?OpenAipImportFilter $importFilter = null;
 
 
@@ -27,16 +29,34 @@ class OpenAipImporter implements IOpenAipImporter {
         private INavaidService $navaidService,
         private ILoggingService $loggingService,
         private IDbService $dbService
-    ) {
+    )
+    {
     }
 
 
-    public function setImportFilter(?OpenAipImportFilter $importFilter): void {
+    public function setImportFilter(?OpenAipImportFilter $importFilter): void
+    {
         $this->importFilter = $importFilter;
     }
 
 
-    public function importAirports(): ImportResult {
+    public function testConnection(): bool
+    {
+        $this->loggingService->info("testing connection to openaip...");
+        try {
+            $this->openAipApiService->readNavaids(1, $this->importFilter);
+            $this->loggingService->info("connection successful");
+            return true;
+        } catch (Exception $e) {
+            $this->loggingService->error("connection failed: " . $e->getMessage());
+            $this->loggingService->error("inner exception: " . $e->getTraceAsString());
+            return false;
+        }
+    }
+
+
+    public function importAirports(): ImportResult
+    {
         $this->loggingService->info("importing airports...");
 
         $this->loggingService->info("deleting existing airports from db...");
@@ -69,8 +89,8 @@ class OpenAipImporter implements IOpenAipImporter {
     }
 
 
-
-    public function importAirspaces(): ImportResult {
+    public function importAirspaces(): ImportResult
+    {
         $this->loggingService->info("importing airspaces...");
 
         $this->loggingService->info("deleting existing airspaces from db...");
@@ -101,7 +121,8 @@ class OpenAipImporter implements IOpenAipImporter {
     }
 
 
-    public function importNavaids(): ImportResult {
+    public function importNavaids(): ImportResult
+    {
         $this->loggingService->info("importing navaids...");
 
         $this->loggingService->info("deleting existing navaids from db...");

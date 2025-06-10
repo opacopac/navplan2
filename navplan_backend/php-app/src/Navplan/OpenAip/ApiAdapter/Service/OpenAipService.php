@@ -6,6 +6,7 @@ use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirportResponseConverter;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirspaceResponseConverter;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipNavaidResponseConverter;
 use Navplan\OpenAip\Config\IOpenAipConfig;
+use Navplan\System\Domain\Service\IFileService;
 
 
 class OpenAipService implements IOpenAipService
@@ -20,6 +21,7 @@ class OpenAipService implements IOpenAipService
 
     public function __construct(
         private readonly IOpenAipConfig $openAipConfig,
+        private readonly IFileService $fileService
     )
     {
     }
@@ -29,7 +31,7 @@ class OpenAipService implements IOpenAipService
     {
         $url = $this->buildUrl(self::AIRPORTS_URL_SUFFIX, $page, $importFilter);
         $context = $this->getHttpContext();
-        $rawResponse = file_get_contents($url, false, $context);
+        $rawResponse = $this->fileService->fileGetContents($url, false, $context);
         $jsonResponse = json_decode($rawResponse, true, JSON_NUMERIC_CHECK);
 
         return OpenAipAirportResponseConverter::fromRest($jsonResponse);
@@ -40,7 +42,7 @@ class OpenAipService implements IOpenAipService
     {
         $url = $this->buildUrl(self::AIRSPACES_URL_SUFFIX, $page, $importFilter);
         $context = $this->getHttpContext();
-        $rawResponse = file_get_contents($url, false, $context);
+        $rawResponse = $this->fileService->fileGetContents($url, false, $context);
         $jsonResponse = json_decode($rawResponse, true, JSON_NUMERIC_CHECK);
 
         return OpenAipAirspaceResponseConverter::fromRest($jsonResponse);
@@ -51,7 +53,7 @@ class OpenAipService implements IOpenAipService
     {
         $url = $this->buildUrl(self::NAVAIDS_URL_SUFFIX, $page, $importFilter);
         $context = $this->getHttpContext();
-        $rawResponse = file_get_contents($url, false, $context);
+        $rawResponse = $this->fileService->fileGetContents($url, false, $context);
         $jsonResponse = json_decode($rawResponse, true, JSON_NUMERIC_CHECK);
 
         return OpenAipNavaidResponseConverter::fromRest($jsonResponse);
@@ -80,6 +82,8 @@ class OpenAipService implements IOpenAipService
                 'header' => self::OPENAIP_API_KEY_HEADER . ": " . $this->openAipConfig->getOpenAipApiKey() . "\r\n"
             )
         );
+
+        var_dump($opts);
 
         return stream_context_create($opts);
     }

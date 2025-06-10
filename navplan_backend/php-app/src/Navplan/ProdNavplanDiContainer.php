@@ -320,7 +320,8 @@ class ProdNavplanDiContainer
                 $this->getAirspaceDiContainer()->getAirspaceService(),
                 $this->getNavaidDiContainer()->getNavaidService(),
                 $this->getSystemDiContainer()->getLoggingService(),
-                $this->getPersistenceDiContainer()->getDbService()
+                $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getFileService(),
             );
         }
 
