@@ -11,8 +11,8 @@ use Navplan\OpenAip\ApiAdapter\Service\OpenAipService;
 use Navplan\OpenAip\Config\IOpenAipConfig;
 use Navplan\OpenAip\Importer\Service\IOpenAipImporter;
 use Navplan\OpenAip\Importer\Service\OpenAipImporter;
+use Navplan\System\Domain\Service\ICurlService;
 use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\ILoggingService;
 
 
@@ -29,12 +29,14 @@ class ProdOpenAipDiContainer implements IOpenAipDiContainer
         private INavaidService $navaidService,
         private ILoggingService $loggingService,
         private IDbService $dbService,
-        private IFileService $fileService,
-    ) {
+        private ICurlService $curlService,
+    )
+    {
     }
 
 
-    function getOpenAipConfig(): IOpenAipConfig {
+    function getOpenAipConfig(): IOpenAipConfig
+    {
         if (!isset($this->openAipConfig)) {
             $this->openAipConfig = new ProdConfigDiContainer();
         }
@@ -65,7 +67,7 @@ class ProdOpenAipDiContainer implements IOpenAipDiContainer
         if (!isset($this->openAipApiService)) {
             $this->openAipApiService = new OpenAipService(
                 $this->getOpenAipConfig(),
-                $this->fileService
+                $this->curlService
             );
         }
 

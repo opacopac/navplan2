@@ -3,7 +3,8 @@
 namespace Navplan\OpenAip\ApiAdapter\Service;
 
 
-interface IOpenAipService {
+interface IOpenAipService
+{
     function readAirports(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadAirportResponse;
 
     function readAirspaces(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadAirspacesResponse;

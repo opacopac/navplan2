@@ -321,7 +321,7 @@ class ProdNavplanDiContainer
                 $this->getNavaidDiContainer()->getNavaidService(),
                 $this->getSystemDiContainer()->getLoggingService(),
                 $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getFileService(),
+                $this->getSystemDiContainer()->getCurlService(),
             );
         }
 

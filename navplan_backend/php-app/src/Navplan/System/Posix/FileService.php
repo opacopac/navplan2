@@ -32,7 +32,7 @@ class FileService implements IFileService
         try {
             $this->loggingService->debug("reading file or stream '" . $filename . "'...");
             // TODO: handle warnings (currently suppressed with @ operator)
-            $result = @file_get_contents($filename, $use_include_path, $context);
+            $result = file_get_contents($filename, $use_include_path, $context);
         } catch (Exception $ex) {
             $this->logAndThrowException('error reading file or stream ' . $filename, $ex);
         }

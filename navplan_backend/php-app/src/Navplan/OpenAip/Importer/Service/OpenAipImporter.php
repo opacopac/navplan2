@@ -44,7 +44,7 @@ class OpenAipImporter implements IOpenAipImporter
     {
         $this->loggingService->info("testing connection to openaip...");
         try {
-            $this->openAipApiService->readNavaids(1, $this->importFilter);
+            $this->openAipApiService->readNavaids();
             $this->loggingService->info("connection successful");
             return true;
         } catch (Exception $e) {

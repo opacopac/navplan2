@@ -2,6 +2,7 @@
 
 namespace Navplan\System;
 
+use Navplan\System\Domain\Service\ICurlService;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\IImageService;
@@ -11,7 +12,8 @@ use Navplan\System\Domain\Service\IProcService;
 use Navplan\System\Domain\Service\ITimeService;
 
 
-interface ISystemDiContainer {
+interface ISystemDiContainer
+{
     function getHttpService(): IHttpService;
 
     function getFileService(): IFileService;
@@ -25,4 +27,6 @@ interface ISystemDiContainer {
     function getLoggingService(): ILoggingService;
 
     function getImageService(): IImageService;
+
+    function getCurlService(): ICurlService;
 }

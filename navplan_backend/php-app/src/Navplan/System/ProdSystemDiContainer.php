@@ -2,6 +2,7 @@
 
 namespace Navplan\System;
 
+use Navplan\System\Domain\Service\ICurlService;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
@@ -14,6 +15,7 @@ use Navplan\System\Domain\Service\ITimeService;
 use Navplan\System\Imagick\ImagickService;
 use Navplan\System\MySqlDb\IDbConfig;
 use Navplan\System\MySqlDb\MySqlDbService;
+use Navplan\System\Posix\CurlService;
 use Navplan\System\Posix\FileService;
 use Navplan\System\Posix\HttpService;
 use Navplan\System\Posix\LoggingService;
@@ -32,6 +34,7 @@ class ProdSystemDiContainer implements ISystemDiContainer
     private ILoggingService $fileLogger;
     private IDbService $dbService;
     private IImageService $imageService;
+    private ICurlService $curlService;
 
 
     public function __construct(
@@ -138,5 +141,17 @@ class ProdSystemDiContainer implements ISystemDiContainer
         }
 
         return $this->imageService;
+    }
+
+
+    public function getCurlService(): ICurlService
+    {
+        if (!isset($this->curlService)) {
+            $this->curlService = new CurlService(
+                $this->getLoggingService()
+            );
+        }
+
+        return $this->curlService;
     }
 }

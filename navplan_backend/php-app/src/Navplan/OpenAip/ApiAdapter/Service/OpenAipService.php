@@ -6,7 +6,7 @@ use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirportResponseConverter;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipAirspaceResponseConverter;
 use Navplan\OpenAip\ApiAdapter\Model\OpenAipNavaidResponseConverter;
 use Navplan\OpenAip\Config\IOpenAipConfig;
-use Navplan\System\Domain\Service\IFileService;
+use Navplan\System\Domain\Service\ICurlService;
 
 
 class OpenAipService implements IOpenAipService
@@ -21,7 +21,7 @@ class OpenAipService implements IOpenAipService
 
     public function __construct(
         private readonly IOpenAipConfig $openAipConfig,
-        private readonly IFileService $fileService
+        private readonly ICurlService $curlService
     )
     {
     }
@@ -30,8 +30,8 @@ class OpenAipService implements IOpenAipService
     public function readAirports(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadAirportResponse
     {
         $url = $this->buildUrl(self::AIRPORTS_URL_SUFFIX, $page, $importFilter);
-        $context = $this->getHttpContext();
-        $rawResponse = $this->fileService->fileGetContents($url, false, $context);
+        $curl = $this->curlService->init($url, $this->getHttpHeaders());
+        $rawResponse = $this->curlService->execOrThrow($curl);
         $jsonResponse = json_decode($rawResponse, true, JSON_NUMERIC_CHECK);
 
         return OpenAipAirportResponseConverter::fromRest($jsonResponse);
@@ -41,8 +41,8 @@ class OpenAipService implements IOpenAipService
     public function readAirspaces(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadAirspacesResponse
     {
         $url = $this->buildUrl(self::AIRSPACES_URL_SUFFIX, $page, $importFilter);
-        $context = $this->getHttpContext();
-        $rawResponse = $this->fileService->fileGetContents($url, false, $context);
+        $curl = $this->curlService->init($url, $this->getHttpHeaders());
+        $rawResponse = $this->curlService->execOrThrow($curl);
         $jsonResponse = json_decode($rawResponse, true, JSON_NUMERIC_CHECK);
 
         return OpenAipAirspaceResponseConverter::fromRest($jsonResponse);
@@ -52,8 +52,8 @@ class OpenAipService implements IOpenAipService
     public function readNavaids(int $page = 1, OpenAipImportFilter $importFilter = null): OpenAipReadNavaidsResponse
     {
         $url = $this->buildUrl(self::NAVAIDS_URL_SUFFIX, $page, $importFilter);
-        $context = $this->getHttpContext();
-        $rawResponse = $this->fileService->fileGetContents($url, false, $context);
+        $curl = $this->curlService->init($url, $this->getHttpHeaders());
+        $rawResponse = $this->curlService->execOrThrow($curl);
         $jsonResponse = json_decode($rawResponse, true, JSON_NUMERIC_CHECK);
 
         return OpenAipNavaidResponseConverter::fromRest($jsonResponse);
@@ -74,17 +74,11 @@ class OpenAipService implements IOpenAipService
     }
 
 
-    private function getHttpContext()
+    private function getHttpHeaders(): array
     {
-        $opts = array(
-            'http' => array(
-                'method' => "GET",
-                'header' => self::OPENAIP_API_KEY_HEADER . ": " . $this->openAipConfig->getOpenAipApiKey() . "\r\n"
-            )
+        return array(
+            self::OPENAIP_API_KEY_HEADER => $this->openAipConfig->getOpenAipApiKey(),
+            'Accept' => 'application/json',
         );
-
-        var_dump($opts);
-
-        return stream_context_create($opts);
     }
 }
