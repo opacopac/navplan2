@@ -31,6 +31,7 @@ import {ChartRegistrationType} from '../../../domain/model/chart-registration-ty
         MatRadioModule
     ],
     templateUrl: './chart-upload-step2.component.html',
+    standalone: true,
     styleUrls: ['./chart-upload-step2.component.scss']
 })
 export class ChartUploadStep2Component implements OnInit, OnChanges {

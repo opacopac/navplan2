@@ -34,6 +34,7 @@ import {Airport} from '../../../../aerodrome/domain/model/airport';
         IconButtonComponent
     ],
     templateUrl: './chart-upload-step1.component.html',
+    standalone: true,
     styleUrls: ['./chart-upload-step1.component.scss']
 })
 export class ChartUploadStep1Component implements OnInit, OnChanges {

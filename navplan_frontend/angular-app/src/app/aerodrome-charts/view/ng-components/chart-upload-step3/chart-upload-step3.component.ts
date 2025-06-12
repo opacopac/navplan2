@@ -35,6 +35,7 @@ import {MatSelectModule} from '@angular/material/select';
         MatSelectModule
     ],
     templateUrl: './chart-upload-step3.component.html',
+    standalone: true,
     styleUrls: ['./chart-upload-step3.component.scss']
 })
 export class ChartUploadStep3Component implements OnInit, OnChanges {

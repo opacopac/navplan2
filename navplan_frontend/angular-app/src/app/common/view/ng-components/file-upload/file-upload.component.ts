@@ -15,6 +15,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
         MatProgressSpinnerModule
     ],
     templateUrl: './file-upload.component.html',
+    standalone: true,
     styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {

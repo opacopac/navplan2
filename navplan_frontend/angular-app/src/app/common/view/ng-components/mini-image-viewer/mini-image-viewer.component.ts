@@ -23,6 +23,7 @@ import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
         MatTooltipModule
     ],
     templateUrl: './mini-image-viewer.component.html',
+    standalone: true,
     styleUrls: ['./mini-image-viewer.component.scss']
 })
 export class MiniImageViewerComponent implements OnInit, OnChanges, AfterViewInit {
