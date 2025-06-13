@@ -1,15 +1,13 @@
-<span [formGroup]="this.formGroup">
-    <mat-radio-group
-        color="primary"
-        formControlName="chartRegistrationType"
-        (change)="this.onChartRegistrationTypeChanged()"
-    >
-        <mat-radio-button [value]="ChartRegistrationType.POS1_POS2">Two reference points
-        </mat-radio-button>
-        <mat-radio-button [value]="ChartRegistrationType.POS1_SCALE">One reference point &amp; chart
-            scale
-        </mat-radio-button>
-        <mat-radio-button [value]="ChartRegistrationType.ARP_SCALE">Aerodrome ARP &amp; chart scale
-        </mat-radio-button>
-    </mat-radio-group>
-</span>
+<div [formGroup]="this.formGroup" class="flex-row-100">
+    <mat-form-field>
+        <mat-label>Chart Registration Type</mat-label>
+        <mat-select
+            formControlName="chartRegistrationType"
+            (selectionChange)="this.onChartRegistrationTypeChanged()"
+        >
+            <mat-option [value]="ChartRegistrationType.POS1_POS2">Two reference points</mat-option>
+            <mat-option [value]="ChartRegistrationType.POS1_SCALE">One reference point &amp; chart scale</mat-option>
+            <mat-option [value]="ChartRegistrationType.ARP_SCALE">Aerodrome ARP &amp; chart scale</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

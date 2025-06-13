@@ -12,8 +12,9 @@ import {
     ReactiveFormsModule,
     Validators
 } from '@angular/forms';
-import {MatRadioModule} from '@angular/material/radio';
 import {ChartRegistrationType} from '../../../domain/model/chart-registration-type';
+import {GeoCoordinateType} from '../../../domain/model/geo-coordinate-type';
+import {MatSelectModule} from '@angular/material/select';
 
 
 @Component({
@@ -27,7 +28,7 @@ import {ChartRegistrationType} from '../../../domain/model/chart-registration-ty
         MatFormFieldModule,
         MatInputModule,
         ReactiveFormsModule,
-        MatRadioModule
+        MatSelectModule
     ],
     templateUrl: './chart-upload-registration-type-selector.component.html',
     styleUrls: ['./chart-upload-registration-type-selector.component.scss']
@@ -36,8 +37,8 @@ export class ChartUploadRegistrationTypeSelectorComponent implements OnInit, OnC
     @Input() chartRegistrationType: ChartRegistrationType;
     @Output() chartRegistrationTypeChanged = new EventEmitter<ChartRegistrationType>();
 
-    protected formGroup: FormGroup;
     protected readonly ChartRegistrationType = ChartRegistrationType;
+    protected formGroup: FormGroup;
 
 
     protected get chartRegistrationTypeControl(): FormControl {
