@@ -19,7 +19,7 @@ mat-step {
     }
 
     .mat-horizontal-stepper-content {
-        height: calc(100% - 36px) !important; /* TBD: doesn't get prio before global style... */
+        height: calc(100% - 36px) !important;
         // background-color: pink;
     }
 }
