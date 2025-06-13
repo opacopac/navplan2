@@ -18,10 +18,14 @@ import {ChartRegistrationType} from '../../../domain/model/chart-registration-ty
 import {MatRadioModule} from '@angular/material/radio';
 import {GeoCoordinateType} from '../../../domain/model/geo-coordinate-type';
 import {MatSelectModule} from '@angular/material/select';
+import {
+    ChartUploadRegistrationTypeSelectorComponent
+} from "../chart-upload-registration-type-selector/chart-upload-registration-type-selector.component";
 
 
 @Component({
     selector: 'app-chart-upload-step3',
+    standalone: true,
     imports: [
         CommonModule,
         MatIconModule,
@@ -32,10 +36,10 @@ import {MatSelectModule} from '@angular/material/select';
         MiniImageViewerComponent,
         ReactiveFormsModule,
         MatRadioModule,
-        MatSelectModule
+        MatSelectModule,
+        ChartUploadRegistrationTypeSelectorComponent
     ],
     templateUrl: './chart-upload-step3.component.html',
-    standalone: true,
     styleUrls: ['./chart-upload-step3.component.scss']
 })
 export class ChartUploadStep3Component implements OnInit, OnChanges {

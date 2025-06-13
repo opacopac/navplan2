@@ -21,6 +21,7 @@ import {Airport} from '../../../../aerodrome/domain/model/airport';
 
 @Component({
     selector: 'app-chart-upload-step1',
+    standalone: true,
     imports: [
         CommonModule,
         MatIconModule,
@@ -34,7 +35,6 @@ import {Airport} from '../../../../aerodrome/domain/model/airport';
         IconButtonComponent
     ],
     templateUrl: './chart-upload-step1.component.html',
-    standalone: true,
     styleUrls: ['./chart-upload-step1.component.scss']
 })
 export class ChartUploadStep1Component implements OnInit, OnChanges {

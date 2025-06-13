@@ -15,10 +15,14 @@ import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
 import {Airport} from '../../../../aerodrome/domain/model/airport';
 import {MatRadioModule} from '@angular/material/radio';
 import {ChartRegistrationType} from '../../../domain/model/chart-registration-type';
+import {
+    ChartUploadRegistrationTypeSelectorComponent
+} from "../chart-upload-registration-type-selector/chart-upload-registration-type-selector.component";
 
 
 @Component({
     selector: 'app-chart-upload-step2',
+    standalone: true,
     imports: [
         CommonModule,
         MatIconModule,
@@ -28,10 +32,10 @@ import {ChartRegistrationType} from '../../../domain/model/chart-registration-ty
         MatInputModule,
         MiniImageViewerComponent,
         ReactiveFormsModule,
-        MatRadioModule
+        MatRadioModule,
+        ChartUploadRegistrationTypeSelectorComponent
     ],
     templateUrl: './chart-upload-step2.component.html',
-    standalone: true,
     styleUrls: ['./chart-upload-step2.component.scss']
 })
 export class ChartUploadStep2Component implements OnInit, OnChanges {

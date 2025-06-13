@@ -32,6 +32,7 @@ import {GeoCoordinateType} from '../../../domain/model/geo-coordinate-type';
 
 @Component({
     selector: 'app-chart-upload-container',
+    standalone: true,
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -42,7 +43,6 @@ import {GeoCoordinateType} from '../../../domain/model/geo-coordinate-type';
         ChartUploadStep3Component,
     ],
     templateUrl: './chart-upload-container.component.html',
-    standalone: true,
     styleUrls: ['./chart-upload-container.component.scss']
 })
 export class ChartUploadContainerComponent implements OnInit {

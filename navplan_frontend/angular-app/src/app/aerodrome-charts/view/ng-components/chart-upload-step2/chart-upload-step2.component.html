@@ -5,17 +5,10 @@
             <p>File: {{ this.uploadedChartInfo.filename }}</p>
 
             <!-- chart registration type -->
-            <mat-radio-group
-                color="primary"
-                formControlName="chartRegistrationType"
-                (change)="this.onChartRegistrationTypeChanged()"
-            >
-                <mat-radio-button [value]="ChartRegistrationType.POS1_POS2">Two reference points</mat-radio-button>
-                <mat-radio-button [value]="ChartRegistrationType.POS1_SCALE">One reference point &amp; chart scale
-                </mat-radio-button>
-                <mat-radio-button [value]="ChartRegistrationType.ARP_SCALE">Aerodrome ARP &amp; chart scale
-                </mat-radio-button>
-            </mat-radio-group>
+            <app-chart-upload-registration-type-selector
+                [chartRegistrationType]="this.chartRegistrationType"
+                (chartRegistrationTypeChanged)="this.onChartRegistrationTypeChanged()"
+            />
 
             <!-- chart reference point 1 -->
             <div class="form-row">

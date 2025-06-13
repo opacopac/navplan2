@@ -36,7 +36,7 @@
                     (reference2Selected)="this.onChartReference2Selected($event)"
                     (scaleChanged)="this.onChartScaleChanged($event)"
                 />
-                <div>
+                <div class="buttons">
                     <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext [disabled]="this.step2FormGroup.invalid">Next</button>
                 </div>
@@ -59,7 +59,7 @@
                     (mapRefPoint1Selected)="this.onMapReference1Selected($event)"
                     (mapRefPoint2Selected)="this.onMapReference2Selected($event)"
                 />
-                <div>
+                <div class="buttons">
                     <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext [disabled]="this.step3FormGroup.invalid" (click)="onSaveClicked()">Save</button>
                 </div>
