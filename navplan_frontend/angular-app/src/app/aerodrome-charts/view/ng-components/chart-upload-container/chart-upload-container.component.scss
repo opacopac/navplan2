@@ -11,16 +11,13 @@ mat-step {
 
 ::ng-deep .mat-horizontal-stepper-wrapper {
     height: 100%;
-    // background-color: purple;
 
     .mat-horizontal-content-container {
         height: 100%;
-        // background-color: aqua;
     }
 
-    .mat-horizontal-stepper-content {
+    .mat-horizontal-stepper-content-current {
         height: calc(100% - 36px) !important;
-        // background-color: pink;
     }
 }
 
