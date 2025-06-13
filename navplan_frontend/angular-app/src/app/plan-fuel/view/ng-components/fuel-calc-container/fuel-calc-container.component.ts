@@ -7,7 +7,7 @@ import {getConsumptionUnit, getVolumeUnit} from '../../../../geo-physics/state/n
 import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
 import {Time} from '../../../../geo-physics/domain/model/quantities/time';
 import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
-import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
+import {isUserLoggedIn} from '../../../../user/state/ngrx/user.selectors';
 import {FlightrouteCrudActions} from '../../../../flightroute/state/ngrx/flightroute-crud.actions';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {SaveButtonComponent} from '../../../../common/view/ng-components/save-button/save-button.component';
@@ -38,8 +38,7 @@ import {
 export class FuelCalcContainerComponent implements OnInit {
     protected fuelForm: FormGroup;
 
-    protected readonly currentUser$ = this.appStore.pipe(select(getCurrentUser));
-    protected readonly isUserLoggedIn$ = this.currentUser$.pipe(map(user => user != null));
+    protected readonly isUserLoggedIn$ = this.appStore.pipe(select(isUserLoggedIn));
     protected readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
     protected readonly routeFuel$ = this.flightroute$.pipe(map(flightroute => flightroute.fuel));
     protected readonly aircraftConsumption$ = this.flightroute$.pipe(map(flightroute => flightroute.aircraftParams.consumption));
