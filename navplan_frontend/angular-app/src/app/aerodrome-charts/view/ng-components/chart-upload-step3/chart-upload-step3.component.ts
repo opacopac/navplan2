@@ -12,15 +12,18 @@ import {
 import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
-import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {Airport} from '../../../../aerodrome/domain/model/airport';
 import {ChartRegistrationType} from '../../../domain/model/chart-registration-type';
 import {MatRadioModule} from '@angular/material/radio';
 import {GeoCoordinateType} from '../../../domain/model/geo-coordinate-type';
 import {MatSelectModule} from '@angular/material/select';
 import {
+    ChartUploadCoordinateSelector
+} from '../chart-upload-coordinate-selector/chart-upload-coordinate-selector.component';
+import {GeoCoordinate} from '../../../../geo-physics/domain/model/geometry/geo-coordinate';
+import {
     ChartUploadRegistrationTypeSelectorComponent
-} from "../chart-upload-registration-type-selector/chart-upload-registration-type-selector.component";
+} from '../chart-upload-registration-type-selector/chart-upload-registration-type-selector.component';
 
 
 @Component({
@@ -37,6 +40,7 @@ import {
         ReactiveFormsModule,
         MatRadioModule,
         MatSelectModule,
+        ChartUploadCoordinateSelector,
         ChartUploadRegistrationTypeSelectorComponent
     ],
     templateUrl: './chart-upload-step3.component.html',
@@ -49,12 +53,12 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
     @Input() chartRefPoint1: XyCoord;
     @Input() chartRefPoint2: XyCoord;
     @Input() geoCoordinateType: GeoCoordinateType;
-    @Input() mapRefPoint1: Position2d;
-    @Input() mapRefPoint2: Position2d;
+    @Input() mapRefPoint1: GeoCoordinate;
+    @Input() mapRefPoint2: GeoCoordinate;
     @Output() chartRegistrationTypeChanged = new EventEmitter<ChartRegistrationType>();
     @Output() geoCoordinateTypeChanged = new EventEmitter<GeoCoordinateType>();
-    @Output() mapRefPoint1Selected = new EventEmitter<Position2d>();
-    @Output() mapRefPoint2Selected = new EventEmitter<Position2d>();
+    @Output() mapRefPoint1Selected = new EventEmitter<GeoCoordinate>();
+    @Output() mapRefPoint2Selected = new EventEmitter<GeoCoordinate>();
 
     protected formGroup: FormGroup;
     protected readonly ButtonColor = ButtonColor;
@@ -69,26 +73,6 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
 
     protected get geoCoordinateTypeControl(): FormControl {
         return this.formGroup.get('geoCoordinateType') as FormControl;
-    }
-
-
-    protected get refLat1Control(): FormControl {
-        return this.formGroup.get('refLat1') as FormControl;
-    }
-
-
-    protected get refLon1Control(): FormControl {
-        return this.formGroup.get('refLon1') as FormControl;
-    }
-
-
-    protected get refLat2Control(): FormControl {
-        return this.formGroup.get('refLat2') as FormControl;
-    }
-
-
-    protected get refLon2Control(): FormControl {
-        return this.formGroup.get('refLon2') as FormControl;
     }
 
 
@@ -146,29 +130,30 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
     }
 
 
-    protected onRefPoint1Changed() {
-        const lat = this.refLat1Control?.value;
-        const lon = this.refLon1Control?.value;
+    protected onRefPoint1Changed(coord: GeoCoordinate) {
+        this.mapRefPoint1Selected.emit(coord);
+    }
 
-        if (lat && lon) {
-            const coord = new Position2d(lon, lat);
-            this.mapRefPoint1Selected.emit(coord);
-        } else {
-            this.mapRefPoint1Selected.emit(null);
+
+    protected onRefPoint2Changed(coord: GeoCoordinate) {
+        this.mapRefPoint2Selected.emit(coord);
+    }
+
+
+    protected isCoord2Required(): boolean {
+        switch (this.chartRegistrationType) {
+            case ChartRegistrationType.POS1_POS2:
+                return true;
+            case ChartRegistrationType.POS1_SCALE:
+            case ChartRegistrationType.ARP_SCALE:
+            default:
+                return false;
         }
     }
 
 
-    protected onRefPoint2Changed() {
-        const lat = this.refLat2Control?.value;
-        const lon = this.refLon2Control?.value;
-
-        if (lat && lon) {
-            const coord = new Position2d(lon, lat);
-            this.mapRefPoint2Selected.emit(coord);
-        } else {
-            this.mapRefPoint2Selected.emit(null);
-        }
+    protected isCoord1Disabled(): boolean {
+        return this.chartRegistrationType === ChartRegistrationType.ARP_SCALE;
     }
 
 
@@ -184,22 +169,6 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
         this.formGroup.addControl('geoCoordinateType', new FormControl(
             this.geoCoordinateType,
             this.getGeoCoordinateTypeValidators()
-        ));
-        this.formGroup.addControl('refLat1', new FormControl(
-            this.mapRefPoint1 ? this.mapRefPoint1.latitude : '',
-            this.getRef1Validators()
-        ));
-        this.formGroup.addControl('refLon1', new FormControl(
-            this.mapRefPoint1 ? this.mapRefPoint1.longitude : '',
-            this.getRef1Validators()
-        ));
-        this.formGroup.addControl('refLat2', new FormControl(
-            this.mapRefPoint2 ? this.mapRefPoint2.latitude : '',
-            this.getRef2Validators()
-        ));
-        this.formGroup.addControl('refLon2', new FormControl(
-            this.mapRefPoint2 ? this.mapRefPoint2.longitude : '',
-            this.getRef2Validators()
         ));
     }
 
@@ -217,40 +186,18 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
             this.geoCoordinateTypeControl?.setValue(this.geoCoordinateType);
         }
 
-        if (this.mapRefPoint1) {
-            this.refLat1Control?.setValue(this.mapRefPoint1.latitude);
-            this.refLon1Control?.setValue(this.mapRefPoint1.longitude);
-        }
-
-        if (this.mapRefPoint2) {
-            this.refLat2Control?.setValue(this.mapRefPoint2.latitude);
-            this.refLon2Control?.setValue(this.mapRefPoint2.longitude);
-        }
-
         if (this.chartRegistrationType === ChartRegistrationType.ARP_SCALE) {
             this.geoCoordinateTypeControl?.disable();
-            this.refLat1Control?.disable();
-            this.refLon1Control?.disable();
         } else {
             this.geoCoordinateTypeControl?.enable();
-            this.refLat1Control?.enable();
-            this.refLon1Control?.enable();
         }
 
         // validators
         this.chartRegistrationTypeControl?.setValidators(this.getChartRegistrationTypeValidators());
         this.geoCoordinateTypeControl?.setValidators(this.getGeoCoordinateTypeValidators());
-        this.refLat1Control?.setValidators(this.getRef1Validators());
-        this.refLon1Control?.setValidators(this.getRef1Validators());
-        this.refLat2Control?.setValidators(this.getRef2Validators());
-        this.refLon2Control?.setValidators(this.getRef2Validators());
 
         this.chartRegistrationTypeControl?.updateValueAndValidity();
         this.chartRegistrationTypeControl?.updateValueAndValidity();
-        this.refLat1Control?.updateValueAndValidity();
-        this.refLon1Control?.updateValueAndValidity();
-        this.refLat2Control?.updateValueAndValidity();
-        this.refLon2Control?.updateValueAndValidity();
     }
 
 

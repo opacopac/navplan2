@@ -28,61 +28,33 @@
                 Reference Point 1:
                 <i class="fa-solid fa-crosshairs refPoint1Icon"></i>
 
-                <mat-form-field class="coordInput">
-                    <mat-label>Latitude</mat-label>
-                    <input
-                        matInput
-                        formControlName="refLat1"
-                        required
-                        (change)="this.onRefPoint1Changed()"
-                    >
-                    <span matTextSuffix>°N</span>
-                </mat-form-field>
-
-                <mat-form-field class="coordInput">
-                    <mat-label>Longitude</mat-label>
-                    <input
-                        matInput
-                        formControlName="refLon1"
-                        required
-                        (change)="this.onRefPoint1Changed()"
-                    >
-                    <span matTextSuffix>°E</span>
-                </mat-form-field>
+                <app-chart-upload-coordinate-selector
+                    [geoCoordinateType]="this.geoCoordinateType"
+                    [isRequired]="true"
+                    [isDisabled]="this.isCoord1Disabled()"
+                    [coordinate]="this.mapRefPoint1"
+                    (coordinateChanged)="this.onRefPoint1Changed($event)"
+                />
 
                 <i [hidden]="this.mapRefPoint1">(pick on map)</i>
                 <span [hidden]="!this.mapRefPoint1">
                         <i class="fa-solid fa-check-circle checkIcon"></i>
-                    </span>
+                </span>
             </div>
 
             <!-- map reference point 2 -->
-            @if (this.chartRegistrationType === ChartRegistrationType.POS1_POS2) {
+            @if (this.isCoord2Required()) {
                 <div class="form-row">
                     Reference Point 2:
                     <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
 
-                    <mat-form-field class="coordInput">
-                        <mat-label>Latitude</mat-label>
-                        <input
-                            matInput
-                            formControlName="refLat2"
-                            required
-                            (change)="this.onRefPoint2Changed()"
-                        >
-                        <span matTextSuffix>°N</span>
-                    </mat-form-field>
-
-                    <mat-form-field class="coordInput">
-                        <mat-label>Longitude</mat-label>
-                        <input
-                            matInput
-                            formControlName="refLon2"
-                            required
-                            (change)="this.onRefPoint2Changed()"
-                        >
-                        <span matTextSuffix>°E</span>
-                    </mat-form-field>
+                    <app-chart-upload-coordinate-selector
+                        [geoCoordinateType]="this.geoCoordinateType"
+                        [isRequired]="this.isCoord2Required()"
+                        [isDisabled]="false"
+                        [coordinate]="this.mapRefPoint2"
+                        (coordinateChanged)="this.onRefPoint2Changed($event)"
+                    />
 
                     <i [hidden]="this.mapRefPoint2 || !this.mapRefPoint1">(pick on map)</i>
                     <span [hidden]="!this.mapRefPoint2">

@@ -1,0 +1,23 @@
+<div [formGroup]="this.formGroup" class="coordContainer">
+    <mat-form-field class="coordInput">
+        <mat-label>{{ this.getCoord1Name() }}</mat-label>
+        <input
+            matInput
+            formControlName="coord1"
+            [required]="this.isRequired"
+            (change)="this.onCoordChanged()"
+        >
+        <span matTextSuffix class="no-wrap">{{ this.getCoord1Suffix() }}</span>
+    </mat-form-field>
+
+    <mat-form-field class="coordInput">
+        <mat-label>{{ this.getCoord2Name() }}</mat-label>
+        <input
+            matInput
+            formControlName="coord2"
+            [required]="this.isRequired"
+            (change)="this.onCoordChanged()"
+        >
+        <span matTextSuffix class="no-wrap">{{ this.getCoord2Suffix() }}</span>
+    </mat-form-field>
+</div>
