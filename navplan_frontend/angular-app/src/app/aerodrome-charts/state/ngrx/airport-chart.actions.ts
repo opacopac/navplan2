@@ -6,6 +6,7 @@ import {XyCoord} from '../../../geo-physics/domain/model/geometry/xyCoord';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {ChartRegistrationType} from '../../domain/model/chart-registration-type';
 import {GeoCoordinateType} from '../../domain/model/geo-coordinate-type';
+import {GeoCoordinate} from "../../../geo-physics/domain/model/geometry/geo-coordinate";
 
 
 export class AirportChartActions {
@@ -80,12 +81,12 @@ export class AirportChartActions {
 
     public static readonly mapReference1Changed = createAction(
         '[Chart Upload Dialog] Map reference 1 changed',
-        props<{ mapReference1: Position2d }>()
+        props<{ mapReference1: GeoCoordinate }>()
     );
 
     public static readonly mapReference2Changed = createAction(
         '[Chart Upload Dialog] Map reference 2 changed',
-        props<{ mapReference2: Position2d }>()
+        props<{ mapReference2: GeoCoordinate }>()
     );
 
     public static readonly cancelUploadAirportChart = createAction(

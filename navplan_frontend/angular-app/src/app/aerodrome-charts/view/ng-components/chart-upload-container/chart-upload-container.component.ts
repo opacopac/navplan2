@@ -25,9 +25,9 @@ import {ChartUploadParameters} from '../../../domain/model/chart-upload-paramete
 import {ChartUploadStep2Component} from '../chart-upload-step2/chart-upload-step2.component';
 import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
 import {ChartUploadStep3Component} from '../chart-upload-step3/chart-upload-step3.component';
-import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {ChartRegistrationType} from '../../../domain/model/chart-registration-type';
 import {GeoCoordinateType} from '../../../domain/model/geo-coordinate-type';
+import {GeoCoordinate} from '../../../../geo-physics/domain/model/geometry/geo-coordinate';
 
 
 @Component({
@@ -128,14 +128,14 @@ export class ChartUploadContainerComponent implements OnInit {
     }
 
 
-    protected onMapReference1Selected(pos: Position2d) {
+    protected onMapReference1Selected(pos: GeoCoordinate) {
         this.appStore.dispatch(
             AirportChartActions.mapReference1Changed({mapReference1: pos})
         );
     }
 
 
-    protected onMapReference2Selected(pos: Position2d) {
+    protected onMapReference2Selected(pos: GeoCoordinate) {
         this.appStore.dispatch(
             AirportChartActions.mapReference2Changed({mapReference2: pos})
         );
