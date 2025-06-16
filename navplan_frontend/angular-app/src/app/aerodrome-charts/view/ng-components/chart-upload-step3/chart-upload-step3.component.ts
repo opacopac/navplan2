@@ -91,11 +91,12 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
     }
 
 
-    protected getOverlayIcons(): { icon: string, xyCoord: XyCoord, color: string }[] {
+    protected getOverlayIcons(): { id: number, icon: string, xyCoord: XyCoord, color: string }[] {
         const overlayIcons = [];
 
         if (this.chartRefPoint1) {
             overlayIcons.push({
+                id: 1,
                 icon: 'fa-solid fa-crosshairs',
                 xyCoord: this.chartRefPoint1,
                 color: 'dodgerblue'
@@ -104,6 +105,7 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
 
         if (this.chartRefPoint2) {
             overlayIcons.push({
+                id: 2,
                 icon: 'fa-solid fa-crosshairs',
                 xyCoord: this.chartRefPoint2,
                 color: 'orange'

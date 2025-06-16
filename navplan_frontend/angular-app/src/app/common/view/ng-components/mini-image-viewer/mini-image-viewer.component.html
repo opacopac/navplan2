@@ -13,7 +13,7 @@
             (load)="this.onImageLoad($event)"
             (click)="this.onImageClicked($event)"
         />
-        @for (icon of this.overlayIcons; track icon) {
+        @for (icon of this.overlayIcons; track icon.id) {
             <i
                 class="overlay-icon {{ icon.icon }}"
                 [style.color]="icon.color"

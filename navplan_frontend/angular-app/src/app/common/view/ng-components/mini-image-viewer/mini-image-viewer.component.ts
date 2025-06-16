@@ -30,7 +30,7 @@ export class MiniImageViewerComponent implements OnInit, OnChanges, AfterViewIni
     @Input() public imageSrc;
     @Input() public isClickable = false;
     @Input() public fitImage = false;
-    @Input() public overlayIcons: { xyCoord: XyCoord, icon: string, color: string }[] = [];
+    @Input() public overlayIcons: { id: number, xyCoord: XyCoord, icon: string, color: string }[] = [];
     @Output() public imageClicked = new EventEmitter<XyCoord>();
     @ViewChild('imgContainer') imgContainer: ElementRef;
 
