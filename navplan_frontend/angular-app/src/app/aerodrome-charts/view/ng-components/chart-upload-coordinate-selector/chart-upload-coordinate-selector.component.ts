@@ -5,11 +5,20 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+    ValidatorFn,
+    Validators
+} from '@angular/forms';
 import {GeoCoordinateType} from '../../../domain/model/geo-coordinate-type';
 import {MatSelectModule} from '@angular/material/select';
 import {GeoCoordinate} from '../../../../geo-physics/domain/model/geometry/geo-coordinate';
-import {GenericGeoCoordinate} from '../../../../geo-physics/domain/model/geometry/generic-geo-coordinate';
+import {
+    GenericGeoCoordinate
+} from '../../../../geo-physics/domain/model/geometry/generic-geo-coordinate';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 
 
@@ -30,31 +39,36 @@ import {Position2d} from '../../../../geo-physics/domain/model/geometry/position
     styleUrls: ['./chart-upload-coordinate-selector.component.scss']
 })
 export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
+    private static readonly FORM_CONTROL_NAME_COORD1 = 'coord1';
+    private static readonly FORM_CONTROL_NAME_COORD2 = 'coord2';
+
     @Input() isRequired: boolean;
     @Input() isDisabled: boolean;
     @Input() geoCoordinateType: GeoCoordinateType;
     @Input() coordinate: GeoCoordinate;
     @Output() coordinateChanged = new EventEmitter<GeoCoordinate>();
 
-    protected formGroup: FormGroup;
+    public formGroup: FormGroup;
 
 
     protected get coord1Control(): FormControl {
-        return this.formGroup.get('coord1') as FormControl;
+        return this.formGroup.get(ChartUploadCoordinateSelector.FORM_CONTROL_NAME_COORD1) as FormControl;
     }
 
 
     protected get coord2Control(): FormControl {
-        return this.formGroup.get('coord2') as FormControl;
+        return this.formGroup.get(ChartUploadCoordinateSelector.FORM_CONTROL_NAME_COORD2) as FormControl;
     }
 
 
-    constructor(private parentForm: FormGroupDirective) {
+    constructor(
+        private formBuilder: FormBuilder
+    ) {
     }
 
 
     ngOnInit() {
-        this.formGroup = this.parentForm.control;
+        this.formGroup = this.formBuilder.group({});
         this.initForm();
     }
 
@@ -148,12 +162,12 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
             return;
         }
 
-        this.formGroup.addControl('coord1', new FormControl(
+        this.formGroup.addControl(ChartUploadCoordinateSelector.FORM_CONTROL_NAME_COORD1, new FormControl(
             this.getCoord1Value(),
             this.getValidators()
         ));
 
-        this.formGroup.addControl('coord2', new FormControl(
+        this.formGroup.addControl(ChartUploadCoordinateSelector.FORM_CONTROL_NAME_COORD2, new FormControl(
             this.getCoord2Value(),
             this.getValidators()
         ));
