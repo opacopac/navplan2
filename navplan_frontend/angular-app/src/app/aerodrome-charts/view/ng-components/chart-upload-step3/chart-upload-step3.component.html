@@ -29,6 +29,7 @@
                 <i class="fa-solid fa-crosshairs refPoint1Icon"></i>
 
                 <app-chart-upload-coordinate-selector
+                    controlName="mapRefPoint1"
                     [geoCoordinateType]="this.geoCoordinateType"
                     [isRequired]="true"
                     [isDisabled]="this.isCoord1Disabled()"
@@ -49,6 +50,7 @@
                     <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
 
                     <app-chart-upload-coordinate-selector
+                        controlName="mapRefPoint2"
                         [geoCoordinateType]="this.geoCoordinateType"
                         [isRequired]="this.isCoord2Required()"
                         [isDisabled]="false"

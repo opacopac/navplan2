@@ -6,9 +6,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {
-    FormBuilder,
     FormControl,
     FormGroup,
+    FormGroupDirective,
     ReactiveFormsModule,
     ValidatorFn,
     Validators
@@ -42,6 +42,7 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
     private static readonly FORM_CONTROL_NAME_COORD1 = 'coord1';
     private static readonly FORM_CONTROL_NAME_COORD2 = 'coord2';
 
+    @Input() controlName: string;
     @Input() isRequired: boolean;
     @Input() isDisabled: boolean;
     @Input() geoCoordinateType: GeoCoordinateType;
@@ -51,24 +52,34 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
     public formGroup: FormGroup;
 
 
+    protected get coord1ControlName(): string {
+        return this.controlName + '_' + ChartUploadCoordinateSelector.FORM_CONTROL_NAME_COORD1;
+    }
+
+
+    protected get coord2ControlName(): string {
+        return this.controlName + '_' + ChartUploadCoordinateSelector.FORM_CONTROL_NAME_COORD2;
+    }
+
+
     protected get coord1Control(): FormControl {
-        return this.formGroup.get(ChartUploadCoordinateSelector.FORM_CONTROL_NAME_COORD1) as FormControl;
+        return this.formGroup.get(this.coord1ControlName) as FormControl;
     }
 
 
     protected get coord2Control(): FormControl {
-        return this.formGroup.get(ChartUploadCoordinateSelector.FORM_CONTROL_NAME_COORD2) as FormControl;
+        return this.formGroup.get(this.coord2ControlName) as FormControl;
     }
 
 
     constructor(
-        private formBuilder: FormBuilder
+        private parentForm: FormGroupDirective
     ) {
     }
 
 
     ngOnInit() {
-        this.formGroup = this.formBuilder.group({});
+        this.formGroup = this.parentForm.control;
         this.initForm();
     }
 
@@ -162,12 +173,12 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
             return;
         }
 
-        this.formGroup.addControl(ChartUploadCoordinateSelector.FORM_CONTROL_NAME_COORD1, new FormControl(
+        this.formGroup.addControl(this.coord1ControlName, new FormControl(
             this.getCoord1Value(),
             this.getValidators()
         ));
 
-        this.formGroup.addControl(ChartUploadCoordinateSelector.FORM_CONTROL_NAME_COORD2, new FormControl(
+        this.formGroup.addControl(this.coord2ControlName, new FormControl(
             this.getCoord2Value(),
             this.getValidators()
         ));

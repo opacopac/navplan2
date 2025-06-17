@@ -3,7 +3,7 @@
         <mat-label>{{ this.getCoord1Name() }}</mat-label>
         <input
             matInput
-            formControlName="coord1"
+            [formControlName]="this.coord1ControlName"
             [required]="this.isRequired"
             (change)="this.onCoordChanged()"
         >
@@ -14,7 +14,7 @@
         <mat-label>{{ this.getCoord2Name() }}</mat-label>
         <input
             matInput
-            formControlName="coord2"
+            [formControlName]="this.coord2ControlName"
             [required]="this.isRequired"
             (change)="this.onCoordChanged()"
         >
