@@ -190,11 +190,11 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
             return;
         }
 
-        if (this.coordinate) {
-            this.coord1Control?.setValue(this.getCoord1Value());
-            this.coord2Control?.setValue(this.getCoord2Value());
-        }
+        // values
+        this.coord1Control?.setValue(this.getCoord1Value());
+        this.coord2Control?.setValue(this.getCoord2Value());
 
+        // disabled state
         if (this.isDisabled) {
             this.coord1Control?.disable();
             this.coord2Control?.disable();
@@ -202,6 +202,14 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
             this.coord1Control?.enable();
             this.coord2Control?.enable();
         }
+
+        // validators
+        this.coord1Control?.setValidators(this.getValidators());
+        this.coord2Control?.setValidators(this.getValidators());
+
+        this.coord1Control?.updateValueAndValidity();
+        this.coord2Control?.updateValueAndValidity();
+
     }
 
 

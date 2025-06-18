@@ -17,9 +17,12 @@
                     formControlName="geoCoordinateType"
                     (selectionChange)="this.onGeoCoordinateTypeChanged()"
                 >
-                    <mat-option [value]="GeoCoordinateType.LON_LAT">WGS84 (Latitude / Longitude)</mat-option>
-                    <mat-option [value]="GeoCoordinateType.LV03">Swiss Coordinates LV03 (CH1903)</mat-option>
-                    <mat-option [value]="GeoCoordinateType.LV95">Swiss Coordinates LV95 (CH1903+)</mat-option>
+                    <mat-option [value]="GeoCoordinateType.LON_LAT">WGS84 (Latitude / Longitude)
+                    </mat-option>
+                    <mat-option [value]="GeoCoordinateType.LV03">Swiss Coordinates LV03 (CH1903)
+                    </mat-option>
+                    <mat-option [value]="GeoCoordinateType.LV95">Swiss Coordinates LV95 (CH1903+)
+                    </mat-option>
                 </mat-select>
             </mat-form-field>
 
@@ -44,26 +47,24 @@
             </div>
 
             <!-- map reference point 2 -->
-            @if (this.isCoord2Required()) {
-                <div class="form-row">
-                    Reference Point 2:
-                    <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
+            <div class="form-row {{ this.isCoord2Required() ? '' : 'is-hidden' }}">
+                Reference Point 2:
+                <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
 
-                    <app-chart-upload-coordinate-selector
-                        controlName="mapRefPoint2"
-                        [geoCoordinateType]="this.geoCoordinateType"
-                        [isRequired]="this.isCoord2Required()"
-                        [isDisabled]="false"
-                        [coordinate]="this.mapRefPoint2"
-                        (coordinateChanged)="this.onRefPoint2Changed($event)"
-                    />
+                <app-chart-upload-coordinate-selector
+                    controlName="mapRefPoint2"
+                    [geoCoordinateType]="this.geoCoordinateType"
+                    [isRequired]="this.isCoord2Required()"
+                    [isDisabled]="false"
+                    [coordinate]="this.mapRefPoint2"
+                    (coordinateChanged)="this.onRefPoint2Changed($event)"
+                />
 
-                    <i [hidden]="this.mapRefPoint2 || !this.mapRefPoint1">(pick on map)</i>
-                    <span [hidden]="!this.mapRefPoint2">
+                <i [hidden]="this.mapRefPoint2 || !this.mapRefPoint1">(pick on map)</i>
+                <span [hidden]="!this.mapRefPoint2">
                         <i class="fa-solid fa-check-circle checkIcon"></i>
                     </span>
-                </div>
-            }
+            </div>
 
         </div>
 
