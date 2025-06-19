@@ -62,6 +62,7 @@ export const flightMapReducer = createReducer(
     })),
     on(FlightMapActions.showUploadChartSidebar, (state, action) => ({
         ...state,
+        showMapOverlay: initialState.showMapOverlay,
         sidebarState: {
             ...state.sidebarState,
             mode: SidebarMode.UPLOAD_AD_CHART,
