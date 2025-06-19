@@ -3,8 +3,16 @@ import {Swisstopo} from './wgs84_ch1903';
 import {GeoCoordinate} from '../../model/geometry/geo-coordinate';
 
 export class SwissTopoService {
-    private static LV95_OFFSET_E = 2000000;
-    private static LV95_OFFSET_N = 1000000;
+    public static readonly LV95_OFFSET_E = 2000000;
+    public static readonly LV95_OFFSET_N = 1000000;
+    public static readonly LV03_MIN_E = 460000;
+    public static readonly LV03_MAX_E = 868000;
+    public static readonly LV03_MIN_N = 42000;
+    public static readonly LV03_MAX_N = 322000;
+    public static readonly LV95_MIN_E = SwissTopoService.LV03_MIN_E + SwissTopoService.LV95_OFFSET_E;
+    public static readonly LV95_MAX_E = SwissTopoService.LV03_MAX_E + SwissTopoService.LV95_OFFSET_E;
+    public static readonly LV95_MIN_N = SwissTopoService.LV03_MIN_N + SwissTopoService.LV95_OFFSET_N;
+    public static readonly LV95_MAX_N = SwissTopoService.LV03_MAX_N + SwissTopoService.LV95_OFFSET_N;
 
 
     public static wgs84ToLv03(pos: GeoCoordinate): GeoCoordinate {

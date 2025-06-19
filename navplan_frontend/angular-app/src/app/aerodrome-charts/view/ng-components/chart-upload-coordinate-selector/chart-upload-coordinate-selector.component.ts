@@ -16,6 +16,9 @@ import {
 import {GeoCoordinateType} from '../../../domain/model/geo-coordinate-type';
 import {MatSelectModule} from '@angular/material/select';
 import {GeoCoordinate} from '../../../../geo-physics/domain/model/geometry/geo-coordinate';
+import {
+    SwissTopoService
+} from '../../../../geo-physics/domain/service/swisstopo/swiss-topo-service';
 
 
 @Component({
@@ -35,10 +38,16 @@ import {GeoCoordinate} from '../../../../geo-physics/domain/model/geometry/geo-c
     styleUrls: ['./chart-upload-coordinate-selector.component.scss']
 })
 export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
-    private static readonly FORM_CONTROL_NAME_COORD1 = 'coord1';
-    private static readonly FORM_CONTROL_NAME_COORD2 = 'coord2';
-    private static readonly WGS84_PRECISION = 6;
-    private static readonly LV03_LV95_PRECISION = 0;
+    protected static readonly FORM_CONTROL_NAME_COORD1 = 'coord1';
+    protected static readonly FORM_CONTROL_NAME_COORD2 = 'coord2';
+    protected static readonly WGS84_PRECISION = 6;
+    protected static readonly LV03_LV95_PRECISION = 0;
+    protected static readonly WGS84_MIN_LEN = 1;
+    protected static readonly WGS84_MAX_LEN = 11;
+    protected static readonly LV03_MIN_LEN_E = 6;
+    protected static readonly LV03_MIN_LEN_N = 5;
+    protected static readonly LV03_MAX_LEN_E_N = 6;
+    protected static readonly LV95_MIN_MAX_LEN = 7;
 
     @Input() controlName: string;
     @Input() isRequired: boolean;
@@ -137,6 +146,102 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
     }
 
 
+    protected getCoord1MinValue(): number {
+        switch (this.geoCoordinateType) {
+            case GeoCoordinateType.LON_LAT:
+                return -90;
+            case GeoCoordinateType.LV03:
+                return SwissTopoService.LV03_MIN_E;
+            case GeoCoordinateType.LV95:
+                return SwissTopoService.LV95_MIN_E;
+        }
+    }
+
+
+    protected getCoord1MaxValue(): number {
+        switch (this.geoCoordinateType) {
+            case GeoCoordinateType.LON_LAT:
+                return 90;
+            case GeoCoordinateType.LV03:
+                return SwissTopoService.LV03_MAX_E;
+            case GeoCoordinateType.LV95:
+                return SwissTopoService.LV95_MAX_E;
+        }
+    }
+
+
+    protected getCoord2MinValue(): number {
+        switch (this.geoCoordinateType) {
+            case GeoCoordinateType.LON_LAT:
+                return -180;
+            case GeoCoordinateType.LV03:
+                return SwissTopoService.LV03_MIN_N;
+            case GeoCoordinateType.LV95:
+                return SwissTopoService.LV95_MIN_N;
+        }
+    }
+
+
+    protected getCoord2MaxValue(): number {
+        switch (this.geoCoordinateType) {
+            case GeoCoordinateType.LON_LAT:
+                return 180;
+            case GeoCoordinateType.LV03:
+                return SwissTopoService.LV03_MAX_N;
+            case GeoCoordinateType.LV95:
+                return SwissTopoService.LV95_MAX_N;
+        }
+    }
+
+
+    protected getCoord1MinLength(): number {
+        switch (this.geoCoordinateType) {
+            case GeoCoordinateType.LON_LAT:
+                return ChartUploadCoordinateSelector.WGS84_MIN_LEN;
+            case GeoCoordinateType.LV03:
+                return ChartUploadCoordinateSelector.LV03_MIN_LEN_E;
+            case GeoCoordinateType.LV95:
+                return ChartUploadCoordinateSelector.LV95_MIN_MAX_LEN;
+        }
+    }
+
+
+    protected getCoord1MaxLength(): number {
+        switch (this.geoCoordinateType) {
+            case GeoCoordinateType.LON_LAT:
+                return ChartUploadCoordinateSelector.WGS84_MAX_LEN;
+            case GeoCoordinateType.LV03:
+                return ChartUploadCoordinateSelector.LV03_MAX_LEN_E_N;
+            case GeoCoordinateType.LV95:
+                return ChartUploadCoordinateSelector.LV95_MIN_MAX_LEN;
+        }
+    }
+
+
+    protected getCoord2MinLength(): number {
+        switch (this.geoCoordinateType) {
+            case GeoCoordinateType.LON_LAT:
+                return ChartUploadCoordinateSelector.WGS84_MIN_LEN;
+            case GeoCoordinateType.LV03:
+                return ChartUploadCoordinateSelector.LV03_MIN_LEN_N;
+            case GeoCoordinateType.LV95:
+                return ChartUploadCoordinateSelector.LV95_MIN_MAX_LEN;
+        }
+    }
+
+
+    protected getCoord2MaxLength(): number {
+        switch (this.geoCoordinateType) {
+            case GeoCoordinateType.LON_LAT:
+                return ChartUploadCoordinateSelector.WGS84_MAX_LEN;
+            case GeoCoordinateType.LV03:
+                return ChartUploadCoordinateSelector.LV03_MAX_LEN_E_N;
+            case GeoCoordinateType.LV95:
+                return ChartUploadCoordinateSelector.LV95_MIN_MAX_LEN;
+        }
+    }
+
+
     protected onCoordChanged() {
         if (!this.formGroup) {
             return;
@@ -173,12 +278,12 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
 
         this.formGroup.addControl(this.coord1ControlName, new FormControl(
             this.getCoord1Value(),
-            this.getValidators()
+            this.getCoord1Validators()
         ));
 
         this.formGroup.addControl(this.coord2ControlName, new FormControl(
             this.getCoord2Value(),
-            this.getValidators()
+            this.getCoord2Validators()
         ));
     }
 
@@ -202,8 +307,8 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
         }
 
         // validators
-        this.coord1Control?.setValidators(this.getValidators());
-        this.coord2Control?.setValidators(this.getValidators());
+        this.coord1Control?.setValidators(this.getCoord1Validators());
+        this.coord2Control?.setValidators(this.getCoord2Validators());
 
         this.coord1Control?.updateValueAndValidity();
         this.coord2Control?.updateValueAndValidity();
@@ -211,11 +316,52 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
     }
 
 
-    private getValidators(): ValidatorFn[] {
+    private getCoord1Validators(): ValidatorFn[] {
         const validators: ValidatorFn[] = [];
 
         if (this.isRequired) {
             validators.push(Validators.required);
+        }
+
+        validators.push(Validators.min(this.getCoord1MinValue()));
+        validators.push(Validators.max(this.getCoord1MaxValue()));
+        validators.push(Validators.minLength(this.getCoord1MinLength()));
+        validators.push(Validators.maxLength(this.getCoord1MaxLength()));
+
+        switch (this.geoCoordinateType) {
+            case GeoCoordinateType.LON_LAT:
+                validators.push(Validators.pattern(/^-?(\d){1,2}(\.\d+)?$/));
+                break;
+            case GeoCoordinateType.LV03:
+            case GeoCoordinateType.LV95:
+                validators.push(Validators.pattern(/^\d+$/));
+                break;
+        }
+
+        return validators;
+    }
+
+
+    private getCoord2Validators(): ValidatorFn[] {
+        const validators: ValidatorFn[] = [];
+
+        if (this.isRequired) {
+            validators.push(Validators.required);
+        }
+
+        validators.push(Validators.min(this.getCoord2MinValue()));
+        validators.push(Validators.max(this.getCoord2MaxValue()));
+        validators.push(Validators.minLength(this.getCoord2MinLength()));
+        validators.push(Validators.maxLength(this.getCoord2MaxLength()));
+
+        switch (this.geoCoordinateType) {
+            case GeoCoordinateType.LON_LAT:
+                validators.push(Validators.pattern(/^-?(\d){1,3}(\.\d+)?$/));
+                break;
+            case GeoCoordinateType.LV03:
+            case GeoCoordinateType.LV95:
+                validators.push(Validators.pattern(/^\d+$/));
+                break;
         }
 
         return validators;

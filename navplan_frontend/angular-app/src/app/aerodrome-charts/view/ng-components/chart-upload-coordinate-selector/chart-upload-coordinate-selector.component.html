@@ -5,9 +5,14 @@
             matInput
             [formControlName]="this.coord1ControlName"
             [required]="this.isRequired"
+            [minlength]="this.getCoord1MinLength()"
+            [maxlength]="this.getCoord1MaxLength()"
+            [min]="this.getCoord1MinValue()"
+            [max]="this.getCoord1MaxValue()"
             (change)="this.onCoordChanged()"
         >
         <span matTextSuffix class="no-wrap">{{ this.getCoord1Suffix() }}</span>
+        <mat-error>Invalid value</mat-error>
     </mat-form-field>
 
     <mat-form-field class="coordInput">
@@ -16,8 +21,13 @@
             matInput
             [formControlName]="this.coord2ControlName"
             [required]="this.isRequired"
+            [minlength]="this.getCoord2MinLength()"
+            [maxlength]="this.getCoord2MaxLength()"
+            [min]="this.getCoord2MinValue()"
+            [max]="this.getCoord2MaxValue()"
             (change)="this.onCoordChanged()"
         >
         <span matTextSuffix class="no-wrap">{{ this.getCoord2Suffix() }}</span>
+        <mat-error>Invalid value</mat-error>
     </mat-form-field>
 </div>
