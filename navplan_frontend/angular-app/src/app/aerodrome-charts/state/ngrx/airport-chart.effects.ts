@@ -16,10 +16,15 @@ import {ChartRegistration} from '../../domain/model/chart-registration';
 import {ChartRegistrationType} from '../../domain/model/chart-registration-type';
 import {GeoCoordinateType} from '../../domain/model/geo-coordinate-type';
 import {GeoCoordinate} from '../../../geo-physics/domain/model/geometry/geo-coordinate';
+import {getSidebarMode} from '../../../flight-map/state/ngrx/flight-map.selectors';
+import {SidebarMode} from '../../../flight-map/state/ngrx/sidebar-mode';
 
 
 @Injectable()
 export class AirportChartEffects {
+    private readonly uploadAirportChartState$ = this.appStore.select(getUploadAirportChartState);
+    private readonly sidebarMode$ = this.appStore.select(getSidebarMode);
+
     constructor(
         private readonly actions$: Actions,
         private readonly appStore: Store<any>,
@@ -63,7 +68,7 @@ export class AirportChartEffects {
 
     uploadAirportChartAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.uploadAirportChart),
-        withLatestFrom(this.appStore.select(getUploadAirportChartState)),
+        withLatestFrom(this.uploadAirportChartState$),
         switchMap(([action, state]) => this.airportChartService.uploadAdChart(
             state.selectedAirport.icao,
             action.chartUploadParameters
@@ -81,7 +86,7 @@ export class AirportChartEffects {
 
     chartRegistrationTypeChanged$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.chartRegistrationTypeChanged),
-        withLatestFrom(this.appStore.select(getUploadAirportChartState)),
+        withLatestFrom(this.uploadAirportChartState$),
         mergeMap(([action, state]) => {
             switch (action.chartRegistrationType) {
                 case ChartRegistrationType.ARP_SCALE:
@@ -102,9 +107,9 @@ export class AirportChartEffects {
 
     mapReferenceSelected$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
-        withLatestFrom(this.appStore.select(getUploadAirportChartState)),
-        filter(([action, state]) => state.chartReference1 !== undefined && state.chartReference2 !== undefined),
-        filter(([action, state]) => !state.mapReference1 || !state.mapReference2),
+        withLatestFrom(this.uploadAirportChartState$, this.sidebarMode$),
+        filter(([action, state, sidebarMode]) => sidebarMode === SidebarMode.UPLOAD_AD_CHART),
+        filter(([action, state, sidebarMode]) => !state.mapReference1 || !state.mapReference2),
         map(([action, state]) => {
             if (!state.mapReference1) {
                 return AirportChartActions.mapReference1Changed({mapReference1: GeoCoordinate.ofPos2d(action.clickPos)});
@@ -117,7 +122,7 @@ export class AirportChartEffects {
 
     saveAirportChartAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.saveAirportChart),
-        withLatestFrom(this.appStore.select(getUploadAirportChartState)),
+        withLatestFrom(this.uploadAirportChartState$),
         switchMap(([action, state]) => this.airportChartService.reprojectAndSaveAdChart(
             state.selectedAirport.icao,
             new ChartSaveParameters(
