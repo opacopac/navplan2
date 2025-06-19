@@ -27,6 +27,7 @@ import {INotamService} from '../../../notam/domain/service/i-notam.service';
 import {MeteoSmaActions} from '../../../meteo-sma/state/ngrx/meteo-sma.actions';
 import {MeteoLayer} from '../../domain/model/meteo-layer';
 import {MeteoDwdActions} from '../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
+import {SidebarMode} from "./sidebar-mode";
 
 
 @Injectable()
@@ -77,13 +78,13 @@ export class FlightMapEffects {
             if (flightMapState.showMeteoLayer) {
                 switch (flightMapState.meteoLayer) {
                     case MeteoLayer.SmaStationsLayer:
-                        returnActions.push(FlightMapActions.selectMeteoLayer({ meteoLayer: MeteoLayer.SmaStationsLayer }));
+                        returnActions.push(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.SmaStationsLayer}));
                         break;
                     case MeteoLayer.DwdWeatherLayer:
-                        returnActions.push(FlightMapActions.selectMeteoLayer({ meteoLayer: MeteoLayer.DwdWeatherLayer }));
+                        returnActions.push(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.DwdWeatherLayer}));
                         break;
                     case MeteoLayer.DwdWindLayer:
-                        returnActions.push(FlightMapActions.selectMeteoLayer({ meteoLayer: MeteoLayer.DwdWindLayer }));
+                        returnActions.push(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.DwdWindLayer}));
                         break;
                 }
             } else {
@@ -129,6 +130,8 @@ export class FlightMapEffects {
     mapClickedAction$ = createEffect(() => this.actions$.pipe(
         ofType(BaseMapActions.mapClicked),
         withLatestFrom(this.flightMapState$, this.searchState$),
+        filter(([action, flightMapState, searchState]) =>
+            flightMapState.sidebarState.mode === SidebarMode.OFF),
         switchMap(([action, flightMapState, searchState]) => {
             const returnActions = [];
             console.log(action.dataItem);
@@ -255,7 +258,10 @@ export class FlightMapEffects {
     }
 
 
-    private getOverlayNotams$(action: { dataItem: DataItem, clickPos: Position2d }): Observable<Notam[]> {
+    private getOverlayNotams$(action: {
+        dataItem: DataItem,
+        clickPos: Position2d
+    }): Observable<Notam[]> {
         if (action.dataItem.dataItemType === DataItemType.airport) {
             return this.notamService.readByIcao(
                 (action.dataItem as ShortAirport).icao,
