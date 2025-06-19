@@ -5,6 +5,7 @@ import {PdfParameters} from '../../domain/model/pdf-parameters';
 import {FlightMapActions} from '../../../flight-map/state/ngrx/flight-map.actions';
 import {ChartRegistrationType} from '../../domain/model/chart-registration-type';
 import {GeoCoordinateType} from '../../domain/model/geo-coordinate-type';
+import {GeoCoordinate} from '../../../geo-physics/domain/model/geometry/geo-coordinate';
 
 
 const initialUploadAdChartState = {
@@ -107,7 +108,7 @@ export const airportChartReducer = createReducer(
             ...state.uploadAirportChartState,
             chartRegistrationType: action.chartRegistrationType,
             mapReference1: action.chartRegistrationType === ChartRegistrationType.ARP_SCALE
-                ? state.uploadAirportChartState.selectedAirport.position
+                ? GeoCoordinate.ofPos2d(state.uploadAirportChartState.selectedAirport.position)
                 : state.uploadAirportChartState.mapReference1,
             mapReference2: action.chartRegistrationType === ChartRegistrationType.ARP_SCALE
                 ? undefined

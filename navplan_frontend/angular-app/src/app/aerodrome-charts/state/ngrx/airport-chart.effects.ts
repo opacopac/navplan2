@@ -15,6 +15,7 @@ import {OriginalFileParameters} from '../../domain/model/original-file-parameter
 import {ChartRegistration} from '../../domain/model/chart-registration';
 import {ChartRegistrationType} from '../../domain/model/chart-registration-type';
 import {GeoCoordinateType} from '../../domain/model/geo-coordinate-type';
+import {GeoCoordinate} from '../../../geo-physics/domain/model/geometry/geo-coordinate';
 
 
 @Injectable()
@@ -86,7 +87,7 @@ export class AirportChartEffects {
                 case ChartRegistrationType.ARP_SCALE:
                     return from([
                         AirportChartActions.mapReference1Changed({
-                            mapReference1: state.selectedAirport.position
+                            mapReference1: GeoCoordinate.ofPos2d(state.selectedAirport.position)
                         }),
                         AirportChartActions.geoCoordinateTypeChanged({
                             geoCoordinateType: GeoCoordinateType.LON_LAT
@@ -106,9 +107,9 @@ export class AirportChartEffects {
         filter(([action, state]) => !state.mapReference1 || !state.mapReference2),
         map(([action, state]) => {
             if (!state.mapReference1) {
-                return AirportChartActions.mapReference1Changed({mapReference1: action.clickPos});
+                return AirportChartActions.mapReference1Changed({mapReference1: GeoCoordinate.ofPos2d(action.clickPos)});
             } else if (!state.mapReference2) {
-                return AirportChartActions.mapReference2Changed({mapReference2: action.clickPos});
+                return AirportChartActions.mapReference2Changed({mapReference2: GeoCoordinate.ofPos2d(action.clickPos)});
             }
         })
     ));

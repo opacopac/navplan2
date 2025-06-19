@@ -9,7 +9,14 @@ import {MatInputModule} from '@angular/material/input';
 import {
     MiniImageViewerComponent
 } from '../../../../common/view/ng-components/mini-image-viewer/mini-image-viewer.component';
-import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
+import {
+    FormControl,
+    FormGroup,
+    FormGroupDirective,
+    ReactiveFormsModule,
+    ValidatorFn,
+    Validators
+} from '@angular/forms';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
 import {Airport} from '../../../../aerodrome/domain/model/airport';

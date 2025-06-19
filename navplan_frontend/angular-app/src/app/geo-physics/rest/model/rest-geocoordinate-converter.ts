@@ -1,6 +1,5 @@
 import {IRestGeocoordinate} from './i-rest-geocoordinate';
 import {GeoCoordinate} from '../../domain/model/geometry/geo-coordinate';
-import {GenericGeoCoordinate} from '../../domain/model/geometry/generic-geo-coordinate';
 import {GeoCoordinateType} from '../../../aerodrome-charts/domain/model/geo-coordinate-type';
 
 
@@ -10,7 +9,7 @@ export class RestGeocoordinateConverter {
             return null;
         }
 
-        return new GenericGeoCoordinate(
+        return new GeoCoordinate(
             GeoCoordinateType[restCoord[0]],
             restCoord[1],
             restCoord[2]

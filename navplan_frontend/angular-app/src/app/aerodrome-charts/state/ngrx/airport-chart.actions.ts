@@ -3,10 +3,9 @@ import {AirportChart} from '../../domain/model/airport-chart';
 import {UploadedChartInfo} from '../../domain/model/uploaded-chart-info';
 import {ChartUploadParameters} from '../../domain/model/chart-upload-parameters';
 import {XyCoord} from '../../../geo-physics/domain/model/geometry/xyCoord';
-import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {ChartRegistrationType} from '../../domain/model/chart-registration-type';
 import {GeoCoordinateType} from '../../domain/model/geo-coordinate-type';
-import {GeoCoordinate} from "../../../geo-physics/domain/model/geometry/geo-coordinate";
+import {GeoCoordinate} from '../../../geo-physics/domain/model/geometry/geo-coordinate';
 
 
 export class AirportChartActions {

@@ -16,10 +16,6 @@ import {
 import {GeoCoordinateType} from '../../../domain/model/geo-coordinate-type';
 import {MatSelectModule} from '@angular/material/select';
 import {GeoCoordinate} from '../../../../geo-physics/domain/model/geometry/geo-coordinate';
-import {
-    GenericGeoCoordinate
-} from '../../../../geo-physics/domain/model/geometry/generic-geo-coordinate';
-import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 
 
 @Component({
@@ -154,12 +150,12 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
             let coordinate: GeoCoordinate;
             switch (this.geoCoordinateType) {
                 case GeoCoordinateType.LON_LAT:
-                    coordinate = new Position2d(coord2Value, coord1Value); // Latitude, Longitude
+                    coordinate = new GeoCoordinate(this.geoCoordinateType, coord2Value, coord1Value); // Longitude, Latitude
                     break;
                 case GeoCoordinateType.LV03:
                 case GeoCoordinateType.LV95:
                 default:
-                    coordinate = new GenericGeoCoordinate(this.geoCoordinateType, coord1Value, coord2Value); // East, North
+                    coordinate = new GeoCoordinate(this.geoCoordinateType, coord1Value, coord2Value); // East, North
                     break;
             }
 
