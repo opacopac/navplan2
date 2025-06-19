@@ -37,6 +37,8 @@ import {GeoCoordinate} from '../../../../geo-physics/domain/model/geometry/geo-c
 export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
     private static readonly FORM_CONTROL_NAME_COORD1 = 'coord1';
     private static readonly FORM_CONTROL_NAME_COORD2 = 'coord2';
+    private static readonly WGS84_PRECISION = 6;
+    private static readonly LV03_LV95_PRECISION = 0;
 
     @Input() controlName: string;
     @Input() isRequired: boolean;
@@ -225,13 +227,15 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
             return '';
         }
 
+        const coord = this.coordinate.toType(this.geoCoordinateType);
+
         switch (this.geoCoordinateType) {
             case GeoCoordinateType.LON_LAT:
-                return this.coordinate.getN().toString();
+                return coord.getN(ChartUploadCoordinateSelector.WGS84_PRECISION).toString();
             case GeoCoordinateType.LV03:
             case GeoCoordinateType.LV95:
             default:
-                return this.coordinate.getE().toString();
+                return coord.getE(ChartUploadCoordinateSelector.LV03_LV95_PRECISION).toString();
         }
     }
 
@@ -241,13 +245,15 @@ export class ChartUploadCoordinateSelector implements OnInit, OnChanges {
             return '';
         }
 
+        const coord = this.coordinate.toType(this.geoCoordinateType);
+
         switch (this.geoCoordinateType) {
             case GeoCoordinateType.LON_LAT:
-                return this.coordinate.getE().toString();
+                return coord.getE(ChartUploadCoordinateSelector.WGS84_PRECISION).toString();
             case GeoCoordinateType.LV03:
             case GeoCoordinateType.LV95:
             default:
-                return this.coordinate.getN().toString();
+                return coord.getN(ChartUploadCoordinateSelector.LV03_LV95_PRECISION).toString();
         }
     }
 }

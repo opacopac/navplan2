@@ -59,12 +59,20 @@ export class GeoCoordinate {
     }
 
 
-    public getE(): number {
+    public getE(roundToDigits: number = NaN): number {
+        if (!isNaN(roundToDigits)) {
+            return parseFloat(this._e.toFixed(roundToDigits));
+        }
+
         return this._e;
     }
 
 
-    public getN(): number {
+    public getN(rountToDigits: number = NaN): number {
+        if (!isNaN(rountToDigits)) {
+            return parseFloat(this._n.toFixed(rountToDigits));
+        }
+
         return this._n;
     }
 
