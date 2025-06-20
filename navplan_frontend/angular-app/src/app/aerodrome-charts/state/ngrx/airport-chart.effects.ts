@@ -1,5 +1,5 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {AirportChartActions} from './airport-chart.actions';
 import {EMPTY, from, of, throwError} from 'rxjs';
@@ -19,6 +19,7 @@ import {GeoCoordinate} from '../../../geo-physics/domain/model/geometry/geo-coor
 import {getSidebarMode} from '../../../flight-map/state/ngrx/flight-map.selectors';
 import {SidebarMode} from '../../../flight-map/state/ngrx/sidebar-mode';
 import {CursorMode} from '../../../base-map/state/state-model/cursor-mode';
+import {CrosshairIcon} from "../../domain/model/crosshair-icon";
 
 
 @Injectable()
@@ -117,6 +118,33 @@ export class AirportChartEffects {
             } else if (!state.mapReference2) {
                 return AirportChartActions.mapReference2Changed({mapReference2: GeoCoordinate.ofPos2d(action.clickPos)});
             }
+        })
+    ));
+
+
+    mapReferenceChanges$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportChartActions.mapReference1Changed, AirportChartActions.mapReference2Changed),
+        withLatestFrom(this.uploadAirportChartState$),
+        map(([action, state]) => {
+            const crosshairIcons: CrosshairIcon[] = [];
+
+            if (state.mapReference1) {
+                crosshairIcons.push(new CrosshairIcon(
+                    1,
+                    state.mapReference1.toPos2d(),
+                    'dodgerblue',
+                ));
+            }
+
+            if (state.mapReference2) {
+                crosshairIcons.push(new CrosshairIcon(
+                    2,
+                    state.mapReference2.toPos2d(),
+                    'dodgerblue',
+                ));
+            }
+
+            return FlightMapActions.setCrosshairIcons({icons: crosshairIcons});
         })
     ));
 

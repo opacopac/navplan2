@@ -6,6 +6,7 @@ import {Notam} from '../../../notam/domain/model/notam';
 import {Waypoint} from '../../../flightroute/domain/model/waypoint';
 import {MeteoLayer} from '../../domain/model/meteo-layer';
 import {Airport} from '../../../aerodrome/domain/model/airport';
+import {CrosshairIcon} from "../../../aerodrome-charts/domain/model/crosshair-icon";
 
 
 export class FlightMapActions {
@@ -54,5 +55,10 @@ export class FlightMapActions {
 
     public static readonly hideSidebar = createAction(
         '[FlightMapPage] Hide sidebar',
+    );
+
+    public static readonly setCrosshairIcons = createAction(
+        '[FlightMapPage] Add crosshair icon',
+        props<{ icons: CrosshairIcon[] }>()
     );
 }

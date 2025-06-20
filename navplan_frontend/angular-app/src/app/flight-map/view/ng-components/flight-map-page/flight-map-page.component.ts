@@ -30,6 +30,7 @@ import {
 import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {
+    getCrosshairIcons,
     getFlightMapShowMeteoLayer,
     getFlightMapShowOverlay,
     getShowMapLayerSelection,
@@ -112,6 +113,9 @@ import {
     ChartUploadContainerComponent
 } from '../../../../aerodrome-charts/view/ng-components/chart-upload-container/chart-upload-container.component';
 import {SidebarMode} from '../../../state/ngrx/sidebar-mode';
+import {
+    OlCrosshairContainer
+} from "../../../../aerodrome-charts/view/ol-components/ol-crosshair-container";
 
 
 @Component({
@@ -150,6 +154,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private showOverlaySubscription: Subscription;
     private olAirportContainer: OlAirportContainer;
     private olAirportChartContainer: OlAirportChartContainer;
+    private olCrosshairIconContainer: OlCrosshairContainer;
     private olAirportCircuitContainer: OlAirportCircuitContainer;
     private olReportingPointContainer: OlReportingPointContainer;
     private olReportingSectorContainer: OlReportingSectorContainer;
@@ -215,6 +220,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     ngOnDestroy() {
         this.olAirportContainer.destroy();
         this.olAirportChartContainer.destroy();
+        this.olCrosshairIconContainer.destroy();
         this.olAirportCircuitContainer.destroy();
         this.olReportingPointContainer.destroy();
         this.olReportingSectorContainer.destroy();
@@ -265,6 +271,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const dwdForecastBgLayer = new OlDwdForecastMapTileLayer();
         const dwdForecastWeatherIconLayer = new OlVectorLayer(true);
         const dwdForecastWindIconLayer = new OlVectorLayer(true);
+        const crosshairIconLayer = new OlVectorLayer(true);
 
         const olMap = this.mapContainer.createMap(
             [
@@ -289,6 +296,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
                 pointSearchLayer,
                 trafficLayer,
                 ownPlaneLayer,
+                crosshairIconLayer
             ],
             [
                 this.mapOverlayComponent.olOverlay,
@@ -308,6 +316,10 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             olMap,
             chartCloserLayer,
             this.appStore.pipe(select(getAirportCharts))
+        );
+        this.olCrosshairIconContainer = new OlCrosshairContainer(
+            crosshairIconLayer,
+            this.appStore.pipe(select(getCrosshairIcons))
         );
         this.olReportingPointContainer = new OlReportingPointContainer(
             reportingPointLayer,

@@ -10,3 +10,4 @@ export const getFlightMapMeteoLayer = createSelector(getFlightMapState, state =>
 export const getFlightMapShowFullScreen = createSelector(getFlightMapState, state => state.showFullScreen);
 export const getShowMapLayerSelection = createSelector(getFlightMapState, state => state.showMapLayerSelection);
 export const getSidebarMode = createSelector(getFlightMapState, state => state.sidebarState.mode);
+export const getCrosshairIcons = createSelector(getFlightMapState, state => state.crosshairIcons);

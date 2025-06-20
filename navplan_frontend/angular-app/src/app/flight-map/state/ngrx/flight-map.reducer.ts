@@ -21,7 +21,8 @@ const initialState: FlightMapState = {
     meteoLayer: MeteoLayer.SmaStationsLayer,
     sidebarState: {
         mode: SidebarMode.OFF,
-    }
+    },
+    crosshairIcons: []
 };
 
 
@@ -74,5 +75,9 @@ export const flightMapReducer = createReducer(
             ...state.sidebarState,
             mode: SidebarMode.OFF
         }
+    })),
+    on(FlightMapActions.setCrosshairIcons, (state, action) => ({
+        ...state,
+        crosshairIcons: action.icons
     }))
 );
