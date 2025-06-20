@@ -194,7 +194,8 @@ export class AirportChartEffects {
         ofType(AirportChartActions.cancelUploadAirportChart, AirportChartActions.saveAirportChartSuccess),
         switchMap(action => [
             FlightMapActions.hideSidebar(),
-            BaseMapActions.setCursorMode({cursorMode: CursorMode.DEFAULT})
+            FlightMapActions.setCrosshairIcons({icons: []}),
+            BaseMapActions.setCursorMode({cursorMode: CursorMode.DEFAULT}),
         ])
     ));
 }
