@@ -1,0 +1,35 @@
+<div [formGroup]="this.formGroup" class="coordContainer">
+    <mat-form-field class="coordInput">
+        <mat-label>X</mat-label>
+        <input
+            matInput
+            type="number"
+            [formControlName]="this.coord1ControlName"
+            [required]="this.isRequired"
+            [minlength]="1"
+            [maxlength]="5"
+            [min]="0"
+            [max]="99999"
+            (change)="this.onCoordChanged()"
+        >
+        <span matTextSuffix class="no-wrap">px</span>
+        <mat-error>Invalid value</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="coordInput">
+        <mat-label>Y</mat-label>
+        <input
+            matInput
+            type="number"
+            [formControlName]="this.coord2ControlName"
+            [required]="this.isRequired"
+            [minlength]="1"
+            [maxlength]="5"
+            [min]="0"
+            [max]="99999"
+            (change)="this.onCoordChanged()"
+        >
+        <span matTextSuffix class="no-wrap">px</span>
+        <mat-error>Invalid value</mat-error>
+    </mat-form-field>
+</div>

@@ -9,7 +9,13 @@ import {MatInputModule} from '@angular/material/input';
 import {
     MiniImageViewerComponent
 } from '../../../../common/view/ng-components/mini-image-viewer/mini-image-viewer.component';
-import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+    FormControl,
+    FormGroup,
+    FormGroupDirective,
+    ReactiveFormsModule,
+    Validators
+} from '@angular/forms';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
 import {Airport} from '../../../../aerodrome/domain/model/airport';
@@ -21,6 +27,9 @@ import {
 import {
     IconButtonComponent
 } from '../../../../common/view/ng-components/icon-button/icon-button.component';
+import {
+    ChartUploadPixelSelector
+} from '../chart-upload-pixel-selector/chart-upload-pixel-selector.component';
 
 
 @Component({
@@ -37,7 +46,8 @@ import {
         ReactiveFormsModule,
         MatRadioModule,
         ChartUploadRegistrationTypeSelectorComponent,
-        IconButtonComponent
+        IconButtonComponent,
+        ChartUploadPixelSelector
     ],
     templateUrl: './chart-upload-step2.component.html',
     styleUrls: ['./chart-upload-step2.component.scss']
@@ -57,26 +67,6 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
     protected formGroup: FormGroup;
     protected readonly ButtonColor = ButtonColor;
     protected readonly ChartRegistrationType = ChartRegistrationType;
-
-
-    protected get refX1Control(): FormControl {
-        return this.formGroup.get('refX1') as FormControl;
-    }
-
-
-    protected get refY1Control(): FormControl {
-        return this.formGroup.get('refY1') as FormControl;
-    }
-
-
-    protected get refX2Control(): FormControl {
-        return this.formGroup.get('refX2') as FormControl;
-    }
-
-
-    protected get refY2Control(): FormControl {
-        return this.formGroup.get('refY2') as FormControl;
-    }
 
 
     protected get scaleControl(): FormControl {
@@ -153,32 +143,6 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
     }
 
 
-    protected onRefPoint1Changed() {
-        const x = this.refX1Control?.value;
-        const y = this.refY1Control?.value;
-
-        if (x && y) {
-            const coord = new XyCoord(x, y).round(0);
-            this.reference1Selected.emit(coord);
-        } else {
-            this.reference1Selected.emit(null);
-        }
-    }
-
-
-    protected onRefPoint2Changed() {
-        const x = this.refX2Control?.value;
-        const y = this.refY2Control?.value;
-
-        if (x && y) {
-            const coord = new XyCoord(x, y).round(0);
-            this.reference2Selected.emit(coord);
-        } else {
-            this.reference2Selected.emit(null);
-        }
-    }
-
-
     protected onScaleChanged() {
         const scale = Number(this.scaleControl?.value);
         if (!isNaN(scale) && scale >= 0) {
@@ -187,13 +151,13 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
     }
 
 
-    protected onRefPoint1Deleted() {
-        this.reference1Selected.emit(null);
+    protected onChartRefPoint1Changed(xyCoord: XyCoord) {
+        this.reference1Selected.emit(xyCoord);
     }
 
 
-    protected onRefPoint2Deleted() {
-        this.reference2Selected.emit(null);
+    protected onChartRefPoint2Changed(xyCoord: XyCoord) {
+        this.reference2Selected.emit(xyCoord);
     }
 
 
@@ -205,22 +169,6 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
         this.formGroup.addControl('chartRegistrationType', new FormControl(
             this.chartRegistrationType,
             [Validators.required]
-        ));
-        this.formGroup.addControl('refX1', new FormControl(
-            this.selectedRefPoint1?.x,
-            [Validators.required]
-        ));
-        this.formGroup.addControl('refY1', new FormControl(
-            this.selectedRefPoint1?.y,
-            [Validators.required])
-        );
-        this.formGroup.addControl('refX2', new FormControl(
-            this.selectedRefPoint2?.x,
-            this.isPos1Pos2() ? [Validators.required] : []
-        ));
-        this.formGroup.addControl('refY2', new FormControl(
-            this.selectedRefPoint2?.y,
-            this.isPos1Pos2() ? [Validators.required] : []
         ));
         this.formGroup.addControl('scale', new FormControl(
             this.chartScale,
@@ -237,31 +185,15 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
         if (this.chartRegistrationType !== undefined) {
             this.chartRegistrationTypeControl?.setValue(this.chartRegistrationType);
 
-            if (this.refX2Control && this.refY2Control && this.scaleControl) {
+            if (this.scaleControl) {
                 if (this.isPos1Pos2()) {
-                    this.refX2Control.setValidators([Validators.required]);
-                    this.refY2Control.setValidators([Validators.required]);
                     this.scaleControl.clearValidators();
                 } else {
-                    this.refX2Control.clearValidators();
-                    this.refY2Control.clearValidators();
                     this.scaleControl.setValidators([Validators.required]);
                 }
 
-                this.refX2Control.updateValueAndValidity();
-                this.refY2Control.updateValueAndValidity();
                 this.scaleControl.updateValueAndValidity();
             }
-        }
-
-        if (this.selectedRefPoint1) {
-            this.refX1Control?.setValue(this.selectedRefPoint1.x);
-            this.refY1Control?.setValue(this.selectedRefPoint1.y);
-        }
-
-        if (this.selectedRefPoint2) {
-            this.refX2Control?.setValue(this.selectedRefPoint2.x);
-            this.refY2Control?.setValue(this.selectedRefPoint2.y);
         }
 
         if (this.chartScale) {

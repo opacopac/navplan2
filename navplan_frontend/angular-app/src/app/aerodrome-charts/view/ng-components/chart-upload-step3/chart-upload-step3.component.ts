@@ -33,7 +33,7 @@ import {
 } from '../chart-upload-registration-type-selector/chart-upload-registration-type-selector.component';
 import {
     IconButtonComponent
-} from "../../../../common/view/ng-components/icon-button/icon-button.component";
+} from '../../../../common/view/ng-components/icon-button/icon-button.component';
 
 
 @Component({
