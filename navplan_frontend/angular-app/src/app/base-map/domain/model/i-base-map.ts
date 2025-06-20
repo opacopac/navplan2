@@ -5,6 +5,7 @@ import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {ShowImageState} from '../../state/state-model/show-image-state';
 import {MapBaseLayerType} from './map-base-layer-type';
+import {CursorMode} from '../../state/state-model/cursor-mode';
 
 export interface IBaseMap {
     get mapClick$(): Observable<[Position2d, DataItem]>;
@@ -32,4 +33,6 @@ export interface IBaseMap {
     clearImages(): void;
 
     changeBaseLayer(baseLayerType: MapBaseLayerType): void;
+
+    setCursorMode(cursorMode: CursorMode): void;
 }

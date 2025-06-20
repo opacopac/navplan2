@@ -27,6 +27,7 @@ import ImageLayer from 'ol/layer/Image';
 import Projection from 'ol/proj/Projection';
 import {OlLayer} from './ol-layer';
 import {IBaseMap} from '../../domain/model/i-base-map';
+import {CursorMode} from '../../state/state-model/cursor-mode';
 
 
 export class OlMap implements IBaseMap {
@@ -40,6 +41,7 @@ export class OlMap implements IBaseMap {
     private readonly imageLayers: ImageLayer<ImageStatic>[] = [];
     private readonly _mapClick$ = new Subject<[Position2d, DataItem]>();
     private readonly _mapMove$ = new Subject<void>();
+    private currentCursorMode = CursorMode.DEFAULT;
 
 
     public get mapClick$(): Observable<[Position2d, DataItem]> {
@@ -145,6 +147,11 @@ export class OlMap implements IBaseMap {
     // endregion
 
 
+    public setCursorMode(cursorMode: CursorMode): void {
+        this.currentCursorMode = cursorMode;
+    }
+
+
     // region map event handler
 
     private onMoveEnd(event: MapEvent): void {
@@ -171,14 +178,23 @@ export class OlMap implements IBaseMap {
             return;
         }
 
-        const dataItem = this.getDataItemAtPixel(event.pixel, true);
+        switch (this.currentCursorMode) {
+            case CursorMode.CROSSHAIR:
+                break;
 
-        if (dataItem) {
-            const element = this.map.getTargetElement() as HTMLElement;
-            element.style.cursor = 'pointer';
-        } else {
-            const element = this.map.getTargetElement() as HTMLElement;
-            element.style.cursor = 'default';
+            case CursorMode.DEFAULT:
+            default:
+                const dataItem = this.getDataItemAtPixel(event.pixel, true);
+
+                if (dataItem) {
+                    const element = this.map.getTargetElement() as HTMLElement;
+                    element.style.cursor = 'pointer';
+                } else {
+                    const element = this.map.getTargetElement() as HTMLElement;
+                    element.style.cursor = 'default';
+                }
+
+                break;
         }
     }
 
@@ -186,7 +202,10 @@ export class OlMap implements IBaseMap {
     private getDataItemAtPixel(pixel: Pixel, onlyClickable: boolean): DataItem {
         const olFeatures = this.map.getFeaturesAtPixel(
             pixel,
-            {layerFilter: this.isClickableLayer.bind(this), hitTolerance: OlMap.HIT_TOLERANCE_PIXELS}
+            {
+                layerFilter: this.isClickableLayer.bind(this),
+                hitTolerance: OlMap.HIT_TOLERANCE_PIXELS
+            }
         );
         if (!olFeatures) {
             return undefined;

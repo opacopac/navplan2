@@ -1,5 +1,5 @@
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, filter, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {AirportChartActions} from './airport-chart.actions';
 import {EMPTY, from, of, throwError} from 'rxjs';
@@ -18,6 +18,7 @@ import {GeoCoordinateType} from '../../domain/model/geo-coordinate-type';
 import {GeoCoordinate} from '../../../geo-physics/domain/model/geometry/geo-coordinate';
 import {getSidebarMode} from '../../../flight-map/state/ngrx/flight-map.selectors';
 import {SidebarMode} from '../../../flight-map/state/ngrx/sidebar-mode';
+import {CursorMode} from '../../../base-map/state/state-model/cursor-mode';
 
 
 @Injectable()
@@ -155,8 +156,17 @@ export class AirportChartEffects {
     ));
 
 
+    showSidebarAction$ = createEffect(() => this.actions$.pipe(
+        ofType(FlightMapActions.showUploadChartSidebar),
+        map(action => BaseMapActions.setCursorMode({cursorMode: CursorMode.CROSSHAIR})),
+    ));
+
+
     hideSidebarAction$ = createEffect(() => this.actions$.pipe(
         ofType(AirportChartActions.cancelUploadAirportChart, AirportChartActions.saveAirportChartSuccess),
-        map(action => FlightMapActions.hideSidebar())
+        switchMap(action => [
+            FlightMapActions.hideSidebar(),
+            BaseMapActions.setCursorMode({cursorMode: CursorMode.DEFAULT})
+        ])
     ));
 }

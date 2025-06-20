@@ -5,6 +5,7 @@ import {BaseMapActions} from './base-map.actions';
 import {MapBaseLayerType} from '../../domain/model/map-base-layer-type';
 import {createReducer, on} from '@ngrx/store';
 import {AngleUnit} from '../../../geo-physics/domain/model/quantities/angle-unit';
+import {CursorMode} from '../state-model/cursor-mode';
 
 
 const initialState: BaseMapState = {
@@ -17,6 +18,7 @@ const initialState: BaseMapState = {
     baseMapType: MapBaseLayerType.OPENTOPOMAP,
     showImage: {imageId: undefined, imageUrl: undefined, extent: undefined, opacity: undefined, fitInView: true},
     showAttributions: false,
+    cursorMode: CursorMode.DEFAULT
 };
 
 
@@ -91,4 +93,9 @@ export const baseMapReducer = createReducer(
         ...state,
         baseMapType: action.mapBaseLayerType
     })),
+
+    on(BaseMapActions.setCursorMode, (state, action) => ({
+        ...state,
+        cursorMode: action.cursorMode
+    }))
 );

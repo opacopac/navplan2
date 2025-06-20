@@ -27,7 +27,7 @@ import {INotamService} from '../../../notam/domain/service/i-notam.service';
 import {MeteoSmaActions} from '../../../meteo-sma/state/ngrx/meteo-sma.actions';
 import {MeteoLayer} from '../../domain/model/meteo-layer';
 import {MeteoDwdActions} from '../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
-import {SidebarMode} from "./sidebar-mode";
+import {SidebarMode} from './sidebar-mode';
 
 
 @Injectable()

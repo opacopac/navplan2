@@ -4,6 +4,7 @@ import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {DataItem} from '../../../common/domain/model/data-item';
 import {MapBaseLayerType} from '../../domain/model/map-base-layer-type';
+import {CursorMode} from '../state-model/cursor-mode';
 
 
 export class BaseMapActions {
@@ -70,5 +71,10 @@ export class BaseMapActions {
     public static readonly baseLayerSelected = createAction(
         '[Base Map] base map layer selected',
         props<{ mapBaseLayerType: MapBaseLayerType }>()
+    );
+
+    public static readonly setCursorMode = createAction(
+        '[Base Map] set cursor mode',
+        props<{ cursorMode: CursorMode }>()
     );
 }

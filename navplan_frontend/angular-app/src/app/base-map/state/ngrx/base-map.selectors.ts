@@ -10,3 +10,4 @@ export const getMapExtent = createSelector(getMapState, state => state.extent);
 export const getShowImage = createSelector(getMapState, state => state.showImage);
 export const getShowAttributions = createSelector(getMapState, state => state.showAttributions);
 export const getSelectedMapBaseLayerType = createSelector(getMapState, state => state.baseMapType);
+export const getCursorMode = createSelector(getMapState, state => state.cursorMode);
