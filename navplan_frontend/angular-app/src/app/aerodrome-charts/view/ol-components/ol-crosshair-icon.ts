@@ -20,9 +20,9 @@ export class OlCrosshairIcon {
     private static getStyle(color: string): Style {
         return new Style({
             image: new Icon(({
-                scale: 1,
                 opacity: 1,
                 color: color,
+                scale: 0.15,
                 src: 'data:image/svg+xml;utf8,' + this.getCrosshairSvg()
             }))
         });
