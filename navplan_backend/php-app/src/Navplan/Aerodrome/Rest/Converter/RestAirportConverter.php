@@ -10,7 +10,7 @@ use Navplan\Webcam\Rest\Model\RestWebcamConverter;
 
 
 class RestAirportConverter {
-    public const ROUND_DIGITS_POS = 6;
+    public const ROUND_DIGITS_POS = 7;
     public const ROUND_DIGITS_ELEV = 0;
 
 

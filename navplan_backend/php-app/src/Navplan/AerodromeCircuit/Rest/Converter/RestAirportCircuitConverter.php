@@ -7,7 +7,7 @@ use Navplan\Common\Rest\Converter\RestLine2dConverter;
 
 
 class RestAirportCircuitConverter {
-    public const ROUND_DIGITS_POS = 6;
+    public const ROUND_DIGITS_POS = 7;
 
 
     public static function toRest(AirportCircuit $circuit): array {

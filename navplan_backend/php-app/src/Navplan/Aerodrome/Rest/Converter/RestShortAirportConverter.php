@@ -7,7 +7,7 @@ use Navplan\Common\Rest\Converter\RestPosition2dConverter;
 
 
 class RestShortAirportConverter {
-    public const ROUND_DIGITS_POS = 6;
+    public const ROUND_DIGITS_POS = 7;
 
 
     public static function toRest(ShortAirport $airport): array {

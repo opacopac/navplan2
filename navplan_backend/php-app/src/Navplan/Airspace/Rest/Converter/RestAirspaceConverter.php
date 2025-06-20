@@ -8,7 +8,7 @@ use Navplan\Common\Rest\Converter\RestRing2dConverter;
 
 
 class RestAirspaceConverter {
-    public const ROUND_DIGITS_POS = 4;
+    public const ROUND_DIGITS_POS = 5;
 
 
     public static function toRest(Airspace $airspace): array {

@@ -9,8 +9,8 @@ use Navplan\Common\Rest\Converter\RestRing2dConverter;
 
 
 class RestReportingPointConverter {
-    public const ROUND_DIGITS_POS = 6;
-    public const ROUND_DIGITS_POLY = 6;
+    public const ROUND_DIGITS_POS = 7;
+    public const ROUND_DIGITS_POLY = 7;
 
 
     public static function toRest(ReportingPoint $rp): array {
