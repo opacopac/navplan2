@@ -17,7 +17,10 @@ import {MatRadioModule} from '@angular/material/radio';
 import {ChartRegistrationType} from '../../../domain/model/chart-registration-type';
 import {
     ChartUploadRegistrationTypeSelectorComponent
-} from "../chart-upload-registration-type-selector/chart-upload-registration-type-selector.component";
+} from '../chart-upload-registration-type-selector/chart-upload-registration-type-selector.component';
+import {
+    IconButtonComponent
+} from '../../../../common/view/ng-components/icon-button/icon-button.component';
 
 
 @Component({
@@ -33,7 +36,8 @@ import {
         MiniImageViewerComponent,
         ReactiveFormsModule,
         MatRadioModule,
-        ChartUploadRegistrationTypeSelectorComponent
+        ChartUploadRegistrationTypeSelectorComponent,
+        IconButtonComponent
     ],
     templateUrl: './chart-upload-step2.component.html',
     styleUrls: ['./chart-upload-step2.component.scss']
@@ -183,6 +187,16 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
     }
 
 
+    protected onRefPoint1Deleted() {
+        this.reference1Selected.emit(null);
+    }
+
+
+    protected onRefPoint2Deleted() {
+        this.reference2Selected.emit(null);
+    }
+
+
     private initForm() {
         if (!this.formGroup) {
             return;
@@ -254,5 +268,4 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
             this.scaleControl?.setValue(this.chartScale);
         }
     }
-
 }

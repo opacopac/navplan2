@@ -44,6 +44,16 @@
                 <span [hidden]="!this.mapRefPoint1">
                         <i class="fa-solid fa-check-circle checkIcon"></i>
                 </span>
+
+                <app-icon-button
+                    tooltipText="Delete Map Ref. Point 1"
+                    tooltipPosition="above"
+                    [color]="ButtonColor.GRAY"
+                    [disabled]="!this.mapRefPoint1"
+                    (buttonClicked)="this.onRefPoint1Changed(null)"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                </app-icon-button>
             </div>
 
             <!-- map reference point 2 -->
@@ -62,8 +72,18 @@
 
                 <i [hidden]="this.mapRefPoint2 || !this.mapRefPoint1">(pick on map)</i>
                 <span [hidden]="!this.mapRefPoint2">
-                        <i class="fa-solid fa-check-circle checkIcon"></i>
-                    </span>
+                    <i class="fa-solid fa-check-circle checkIcon"></i>
+                </span>
+
+                <app-icon-button
+                    tooltipText="Delete Map Ref. Point 2"
+                    tooltipPosition="above"
+                    [color]="ButtonColor.GRAY"
+                    [disabled]="!this.mapRefPoint2"
+                    (buttonClicked)="this.onRefPoint2Changed(null)"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                </app-icon-button>
             </div>
 
         </div>

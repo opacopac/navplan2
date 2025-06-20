@@ -5,12 +5,12 @@ import {MatButtonModule} from '@angular/material/button';
 
 @Component({
     selector: 'app-icon-button',
+    standalone: true,
     imports: [
         MatButtonModule,
         MatTooltipModule
     ],
     templateUrl: './icon-button.component.html',
-    standalone: true,
     styleUrls: ['./icon-button.component.scss']
 })
 export class IconButtonComponent implements OnInit {

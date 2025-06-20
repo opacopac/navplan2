@@ -31,6 +31,9 @@ import {GeoCoordinate} from '../../../../geo-physics/domain/model/geometry/geo-c
 import {
     ChartUploadRegistrationTypeSelectorComponent
 } from '../chart-upload-registration-type-selector/chart-upload-registration-type-selector.component';
+import {
+    IconButtonComponent
+} from "../../../../common/view/ng-components/icon-button/icon-button.component";
 
 
 @Component({
@@ -48,7 +51,8 @@ import {
         MatRadioModule,
         MatSelectModule,
         ChartUploadCoordinateSelector,
-        ChartUploadRegistrationTypeSelectorComponent
+        ChartUploadRegistrationTypeSelectorComponent,
+        IconButtonComponent
     ],
     templateUrl: './chart-upload-step3.component.html',
     styleUrls: ['./chart-upload-step3.component.scss']
@@ -227,30 +231,6 @@ export class ChartUploadStep3Component implements OnInit, OnChanges {
             case ChartRegistrationType.ARP_SCALE:
                 return [];
             case ChartRegistrationType.POS1_SCALE:
-            case ChartRegistrationType.POS1_POS2:
-            default:
-                return [Validators.required];
-        }
-    }
-
-
-    private getRef1Validators(): ValidatorFn[] {
-        switch (this.chartRegistrationType) {
-            case ChartRegistrationType.ARP_SCALE:
-                return [];
-            case ChartRegistrationType.POS1_SCALE:
-            case ChartRegistrationType.POS1_POS2:
-            default:
-                return [Validators.required];
-        }
-    }
-
-
-    private getRef2Validators(): ValidatorFn[] {
-        switch (this.chartRegistrationType) {
-            case ChartRegistrationType.ARP_SCALE:
-            case ChartRegistrationType.POS1_SCALE:
-                return [];
             case ChartRegistrationType.POS1_POS2:
             default:
                 return [Validators.required];

@@ -43,6 +43,16 @@
                 <span [hidden]="!this.selectedRefPoint1">
                     <i class="fa-solid fa-check-circle checkIcon"></i>
                 </span>
+
+                <app-icon-button
+                    tooltipText="Delete Chart Ref. Point 1"
+                    tooltipPosition="above"
+                    [color]="ButtonColor.GRAY"
+                    [disabled]="!this.selectedRefPoint1"
+                    (buttonClicked)="this.onRefPoint1Deleted()"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                </app-icon-button>
             </div>
 
             <!-- chart reference point 2 -->
@@ -77,8 +87,18 @@
 
                     <i [hidden]="this.selectedRefPoint2 || !this.selectedRefPoint1">(pick on chart)</i>
                     <span [hidden]="!this.selectedRefPoint2">
-                    <i class="fa-solid fa-check-circle checkIcon"></i>
-                </span>
+                        <i class="fa-solid fa-check-circle checkIcon"></i>
+                    </span>
+
+                    <app-icon-button
+                        tooltipText="Delete Chart Ref. Point 2"
+                        tooltipPosition="above"
+                        [color]="ButtonColor.GRAY"
+                        [disabled]="!this.selectedRefPoint2"
+                        (buttonClicked)="this.onRefPoint2Deleted()"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                    </app-icon-button>
                 </div>
             } @else {
                 <mat-form-field>
