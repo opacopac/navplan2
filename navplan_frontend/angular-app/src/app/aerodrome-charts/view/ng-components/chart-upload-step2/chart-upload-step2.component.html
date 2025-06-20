@@ -40,36 +40,37 @@
             </div>
 
             <!-- chart reference point 2 -->
-            @if (this.isPos1Pos2()) {
-                <div class="form-row">
-                    Reference Point 2:
-                    <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
+            <div class="form-row {{ this.isPos1Pos2() ? '' : 'is-hidden' }}">
+                Reference Point 2:
+                <i class="fa-solid fa-crosshairs refPoint2Icon"></i>
 
-                    <app-chart-upload-pixel-selector
-                        controlName="chartRefPoint2"
-                        [isRequired]="true"
-                        [isDisabled]="false"
-                        [coordinate]="this.selectedRefPoint2"
-                        (coordinateChanged)="this.onChartRefPoint2Changed($event)"
-                    />
+                <app-chart-upload-pixel-selector
+                    controlName="chartRefPoint2"
+                    [isRequired]="this.isPos1Pos2()"
+                    [isDisabled]="false"
+                    [coordinate]="this.selectedRefPoint2"
+                    (coordinateChanged)="this.onChartRefPoint2Changed($event)"
+                />
 
-                    <i [hidden]="this.selectedRefPoint2 || !this.selectedRefPoint1">(pick on
-                        chart)</i>
-                    <span [hidden]="!this.selectedRefPoint2">
+                <i [hidden]="this.selectedRefPoint2 || !this.selectedRefPoint1">(pick on
+                    chart)</i>
+                <span [hidden]="!this.selectedRefPoint2">
                         <i class="fa-solid fa-check-circle checkIcon"></i>
                     </span>
 
-                    <app-icon-button
-                        tooltipText="Delete Chart Ref. Point 2"
-                        tooltipPosition="above"
-                        [color]="ButtonColor.GRAY"
-                        [disabled]="!this.selectedRefPoint2"
-                        (buttonClicked)="this.onChartRefPoint2Changed(null)"
-                    >
-                        <i class="fa-solid fa-trash"></i>
-                    </app-icon-button>
-                </div>
-            } @else {
+                <app-icon-button
+                    tooltipText="Delete Chart Ref. Point 2"
+                    tooltipPosition="above"
+                    [color]="ButtonColor.GRAY"
+                    [disabled]="!this.selectedRefPoint2"
+                    (buttonClicked)="this.onChartRefPoint2Changed(null)"
+                >
+                    <i class="fa-solid fa-trash"></i>
+                </app-icon-button>
+            </div>
+
+            <!-- scale input -->
+            <div class="form-row {{ this.isPos1Pos2() ? 'is-hidden': '' }}">
                 <mat-form-field>
                     <mat-label>Scale</mat-label>
                     <input
@@ -81,7 +82,7 @@
                     >
                     <span matTextPrefix>1:</span>
                 </mat-form-field>
-            }
+            </div>
         </div>
 
         <!-- mini viewer -->

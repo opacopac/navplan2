@@ -90,7 +90,7 @@ export class ChartUploadPixelSelector implements OnInit, OnChanges {
         const coord1Str = this.coord1Control?.value;
         const coord2Str = this.coord2Control?.value;
 
-        if (coord1Str && coord2Str) {
+        if (coord1Str >= 0 && coord2Str >= 0) {
             const coord1Value = parseFloat(coord1Str);
             const coord2Value = parseFloat(coord2Str);
             const xyCoord = new XyCoord(coord1Value, coord2Value);

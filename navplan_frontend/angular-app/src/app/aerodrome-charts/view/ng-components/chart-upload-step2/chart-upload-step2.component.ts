@@ -137,7 +137,7 @@ export class ChartUploadStep2Component implements OnInit, OnChanges {
 
         if (!this.selectedRefPoint1) {
             this.reference1Selected.emit(coord);
-        } else if (this.chartRegistrationType === ChartRegistrationType.POS1_POS2 && !this.selectedRefPoint2) {
+        } else if (this.isPos1Pos2() && !this.selectedRefPoint2) {
             this.reference2Selected.emit(coord);
         }
     }
