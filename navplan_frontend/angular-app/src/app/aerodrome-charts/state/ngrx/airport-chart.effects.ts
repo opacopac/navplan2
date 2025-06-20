@@ -140,7 +140,7 @@ export class AirportChartEffects {
                 crosshairIcons.push(new CrosshairIcon(
                     2,
                     state.mapReference2.toPos2d(),
-                    'dodgerblue',
+                    'orange',
                 ));
             }
 
