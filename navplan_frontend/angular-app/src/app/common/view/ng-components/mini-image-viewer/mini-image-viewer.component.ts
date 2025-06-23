@@ -96,8 +96,8 @@ export class MiniImageViewerComponent implements OnInit, OnChanges, AfterViewIni
             for (const icon of this.overlayIcons) {
                 const svg = SvgCrosshairSvg.create(icon.color);
                 svg.style.position = 'absolute';
-                svg.style.top = (icon.xyCoord.y - this.centerOffsetPx) + 'px';
-                svg.style.left = (icon.xyCoord.x - this.centerOffsetPx) + 'px';
+                svg.style.top = (icon.xyCoord.y * this.scale - this.centerOffsetPx) + 'px';
+                svg.style.left = (icon.xyCoord.x * this.scale - this.centerOffsetPx) + 'px';
 
                 this.crosshairContainer.nativeElement.appendChild(svg);
             }
