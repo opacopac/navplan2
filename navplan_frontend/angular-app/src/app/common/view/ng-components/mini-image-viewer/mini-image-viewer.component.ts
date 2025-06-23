@@ -13,6 +13,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
 import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
+import {environment} from '../../../../../environments/environment';
+import {SvgCrosshairSvg} from '../../../svg/svg-crosshair-svg';
 
 
 @Component({
@@ -30,13 +32,21 @@ export class MiniImageViewerComponent implements OnInit, OnChanges, AfterViewIni
     @Input() public imageSrc;
     @Input() public isClickable = false;
     @Input() public fitImage = false;
-    @Input() public overlayIcons: { id: number, xyCoord: XyCoord, icon: string, color: string }[] = [];
+    @Input() public overlayIcons: {
+        id: number,
+        xyCoord: XyCoord,
+        icon: string,
+        color: string
+    }[] = [];
     @Output() public imageClicked = new EventEmitter<XyCoord>();
     @ViewChild('imgContainer') imgContainer: ElementRef;
+    @ViewChild('crosshairContainer') crosshairContainer: ElementRef;
 
     protected naturalWidth = 0;
     protected naturalHeight = 0;
     protected scale = 1;
+    protected crosshairIcon = environment.iconBaseUrl + 'crosshair.svg';
+    protected centerOffsetPx = 17; // half of the crosshair icon size (34px)
 
 
     constructor() {
@@ -47,11 +57,13 @@ export class MiniImageViewerComponent implements OnInit, OnChanges, AfterViewIni
     }
 
 
-    ngOnChanges() {
+    ngAfterViewInit(): void {
+        this.redrawCrossHairs();
     }
 
 
-    ngAfterViewInit() {
+    ngOnChanges(): void {
+        this.redrawCrossHairs();
     }
 
 
@@ -70,6 +82,26 @@ export class MiniImageViewerComponent implements OnInit, OnChanges, AfterViewIni
         return {
             'cursor': this.isClickable ? 'crosshair' : 'auto',
         };
+    }
+
+
+    protected redrawCrossHairs(): void {
+        if (!this.crosshairContainer) {
+            return;
+        }
+
+        this.crosshairContainer.nativeElement.innerHTML = '';
+
+        if (this.overlayIcons) {
+            for (const icon of this.overlayIcons) {
+                const svg = SvgCrosshairSvg.create(icon.color);
+                svg.style.position = 'absolute';
+                svg.style.top = (icon.xyCoord.y - this.centerOffsetPx) + 'px';
+                svg.style.left = (icon.xyCoord.x - this.centerOffsetPx) + 'px';
+
+                this.crosshairContainer.nativeElement.appendChild(svg);
+            }
+        }
     }
 
 

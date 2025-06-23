@@ -49,7 +49,7 @@ export class SvgBuilder {
 
     public build(): SVGSVGElement {
         const svg = document.createElementNS(SvgBuilder.SVG_NS, 'svg');
-        svg.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
+        svg.setAttribute('xmlns', SvgBuilder.SVG_NS);
         svg.setAttribute('width', this.width);
         svg.setAttribute('height', this.height);
         svg.setAttribute('preserveAspectRatio', this.preserveAspectRatio);
