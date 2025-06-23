@@ -18,7 +18,11 @@
                 />
                 <div class="buttons">
                     <button mat-button (click)="this.onCancelClicked()">Cancel</button>
-                    <button mat-button matStepperNext [disabled]="this.step1FormGroup.invalid">Next</button>
+                    <div class="prev-next-buttons">
+                        <button mat-button matStepperNext [disabled]="this.step1FormGroup.invalid">
+                            Next
+                        </button>
+                    </div>
                 </div>
             </form>
         </mat-step>
@@ -37,8 +41,13 @@
                     (scaleChanged)="this.onChartScaleChanged($event)"
                 />
                 <div class="buttons">
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext [disabled]="this.step2FormGroup.invalid">Next</button>
+                    <button mat-button (click)="this.onCancelClicked()">Cancel</button>
+                    <div class="prev-next-buttons">
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext [disabled]="this.step2FormGroup.invalid">
+                            Next
+                        </button>
+                    </div>
                 </div>
             </form>
         </mat-step>
@@ -60,8 +69,13 @@
                     (mapRefPoint2Selected)="this.onMapReference2Selected($event)"
                 />
                 <div class="buttons">
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext [disabled]="this.step3FormGroup.invalid" (click)="onSaveClicked()">Save</button>
+                    <button mat-button (click)="this.onCancelClicked()">Cancel</button>
+                    <div class="prev-next-buttons">
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext [disabled]="this.step3FormGroup.invalid"
+                                (click)="onSaveClicked()">Save
+                        </button>
+                    </div>
                 </div>
             </form>
         </mat-step>
