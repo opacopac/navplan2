@@ -13,7 +13,6 @@ export class AirportChartService implements IAirportChartService {
     public constructor(private airportChartRepo: IAirportChartRepoService) {
     }
 
-
     public readAdChartById(chartId: number): Observable<AirportChart> {
         return this.airportChartRepo.readAdChartById(chartId);
     }
@@ -26,5 +25,9 @@ export class AirportChartService implements IAirportChartService {
 
     public reprojectAndSaveAdChart(adIcao: string, chartSaveParameters: ChartSaveParameters): Observable<AirportChart> {
         return this.airportChartRepo.reprojectAndSaveAdChart(adIcao, chartSaveParameters);
+    }
+
+    public deleteAdChart(chartId: number): Observable<boolean> {
+        return this.airportChartRepo.deleteAdChart(chartId);
     }
 }

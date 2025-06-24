@@ -105,4 +105,19 @@ export class AirportChartActions {
         '[AirportChartEffects] Save airport chart error',
         props<{ error: Error }>()
     );
+
+    public static readonly deleteAirportChart = createAction(
+        '[AirportChartList] Delete airport chart',
+        props<{ chart: AirportChart }>()
+    );
+
+    public static readonly deleteAirportChartSuccess = createAction(
+        '[AirportChartEffects] Delete airport chart success',
+        props<{ chartId: number }>()
+    );
+
+    public static readonly deleteAirportChartError = createAction(
+        '[AirportChartEffects] Delete airport chart error',
+        props<{ error: Error }>()
+    );
 }

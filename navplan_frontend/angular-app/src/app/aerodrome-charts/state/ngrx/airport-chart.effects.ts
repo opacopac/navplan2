@@ -19,7 +19,9 @@ import {GeoCoordinate} from '../../../geo-physics/domain/model/geometry/geo-coor
 import {getSidebarMode} from '../../../flight-map/state/ngrx/flight-map.selectors';
 import {SidebarMode} from '../../../flight-map/state/ngrx/sidebar-mode';
 import {CursorMode} from '../../../base-map/state/state-model/cursor-mode';
-import {CrosshairIcon} from "../../domain/model/crosshair-icon";
+import {CrosshairIcon} from '../../domain/model/crosshair-icon';
+import {MessageActions} from '../../../message/state/ngrx/message.actions';
+import {Message} from '../../../message/domain/model/message';
 
 
 @Injectable()
@@ -197,5 +199,23 @@ export class AirportChartEffects {
             FlightMapActions.setCrosshairIcons({icons: []}),
             BaseMapActions.setCursorMode({cursorMode: CursorMode.DEFAULT}),
         ])
+    ));
+
+
+    deleteAirportChartAction$ = createEffect(() => this.actions$.pipe(
+        ofType(AirportChartActions.deleteAirportChart),
+        switchMap(action => this.airportChartService.deleteAdChart(action.chart.id).pipe(
+            switchMap(deleted => [
+                AirportChartActions.deleteAirportChartSuccess({chartId: action.chart.id}),
+                // TODO: reload the airport charts list
+                MessageActions.showMessage({
+                    message: Message.success('Airport chart deleted successfully.')
+                })
+            ]),
+            catchError(error => {
+                LoggingService.logResponseError('ERROR deleting airport chart', error);
+                return of(AirportChartActions.deleteAirportChartError({error: error}));
+            })
+        ))
     ));
 }

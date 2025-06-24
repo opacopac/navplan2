@@ -15,7 +15,8 @@ export class RestAirportChartConverter {
             restAdChart.filename,
             RestExtent2dConverter.fromRest(restAdChart.extent),
             RestOriginalFileParametersConverter.fromRest(restAdChart.originalFileParameters),
-            RestChartRegistrationConverter.fromRest(restAdChart.chartRegistration)
+            RestChartRegistrationConverter.fromRest(restAdChart.chartRegistration),
+            true // TODO
         );
     }
 

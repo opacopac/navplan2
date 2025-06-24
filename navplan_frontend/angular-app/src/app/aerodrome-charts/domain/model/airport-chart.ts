@@ -13,7 +13,8 @@ export class AirportChart extends DataItem {
         public fileName: string,
         public extent: Extent2d,
         public originalFileParameters: OriginalFileParameters,
-        public chartRegistration: ChartRegistration
+        public chartRegistration: ChartRegistration,
+        public isUploadedByCurrentUser: boolean
     ) {
         super();
     }

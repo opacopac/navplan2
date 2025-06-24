@@ -3,21 +3,56 @@
         <table mat-table [dataSource]="this.airport.charts">
             <ng-container matColumnDef="filename">
                 <th mat-header-cell *matHeaderCellDef>Chart</th>
-                <td mat-cell class="clickable" *matCellDef="let chart" (click)="onChartClicked(chart.id)"><i
-                    class="fa-regular fa-file"></i></td>
+                <td mat-cell
+                    class="clickable"
+                    *matCellDef="let chart"
+                    (click)="onChartClicked(chart.id)"
+                >
+                    <i class="fa-regular fa-file"></i>
+                </td>
             </ng-container>
+
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell class="clickable" *matCellDef="let chart"
-                    (click)="onChartClicked(chart.id)">{{ chart.name }}
+                <td mat-cell
+                    class="clickable"
+                    *matCellDef="let chart"
+                    (click)="onChartClicked(chart.id)"
+                >
+                    {{ chart.name }}
                 </td>
             </ng-container>
+
             <ng-container matColumnDef="source">
                 <th mat-header-cell *matHeaderCellDef>Source</th>
-                <td mat-cell *matCellDef="let chart">&copy; by <a href="{{ this.getChartSourceUrl(chart) }}"
-                                                                  target="_blank">{{ this.getChartSourceName(chart) }}</a>
+                <td mat-cell
+                    *matCellDef="let chart"
+                >
+                    &copy; by <a
+                    href="{{ this.getChartSourceUrl(chart) }}"
+                    target="_blank">{{ this.getChartSourceName(chart) }}</a>
                 </td>
             </ng-container>
+
+            <ng-container matColumnDef="icons">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell
+                    *matCellDef="let chart"
+                    class="button-cell"
+                >
+                    @if (chart.isUploadedByCurrentUser) {
+                        <app-icon-button
+                            tooltipText="Delete Chart"
+                            tooltipPosition="above"
+                            [color]="ButtonColor.RED"
+                            (buttonClicked)="this.onDeleteChartClicked(chart)"
+                        >
+                            <i class="fa-solid fa-trash"></i>
+                        </app-icon-button>
+                    }
+                </td>
+            </ng-container>
+
             <tr mat-header-row *matHeaderRowDef="this.getChartColumns()"></tr>
             <tr mat-row *matRowDef="let row; columns: this.getChartColumns()"></tr>
         </table>

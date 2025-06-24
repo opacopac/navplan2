@@ -14,7 +14,8 @@ import {RestUploadedChartInfoConverter} from '../converter/rest-uploaded-chart-i
 import {ChartUploadParameters} from '../../domain/model/chart-upload-parameters';
 import {ChartSaveParameters} from '../../domain/model/chart-save-parameters';
 import {RestChartSaveParametersConverter} from '../converter/rest-chart-save-parameters-converter';
-import { HttpHelper } from '../../../system/domain/service/http/http-helper';
+import {HttpHelper} from '../../../system/domain/service/http/http-helper';
+import {IRestSuccessResponse} from '../../../flightroute/rest/model/i-rest-success-response';
 
 
 @Injectable()
@@ -80,6 +81,21 @@ export class AirportChartRestAdapter implements IAirportChartRepoService {
                 map(response => RestAirportChartConverter.fromRest(response)),
                 catchError(err => {
                     LoggingService.logResponseError('ERROR saving airport chart', err);
+                    return throwError(err);
+                })
+            );
+    }
+
+
+    public deleteAdChart(chartId: number): Observable<boolean> {
+        const url: string = environment.airportChartApiBaseUrl + '/' + chartId;
+
+        return this.http
+            .delete<IRestSuccessResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
+            .pipe(
+                map(response => response.success),
+                catchError(err => {
+                    LoggingService.logResponseError('ERROR deleting airport chart', err);
                     return throwError(err);
                 })
             );

@@ -10,6 +10,10 @@ import {FlightMapActions} from '../../../../flight-map/state/ngrx/flight-map.act
 import {MatTooltip} from '@angular/material/tooltip';
 import {isUserLoggedIn} from '../../../../user/state/ngrx/user.selectors';
 import {CommonModule} from '@angular/common';
+import {
+    IconButtonComponent
+} from '../../../../common/view/ng-components/icon-button/icon-button.component';
+import {ButtonColor} from '../../../../common/view/model/button-color';
 
 
 @Component({
@@ -19,15 +23,16 @@ import {CommonModule} from '@angular/common';
         MatTableModule,
         MatIconModule,
         MatButtonModule,
-        MatTooltip
+        MatTooltip,
+        IconButtonComponent
     ],
     templateUrl: './map-popup-airport-chart-tab.component.html',
     styleUrls: ['./map-popup-airport-chart-tab.component.scss']
 })
 export class MapPopupAirportChartTabComponent implements OnInit {
     @Input() airport: Airport;
-
     protected readonly isUserLoggedIn$ = this.appStore.pipe(select(isUserLoggedIn));
+    protected readonly ButtonColor = ButtonColor;
 
 
     constructor(private appStore: Store<any>) {
@@ -39,32 +44,41 @@ export class MapPopupAirportChartTabComponent implements OnInit {
 
 
     protected getChartColumns(): string[] {
-        return ['filename', 'name', 'source'];
+        return ['filename', 'name', 'source', 'icons'];
     }
 
 
     protected getChartSourceName(chart: AirportChart): string {
         switch (chart.source) {
-            case 'AVARE': return 'Avare.ch';
-            case 'VFRM': return 'swisstopo';
+            case 'AVARE':
+                return 'Avare.ch';
+            case 'VFRM':
+                return 'swisstopo';
         }
     }
 
 
     protected getChartSourceUrl(chart: AirportChart): string {
         switch (chart.source) {
-            case 'AVARE': return 'http://www.avare.ch/';
-            case 'VFRM': return 'https://www.swisstopo.admin.ch/';
+            case 'AVARE':
+                return 'http://www.avare.ch/';
+            case 'VFRM':
+                return 'https://www.swisstopo.admin.ch/';
         }
     }
 
 
     protected onChartClicked(id: number) {
-        this.appStore.dispatch(AirportChartActions.openAirportChart({ chartId: id }));
+        this.appStore.dispatch(AirportChartActions.openAirportChart({chartId: id}));
+    }
+
+
+    protected onDeleteChartClicked(chart: AirportChart) {
+        this.appStore.dispatch(AirportChartActions.deleteAirportChart({chart: chart}));
     }
 
 
     protected onAddChartClicked() {
-        this.appStore.dispatch(FlightMapActions.showUploadChartSidebar({ selectedAirport: this.airport }));
+        this.appStore.dispatch(FlightMapActions.showUploadChartSidebar({selectedAirport: this.airport}));
     }
 }
