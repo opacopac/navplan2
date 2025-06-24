@@ -67,7 +67,7 @@ class AdChartController implements IRestController
             case HttpRequestMethod::DELETE:
                 $id = RestIdConverter::getId($this->httpService->getGetArgs());
                 $success = $this->airportChartService->deleteAdChart($id, $token);
-                $this->httpService->sendArrayResponse(RestSuccessResponse::toRest($success));
+                $response = RestSuccessResponse::toRest($success);
                 break;
             default:
                 throw new InvalidArgumentException("invalid request method");
