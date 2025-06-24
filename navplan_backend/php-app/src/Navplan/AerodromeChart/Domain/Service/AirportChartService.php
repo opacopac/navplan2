@@ -4,6 +4,7 @@ namespace Navplan\AerodromeChart\Domain\Service;
 
 use InvalidArgumentException;
 use Navplan\AerodromeChart\Domain\Command\IAirportChartCreateCommand;
+use Navplan\AerodromeChart\Domain\Command\IAirportChartDeleteCommand;
 use Navplan\AerodromeChart\Domain\Model\AirportChart;
 use Navplan\AerodromeChart\Domain\Model\ChartSaveParameters;
 use Navplan\AerodromeChart\Domain\Model\GeoCoordinateType;
@@ -32,7 +33,8 @@ class AirportChartService implements IAirportChartService
         private ISwissGridChartTransformerService $swissGridChartTransformerService,
         private IAirportChartByIdQuery $airportChartByIdQuery,
         private IAirportChartByAirportQuery $airportChartByAirportQuery,
-        private IAirportChartCreateCommand $airportChartCreateCommand
+        private IAirportChartCreateCommand $airportChartCreateCommand,
+        private IAirportChartDeleteCommand $airportChartDeleteCommand
     )
     {
     }
@@ -157,5 +159,14 @@ class AirportChartService implements IAirportChartService
         $maxE = max($posTl->getE(), $posR);
 
         return Extent2d::createFromCoords($minE, $minN, $maxE, $maxN);
+    }
+
+    function deleteAdChart(int $id, string $token): bool
+    {
+        $user = $this->userService->getUserOrThrow($token);
+
+        $this->airportChartDeleteCommand->delete($id, $user->id);
+
+        return true; // TODO
     }
 }

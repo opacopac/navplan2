@@ -23,4 +23,6 @@ interface IAirportChartService
     function uploadAdChart(UploadedFileInfo $fileInfo, PdfParameters $pdfParameters): UploadedChartInfo;
 
     function reprojectAndSaveAdChart(string $adIcao, ChartSaveParameters $saveParams, string $token): AirportChart;
+
+    function deleteAdChart(int $id, string $token): bool;
 }

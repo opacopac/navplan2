@@ -13,6 +13,7 @@ use Navplan\Common\Rest\Converter\RestActionConverter;
 use Navplan\Common\Rest\Converter\RestFileConverter;
 use Navplan\Common\Rest\Converter\RestIdConverter;
 use Navplan\Common\StringNumberHelper;
+use Navplan\Flightroute\Rest\Converter\RestSuccessResponse;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\User\Rest\Model\RestTokenConverter;
@@ -62,6 +63,11 @@ class AdChartController implements IRestController
                     default:
                         throw new InvalidArgumentException("invalid arguments");
                 }
+                break;
+            case HttpRequestMethod::DELETE:
+                $id = RestIdConverter::getId($this->httpService->getGetArgs());
+                $success = $this->airportChartService->deleteAdChart($id, $token);
+                $this->httpService->sendArrayResponse(RestSuccessResponse::toRest($success));
                 break;
             default:
                 throw new InvalidArgumentException("invalid request method");

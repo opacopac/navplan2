@@ -3,6 +3,7 @@
 namespace Navplan\AerodromeChart;
 
 use Navplan\AerodromeChart\Domain\Command\IAirportChartCreateCommand;
+use Navplan\AerodromeChart\Domain\Command\IAirportChartDeleteCommand;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByAirportQuery;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByIdQuery;
 use Navplan\AerodromeChart\Domain\Service\AirportChartService;
@@ -11,6 +12,7 @@ use Navplan\AerodromeChart\Domain\Service\IAirportChartService;
 use Navplan\AerodromeChart\Domain\Service\ISwissGridChartTransformerService;
 use Navplan\AerodromeChart\Domain\Service\SwissGridChartTransformerService;
 use Navplan\AerodromeChart\Persistence\Command\DbAirportChartCreateCommand;
+use Navplan\AerodromeChart\Persistence\Command\DbAirportChartDeleteCommand;
 use Navplan\AerodromeChart\Persistence\Query\DbAirportChartByAirportQuery;
 use Navplan\AerodromeChart\Persistence\Query\DbAirportChartByIdQuery;
 use Navplan\AerodromeChart\Rest\Controller\AdChartController;
@@ -32,6 +34,7 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
     private IAirportChartByIdQuery $airportChartByIdQuery;
     private IAirportChartByAirportQuery $airportChartByAirportQuery;
     private IAirportChartCreateCommand $airportChartCreateCommand;
+    private IAirportChartDeleteCommand $airportChartDeleteCommand;
 
 
     public function __construct(
@@ -72,7 +75,8 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
                 $this->getSwissGridChartTransformerService(),
                 $this->getAirportChartByIdQuery(),
                 $this->getAirportChartByAirportQuery(),
-                $this->getAirportChartCreateCommand()
+                $this->getAirportChartCreateCommand(),
+                $this->getAirportChartDeleteCommand()
             );
         }
 
@@ -127,5 +131,17 @@ class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
         }
 
         return $this->airportChartCreateCommand;
+    }
+
+
+    function getAirportChartDeleteCommand(): IAirportChartDeleteCommand
+    {
+        if (!isset($this->airportChartDeleteCommand)) {
+            $this->airportChartDeleteCommand = new DbAirportChartDeleteCommand(
+                $this->dbService
+            );
+        }
+
+        return $this->airportChartDeleteCommand;
     }
 }
