@@ -4,6 +4,7 @@ namespace Navplan\AerodromeChart\Persistence\Model;
 
 use Navplan\AerodromeChart\Domain\Model\AirportChart;
 use Navplan\Common\Persistence\Model\DbExtent2dConverter;
+use Navplan\Common\StringNumberHelper;
 use Navplan\System\Domain\Model\IDbResult;
 
 
@@ -28,6 +29,7 @@ class DbAirportChart2Converter
     {
         return new AirportChart(
             intval($row[DbTableAirportCharts::COL_ID]),
+            StringNumberHelper::parseIntOrNull($row, DbTableAirportCharts::COL_USER_ID),
             $row[DbTableAirportCharts::COL_AD_ICAO],
             $row[DbTableAirportCharts::COL_SOURCE],
             $row[DbTableAirportCharts::COL_NAME],

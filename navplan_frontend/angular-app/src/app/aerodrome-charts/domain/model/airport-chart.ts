@@ -7,6 +7,7 @@ import {OriginalFileParameters} from './original-file-parameters';
 export class AirportChart extends DataItem {
     constructor(
         public id: number,
+        public userId: number,
         public airportIcao: string,
         public source: string,
         public name: string,
@@ -14,7 +15,6 @@ export class AirportChart extends DataItem {
         public extent: Extent2d,
         public originalFileParameters: OriginalFileParameters,
         public chartRegistration: ChartRegistration,
-        public isUploadedByCurrentUser: boolean
     ) {
         super();
     }

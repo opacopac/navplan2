@@ -9,6 +9,7 @@ class AirportChart
 {
     public function __construct(
         public int $id,
+        public ?int $userId,
         public string $airportIcao,
         public string $source,
         public string $name,

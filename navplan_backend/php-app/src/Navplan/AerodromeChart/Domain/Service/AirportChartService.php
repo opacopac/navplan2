@@ -119,6 +119,7 @@ class AirportChartService implements IAirportChartService
         // save to db
         $adChart = new AirportChart(
             0,
+            null,
             $adIcao,
             "VFRM", // TODO
             $saveParams->chartName,

@@ -9,6 +9,7 @@ export class RestAirportChartConverter {
     public static fromRest(restAdChart: IRestAirportChart): AirportChart {
         return new AirportChart(
             restAdChart.id,
+            restAdChart.userId,
             restAdChart.airportIcao,
             restAdChart.source,
             restAdChart.name,
@@ -16,7 +17,6 @@ export class RestAirportChartConverter {
             RestExtent2dConverter.fromRest(restAdChart.extent),
             RestOriginalFileParametersConverter.fromRest(restAdChart.originalFileParameters),
             RestChartRegistrationConverter.fromRest(restAdChart.chartRegistration),
-            true // TODO
         );
     }
 
@@ -24,6 +24,7 @@ export class RestAirportChartConverter {
     public static toRest(adChart: AirportChart): IRestAirportChart {
         return {
             id: adChart.id,
+            userId: adChart.userId,
             airportIcao: adChart.airportIcao,
             source: adChart.source,
             name: adChart.name,

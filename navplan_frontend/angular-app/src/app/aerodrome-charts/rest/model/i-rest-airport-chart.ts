@@ -5,6 +5,7 @@ import {IRestChartRegistration} from './i-rest-chart-registration';
 
 export interface IRestAirportChart {
     id: number;
+    userId: number;
     airportIcao: string;
     source: string;
     name: string;

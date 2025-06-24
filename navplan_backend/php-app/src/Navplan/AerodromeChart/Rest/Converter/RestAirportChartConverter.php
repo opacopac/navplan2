@@ -12,6 +12,7 @@ class RestAirportChartConverter
     {
         return new AirportChart(
             intval($args["id"]),
+            null, // userId from token is used
             $adIcao,
             $args["source"],
             $args["name"],
@@ -27,6 +28,7 @@ class RestAirportChartConverter
     {
         return array(
             "id" => $adChart->id,
+            "userId" => $adChart->userId,
             "source" => $adChart->source,
             "name" => $adChart->name,
             "filename" => $adChart->filename,
