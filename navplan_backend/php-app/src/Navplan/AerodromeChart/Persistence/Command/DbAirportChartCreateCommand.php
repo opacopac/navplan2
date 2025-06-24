@@ -33,6 +33,7 @@ class DbAirportChartCreateCommand implements IAirportChartCreateCommand
         $query = "INSERT INTO " . DbTableAirportCharts::TABLE_NAME . " (";
         $query .= join(",", [
             DbTableAirportCharts::COL_AD_ICAO,
+            DbTableAirportCharts::COL_USER_ID,
             DbTableAirportCharts::COL_SOURCE,
             DbTableAirportCharts::COL_NAME,
             DbTableAirportCharts::COL_ACTIVE,
@@ -61,6 +62,7 @@ class DbAirportChartCreateCommand implements IAirportChartCreateCommand
         $query .= ") VALUES (";
         $query .= join(", ", [
             DbHelper::getDbStringValue($this->dbService, $airportChart->airportIcao),
+            DbHelper::getDbIntValue($userId),
             DbHelper::getDbStringValue($this->dbService, $airportChart->source),
             DbHelper::getDbStringValue($this->dbService, $airportChart->name),
             1,
