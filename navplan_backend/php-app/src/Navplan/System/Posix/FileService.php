@@ -154,13 +154,13 @@ class FileService implements IFileService
     }
 
 
-    public function getUniqueFilename(string $originalFilename): string
+    public function getUniqueFilename(string $originalFilenameForName, string $originalFilenameForSuffix): string
     {
-        $newFilename = pathInfo($originalFilename, PATHINFO_FILENAME)
+        $newFilename = pathInfo($originalFilenameForName, PATHINFO_FILENAME)
             . "_"
             . StringNumberHelper::createRandomString(20)
             . "."
-            . pathinfo($originalFilename, PATHINFO_EXTENSION);
+            . pathinfo($originalFilenameForSuffix, PATHINFO_EXTENSION);
 
         return $this->cleanFilename($newFilename);
     }

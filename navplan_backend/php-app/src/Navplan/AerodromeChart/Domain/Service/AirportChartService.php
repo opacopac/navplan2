@@ -111,7 +111,10 @@ class AirportChartService implements IAirportChartService
         );
 
         // move file to chart folder
-        $targetFile = $this->moveFileToChartFolder($projectionResult->outputChartFile);
+        $targetFile = $this->moveFileToChartFolder(
+            $projectionResult->outputChartFile,
+            $saveParams->originalFileParameters->importFilename
+        );
 
         // calc extent
         $extent = $this->calcExtent($targetFile, $projectionResult->worldFileInfo);
@@ -146,9 +149,9 @@ class AirportChartService implements IAirportChartService
     }
 
 
-    private function moveFileToChartFolder(string $chartFile): string
+    private function moveFileToChartFolder(string $chartFile, string $originalFileName): string
     {
-        $newFilename = $this->fileService->getUniqueFilename($chartFile);
+        $newFilename = $this->fileService->getUniqueFilename($originalFileName, $chartFile);
         $targetFile = $this->getChartFullPath($newFilename);
         $this->fileService->rename($chartFile, $targetFile);
 

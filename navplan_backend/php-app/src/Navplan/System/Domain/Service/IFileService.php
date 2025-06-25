@@ -28,7 +28,7 @@ interface IFileService {
 
     function appendFilename(string $filename, string $appendix): string;
 
-    function getUniqueFilename(string $originalFilename): string;
+    function getUniqueFilename(string $originalFilenameForName, string $originalFilenameForSuffix): string;
 
     function cleanFilename(string $filename): string;
 }
