@@ -19,9 +19,7 @@ const initialState: FlightMapState = {
     showMapLayerSelection: false,
     showMeteoLayer: false,
     meteoLayer: MeteoLayer.SmaStationsLayer,
-    sidebarState: {
-        mode: SidebarMode.OFF,
-    },
+    sidebarMode: SidebarMode.OFF,
     crosshairIcons: []
 };
 
@@ -64,17 +62,11 @@ export const flightMapReducer = createReducer(
     on(FlightMapActions.showUploadChartSidebar, (state, action) => ({
         ...state,
         showMapOverlay: initialState.showMapOverlay,
-        sidebarState: {
-            ...state.sidebarState,
-            mode: SidebarMode.UPLOAD_AD_CHART,
-        },
+        sidebarMode: SidebarMode.UPLOAD_AD_CHART,
     })),
     on(FlightMapActions.hideSidebar, (state) => ({
         ...state,
-        sidebarState: {
-            ...state.sidebarState,
-            mode: SidebarMode.OFF
-        }
+        sidebarMode: SidebarMode.OFF
     })),
     on(FlightMapActions.setCrosshairIcons, (state, action) => ({
         ...state,

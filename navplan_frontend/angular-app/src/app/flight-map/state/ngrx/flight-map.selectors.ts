@@ -1,6 +1,5 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {FlightMapState} from './flight-map-state';
-import {SidebarMode} from './sidebar-mode';
 
 
 export const getFlightMapState = createFeatureSelector<FlightMapState>('flightMapState');
@@ -9,5 +8,5 @@ export const getFlightMapShowMeteoLayer = createSelector(getFlightMapState, stat
 export const getFlightMapMeteoLayer = createSelector(getFlightMapState, state => state.meteoLayer);
 export const getFlightMapShowFullScreen = createSelector(getFlightMapState, state => state.showFullScreen);
 export const getShowMapLayerSelection = createSelector(getFlightMapState, state => state.showMapLayerSelection);
-export const getSidebarMode = createSelector(getFlightMapState, state => state.sidebarState.mode);
+export const getSidebarMode = createSelector(getFlightMapState, state => state.sidebarMode);
 export const getCrosshairIcons = createSelector(getFlightMapState, state => state.crosshairIcons);

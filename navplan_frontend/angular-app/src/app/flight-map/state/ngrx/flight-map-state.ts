@@ -1,7 +1,7 @@
 import {OverlayState} from './overlay-state';
 import {MeteoLayer} from '../../domain/model/meteo-layer';
-import {SidebarState} from './sidebar-state';
 import {CrosshairIcon} from '../../../aerodrome-charts/domain/model/crosshair-icon';
+import {SidebarMode} from './sidebar-mode';
 
 
 export interface FlightMapState {
@@ -10,6 +10,6 @@ export interface FlightMapState {
     showMapLayerSelection: boolean;
     showMeteoLayer: boolean;
     meteoLayer: MeteoLayer;
-    sidebarState: SidebarState;
+    sidebarMode: SidebarMode;
     crosshairIcons: CrosshairIcon[];
 }

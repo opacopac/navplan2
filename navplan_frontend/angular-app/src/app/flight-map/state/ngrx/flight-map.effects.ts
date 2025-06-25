@@ -131,7 +131,7 @@ export class FlightMapEffects {
         ofType(BaseMapActions.mapClicked),
         withLatestFrom(this.flightMapState$, this.searchState$),
         filter(([action, flightMapState, searchState]) =>
-            flightMapState.sidebarState.mode === SidebarMode.OFF),
+            flightMapState.sidebarMode === SidebarMode.OFF),
         switchMap(([action, flightMapState, searchState]) => {
             const returnActions = [];
             console.log(action.dataItem);
