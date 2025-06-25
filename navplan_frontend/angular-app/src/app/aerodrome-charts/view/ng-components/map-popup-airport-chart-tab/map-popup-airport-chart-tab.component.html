@@ -40,7 +40,7 @@
                     *matCellDef="let chart"
                     class="button-cell"
                 >
-                    @if (chart.isUploadedByCurrentUser) {
+                    @if (chart.userId > 0) {
                         <app-icon-button
                             tooltipText="Delete Chart"
                             tooltipPosition="above"
