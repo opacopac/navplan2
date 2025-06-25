@@ -115,7 +115,7 @@ import {
 import {SidebarMode} from '../../../state/ngrx/sidebar-mode';
 import {
     OlCrosshairContainer
-} from "../../../../aerodrome-charts/view/ol-components/ol-crosshair-container";
+} from '../../../../aerodrome-charts/view/ol-components/ol-crosshair-container';
 
 
 @Component({

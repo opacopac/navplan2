@@ -4,6 +4,7 @@
         class="drawer"
         mode="side"
         position="end"
+        disableClose="true"
         [opened]="(this.sidebarMode$ | async) !== SidebarMode.OFF"
     >
         @if ((this.sidebarMode$ | async) === SidebarMode.UPLOAD_AD_CHART) {
