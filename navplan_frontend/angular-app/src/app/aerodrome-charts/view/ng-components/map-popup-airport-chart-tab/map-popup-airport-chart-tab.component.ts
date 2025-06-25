@@ -85,7 +85,7 @@ export class MapPopupAirportChartTabComponent implements OnInit {
             width: '400px',
             data: {
                 title: 'Delete Aerodrome Chart "' + chart.name + '"',
-                text: `Are you sure you want to delete the chart "${chart.name}"?`
+                text: 'Are you sure you want to delete this chart?'
             }
         });
 

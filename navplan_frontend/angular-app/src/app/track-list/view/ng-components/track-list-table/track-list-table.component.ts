@@ -119,8 +119,8 @@ export class TrackListTableComponent implements OnInit, OnChanges, AfterViewInit
         const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
             width: '400px',
             data: {
-                title: 'Delete Track',
-                text: `Are you sure you want to delete the track "${track.name}"?`,
+                title: 'Delete Track "' + track.name + '"',
+                text: `Are you sure you want to delete this track?`,
             }
         });
 

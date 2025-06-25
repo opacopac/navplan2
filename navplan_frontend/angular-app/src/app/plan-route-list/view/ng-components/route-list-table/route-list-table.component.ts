@@ -136,8 +136,8 @@ export class RouteListTableComponent implements OnInit, OnChanges, AfterViewInit
         const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
             width: '400px',
             data: {
-                title: `Delete Flight Route '${route.title}'`,
-                text: `Are you sure you want to delete the flight route '${route.title}'?`,
+                title: 'Delete Flight Route "' + route.title + '"',
+                text: 'Are you sure you want to delete this flight route?',
 
             }
         });

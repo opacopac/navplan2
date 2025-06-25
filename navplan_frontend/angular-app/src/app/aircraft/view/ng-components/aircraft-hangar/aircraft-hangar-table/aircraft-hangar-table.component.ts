@@ -149,8 +149,8 @@ export class AircraftHangarTableComponent implements OnInit, OnChanges, AfterVie
         const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
             width: '400px',
             data: {
-                title: `Delete Aircraft '${aircraft.registration}'`,
-                text: `Are you sure you want to delete the aircraft '${aircraft.registration}'?`,
+                title: 'Delete Aircraft "' + aircraft.registration + '"',
+                text: 'Are you sure you want to delete this aircraft?',
             }
         });
 
