@@ -1,0 +1,22 @@
+<h3 mat-dialog-title>{{ this.getTitle() }}</h3>
+<div mat-dialog-content>
+    {{ this.getText() }}
+</div>
+<div mat-dialog-actions class="action-buttons">
+    <button
+        mat-raised-button
+        type="submit"
+        color="warn"
+        (click)="this.onDeleteClicked()"
+    >
+        <i class="fa-regular fa-trash-can"></i>&nbsp;Delete
+    </button>
+    <button
+        mat-raised-button
+        color="accent"
+        type="button"
+        (click)="this.onCancelClicked()"
+    >
+        Cancel
+    </button>
+</div>

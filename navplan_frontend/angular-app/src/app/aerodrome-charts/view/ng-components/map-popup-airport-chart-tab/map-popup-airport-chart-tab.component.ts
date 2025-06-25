@@ -14,6 +14,13 @@ import {
     IconButtonComponent
 } from '../../../../common/view/ng-components/icon-button/icon-button.component';
 import {ButtonColor} from '../../../../common/view/model/button-color';
+import {
+    AircraftDeleteConfirmDialogComponent
+} from '../../../../aircraft/view/ng-components/aircraft-hangar/aircraft-delete-confirm-dialog/aircraft-delete-confirm-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {
+    ConfirmDeleteDialogComponent2
+} from "../../../../common/view/ng-components/confirm-delete-dialog2/confirm-delete-dialog-component2.component";
 
 
 @Component({
@@ -35,7 +42,10 @@ export class MapPopupAirportChartTabComponent implements OnInit {
     protected readonly ButtonColor = ButtonColor;
 
 
-    constructor(private appStore: Store<any>) {
+    constructor(
+        private appStore: Store<any>,
+        private dialog: MatDialog
+    ) {
     }
 
 
@@ -74,7 +84,19 @@ export class MapPopupAirportChartTabComponent implements OnInit {
 
 
     protected onDeleteChartClicked(chart: AirportChart) {
-        this.appStore.dispatch(AirportChartActions.deleteAirportChart({chart: chart}));
+        const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent2, {
+            width: '400px',
+            data: {
+                title: 'Delete Aerodrome Chart',
+                text: `Are you sure you want to delete the chart "${chart.name}"?`
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result && result.confirmDeletion) {
+                this.appStore.dispatch(AirportChartActions.deleteAirportChart({chart: chart}));
+            }
+        });
     }
 
 
