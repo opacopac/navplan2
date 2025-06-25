@@ -14,6 +14,8 @@ interface IFileService {
 
     function fopen(string $filename, string $mode): ?IFile;
 
+    function delete(string $filename): bool;
+
     function getTempDirBase(): string;
 
     function createTempDir(): string;
@@ -26,5 +28,7 @@ interface IFileService {
 
     function appendFilename(string $filename, string $appendix): string;
 
-    function getRandomFilename(string $originalFilename): string;
+    function getUniqueFilename(string $originalFilename): string;
+
+    function cleanFilename(string $filename): string;
 }

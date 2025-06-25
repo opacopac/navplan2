@@ -133,14 +133,33 @@ class AirportChartService implements IAirportChartService
     }
 
 
+    public function deleteAdChart(int $id, string $token): bool
+    {
+        $user = $this->userService->getUserOrThrow($token);
+        $adChart = $this->airportChartByIdQuery->read($id, $user->id);
+        $chartFile = $this->getChartFullPath($adChart->filename);
+
+        $this->fileService->delete($chartFile);
+        $this->airportChartDeleteCommand->delete($id, $user->id);
+
+        return true; // TODO
+    }
+
+
     private function moveFileToChartFolder(string $chartFile): string
     {
-        $newFilename = $this->fileService->getRandomFilename($chartFile);
-        $targetDir = $this->aerodromeChartConfig->getChartBaseDir();
-        $targetFile = $targetDir . $newFilename;
+        $newFilename = $this->fileService->getUniqueFilename($chartFile);
+        $targetFile = $this->getChartFullPath($newFilename);
         $this->fileService->rename($chartFile, $targetFile);
 
         return $targetFile;
+    }
+
+
+    private function getChartFullPath(string $chartFileName): string
+    {
+        $chartBaseDir = $this->aerodromeChartConfig->getChartBaseDir();
+        return $chartBaseDir . $chartFileName;
     }
 
 
@@ -160,14 +179,5 @@ class AirportChartService implements IAirportChartService
         $maxE = max($posTl->getE(), $posR);
 
         return Extent2d::createFromCoords($minE, $minN, $maxE, $maxN);
-    }
-
-    function deleteAdChart(int $id, string $token): bool
-    {
-        $user = $this->userService->getUserOrThrow($token);
-
-        $this->airportChartDeleteCommand->delete($id, $user->id);
-
-        return true; // TODO
     }
 }

@@ -73,14 +73,31 @@ class FileService implements IFileService
 
     public function fopen(string $filename, string $mode): ?IFile
     {
+        $this->loggingService->debug("opening file '" . $filename . "' with mode '" . $mode . "'...");
         $file = fopen($filename, $mode);
 
         return $file === FALSE ? NULL : new File($file);
     }
 
 
+    public function delete(string $filename): bool
+    {
+        if (!$this->file_exists($filename)) {
+            return true;
+        }
+
+        try {
+            $this->loggingService->debug("deleting file '" . $filename . "'...");
+            return unlink($filename);
+        } catch (Exception $ex) {
+            $this->logAndThrowException('error deleting file', $ex);
+        }
+    }
+
+
     public function shell_exec(string $cmd): ?string
     {
+        $this->loggingService->debug("Executing Shell Command: $cmd");
         return shell_exec($cmd);
     }
 
@@ -95,7 +112,9 @@ class FileService implements IFileService
     {
         $this->cleanUpTempDirs();
 
+        // create a new temp dir with a random name
         $tmpDir = self::TMP_DIR_PREFIX . StringNumberHelper::createRandomString(20);
+        $this->loggingService->debug("creating temp dir '" . $tmpDir . "'...");
         mkdir($this->getTempDirBase() . $tmpDir);
 
         return $tmpDir;
@@ -110,13 +129,77 @@ class FileService implements IFileService
 
     public function moveUploadedFile(string $from, string $to): bool
     {
+        $this->loggingService->debug("moving uploaded file from '" . $from . "' to '" . $to . "'...");
         return move_uploaded_file($from, $to);
     }
 
 
     public function rename(string $from, string $to, $context = null): bool
     {
+        $this->loggingService->debug("renaming file from '" . $from . "' to '" . $to . "'...");
         return rename($from, $to, $context);
+    }
+
+
+    public function appendFilename(string $filename, string $appendix): string
+    {
+        $pathInfo = pathinfo($filename);
+        $newFilename = $pathInfo["dirname"] . '/' . $pathInfo["filename"] . $appendix;
+
+        if (isset($pathInfo["extension"])) {
+            $newFilename .= '.' . $pathInfo["extension"];
+        }
+
+        return $newFilename;
+    }
+
+
+    public function getUniqueFilename(string $originalFilename): string
+    {
+        $newFilename = pathInfo($originalFilename, PATHINFO_FILENAME)
+            . "_"
+            . StringNumberHelper::createRandomString(20)
+            . "."
+            . pathinfo($originalFilename, PATHINFO_EXTENSION);
+
+        return $this->cleanFilename($newFilename);
+    }
+
+
+    public function cleanFilename(string $filename): string
+    {
+        // replace umlauts and special characters
+        $filename = str_replace(
+            ['ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü', 'ß', 'é', 'è', 'ê', 'É', 'È', 'Ê', 'ç', 'ô'],
+            ['ae', 'oe', 'ue', 'Ae', 'Oe', 'Ue', 'ss', 'e', 'e', 'e', 'E', 'E', 'E', 'c', 'o'],
+            $filename
+        );
+
+        // remove all characters except alphanumeric, underscore, dash and dot
+        $cleanedFilename = preg_replace('/[^a-zA-Z0-9_\-\.]/', '_', $filename);
+
+        // remove multiple dots, dashes & underscores
+        $cleanedFilename = preg_replace('/\.+/', '.', $cleanedFilename);
+        $cleanedFilename = preg_replace('/-+/', '-', $cleanedFilename);
+        $cleanedFilename = preg_replace('/_+/', '_', $cleanedFilename);
+
+        // remove leading and trailing dots, dashes and underscores
+        $cleanedFilename = trim($cleanedFilename, '.');
+        $cleanedFilename = trim($cleanedFilename, '-');
+        $cleanedFilename = trim($cleanedFilename, '_');
+
+        // ensure maximum length
+        $maxLength = 255; // typical maximum length for filenames
+        if (strlen($cleanedFilename) > $maxLength) {
+            $cleanedFilename = substr($cleanedFilename, 0, $maxLength);
+        }
+
+        // ensure the filename is not empty
+        if ($cleanedFilename === '') {
+            throw new FileServiceException("Filename cannot be empty after cleaning.");
+        }
+
+        return $cleanedFilename;
     }
 
 
@@ -173,24 +256,5 @@ class FileService implements IFileService
         } else {
             throw new FileServiceException($msg);
         }
-    }
-
-    public function appendFilename(string $filename, string $appendix): string
-    {
-        $pathInfo = pathinfo($filename);
-        $newFilename = $pathInfo["dirname"] . '/' . $pathInfo["filename"] . $appendix;
-
-        if (isset($pathInfo["extension"])) {
-            $newFilename .= '.' . $pathInfo["extension"];
-        }
-
-        return $newFilename;
-    }
-
-    function getRandomFilename(string $originalFilename): string
-    {
-        return StringNumberHelper::createRandomString(20)
-            . "."
-            . pathinfo($originalFilename, PATHINFO_EXTENSION);
     }
 }
