@@ -207,7 +207,6 @@ export class AirportChartEffects {
         switchMap(action => this.airportChartService.deleteAdChart(action.chart.id).pipe(
             switchMap(deleted => [
                 AirportChartActions.deleteAirportChartSuccess({chartId: action.chart.id}),
-                // TODO: reload the airport charts list
                 MessageActions.showMessage({
                     message: Message.success('Airport chart deleted successfully.')
                 })

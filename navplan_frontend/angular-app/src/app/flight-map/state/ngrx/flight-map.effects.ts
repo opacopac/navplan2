@@ -222,6 +222,7 @@ export class FlightMapEffects {
     hideOverlay2Action$ = createEffect(() => this.actions$.pipe(
         ofType(
             AirportChartActions.openAirportChart,
+            AirportChartActions.deleteAirportChartSuccess,
             WaypointActions.insert,
             WaypointActions.delete,
             WaypointActions.update,
