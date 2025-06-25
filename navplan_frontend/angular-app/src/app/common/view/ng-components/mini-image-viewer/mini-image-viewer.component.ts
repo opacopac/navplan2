@@ -13,7 +13,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
 import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
-import {environment} from '../../../../../environments/environment';
 import {SvgCrosshairSvg} from '../../../svg/svg-crosshair-svg';
 
 
@@ -29,6 +28,8 @@ import {SvgCrosshairSvg} from '../../../svg/svg-crosshair-svg';
     styleUrls: ['./mini-image-viewer.component.scss']
 })
 export class MiniImageViewerComponent implements OnInit, OnChanges, AfterViewInit {
+    private static readonly ZOOM_FACTOR = 1.2;
+
     @Input() public imageSrc;
     @Input() public isClickable = false;
     @Input() public fitImage = false;
@@ -45,7 +46,6 @@ export class MiniImageViewerComponent implements OnInit, OnChanges, AfterViewIni
     protected naturalWidth = 0;
     protected naturalHeight = 0;
     protected scale = 1;
-    protected crosshairIcon = environment.iconBaseUrl + 'crosshair.svg';
     protected centerOffsetPx = 17; // half of the crosshair icon size (34px)
 
 
@@ -106,12 +106,22 @@ export class MiniImageViewerComponent implements OnInit, OnChanges, AfterViewIni
 
 
     protected zoomIn() {
-        this.scale *= 1.2;
+        const scrollPos = this.getScrollPos();
+        this.scale *= MiniImageViewerComponent.ZOOM_FACTOR;
+        this.setScrollPos({
+            top: scrollPos.top * MiniImageViewerComponent.ZOOM_FACTOR,
+            left: scrollPos.left * MiniImageViewerComponent.ZOOM_FACTOR
+        });
     }
 
 
     protected zoomOut() {
-        this.scale /= 1.2;
+        const scrollPos = this.getScrollPos();
+        this.scale /= MiniImageViewerComponent.ZOOM_FACTOR;
+        this.setScrollPos({
+            top: scrollPos.top / MiniImageViewerComponent.ZOOM_FACTOR,
+            left: scrollPos.left / MiniImageViewerComponent.ZOOM_FACTOR
+        });
     }
 
 
@@ -150,5 +160,29 @@ export class MiniImageViewerComponent implements OnInit, OnChanges, AfterViewIni
         const coord = new XyCoord(adjustedX, adjustedY);
 
         this.imageClicked.emit(coord);
+    }
+
+
+    private getScrollPos(): { top: number, left: number } {
+        if (!this.imgContainer) {
+            return {top: 0, left: 0};
+        }
+
+        const container = this.imgContainer.nativeElement;
+        return {
+            top: container.scrollTop,
+            left: container.scrollLeft
+        };
+    }
+
+
+    private setScrollPos(scrollPos: { top: number, left: number }) {
+        if (!this.imgContainer) {
+            return;
+        }
+
+        const container = this.imgContainer.nativeElement;
+        container.scrollTop = scrollPos.top;
+        container.scrollLeft = scrollPos.left;
     }
 }

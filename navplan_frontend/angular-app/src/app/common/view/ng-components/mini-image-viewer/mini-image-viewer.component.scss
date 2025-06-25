@@ -10,12 +10,12 @@
     width: 100%;
     height: 100%;
     background: #cccccc; /* TODO: temporary background color */
-    overflow: auto; /* Enable scroll bars if needed */
     border: 1px solid #999999;
+    overflow: auto; /* Enable scroll bars if needed */
 }
 
 .image-container img {
-    transition: all 0.2s ease;
+    //transition: all 0.2s ease;
     display: block;
 }
 
