@@ -14,13 +14,10 @@ import {
     IconButtonComponent
 } from '../../../../common/view/ng-components/icon-button/icon-button.component';
 import {ButtonColor} from '../../../../common/view/model/button-color';
-import {
-    AircraftDeleteConfirmDialogComponent
-} from '../../../../aircraft/view/ng-components/aircraft-hangar/aircraft-delete-confirm-dialog/aircraft-delete-confirm-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {
-    ConfirmDeleteDialogComponent2
-} from "../../../../common/view/ng-components/confirm-delete-dialog2/confirm-delete-dialog-component2.component";
+    ConfirmDeleteDialogComponent
+} from '../../../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog-component.component';
 
 
 @Component({
@@ -84,10 +81,10 @@ export class MapPopupAirportChartTabComponent implements OnInit {
 
 
     protected onDeleteChartClicked(chart: AirportChart) {
-        const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent2, {
+        const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
             width: '400px',
             data: {
-                title: 'Delete Aerodrome Chart',
+                title: 'Delete Aerodrome Chart "' + chart.name + '"',
                 text: `Are you sure you want to delete the chart "${chart.name}"?`
             }
         });

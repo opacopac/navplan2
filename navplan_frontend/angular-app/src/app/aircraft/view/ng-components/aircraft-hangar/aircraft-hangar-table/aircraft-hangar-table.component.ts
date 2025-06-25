@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild
+} from '@angular/core';
 import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
@@ -7,17 +16,21 @@ import {Aircraft} from '../../../../domain/model/aircraft';
 import {MatDialog} from '@angular/material/dialog';
 import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantities/consumption-unit';
-import {AircraftCreateFormDialogComponent} from '../aircraft-create-form-dialog/aircraft-create-form-dialog.component';
 import {
-    AircraftDeleteConfirmDialogComponent
-} from '../aircraft-delete-confirm-dialog/aircraft-delete-confirm-dialog.component';
+    AircraftCreateFormDialogComponent
+} from '../aircraft-create-form-dialog/aircraft-create-form-dialog.component';
 import {TextFilterState} from '../../../../../common/state/model/text-filter-state';
 import {TableState} from '../../../../../common/state/model/table-state';
 import {
     TableTextFilterAndCreateButtonComponent
 } from '../../../../../common/view/ng-components/table-filter-and-create-button/table-text-filter-and-create-button.component';
-import {IconButtonComponent} from '../../../../../common/view/ng-components/icon-button/icon-button.component';
+import {
+    IconButtonComponent
+} from '../../../../../common/view/ng-components/icon-button/icon-button.component';
 import {NgClass} from '@angular/common';
+import {
+    ConfirmDeleteDialogComponent
+} from '../../../../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog-component.component';
 
 
 export interface ListEntry {
@@ -133,10 +146,11 @@ export class AircraftHangarTableComponent implements OnInit, OnChanges, AfterVie
 
 
     protected onDeleteAircraftClick(aircraft: AircraftListEntry) {
-        const dialogRef = this.dialog.open(AircraftDeleteConfirmDialogComponent, {
+        const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
             width: '400px',
             data: {
-                aircraft: aircraft
+                title: `Delete Aircraft '${aircraft.registration}'`,
+                text: `Are you sure you want to delete the aircraft '${aircraft.registration}'?`,
             }
         });
 

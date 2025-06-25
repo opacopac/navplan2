@@ -9,13 +9,13 @@ import {FormBuilder} from '@angular/forms';
         MatDialogModule,
         MatButtonModule
     ],
-    templateUrl: './confirm-delete-dialog-component2.component.html',
-    styleUrls: ['./confirm-delete-dialog-component2.component.scss']
+    templateUrl: './confirm-delete-dialog-component.component.html',
+    styleUrls: ['./confirm-delete-dialog-component.component.scss']
 })
-export class ConfirmDeleteDialogComponent2 implements OnInit {
+export class ConfirmDeleteDialogComponent implements OnInit {
     constructor(
         public formBuilder: FormBuilder,
-        private dialogRef: MatDialogRef<ConfirmDeleteDialogComponent2>,
+        private dialogRef: MatDialogRef<ConfirmDeleteDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: {
             title: string,
             text: string,

@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild
+} from '@angular/core';
 import {Track} from '../../../../track/domain/model/track';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
@@ -6,15 +15,21 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
 import {Timestamp} from '../../../../geo-physics/domain/model/quantities/timestamp';
-import {TrackDeleteConfirmDialogComponent} from '../track-delete-confirm-dialog/track-delete-confirm-dialog.component';
-import {TrackEditFormDialogComponent} from '../track-edit-form-dialog/track-edit-form-dialog.component';
+import {
+    TrackEditFormDialogComponent
+} from '../track-edit-form-dialog/track-edit-form-dialog.component';
 import {TableState} from '../../../../common/state/model/table-state';
 import {TextFilterState} from '../../../../common/state/model/text-filter-state';
 import {
     TableTextFilterAndCreateButtonComponent
 } from '../../../../common/view/ng-components/table-filter-and-create-button/table-text-filter-and-create-button.component';
-import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
+import {
+    IconButtonComponent
+} from '../../../../common/view/ng-components/icon-button/icon-button.component';
 import {CommonModule} from '@angular/common';
+import {
+    ConfirmDeleteDialogComponent
+} from '../../../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog-component.component';
 
 
 export interface ListEntry {
@@ -101,10 +116,11 @@ export class TrackListTableComponent implements OnInit, OnChanges, AfterViewInit
 
 
     protected onDeleteTrackClick(track: Track) {
-        const dialogRef = this.dialog.open(TrackDeleteConfirmDialogComponent, {
+        const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
             width: '400px',
             data: {
-                track: track
+                title: 'Delete Track',
+                text: `Are you sure you want to delete the track "${track.name}"?`,
             }
         });
 

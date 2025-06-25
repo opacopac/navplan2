@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild
+} from '@angular/core';
 import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {ButtonColor} from '../../../../common/view/model/button-color';
@@ -7,15 +16,21 @@ import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-u
 import {ConsumptionUnit} from '../../../../geo-physics/domain/model/quantities/consumption-unit';
 import {FlightrouteListEntry} from '../../../../flightroute/domain/model/flightroute-list-entry';
 import {Flightroute} from '../../../../flightroute/domain/model/flightroute';
-import {RouteCreateFormDialogComponent} from '../route-create-form-dialog/route-create-form-dialog.component';
+import {
+    RouteCreateFormDialogComponent
+} from '../route-create-form-dialog/route-create-form-dialog.component';
 import {TextFilterState} from '../../../../common/state/model/text-filter-state';
 import {TableState} from '../../../../common/state/model/table-state';
-import {RouteDeleteConfirmDialogComponent} from '../route-delete-confirm-dialog/route-delete-confirm-dialog.component';
 import {
     TableTextFilterAndCreateButtonComponent
 } from '../../../../common/view/ng-components/table-filter-and-create-button/table-text-filter-and-create-button.component';
-import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
+import {
+    IconButtonComponent
+} from '../../../../common/view/ng-components/icon-button/icon-button.component';
 import {CommonModule} from '@angular/common';
+import {
+    ConfirmDeleteDialogComponent
+} from '../../../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog-component.component';
 
 
 export interface ListEntry {
@@ -118,10 +133,12 @@ export class RouteListTableComponent implements OnInit, OnChanges, AfterViewInit
 
 
     protected onDeleteFlightrouteClick(route: FlightrouteListEntry) {
-        const dialogRef = this.dialog.open(RouteDeleteConfirmDialogComponent, {
+        const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
             width: '400px',
             data: {
-                flightroute: route
+                title: `Delete Flight Route '${route.title}'`,
+                text: `Are you sure you want to delete the flight route '${route.title}'?`,
+
             }
         });
 
