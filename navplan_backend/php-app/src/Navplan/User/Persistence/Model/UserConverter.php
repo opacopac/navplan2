@@ -12,7 +12,7 @@ class UserConverter {
             $row["token"],
             $row["email"],
             $row["pw_hash"],
-            intval($row["is_moderator"]) === 1 ? true : false
+            intval($row["is_moderator"]) === 1
         );
     }
 }
