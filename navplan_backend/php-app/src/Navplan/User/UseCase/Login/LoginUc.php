@@ -33,7 +33,9 @@ class LoginUc implements ILoginUc {
             return new UserResponse(-2, 'error: invalid password');
         }
 
+        $user = $this->userRepo->readUser($request->email);
         $token = $this->tokenService->createToken($request->email, $request->rememberMe);
-        return new UserResponse(0, NULL, $request->email, $token);
+
+        return new UserResponse(0, NULL, $request->email, $token, $user->isModerator);
     }
 }

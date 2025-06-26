@@ -4,22 +4,13 @@ namespace Navplan\User\UseCase;
 
 
 class UserResponse {
-    public $code;
-    public $message;
-    public $email;
-    public $token;
-
-
     public function __construct(
-        int $errorCode,
-        ?string $message,
-        string $email = NULL,
-        string $token = NULL
+        public int $code,
+        public ?string $message,
+        public ?string $email = NULL,
+        public ?string $token = NULL,
+        public bool $isModerator = false
     )
     {
-        $this->code = $errorCode;
-        $this->message = $message;
-        $this->email = $email;
-        $this->token = $token;
     }
 }

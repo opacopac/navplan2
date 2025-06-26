@@ -12,7 +12,8 @@ class DummyUser1 {
             123,
             $tokenService->createToken("test@navplan.ch", FALSE),
             "test@navplan.ch",
-            password_hash('123456', PASSWORD_BCRYPT)
+            password_hash('123456', PASSWORD_BCRYPT),
+            false
         );
     }
 
@@ -22,7 +23,8 @@ class DummyUser1 {
             "id" => 22,
             "token" => $tokenService->createToken("test@navplan.ch", FALSE),
             "email" => "test@navplan.ch",
-            "pw_hash" => password_hash('123456', PASSWORD_BCRYPT)
+            "pw_hash" => password_hash('123456', PASSWORD_BCRYPT),
+            "is_moderator" => 0
         );
     }
 }

@@ -24,7 +24,8 @@ class User {
         public int $id,
         public string $token,
         public string $email,
-        public string $pwhash
+        public string $pwhash,
+        public bool $isModerator,
     ) {
     }
 }

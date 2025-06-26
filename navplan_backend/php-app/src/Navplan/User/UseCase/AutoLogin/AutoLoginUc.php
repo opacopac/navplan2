@@ -3,12 +3,17 @@
 namespace Navplan\User\UseCase\AutoLogin;
 
 use Navplan\User\Domain\Service\ITokenService;
+use Navplan\User\Domain\Service\IUserRepo;
 use Navplan\User\UseCase\UserResponse;
 
 
 class AutoLoginUc implements IAutoLoginUc {
-    public function __construct(private ITokenService $tokenService) {
+    public function __construct(
+        private IUserRepo $userRepo,
+        private ITokenService $tokenService
+    ) {
     }
+
 
 
     public function autologin(string $token): UserResponse {
@@ -21,6 +26,8 @@ class AutoLoginUc implements IAutoLoginUc {
             return new UserResponse(-1, 'error: invalid token');
         }
 
-        return new UserResponse(0, NULL, $email, $token);
+        $user = $this->userRepo->readUser($email);
+
+        return new UserResponse(0, NULL, $email, $token, $user->isModerator);
     }
 }

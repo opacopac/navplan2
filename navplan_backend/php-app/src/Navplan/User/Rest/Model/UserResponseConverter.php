@@ -20,6 +20,8 @@ class UserResponseConverter {
             $responseArray["token"] = $response->token;
         }
 
+        $responseArray["is_moderator"] = $response->isModerator;
+
         return $responseArray;
     }
 }

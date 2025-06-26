@@ -134,7 +134,10 @@ class ProdUserDiContainer implements IUserDiContainer {
 
     public function getAutoLoginUc(): IAutoLoginUc {
         if (!isset($this->autologinUc)) {
-            $this->autologinUc = new AutoLoginUc($this->getTokenService());
+            $this->autologinUc = new AutoLoginUc(
+                $this->getUserRepo(),
+                $this->getTokenService()
+            );
         }
 
         return $this->autologinUc;

@@ -10,6 +10,7 @@ import {IRestTokenResponse} from '../model/i-rest-token-response';
 import {IRestSimpleResponse} from '../model/i-rest-simple-response';
 import {IUserRepoService} from '../../domain/service/i-user-repo.service';
 import {HttpHelper} from '../../../system/domain/service/http/http-helper';
+import {RestUserConverter} from "../model/rest-user-converter";
 
 
 @Injectable()
@@ -29,7 +30,7 @@ export class RestUserRepoService implements IUserRepoService {
                 switchMap((response) => {
                     switch (response.resultcode) {
                         case 0:
-                            return of(new User(response.email, response.token));
+                            return of(RestUserConverter.fromRest(response));
                         case -1:
                             throw new TextError('Invalid token!');
                         default:
@@ -64,7 +65,7 @@ export class RestUserRepoService implements IUserRepoService {
                 switchMap((response) => {
                     switch (response.resultcode) {
                         case 0:
-                            return of(new User(response.email, response.token));
+                            return of(RestUserConverter.fromRest(response));
                         case -1:
                             throw new TextError('Email not found!');
                         case -2:
@@ -132,7 +133,7 @@ export class RestUserRepoService implements IUserRepoService {
                 switchMap(response => {
                     switch (response.resultcode) {
                         case 0:
-                            return of(new User(response.email, response.token));
+                            return of(RestUserConverter.fromRest(response));
                         case -1:
                             throw new TextError('Invalid password format!');
                         case -2:
@@ -202,7 +203,7 @@ export class RestUserRepoService implements IUserRepoService {
                 switchMap(response => {
                     switch (response.resultcode) {
                         case 0:
-                            return of(new User(response.email, response.token));
+                            return of(RestUserConverter.fromRest(response));
                         case -1:
                             throw new TextError('Invalid password format!');
                         case -2:
