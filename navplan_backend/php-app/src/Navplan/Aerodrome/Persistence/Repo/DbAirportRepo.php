@@ -40,8 +40,7 @@ class DbAirportRepo implements IAirportRepo
         $result = $this->dbService->execSingleResultQuery($query, false, "error loading airport by id");
         $row = $result->fetch_assoc();
         $airport = DbAirportConverter::fromDbRow($row);
-        $airports = [$airport];
-        self::loadAirportSubItems($airports);
+        self::loadAirportSubItems($airport);
 
         return $airport;
     }
@@ -54,8 +53,7 @@ class DbAirportRepo implements IAirportRepo
         $result = $this->dbService->execSingleResultQuery($query, false, "error loading airport by icao");
         $row = $result->fetch_assoc();
         $airport = DbAirportConverter::fromDbRow($row);
-        $airports = [$airport];
-        self::loadAirportSubItems($airports);
+        self::loadAirportSubItems($airport);
 
         return $airport;
     }
@@ -119,7 +117,6 @@ class DbAirportRepo implements IAirportRepo
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching airports by position");
         $airports = self::readAirportFromResultList($result);
-        // self::loadAirportSubItems($airports);
 
         return $airports;
     }
@@ -146,7 +143,6 @@ class DbAirportRepo implements IAirportRepo
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching airports by text");
         $airports = self::readAirportFromResultList($result);
-        // self::loadAirportSubItems($airports);
 
         return $airports;
     }
@@ -204,81 +200,57 @@ class DbAirportRepo implements IAirportRepo
     }
 
 
-    private function loadAirportSubItems(array &$airports): void
+    private function loadAirportSubItems(Airport &$airport): void
     {
-        if (count($airports) == 0)
-            return;
-
-        $apIds = [];
-        $apIcaos = [];
-        foreach ($airports as $ap) {
-            $apIds[] = $ap->id;
-            $apIcaos[] = $ap->icao;
-        }
-
-        $apIdList = join(",", $apIds);
-        $apIcaoList = "'" . join("','", $apIcaos) . "'";
-
-        $this->loadAirportRunways($airports, $apIdList);
-        $this->loadAirportRadios($airports, $apIdList);
-        $this->loadAirportCharts2($airports, $apIcaoList);
-        $this->loadAirportFeatures($airports, $apIcaoList);
+        $this->loadAirportRunways($airport);
+        $this->loadAirportRadios($airport);
+        $this->loadAirportCharts2($airport);
+        $this->loadAirportFeatures($airport);
+        // TODO: load ad webcams
     }
 
 
-    private function loadAirportRunways(array &$airports, string $apIdList): void
+    private function loadAirportRunways(Airport &$airport): void
     {
-        $this->dbService->escapeString($apIdList);
         $query = "SELECT *";
         $query .= " FROM openaip_runways2";
-        $query .= " WHERE operations = 'ACTIVE' AND airport_id IN (" . $apIdList . ")";
+        $query .= " WHERE operations = 'ACTIVE' AND airport_id = " . $airport->id;
         $query .= " ORDER BY length DESC, surface ASC, id ASC";
-        $result = $this->dbService->execMultiResultQuery($query, "error reading runways");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading runways for airport id " . $airport->id);
 
         while ($row = $result->fetch_assoc()) {
-            foreach ($airports as &$ap) {
-                if ($ap->id === intval($row["airport_id"])) {
-                    $ap->runways[] = DbAirportRunwayConverter::fromDbRow($row);
-                    break;
-                }
-            }
+            $airport->runways[] = DbAirportRunwayConverter::fromDbRow($row);
         }
     }
 
 
-    private function loadAirportRadios(array &$airports, string $apIdList): void
+    private function loadAirportRadios(Airport &$airport): void
     {
-        $this->dbService->escapeString($apIdList);
         $query = "SELECT *,";
         $query .= "  (CASE WHEN category = 'COMMUNICATION' THEN 1 WHEN category = 'OTHER' THEN 2 WHEN category = 'INFORMATION' THEN 3 ELSE 4 END) AS sortorder1,";
         $query .= "  (CASE WHEN type = 'TOWER' THEN 1 WHEN type = 'CTAF' THEN 2 WHEN type = 'OTHER' THEN 3 ELSE 4 END) AS sortorder2";
         $query .= " FROM openaip_radios2";
-        $query .= " WHERE airport_id IN (" . $apIdList . ")";
+        $query .= " WHERE airport_id = " . $airport->id;
         $query .= " ORDER BY";
         $query .= "   sortorder1 ASC,";
         $query .= "   sortorder2 ASC,";
         $query .= "   frequency ASC";
 
-        $result = $this->dbService->execMultiResultQuery($query, "error reading radios");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading radios for airport id " . $airport->id);
 
         while ($row = $result->fetch_assoc()) {
-            foreach ($airports as &$ap) {
-                if ($ap->id === intval($row["airport_id"])) {
-                    $ap->radios[] = DbAirportRadioConverter::fromDbRow($row);
-                    break;
-                }
-            }
+            $airport->radios[] = DbAirportRadioConverter::fromDbRow($row);
         }
     }
 
 
-    private function loadAirportCharts2(array &$airports, string $apIcaoList): void
+    private function loadAirportCharts2(Airport &$airport): void
     {
         // TODO => use chart repo
         $query = "SELECT *,";
         $query .= "  (CASE WHEN name LIKE 'AREA%' THEN 1 WHEN name LIKE 'VAC%' THEN 2 WHEN name LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
         $query .= " FROM ad_charts2 ";
-        $query .= " WHERE ad_icao IN (" . $apIcaoList . ")";
+        $query .= " WHERE ad_icao = " . $this->dbService->escapeAndQuoteString($airport->icao);
         $query .= " ORDER BY";
         $query .= "   source ASC,";
         $query .= "   sortorder1 ASC,";
@@ -287,22 +259,16 @@ class DbAirportRepo implements IAirportRepo
         $result = $this->dbService->execMultiResultQuery($query, "error reading charts");
 
         while ($row = $result->fetch_assoc()) {
-            foreach ($airports as &$ap) {
-                if ($ap->icao === $row["ad_icao"]) {
-                    $ap->charts2[] = DbAirportChart2Converter::fromDbRow($row);
-                    break;
-                }
-            }
+            $airport->charts2[] = DbAirportChart2Converter::fromDbRow($row);
         }
     }
 
 
-    private function loadAirportFeatures(array &$airports, string $apIcaoList): void
+    private function loadAirportFeatures(Airport &$airport): void
     {
-        $this->dbService->escapeString($apIcaoList);
         $query = "SELECT *";
         $query .= " FROM map_features";
-        $query .= " WHERE airport_icao IN (" . $apIcaoList . ")";
+        $query .= " WHERE airport_icao = " . $this->dbService->escapeAndQuoteString($airport->icao);
         $query .= " ORDER BY";
         $query .= "   type ASC,";
         $query .= "   name ASC";
@@ -310,12 +276,7 @@ class DbAirportRepo implements IAirportRepo
         $result = $this->dbService->execMultiResultQuery($query, "error reading map features");
 
         while ($row = $result->fetch_assoc()) {
-            foreach ($airports as &$ap) {
-                if ($ap->icao === $row["airport_icao"]) {
-                    $ap->mapfeatures[] = DbAirportFeatureConverter::fromDbRow($row);
-                    break;
-                }
-            }
+            $airport->mapfeatures[] = DbAirportFeatureConverter::fromDbRow($row);
         }
     }
 
