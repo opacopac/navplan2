@@ -18,7 +18,9 @@ import {PlanPerfWeatherCalculationState} from '../state-model/plan-perf-weather-
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {PlanPerfTakeoffCalculationState} from '../state-model/plan-perf-takeoff-calculation-state';
 import {AircraftPerformanceService} from '../../../aircraft-performance/domain/service/aircraft-performance.service';
-import {DistancePerformanceConditions} from '../../../aircraft-performance/domain/model/distance-performance-conditions';
+import {
+    DistancePerformanceConditions
+} from '../../../aircraft-performance/domain/model/distance-performance-conditions';
 import {PlanPerfRwyFactorsState} from '../state-model/plan-perf-rwy-factors-state';
 import {Aircraft} from '../../../aircraft/domain/model/aircraft';
 import {PlanPerfLandingCalculationState} from '../state-model/plan-perf-landing-calculation-state';
@@ -128,7 +130,7 @@ export class PlanPerfEffects {
                 rwyWind: Speed.ofZero(),
                 touchdownAfterThr: Length.ofM(100),
                 use50ftAboveThreshold: false,
-                reservePercent: 20
+                reservePercent: 30
             },
             aircraftPerfProfileIdx: null,
             tkofPerformance: null,
