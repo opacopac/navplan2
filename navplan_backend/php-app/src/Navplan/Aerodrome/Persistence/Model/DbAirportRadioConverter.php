@@ -4,8 +4,10 @@ namespace Navplan\Aerodrome\Persistence\Model;
 
 use Navplan\Aerodrome\Domain\Model\AirportRadio;
 use Navplan\Aerodrome\Domain\Model\AirportRadioType;
+use Navplan\Aerodrome\Domain\Model\AirportRunway;
 use Navplan\Common\Domain\Model\Frequency;
 use Navplan\Common\Domain\Model\FrequencyUnit;
+use Navplan\System\Domain\Model\IDbResult;
 use Navplan\System\Domain\Model\IDbStatement;
 use Navplan\System\Domain\Service\IDbService;
 
@@ -19,6 +21,21 @@ class DbAirportRadioConverter {
             $row[DbTableAirportRadio::COL_NAME] ?? null,
             boolval($row[DbTableAirportRadio::COL_IS_PRIMARY])
         );
+    }
+
+
+    /**
+     * @param IDbResult $result
+     * @return AirportRadio[]
+     */
+    public static function fromDbResult(IDbResult $result): array
+    {
+        $adRadio = [];
+        while ($row = $result->fetch_assoc()) {
+            $adRadio[] = self::fromDbRow($row);
+        }
+
+        return $adRadio;
     }
 
 

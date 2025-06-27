@@ -5,9 +5,11 @@ namespace Navplan\Aerodrome\Persistence\Model;
 use Navplan\Aerodrome\Domain\Model\AirportRunway;
 use Navplan\Aerodrome\Domain\Model\AirportRunwayOperations;
 use Navplan\Aerodrome\Domain\Model\AirportRunwayType;
+use Navplan\AerodromeChart\Domain\Model\AirportChart;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\StringNumberHelper;
+use Navplan\System\Domain\Model\IDbResult;
 use Navplan\System\Domain\Model\IDbStatement;
 use Navplan\System\Domain\Service\IDbService;
 
@@ -33,6 +35,19 @@ class DbAirportRunwayConverter {
     }
 
 
+    /**
+     * @param IDbResult $result
+     * @return AirportRunway[]
+     */
+    public static function fromDbResult(IDbResult $result): array
+    {
+        $adRwys = [];
+        while ($row = $result->fetch_assoc()) {
+            $adRwys[] = self::fromDbRow($row);
+        }
+
+        return $adRwys;
+    }
 
 
     public static function prepareInsertStatement(IDbService $dbService): IDbStatement {

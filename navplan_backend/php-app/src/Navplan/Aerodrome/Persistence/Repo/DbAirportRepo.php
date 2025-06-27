@@ -3,6 +3,9 @@
 namespace Navplan\Aerodrome\Persistence\Repo;
 
 use Navplan\Aerodrome\Domain\Model\Airport;
+use Navplan\Aerodrome\Domain\Model\AirportFeature;
+use Navplan\Aerodrome\Domain\Model\AirportRadio;
+use Navplan\Aerodrome\Domain\Model\AirportRunway;
 use Navplan\Aerodrome\Domain\Model\AirportRunwayOperations;
 use Navplan\Aerodrome\Domain\Service\IAirportRepo;
 use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
@@ -13,6 +16,7 @@ use Navplan\Aerodrome\Persistence\Model\DbShortAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirportRadio;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirportRunway;
+use Navplan\AerodromeChart\Domain\Model\AirportChart;
 use Navplan\AerodromeChart\Persistence\Model\DbAirportChart2Converter;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Position2d;
@@ -202,82 +206,99 @@ class DbAirportRepo implements IAirportRepo
 
     private function loadAirportSubItems(Airport &$airport): void
     {
-        $this->loadAirportRunways($airport);
-        $this->loadAirportRadios($airport);
-        $this->loadAirportCharts2($airport);
-        $this->loadAirportFeatures($airport);
+        $airport->runways = $this->loadAirportRunways($airport->id);
+        $airport->radios = $this->loadAirportRadios($airport->id);
+        $airport->charts2 = $this->loadAirportCharts2($airport->icao);
+        $airport->mapfeatures = $this->loadAirportFeatures($airport->icao);
         // TODO: load ad webcams
     }
 
 
-    private function loadAirportRunways(Airport &$airport): void
+    /**
+     * @param int $airportId
+     * @return AirportRunway[]
+     */
+    private function loadAirportRunways(int $airportId): array
     {
         $query = "SELECT *";
         $query .= " FROM openaip_runways2";
-        $query .= " WHERE operations = 'ACTIVE' AND airport_id = " . $airport->id;
+        $query .= " WHERE operations = 'ACTIVE' AND airport_id = " . $airportId;
         $query .= " ORDER BY length DESC, surface ASC, id ASC";
-        $result = $this->dbService->execMultiResultQuery($query, "error reading runways for airport id " . $airport->id);
 
-        while ($row = $result->fetch_assoc()) {
-            $airport->runways[] = DbAirportRunwayConverter::fromDbRow($row);
-        }
+        $result = $this->dbService->execMultiResultQuery($query, "error reading runways for airport id " . $airportId);
+
+        return DbAirportRunwayConverter::fromDbResult($result);
     }
 
 
-    private function loadAirportRadios(Airport &$airport): void
+    /**
+     * @param int $airportId
+     * @return AirportRadio[]
+     */
+    private function loadAirportRadios(int $airportId): array
     {
         $query = "SELECT *,";
         $query .= "  (CASE WHEN category = 'COMMUNICATION' THEN 1 WHEN category = 'OTHER' THEN 2 WHEN category = 'INFORMATION' THEN 3 ELSE 4 END) AS sortorder1,";
         $query .= "  (CASE WHEN type = 'TOWER' THEN 1 WHEN type = 'CTAF' THEN 2 WHEN type = 'OTHER' THEN 3 ELSE 4 END) AS sortorder2";
         $query .= " FROM openaip_radios2";
-        $query .= " WHERE airport_id = " . $airport->id;
+        $query .= " WHERE airport_id = " . $airportId;
         $query .= " ORDER BY";
         $query .= "   sortorder1 ASC,";
         $query .= "   sortorder2 ASC,";
         $query .= "   frequency ASC";
 
-        $result = $this->dbService->execMultiResultQuery($query, "error reading radios for airport id " . $airport->id);
+        $result = $this->dbService->execMultiResultQuery($query, "error reading radios for airport id " . $airportId);
 
-        while ($row = $result->fetch_assoc()) {
-            $airport->radios[] = DbAirportRadioConverter::fromDbRow($row);
-        }
+        return DbAirportRadioConverter::fromDbResult($result);
     }
 
 
-    private function loadAirportCharts2(Airport &$airport): void
+    /**
+     * @param string $adIcao
+     * @return AirportChart[]
+     */
+    private function loadAirportCharts2(string $adIcao): array
     {
+        if (!$adIcao) {
+            return [];
+        }
+
         // TODO => use chart repo
         $query = "SELECT *,";
         $query .= "  (CASE WHEN name LIKE 'AREA%' THEN 1 WHEN name LIKE 'VAC%' THEN 2 WHEN name LIKE 'AD INFO%' THEN 3 ELSE 4 END) AS sortorder1";
         $query .= " FROM ad_charts2 ";
-        $query .= " WHERE ad_icao = " . $this->dbService->escapeAndQuoteString($airport->icao);
+        $query .= " WHERE ad_icao = " . $this->dbService->escapeAndQuoteString($adIcao);
         $query .= " ORDER BY";
         $query .= "   source ASC,";
         $query .= "   sortorder1 ASC,";
         $query .= "   name ASC";
 
-        $result = $this->dbService->execMultiResultQuery($query, "error reading charts");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading charts for airport icao " . $adIcao);
 
-        while ($row = $result->fetch_assoc()) {
-            $airport->charts2[] = DbAirportChart2Converter::fromDbRow($row);
-        }
+        return DbAirportChart2Converter::fromDbResult($result);
     }
 
 
-    private function loadAirportFeatures(Airport &$airport): void
+    /**
+     * @param string $adIcao
+     * @return AirportFeature[]
+     */
+    private function loadAirportFeatures(string $adIcao): array
     {
+        if (!$adIcao) {
+            return [];
+        }
+
         $query = "SELECT *";
         $query .= " FROM map_features";
-        $query .= " WHERE airport_icao = " . $this->dbService->escapeAndQuoteString($airport->icao);
+        $query .= " WHERE airport_icao = " . $this->dbService->escapeAndQuoteString($adIcao);
         $query .= " ORDER BY";
         $query .= "   type ASC,";
         $query .= "   name ASC";
 
-        $result = $this->dbService->execMultiResultQuery($query, "error reading map features");
+        $result = $this->dbService->execMultiResultQuery($query, "error reading map features for airport icao " . $adIcao);
 
-        while ($row = $result->fetch_assoc()) {
-            $airport->mapfeatures[] = DbAirportFeatureConverter::fromDbRow($row);
-        }
+        return DbAirportFeatureConverter::fromDbResult($result);
     }
 
 
