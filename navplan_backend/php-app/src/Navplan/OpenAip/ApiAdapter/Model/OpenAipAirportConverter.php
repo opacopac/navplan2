@@ -16,11 +16,7 @@ class OpenAipAirportConverter {
             OpenAipPositionConverter::fromRestPointGeometry($restAirport["geometry"]),
             OpenAipElevationConverter::fromRest($restAirport["elevation"]),
             isset($restAirport["runways"]) ? OpenAipAirportRunwayConverter::fromRestList($restAirport["runways"]) : [],
-            isset($restAirport["frequencies"]) ? OpenAipAirportRadioConverter::fromRestList($restAirport["frequencies"]) : [],
-            [],
-            [],
-            [],
-            []
+            isset($restAirport["frequencies"]) ? OpenAipAirportRadioConverter::fromRestList($restAirport["frequencies"]) : []
         );
     }
 

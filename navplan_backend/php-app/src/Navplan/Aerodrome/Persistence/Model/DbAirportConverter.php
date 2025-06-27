@@ -9,6 +9,7 @@ use Navplan\Common\Domain\Model\AltitudeReference;
 use Navplan\Common\Domain\Model\AltitudeUnit;
 use Navplan\Common\GeoHelper;
 use Navplan\Common\Persistence\Model\DbPosition2dConverter;
+use Navplan\System\Domain\Model\IDbResult;
 use Navplan\System\Domain\Model\IDbStatement;
 use Navplan\System\Domain\Service\IDbService;
 
@@ -22,14 +23,24 @@ class DbAirportConverter {
             $row[DbTableAirport::COL_ICAO] !== "" ? $row[DbTableAirport::COL_ICAO] : NULL,
             $row[DbTableAirport::COL_COUNTRY],
             DbPosition2dConverter::fromDbRow($row, DbTableAirport::COL_LONGITUDE, DbTableAirport::COL_LATITUDE),
-            new Altitude(floatval($row[DbTableAirport::COL_ELEVATION]), AltitudeUnit::M, AltitudeReference::MSL),
-            [],
-            [],
-            [],
-            [],
-            [],
-            []
+            new Altitude(floatval($row[DbTableAirport::COL_ELEVATION]), AltitudeUnit::M, AltitudeReference::MSL)
         );
+    }
+
+
+    /**
+     * @param IDbResult $result
+     * @return Airport[]
+     */
+    public static function fromDbResult(IDbResult $result): array
+    {
+        $airports = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $airports[] = DbAirportConverter::fromDbRow($row);
+        }
+
+        return $airports;
     }
 
 

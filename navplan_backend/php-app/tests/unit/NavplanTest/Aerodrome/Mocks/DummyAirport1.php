@@ -3,22 +3,26 @@
 namespace NavplanTest\Aerodrome\Mocks;
 
 use Navplan\Aerodrome\Domain\Model\Airport;
-use Navplan\Common\Domain\Model\Length;
-use Navplan\Common\Domain\Model\LengthUnit;
+use Navplan\Aerodrome\Domain\Model\AirportType;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\AltitudeReference;
+use Navplan\Common\Domain\Model\AltitudeUnit;
 use Navplan\Common\Domain\Model\Position2d;
 use NavplanTest\Webcam\Mocks\DummyWebcam1;
 
 
-class DummyAirport1 {
-    public static function create(): Airport {
+class DummyAirport1
+{
+    public static function create(): Airport
+    {
         return new Airport(
             22203,
-            "INTL_APT",
+            AirportType::INTL_APT,
             "BERN-BELP",
             "LSZB",
             "CH",
             new Position2d(7.4991705, 46.9122005),
-            new Length(510, LengthUnit::M),
+            new Altitude(510, AltitudeUnit::M, AltitudeReference::MSL),
             [DummyAirportRunway1::create(), DummyAirportRunway2::create()],
             [DummyAirportRadio1::create(), DummyAirportRadio2::create()],
             [DummyWebcam1::create()],
@@ -28,7 +32,8 @@ class DummyAirport1 {
     }
 
 
-    public static function createDbResult(): array {
+    public static function createDbResult(): array
+    {
         return array(
             "id" => 22203,
             "type" => "INTL_APT",
@@ -42,7 +47,8 @@ class DummyAirport1 {
     }
 
 
-    public static function createRest(): array {
+    public static function createRest(): array
+    {
         return array(
             "id" => 22203,
             "type" => "INTL_APT",

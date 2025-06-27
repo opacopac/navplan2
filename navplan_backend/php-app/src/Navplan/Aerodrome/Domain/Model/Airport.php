@@ -15,12 +15,12 @@ class Airport {
         public string $country,
         public Position2d $position,
         public Altitude $elevation,
-        public array $runways,
-        public array $radios,
-        public array $webcams,
-        public array $charts,
-        public array $charts2,
-        public array $mapfeatures
+        public array $runways = [],
+        public array $radios = [],
+        public array $webcams = [],
+        public array $charts = [],
+        public array $charts2 = [],
+        public array $mapfeatures = [],
     ) {
     }
 
