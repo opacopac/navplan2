@@ -30,8 +30,8 @@ use Throwable;
 class DbAirportRepo implements IAirportRepo
 {
     public function __construct(
-        private IDbService      $dbService,
-        private ILoggingService $loggingService
+        private readonly IDbService $dbService,
+        private readonly ILoggingService $loggingService
     )
     {
     }
@@ -42,8 +42,7 @@ class DbAirportRepo implements IAirportRepo
         $query = "SELECT * FROM " . DbTableAirport::TABLE_NAME . " WHERE id = " . $id;
 
         $result = $this->dbService->execSingleResultQuery($query, false, "error loading airport by id");
-        $row = $result->fetch_assoc();
-        $airport = DbAirportConverter::fromDbRow($row);
+        $airport = DbAirportConverter::fromDbRow($result->fetch_assoc());
         self::loadAirportSubItems($airport);
 
         return $airport;
@@ -55,8 +54,7 @@ class DbAirportRepo implements IAirportRepo
         $query = "SELECT * FROM " . DbTableAirport::TABLE_NAME . " WHERE icao = " . $this->dbService->escapeAndQuoteString($icao);
 
         $result = $this->dbService->execSingleResultQuery($query, false, "error loading airport by icao");
-        $row = $result->fetch_assoc();
-        $airport = DbAirportConverter::fromDbRow($row);
+        $airport = DbAirportConverter::fromDbRow($result->fetch_assoc());
         self::loadAirportSubItems($airport);
 
         return $airport;
