@@ -3,7 +3,7 @@
 namespace Navplan\Aerodrome\Domain\Query;
 
 
-use Navplan\Aerodrome\Domain\Model\Airport;
+use Navplan\Aerodrome\Domain\Model\ShortAirport;
 use Navplan\Common\Domain\Model\Position2d;
 
 interface IAirportByPositionQuery
@@ -12,7 +12,7 @@ interface IAirportByPositionQuery
      * @param Position2d $position
      * @param float $maxRadius_deg
      * @param int $maxResults
-     * @return Airport[]
+     * @return ShortAirport[]
      */
     function searchShortAirports(Position2d $position, float $maxRadius_deg, int $maxResults): array;
 }

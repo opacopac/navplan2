@@ -7,5 +7,5 @@ use Navplan\Aerodrome\Domain\Model\Airport;
 
 interface IAirportByIcaoQuery
 {
-    function readShortAirport(string $icao): Airport;
+    function read(string $icao): Airport;
 }

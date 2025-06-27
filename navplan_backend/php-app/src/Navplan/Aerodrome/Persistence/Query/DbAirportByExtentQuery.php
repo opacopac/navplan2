@@ -2,10 +2,10 @@
 
 namespace Navplan\Aerodrome\Persistence\Query;
 
-use Navplan\Aerodrome\Domain\Model\Airport;
 use Navplan\Aerodrome\Domain\Model\AirportRunwayOperations;
+use Navplan\Aerodrome\Domain\Model\ShortAirport;
 use Navplan\Aerodrome\Domain\Query\IAirportByExtentQuery;
-use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
+use Navplan\Aerodrome\Persistence\Model\DbShortAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirportRunway;
 use Navplan\Common\Domain\Model\Extent2d;
@@ -25,7 +25,7 @@ class DbAirportByExtentQuery implements IAirportByExtentQuery
     /**
      * @param Extent2d $extent
      * @param int $zoom
-     * @return Airport[]
+     * @return ShortAirport[]
      */
     public function searchShortAirports(Extent2d $extent, int $zoom): array
     {
@@ -60,6 +60,6 @@ class DbAirportByExtentQuery implements IAirportByExtentQuery
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching airports by extent");
 
-        return DbAirportConverter::fromDbResult($result);
+        return DbShortAirportConverter::fromDbResult($result);
     }
 }

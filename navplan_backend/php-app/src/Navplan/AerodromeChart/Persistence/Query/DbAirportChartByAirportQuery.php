@@ -26,13 +26,14 @@ class DbAirportChartByAirportQuery implements IAirportChartByAirportQuery
      */
     public function readList(string $airportIcao, int $userId): array
     {
-        $query = " SELECT * FROM " . DbTableAirportCharts::TABLE_NAME;
+        $query = " SELECT *, ";
         $query .= "  (CASE ";
         $query .= "    WHEN " . DbTableAirportCharts::COL_NAME . " LIKE 'AREA%' THEN 1";
         $query .= "    WHEN " . DbTableAirportCharts::COL_NAME . " LIKE 'VAC%' THEN 2";
         $query .= "    WHEN " . DbTableAirportCharts::COL_NAME . " LIKE 'AD INFO%' THEN 3";
         $query .= "    ELSE 4";
         $query .= "  END) AS sortorder1";
+        $query .= " FROM " . DbTableAirportCharts::TABLE_NAME;
         $query .= " WHERE " . DbTableAirportCharts::COL_AD_ICAO . "=" . DbHelper::getDbStringValue($this->dbService, $airportIcao);
         $query .= " AND " . DbTableAirportCharts::COL_ACTIVE . "=1";
 

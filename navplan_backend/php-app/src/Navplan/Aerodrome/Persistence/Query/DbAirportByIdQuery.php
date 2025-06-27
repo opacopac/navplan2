@@ -18,7 +18,7 @@ class DbAirportByIdQuery implements IAirportByIdQuery
     }
 
 
-    public function readShortAirport(int $id): Airport
+    public function read(int $id): Airport
     {
         $query = "SELECT * FROM " . DbTableAirport::TABLE_NAME . " WHERE id = " . $id;
 

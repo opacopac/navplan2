@@ -119,7 +119,9 @@ class ProdNavplanDiContainer
             $this->aerodromeDiContainer = new ProdAerodromeDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getLoggingService(),
-                $this->getSystemDiContainer()->getHttpService()
+                $this->getSystemDiContainer()->getHttpService(),
+                $this->getAerodromeChartDiContainer()->getAirportChartService(),
+                $this->getWebcamDiContainer()->getWebcamService()
             );
         }
 

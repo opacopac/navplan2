@@ -7,5 +7,5 @@ use Navplan\Aerodrome\Domain\Model\Airport;
 
 interface IAirportByIdQuery
 {
-    function readShortAirport(int $id): Airport;
+    function read(int $id): Airport;
 }

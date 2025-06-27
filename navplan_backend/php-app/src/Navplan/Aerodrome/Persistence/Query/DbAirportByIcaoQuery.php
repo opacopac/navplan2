@@ -18,7 +18,7 @@ class DbAirportByIcaoQuery implements IAirportByIcaoQuery
     }
 
 
-    public function readShortAirport(string $icao): Airport
+    public function read(string $icao): Airport
     {
         $query = "SELECT * FROM " . DbTableAirport::TABLE_NAME . " WHERE icao = " . $this->dbService->escapeAndQuoteString($icao);
 

@@ -13,6 +13,7 @@ use Navplan\Common\Rest\Converter\RestZoomConverter;
 use Navplan\Common\StringNumberHelper;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
+use Navplan\User\Rest\Model\RestTokenConverter;
 
 
 class AirportController implements IRestController
@@ -30,6 +31,7 @@ class AirportController implements IRestController
 
     public function processRequest()
     {
+        $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
         $getArgs = $this->httpService->getGetArgs();
         $id = RestIdConverter::getIdOrNull($getArgs);
         $icao = StringNumberHelper::parseStringOrNull($getArgs, self::ARG_QUERY_ICAO);
@@ -38,11 +40,11 @@ class AirportController implements IRestController
             case HttpRequestMethod::GET:
                 if ($id) {
                     // get airport by id
-                    $airport = $this->airportService->readById($id);
+                    $airport = $this->airportService->readById($id, $token);
                     $response = RestAirportConverter::toRest($airport);
                 } else if ($icao) {
                     // get airport by icao
-                    $airport = $this->airportService->readByIcao($icao);
+                    $airport = $this->airportService->readByIcao($icao, $token);
                     $response = RestAirportConverter::toRest($airport);
                 } else {
                     // search airports by extent
