@@ -13,7 +13,7 @@ use Navplan\System\MySqlDb\DbHelper;
 class DbAirportChartByIdQuery implements IAirportChartByIdQuery
 {
     public function __construct(
-        private IDbService $dbService
+        private readonly IDbService $dbService
     )
     {
     }
