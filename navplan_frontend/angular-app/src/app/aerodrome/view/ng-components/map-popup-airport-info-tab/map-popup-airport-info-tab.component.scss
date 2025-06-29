@@ -2,9 +2,18 @@ table.mat-mdc-table {
     width: 100%;
 }
 
-.webcam-icon {
-    color: rgb(122, 122, 122);
-    height: 14px;
-    margin-top: -12px;
-    vertical-align: middle;
+.webcam-list{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.webcam-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.webcam-text {
+    color: gray;
 }

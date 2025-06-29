@@ -1108,6 +1108,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(100) NOT NULL,
   `pw_hash` varchar(255) NOT NULL,
   `email_verified` tinyint(1) NOT NULL DEFAULT 0,
+  `is_moderator` tinyint(1) NOT NULL DEFAULT 0,
   `createdtime` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),

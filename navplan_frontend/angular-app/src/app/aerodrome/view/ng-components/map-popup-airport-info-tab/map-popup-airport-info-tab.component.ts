@@ -10,6 +10,11 @@ import {
 import {
     MapOverlayVariationComponent
 } from '../../../../geo-physics/view/ng-components/map-overlay-variation/map-overlay-variation.component';
+import {ButtonColor} from '../../../../common/view/model/button-color';
+import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
+import {Webcam} from '../../../../webcam/domain/model/webcam';
+import {Store} from '@ngrx/store';
+import {WebcamActions} from '../../../../webcam/state/ngrx/webcam.actions';
 
 
 @Component({
@@ -19,6 +24,7 @@ import {
         MapOverlayElevationComponent,
         MapOverlayPositionComponent,
         MapOverlayVariationComponent,
+        IconButtonComponent,
     ],
     templateUrl: './map-popup-airport-info-tab.component.html',
     styleUrls: ['./map-popup-airport-info-tab.component.scss']
@@ -26,11 +32,20 @@ import {
 export class MapPopupAirportInfoTabComponent implements OnInit {
     @Input() public airport: Airport;
 
+    protected readonly ButtonColor = ButtonColor;
 
-    public constructor() {
+
+    public constructor(
+        private appStore: Store<any>,
+    ) {
     }
 
 
     ngOnInit() {
+    }
+
+
+    protected onWebcamClicked(webcam: Webcam) {
+        this.appStore.dispatch(WebcamActions.show({webcam: webcam}));
     }
 }

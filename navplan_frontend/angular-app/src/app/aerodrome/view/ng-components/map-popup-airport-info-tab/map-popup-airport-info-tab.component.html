@@ -1,11 +1,18 @@
 <app-map-overlay-position [position]="this.airport.position"></app-map-overlay-position>
 <app-map-overlay-elevation [altitude]="airport.elevation"></app-map-overlay-elevation>
 <app-map-overlay-variation [position]="this.airport.position"></app-map-overlay-variation>
-@for (webcam of this.airport.webcams; track webcam) {
-  <p>
-    {{ webcam.name }}:
-    <a href="{{ webcam.url }}" target="_blank">
-      <mat-icon class="webcam-icon">videocam</mat-icon>
-    </a>
-  </p>
+@if (this.airport.webcams?.length > 0) {
+    <div class="webcam-list">
+        @for (webcam of this.airport.webcams; track webcam) {
+            <div class="webcam-row">
+                <app-icon-button
+                    [color]="ButtonColor.GREEN"
+                    (buttonClicked)="this.onWebcamClicked(webcam)"
+                >
+                    <i class="fa-solid fa-video"></i>
+                </app-icon-button>
+                <span class="webcam-text">{{ webcam.name }}</span>
+            </div>
+        }
+    </div>
 }
