@@ -15,6 +15,9 @@ import {IconButtonComponent} from '../../../../common/view/ng-components/icon-bu
 import {Webcam} from '../../../../webcam/domain/model/webcam';
 import {Store} from '@ngrx/store';
 import {WebcamActions} from '../../../../webcam/state/ngrx/webcam.actions';
+import {User} from '../../../../user/domain/model/user';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @Component({
@@ -24,6 +27,8 @@ import {WebcamActions} from '../../../../webcam/state/ngrx/webcam.actions';
         MapOverlayElevationComponent,
         MapOverlayPositionComponent,
         MapOverlayVariationComponent,
+        MatButtonModule,
+        MatTooltipModule,
         IconButtonComponent,
     ],
     templateUrl: './map-popup-airport-info-tab.component.html',
@@ -31,6 +36,7 @@ import {WebcamActions} from '../../../../webcam/state/ngrx/webcam.actions';
 })
 export class MapPopupAirportInfoTabComponent implements OnInit {
     @Input() public airport: Airport;
+    @Input() public currentUser: User;
 
     protected readonly ButtonColor = ButtonColor;
 
@@ -47,5 +53,15 @@ export class MapPopupAirportInfoTabComponent implements OnInit {
 
     protected onWebcamClicked(webcam: Webcam) {
         this.appStore.dispatch(WebcamActions.show({webcam: webcam}));
+    }
+
+
+    protected onManageReportingPointsClicked() {
+        // TODO
+    }
+
+
+    protected onManageCircuitsClicked() {
+        // TODO
     }
 }

@@ -17,3 +17,12 @@ table.mat-mdc-table {
 .webcam-text {
     color: gray;
 }
+
+.moderator-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 10px;
+}

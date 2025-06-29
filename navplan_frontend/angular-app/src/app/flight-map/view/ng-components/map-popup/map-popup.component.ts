@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {MetarTaf} from '../../../../metar-taf/domain/model/metar-taf';
 import {DataItem} from '../../../../common/domain/model/data-item';
@@ -79,6 +79,7 @@ import {
 import {
     MapPopupWaypointButtonContainerComponent
 } from '../map-popup-waypoint-button-container/map-popup-waypoint-button-container.component';
+import {User} from '../../../../user/domain/model/user';
 
 
 @Component({
@@ -115,6 +116,7 @@ import {
 export class MapPopupComponent implements AfterViewInit {
     @ViewChild('container') container: ElementRef;
     @ViewChild('tabGroup') tabGroup: MatTabGroup;
+    @Input() currentUser: User;
     public olOverlay: Overlay;
     public position: Position2d;
     public dataItem: DataItem;

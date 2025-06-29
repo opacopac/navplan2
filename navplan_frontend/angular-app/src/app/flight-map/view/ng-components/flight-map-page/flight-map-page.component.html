@@ -21,7 +21,7 @@
     <!-- map overlays -->
     <div style="display: none">
         <!--<app-ol-overlay-waypoint (close)="this.onOverlayClosed()"/>-->
-        <app-map-popup/>
+        <app-map-popup [currentUser]="this.currentUser$ | async" />
         <app-map-popup-traffic/>
         <app-map-overlay-airspace-structure/>
     </div>

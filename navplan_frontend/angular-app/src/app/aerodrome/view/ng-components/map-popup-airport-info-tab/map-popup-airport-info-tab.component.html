@@ -1,6 +1,12 @@
-<app-map-overlay-position [position]="this.airport.position"></app-map-overlay-position>
-<app-map-overlay-elevation [altitude]="airport.elevation"></app-map-overlay-elevation>
-<app-map-overlay-variation [position]="this.airport.position"></app-map-overlay-variation>
+<app-map-overlay-position
+    [position]="this.airport.position"
+/>
+<app-map-overlay-elevation
+    [altitude]="airport.elevation"
+/>
+<app-map-overlay-variation
+    [position]="this.airport.position"
+/>
 @if (this.airport.webcams?.length > 0) {
     <div class="webcam-list">
         @for (webcam of this.airport.webcams; track webcam) {
@@ -14,5 +20,28 @@
                 <span class="webcam-text">{{ webcam.name }}</span>
             </div>
         }
+    </div>
+}
+@if (this.currentUser?.isModerator) {
+    <div class="moderator-actions">
+        <!--<i>Moderator:</i>-->
+        <button
+            mat-button
+            type="button"
+            matTooltip="Manage Reporting Points"
+            matTooltipPosition="above"
+            (click)="this.onManageReportingPointsClicked()"
+        >
+            <i class="fa-solid fa-edit"></i> Reporting Points
+        </button>
+        <button
+            mat-button
+            type="button"
+            matTooltip="Manage Circuits"
+            matTooltipPosition="above"
+            (click)="this.onManageCircuitsClicked()"
+        >
+            <i class="fa-solid fa-edit"></i> Circuits
+        </button>
     </div>
 }

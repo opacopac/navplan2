@@ -113,9 +113,8 @@ import {
     ChartUploadContainerComponent
 } from '../../../../aerodrome-charts/view/ng-components/chart-upload-container/chart-upload-container.component';
 import {SidebarMode} from '../../../state/ngrx/sidebar-mode';
-import {
-    OlCrosshairContainer
-} from '../../../../aerodrome-charts/view/ol-components/ol-crosshair-container';
+import {OlCrosshairContainer} from '../../../../aerodrome-charts/view/ol-components/ol-crosshair-container';
+import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
 
 
 @Component({
@@ -173,6 +172,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
     private readonly showOverlay$: Observable<OverlayState> = this.appStore.pipe(select(getFlightMapShowOverlay));
     private readonly verticalMapState$ = this.appStore.pipe(select(getVerticalMapState));
+    protected readonly currentUser$ = this.appStore.select(getCurrentUser);
     protected readonly showMeteoLayer$: Observable<boolean> = this.appStore.pipe(select(getFlightMapShowMeteoLayer));
     protected readonly showVerticalMapButton$ = this.flightroute$.pipe(map(route => route.waypoints.length >= 2));
     protected readonly showVerticalMap$ = this.verticalMapState$.pipe(map(state => state.buttonStatus === VerticalMapButtonStatus.CURRENT));

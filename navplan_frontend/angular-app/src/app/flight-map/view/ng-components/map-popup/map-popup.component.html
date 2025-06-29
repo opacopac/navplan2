@@ -30,7 +30,10 @@
                         <i class="fa-solid fa-info"></i>
                     </ng-template>
                     @if (this.airport) {
-                        <app-map-popup-airport-info-tab [airport]="this.airport"/>
+                        <app-map-popup-airport-info-tab
+                            [airport]="this.airport"
+                            [currentUser]="this.currentUser"
+                        />
                     }
                     @if (this.reportingPoint) {
                         <app-map-popup-reportingpoint-info-tab [reportingpoint]="this.reportingPoint"/>
