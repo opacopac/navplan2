@@ -46,7 +46,10 @@ export class AirportRestAdapterService implements IAirportRepoService {
         const url: string = environment.airportApiBaseUrl + '/' + id;
 
         return this.http
-            .get<IRestAirport>(url)
+            .get<IRestAirport>(
+                url,
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            )
             .pipe(
                 map((response) => RestAirportConverter.fromRest(response)),
                 catchError(err => {
@@ -61,7 +64,10 @@ export class AirportRestAdapterService implements IAirportRepoService {
         const url: string = environment.airportApiBaseUrl + '?icao=' + icao;
 
         return this.http
-            .get<IRestAirport>(url)
+            .get<IRestAirport>(
+                url,
+                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
+            )
             .pipe(
                 map((response) => RestAirportConverter.fromRest(response)),
                 catchError(err => {
