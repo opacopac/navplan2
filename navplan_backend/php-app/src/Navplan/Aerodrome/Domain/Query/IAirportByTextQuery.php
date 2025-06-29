@@ -3,7 +3,7 @@
 namespace Navplan\Aerodrome\Domain\Query;
 
 
-use Navplan\Aerodrome\Domain\Model\ShortAirport;
+use Navplan\Aerodrome\Domain\Model\Airport;
 
 
 interface IAirportByTextQuery
@@ -11,7 +11,7 @@ interface IAirportByTextQuery
     /**
      * @param string $searchText
      * @param int $maxResults
-     * @return ShortAirport[]
+     * @return Airport[]
      */
-    function searchShortAirports(string $searchText, int $maxResults): array;
+    function search(string $searchText, int $maxResults): array;
 }

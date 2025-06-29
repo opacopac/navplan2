@@ -24,14 +24,14 @@ interface IAirportService {
      * @param Position2d $position
      * @param float $maxRadius_deg
      * @param int $maxResults
-     * @return ShortAirport[]
+     * @return Airport[]
      */
     function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array;
 
     /**
      * @param string $searchText
      * @param int $maxResults
-     * @return ShortAirport[]
+     * @return Airport[]
      */
     function searchByText(string $searchText, int $maxResults): array;
 

@@ -73,22 +73,22 @@ class AirportService implements IAirportService
      * @param Position2d $position
      * @param float $maxRadius_deg
      * @param int $maxResults
-     * @return ShortAirport[]
+     * @return Airport[]
      */
     public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array
     {
-        return $this->airportByPositionQuery->searchShortAirports($position, $maxResults, $maxResults);
+        return $this->airportByPositionQuery->search($position, $maxResults, $maxResults);
     }
 
 
     /**
      * @param string $searchText
      * @param int $maxResults
-     * @return ShortAirport[]
+     * @return Airport[]
      */
     public function searchByText(string $searchText, int $maxResults): array
     {
-        return $this->airportByTextQuery->searchShortAirports($searchText, $maxResults);
+        return $this->airportByTextQuery->search($searchText, $maxResults);
     }
 
 

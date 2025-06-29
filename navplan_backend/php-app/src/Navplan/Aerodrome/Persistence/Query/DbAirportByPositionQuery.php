@@ -2,9 +2,9 @@
 
 namespace Navplan\Aerodrome\Persistence\Query;
 
-use Navplan\Aerodrome\Domain\Model\ShortAirport;
+use Navplan\Aerodrome\Domain\Model\Airport;
 use Navplan\Aerodrome\Domain\Query\IAirportByPositionQuery;
-use Navplan\Aerodrome\Persistence\Model\DbShortAirportConverter;
+use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\Domain\Service\IDbService;
@@ -23,9 +23,9 @@ class DbAirportByPositionQuery implements IAirportByPositionQuery
      * @param Position2d $position
      * @param float $maxRadius_deg
      * @param int $maxResults
-     * @return ShortAirport[]
+     * @return Airport[]
      */
-    public function searchShortAirports(Position2d $position, float $maxRadius_deg, int $maxResults): array
+    public function search(Position2d $position, float $maxRadius_deg, int $maxResults): array
     {
         $query = "SELECT *";
         $query .= " FROM " . DbTableAirport::TABLE_NAME;
@@ -41,6 +41,6 @@ class DbAirportByPositionQuery implements IAirportByPositionQuery
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching airports by position");
 
-        return DbShortAirportConverter::fromDbResult($result);
+        return DbAirportConverter::fromDbResult($result);
     }
 }

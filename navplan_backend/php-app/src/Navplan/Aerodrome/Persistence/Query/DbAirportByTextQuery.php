@@ -2,9 +2,9 @@
 
 namespace Navplan\Aerodrome\Persistence\Query;
 
-use Navplan\Aerodrome\Domain\Model\ShortAirport;
+use Navplan\Aerodrome\Domain\Model\Airport;
 use Navplan\Aerodrome\Domain\Query\IAirportByTextQuery;
-use Navplan\Aerodrome\Persistence\Model\DbShortAirportConverter;
+use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\System\Domain\Service\IDbService;
 
@@ -21,9 +21,9 @@ class DbAirportByTextQuery implements IAirportByTextQuery
     /**
      * @param string $searchText
      * @param int $maxResults
-     * @return ShortAirport[]
+     * @return Airport[]
      */
-    public function searchShortAirports(string $searchText, int $maxResults): array
+    public function search(string $searchText, int $maxResults): array
     {
         $searchText = $this->dbService->escapeString($searchText);
 
@@ -45,6 +45,6 @@ class DbAirportByTextQuery implements IAirportByTextQuery
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching airports by text");
 
-        return DbShortAirportConverter::fromDbResult($result);
+        return DbAirportConverter::fromDbResult($result);
     }
 }
