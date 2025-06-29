@@ -5,17 +5,12 @@ table.mat-mdc-table {
 .webcam-list{
     display: flex;
     flex-direction: column;
+    align-items: start;
     margin-bottom: 10px;
 }
 
-.webcam-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.webcam-text {
-    color: gray;
+.webcam-icon {
+    color: green;
 }
 
 .moderator-actions {

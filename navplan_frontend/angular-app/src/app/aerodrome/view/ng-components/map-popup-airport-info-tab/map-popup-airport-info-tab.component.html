@@ -10,21 +10,18 @@
 @if (this.airport.webcams?.length > 0) {
     <div class="webcam-list">
         @for (webcam of this.airport.webcams; track webcam) {
-            <div class="webcam-row">
-                <app-icon-button
-                    [color]="ButtonColor.GREEN"
-                    (buttonClicked)="this.onWebcamClicked(webcam)"
-                >
-                    <i class="fa-solid fa-video"></i>
-                </app-icon-button>
-                <span class="webcam-text">{{ webcam.name }}</span>
-            </div>
+            <button
+                mat-button
+                type="button"
+                (click)="this.onWebcamClicked(webcam)"
+            >
+                <i class="fa-solid fa-video webcam-icon"></i>&nbsp;&nbsp;{{ webcam.name }}
+            </button>
         }
     </div>
 }
 @if (this.currentUser?.isModerator) {
     <div class="moderator-actions">
-        <!--<i>Moderator:</i>-->
         <button
             mat-button
             type="button"
