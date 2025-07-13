@@ -15,4 +15,9 @@ export class ReportingPointService implements IReportingPointService {
     public readReportingPointsByExtent(extent: Extent2d): Observable<ReportingPointsAndSectors> {
         return this.reportingPointRepo.readReportingPointsByExtent(extent);
     }
+
+
+    public readReportingPointsByAirportIcao(airportIcao: string): Observable<ReportingPointsAndSectors> {
+        return this.reportingPointRepo.readReportingPointsByAirportIcao(airportIcao);
+    }
 }

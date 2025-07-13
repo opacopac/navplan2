@@ -9,6 +9,8 @@ import {ReportingPointSectorState} from '../state-model/reporting-point-sector-s
 import {environment} from '../../../../environments/environment';
 import {IReportingPointService} from '../../domain/service/i-reporting-point.service';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
+import {FlightMapActions} from '../../../flight-map/state/ngrx/flight-map.actions';
+import {Airport} from '../../../aerodrome/domain/model/airport';
 
 
 @Injectable()
@@ -35,7 +37,7 @@ export class ReportingPointSectorEffects {
             || (currentState.zoom < this.REPORTING_POINT_MIN_ZOOM && action.zoom >= this.REPORTING_POINT_MIN_ZOOM)),
         switchMap(([action, currentState]) => {
             if (action.zoom < this.REPORTING_POINT_MIN_ZOOM) {
-                return of({ extent: action.extent, zoom: action.zoom, reportingPoints: [], reportingSectors: [] });
+                return of({extent: action.extent, zoom: action.zoom, reportingPoints: [], reportingSectors: []});
             } else {
                 return this.reportingPointService.readReportingPointsByExtent(action.extent).pipe(
                     map(repPointsSectors => ({
@@ -48,5 +50,17 @@ export class ReportingPointSectorEffects {
             }
         }),
         map(newState => ReportingPointSectorActions.readSuccess(newState))
+    ));
+
+
+    readAirportReportingPointsAction$ = createEffect(() => this.actions$.pipe(
+        ofType(FlightMapActions.showOverlaySuccess),
+        filter(action => action.dataItem instanceof Airport),
+        map(action => action.dataItem as Airport),
+        filter(airport => airport && airport.icao && airport.icao.length > 0),
+        switchMap(airport => this.reportingPointService.readReportingPointsByAirportIcao(airport.icao)),
+        map(repPointsSectors => ReportingPointSectorActions.readByAirportIcaoSuccess({
+            reportingPointsAndSectors: repPointsSectors
+        }))
     ));
 }
