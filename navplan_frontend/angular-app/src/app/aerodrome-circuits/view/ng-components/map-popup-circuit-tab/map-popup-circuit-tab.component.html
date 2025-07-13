@@ -1,5 +1,5 @@
 <div class="container">
-    @if (this.airport.hasCharts) {
+    @if (this.circuits && this.circuits.length > 0) {
         <table mat-table [dataSource]="this.circuits">
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -31,8 +31,7 @@
             <tr mat-header-row *matHeaderRowDef="this.getChartColumns()"></tr>
             <tr mat-row *matRowDef="let row; columns: this.getChartColumns()"></tr>
         </table>
-    }
-    @if (!this.circuits || this.circuits.length === 0) {
+    } @else {
         <div>
             <p><em>No circuits available</em></p>
         </div>
