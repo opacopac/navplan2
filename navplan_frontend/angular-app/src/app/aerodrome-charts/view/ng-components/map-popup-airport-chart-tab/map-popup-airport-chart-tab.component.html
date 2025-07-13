@@ -1,4 +1,4 @@
-<div class="chart-container">
+<div class="container">
     @if (this.airport.hasCharts) {
         <table mat-table [dataSource]="this.airport.charts">
             <ng-container matColumnDef="filename">
@@ -64,7 +64,7 @@
     }
     <!-- add chart button -->
     @if (this.currentUser) {
-        <div class="add-chart-button">
+        <div class="add-button">
             <button
                 mat-button
                 type="button"

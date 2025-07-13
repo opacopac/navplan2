@@ -1,0 +1,54 @@
+<div class="container">
+    @if (this.airport.hasCharts) {
+        <table mat-table [dataSource]="this.circuits">
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell
+                    class="clickable"
+                    *matCellDef="let item"
+                >
+                    {{ item.name }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="icons">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell
+                    *matCellDef="let item"
+                    class="button-cell"
+                >
+                    <app-icon-button
+                        tooltipText="Delete Aerodrome Circuit"
+                        tooltipPosition="above"
+                        [color]="ButtonColor.RED"
+                        (buttonClicked)="this.onDeleteClicked(item)"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                    </app-icon-button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="this.getChartColumns()"></tr>
+            <tr mat-row *matRowDef="let row; columns: this.getChartColumns()"></tr>
+        </table>
+    }
+    @if (!this.circuits || this.circuits.length === 0) {
+        <div>
+            <p><em>No circuits available</em></p>
+        </div>
+    }
+    <!-- add circuits button -->
+    @if (this.currentUser) {
+        <div class="add-button">
+            <button
+                mat-button
+                type="button"
+                matTooltip="Add Aerodrome Circuit"
+                matTooltipPosition="above"
+                (click)="this.onAddClicked()"
+            >
+                <i class="fa-solid fa-plus"></i> Add Circuit
+            </button>
+        </div>
+    }
+</div>

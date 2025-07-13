@@ -20,25 +20,3 @@
         }
     </div>
 }
-@if (this.currentUser?.isModerator) {
-    <div class="moderator-actions">
-        <button
-            mat-button
-            type="button"
-            matTooltip="Manage Reporting Points"
-            matTooltipPosition="above"
-            (click)="this.onManageReportingPointsClicked()"
-        >
-            <i class="fa-solid fa-edit"></i> Reporting Points
-        </button>
-        <button
-            mat-button
-            type="button"
-            matTooltip="Manage Circuits"
-            matTooltipPosition="above"
-            (click)="this.onManageCircuitsClicked()"
-        >
-            <i class="fa-solid fa-edit"></i> Circuits
-        </button>
-    </div>
-}

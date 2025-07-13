@@ -1,4 +1,4 @@
-<div class="radio-container">
+<div class="container">
     @if (this.reportingPointsAndSectors && !this.reportingPointsAndSectors.isEmpty()) {
         <table mat-table [dataSource]="this.reportingPointsAndSectors.getPointsAndSectors()">
             <ng-container matColumnDef="type">
@@ -18,13 +18,13 @@
         </table>
     } @else {
         <div>
-            <p><em>No reporting points / sectors available</em></p>
+            <p><em>No reporting points/sectors available</em></p>
         </div>
     }
 
     <!-- add reporting  button -->
     @if (this.currentUser?.isModerator) {
-        <div class="add-reporting-button">
+        <div class="add-button">
             <button
                 mat-button
                 type="button"

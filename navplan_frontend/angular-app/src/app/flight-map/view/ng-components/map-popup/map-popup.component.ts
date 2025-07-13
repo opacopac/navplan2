@@ -83,6 +83,9 @@ import {User} from '../../../../user/domain/model/user';
 import {
     MapPopupReportingTabComponent
 } from '../../../../aerodrome-reporting/view/ng-components/map-popup-reporting-tab/map-popup-reporting-tab.component';
+import {
+    MapPopupCircuitTabComponent
+} from '../../../../aerodrome-circuits/view/ng-components/map-popup-circuit-tab/map-popup-circuit-tab.component';
 
 
 @Component({
@@ -112,7 +115,8 @@ import {
         MapPopupNotamTabComponent,
         MapPopupAirportChartTabComponent,
         MapPopupWaypointButtonContainerComponent,
-        MapPopupReportingTabComponent
+        MapPopupReportingTabComponent,
+        MapPopupCircuitTabComponent
     ],
     templateUrl: './map-popup.component.html',
     styleUrls: ['./map-popup.component.scss']

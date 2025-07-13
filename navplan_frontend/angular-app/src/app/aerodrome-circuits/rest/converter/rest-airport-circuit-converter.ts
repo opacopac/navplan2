@@ -7,6 +7,7 @@ export class RestAirportCircuitConverter {
     public static fromRest(restItem: IRestAirportCircuit): AirportCircuit {
         return new AirportCircuit(
             restItem.airportIcao,
+            restItem.name,
             MultiLineString.createFromArray(restItem.line2dlist)
         );
     }

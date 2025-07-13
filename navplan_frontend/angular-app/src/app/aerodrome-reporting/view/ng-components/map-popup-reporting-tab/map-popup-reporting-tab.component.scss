@@ -1,6 +1,8 @@
 @use '@angular/material' as mat;
 
-.radio-container {
+.container {
+    display: flex;
+    flex-direction: column;
 }
 
 table.mat-mdc-table {
@@ -15,6 +17,6 @@ table.mat-mdc-table {
     background-color: white;
 }
 
-.add-reporting-button {
+.add-button {
     margin: 10px 0;
 }

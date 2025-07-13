@@ -5,6 +5,7 @@ import {MultiLineString} from '../../../geo-physics/domain/model/geometry/multi-
 export class AirportCircuit extends DataItem {
     constructor(
         public airportIcao: string,
+        public name: string,
         public multiLineString: MultiLineString
     ) {
         super();
