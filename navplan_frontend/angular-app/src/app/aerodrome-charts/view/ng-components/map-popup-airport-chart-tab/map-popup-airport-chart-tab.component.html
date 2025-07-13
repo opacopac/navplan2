@@ -63,7 +63,7 @@
         </div>
     }
     <!-- add chart button -->
-    @if (this.isUserLoggedIn$ | async) {
+    @if (this.currentUser) {
         <div class="add-chart-button">
             <button
                 mat-button

@@ -105,7 +105,33 @@
                         <ng-template mat-tab-label>
                             <i class="fa-solid fa-map"></i>
                         </ng-template>
-                        <app-map-popup-airport-chart-tab [airport]="this.airport"/>
+                        <app-map-popup-airport-chart-tab
+                            [airport]="this.airport"
+                            [currentUser]="this.currentUser"
+                        />
+                    </mat-tab>
+                }
+
+                <!-- reporting tab -->
+                @if (this.airport && this.currentUser?.isModerator) {
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <i class="fa-solid fa-headset"></i>
+                        </ng-template>
+                        <app-map-popup-reporting-tab
+                            [currentUser]="this.currentUser"
+                            [reportingPointsAndSectors]=""
+                        />
+                    </mat-tab>
+                }
+
+                <!-- circuits tab -->
+                @if (this.airport && this.currentUser?.isModerator) {
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <i class="fa-solid fa-arrows-spin"></i>
+                        </ng-template>
+                        TODO
                     </mat-tab>
                 }
             </mat-tab-group>

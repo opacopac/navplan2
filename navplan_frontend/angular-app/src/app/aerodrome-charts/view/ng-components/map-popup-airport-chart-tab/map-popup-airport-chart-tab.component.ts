@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Airport} from '../../../../aerodrome/domain/model/airport';
-import {select, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {AirportChart} from '../../../domain/model/airport-chart';
 import {AirportChartActions} from '../../../state/ngrx/airport-chart.actions';
 import {MatTableModule} from '@angular/material/table';
@@ -8,16 +8,14 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {FlightMapActions} from '../../../../flight-map/state/ngrx/flight-map.actions';
 import {MatTooltip} from '@angular/material/tooltip';
-import {isUserLoggedIn} from '../../../../user/state/ngrx/user.selectors';
 import {CommonModule} from '@angular/common';
-import {
-    IconButtonComponent
-} from '../../../../common/view/ng-components/icon-button/icon-button.component';
+import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
 import {
     ConfirmDeleteDialogComponent
 } from '../../../../common/view/ng-components/confirm-delete-dialog/confirm-delete-dialog-component.component';
+import {User} from '../../../../user/domain/model/user';
 
 
 @Component({
@@ -35,7 +33,7 @@ import {
 })
 export class MapPopupAirportChartTabComponent implements OnInit {
     @Input() airport: Airport;
-    protected readonly isUserLoggedIn$ = this.appStore.pipe(select(isUserLoggedIn));
+    @Input() currentUser: User;
     protected readonly ButtonColor = ButtonColor;
 
 

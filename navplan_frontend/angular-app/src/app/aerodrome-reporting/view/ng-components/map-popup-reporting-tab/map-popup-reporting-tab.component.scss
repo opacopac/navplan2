@@ -1,0 +1,20 @@
+@use '@angular/material' as mat;
+
+.radio-container {
+}
+
+table.mat-mdc-table {
+    width: 100%;
+}
+
+.mat-mdc-row:nth-child(even), .mat-mdc-header-cell {
+    background-color: rgb(249, 249, 249);
+}
+
+.mat-mdc-row:nth-child(odd) {
+    background-color: white;
+}
+
+.add-reporting-button {
+    margin: 10px 0;
+}

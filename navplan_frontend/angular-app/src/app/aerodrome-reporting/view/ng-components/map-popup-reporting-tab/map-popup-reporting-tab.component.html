@@ -1,0 +1,39 @@
+<div class="radio-container">
+    @if (this.reportingPointsAndSectors && !this.reportingPointsAndSectors.isEmpty()) {
+        <table mat-table [dataSource]="this.reportingPointsAndSectors.getPointsAndSectors()">
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef>Type</th>
+                <td mat-cell *matCellDef="let reporting">{{ this.getTypeString(reporting) }}</td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Name</th>
+                <td mat-cell *matCellDef="let reporting">{{ reporting.name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="is_heli">
+                <th mat-header-cell *matHeaderCellDef>Heli</th>
+                <td mat-cell *matCellDef="let reporting">{{ reporting.isHeli ? 'y' : 'n' }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="this.getColumns()"></tr>
+            <tr mat-row *matRowDef="let row; columns: this.getColumns();"></tr>
+        </table>
+    } @else {
+        <div>
+            <p><em>No reporting points / sectors available</em></p>
+        </div>
+    }
+
+    <!-- add reporting  button -->
+    @if (this.currentUser?.isModerator) {
+        <div class="add-reporting-button">
+            <button
+                mat-button
+                type="button"
+                matTooltip="Add Reporting Point/Sector"
+                matTooltipPosition="above"
+                (click)="this.onAddReportingClicked()"
+            >
+                <i class="fa-solid fa-plus"></i> Add Reporting Point/Sector
+            </button>
+        </div>
+    }
+</div>
