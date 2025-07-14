@@ -28,14 +28,14 @@ class AdChartController implements IRestController
 
 
     public function __construct(
-        private IHttpService $httpService,
-        private IAirportChartService $airportChartService
+        private readonly IHttpService $httpService,
+        private readonly IAirportChartService $airportChartService
     )
     {
     }
 
 
-    public function processRequest()
+    public function processRequest(): void
     {
         $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
 
