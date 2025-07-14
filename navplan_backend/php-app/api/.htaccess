@@ -22,7 +22,7 @@ RewriteRule ^aerodromes/circuits$ %{ENV:BASEPATH}AerodromeCircuit/AdCircuit.php 
 RewriteRule ^aerodromes/reportingpoints$ %{ENV:BASEPATH}AerodromeReporting/AdReportingPoint.php [L,QSA]
 
 # Rewrite for /api/aerodromes/{icao}/reportingpoints
-RewriteRule ^aerodromes/([^/]+)/reportingpoints/([^/]+)$ %{ENV:BASEPATH}AerodromeReporting/AdReportingPoint.php?adicao=$1 [L,QSA]
+RewriteRule ^aerodromes/([^/]+)/reportingpoints$ %{ENV:BASEPATH}AerodromeReporting/AdReportingPoint.php?adicao=$1 [L,QSA]
 
 # Rewrite for /api/aerodromes/charts
 #RewriteCond %{REQUEST_METHOD} ^(POST)$

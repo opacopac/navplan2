@@ -29,8 +29,8 @@ class ProdAerodromeReportingDiContainer implements IAerodromeReportingDiContaine
 
 
     public function __construct(
-        private IDbService   $dbService,
-        private IHttpService $httpService
+        private readonly IDbService $dbService,
+        private readonly IHttpService $httpService
     )
     {
     }
@@ -42,6 +42,7 @@ class ProdAerodromeReportingDiContainer implements IAerodromeReportingDiContaine
             $this->reportingPointController = new AdReportingPointController(
                 $this->httpService,
                 $this->getAerodromeReportingByExtentQuery(),
+                $this->getAerodromeReportingByIcaoQuery()
             );
         }
 

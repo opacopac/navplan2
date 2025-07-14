@@ -8,8 +8,7 @@ class DbTableReportingPoints
     public const TABLE_NAME = "reporting_points";
     public const COL_ID = "id";
     public const COL_TYPE = "type";
-    public const COL_AD_ICAO = "ad_icao";
-    public const COL_USER_ID = "user_id";
+    public const COL_AD_ICAO = "airport_icao";
     public const COL_NAME = "name";
     public const COL_HELI = "heli";
     public const COL_INBD_COMP = "inbd_comp";

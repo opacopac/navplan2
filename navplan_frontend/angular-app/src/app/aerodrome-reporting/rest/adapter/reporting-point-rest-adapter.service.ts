@@ -35,11 +35,10 @@ export class ReportingPointRestAdapterService implements IReportingPointRepoServ
 
 
     public readReportingPointsByAirportIcao(airportIcao: string): Observable<ReportingPointsAndSectors> {
-        const params = {icao: airportIcao};
-        const url: string = environment.airportReportingPointApiBaseUrl;
+        const url = environment.airportApiBaseUrl + '/' + airportIcao + '/reportingpoints';
 
         return this.http
-            .get<IRestReportingpoint[]>(url, {params})
+            .get<IRestReportingpoint[]>(url)
             .pipe(
                 map(response => RestReportingPointsAndSectorsConverter.fromRest(response)),
                 catchError(err => {
