@@ -340,7 +340,8 @@ class ProdNavplanDiContainer
                 $this->getAirspaceDiContainer()->getAirspaceService(),
                 $this->getNotamDiContainer()->getNotamService(),
                 $this->getAerodromeDiContainer()->getAirportService(),
-                $this->getAerodromeReportingDiContainer()->getReportingPointService(),
+                $this->getAerodromeReportingDiContainer()->getAerodromeReportingByPositionQuery(),
+                $this->getAerodromeReportingDiContainer()->getAerodromeReportingByTextQuery(),
                 $this->getNavaidDiContainer()->getNavaidService(),
                 $this->getGeonameDiContainer()->getGeonameService(),
             );

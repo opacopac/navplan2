@@ -6,12 +6,10 @@ use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByExtentQuery;
 use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByIcaoQuery;
 use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByPositionQuery;
 use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByTextQuery;
-use Navplan\AerodromeReporting\Domain\Service\IReportingPointService;
 use Navplan\AerodromeReporting\Persistence\Query\DbAerodromeReportingByExtentQuery;
 use Navplan\AerodromeReporting\Persistence\Query\DbAerodromeReportingByIcaoQuery;
 use Navplan\AerodromeReporting\Persistence\Query\DbAerodromeReportingByPositionQuery;
 use Navplan\AerodromeReporting\Persistence\Query\DbAerodromeReportingByTextQuery;
-use Navplan\AerodromeReporting\Persistence\Repo\DbReportingPointRepo;
 use Navplan\AerodromeReporting\Rest\Controller\AdReportingPointController;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\Domain\Service\IDbService;
@@ -21,7 +19,6 @@ use Navplan\System\Domain\Service\IHttpService;
 class ProdAerodromeReportingDiContainer implements IAerodromeReportingDiContainer
 {
     private IRestController $reportingPointController;
-    private IReportingPointService $reportingPointService;
     private IAerodromeReportingByExtentQuery $aerodromeReportingByExtentQuery;
     private IAerodromeReportingByPositionQuery $aerodromeReportingByPositionQuery;
     private IAerodromeReportingByTextQuery $aerodromeReportingByTextQuery;
@@ -29,7 +26,7 @@ class ProdAerodromeReportingDiContainer implements IAerodromeReportingDiContaine
 
 
     public function __construct(
-        private readonly IDbService $dbService,
+        private readonly IDbService   $dbService,
         private readonly IHttpService $httpService
     )
     {
@@ -47,16 +44,6 @@ class ProdAerodromeReportingDiContainer implements IAerodromeReportingDiContaine
         }
 
         return $this->reportingPointController;
-    }
-
-
-    public function getReportingPointService(): IReportingPointService
-    {
-        if (!isset($this->reportingPointService)) {
-            $this->reportingPointService = new DbReportingPointRepo($this->dbService);
-        }
-
-        return $this->reportingPointService;
     }
 
 

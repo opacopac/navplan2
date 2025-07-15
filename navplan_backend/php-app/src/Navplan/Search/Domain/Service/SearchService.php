@@ -3,7 +3,8 @@
 namespace Navplan\Search\Domain\Service;
 
 use Navplan\Aerodrome\Domain\Service\IAirportService;
-use Navplan\AerodromeReporting\Domain\Service\IReportingPointService;
+use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByPositionQuery;
+use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByTextQuery;
 use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Geoname\Domain\Service\IGeonameService;
 use Navplan\Navaid\Domain\Service\INavaidService;
@@ -23,13 +24,14 @@ class SearchService implements ISearchService
 
 
     public function __construct(
-        private ISearchUserPointUc     $searchUserPointUc,
-        private IAirspaceService       $airspaceService,
-        private INotamService          $notamService,
-        private IAirportService        $airportService,
-        private IReportingPointService $reportingPointService,
-        private INavaidService         $navaidService,
-        private IGeonameService        $geonameService
+        private readonly ISearchUserPointUc                 $searchUserPointUc,
+        private readonly IAirspaceService                   $airspaceService,
+        private readonly INotamService                      $notamService,
+        private readonly IAirportService                    $airportService,
+        private readonly IAerodromeReportingByPositionQuery $aerodromeReportingByPositionQuery,
+        private readonly IAerodromeReportingByTextQuery     $aerodromeReportingByTextQuery,
+        private readonly INavaidService                     $navaidService,
+        private readonly IGeonameService                    $geonameService
     )
     {
     }
@@ -61,7 +63,7 @@ class SearchService implements ISearchService
                     $resultNum += count($navaids);
                     break;
                 case SearchItemType::REPORTINGPOINTS:
-                    $reportingPoints = $this->reportingPointService->searchByPosition($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum, $maxResults));
+                    $reportingPoints = $this->aerodromeReportingByPositionQuery->search($query->position, $query->maxRadius_deg, self::getMaxPositionResults($resultNum, $maxResults));
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItemType::USERPOINTS:
@@ -118,7 +120,7 @@ class SearchService implements ISearchService
                     $resultNum += count($navaids);
                     break;
                 case SearchItemType::REPORTINGPOINTS:
-                    $reportingPoints = $this->reportingPointService->searchByText($query->searchText, $this->getMaxTextResults($resultNum));
+                    $reportingPoints = $this->aerodromeReportingByTextQuery->search($query->searchText, $this->getMaxTextResults($resultNum));
                     $resultNum += count($reportingPoints);
                     break;
                 case SearchItemType::USERPOINTS:

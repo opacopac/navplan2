@@ -3,7 +3,8 @@
 namespace Navplan\Search;
 
 use Navplan\Aerodrome\Domain\Service\IAirportService;
-use Navplan\AerodromeReporting\Domain\Service\IReportingPointService;
+use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByPositionQuery;
+use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByTextQuery;
 use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Geoname\Domain\Service\IGeonameService;
@@ -23,14 +24,15 @@ class ProdSearchDiContainer implements ISearchDiContainer
 
 
     public function __construct(
-        private IHttpService           $httpService,
-        private ISearchUserPointUc     $searchUserPointUc,
-        private IAirspaceService       $airspaceService,
-        private INotamService          $notamService,
-        private IAirportService        $airportService,
-        private IReportingPointService $reportingPointService,
-        private INavaidService         $navaidService,
-        private IGeonameService        $geonameService
+        private readonly IHttpService                       $httpService,
+        private readonly ISearchUserPointUc                 $searchUserPointUc,
+        private readonly IAirspaceService                   $airspaceService,
+        private readonly INotamService                      $notamService,
+        private readonly IAirportService                    $airportService,
+        private readonly IAerodromeReportingByPositionQuery $aerodromeReportingByPositionQuery,
+        private readonly IAerodromeReportingByTextQuery     $aerodromeReportingByTextQuery,
+        private readonly INavaidService                     $navaidService,
+        private readonly IGeonameService                    $geonameService
     )
     {
     }
@@ -57,7 +59,8 @@ class ProdSearchDiContainer implements ISearchDiContainer
                 $this->airspaceService,
                 $this->notamService,
                 $this->airportService,
-                $this->reportingPointService,
+                $this->aerodromeReportingByPositionQuery,
+                $this->aerodromeReportingByTextQuery,
                 $this->navaidService,
                 $this->geonameService,
             );
