@@ -4,7 +4,9 @@ namespace NavplanTest\System\Mock;
 
 use InvalidArgumentException;
 use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Domain\Model\IDbStatement;
 use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\MySqlDb\DbCredentials;
 
 
 class MockDbService implements IDbService {
@@ -80,5 +82,15 @@ class MockDbService implements IDbService {
     function escapeAndQuoteStringOrNull(?string $escapeString): string
     {
         // TODO: Implement escapeAndQuoteStringOrNull() method.
+    }
+
+    function init2(DbCredentials $credentials)
+    {
+        // TODO: Implement init2() method.
+    }
+
+    function prepareStatement(string $query): IDbStatement
+    {
+        // TODO: Implement prepareStatement() method.
     }
 }

@@ -2,49 +2,36 @@
 
 namespace NavplanTest\System\MySqlDb;
 
-use Navplan\System\Domain\Model\DbException;
-use Navplan\System\MySqlDb\MySqlDbService;
+use Navplan\System\MySqlDb\MySqlDbQueryBuilder;
+use NavplanTest\System\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
 
 
 class MySqlDbQueryBuilderTest extends TestCase
 {
-    /*private MySqlDbService $dbService;
-
-
-    private function getDbService(): MySqlDbService
-    {
-        return $this->dbService;
-    }
+    private MysqlDbQueryBuilder $mySqlDbQueryBuilder;
 
 
     protected function setUp(): void
     {
-        global $db_host, $db_user, $db_pw, $db_name;
         parent::setUp();
 
-        $this->dbService = MySqlDbService::getInstance();
-        $this->getDbService()->init($db_host, $db_user, $db_pw, $db_name);
+        $mockDbService = new MockDbService();
+        $this->mySqlDbQueryBuilder = new MySqlDbQueryBuilder($mockDbService);
     }
 
 
-    // region openDb
-
-    public function test_openDb_success()
+    public function test_simple_select()
     {
-        $this->assertFalse($this->getDbService()->isOpen());
-        $this->getDbService()->openDb();
-        $this->assertTrue($this->getDbService()->isOpen());
+        // given
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom("test_table")
+            ->whereEquals("col1", "value1");
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table WHERE col1 = 'value1'", $query);
     }
-
-
-    public function test_openDb_error()
-    {
-        $this->getDbService()->init('xxx', 'xxx', 'xxx', 'xxx');
-        $this->expectException(DbException::class);
-        $this->getDbService()->openDb();
-    }
-
-    // endregion
-    */
 }
