@@ -3,8 +3,10 @@
 namespace NavplanTest\System\Mock;
 
 use InvalidArgumentException;
+use Navplan\System\Domain\Model\DbWhereClauseFactory;
 use Navplan\System\Domain\Model\IDbResult;
 use Navplan\System\Domain\Model\IDbStatement;
+use Navplan\System\Domain\Service\IDbQueryBuilder;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\MySqlDb\DbCredentials;
 
@@ -92,5 +94,15 @@ class MockDbService implements IDbService {
     function prepareStatement(string $query): IDbStatement
     {
         // TODO: Implement prepareStatement() method.
+    }
+
+    function getQueryBuilder(): IDbQueryBuilder
+    {
+        // TODO: Implement getQueryBuilder() method.
+    }
+
+    function getWhereClauseFactory(): DbWhereClauseFactory
+    {
+        // TODO: Implement getWhereClauseFactory() method.
     }
 }

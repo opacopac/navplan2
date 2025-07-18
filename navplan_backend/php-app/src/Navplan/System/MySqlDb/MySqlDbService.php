@@ -5,8 +5,10 @@ namespace Navplan\System\MySqlDb;
 use Exception;
 use mysqli;
 use Navplan\System\Domain\Model\DbException;
+use Navplan\System\Domain\Model\DbWhereClauseFactory;
 use Navplan\System\Domain\Model\IDbResult;
 use Navplan\System\Domain\Model\IDbStatement;
+use Navplan\System\Domain\Service\IDbQueryBuilder;
 use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 
@@ -213,6 +215,18 @@ class MySqlDbService implements IDbService
         } else {
             $this->logAndThrowDbException("error: could not prepare statment", "", $query);
         }
+    }
+
+
+    public function getQueryBuilder(): IDbQueryBuilder
+    {
+        return new MySqlDbQueryBuilder($this);
+    }
+
+
+    public function getWhereClauseFactory(): DbWhereClauseFactory
+    {
+        return new DbWhereClauseFactory();
     }
 
 

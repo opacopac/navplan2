@@ -6,7 +6,6 @@ use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByIcaoQuery;
 use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
 use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
 
 
 class DbAerodromeReportingByIcaoQuery implements IAerodromeReportingByIcaoQuery
@@ -20,8 +19,10 @@ class DbAerodromeReportingByIcaoQuery implements IAerodromeReportingByIcaoQuery
 
     public function read(string $airportIcao): array
     {
-        $query = "SELECT * FROM " . DbTableReportingPoints::TABLE_NAME;
-        $query .= " WHERE " . DbTableReportingPoints::COL_AD_ICAO . "=" . DbHelper::getDbStringValue($this->dbService, $airportIcao);
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableReportingPoints::TABLE_NAME)
+            ->whereEquals(DbTableReportingPoints::COL_AD_ICAO, $airportIcao)
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading reporting points by airport ICAO");
 

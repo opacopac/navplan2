@@ -2,6 +2,7 @@
 
 namespace Navplan\System\Domain\Service;
 
+use Navplan\System\Domain\Model\DbWhereClauseFactory;
 use Navplan\System\Domain\Model\IDbResult;
 use Navplan\System\Domain\Model\IDbStatement;
 use Navplan\System\MySqlDb\DbCredentials;
@@ -32,4 +33,8 @@ interface IDbService {
     function getInsertId(): int;
 
     function prepareStatement(string $query): IDbStatement;
+
+    function getQueryBuilder(): IDbQueryBuilder;
+
+    function getWhereClauseFactory(): DbWhereClauseFactory;
 }
