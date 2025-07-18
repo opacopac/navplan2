@@ -6,7 +6,6 @@ use InvalidArgumentException;
 use Navplan\System\Domain\Model\DbSortDirection;
 use Navplan\System\Domain\Model\DbWhereClause;
 use Navplan\System\Domain\Model\DbWhereCombinator;
-use Navplan\System\Domain\Model\DbWhereDualClause;
 use Navplan\System\Domain\Model\DbWhereMultiClause;
 use Navplan\System\Domain\Model\DbWhereOp;
 use Navplan\System\Domain\Model\DbWhereSingleClause;
@@ -142,7 +141,6 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
         return match (get_class($clause)) {
             DbWhereSingleClause::class => $this->buildWhereSingleClauseString($clause),
-            DbWhereDualClause::class => $this->buildWhereDualClauseString($clause),
             DbWhereMultiClause::class => $this->buildWhereMultiClauseString($clause),
             default => throw new InvalidArgumentException("Unsupported where clause type"),
         };
@@ -182,19 +180,6 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
         }
 
         return $clause->colName . " " . $opStr . " " . $valStr;
-    }
-
-
-    private function buildWhereDualClauseString(DbWhereDualClause $clause): string
-    {
-        $leftStr = $this->buildWhereClauseString($clause->clause1);
-        $rightStr = $this->buildWhereClauseString($clause->clause2);
-        $combinatorStr = match ($clause->combinator) {
-            DbWhereCombinator::AND => "AND",
-            DbWhereCombinator::OR => "OR"
-        };
-
-        return "(" . $leftStr . " " . $combinatorStr . " " . $rightStr . ")";
     }
 
 

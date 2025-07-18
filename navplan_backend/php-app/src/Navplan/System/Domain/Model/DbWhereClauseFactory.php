@@ -36,28 +36,27 @@ class DbWhereClauseFactory
     }
 
 
-    public function dual(
-        DbWhereClause $clause1,
-        DbWhereCombinator $combinator,
-        DbWhereClause $clause2
-    ): DbWhereDualClause
+    public function multi(DbWhereCombinator $combinator, DbWhereClause ...$clauses): DbWhereMultiClause
     {
-        return new DbWhereDualClause(
-            $clause1,
+        if (count($clauses) < 2) {
+            throw new \InvalidArgumentException("At least two clauses are required for a multi clause.");
+        }
+
+        return new DbWhereMultiClause(
             $combinator,
-            $clause2,
+            $clauses,
         );
     }
 
 
-    public function and(DbWhereClause $clause1, DbWhereClause $clause2): DbWhereDualClause
+    public function and(DbWhereClause ...$clauses): DbWhereMultiClause
     {
-        return $this->dual($clause1, DbWhereCombinator::AND, $clause2);
+        return $this->multi(DbWhereCombinator::AND, ...$clauses);
     }
 
 
-    public function or(DbWhereClause $clause1, DbWhereClause $clause2): DbWhereDualClause
+    public function or(DbWhereClause ...$clauses): DbWhereMultiClause
     {
-        return $this->dual($clause1, DbWhereCombinator::OR, $clause2);
+        return $this->multi(DbWhereCombinator::OR, ...$clauses);
     }
 }
