@@ -66,6 +66,36 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
 
+    public function test_select_with_null_where()
+    {
+        // given
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom("test_table")
+            ->whereEquals("col1", null);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table WHERE col1 IS NULL", $query);
+    }
+
+
+    public function test_select_with_not_null_where()
+    {
+        // given
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom("test_table")
+            ->whereNotEquals("col1", null);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table WHERE col1 IS NOT NULL", $query);
+    }
+
+
     public function test_select_with_multiple_where()
     {
         // given

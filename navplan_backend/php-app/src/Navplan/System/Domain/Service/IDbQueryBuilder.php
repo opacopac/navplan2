@@ -12,7 +12,9 @@ interface IDbQueryBuilder
 
     function where(DbWhereClause $clause): IDbQueryBuilder;
 
-    function whereEquals(string $colName, string|int|float $value): IDbQueryBuilder;
+    function whereEquals(string $colName, string|int|float|null $value): IDbQueryBuilder;
+
+    function whereNotEquals(string $colName, string|int|float|null $value): IDbQueryBuilder;
 
     function orderBy(string $colName, DbSortDirection $direction): IDbQueryBuilder;
 

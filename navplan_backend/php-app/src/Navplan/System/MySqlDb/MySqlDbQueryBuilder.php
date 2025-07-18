@@ -52,6 +52,14 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
+    public function whereNotEquals(string $colName, string|int|float|null $value): IDbQueryBuilder
+    {
+        return $this->where(
+            new DbWhereSingleClause($colName, DbWhereOperator::NE, $value)
+        );
+    }
+
+
     public function orderBy(string $colName, DbSortDirection $direction): IDbQueryBuilder
     {
         $dirStr = $direction === DbSortDirection::ASC ? "ASC" : "DESC";
