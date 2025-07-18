@@ -2,6 +2,7 @@
 
 namespace NavplanTest\System\MySqlDb;
 
+use Navplan\System\Domain\Model\DbSortDirection;
 use Navplan\System\Domain\Model\DbWhereClauseFactory;
 use Navplan\System\Domain\Model\DbWhereOp;
 use Navplan\System\MySqlDb\MySqlDbQueryBuilder;
@@ -211,4 +212,41 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
     // endregion
+
+
+    // region order by tests
+
+    public function test_order_by_asc()
+    {
+        // given
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom("test_table")
+            ->orderBy("col1", DbSortDirection::ASC)
+            ->orderBy("col2", DbSortDirection::DESC);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table ORDER BY col1 ASC, col2 DESC", $query);
+    }
+
+    // endregion
+
+
+    // region limit tests
+
+    public function test_limit()
+    {
+        // given
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom("test_table")
+            ->limit(10);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table LIMIT 10", $query);
+    }
 }

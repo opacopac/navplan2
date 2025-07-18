@@ -22,6 +22,8 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     /** @var string[] $orderList */
     private array $orderList = [];
 
+    private int $limit = 0;
+
 
     public function __construct(private readonly IDbService $dbService)
     {
@@ -115,15 +117,29 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
+    public function limit(int $limit): IDbQueryBuilder
+    {
+        if ($limit <= 0) {
+            throw new InvalidArgumentException("Limit must be greater than 0");
+        }
+
+        $this->limit = $limit;
+
+        return $this;
+    }
+
+
     public function build(): string
     {
         $selectStr = $this->buildSelectString();
         $whereStr = $this->buildWhereClauseString($this->where);
         $orderByStr = $this->buildOrderByString();
+        $limitStr = $this->buildLimitString();
 
         return $selectStr
             . ($whereStr !== "" ? " WHERE " . $whereStr : "")
-            . ($orderByStr !== "" ? " ORDER BY " . $orderByStr : "");
+            . ($orderByStr !== "" ? " ORDER BY " . $orderByStr : "")
+            . ($limitStr !== "" ? " " . $limitStr : "");
     }
 
 
@@ -205,5 +221,15 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
         }
 
         return implode(", ", $this->orderList);
+    }
+
+
+    private function buildLimitString(): string
+    {
+        if ($this->limit <= 0) {
+            return "";
+        }
+
+        return "LIMIT " . $this->limit;
     }
 }

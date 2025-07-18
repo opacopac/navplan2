@@ -20,6 +20,23 @@ class DbAerodromeReportingByPositionQuery implements IAerodromeReportingByPositi
 
     public function search(Position2d $position, float $maxRadius_deg, int $maxResults): array
     {
+        /*$query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableReportingPoints::TABLE_NAME)
+            ->whereAll([
+                [DbTableReportingPoints::COL_LAT, DbWhereOp::GT, $position->latitude - $maxRadius_deg],
+                [DbTableReportingPoints::COL_LAT, DbWhereOp::LT, $position->latitude + $maxRadius_deg],
+                [DbTableReportingPoints::COL_LON, DbWhereOp::GT, $position->longitude - $maxRadius_deg],
+                [DbTableReportingPoints::COL_LON, DbWhereOp::LT, $position->longitude + $maxRadius_deg],
+            ])
+            ->orderBy("((" . DbTableReportingPoints::COL_LAT . " - " . $position->latitude . ")"
+                . " * (" . DbTableReportingPoints::COL_LAT . " - " . $position->latitude . ")"
+                . " + (" . DbTableReportingPoints::COL_LON . " - " . $position->longitude . ")"
+                . " * (" . DbTableReportingPoints::COL_LON . " - " . $position->longitude . "))",
+                DbSortDirection::ASC
+            )
+            ->limit($maxResults)
+            ->build();*/
+
         $query = "SELECT * FROM " . DbTableReportingPoints::TABLE_NAME;
         $query .= " WHERE";
         $query .= "  " . DbTableReportingPoints::COL_LAT . " > " . ($position->latitude - $maxRadius_deg);

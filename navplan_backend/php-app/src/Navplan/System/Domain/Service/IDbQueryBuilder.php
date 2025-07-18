@@ -30,5 +30,7 @@ interface IDbQueryBuilder
 
     function orderBy(string $colName, DbSortDirection $direction): IDbQueryBuilder;
 
+    function limit(int $limit): IDbQueryBuilder;
+
     function build(): string;
 }
