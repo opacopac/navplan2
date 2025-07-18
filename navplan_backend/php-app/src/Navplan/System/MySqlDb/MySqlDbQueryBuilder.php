@@ -7,7 +7,8 @@ use Navplan\System\Domain\Model\DbSortDirection;
 use Navplan\System\Domain\Model\DbWhereClause;
 use Navplan\System\Domain\Model\DbWhereCombinator;
 use Navplan\System\Domain\Model\DbWhereDualClause;
-use Navplan\System\Domain\Model\DbWhereOperator;
+use Navplan\System\Domain\Model\DbWhereMultiClause;
+use Navplan\System\Domain\Model\DbWhereOp;
 use Navplan\System\Domain\Model\DbWhereSingleClause;
 use Navplan\System\Domain\Service\IDbQueryBuilder;
 use Navplan\System\Domain\Service\IDbService;
@@ -44,19 +45,42 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function whereEquals(string $colName, string|int|float|null $value): IDbQueryBuilder
+    public function whereEquals(string $colName, string|int|float|bool|null $value): IDbQueryBuilder
     {
         return $this->where(
-            new DbWhereSingleClause($colName, DbWhereOperator::EQ, $value)
+            new DbWhereSingleClause($colName, DbWhereOp::EQ, $value)
         );
     }
 
 
-    public function whereNotEquals(string $colName, string|int|float|null $value): IDbQueryBuilder
+    public function whereNotEquals(string $colName, string|int|float|bool|null $value): IDbQueryBuilder
     {
         return $this->where(
-            new DbWhereSingleClause($colName, DbWhereOperator::NE, $value)
+            new DbWhereSingleClause($colName, DbWhereOp::NE, $value)
         );
+    }
+
+
+    /**
+     * @param $clauses [string, DbWhereOp, string|int|float|bool|null]
+     * @return IDbQueryBuilder
+     */
+    public function whereAll(array $clauses): IDbQueryBuilder
+    {
+        if (count($clauses) === 0) {
+            throw new InvalidArgumentException("At least one where clause is required");
+        }
+
+        $multiClause = new DbWhereMultiClause(
+            DbWhereCombinator::AND,
+            array_map(function ($clause) {
+                return new DbWhereSingleClause($clause[0], $clause[1], $clause[2]);
+            }, $clauses)
+        );
+
+        $this->where($multiClause);
+
+        return $this;
     }
 
 
@@ -96,6 +120,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
         return match (get_class($clause)) {
             DbWhereSingleClause::class => $this->buildWhereSingleClauseString($clause),
             DbWhereDualClause::class => $this->buildWhereDualClauseString($clause),
+            DbWhereMultiClause::class => $this->buildWhereMultiClauseString($clause),
             default => throw new InvalidArgumentException("Unsupported where clause type"),
         };
     }
@@ -105,7 +130,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     {
         // handle NULL values separately
         if ($clause->value === NULL) {
-            if ($clause->operator === DbWhereOperator::EQ) {
+            if ($clause->operator === DbWhereOp::EQ) {
                 return $clause->colName . " IS NULL";
             } else {
                 return $clause->colName . " IS NOT NULL";
@@ -113,18 +138,25 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
         }
 
         $opStr = match ($clause->operator) {
-            DbWhereOperator::EQ => "=",
-            DbWhereOperator::NE => "!=",
-            DbWhereOperator::GT => ">",
-            DbWhereOperator::GT_OR_E => ">=",
-            DbWhereOperator::LT => "<",
-            DbWhereOperator::LT_OR_E => "<=",
-            default => throw new InvalidArgumentException("Unsupported operator: " . $clause->operator->name)
+            DbWhereOp::EQ => "=",
+            DbWhereOp::NE => "!=",
+            DbWhereOp::GT => ">",
+            DbWhereOp::GT_OR_E => ">=",
+            DbWhereOp::LT => "<",
+            DbWhereOp::LT_OR_E => "<="
         };
 
-        $valStr = is_string($clause->value)
-            ? "'" . $this->dbService->escapeString($clause->value) . "'"
-            : $clause->value;
+        if (is_string($clause->value)) {
+            $valStr = DbHelper::getDbStringValue($this->dbService, $clause->value);
+        } else if (is_bool($clause->value)) {
+            $valStr = DbHelper::getDbBoolValue($clause->value);
+        } else if (is_int($clause->value)) {
+            $valStr = DbHelper::getDbIntValue($clause->value);
+        } else if (is_float($clause->value)) {
+            $valStr = DbHelper::getDbFloatValue($clause->value);
+        } else {
+            throw new InvalidArgumentException("Unsupported value type for where clause");
+        }
 
         return $clause->colName . " " . $opStr . " " . $valStr;
     }
@@ -136,11 +168,25 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
         $rightStr = $this->buildWhereClauseString($clause->clause2);
         $combinatorStr = match ($clause->combinator) {
             DbWhereCombinator::AND => "AND",
-            DbWhereCombinator::OR => "OR",
-            default => throw new InvalidArgumentException("Unsupported combinator: " . $clause->combinator->name)
+            DbWhereCombinator::OR => "OR"
         };
 
         return "(" . $leftStr . " " . $combinatorStr . " " . $rightStr . ")";
+    }
+
+
+    private function buildWhereMultiClauseString(DbWhereMultiClause $clause): string
+    {
+        $clauseStrs = array_map(function ($subClause) {
+            return $this->buildWhereClauseString($subClause);
+        }, $clause->clauses);
+
+        $combinatorStr = match ($clause->combinator) {
+            DbWhereCombinator::AND => "AND",
+            DbWhereCombinator::OR => "OR"
+        };
+
+        return "(" . implode(" " . $combinatorStr . " ", $clauseStrs) . ")";
     }
 
 

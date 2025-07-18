@@ -7,7 +7,7 @@ class DbWhereSingleClause extends DbWhereClause
 {
     public function __construct(
         public readonly string $colName,
-        public readonly DbWhereOperator $operator,
+        public readonly DbWhereOp $operator,
         public readonly string|int|float|bool|null $value
     )
     {

@@ -3,7 +3,7 @@
 namespace Navplan\System\Domain\Model;
 
 
-enum DbWhereOperator
+enum DbWhereOp
 {
     case EQ;
     case NE;
