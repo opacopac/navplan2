@@ -158,7 +158,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
             ->whereAll([
-                ["col1", DbWhereOp::EQ, 123],
+                ["col1", DbWhereOp::EQ, true],
                 ["col2", DbWhereOp::GT, 456],
                 ["col3", DbWhereOp::LT_OR_E, 789]
             ]);
@@ -167,7 +167,25 @@ class MySqlDbQueryBuilderTest extends TestCase
         $query = $qb->build();
 
         // then
-        $this->assertEquals("SELECT * FROM test_table WHERE (col1 = '123' AND col2 > '456' AND col3 <= '789')", $query);
+        $this->assertEquals("SELECT * FROM test_table WHERE (col1 = '1' AND col2 > '456' AND col3 <= '789')", $query);
+    }
+
+
+    public function test_select_with_multiple_or() {
+        // given
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom("test_table")
+            ->whereAny([
+                ["col1", DbWhereOp::NE, 123],
+                ["col2", DbWhereOp::LT, 456],
+                ["col3", DbWhereOp::GT_OR_E, 789]
+            ]);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table WHERE (col1 != '123' OR col2 < '456' OR col3 >= '789')", $query);
     }
 
 
@@ -178,15 +196,18 @@ class MySqlDbQueryBuilderTest extends TestCase
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
             ->where($w->and(
-                $w->equals("col1", "value1"),
-                $w->equals("col2", 456)
+                $w->or(
+                    $w->equals("col1", "value1"),
+                    $w->equals("col2", 456)
+                ),
+                $w->notEquals("col3", null)
             ));
 
         // when
         $query = $qb->build();
 
         // then
-        $this->assertEquals("SELECT * FROM test_table WHERE (col1 = 'value1' AND col2 = '456')", $query);
+        $this->assertEquals("SELECT * FROM test_table WHERE ((col1 = 'value1' OR col2 = '456') AND col3 IS NOT NULL)", $query);
     }
 
     // endregion

@@ -84,6 +84,29 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
+    /**
+     * @param $clauses [string, DbWhereOp, string|int|float|bool|null]
+     * @return IDbQueryBuilder
+     */
+    public function whereAny(array $clauses): IDbQueryBuilder
+    {
+        if (count($clauses) === 0) {
+            throw new InvalidArgumentException("At least one where clause is required");
+        }
+
+        $multiClause = new DbWhereMultiClause(
+            DbWhereCombinator::OR,
+            array_map(function ($clause) {
+                return new DbWhereSingleClause($clause[0], $clause[1], $clause[2]);
+            }, $clauses)
+        );
+
+        $this->where($multiClause);
+
+        return $this;
+    }
+
+
     public function orderBy(string $colName, DbSortDirection $direction): IDbQueryBuilder
     {
         $dirStr = $direction === DbSortDirection::ASC ? "ASC" : "DESC";

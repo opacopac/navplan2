@@ -13,7 +13,7 @@ class DbWhereClauseFactory
     public function single(
         string $colName,
         DbWhereOp $operator,
-        string|int|float|bool $value
+        string|int|float|bool|null $value
     ): DbWhereSingleClause
     {
         return new DbWhereSingleClause(
@@ -24,13 +24,13 @@ class DbWhereClauseFactory
     }
 
 
-    public function equals(string $colName, string|int|float|bool $value): DbWhereSingleClause
+    public function equals(string $colName, string|int|float|bool|null $value): DbWhereSingleClause
     {
         return $this->single($colName, DbWhereOp::EQ, $value);
     }
 
 
-    public function notEquals(string $colName, string|int|float|bool $value): DbWhereSingleClause
+    public function notEquals(string $colName, string|int|float|bool|null $value): DbWhereSingleClause
     {
         return $this->single($colName, DbWhereOp::NE, $value);
     }

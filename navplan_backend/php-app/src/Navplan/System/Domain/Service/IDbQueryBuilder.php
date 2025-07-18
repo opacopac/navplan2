@@ -22,6 +22,12 @@ interface IDbQueryBuilder
      */
     public function whereAll(array $clauses): IDbQueryBuilder;
 
+    /**
+     * @param $clauses [string, DbWhereOp, string|int|float|bool|null]
+     * @return IDbQueryBuilder
+     */
+    public function whereAny(array $clauses): IDbQueryBuilder;
+
     function orderBy(string $colName, DbSortDirection $direction): IDbQueryBuilder;
 
     function build(): string;
