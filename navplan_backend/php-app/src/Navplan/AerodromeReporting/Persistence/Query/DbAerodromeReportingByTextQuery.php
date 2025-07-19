@@ -28,12 +28,12 @@ class DbAerodromeReportingByTextQuery implements IAerodromeReportingByTextQuery
             ->limit($maxResults)
             ->build();
 
-        $searchText = $this->dbService->escapeString($searchText);
+        /*$searchText = $this->dbService->escapeString($searchText);
         $query = "SELECT * FROM " . DbTableReportingPoints::TABLE_NAME;
         $query .= " WHERE";
         $query .= "   " . DbTableReportingPoints::COL_NAME . " LIKE '" . $searchText . "%'";
         $query .= " ORDER BY " . DbTableReportingPoints::COL_AD_ICAO . " ASC, " . DbTableReportingPoints::COL_NAME . " ASC";
-        $query .= " LIMIT " . $maxResults;
+        $query .= " LIMIT " . $maxResults;*/
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching reporting points by text");
 
