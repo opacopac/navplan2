@@ -9,11 +9,21 @@ use Navplan\Common\Domain\Model\Position2d;
 
 class DbWhereClauseGeo extends DbWhereClause
 {
-    public function __construct(
+    private function __construct(
         public readonly string $colName,
         public readonly DbWhereOpGeo $operator,
         public readonly Position2d|Extent2d|Line2d $value
     )
     {
+    }
+
+
+    public static function create(
+        string $colName,
+        DbWhereOpGeo $operator,
+        Position2d|Extent2d|Line2d $value
+    ): DbWhereClauseGeo
+    {
+        return new DbWhereClauseGeo($colName, $operator, $value);
     }
 }

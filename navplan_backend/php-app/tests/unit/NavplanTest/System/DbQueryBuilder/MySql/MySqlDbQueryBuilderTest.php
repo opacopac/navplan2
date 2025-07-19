@@ -2,12 +2,11 @@
 
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
-use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseFactory;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseMulti;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseSimple;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereCombinator;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpGeo;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpTxt;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbQueryBuilder;
 use NavplanTest\System\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
@@ -16,20 +15,19 @@ use PHPUnit\Framework\TestCase;
 class MySqlDbQueryBuilderTest extends TestCase
 {
     private MysqlDbQueryBuilder $mySqlDbQueryBuilder;
+    private MockDbService $mockDbService;
 
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $mockDbService = new MockDbService();
-        $this->mySqlDbQueryBuilder = MySqlDbQueryBuilder::create($mockDbService);
+        $this->mockDbService = new MockDbService();
+        $this->mySqlDbQueryBuilder = MySqlDbQueryBuilder::create($this->mockDbService);
     }
 
 
-    // region select tests
-
-    public function test_simple_select_all()
+    public function test_select_all()
     {
         // given
         $qb = $this->mySqlDbQueryBuilder
@@ -43,12 +41,7 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
 
-    // endregion
-
-
-    // region single where tests
-
-    public function test_single_where_text()
+    public function test_where_equals()
     {
         // given
         $qb = $this->mySqlDbQueryBuilder
@@ -63,101 +56,7 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
 
-    public function test_single_where_int()
-    {
-        // given
-        $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom("test_table")
-            ->whereEquals("col1", 123);
-
-        // when
-        $query = $qb->build();
-
-        // then
-        $this->assertEquals("SELECT * FROM test_table WHERE col1 = '123'", $query);
-    }
-
-
-    public function test_single_where_float()
-    {
-        // given
-        $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom("test_table")
-            ->whereEquals("col1", -123.456);
-
-        // when
-        $query = $qb->build();
-
-        // then
-        $this->assertEquals("SELECT * FROM test_table WHERE col1 = '-123.456'", $query);
-    }
-
-
-    public function test_single_where_bool_true()
-    {
-        // given
-        $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom("test_table")
-            ->whereEquals("col1", true);
-
-        // when
-        $query = $qb->build();
-
-        // then
-        $this->assertEquals("SELECT * FROM test_table WHERE col1 = '1'", $query);
-    }
-
-
-    public function test_single_where_bool_false()
-    {
-        // given
-        $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom("test_table")
-            ->whereEquals("col1", false);
-
-        // when
-        $query = $qb->build();
-
-        // then
-        $this->assertEquals("SELECT * FROM test_table WHERE col1 = '0'", $query);
-    }
-
-
-    public function test_single_where_null()
-    {
-        // given
-        $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom("test_table")
-            ->whereEquals("col1", null);
-
-        // when
-        $query = $qb->build();
-
-        // then
-        $this->assertEquals("SELECT * FROM test_table WHERE col1 IS NULL", $query);
-    }
-
-
-    public function test_single_where_not_null()
-    {
-        // given
-        $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom("test_table")
-            ->where("col1", DbWhereOp::NE, null);
-
-        // when
-        $query = $qb->build();
-
-        // then
-        $this->assertEquals("SELECT * FROM test_table WHERE col1 IS NOT NULL", $query);
-    }
-
-    // endregion
-
-
-    // region text where tests
-
-    public function test_single_where_like_prefix()
+    public function test_where_prefix_like()
     {
         // given
         $qb = $this->mySqlDbQueryBuilder
@@ -172,77 +71,7 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
 
-    public function test_single_where_like_suffix()
-    {
-        // given
-        $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom("test_table")
-            ->whereText("col1", DbWhereOpTxt::LIKE_SUFFIX, "value1");
-
-        // when
-        $query = $qb->build();
-
-        // then
-        $this->assertEquals("SELECT * FROM test_table WHERE col1 LIKE '%value1'", $query);
-    }
-
-
-    public function test_single_where_like_substring()
-    {
-        // given
-        $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom("test_table")
-            ->whereText("col1", DbWhereOpTxt::LIKE_SUBSTR, "value1");
-
-        // when
-        $query = $qb->build();
-
-        // then
-        $this->assertEquals("SELECT * FROM test_table WHERE col1 LIKE '%value1%'", $query);
-    }
-
-
-    // endregion
-
-
-    // region geo where tests
-
-    public function test_geo_where_intersects_st()
-    {
-        // given
-        $dbPoint = new Position2d(7.5, 47.5);
-        $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom("test_table")
-            ->whereGeo("col1", DbWhereOpGeo::INTERSECTS_ST, $dbPoint);
-
-        // when
-        $query = $qb->build();
-
-        // then
-        $this->assertEquals("SELECT * FROM test_table WHERE ST_Intersects(col1, ST_GeomFromText('POINT(7.5 47.5)'))", $query);
-    }
-
-    public function test_geo_where_intersects_mbr()
-    {
-        // given
-        $dbPoint = new Position2d(7.5, 47.5);
-        $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom("test_table")
-            ->whereGeo("col1", DbWhereOpGeo::INTERSECTS_MBR, $dbPoint);
-
-        // when
-        $query = $qb->build();
-
-        // then
-        $this->assertEquals("SELECT * FROM test_table WHERE MBRIntersects(col1, ST_GeomFromText('POINT(7.5 47.5)'))", $query);
-    }
-
-    // endregion
-
-
-    // region multiple where tests
-
-    public function test_select_with_multiple_and()
+    public function test_where_all()
     {
         // given
         $qb = $this->mySqlDbQueryBuilder
@@ -261,7 +90,7 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
 
-    public function test_select_with_multiple_or()
+    public function test_where_any()
     {
         // given
         $qb = $this->mySqlDbQueryBuilder
@@ -283,16 +112,17 @@ class MySqlDbQueryBuilderTest extends TestCase
     public function test_select_with_generic_where()
     {
         // given
-        $w = new DbWhereClauseFactory();
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->whereClause($w->and(
-                $w->or(
-                    $w->equals("col1", "value1"),
-                    $w->equals("col2", 456)
-                ),
-                $w->notEquals("col3", null)
-            ));
+            ->whereClause(
+                DbWhereClauseMulti::create(DbWhereCombinator::AND,
+                    DbWhereClauseMulti::create(DbWhereCombinator::OR,
+                        DbWhereClauseSimple::create("col1", DbWhereOp::EQ, "value1"),
+                        DbWhereClauseSimple::create("col2", DbWhereOp::EQ, 456)
+                    ),
+                    DbWhereClauseSimple::create("col3", DbWhereOp::NE, null)
+                )
+            );
 
         // when
         $query = $qb->build();
@@ -301,10 +131,6 @@ class MySqlDbQueryBuilderTest extends TestCase
         $this->assertEquals("SELECT * FROM test_table WHERE ((col1 = 'value1' OR col2 = '456') AND col3 IS NOT NULL)", $query);
     }
 
-    // endregion
-
-
-    // region order by tests
 
     public function test_order_by_asc()
     {
@@ -321,10 +147,6 @@ class MySqlDbQueryBuilderTest extends TestCase
         $this->assertEquals("SELECT * FROM test_table ORDER BY col1 ASC, col2 DESC", $query);
     }
 
-    // endregion
-
-
-    // region limit tests
 
     public function test_limit()
     {
@@ -339,6 +161,4 @@ class MySqlDbQueryBuilderTest extends TestCase
         // then
         $this->assertEquals("SELECT * FROM test_table LIMIT 10", $query);
     }
-
-    // endregion
 }

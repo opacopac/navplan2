@@ -8,7 +8,6 @@ use Navplan\Common\Domain\Model\Line2d;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClause;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseGeo;
@@ -64,7 +63,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     public function where(string $colName, DbWhereOp $op, string|int|float|bool|null $value): IDbQueryBuilder
     {
         return $this->whereClause(
-            new DbWhereClauseSimple($colName, $op, $value),
+            DbWhereClauseSimple::create($colName, $op, $value),
         );
     }
 
@@ -78,7 +77,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     public function whereText(string $colName, DbWhereOpTxt $op, string $value): IDbQueryBuilder
     {
         return $this->whereClause(
-            new DbWhereClauseText($colName, $op, $value)
+            DbWhereClauseText::create($colName, $op, $value)
         );
     }
 
@@ -92,7 +91,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     public function whereGeo(string $colName, DbWhereOpGeo $op, Position2d|Extent2d|Line2d|Ring2d $value): IDbQueryBuilder
     {
         return $this->whereClause(
-            new DbWhereClauseGeo($colName, $op, $value)
+            DbWhereClauseGeo::create($colName, $op, $value)
         );
     }
 
@@ -107,10 +106,10 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
             throw new InvalidArgumentException("At least one where clause is required");
         }
 
-        $multiClause = new DbWhereClauseMulti(
+        $multiClause = DbWhereClauseMulti::create(
             DbWhereCombinator::AND,
-            array_map(function ($clause) {
-                return new DbWhereClauseSimple($clause[0], $clause[1], $clause[2]);
+            ...array_map(function ($clause) {
+                return DbWhereClauseSimple::create($clause[0], $clause[1], $clause[2]);
             }, $clauses)
         );
 
@@ -130,10 +129,10 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
             throw new InvalidArgumentException("At least one where clause is required");
         }
 
-        $multiClause = new DbWhereClauseMulti(
+        $multiClause = DbWhereClauseMulti::create(
             DbWhereCombinator::OR,
-            array_map(function ($clause) {
-                return new DbWhereClauseSimple($clause[0], $clause[1], $clause[2]);
+            ...array_map(function ($clause) {
+                return DbWhereClauseSimple::create($clause[0], $clause[1], $clause[2]);
             }, $clauses)
         );
 
@@ -167,7 +166,9 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     public function build(): string
     {
         $selectStr = $this->buildSelectString();
-        $whereStr = $this->buildWhereClauseString($this->where);
+        $whereStr = $this->where !== null
+            ? MySqlDbWhereClauseBuilder::create($this->dbService)->clause($this->where)->build()
+            : "";
         $orderByStr = $this->buildOrderByString();
         $limitStr = $this->buildLimitString();
 
@@ -192,46 +193,11 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
         return match (get_class($clause)) {
             DbWhereClauseSimple::class => MySqlDbWhereClauseSimpleBuilder::create($this->dbService)->clause($clause)->build(),
-            DbWhereClauseText::class => $this->buildWhereClauseTextString($clause),
+            DbWhereClauseText::class => MySqlDbWhereClauseTextBuilder::create($this->dbService)->clause($clause)->build(),
             DbWhereClauseMulti::class => $this->buildWhereMultiClauseString($clause),
-            DbWhereClauseGeo::class => $this->buildWhereClauseGeoString($clause),
+            DbWhereClauseGeo::class => MySqlDbWhereClauseGeoBuilder::create($this->dbService)->clause($clause)->build(),
             default => throw new InvalidArgumentException("Unsupported where clause type"),
         };
-    }
-
-
-    private function buildWhereClauseTextString(DbWhereClauseText $clause): string
-    {
-        $opStr = "LIKE";
-
-        $valStr = $clause->value;
-        $valStr = match ($clause->operator) {
-            DbWhereOpTxt::LIKE_PREFIX => $valStr . "%",
-            DbWhereOpTxt::LIKE_SUFFIX => "%" . $valStr,
-            DbWhereOpTxt::LIKE_SUBSTR => "%" . $valStr . "%",
-        };
-        $valStr = DbHelper::getDbStringValue($this->dbService, $valStr);
-
-        return $clause->colName . " " . $opStr . " " . $valStr;
-    }
-
-
-    private function buildWhereClauseGeoString(DbWhereClauseGeo $clause): string
-    {
-        $opStr = match ($clause->operator) {
-            DbWhereOpGeo::INTERSECTS_ST => "ST_Intersects",
-            DbWhereOpGeo::INTERSECTS_MBR => "MBRIntersects",
-        };
-
-        $geoValueStr = match (true) {
-            $clause->value instanceof Position2d => DbHelper::getDbPointStringFromPos($clause->value),
-            $clause->value instanceof Extent2d => DbHelper::getDbExtentPolygon2($clause->value),
-            $clause->value instanceof Line2d => DbHelper::getDbLineString($clause->value->position2dList),
-            $clause->value instanceof Ring2d => DbHelper::getDbPolygonString($clause->value->toArray()),
-            default => throw new InvalidArgumentException("Unsupported geometry type for where clause"),
-        };
-
-        return $opStr . "(" . $clause->colName . ", " . $geoValueStr . ")";
     }
 
 

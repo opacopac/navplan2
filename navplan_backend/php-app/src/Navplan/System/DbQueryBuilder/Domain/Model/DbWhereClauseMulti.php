@@ -5,13 +5,25 @@ namespace Navplan\System\DbQueryBuilder\Domain\Model;
 
 class DbWhereClauseMulti extends DbWhereClause
 {
-    public function __construct(
+    /**
+     * @param DbWhereCombinator $combinator
+     * @param DbWhereClause[] $clauses
+     */
+    private function __construct(
         public readonly DbWhereCombinator $combinator,
-        /**
-         * @var DbWhereClause[]
-         */
         public readonly array $clauses
     )
     {
+    }
+
+
+    /**
+     * @param DbWhereCombinator $combinator
+     * @param DbWhereClause ...$clauses
+     * @return DbWhereClauseMulti
+     */
+    public static function create(DbWhereCombinator $combinator, DbWhereClause ...$clauses): DbWhereClauseMulti
+    {
+        return new DbWhereClauseMulti($combinator, $clauses);
     }
 }
