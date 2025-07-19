@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\System\MySqlDb;
+namespace NavplanTest\System\DbQueryBuilder\MySql;
 
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
@@ -9,7 +9,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpTxt;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbQueryBuilder;
-use NavplanTest\System\Mock\MockDbService;
+use NavplanTest\System\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
 
 

@@ -4,7 +4,7 @@ namespace NavplanTest\Webcam\DbRepo;
 
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Webcam\Persistence\Service\DbWebcamRepo;
-use NavplanTest\System\Mock\MockDbService;
+use NavplanTest\System\Db\Mock\MockDbService;
 use NavplanTest\Webcam\Mocks\DummyWebcam1;
 use NavplanTest\Webcam\Mocks\DummyWebcam2;
 use PHPUnit\Framework\TestCase;

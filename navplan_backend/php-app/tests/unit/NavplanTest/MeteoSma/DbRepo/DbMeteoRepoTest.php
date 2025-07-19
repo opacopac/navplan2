@@ -8,7 +8,7 @@ use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement1;
 use NavplanTest\MeteoSma\Mocks\DummySmaMeasurement2;
 use NavplanTest\MeteoSma\Mocks\DummySmaStationList1;
 use NavplanTest\MockNavplanDiContainer;
-use NavplanTest\System\Mock\MockDbService;
+use NavplanTest\System\Db\Mock\MockDbService;
 use NavplanTest\System\Mock\MockTimeService;
 use PHPUnit\Framework\TestCase;
 

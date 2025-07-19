@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\System\MySqlDb;
+namespace NavplanTest\System\Db\MySql;
 
 use InvalidArgumentException;
 use Navplan\System\Db\MySql\DbHelper;
-use NavplanTest\System\Mock\MockDbService;
+use NavplanTest\System\Db\Mock\MockDbService;
 
 
 class DbHelperTest extends DbTestCase {

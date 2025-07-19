@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\System\Mock;
+namespace NavplanTest\System\Db\Mock;
 
 use Navplan\System\Db\MySql\DbConnection;
 

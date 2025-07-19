@@ -34,7 +34,7 @@ use NavplanTest\Geoname\Mocks\MockGeonameRepo;
 use NavplanTest\MeteoSma\Mocks\MockMeteoSmaRepo;
 use NavplanTest\Navaid\Mocks\MockNavaidService;
 use NavplanTest\Notam\Mocks\MockNotamRepo;
-use NavplanTest\System\Mock\MockDbService;
+use NavplanTest\System\Db\Mock\MockDbService;
 use NavplanTest\System\Mock\MockFileService;
 use NavplanTest\System\Mock\MockHttpService;
 use NavplanTest\System\Mock\MockMailService;

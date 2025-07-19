@@ -3,7 +3,7 @@
 namespace NavplanTest\User\DbRepo;
 
 use Navplan\User\Persistence\Service\DbUserRepoFactory;
-use NavplanTest\System\Mock\MockDbService;
+use NavplanTest\System\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
 
 

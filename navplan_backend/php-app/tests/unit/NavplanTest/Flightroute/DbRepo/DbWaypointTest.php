@@ -10,7 +10,7 @@ use Navplan\Flightroute\Persistence\Repo\DbWaypointConverter;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint1;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint2;
 use NavplanTest\Flightroute\Mocks\DummyWaypoint3;
-use NavplanTest\System\Mock\MockDbService;
+use NavplanTest\System\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
 
 

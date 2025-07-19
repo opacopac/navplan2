@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\System\MySqlDb;
+namespace NavplanTest\System\Db\MySql;
 
-use NavplanTest\System\Mock\MockDbConnection;
-use NavplanTest\System\Mock\MockDbResult;
+use NavplanTest\System\Db\Mock\MockDbConnection;
+use NavplanTest\System\Db\Mock\MockDbResult;
 use PHPUnit\Framework\TestCase;
 
 

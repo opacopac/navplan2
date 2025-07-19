@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace NavplanTest\System\MySqlDb;
+namespace NavplanTest\System\Db\MySql;
 
 use Navplan\System\Db\Domain\Model\DbException;
 use Navplan\System\Db\MySql\DbService;
