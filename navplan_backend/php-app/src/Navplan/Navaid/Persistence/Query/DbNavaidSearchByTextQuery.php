@@ -15,7 +15,7 @@ use Navplan\System\DbQueryBuilder\MySql\MySqlDbCaseBuilder;
 class DbNavaidSearchByTextQuery implements INavaidSearchByTextQuery
 {
     public function __construct(
-        private IDbService $dbService
+        private readonly IDbService $dbService
     )
     {
     }
@@ -29,11 +29,10 @@ class DbNavaidSearchByTextQuery implements INavaidSearchByTextQuery
                 DbCondText::create(DbTableNavaid::COL_KUERZEL, DbCondOpTxt::LIKE_PREFIX, $searchText),
                 DbCondText::create(DbTableNavaid::COL_NAME, DbCondOpTxt::LIKE_PREFIX, $searchText)
             )
-            ->orderBy(
-                MySqlDbCaseBuilder::create($this->dbService)
-                    ->whenEquals(DbTableNavaid::COL_COUNTRY, "CH", "1")
-                    ->else("2")
-                    ->build(),
+            ->orderBy(MySqlDbCaseBuilder::create($this->dbService)
+                ->whenEquals(DbTableNavaid::COL_COUNTRY, "CH", "1")
+                ->else("2")
+                ->build(),
                 DbSortOrder::ASC
             )
             ->orderBy(DbTableNavaid::COL_KUERZEL, DbSortOrder::ASC)

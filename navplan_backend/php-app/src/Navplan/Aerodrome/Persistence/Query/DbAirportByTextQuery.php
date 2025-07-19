@@ -41,7 +41,8 @@ class DbAirportByTextQuery implements IAirportByTextQuery
                 ->whenEquals(DbTableAirport::COL_COUNTRY, "CH", "1")
                 ->else("2")
                 ->build(),
-                DbSortOrder::ASC)
+                DbSortOrder::ASC
+            )
             ->orderBy(MySqlDbCaseBuilder::create($this->dbService)
                 ->whenAny([
                     DbCondSimple::create(DbTableAirport::COL_ICAO, DbCondOp::EQ, NULL),
@@ -49,8 +50,8 @@ class DbAirportByTextQuery implements IAirportByTextQuery
                 ], "2")
                 ->else("1")
                 ->build(),
-                DbSortOrder::ASC)
-            // TODO: query builder
+                DbSortOrder::ASC
+            )
             ->orderBy(MySqlDbCaseBuilder::create($this->dbService)
                 ->whenEquals(DbTableAirport::COL_TYPE, "INTL_APT", "1")
                 ->whenAny([
@@ -70,7 +71,8 @@ class DbAirportByTextQuery implements IAirportByTextQuery
                 ], "4")
                 ->else("5")
                 ->build(),
-                DbSortOrder::ASC)
+                DbSortOrder::ASC
+            )
             ->orderBy(DbTableAirport::COL_ICAO, DbSortOrder::ASC)
             ->limit($maxResults)
             ->build();
