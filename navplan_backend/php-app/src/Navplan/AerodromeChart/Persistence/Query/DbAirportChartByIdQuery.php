@@ -7,7 +7,10 @@ use Navplan\AerodromeChart\Domain\Query\IAirportChartByIdQuery;
 use Navplan\AerodromeChart\Persistence\Model\DbAirportChart2Converter;
 use Navplan\AerodromeChart\Persistence\Model\DbTableAirportCharts;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 
 class DbAirportChartByIdQuery implements IAirportChartByIdQuery
@@ -21,7 +24,22 @@ class DbAirportChartByIdQuery implements IAirportChartByIdQuery
 
     public function read(int $id, int $userId): AirportChart
     {
-        $query = "SELECT * FROM " . DbTableAirportCharts::TABLE_NAME;
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableAirportCharts::TABLE_NAME)
+            ->whereAll(
+                DbCondSimple::create(DbTableAirportCharts::COL_ID, DbCondOp::EQ, $id),
+                DbCondSimple::create(DbTableAirportCharts::COL_ACTIVE, DbCondOp::EQ, true),
+                $userId > 0
+                    ? DbCondMulti::create(
+                    DbCondCombinator::OR,
+                    DbCondSimple::create(DbTableAirportCharts::COL_USER_ID, DbCondOp::EQ, $userId),
+                    DbCondSimple::create(DbTableAirportCharts::COL_USER_ID, DbCondOp::EQ, null)
+                )
+                    : DbCondSimple::create(DbTableAirportCharts::COL_USER_ID, DbCondOp::EQ, null)
+            )
+            ->build();
+
+        /*$query = "SELECT * FROM " . DbTableAirportCharts::TABLE_NAME;
         $query .= " WHERE " . DbTableAirportCharts::COL_ID . "=" . DbHelper::getDbIntValue($id);
         $query .= " AND " . DbTableAirportCharts::COL_ACTIVE . "=1";
 
@@ -30,7 +48,7 @@ class DbAirportChartByIdQuery implements IAirportChartByIdQuery
             $query .= " OR " . DbTableAirportCharts::COL_USER_ID . " IS NULL)";
         } else {
             $query .= " AND " . DbTableAirportCharts::COL_USER_ID . " IS NULL";
-        }
+        }*/
 
         $result = $this->dbService->execSingleResultQuery($query, false, "error reading chart by id");
 
