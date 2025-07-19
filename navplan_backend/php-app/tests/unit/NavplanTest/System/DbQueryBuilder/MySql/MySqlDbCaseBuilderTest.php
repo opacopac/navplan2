@@ -51,4 +51,18 @@ class MySqlDbCaseBuilderTest extends TestCase
         // then
         $this->assertEquals("CASE WHEN col1 = 'value1' THEN then_value1 WHEN col2 = 'value2' THEN then_value2 END", $query);
     }
+
+
+    public function test_case_when_equals()
+    {
+        // given
+        $cb = MySqlDbCaseBuilder::create($this->mockDbService)
+            ->whenEquals("col1", "value1", "then_value1");
+
+        // when
+        $query = $cb->build();
+
+        // then
+        $this->assertEquals("CASE WHEN col1 = 'value1' THEN then_value1 END", $query);
+    }
 }
