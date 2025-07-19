@@ -3,8 +3,8 @@
 namespace Navplan\Track\Persistence\Command;
 
 use Navplan\Common\Persistence\Model\DbPosition4dConverter;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 use Navplan\Track\Domain\Command\ITrackCreateCommand;
 use Navplan\Track\Domain\Model\Track;
 use Navplan\Track\Persistence\Model\DbTableTrack;

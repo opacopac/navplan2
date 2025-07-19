@@ -8,7 +8,7 @@ use Navplan\Aircraft\Persistence\Model\DbTableAircraftWeightItems;
 use Navplan\Common\Persistence\Model\DbLengthConverter;
 use Navplan\Common\Persistence\Model\DbVolumeConverter;
 use Navplan\Common\Persistence\Model\DbWeightConverter;
-use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbResult;
 
 
 class DbWeightItemConverter

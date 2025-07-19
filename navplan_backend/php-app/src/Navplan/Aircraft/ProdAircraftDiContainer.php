@@ -39,7 +39,7 @@ use Navplan\Aircraft\Persistence\Query\DbAircraftTypeDesignatorSearchQuery;
 use Navplan\Aircraft\Rest\Controller\AircraftController;
 use Navplan\Aircraft\Rest\Controller\AircraftTypeDesignatorController;
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\User\Domain\Service\IUserService;

@@ -8,7 +8,7 @@ include_once __DIR__ . "/zoom_level_sorter/ZoomLevelSortItemTypeAirport.php";
 include_once __DIR__ . "/zoom_level_sorter/ZoomLevelSortItemTypeNavaid.php";
 
 use Navplan\Common\LoggingServiceOld;
-use Navplan\System\MySqlDb\DbService;
+use Navplan\System\Db\MySql\DbService;
 
 
 $conn = DbService::openDb();

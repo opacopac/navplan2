@@ -4,8 +4,8 @@ include "../php/helper.php";
 
 include_once __DIR__ . "/../php/Navplan/Db/MySqlDb/DbService.php";
 
-use Navplan\System\Domain\Model\DbException;
-use Navplan\System\MySqlDb\DbService;
+use Navplan\System\Db\Domain\Model\DbException;
+use Navplan\System\Db\MySql\DbService;
 
 
 const START_NUM_CORR_ADD_ENTRIES = 999000000;

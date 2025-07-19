@@ -3,7 +3,7 @@
 namespace Navplan\Webcam\Persistence\Service;
 
 use Navplan\Common\Domain\Model\Extent2d;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\Webcam\Domain\Service\IWebcamRepo;
 use Navplan\Webcam\Persistence\Model\DbWebcamConverter;
 

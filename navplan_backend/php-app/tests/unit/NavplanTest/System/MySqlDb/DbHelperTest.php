@@ -3,7 +3,7 @@
 namespace NavplanTest\System\MySqlDb;
 
 use InvalidArgumentException;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\MySql\DbHelper;
 use NavplanTest\System\Mock\MockDbService;
 
 

@@ -4,8 +4,8 @@ namespace Navplan\Flightroute\Persistence\Command;
 
 use Navplan\Flightroute\Domain\Command\IWaypointsDeleteCommand;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightrouteWaypoints;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbWaypointsDeleteCommand implements IWaypointsDeleteCommand {

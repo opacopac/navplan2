@@ -4,7 +4,7 @@ namespace Navplan\Aerodrome\Persistence\Model;
 
 use Navplan\Aerodrome\Domain\Model\AirportFeature;
 use Navplan\Common\Persistence\Model\DbPosition2dConverter;
-use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbResult;
 
 
 class DbAirportFeatureConverter

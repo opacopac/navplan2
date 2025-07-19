@@ -2,7 +2,7 @@
 
 namespace Navplan\System;
 
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 interface IPersistenceDiContainer {

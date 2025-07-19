@@ -8,9 +8,9 @@ use Navplan\Common\GeoHelper;
 use Navplan\Notam\Domain\Model\Notam;
 use Navplan\Notam\Domain\Service\INotamRepo;
 use Navplan\Notam\Persistence\Model\DbNotamConverter;
-use Navplan\System\Domain\Model\IDbResult;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbNotamRepo implements INotamRepo {

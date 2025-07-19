@@ -8,7 +8,7 @@ use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Notam\Persistence\Service\DbNotamRepo;
 use Navplan\Notam\Rest\Service\NotamController;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 
 

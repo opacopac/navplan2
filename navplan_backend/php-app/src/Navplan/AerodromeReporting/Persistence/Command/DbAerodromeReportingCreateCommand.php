@@ -5,8 +5,8 @@ namespace Navplan\AerodromeReporting\Persistence\Command;
 use Navplan\AerodromeReporting\Domain\Command\IAerodromeReportingCreateCommand;
 use Navplan\AerodromeReporting\Domain\Model\ReportingPoint;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbAerodromeReportingCreateCommand implements IAerodromeReportingCreateCommand

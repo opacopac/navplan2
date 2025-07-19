@@ -8,8 +8,8 @@ use Navplan\AerodromeCircuit\Persistence\Model\DbAirportCircuitConverter;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Persistence\Model\DbLine2dConverter;
 use Navplan\Common\Persistence\Model\DbRing2dConverter;
-use Navplan\System\Domain\Model\IDbResult;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class DbAirportCircuitRepo implements IAirportCircuitRepo {

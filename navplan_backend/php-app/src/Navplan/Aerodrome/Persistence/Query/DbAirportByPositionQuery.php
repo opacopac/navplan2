@@ -7,7 +7,7 @@ use Navplan\Aerodrome\Domain\Query\IAirportByPositionQuery;
 use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class DbAirportByPositionQuery implements IAirportByPositionQuery

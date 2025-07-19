@@ -3,7 +3,7 @@
 namespace Navplan\User;
 
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\System\Domain\Service\IMailService;

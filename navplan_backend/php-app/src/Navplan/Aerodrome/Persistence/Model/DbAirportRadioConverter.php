@@ -4,12 +4,11 @@ namespace Navplan\Aerodrome\Persistence\Model;
 
 use Navplan\Aerodrome\Domain\Model\AirportRadio;
 use Navplan\Aerodrome\Domain\Model\AirportRadioType;
-use Navplan\Aerodrome\Domain\Model\AirportRunway;
 use Navplan\Common\Domain\Model\Frequency;
 use Navplan\Common\Domain\Model\FrequencyUnit;
-use Navplan\System\Domain\Model\IDbResult;
-use Navplan\System\Domain\Model\IDbStatement;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbStatement;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class DbAirportRadioConverter {

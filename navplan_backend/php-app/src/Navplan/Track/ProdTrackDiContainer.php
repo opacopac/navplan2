@@ -4,7 +4,7 @@ namespace Navplan\Track;
 
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Exporter\Domain\Service\IExportService;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\Track\Domain\Command\ITrackCreateCommand;
 use Navplan\Track\Domain\Command\ITrackDeleteCommand;

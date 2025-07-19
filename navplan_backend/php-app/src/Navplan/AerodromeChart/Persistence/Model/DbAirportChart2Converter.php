@@ -5,7 +5,7 @@ namespace Navplan\AerodromeChart\Persistence\Model;
 use Navplan\AerodromeChart\Domain\Model\AirportChart;
 use Navplan\Common\Persistence\Model\DbExtent2dConverter;
 use Navplan\Common\StringNumberHelper;
-use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbResult;
 
 
 class DbAirportChart2Converter

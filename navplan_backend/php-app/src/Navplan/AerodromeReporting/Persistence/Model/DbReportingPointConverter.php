@@ -8,7 +8,7 @@ use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 use Navplan\Common\StringNumberHelper;
-use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbResult;
 
 
 class DbReportingPointConverter

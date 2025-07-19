@@ -6,7 +6,7 @@ use Navplan\Aerodrome\Domain\Model\AirportRadio;
 use Navplan\Aerodrome\Domain\Query\IAirportRadioQuery;
 use Navplan\Aerodrome\Persistence\Model\DbAirportRadioConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirportRadio;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class DbAirportRadioQuery implements IAirportRadioQuery

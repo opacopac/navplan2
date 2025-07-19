@@ -2,7 +2,7 @@
 
 namespace Navplan\User\Persistence\Service;
 
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\User\Domain\Model\User;
 use Navplan\User\Domain\Service\IUserRepo;
 use Navplan\User\Persistence\Model\UserConverter;

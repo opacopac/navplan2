@@ -4,7 +4,7 @@ namespace Navplan\Navaid\Persistence\Query;
 
 use Navplan\Navaid\Domain\Query\INavaidSearchByTextQuery;
 use Navplan\Navaid\Persistence\Model\DbTableNavaid;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class DbNavaidSearchByTextQuery implements INavaidSearchByTextQuery {

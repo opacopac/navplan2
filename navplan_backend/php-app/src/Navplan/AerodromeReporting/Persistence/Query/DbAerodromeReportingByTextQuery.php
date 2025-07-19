@@ -5,8 +5,8 @@ namespace Navplan\AerodromeReporting\Persistence\Query;
 use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByTextQuery;
 use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
-use Navplan\System\Domain\Model\DbSortOrder;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
 
 class DbAerodromeReportingByTextQuery implements IAerodromeReportingByTextQuery

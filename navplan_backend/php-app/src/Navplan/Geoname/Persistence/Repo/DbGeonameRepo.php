@@ -5,8 +5,8 @@ namespace Navplan\Geoname\Persistence\Repo;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Geoname\Domain\Service\IGeonameRepo;
 use Navplan\Geoname\Persistence\Model\DbGeonameConverter;
-use Navplan\System\Domain\Model\IDbResult;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class DbGeonameRepo implements IGeonameRepo {

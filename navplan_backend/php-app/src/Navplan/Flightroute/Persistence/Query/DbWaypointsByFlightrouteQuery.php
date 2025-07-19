@@ -5,7 +5,7 @@ namespace Navplan\Flightroute\Persistence\Query;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Query\IWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightrouteWaypoints;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class DbWaypointsByFlightrouteQuery implements IWaypointsByFlightrouteQuery {

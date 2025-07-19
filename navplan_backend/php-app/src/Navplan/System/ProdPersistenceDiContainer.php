@@ -2,9 +2,9 @@
 
 namespace Navplan\System;
 
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\IDbConfig;
-use Navplan\System\MySqlDb\MySqlDbService;
+use Navplan\System\Db\Domain\Model\IDbConfig;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\MySqlDbService;
 
 
 class ProdPersistenceDiContainer implements IPersistenceDiContainer

@@ -7,7 +7,7 @@ include_once __DIR__ . "/../php/Navplan/Shared/GeoHelper.php";
 
 use Navplan\Common\GeoHelper;
 use Navplan\Common\LoggingServiceOld;
-use Navplan\System\MySqlDb\DbService;
+use Navplan\System\Db\MySql\DbService;
 
 
 const MAX_ZOOM = 14;

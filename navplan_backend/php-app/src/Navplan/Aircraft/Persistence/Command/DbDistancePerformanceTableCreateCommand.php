@@ -8,8 +8,8 @@ use Navplan\Aircraft\Persistence\Model\DbTableAircraftPerfDist;
 use Navplan\Aircraft\Persistence\Model\PerfDistTableType;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Temperature;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbDistancePerformanceTableCreateCommand implements IDistancePerformanceTableCreateCommand

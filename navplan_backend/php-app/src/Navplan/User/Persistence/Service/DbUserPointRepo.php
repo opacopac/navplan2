@@ -4,8 +4,8 @@ namespace Navplan\User\Persistence\Service;
 
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\System\Domain\Model\IDbResult;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\User\Domain\Service\IUserPointRepo;
 use Navplan\User\Persistence\Model\UserPointConverter;
 

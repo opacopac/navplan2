@@ -3,7 +3,7 @@
 namespace Navplan\Webcam;
 
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\Webcam\Domain\Service\IWebcamService;
 use Navplan\Webcam\Persistence\Service\DbWebcamRepo;

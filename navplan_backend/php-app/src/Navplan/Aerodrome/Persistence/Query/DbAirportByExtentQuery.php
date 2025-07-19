@@ -9,8 +9,8 @@ use Navplan\Aerodrome\Persistence\Model\DbShortAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirportRunway;
 use Navplan\Common\Domain\Model\Extent2d;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbAirportByExtentQuery implements IAirportByExtentQuery

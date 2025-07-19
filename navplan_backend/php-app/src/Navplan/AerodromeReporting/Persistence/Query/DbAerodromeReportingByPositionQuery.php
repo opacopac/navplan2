@@ -6,9 +6,9 @@ use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByPositionQuery;
 use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\System\Domain\Model\DbSortOrder;
-use Navplan\System\Domain\Model\DbWhereOp;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
 
 
 class DbAerodromeReportingByPositionQuery implements IAerodromeReportingByPositionQuery

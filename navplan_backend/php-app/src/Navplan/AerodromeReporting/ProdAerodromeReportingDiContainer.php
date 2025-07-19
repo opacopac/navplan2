@@ -12,7 +12,7 @@ use Navplan\AerodromeReporting\Persistence\Query\DbAerodromeReportingByPositionQ
 use Navplan\AerodromeReporting\Persistence\Query\DbAerodromeReportingByTextQuery;
 use Navplan\AerodromeReporting\Rest\Controller\AdReportingPointController;
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 
 

@@ -2,7 +2,7 @@
 
 namespace NavplanTest\System\Mock;
 
-use Navplan\System\MySqlDb\DbConnection;
+use Navplan\System\Db\MySql\DbConnection;
 
 
 class MockDbConnection extends DbConnection

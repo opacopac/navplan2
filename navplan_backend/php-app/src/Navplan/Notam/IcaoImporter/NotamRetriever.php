@@ -5,9 +5,9 @@ namespace Navplan\Notam\IcaoImporter;
 require_once __DIR__ . "/../../RestServiceBootstrap.php";
 
 use Exception;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 use Navplan\System\Domain\Service\ILoggingService;
-use Navplan\System\MySqlDb\DbHelper;
 
 
 global $diContainer;

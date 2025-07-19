@@ -26,7 +26,7 @@ use Navplan\Flightroute\Persistence\Query\DbFlightrouteByShareIdQuery;
 use Navplan\Flightroute\Persistence\Query\DbFlightrouteListQuery;
 use Navplan\Flightroute\Persistence\Query\DbWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Rest\Controller\FlightrouteController;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\User\Domain\Service\IUserService;
 

@@ -2,8 +2,8 @@
 
 namespace Navplan\Track\Persistence\Query;
 
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 use Navplan\Track\Domain\Query\ITrackListQuery;
 use Navplan\Track\Persistence\Model\DbTableTrack;
 use Navplan\Track\Persistence\Model\DbTrackConverter;

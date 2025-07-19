@@ -5,7 +5,7 @@ namespace Navplan\AerodromeReporting\Persistence\Query;
 use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByIcaoQuery;
 use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class DbAerodromeReportingByIcaoQuery implements IAerodromeReportingByIcaoQuery

@@ -7,8 +7,8 @@ use Navplan\Flightroute\Domain\Command\IWaypointsCreateCommand;
 use Navplan\Flightroute\Domain\Command\IWaypointsDeleteCommand;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbFlightrouteUpdateCommand implements IFlightrouteUpdateCommand

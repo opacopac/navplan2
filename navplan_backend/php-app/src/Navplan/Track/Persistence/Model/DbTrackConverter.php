@@ -4,7 +4,7 @@ namespace Navplan\Track\Persistence\Model;
 
 use Navplan\Common\Persistence\Model\DbPosition4dConverter;
 use Navplan\Common\Persistence\Model\DbTimestampConverter;
-use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbResult;
 use Navplan\Track\Domain\Model\Track;
 
 

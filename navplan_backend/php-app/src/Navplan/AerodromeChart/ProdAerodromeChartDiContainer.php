@@ -17,7 +17,7 @@ use Navplan\AerodromeChart\Persistence\Query\DbAirportChartByAirportQuery;
 use Navplan\AerodromeChart\Persistence\Query\DbAirportChartByIdQuery;
 use Navplan\AerodromeChart\Rest\Controller\AdChartController;
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\IImageService;

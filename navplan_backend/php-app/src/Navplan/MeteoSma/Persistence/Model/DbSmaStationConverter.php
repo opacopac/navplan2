@@ -8,7 +8,7 @@ use Navplan\Common\Domain\Model\AltitudeReference;
 use Navplan\Common\Domain\Model\AltitudeUnit;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\MeteoSma\Domain\Model\SmaStation;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class DbSmaStationConverter {

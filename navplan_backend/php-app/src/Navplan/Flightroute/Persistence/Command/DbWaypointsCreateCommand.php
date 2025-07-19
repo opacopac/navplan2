@@ -6,8 +6,8 @@ use Navplan\Flightroute\Domain\Command\IWaypointsCreateCommand;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Model\Waypoint;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightrouteWaypoints;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbWaypointsCreateCommand implements IWaypointsCreateCommand {

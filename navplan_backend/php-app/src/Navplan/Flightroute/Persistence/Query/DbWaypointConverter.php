@@ -9,7 +9,7 @@ use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\Domain\Model\Waypoint;
 use Navplan\Flightroute\Domain\Model\WaypointAltitude;
-use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbResult;
 
 
 class DbWaypointConverter {

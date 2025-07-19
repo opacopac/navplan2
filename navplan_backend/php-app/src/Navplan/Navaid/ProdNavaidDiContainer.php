@@ -16,7 +16,7 @@ use Navplan\Navaid\Persistence\Query\DbNavaidSearchByExtentQuery;
 use Navplan\Navaid\Persistence\Query\DbNavaidSearchByPositionQuery;
 use Navplan\Navaid\Persistence\Query\DbNavaidSearchByTextQuery;
 use Navplan\Navaid\Rest\Controller\NavaidController;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
 

@@ -6,7 +6,7 @@ use Navplan\Aerodrome\Domain\Model\AirportRunway;
 use Navplan\Aerodrome\Domain\Query\IAirportRunwayQuery;
 use Navplan\Aerodrome\Persistence\Model\DbAirportRunwayConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirportRunway;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class DbAirportRunwayQuery implements IAirportRunwayQuery

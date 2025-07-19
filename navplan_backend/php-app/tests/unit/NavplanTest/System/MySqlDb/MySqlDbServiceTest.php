@@ -2,8 +2,8 @@
 
 namespace NavplanTest\System\MySqlDb;
 
-use Navplan\System\Domain\Model\DbException;
-use Navplan\System\MySqlDb\MySqlDbService;
+use Navplan\System\Db\Domain\Model\DbException;
+use Navplan\System\Db\MySql\MySqlDbService;
 use PHPUnit\Framework\TestCase;
 
 // TODO => config

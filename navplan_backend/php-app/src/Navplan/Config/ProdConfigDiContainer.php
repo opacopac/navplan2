@@ -3,7 +3,7 @@
 namespace Navplan\Config;
 
 use Navplan\Config\IniFile\Service\IniFileConfig;
-use Navplan\System\MySqlDb\DbCredentials;
+use Navplan\System\Db\MySql\DbCredentials;
 use Navplan\User\Domain\Model\TokenCredentials;
 
 

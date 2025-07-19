@@ -6,8 +6,8 @@ use Navplan\Airspace\Domain\Query\IAirspaceSearchByExtentQuery;
 use Navplan\Airspace\Persistence\Model\DbTableAirspace;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\GeoHelper;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbAirspaceSearchByExtentQuery implements IAirspaceSearchByExtentQuery {

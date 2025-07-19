@@ -9,8 +9,8 @@ use Navplan\Aircraft\Domain\Command\IWnbEnvelopeCreateCommand;
 use Navplan\Aircraft\Domain\Model\Aircraft;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
 use Navplan\Aircraft\Persistence\Model\PerfDistTableType;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbAircraftCreateCommand implements IAircraftCreateCommand

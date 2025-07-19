@@ -2,8 +2,8 @@
 
 namespace NavplanTest\System\MySqlDb;
 
-use Navplan\System\Domain\Model\DbException;
-use Navplan\System\MySqlDb\DbService;
+use Navplan\System\Db\Domain\Model\DbException;
+use Navplan\System\Db\MySql\DbService;
 
 
 class DbServiceTest extends DbTestCase

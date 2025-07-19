@@ -6,8 +6,8 @@ use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Query\IFlightrouteByShareIdQuery;
 use Navplan\Flightroute\Domain\Query\IWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbFlightrouteByShareIdQuery implements IFlightrouteByShareIdQuery {

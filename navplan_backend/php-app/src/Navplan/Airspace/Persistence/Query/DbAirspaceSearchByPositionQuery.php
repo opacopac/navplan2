@@ -5,8 +5,8 @@ namespace Navplan\Airspace\Persistence\Query;
 use Navplan\Airspace\Domain\Query\IAirspaceSearchByPositionQuery;
 use Navplan\Airspace\Persistence\Model\DbTableAirspace;
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbAirspaceSearchByPositionQuery implements IAirspaceSearchByPositionQuery {

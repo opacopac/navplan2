@@ -7,7 +7,7 @@ use Navplan\Aerodrome\Domain\Model\Airport;
 use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbAirportRadioConverter;
 use Navplan\Aerodrome\Persistence\Model\DbAirportRunwayConverter;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Throwable;
 

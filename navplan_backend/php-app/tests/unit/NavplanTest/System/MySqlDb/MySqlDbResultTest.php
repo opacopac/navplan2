@@ -3,7 +3,7 @@
 namespace NavplanTest\System\MySqlDb;
 
 use mysqli;
-use Navplan\System\MySqlDb\MySqlDbResult;
+use Navplan\System\Db\MySql\MySqlDbResult;
 use PHPUnit\Framework\TestCase;
 
 // TODO => config

@@ -6,7 +6,7 @@ use Navplan\Aircraft\Domain\Model\AircraftType;
 use Navplan\Aircraft\Domain\Model\AircraftTypeDesignator;
 use Navplan\Aircraft\Domain\Model\EngineType;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftTypeDesignator;
-use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbResult;
 
 
 class DbAircraftTypeDesignatorConverter

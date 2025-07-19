@@ -6,7 +6,7 @@ use Navplan\Aerodrome\Domain\Command\IAirportDeleteAllCommand;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirportRadio;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirportRunway;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 
 

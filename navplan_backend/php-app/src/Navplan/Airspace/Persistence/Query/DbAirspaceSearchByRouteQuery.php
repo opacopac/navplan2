@@ -4,8 +4,8 @@ namespace Navplan\Airspace\Persistence\Query;
 
 use Navplan\Airspace\Domain\Query\IAirspaceSearchByRouteQuery;
 use Navplan\Airspace\Persistence\Model\DbTableAirspace;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbAirspaceSearchByRouteQuery implements IAirspaceSearchByRouteQuery {

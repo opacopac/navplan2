@@ -3,7 +3,7 @@
 namespace Navplan\Common;
 
 use InvalidArgumentException;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class StringNumberHelper

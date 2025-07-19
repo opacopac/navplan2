@@ -4,8 +4,8 @@ namespace Navplan\Aircraft\Persistence\Query;
 
 use Navplan\Aircraft\Domain\Query\IAircraftTypeDesignatorSearchQuery;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftTypeDesignator;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbAircraftTypeDesignatorSearchQuery implements IAircraftTypeDesignatorSearchQuery

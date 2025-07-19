@@ -9,7 +9,7 @@ use Navplan\Common\Domain\Model\SpeedUnit;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
-use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbResult;
 
 
 class DbFlightrouteConverter {

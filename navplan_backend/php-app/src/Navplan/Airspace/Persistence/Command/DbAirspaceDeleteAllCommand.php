@@ -4,7 +4,7 @@ namespace Navplan\Airspace\Persistence\Command;
 
 use Navplan\Airspace\Domain\Command\IAirspaceDeleteAllCommand;
 use Navplan\Airspace\Persistence\Model\DbTableAirspace;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 
 

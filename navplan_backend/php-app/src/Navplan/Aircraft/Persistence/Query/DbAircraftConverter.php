@@ -11,7 +11,7 @@ use Navplan\Common\Persistence\Model\DbLengthConverter;
 use Navplan\Common\Persistence\Model\DbSpeedConverter;
 use Navplan\Common\Persistence\Model\DbWeightConverter;
 use Navplan\Common\StringNumberHelper;
-use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbResult;
 
 
 class DbAircraftConverter

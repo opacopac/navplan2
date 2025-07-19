@@ -2,7 +2,7 @@
 
 namespace Navplan\User\Persistence\Service;
 
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\User\Domain\Service\IUserPointRepo;
 use Navplan\User\Domain\Service\IUserRepo;
 use Navplan\User\Domain\Service\IUserRepoFactory;

@@ -5,7 +5,7 @@ namespace Navplan\Navaid\Persistence\Command;
 use Navplan\Common\GeoHelper;
 use Navplan\Navaid\Domain\Command\INavaidInsertAllCommand;
 use Navplan\Navaid\Persistence\Model\DbTableNavaid;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Throwable;
 

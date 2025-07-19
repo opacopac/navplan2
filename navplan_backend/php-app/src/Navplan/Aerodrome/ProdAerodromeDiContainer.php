@@ -27,7 +27,7 @@ use Navplan\Aerodrome\Persistence\Query\DbAirportRunwayQuery;
 use Navplan\Aerodrome\Rest\Controller\AirportController;
 use Navplan\AerodromeChart\Domain\Service\IAirportChartService;
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\Webcam\Domain\Service\IWebcamService;

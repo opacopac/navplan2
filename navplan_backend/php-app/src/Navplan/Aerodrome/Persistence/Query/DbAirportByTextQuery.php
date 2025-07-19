@@ -6,7 +6,7 @@ use Navplan\Aerodrome\Domain\Model\Airport;
 use Navplan\Aerodrome\Domain\Query\IAirportByTextQuery;
 use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class DbAirportByTextQuery implements IAirportByTextQuery

@@ -5,8 +5,8 @@ namespace Navplan\Aircraft\Persistence\Command;
 use Navplan\Aircraft\Domain\Command\IAircraftTypeDesignatorCreateCommand;
 use Navplan\Aircraft\Domain\Model\AircraftTypeDesignator;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftTypeDesignator;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbAircraftTypeDesignatorCreateCommand implements IAircraftTypeDesignatorCreateCommand

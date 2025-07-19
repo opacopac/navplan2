@@ -3,12 +3,12 @@
 namespace NavplanTest\System\Mock;
 
 use InvalidArgumentException;
-use Navplan\System\Domain\Model\DbWhereClauseFactory;
-use Navplan\System\Domain\Model\IDbResult;
-use Navplan\System\Domain\Model\IDbStatement;
-use Navplan\System\Domain\Service\IDbQueryBuilder;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbCredentials;
+use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbStatement;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbCredentials;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseFactory;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
 
 
 class MockDbService implements IDbService {

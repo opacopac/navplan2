@@ -2,8 +2,10 @@
 
 namespace Navplan\System;
 
+use Navplan\System\Db\Domain\Model\IDbConfig;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\MySqlDbService;
 use Navplan\System\Domain\Service\ICurlService;
-use Navplan\System\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\IImageService;
@@ -13,8 +15,6 @@ use Navplan\System\Domain\Service\IProcService;
 use Navplan\System\Domain\Service\ISystemConfig;
 use Navplan\System\Domain\Service\ITimeService;
 use Navplan\System\Imagick\ImagickService;
-use Navplan\System\MySqlDb\IDbConfig;
-use Navplan\System\MySqlDb\MySqlDbService;
 use Navplan\System\Posix\CurlService;
 use Navplan\System\Posix\FileService;
 use Navplan\System\Posix\HttpService;

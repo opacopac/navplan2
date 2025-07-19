@@ -11,7 +11,7 @@ use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 use Navplan\Navaid\Domain\Model\Navaid;
 use Navplan\Navaid\Domain\Model\NavaidType;
 use Navplan\Navaid\Persistence\Model\DbTableNavaid;
-use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbResult;
 
 
 class DbNavaidSearchQueryCommon {

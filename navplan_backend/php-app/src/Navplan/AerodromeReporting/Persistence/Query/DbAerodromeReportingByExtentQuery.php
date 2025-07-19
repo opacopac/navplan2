@@ -6,8 +6,8 @@ use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByExtentQuery;
 use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
 use Navplan\Common\Domain\Model\Extent2d;
-use Navplan\System\Domain\Model\DbWhereOpGeo;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpGeo;
 
 
 class DbAerodromeReportingByExtentQuery implements IAerodromeReportingByExtentQuery

@@ -6,7 +6,7 @@ use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\MeteoSma\Domain\Service\IMeteoSmaService;
 use Navplan\MeteoSma\Persistence\Service\DbMeteoSmaRepo;
 use Navplan\MeteoSma\Rest\Service\MeteoSmaController;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ITimeService;
 

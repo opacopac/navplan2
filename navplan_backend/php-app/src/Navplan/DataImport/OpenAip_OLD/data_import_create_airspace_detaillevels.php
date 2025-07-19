@@ -7,7 +7,7 @@ include_once __DIR__ . "/../php/Navplan/Shared/LoggingServiceOld.php";
 
 use Navplan\Common\GeoHelper;
 use Navplan\Common\LoggingServiceOld;
-use Navplan\System\MySqlDb\DbService;
+use Navplan\System\Db\MySql\DbService;
 
 
 const MIN_PIXEL_COORDINATE_RESOLUTION = 1.0;

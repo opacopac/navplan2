@@ -4,8 +4,8 @@ namespace Navplan\AerodromeReporting\Persistence\Command;
 
 use Navplan\AerodromeReporting\Domain\Command\IAerodromeReportingDeleteCommand;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbAerodromeErportingDeleteCommand implements IAerodromeReportingDeleteCommand

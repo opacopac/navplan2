@@ -6,7 +6,7 @@ use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\MeteoSma\Domain\Service\IMeteoSmaRepo;
 use Navplan\MeteoSma\Persistence\Model\DbSmaMeasurementConverter;
 use Navplan\MeteoSma\Persistence\Model\DbSmaStationConverter;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ITimeService;
 
 

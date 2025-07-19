@@ -6,8 +6,8 @@ namespace Navplan\Common\Persistence\Model;
 use Navplan\Common\Domain\Model\Altitude;
 use Navplan\Common\Domain\Model\Position4d;
 use Navplan\Common\Domain\Model\Timestamp;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 class DbPosition4dConverter
 {

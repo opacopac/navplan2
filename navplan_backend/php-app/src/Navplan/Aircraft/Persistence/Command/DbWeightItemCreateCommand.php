@@ -5,8 +5,8 @@ namespace Navplan\Aircraft\Persistence\Command;
 use Navplan\Aircraft\Domain\Command\IWeightItemCreateCommand;
 use Navplan\Aircraft\Domain\Model\WeightItem;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftWeightItems;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbWeightItemCreateCommand implements IWeightItemCreateCommand

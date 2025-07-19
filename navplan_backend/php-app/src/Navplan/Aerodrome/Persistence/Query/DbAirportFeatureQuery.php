@@ -5,7 +5,7 @@ namespace Navplan\Aerodrome\Persistence\Query;
 use Navplan\Aerodrome\Domain\Model\AirportFeature;
 use Navplan\Aerodrome\Domain\Query\IAirportFeatureQuery;
 use Navplan\Aerodrome\Persistence\Model\DbAirportFeatureConverter;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 
 
 class DbAirportFeatureQuery implements IAirportFeatureQuery

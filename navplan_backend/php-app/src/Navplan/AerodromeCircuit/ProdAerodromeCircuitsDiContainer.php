@@ -6,7 +6,7 @@ use Navplan\AerodromeCircuit\Domain\Service\IAirportCircuitService;
 use Navplan\AerodromeCircuit\Persistence\Repo\DbAirportCircuitRepo;
 use Navplan\AerodromeCircuit\Rest\Controller\AdCircuitController;
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 
 

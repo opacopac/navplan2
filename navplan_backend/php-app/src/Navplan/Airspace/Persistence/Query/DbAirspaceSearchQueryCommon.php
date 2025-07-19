@@ -8,7 +8,7 @@ use Navplan\Common\Domain\Model\Altitude;
 use Navplan\Common\Domain\Model\AltitudeReference;
 use Navplan\Common\Domain\Model\AltitudeUnit;
 use Navplan\Common\Domain\Model\Ring2d;
-use Navplan\System\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\IDbResult;
 
 
 class DbAirspaceSearchQueryCommon {

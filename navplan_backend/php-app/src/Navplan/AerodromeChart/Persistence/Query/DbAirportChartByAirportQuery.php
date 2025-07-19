@@ -6,8 +6,8 @@ use Navplan\AerodromeChart\Domain\Model\AirportChart;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByAirportQuery;
 use Navplan\AerodromeChart\Persistence\Model\DbAirportChart2Converter;
 use Navplan\AerodromeChart\Persistence\Model\DbTableAirportCharts;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbAirportChartByAirportQuery implements IAirportChartByAirportQuery

@@ -2,8 +2,8 @@
 
 namespace Navplan\Track\Persistence\Command;
 
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 use Navplan\Track\Domain\Command\ITrackUpdateCommand;
 use Navplan\Track\Domain\Model\Track;
 use Navplan\Track\Persistence\Model\DbTableTrack;

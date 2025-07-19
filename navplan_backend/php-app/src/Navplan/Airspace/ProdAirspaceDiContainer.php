@@ -16,7 +16,7 @@ use Navplan\Airspace\Persistence\Query\DbAirspaceSearchByPositionQuery;
 use Navplan\Airspace\Persistence\Query\DbAirspaceSearchByRouteQuery;
 use Navplan\Airspace\Rest\Controller\AirspaceController;
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
 

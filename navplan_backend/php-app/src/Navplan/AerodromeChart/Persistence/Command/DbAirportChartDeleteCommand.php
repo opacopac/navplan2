@@ -4,8 +4,8 @@ namespace Navplan\AerodromeChart\Persistence\Command;
 
 use Navplan\AerodromeChart\Domain\Command\IAirportChartDeleteCommand;
 use Navplan\AerodromeChart\Persistence\Model\DbTableAirportCharts;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbAirportChartDeleteCommand implements IAirportChartDeleteCommand

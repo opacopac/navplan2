@@ -9,8 +9,8 @@ use Navplan\Aircraft\Persistence\Model\DbTableAircraftPerfDist;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftWeightItems;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftWnbEnvelopes;
 use Navplan\Aircraft\Persistence\Model\PerfDistTableType;
-use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Db\MySql\DbHelper;
 
 
 class DbAircraftByIdQuery implements IAircraftByIdQuery

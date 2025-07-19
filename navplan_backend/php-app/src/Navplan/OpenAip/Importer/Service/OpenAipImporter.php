@@ -13,7 +13,7 @@ use Navplan\OpenAip\ZoomLevelSorter\AirportZoomLevelSortItem;
 use Navplan\OpenAip\ZoomLevelSorter\AirspaceDetaillevelCreator;
 use Navplan\OpenAip\ZoomLevelSorter\NavaidZoomLevelSortItem;
 use Navplan\OpenAip\ZoomLevelSorter\ZoomLevelSorter;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 
 

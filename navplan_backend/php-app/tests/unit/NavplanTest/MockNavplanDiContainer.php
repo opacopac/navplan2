@@ -13,7 +13,7 @@ use Navplan\MeteoSma\Domain\Service\IMeteoSmaRepo;
 use Navplan\Navaid\Domain\Service\INavaidService;
 use Navplan\Notam\Domain\Service\INotamRepo;
 use Navplan\ProdNavplanDiContainer;
-use Navplan\System\Domain\Service\IDbService;
+use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\IMailService;
