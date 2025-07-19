@@ -3,7 +3,7 @@
 namespace Navplan\System\Domain\Model;
 
 
-class DbWhereMultiClause extends DbWhereClause
+class DbWhereClauseMulti extends DbWhereClause
 {
     public function __construct(
         public readonly DbWhereCombinator $combinator,

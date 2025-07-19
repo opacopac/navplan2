@@ -10,13 +10,13 @@ class DbWhereClauseFactory
     }
 
 
-    public function single(
+    public function simple(
         string $colName,
         DbWhereOp $operator,
         string|int|float|bool|null $value
-    ): DbWhereSingleClause
+    ): DbWhereClauseSimple
     {
-        return new DbWhereSingleClause(
+        return new DbWhereClauseSimple(
             $colName,
             $operator,
             $value,
@@ -24,38 +24,38 @@ class DbWhereClauseFactory
     }
 
 
-    public function equals(string $colName, string|int|float|bool|null $value): DbWhereSingleClause
+    public function equals(string $colName, string|int|float|bool|null $value): DbWhereClauseSimple
     {
-        return $this->single($colName, DbWhereOp::EQ, $value);
+        return $this->simple($colName, DbWhereOp::EQ, $value);
     }
 
 
-    public function notEquals(string $colName, string|int|float|bool|null $value): DbWhereSingleClause
+    public function notEquals(string $colName, string|int|float|bool|null $value): DbWhereClauseSimple
     {
-        return $this->single($colName, DbWhereOp::NE, $value);
+        return $this->simple($colName, DbWhereOp::NE, $value);
     }
 
 
-    public function multi(DbWhereCombinator $combinator, DbWhereClause ...$clauses): DbWhereMultiClause
+    public function multi(DbWhereCombinator $combinator, DbWhereClause ...$clauses): DbWhereClauseMulti
     {
         if (count($clauses) < 2) {
             throw new \InvalidArgumentException("At least two clauses are required for a multi clause.");
         }
 
-        return new DbWhereMultiClause(
+        return new DbWhereClauseMulti(
             $combinator,
             $clauses,
         );
     }
 
 
-    public function and(DbWhereClause ...$clauses): DbWhereMultiClause
+    public function and(DbWhereClause ...$clauses): DbWhereClauseMulti
     {
         return $this->multi(DbWhereCombinator::AND, ...$clauses);
     }
 
 
-    public function or(DbWhereClause ...$clauses): DbWhereMultiClause
+    public function or(DbWhereClause ...$clauses): DbWhereClauseMulti
     {
         return $this->multi(DbWhereCombinator::OR, ...$clauses);
     }

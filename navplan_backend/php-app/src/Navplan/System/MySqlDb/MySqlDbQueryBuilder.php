@@ -3,20 +3,26 @@
 namespace Navplan\System\MySqlDb;
 
 use InvalidArgumentException;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Line2d;
+use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\Domain\Model\DbSortOrder;
 use Navplan\System\Domain\Model\DbWhereClause;
-use Navplan\System\Domain\Model\DbWhereClauseFactory;
+use Navplan\System\Domain\Model\DbWhereClauseGeo;
+use Navplan\System\Domain\Model\DbWhereClauseMulti;
+use Navplan\System\Domain\Model\DbWhereClauseSimple;
+use Navplan\System\Domain\Model\DbWhereClauseText;
 use Navplan\System\Domain\Model\DbWhereCombinator;
-use Navplan\System\Domain\Model\DbWhereMultiClause;
 use Navplan\System\Domain\Model\DbWhereOp;
-use Navplan\System\Domain\Model\DbWhereSingleClause;
+use Navplan\System\Domain\Model\DbWhereOpGeo;
+use Navplan\System\Domain\Model\DbWhereOpTxt;
 use Navplan\System\Domain\Service\IDbQueryBuilder;
 use Navplan\System\Domain\Service\IDbService;
 
 
 class MySqlDbQueryBuilder implements IDbQueryBuilder
 {
-    private DbWhereClauseFactory $w;
     private string $select;
 
     private ?DbWhereClause $where = null;
@@ -29,7 +35,6 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
     public function __construct(private readonly IDbService $dbService)
     {
-        $this->w = new DbWhereClauseFactory($dbService);
     }
 
 
@@ -51,7 +56,9 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
     public function where(string $colName, DbWhereOp $op, string|int|float|bool|null $value): IDbQueryBuilder
     {
-        return $this->whereClause($this->w->single($colName, $op, $value));
+        return $this->whereClause(
+            new DbWhereClauseSimple($colName, $op, $value),
+        );
     }
 
 
@@ -61,9 +68,25 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
+    public function whereText(string $colName, DbWhereOpTxt $op, string $value): IDbQueryBuilder
+    {
+        return $this->whereClause(
+            new DbWhereClauseText($colName, $op, $value)
+        );
+    }
+
+
     public function wherePrefixLike(string $colName, string $value): IDbQueryBuilder
     {
-        return $this->where($colName, DbWhereOp::LIKE_PREFIX, $value);
+        return $this->whereText($colName, DbWhereOpTxt::LIKE_PREFIX, $value);
+    }
+
+
+    public function whereGeo(string $colName, DbWhereOpGeo $op, Position2d|Extent2d|Line2d|Ring2d $value): IDbQueryBuilder
+    {
+        return $this->whereClause(
+            new DbWhereClauseGeo($colName, $op, $value)
+        );
     }
 
 
@@ -77,10 +100,10 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
             throw new InvalidArgumentException("At least one where clause is required");
         }
 
-        $multiClause = new DbWhereMultiClause(
+        $multiClause = new DbWhereClauseMulti(
             DbWhereCombinator::AND,
             array_map(function ($clause) {
-                return new DbWhereSingleClause($clause[0], $clause[1], $clause[2]);
+                return new DbWhereClauseSimple($clause[0], $clause[1], $clause[2]);
             }, $clauses)
         );
 
@@ -100,10 +123,10 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
             throw new InvalidArgumentException("At least one where clause is required");
         }
 
-        $multiClause = new DbWhereMultiClause(
+        $multiClause = new DbWhereClauseMulti(
             DbWhereCombinator::OR,
             array_map(function ($clause) {
-                return new DbWhereSingleClause($clause[0], $clause[1], $clause[2]);
+                return new DbWhereClauseSimple($clause[0], $clause[1], $clause[2]);
             }, $clauses)
         );
 
@@ -161,14 +184,16 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
         }
 
         return match (get_class($clause)) {
-            DbWhereSingleClause::class => $this->buildWhereSingleClauseString($clause),
-            DbWhereMultiClause::class => $this->buildWhereMultiClauseString($clause),
+            DbWhereClauseSimple::class => $this->buildWhereSimpleClauseString($clause),
+            DbWhereClauseText::class => $this->buildWhereClauseTextString($clause),
+            DbWhereClauseMulti::class => $this->buildWhereMultiClauseString($clause),
+            DbWhereClauseGeo::class => $this->buildWhereClauseGeoString($clause),
             default => throw new InvalidArgumentException("Unsupported where clause type"),
         };
     }
 
 
-    private function buildWhereSingleClauseString(DbWhereSingleClause $clause): string
+    private function buildWhereSimpleClauseString(DbWhereClauseSimple $clause): string
     {
         // handle NULL values separately
         if ($clause->value === NULL) {
@@ -186,35 +211,57 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
             DbWhereOp::GT_OR_E => ">=",
             DbWhereOp::LT => "<",
             DbWhereOp::LT_OR_E => "<=",
-            DbWhereOp::LIKE_PREFIX => "LIKE",
-            DbWhereOp::LIKE_SUFFIX => "LIKE",
-            DbWhereOp::LIKE_SUBSTR => "LIKE",
         };
 
-        $preValue = match ($clause->operator) {
-            DbWhereOp::LIKE_PREFIX => $clause->value . "%",
-            DbWhereOp::LIKE_SUFFIX => "%" . $clause->value,
-            DbWhereOp::LIKE_SUBSTR => "%" . $clause->value . "%",
-            default => $clause->value
+        $valStr = $clause->value;
+        $valStr = match (true) {
+            is_string($valStr) => DbHelper::getDbStringValue($this->dbService, $valStr),
+            is_bool($valStr) => DbHelper::getDbBoolValue($valStr),
+            is_int($valStr) => DbHelper::getDbIntValue($valStr),
+            is_float($valStr) => DbHelper::getDbFloatValue($valStr),
+            default => throw new InvalidArgumentException("Unsupported value type for where clause"),
         };
-
-        if (is_string($preValue)) {
-            $valStr = DbHelper::getDbStringValue($this->dbService, $preValue);
-        } else if (is_bool($preValue)) {
-            $valStr = DbHelper::getDbBoolValue($preValue);
-        } else if (is_int($preValue)) {
-            $valStr = DbHelper::getDbIntValue($preValue);
-        } else if (is_float($preValue)) {
-            $valStr = DbHelper::getDbFloatValue($preValue);
-        } else {
-            throw new InvalidArgumentException("Unsupported value type for where clause");
-        }
 
         return $clause->colName . " " . $opStr . " " . $valStr;
     }
 
 
-    private function buildWhereMultiClauseString(DbWhereMultiClause $clause): string
+    private function buildWhereClauseTextString(DbWhereClauseText $clause): string
+    {
+        $opStr = "LIKE";
+
+        $valStr = $clause->value;
+        $valStr = match ($clause->operator) {
+            DbWhereOpTxt::LIKE_PREFIX => $valStr . "%",
+            DbWhereOpTxt::LIKE_SUFFIX => "%" . $valStr,
+            DbWhereOpTxt::LIKE_SUBSTR => "%" . $valStr . "%",
+        };
+        $valStr = DbHelper::getDbStringValue($this->dbService, $valStr);
+
+        return $clause->colName . " " . $opStr . " " . $valStr;
+    }
+
+
+    private function buildWhereClauseGeoString(DbWhereClauseGeo $clause): string
+    {
+        $opStr = match ($clause->operator) {
+            DbWhereOpGeo::INTERSECTS_ST => "ST_Intersects",
+            DbWhereOpGeo::INTERSECTS_MBR => "MBRIntersects",
+        };
+
+        $geoValueStr = match (true) {
+            $clause->value instanceof Position2d => DbHelper::getDbPointStringFromPos($clause->value),
+            $clause->value instanceof Extent2d => DbHelper::getDbExtentPolygon2($clause->value),
+            $clause->value instanceof Line2d => DbHelper::getDbLineString($clause->value->position2dList),
+            $clause->value instanceof Ring2d => DbHelper::getDbPolygonString($clause->value->toArray()),
+            default => throw new InvalidArgumentException("Unsupported geometry type for where clause"),
+        };
+
+        return $opStr . "(" . $clause->colName . ", " . $geoValueStr . ")";
+    }
+
+
+    private function buildWhereMultiClauseString(DbWhereClauseMulti $clause): string
     {
         $clauseStrs = array_map(function ($subClause) {
             return $this->buildWhereClauseString($subClause);

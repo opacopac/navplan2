@@ -2,9 +2,12 @@
 
 namespace NavplanTest\System\MySqlDb;
 
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\Domain\Model\DbSortOrder;
 use Navplan\System\Domain\Model\DbWhereClauseFactory;
 use Navplan\System\Domain\Model\DbWhereOp;
+use Navplan\System\Domain\Model\DbWhereOpGeo;
+use Navplan\System\Domain\Model\DbWhereOpTxt;
 use Navplan\System\MySqlDb\MySqlDbQueryBuilder;
 use NavplanTest\System\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
@@ -149,6 +152,10 @@ class MySqlDbQueryBuilderTest extends TestCase
         $this->assertEquals("SELECT * FROM test_table WHERE col1 IS NOT NULL", $query);
     }
 
+    // endregion
+
+
+    // region text where tests
 
     public function test_single_where_like_prefix() {
         // given
@@ -166,10 +173,9 @@ class MySqlDbQueryBuilderTest extends TestCase
 
     public function test_single_where_like_suffix() {
         // given
-        $w = new DbWhereClauseFactory();
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->whereClause($w->single("col1",  DbWhereOp::LIKE_SUFFIX, "value1"));
+            ->whereText("col1",  DbWhereOpTxt::LIKE_SUFFIX, "value1");
 
         // when
         $query = $qb->build();
@@ -181,16 +187,49 @@ class MySqlDbQueryBuilderTest extends TestCase
 
     public function test_single_where_like_substring() {
         // given
-        $w = new DbWhereClauseFactory();
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->whereClause($w->single("col1",  DbWhereOp::LIKE_SUBSTR, "value1"));
+            ->whereText("col1",  DbWhereOpTxt::LIKE_SUBSTR, "value1");
 
         // when
         $query = $qb->build();
 
         // then
         $this->assertEquals("SELECT * FROM test_table WHERE col1 LIKE '%value1%'", $query);
+    }
+
+
+    // endregion
+
+
+    // region geo where tests
+
+    public function test_geo_where_intersects_st() {
+        // given
+        $dbPoint = new Position2d(7.5, 47.5);
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom("test_table")
+            ->whereGeo("col1", DbWhereOpGeo::INTERSECTS_ST, $dbPoint);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table WHERE ST_Intersects(col1, ST_GeomFromText('POINT(7.5 47.5)'))", $query);
+    }
+
+    public function test_geo_where_intersects_mbr() {
+        // given
+        $dbPoint = new Position2d(7.5, 47.5);
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom("test_table")
+            ->whereGeo("col1", DbWhereOpGeo::INTERSECTS_MBR, $dbPoint);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table WHERE MBRIntersects(col1, ST_GeomFromText('POINT(7.5 47.5)'))", $query);
     }
 
     // endregion

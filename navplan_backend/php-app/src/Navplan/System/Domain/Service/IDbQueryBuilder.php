@@ -3,9 +3,15 @@
 namespace Navplan\System\Domain\Service;
 
 
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Line2d;
+use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\Domain\Model\DbSortOrder;
 use Navplan\System\Domain\Model\DbWhereClause;
 use Navplan\System\Domain\Model\DbWhereOp;
+use Navplan\System\Domain\Model\DbWhereOpGeo;
+use Navplan\System\Domain\Model\DbWhereOpTxt;
 
 interface IDbQueryBuilder
 {
@@ -14,6 +20,10 @@ interface IDbQueryBuilder
     function whereClause(DbWhereClause $clause): IDbQueryBuilder;
 
     function where(string $colName, DbWhereOp $op, string|int|float|bool|null $value): IDbQueryBuilder;
+
+    function whereText(string $colName, DbWhereOpTxt $op, string $value): IDbQueryBuilder;
+
+    function whereGeo(string $colName, DbWhereOpGeo $op, Position2d|Extent2d|Line2d|Ring2d $value): IDbQueryBuilder;
 
     function whereEquals(string $colName, string|int|float|bool|null $value): IDbQueryBuilder;
 
