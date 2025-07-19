@@ -7,6 +7,9 @@ use Navplan\Aerodrome\Domain\Query\IAirportByTextQuery;
 use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpTxt;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereText;
 
 
 class DbAirportByTextQuery implements IAirportByTextQuery
@@ -25,23 +28,36 @@ class DbAirportByTextQuery implements IAirportByTextQuery
      */
     public function search(string $searchText, int $maxResults): array
     {
-        $searchText = $this->dbService->escapeString($searchText);
-
-        $query = "SELECT *";
-        $query .= " FROM " . DbTableAirport::TABLE_NAME;
-        $query .= " WHERE";
-        $query .= "   " . DbTableAirport::COL_ICAO . " LIKE '" . $searchText . "%'";
-        $query .= "   OR " . DbTableAirport::COL_NAME . " LIKE '" . $searchText . "%'";
-        $query .= " ORDER BY";
-        $query .= "   CASE WHEN " . DbTableAirport::COL_COUNTRY . " = 'CH' THEN 1 ELSE 2 END ASC,";
-        $query .= "   CASE WHEN ISNULL(" . DbTableAirport::COL_ICAO . ") OR " . DbTableAirport::COL_ICAO . " = '' THEN 2 ELSE 1 END ASC,";
-        $query .= "   CASE WHEN " . DbTableAirport::COL_TYPE . " = 'INTL_APT' THEN 1";
-        $query .= "        WHEN " . DbTableAirport::COL_TYPE . " = 'APT' OR " . DbTableAirport::COL_TYPE . " = 'AF_CIVIL' OR type = 'AF_MIL_CIVIL' OR type = 'AF_WATER' OR type = 'AD_MIL' THEN 2";
-        $query .= "        WHEN " . DbTableAirport::COL_TYPE . " = 'GLIDING' OR " . DbTableAirport::COL_TYPE . " = 'LIGHT_AIRCRAFT' THEN 3";
-        $query .= "        WHEN " . DbTableAirport::COL_TYPE . " = 'HELI_CIVIL' OR " . DbTableAirport::COL_TYPE . " = 'HELI_MIL' THEN 4";
-        $query .= "        ELSE 5 END ASC,";
-        $query .= "   " . DbTableAirport::COL_ICAO . " ASC";
-        $query .= " LIMIT " . $maxResults;
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableAirport::TABLE_NAME)
+            ->whereAny(
+                DbWhereText::create(DbTableAirport::COL_ICAO, DbWhereOpTxt::LIKE_PREFIX, $searchText),
+                DbWhereText::create(DbTableAirport::COL_NAME, DbWhereOpTxt::LIKE_PREFIX, $searchText)
+            )
+            ->limit($maxResults)
+            // TODO: query builder
+            ->orderBy("CASE WHEN " . DbTableAirport::COL_COUNTRY . " = 'CH' THEN 1 ELSE 2 END", DbSortOrder::ASC)
+            ->orderBy(
+                "CASE WHEN ISNULL(" . DbTableAirport::COL_ICAO . ")"
+                . "   OR " . DbTableAirport::COL_ICAO . " = '' THEN 2 ELSE 1 END",
+                DbSortOrder::ASC
+            )
+            ->orderBy(
+                "CASE WHEN " . DbTableAirport::COL_TYPE . " = 'INTL_APT' THEN 1"
+                . " WHEN " . DbTableAirport::COL_TYPE . " = 'APT'"
+                . "   OR " . DbTableAirport::COL_TYPE . " = 'AF_CIVIL'"
+                . "   OR " . DbTableAirport::COL_TYPE . " = 'AF_MIL_CIVIL'"
+                . "   OR " . DbTableAirport::COL_TYPE . " = 'AF_WATER'"
+                . "   OR " . DbTableAirport::COL_TYPE . " = 'AD_MIL' THEN 2"
+                . " WHEN " . DbTableAirport::COL_TYPE . " = 'GLIDING'"
+                . "   OR " . DbTableAirport::COL_TYPE . " = 'LIGHT_AIRCRAFT' THEN 3"
+                . " WHEN " . DbTableAirport::COL_TYPE . " = 'HELI_CIVIL'"
+                . "   OR " . DbTableAirport::COL_TYPE . " = 'HELI_MIL' THEN 4"
+                . " ELSE 5 END",
+                DbSortOrder::ASC
+            )
+            ->orderBy(DbTableAirport::COL_ICAO, DbSortOrder::ASC)
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching airports by text");
 

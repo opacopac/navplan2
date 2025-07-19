@@ -20,7 +20,10 @@ class DbAirportByIdQuery implements IAirportByIdQuery
 
     public function read(int $id): Airport
     {
-        $query = "SELECT * FROM " . DbTableAirport::TABLE_NAME . " WHERE id = " . $id;
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableAirport::TABLE_NAME)
+            ->whereEquals(DbTableAirport::COL_ID, $id)
+            ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, false, "error loading airport by id $id");
 

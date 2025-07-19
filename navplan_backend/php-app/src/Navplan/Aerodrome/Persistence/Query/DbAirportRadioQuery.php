@@ -24,6 +24,7 @@ class DbAirportRadioQuery implements IAirportRadioQuery
      */
     public function read(int $airportId): array
     {
+        // TODO: query builder
         $query = "SELECT *,";
         $query .= "  (CASE";
         $query .= "    WHEN " . DbTableAirportRadio::COL_CATEGORY . " = 'COMMUNICATION' THEN 1";

@@ -23,6 +23,7 @@ class DbAircraftTypeDesignatorSearchQuery implements IAircraftTypeDesignatorSear
         $prefixSearchText = DbHelper::getDbStringValue($this->dbService, strtolower(trim($searchText)) . '%');
         $fullSearchText = DbHelper::getDbStringValue($this->dbService, '%' . strtolower(trim($searchText)) . '%');
 
+        // TODO: query builder
         $query = "(";
         $query .= "SELECT * FROM " . DbTableAircraftTypeDesignator::TABLE_NAME;
         $query .= " WHERE LOWER(" . DbTableAircraftTypeDesignator::COL_DESIGNATOR . ") LIKE " . $prefixSearchText;

@@ -29,6 +29,7 @@ class DbAirportByExtentQuery implements IAirportByExtentQuery
      */
     public function searchShortAirports(Extent2d $extent, int $zoom): array
     {
+        // TODO: query builder
         $extentPoly = DbHelper::getDbExtentPolygon2($extent);
         $query = "SELECT ";
         $query .= "  ad." . DbTableAirport::COL_ID . ",";

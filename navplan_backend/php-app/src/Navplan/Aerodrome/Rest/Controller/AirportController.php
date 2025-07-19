@@ -29,7 +29,7 @@ class AirportController implements IRestController
     }
 
 
-    public function processRequest()
+    public function processRequest(): void
     {
         $token = RestTokenConverter::getTokenOrNull($this->httpService->getCookies());
         $getArgs = $this->httpService->getGetArgs();

@@ -27,17 +27,12 @@ class DbAirportByPositionQuery implements IAirportByPositionQuery
      */
     public function search(Position2d $position, float $maxRadius_deg, int $maxResults): array
     {
-        $query = "SELECT *";
-        $query .= " FROM " . DbTableAirport::TABLE_NAME;
-        $query .= " WHERE";
-        $query .= "   " . DbTableAirport::COL_LATITUDE . " > " . ($position->latitude - $maxRadius_deg);
-        $query .= "   AND " . DbTableAirport::COL_LATITUDE . " < " . ($position->latitude + $maxRadius_deg);
-        $query .= "   AND " . DbTableAirport::COL_LONGITUDE . " > " . ($position->longitude - $maxRadius_deg);
-        $query .= "   AND " . DbTableAirport::COL_LONGITUDE . " < " . ($position->longitude + $maxRadius_deg);
-        $query .= " ORDER BY";
-        $query .= "  ((" . DbTableAirport::COL_LATITUDE . " - " . $position->latitude . ") * (" . DbTableAirport::COL_LATITUDE . " - " . $position->latitude .
-            ") + (" . DbTableAirport::COL_LONGITUDE . " - " . $position->longitude . ") * (" . DbTableAirport::COL_LONGITUDE . " - " . $position->longitude . ")) ASC";
-        $query .= " LIMIT " . $maxResults;
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableAirport::TABLE_NAME)
+            ->whereInMaxDist(DbTableAirport::COL_LATITUDE, DbTableAirport::COL_LONGITUDE, $position, $maxRadius_deg)
+            ->orderByLatLonDist(DbTableAirport::COL_LATITUDE, DbTableAirport::COL_LONGITUDE, $position)
+            ->limit($maxResults)
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching airports by position");
 
