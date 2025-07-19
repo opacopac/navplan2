@@ -10,13 +10,14 @@ use Navplan\Aircraft\Persistence\Model\DbTableAircraftWeightItems;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftWnbEnvelopes;
 use Navplan\Aircraft\Persistence\Model\PerfDistTableType;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereSimple;
 
 
 class DbAircraftByIdQuery implements IAircraftByIdQuery
 {
     public function __construct(
-        private IDbService $dbService
+        private readonly IDbService $dbService
     )
     {
     }
@@ -24,9 +25,13 @@ class DbAircraftByIdQuery implements IAircraftByIdQuery
 
     public function read(int $aircraftId, int $userId): ?Aircraft
     {
-        $query = "SELECT * FROM " . DbTableAircraft::TABLE_NAME;
-        $query .= " WHERE " . DbTableAircraft::COL_ID . "=" . DbHelper::getDbIntValue($aircraftId);
-        $query .= " AND " . DbTableAircraft::COL_ID_USER . "=" . DbHelper::getDbIntValue($userId);
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableAircraft::TABLE_NAME)
+            ->whereAll(
+                DbWhereSimple::create(DbTableAircraft::COL_ID, DbWhereOp::EQ, $aircraftId),
+                DbWhereSimple::create(DbTableAircraft::COL_ID_USER, DbWhereOp::EQ, $userId)
+            )
+            ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading aircraft");
 
@@ -41,34 +46,36 @@ class DbAircraftByIdQuery implements IAircraftByIdQuery
 
     private function readAircraftWeightItems(Aircraft &$aircraft): void
     {
-        $query = "SELECT * FROM " . DbTableAircraftWeightItems::TABLE_NAME;
-        $query .= " WHERE " . DbTableAircraftWeightItems::COL_ID_AIRCRAFT . "=" . DbHelper::getDbIntValue($aircraft->id);
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableAircraftWeightItems::TABLE_NAME)
+            ->whereEquals(DbTableAircraftWeightItems::COL_ID_AIRCRAFT, $aircraft->id)
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading aircraft weight items");
 
-        while ($row = $result->fetch_assoc()) {
-            $aircraft->wnbWeightItems[] = DbWeightItemConverter::fromDbRow($row);
-        }
+        $aircraft->wnbWeightItems = DbWeightItemConverter::fromDbResult($result);
     }
 
 
     private function readAircraftWnbEnvelopes(Aircraft &$aircraft): void
     {
-        $query = "SELECT * FROM " . DbTableAircraftWnbEnvelopes::TABLE_NAME;
-        $query .= " WHERE " . DbTableAircraftWnbEnvelopes::COL_ID_AIRCRAFT . "=" . DbHelper::getDbIntValue($aircraft->id);
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableAircraftWnbEnvelopes::TABLE_NAME)
+            ->whereEquals(DbTableAircraftWnbEnvelopes::COL_ID_AIRCRAFT, $aircraft->id)
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading aircraft wnb envelopes");
 
-        while ($row = $result->fetch_assoc()) {
-            $aircraft->wnbLonEnvelopes[] = DbWnbEnvelopeConverter::fromDbRow($row);
-        }
+        $aircraft->wnbLonEnvelopes = DbWnbEnvelopeConverter::fromDbResult($result);
     }
 
 
     private function readDistancePerformanceTable(Aircraft &$aircraft): void
     {
-        $query = "SELECT * FROM " . DbTableAircraftPerfDist::TABLE_NAME;
-        $query .= " WHERE " . DbTableAircraftPerfDist::COL_ID_AIRCRAFT . "=" . DbHelper::getDbIntValue($aircraft->id);
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableAircraftPerfDist::TABLE_NAME)
+            ->whereEquals(DbTableAircraftPerfDist::COL_ID_AIRCRAFT, $aircraft->id)
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading aircraft distance performance");
 

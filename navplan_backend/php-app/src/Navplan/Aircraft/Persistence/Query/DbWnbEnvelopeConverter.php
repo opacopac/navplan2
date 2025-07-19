@@ -11,6 +11,7 @@ use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Domain\Model\Weight;
 use Navplan\Common\Domain\Model\WeightUnit;
+use Navplan\System\Db\Domain\Model\IDbResult;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
 
@@ -42,6 +43,21 @@ class DbWnbEnvelopeConverter
         }, $latEnvCoordinates));
 
         return DbHelper::getDbStringValue($dbService, $json);
+    }
+
+
+    /**
+     * @param IDbResult $result
+     * @return WnbEnvelope[]
+     */
+    public static function fromDbResult(IDbResult $result): array
+    {
+        $wnbEnvelope = [];
+        while ($row = $result->fetch_assoc()) {
+            $wnbEnvelope[] = self::fromDbRow($row);
+        }
+
+        return $wnbEnvelope;
     }
 
 
