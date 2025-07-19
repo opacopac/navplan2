@@ -3,7 +3,7 @@
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpGeo;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbWhereClauseGeoBuilder;
 use NavplanTest\System\Db\Mock\MockDbService;
@@ -28,7 +28,7 @@ class MySqlDbWhereClauseGeoBuilderTest extends TestCase
     {
         // given
         $pos = new Position2d(7.5, 47.5);
-        $clause = DbWhereClauseGeo::create("col1", DbWhereOpGeo::INTERSECTS_ST, $pos);
+        $clause = DbWhereGeo::create("col1", DbWhereOpGeo::INTERSECTS_ST, $pos);
         $wcb = $this->whereClauseBuilder->clause($clause);
 
         // when
@@ -42,7 +42,7 @@ class MySqlDbWhereClauseGeoBuilderTest extends TestCase
     {
         // given
         $dbPoint = new Position2d(7.5, 47.5);
-        $clause = DbWhereClauseGeo::create("col1", DbWhereOpGeo::INTERSECTS_MBR, $dbPoint);
+        $clause = DbWhereGeo::create("col1", DbWhereOpGeo::INTERSECTS_MBR, $dbPoint);
         $wcb = $this->whereClauseBuilder->clause($clause);
 
         // when

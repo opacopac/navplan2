@@ -7,7 +7,7 @@ use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Line2d;
 use Navplan\Common\Domain\Model\Position2d;
 
-class DbWhereClauseGeo extends DbWhereClause
+class DbWhereGeo extends DbWhere
 {
     private function __construct(
         public readonly string $colName,
@@ -22,8 +22,8 @@ class DbWhereClauseGeo extends DbWhereClause
         string $colName,
         DbWhereOpGeo $operator,
         Position2d|Extent2d|Line2d $value
-    ): DbWhereClauseGeo
+    ): DbWhereGeo
     {
-        return new DbWhereClauseGeo($colName, $operator, $value);
+        return new DbWhereGeo($colName, $operator, $value);
     }
 }

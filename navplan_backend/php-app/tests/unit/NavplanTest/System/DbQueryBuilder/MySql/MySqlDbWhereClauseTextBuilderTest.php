@@ -2,8 +2,8 @@
 
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpTxt;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereText;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbWhereClauseTextBuilder;
 use NavplanTest\System\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +26,7 @@ class MySqlDbWhereClauseTextBuilderTest extends TestCase
     public function test_like_prefix()
     {
         // given
-        $clause = DbWhereClauseText::create("col1", DbWhereOpTxt::LIKE_PREFIX, "value1");
+        $clause = DbWhereText::create("col1", DbWhereOpTxt::LIKE_PREFIX, "value1");
         $wcb = $this->whereClauseBuilder->clause($clause);
 
         // when
@@ -40,7 +40,7 @@ class MySqlDbWhereClauseTextBuilderTest extends TestCase
     public function test_like_suffix()
     {
         // given
-        $clause = DbWhereClauseText::create("col1", DbWhereOpTxt::LIKE_SUFFIX, "value1");
+        $clause = DbWhereText::create("col1", DbWhereOpTxt::LIKE_SUFFIX, "value1");
         $wcb = $this->whereClauseBuilder->clause($clause);
 
         // when
@@ -54,7 +54,7 @@ class MySqlDbWhereClauseTextBuilderTest extends TestCase
     public function test_like_substring()
     {
         // given
-        $clause = DbWhereClauseText::create("col1", DbWhereOpTxt::LIKE_SUBSTR, "value1");
+        $clause = DbWhereText::create("col1", DbWhereOpTxt::LIKE_SUBSTR, "value1");
         $wcb = $this->whereClauseBuilder->clause($clause);
 
         // when

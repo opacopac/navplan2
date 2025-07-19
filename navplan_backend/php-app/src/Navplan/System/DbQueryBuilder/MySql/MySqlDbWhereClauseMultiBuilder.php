@@ -3,14 +3,14 @@
 namespace Navplan\System\DbQueryBuilder\MySql;
 
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereCombinator;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereMulti;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbWhereClauseMultiBuilder;
 
 
 class MySqlDbWhereClauseMultiBuilder implements IDbWhereClauseMultiBuilder
 {
-    private DbWhereClauseMulti $clause;
+    private DbWhereMulti $clause;
 
 
     private function __construct(private readonly IDbService $dbService)
@@ -24,7 +24,7 @@ class MySqlDbWhereClauseMultiBuilder implements IDbWhereClauseMultiBuilder
     }
 
 
-    public function clause(DbWhereClauseMulti $clause): MySqlDbWhereClauseMultiBuilder
+    public function clause(DbWhereMulti $clause): MySqlDbWhereClauseMultiBuilder
     {
         $this->clause = $clause;
         return $this;

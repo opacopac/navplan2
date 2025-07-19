@@ -3,11 +3,11 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Service;
 
 
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseMulti;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereMulti;
 
 interface IDbWhereClauseMultiBuilder
 {
-    function clause(DbWhereClauseMulti $clause);
+    function clause(DbWhereMulti $clause);
 
     function build(): string;
 }

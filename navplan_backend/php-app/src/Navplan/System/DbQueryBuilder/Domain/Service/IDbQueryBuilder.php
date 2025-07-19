@@ -8,7 +8,7 @@ use Navplan\Common\Domain\Model\Line2d;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClause;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhere;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpTxt;
@@ -19,7 +19,7 @@ interface IDbQueryBuilder
 
     function selectFrom(string $tableName, string ...$colNames): IDbQueryBuilder;
 
-    function whereClause(DbWhereClause $clause): IDbQueryBuilder;
+    function whereClause(DbWhere $clause): IDbQueryBuilder;
 
     function where(string $colName, DbWhereOp $op, string|int|float|bool|null $value): IDbQueryBuilder;
 
@@ -31,19 +31,15 @@ interface IDbQueryBuilder
 
     function wherePrefixLike(string $colName, string $value): IDbQueryBuilder;
 
-    /**
-     * @param $clauses [string, DbWhereOp, string|int|float|bool|null]
-     * @return IDbQueryBuilder
-     */
-    public function whereAll(array $clauses): IDbQueryBuilder;
+    public function whereAll(DbWhere ...$clauses): IDbQueryBuilder;
 
-    /**
-     * @param $clauses [string, DbWhereOp, string|int|float|bool|null]
-     * @return IDbQueryBuilder
-     */
-    public function whereAny(array $clauses): IDbQueryBuilder;
+    public function whereAny(DbWhere ...$clauses): IDbQueryBuilder;
+
+    public function whereInMaxDist(string $latColName, string $lonColName, Position2d $pos, float $maxDistDeg): IDbQueryBuilder;
 
     function orderBy(string $colName, DbSortOrder $direction): IDbQueryBuilder;
+
+    function orderByLatLonDist(string $latColName, string $lonColName, Position2d $pos): IDbQueryBuilder;
 
     function limit(int $limit): IDbQueryBuilder;
 

@@ -8,27 +8,25 @@ use Navplan\Navaid\Persistence\Model\DbTableNavaid;
 use Navplan\System\Db\Domain\Service\IDbService;
 
 
-class DbNavaidSearchByPositionQuery implements INavaidSearchByPositionQuery {
+class DbNavaidSearchByPositionQuery implements INavaidSearchByPositionQuery
+{
     public function __construct(
         private IDbService $dbService
-    ) {
+    )
+    {
     }
 
 
-    public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array {
-        $query = "SELECT *";
-        $query .= " FROM " . DbTableNavaid::TABLE_NAME;
-        $query .= " WHERE";
-        $query .= "  " . DbTableNavaid::COL_LATITUDE . " > " . ($position->latitude - $maxRadius_deg);
-        $query .= "  AND " . DbTableNavaid::COL_LATITUDE . " < " . ($position->latitude + $maxRadius_deg);
-        $query .= "  AND " . DbTableNavaid::COL_LONGITUDE . " > " . ($position->longitude - $maxRadius_deg);
-        $query .= "  AND " . DbTableNavaid::COL_LONGITUDE . " < " . ($position->longitude + $maxRadius_deg);
-        $query .= " ORDER BY";
-        $query .= "  ((" . DbTableNavaid::COL_LATITUDE . " - " . $position->latitude . ") * (" . DbTableNavaid::COL_LATITUDE . " - " . $position->latitude .
-            ") + (" . DbTableNavaid::COL_LONGITUDE . " - " . $position->longitude . ") * (" . DbTableNavaid::COL_LONGITUDE . " - " . $position->longitude . ")) ASC";
-        $query .= " LIMIT " . $maxResults;
+    public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array
+    {
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableNavaid::TABLE_NAME)
+            ->whereInMaxDist(DbTableNavaid::COL_LATITUDE, DbTableNavaid::COL_LONGITUDE, $position, $maxRadius_deg)
+            ->orderByLatLonDist(DbTableNavaid::COL_LATITUDE, DbTableNavaid::COL_LONGITUDE, $position)
+            ->limit($maxResults)
+            ->build();
 
-        $result = $this->dbService->execMultiResultQuery($query,"error searching navaids by position");
+        $result = $this->dbService->execMultiResultQuery($query, "error searching navaids by position");
 
         return DbNavaidSearchQueryCommon::fromDbResult($result);
     }

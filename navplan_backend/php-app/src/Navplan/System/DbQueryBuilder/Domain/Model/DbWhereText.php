@@ -3,7 +3,7 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Model;
 
 
-class DbWhereClauseText extends DbWhereClause
+class DbWhereText extends DbWhere
 {
     private function __construct(
         public readonly string $colName,
@@ -14,8 +14,8 @@ class DbWhereClauseText extends DbWhereClause
     }
 
 
-    public static function create(string $colName, DbWhereOpTxt $operator, string $value): DbWhereClauseText
+    public static function create(string $colName, DbWhereOpTxt $operator, string $value): DbWhereText
     {
-        return new DbWhereClauseText($colName, $operator, $value);
+        return new DbWhereText($colName, $operator, $value);
     }
 }

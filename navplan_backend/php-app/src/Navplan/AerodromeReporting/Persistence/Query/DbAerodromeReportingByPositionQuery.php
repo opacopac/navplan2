@@ -7,8 +7,6 @@ use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
 
 
 class DbAerodromeReportingByPositionQuery implements IAerodromeReportingByPositionQuery
@@ -24,18 +22,8 @@ class DbAerodromeReportingByPositionQuery implements IAerodromeReportingByPositi
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableReportingPoints::TABLE_NAME)
-            ->whereAll([
-                [DbTableReportingPoints::COL_LAT, DbWhereOp::GT, $position->latitude - $maxRadius_deg],
-                [DbTableReportingPoints::COL_LAT, DbWhereOp::LT, $position->latitude + $maxRadius_deg],
-                [DbTableReportingPoints::COL_LON, DbWhereOp::GT, $position->longitude - $maxRadius_deg],
-                [DbTableReportingPoints::COL_LON, DbWhereOp::LT, $position->longitude + $maxRadius_deg],
-            ])
-            ->orderBy("((" . DbTableReportingPoints::COL_LAT . " - " . $position->latitude . ")"
-                . " * (" . DbTableReportingPoints::COL_LAT . " - " . $position->latitude . ")"
-                . " + (" . DbTableReportingPoints::COL_LON . " - " . $position->longitude . ")"
-                . " * (" . DbTableReportingPoints::COL_LON . " - " . $position->longitude . "))",
-                DbSortOrder::ASC
-            )
+            ->whereInMaxDist(DbTableReportingPoints::COL_LAT, DbTableReportingPoints::COL_LON, $position, $maxRadius_deg)
+            ->orderByLatLonDist(DbTableReportingPoints::COL_LAT, DbTableReportingPoints::COL_LON, $position)
             ->limit($maxResults)
             ->build();
 

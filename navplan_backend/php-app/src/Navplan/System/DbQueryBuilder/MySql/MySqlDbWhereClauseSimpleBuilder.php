@@ -5,14 +5,14 @@ namespace Navplan\System\DbQueryBuilder\MySql;
 use InvalidArgumentException;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereSimple;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbWhereClauseSimpleBuilder;
 
 
 class MySqlDbWhereClauseSimpleBuilder implements IDbWhereClauseSimpleBuilder
 {
-    private DbWhereClauseSimple $clause;
+    private DbWhereSimple $clause;
 
 
     private function __construct(private readonly IDbService $dbService)
@@ -26,7 +26,7 @@ class MySqlDbWhereClauseSimpleBuilder implements IDbWhereClauseSimpleBuilder
     }
 
 
-    public function clause(DbWhereClauseSimple $clause): MySqlDbWhereClauseSimpleBuilder
+    public function clause(DbWhereSimple $clause): MySqlDbWhereClauseSimpleBuilder
     {
         $this->clause = $clause;
         return $this;

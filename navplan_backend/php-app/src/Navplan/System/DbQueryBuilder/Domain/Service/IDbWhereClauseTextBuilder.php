@@ -3,11 +3,11 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Service;
 
 
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseText;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereText;
 
 interface IDbWhereClauseTextBuilder
 {
-    function clause(DbWhereClauseText $clause);
+    function clause(DbWhereText $clause);
 
     function build(): string;
 }

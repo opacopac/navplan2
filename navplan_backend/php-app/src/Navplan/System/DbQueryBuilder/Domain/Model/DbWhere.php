@@ -3,6 +3,6 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Model;
 
 
-abstract class DbWhereClause
+abstract class DbWhere
 {
 }

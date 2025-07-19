@@ -4,14 +4,14 @@ namespace Navplan\System\DbQueryBuilder\MySql;
 
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpTxt;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereText;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbWhereClauseTextBuilder;
 
 
 class MySqlDbWhereClauseTextBuilder implements IDbWhereClauseTextBuilder
 {
-    private DbWhereClauseText $clause;
+    private DbWhereText $clause;
 
 
     private function __construct(private readonly IDbService $dbService)
@@ -25,7 +25,7 @@ class MySqlDbWhereClauseTextBuilder implements IDbWhereClauseTextBuilder
     }
 
 
-    public function clause(DbWhereClauseText $clause): MySqlDbWhereClauseTextBuilder
+    public function clause(DbWhereText $clause): MySqlDbWhereClauseTextBuilder
     {
         $this->clause = $clause;
         return $this;

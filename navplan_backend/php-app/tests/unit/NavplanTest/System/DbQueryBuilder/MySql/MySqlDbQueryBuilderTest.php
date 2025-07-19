@@ -2,11 +2,12 @@
 
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseMulti;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereCombinator;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereSimple;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbQueryBuilder;
 use NavplanTest\System\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
@@ -41,7 +42,8 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
 
-    public function test_select_from() {
+    public function test_select_from()
+    {
         // given
         $qb = $this->mySqlDbQueryBuilder
             ->selectFrom("test_table", "col1", "col2", "col3");
@@ -89,11 +91,11 @@ class MySqlDbQueryBuilderTest extends TestCase
         // given
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->whereAll([
-                ["col1", DbWhereOp::EQ, true],
-                ["col2", DbWhereOp::GT, 456],
-                ["col3", DbWhereOp::LT_OR_E, 789]
-            ]);
+            ->whereAll(
+                DbWhereSimple::create("col1", DbWhereOp::EQ, true),
+                DbWhereSimple::create("col2", DbWhereOp::GT, 456),
+                DbWhereSimple::create("col3", DbWhereOp::LT_OR_E, 789),
+            );
 
         // when
         $query = $qb->build();
@@ -108,11 +110,11 @@ class MySqlDbQueryBuilderTest extends TestCase
         // given
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->whereAny([
-                ["col1", DbWhereOp::NE, 123],
-                ["col2", DbWhereOp::LT, 456],
-                ["col3", DbWhereOp::GT_OR_E, 789]
-            ]);
+            ->whereAny(
+                DbWhereSimple::create("col1", DbWhereOp::NE, 123),
+                DbWhereSimple::create("col2", DbWhereOp::LT, 456),
+                DbWhereSimple::create("col3", DbWhereOp::GT_OR_E, 789),
+            );
 
         // when
         $query = $qb->build();
@@ -128,12 +130,12 @@ class MySqlDbQueryBuilderTest extends TestCase
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
             ->whereClause(
-                DbWhereClauseMulti::create(DbWhereCombinator::AND,
-                    DbWhereClauseMulti::create(DbWhereCombinator::OR,
-                        DbWhereClauseSimple::create("col1", DbWhereOp::EQ, "value1"),
-                        DbWhereClauseSimple::create("col2", DbWhereOp::EQ, 456)
+                DbWhereMulti::create(DbWhereCombinator::AND,
+                    DbWhereMulti::create(DbWhereCombinator::OR,
+                        DbWhereSimple::create("col1", DbWhereOp::EQ, "value1"),
+                        DbWhereSimple::create("col2", DbWhereOp::EQ, 456)
                     ),
-                    DbWhereClauseSimple::create("col3", DbWhereOp::NE, null)
+                    DbWhereSimple::create("col3", DbWhereOp::NE, null)
                 )
             );
 
@@ -142,6 +144,22 @@ class MySqlDbQueryBuilderTest extends TestCase
 
         // then
         $this->assertEquals("SELECT * FROM test_table WHERE ((col1 = 'value1' OR col2 = '456') AND col3 IS NOT NULL)", $query);
+    }
+
+
+    public function test_where_in_max_dist()
+    {
+        // given
+        $pos = new Position2d(7.5, 47.5);
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom("test_table")
+            ->whereInMaxDist("lat", "lon", $pos, 0.5);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table WHERE (lat > '47' AND lat < '48' AND lon > '7' AND lon < '8')", $query);
     }
 
 
@@ -158,6 +176,22 @@ class MySqlDbQueryBuilderTest extends TestCase
 
         // then
         $this->assertEquals("SELECT * FROM test_table ORDER BY col1 ASC, col2 DESC", $query);
+    }
+
+
+    public function test_order_by_lat_lon_dist()
+    {
+        // given
+        $pos = new Position2d(7.5, 47.5);
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom("test_table")
+            ->orderByLatLonDist("lat", "lon", $pos);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table ORDER BY ((lat - 47.5) * (lat - 47.5) + (lon - 7.5) * (lon - 7.5)) ASC", $query);
     }
 
 

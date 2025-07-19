@@ -9,14 +9,14 @@ use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpGeo;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbWhereClauseGeoBuilder;
 
 
 class MySqlDbWhereClauseGeoBuilder implements IDbWhereClauseGeoBuilder
 {
-    private DbWhereClauseGeo $clause;
+    private DbWhereGeo $clause;
 
 
     private function __construct(private readonly IDbService $dbService)
@@ -30,7 +30,7 @@ class MySqlDbWhereClauseGeoBuilder implements IDbWhereClauseGeoBuilder
     }
 
 
-    public function clause(DbWhereClauseGeo $clause): MySqlDbWhereClauseGeoBuilder
+    public function clause(DbWhereGeo $clause): MySqlDbWhereClauseGeoBuilder
     {
         $this->clause = $clause;
         return $this;

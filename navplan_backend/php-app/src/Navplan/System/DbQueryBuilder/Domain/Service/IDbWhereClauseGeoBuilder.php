@@ -3,11 +3,11 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Service;
 
 
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereGeo;
 
 interface IDbWhereClauseGeoBuilder
 {
-    function clause(DbWhereClauseGeo $clause);
+    function clause(DbWhereGeo $clause);
 
     function build(): string;
 }
