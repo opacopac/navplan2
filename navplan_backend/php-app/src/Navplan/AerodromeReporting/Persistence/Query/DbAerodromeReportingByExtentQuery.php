@@ -6,8 +6,8 @@ use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByExtentQuery;
 use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
 use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\System\Domain\Model\DbWhereOpGeo;
 use Navplan\System\Domain\Service\IDbService;
-use Navplan\System\MySqlDb\DbHelper;
 
 
 class DbAerodromeReportingByExtentQuery implements IAerodromeReportingByExtentQuery
@@ -21,9 +21,10 @@ class DbAerodromeReportingByExtentQuery implements IAerodromeReportingByExtentQu
 
     public function search(Extent2d $extent): array
     {
-        $extentPoly = DbHelper::getDbExtentPolygon2($extent);
-        $query = "SELECT * FROM " . DbTableReportingPoints::TABLE_NAME;
-        $query .= " WHERE MBRIntersects(" . DbTableReportingPoints::COL_EXTENT . ", " . $extentPoly . ")";
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableReportingPoints::TABLE_NAME)
+            ->whereGeo(DbTableReportingPoints::COL_EXTENT, DbWhereOpGeo::INTERSECTS_MBR, $extent)
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading reporting points by extent");
 
