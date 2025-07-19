@@ -121,7 +121,7 @@ class ProdNavplanDiContainer
                 $this->getSystemDiContainer()->getLoggingService(),
                 $this->getSystemDiContainer()->getHttpService(),
                 $this->getAerodromeChartDiContainer()->getAirportChartService(),
-                $this->getWebcamDiContainer()->getWebcamService()
+                $this->getWebcamDiContainer()->getWebcamByIcaoQuery()
             );
         }
 

@@ -7,14 +7,14 @@ use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Common\Rest\Converter\RestExtent2dConverter;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
-use Navplan\Webcam\Domain\Service\IWebcamService;
+use Navplan\Webcam\Domain\Query\IWebcamByExtentQuery;
 use Navplan\Webcam\Rest\Model\RestWebcamConverter;
 
 
 class WebcamController implements IRestController
 {
     public function __construct(
-        private readonly IWebcamService $webcamService,
+        private readonly IWebcamByExtentQuery $webcamByExtentQuery,
         private readonly IHttpService $httpService
     )
     {
@@ -27,7 +27,7 @@ class WebcamController implements IRestController
             case HttpRequestMethod::GET:
                 $args = $this->httpService->getGetArgs();
                 $extent = RestExtent2dConverter::fromArgs($args);
-                $webcams = $this->webcamService->searchByExtent($extent);
+                $webcams = $this->webcamByExtentQuery->search($extent);
                 $response = RestWebcamConverter::toRestList($webcams);
                 $this->httpService->sendArrayResponse($response);
                 break;

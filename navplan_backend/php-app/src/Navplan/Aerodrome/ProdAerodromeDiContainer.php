@@ -30,7 +30,7 @@ use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
-use Navplan\Webcam\Domain\Service\IWebcamService;
+use Navplan\Webcam\Domain\Query\IWebcamByIcaoQuery;
 
 
 class ProdAerodromeDiContainer implements IAerodromeDiContainer
@@ -54,7 +54,7 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
         private ILoggingService $loggingService,
         private IHttpService $httpService,
         private IAirportChartService $airportChartService,
-        private IWebcamService $IWebcamService
+        private IWebcamByIcaoQuery $webcamByIcaoQuery,
     )
     {
     }
@@ -88,7 +88,7 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
                 $this->getAirportCreateAllCommand(),
                 $this->getAirportDeleteAllCommand(),
                 $this->airportChartService,
-                $this->IWebcamService,
+                $this->webcamByIcaoQuery,
             );
         }
 

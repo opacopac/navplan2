@@ -17,7 +17,7 @@ use Navplan\Aerodrome\Domain\Query\IAirportRunwayQuery;
 use Navplan\AerodromeChart\Domain\Service\IAirportChartService;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\Webcam\Domain\Service\IWebcamService;
+use Navplan\Webcam\Domain\Query\IWebcamByIcaoQuery;
 
 
 class AirportService implements IAirportService
@@ -34,7 +34,7 @@ class AirportService implements IAirportService
         private readonly IAirportCreateAllCommand $airportCreateAllCommand,
         private readonly IAirportDeleteAllCommand $airportDeleteAllCommand,
         private readonly IAirportChartService $airportChartService,
-        private readonly IWebcamService $webcamService
+        private readonly IWebcamByIcaoQuery $webcamByIcaoQuery,
     )
     {
     }
@@ -116,7 +116,7 @@ class AirportService implements IAirportService
         if ($airport->icao) {
             $airport->mapfeatures = $this->airportFeatureQuery->read($airport->icao);
             $airport->charts2 = $this->airportChartService->readByAdIcao($airport->icao, $token);
-            $airport->webcams = $this->webcamService->searchByIcao([$airport->icao]);
+            $airport->webcams = $this->webcamByIcaoQuery->read($airport->icao);
         }
     }
 }

@@ -5,27 +5,33 @@ namespace Navplan\Webcam;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
-use Navplan\Webcam\Domain\Service\IWebcamService;
-use Navplan\Webcam\Persistence\Service\DbWebcamRepo;
+use Navplan\Webcam\Domain\Query\IWebcamByExtentQuery;
+use Navplan\Webcam\Domain\Query\IWebcamByIcaoQuery;
+use Navplan\Webcam\Persistence\Query\DbWebcamByExtentQuery;
+use Navplan\Webcam\Persistence\Query\DbWebcamByIcaoQuery;
 use Navplan\Webcam\Rest\Service\WebcamController;
 
 
-class ProdWebcamDiContainer implements IWebcamDiContainer {
+class ProdWebcamDiContainer implements IWebcamDiContainer
+{
     private IRestController $webcamController;
-    private IWebcamService $webcamService;
+    private IWebcamByExtentQuery $webcamByExtentQuery;
+    private IWebcamByIcaoQuery $webcamByIcaoQuery;
 
 
     public function __construct(
-        private IDbService $dbService,
-        private IHttpService $httpService,
-    ) {
+        private readonly IDbService $dbService,
+        private readonly IHttpService $httpService,
+    )
+    {
     }
 
 
-    public function getWebcamController(): IRestController {
+    public function getWebcamController(): IRestController
+    {
         if (!isset($this->webcamController)) {
             $this->webcamController = new WebcamController(
-                $this->getWebcamService(),
+                $this->getWebcamByExtentQuery(),
                 $this->httpService
             );
         }
@@ -34,11 +40,22 @@ class ProdWebcamDiContainer implements IWebcamDiContainer {
     }
 
 
-    public function getWebcamService(): IWebcamService {
-        if (!isset($this->webcamService)) {
-            $this->webcamService = new DbWebcamRepo($this->dbService);
+    public function getWebcamByExtentQuery(): IWebcamByExtentQuery
+    {
+        if (!isset($this->webcamByExtentQuery)) {
+            $this->webcamByExtentQuery = new DbWebcamByExtentQuery($this->dbService);
         }
 
-        return $this->webcamService;
+        return $this->webcamByExtentQuery;
+    }
+
+
+    public function getWebcamByIcaoQuery(): IWebcamByIcaoQuery
+    {
+        if (!isset($this->webcamByIcaoQuery)) {
+            $this->webcamByIcaoQuery = new DbWebcamByIcaoQuery($this->dbService);
+        }
+
+        return $this->webcamByIcaoQuery;
     }
 }
