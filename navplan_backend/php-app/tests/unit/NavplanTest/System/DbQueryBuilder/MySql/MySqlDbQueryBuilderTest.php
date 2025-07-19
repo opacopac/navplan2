@@ -132,8 +132,8 @@ class MySqlDbQueryBuilderTest extends TestCase
             ->whereCondition(
                 DbCondMulti::create(DbCondCombinator::AND,
                     DbCondMulti::create(DbCondCombinator::OR,
-                        DbCondSimple::create("col1", DbCondOp::EQ, "value1"),
-                        DbCondSimple::create("col2", DbCondOp::EQ, 456)
+                        DbCondSimple::equals("col1", "value1"),
+                        DbCondSimple::equals("col2", 456)
                     ),
                     DbCondSimple::create("col3", DbCondOp::NE, null)
                 )

@@ -7,7 +7,6 @@ use Navplan\Aerodrome\Domain\Query\IAirportByTextQuery;
 use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
@@ -45,8 +44,8 @@ class DbAirportByTextQuery implements IAirportByTextQuery
             )
             ->orderBy(MySqlDbCaseBuilder::create($this->dbService)
                 ->whenAny([
-                    DbCondSimple::create(DbTableAirport::COL_ICAO, DbCondOp::EQ, NULL),
-                    DbCondSimple::create(DbTableAirport::COL_ICAO, DbCondOp::EQ, "")
+                    DbCondSimple::equals(DbTableAirport::COL_ICAO, NULL),
+                    DbCondSimple::equals(DbTableAirport::COL_ICAO, "")
                 ], "2")
                 ->else("1")
                 ->build(),
@@ -55,19 +54,19 @@ class DbAirportByTextQuery implements IAirportByTextQuery
             ->orderBy(MySqlDbCaseBuilder::create($this->dbService)
                 ->whenEquals(DbTableAirport::COL_TYPE, "INTL_APT", "1")
                 ->whenAny([
-                    DbCondSimple::create(DbTableAirport::COL_TYPE, DbCondOp::EQ, "APT"),
-                    DbCondSimple::create(DbTableAirport::COL_TYPE, DbCondOp::EQ, "AF_CIVIL"),
-                    DbCondSimple::create(DbTableAirport::COL_TYPE, DbCondOp::EQ, "AF_MIL_CIVIL"),
-                    DbCondSimple::create(DbTableAirport::COL_TYPE, DbCondOp::EQ, "AF_WATER"),
-                    DbCondSimple::create(DbTableAirport::COL_TYPE, DbCondOp::EQ, "AD_MIL")
+                    DbCondSimple::equals(DbTableAirport::COL_TYPE, "APT"),
+                    DbCondSimple::equals(DbTableAirport::COL_TYPE, "AF_CIVIL"),
+                    DbCondSimple::equals(DbTableAirport::COL_TYPE, "AF_MIL_CIVIL"),
+                    DbCondSimple::equals(DbTableAirport::COL_TYPE, "AF_WATER"),
+                    DbCondSimple::equals(DbTableAirport::COL_TYPE, "AD_MIL")
                 ], "2")
                 ->whenAny([
-                    DbCondSimple::create(DbTableAirport::COL_TYPE, DbCondOp::EQ, "GLIDING"),
-                    DbCondSimple::create(DbTableAirport::COL_TYPE, DbCondOp::EQ, "LIGHT_AIRCRAFT")
+                    DbCondSimple::equals(DbTableAirport::COL_TYPE, "GLIDING"),
+                    DbCondSimple::equals(DbTableAirport::COL_TYPE, "LIGHT_AIRCRAFT")
                 ], "3")
                 ->whenAny([
-                    DbCondSimple::create(DbTableAirport::COL_TYPE, DbCondOp::EQ, "HELI_CIVIL"),
-                    DbCondSimple::create(DbTableAirport::COL_TYPE, DbCondOp::EQ, "HELI_MIL")
+                    DbCondSimple::equals(DbTableAirport::COL_TYPE, "HELI_CIVIL"),
+                    DbCondSimple::equals(DbTableAirport::COL_TYPE, "HELI_MIL")
                 ], "4")
                 ->else("5")
                 ->build(),

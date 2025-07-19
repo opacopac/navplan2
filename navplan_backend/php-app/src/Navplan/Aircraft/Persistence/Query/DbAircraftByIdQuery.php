@@ -14,7 +14,6 @@ use Navplan\Aircraft\Persistence\Model\DbWeightItemConverter;
 use Navplan\Aircraft\Persistence\Model\DbWnbEnvelopeConverter;
 use Navplan\Aircraft\Persistence\Model\PerfDistTableType;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 
@@ -32,8 +31,8 @@ class DbAircraftByIdQuery implements IAircraftByIdQuery
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAircraft::TABLE_NAME)
             ->whereAll(
-                DbCondSimple::create(DbTableAircraft::COL_ID, DbCondOp::EQ, $aircraftId),
-                DbCondSimple::create(DbTableAircraft::COL_ID_USER, DbCondOp::EQ, $userId)
+                DbCondSimple::equals(DbTableAircraft::COL_ID, $aircraftId),
+                DbCondSimple::equals(DbTableAircraft::COL_ID_USER, $userId)
             )
             ->build();
 

@@ -26,7 +26,7 @@ class MySqlDbCondSimpleBuilderTest extends TestCase
     public function test_text()
     {
         // given
-        $clause = DbCondSimple::create("col1", DbCondOp::EQ, "value1");
+        $clause = DbCondSimple::equals("col1", "value1");
         $wcb = $this->whereClauseBuilder->condition($clause);
 
         // when
@@ -40,7 +40,7 @@ class MySqlDbCondSimpleBuilderTest extends TestCase
     public function test_int()
     {
         // given
-        $clause = DbCondSimple::create("col1", DbCondOp::EQ, 123);
+        $clause = DbCondSimple::equals("col1", 123);
         $wcb = $this->whereClauseBuilder->condition($clause);
 
         // when
@@ -54,7 +54,7 @@ class MySqlDbCondSimpleBuilderTest extends TestCase
     public function test_float()
     {
         // given
-        $clause = DbCondSimple::create("col1", DbCondOp::EQ, -123.456);
+        $clause = DbCondSimple::equals("col1", -123.456);
         $wb = $this->whereClauseBuilder->condition($clause);
 
         // when
@@ -68,7 +68,7 @@ class MySqlDbCondSimpleBuilderTest extends TestCase
     public function test_bool_true()
     {
         // given
-        $clause = DbCondSimple::create("col1", DbCondOp::EQ, true);
+        $clause = DbCondSimple::equals("col1", true);
         $wb = $this->whereClauseBuilder->condition($clause);
 
         // when
@@ -82,7 +82,7 @@ class MySqlDbCondSimpleBuilderTest extends TestCase
     public function test_bool_false()
     {
         // given
-        $clause = DbCondSimple::create("col1", DbCondOp::EQ, false);
+        $clause = DbCondSimple::equals("col1", false);
         $wb = $this->whereClauseBuilder->condition($clause);
 
         // when
@@ -96,7 +96,7 @@ class MySqlDbCondSimpleBuilderTest extends TestCase
     public function test_null()
     {
         // given
-        $clause = DbCondSimple::create("col1", DbCondOp::EQ, null);
+        $clause = DbCondSimple::equals("col1", null);
         $wb = $this->whereClauseBuilder->condition($clause);
 
         // when

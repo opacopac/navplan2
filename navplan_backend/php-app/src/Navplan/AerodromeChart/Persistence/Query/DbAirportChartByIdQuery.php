@@ -9,7 +9,6 @@ use Navplan\AerodromeChart\Persistence\Model\DbTableAirportCharts;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 
@@ -27,15 +26,15 @@ class DbAirportChartByIdQuery implements IAirportChartByIdQuery
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAirportCharts::TABLE_NAME)
             ->whereAll(
-                DbCondSimple::create(DbTableAirportCharts::COL_ID, DbCondOp::EQ, $id),
-                DbCondSimple::create(DbTableAirportCharts::COL_ACTIVE, DbCondOp::EQ, true),
+                DbCondSimple::equals(DbTableAirportCharts::COL_ID, $id),
+                DbCondSimple::equals(DbTableAirportCharts::COL_ACTIVE, true),
                 $userId > 0
                     ? DbCondMulti::create(
                     DbCondCombinator::OR,
-                    DbCondSimple::create(DbTableAirportCharts::COL_USER_ID, DbCondOp::EQ, $userId),
-                    DbCondSimple::create(DbTableAirportCharts::COL_USER_ID, DbCondOp::EQ, null)
+                    DbCondSimple::equals(DbTableAirportCharts::COL_USER_ID, $userId),
+                    DbCondSimple::equals(DbTableAirportCharts::COL_USER_ID, null)
                 )
-                    : DbCondSimple::create(DbTableAirportCharts::COL_USER_ID, DbCondOp::EQ, null)
+                    : DbCondSimple::equals(DbTableAirportCharts::COL_USER_ID, null)
             )
             ->build();
 

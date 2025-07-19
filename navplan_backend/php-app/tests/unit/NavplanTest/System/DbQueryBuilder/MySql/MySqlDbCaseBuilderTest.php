@@ -2,7 +2,6 @@
 
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbCaseBuilder;
 use NavplanTest\System\Db\Mock\MockDbService;
@@ -26,8 +25,8 @@ class MySqlDbCaseBuilderTest extends TestCase
     {
         // given
         $cb = MySqlDbCaseBuilder::create($this->mockDbService)
-            ->when(DbCondSimple::create("col1", DbCondOp::EQ, "value1"), "then_value1")
-            ->when(DbCondSimple::create("col2", DbCondOp::EQ, "value2"), "then_value2")
+            ->when(DbCondSimple::equals("col1", "value1"), "then_value1")
+            ->when(DbCondSimple::equals("col2", "value2"), "then_value2")
             ->else("else_value");
 
         // when
@@ -42,8 +41,8 @@ class MySqlDbCaseBuilderTest extends TestCase
     {
         // given
         $cb = MySqlDbCaseBuilder::create($this->mockDbService)
-            ->when(DbCondSimple::create("col1", DbCondOp::EQ, "value1"), "then_value1")
-            ->when(DbCondSimple::create("col2", DbCondOp::EQ, "value2"), "then_value2");
+            ->when(DbCondSimple::equals("col1", "value1"), "then_value1")
+            ->when(DbCondSimple::equals("col2", "value2"), "then_value2");
 
         // when
         $query = $cb->build();
@@ -72,14 +71,14 @@ class MySqlDbCaseBuilderTest extends TestCase
         // given
         $cb = MySqlDbCaseBuilder::create($this->mockDbService)
             ->whenAll([
-                DbCondSimple::create("col1", DbCondOp::EQ, "value1"),
-                DbCondSimple::create("col2", DbCondOp::EQ, "value2")
+                DbCondSimple::equals("col1", "value1"),
+                DbCondSimple::equals("col2", "value2")
             ], "then_value");
 
         // when
         $query = $cb->build();
 
         // then
-        $this->assertEquals("CASE WHEN col1 = 'value1' AND col2 = 'value2' THEN then_value END", $query);
+        $this->assertEquals("CASE WHEN (col1 = 'value1' AND col2 = 'value2') THEN then_value END", $query);
     }
 }

@@ -18,4 +18,10 @@ class DbCondSimple extends DbCond
     {
         return new DbCondSimple($colName, $operator, $value);
     }
+
+
+    public static function equals(string $colName, string|int|float|bool|null $value): DbCondSimple
+    {
+        return self::create($colName, DbCondOp::EQ, $value);
+    }
 }

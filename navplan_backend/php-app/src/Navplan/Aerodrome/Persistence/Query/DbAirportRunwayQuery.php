@@ -7,7 +7,6 @@ use Navplan\Aerodrome\Domain\Query\IAirportRunwayQuery;
 use Navplan\Aerodrome\Persistence\Model\DbAirportRunwayConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirportRunway;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
@@ -30,8 +29,8 @@ class DbAirportRunwayQuery implements IAirportRunwayQuery
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAirportRunway::TABLE_NAME)
             ->whereAll(
-                DbCondSimple::create(DbTableAirportRunway::COL_AIRPORT_ID, DbCondOp::EQ, $airportId),
-                DbCondSimple::create(DbTableAirportRunway::COL_OPERATIONS, DbCondOp::EQ, "ACTIVE")
+                DbCondSimple::equals(DbTableAirportRunway::COL_AIRPORT_ID, $airportId),
+                DbCondSimple::equals(DbTableAirportRunway::COL_OPERATIONS, "ACTIVE")
             )
             ->orderBy(DbTableAirportRunway::COL_LENGTH, DbSortOrder::DESC)
             ->orderBy(DbTableAirportRunway::COL_SURFACE, DbSortOrder::ASC)

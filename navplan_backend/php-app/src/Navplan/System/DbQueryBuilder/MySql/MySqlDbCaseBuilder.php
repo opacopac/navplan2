@@ -7,7 +7,6 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbCaseBuilder;
 
@@ -46,7 +45,7 @@ class MySqlDbCaseBuilder implements IDbCaseBuilder
 
     public function whenEquals(string $colName, float|bool|int|string|null $value, string $thenValue): MySqlDbCaseBuilder
     {
-        $cond = DbCondSimple::create($colName, DbCondOp::EQ, $value);
+        $cond = DbCondSimple::equals($colName, $value);
 
         return $this->when($cond, $thenValue);
     }
