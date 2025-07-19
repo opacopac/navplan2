@@ -52,6 +52,20 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
+
+    public function selectFrom(string $tableName, string ...$colNames): IDbQueryBuilder
+    {
+        if (count($colNames) === 0) {
+            throw new InvalidArgumentException("At least one column name is required");
+        }
+
+        $colList = implode(", ", $colNames);
+        $this->select = "SELECT " . $colList . " FROM " . $tableName;
+
+        return $this;
+    }
+
+
     public function whereClause(DbWhereClause $clause): IDbQueryBuilder
     {
         $this->where = $clause;
@@ -182,37 +196,6 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     private function buildSelectString(): string
     {
         return $this->select;
-    }
-
-
-    private function buildWhereClauseString(?DbWhereClause $clause): string
-    {
-        if ($clause === null) {
-            return "";
-        }
-
-        return match (get_class($clause)) {
-            DbWhereClauseSimple::class => MySqlDbWhereClauseSimpleBuilder::create($this->dbService)->clause($clause)->build(),
-            DbWhereClauseText::class => MySqlDbWhereClauseTextBuilder::create($this->dbService)->clause($clause)->build(),
-            DbWhereClauseMulti::class => $this->buildWhereMultiClauseString($clause),
-            DbWhereClauseGeo::class => MySqlDbWhereClauseGeoBuilder::create($this->dbService)->clause($clause)->build(),
-            default => throw new InvalidArgumentException("Unsupported where clause type"),
-        };
-    }
-
-
-    private function buildWhereMultiClauseString(DbWhereClauseMulti $clause): string
-    {
-        $clauseStrs = array_map(function ($subClause) {
-            return $this->buildWhereClauseString($subClause);
-        }, $clause->clauses);
-
-        $combinatorStr = match ($clause->combinator) {
-            DbWhereCombinator::AND => "AND",
-            DbWhereCombinator::OR => "OR"
-        };
-
-        return "(" . implode(" " . $combinatorStr . " ", $clauseStrs) . ")";
     }
 
 

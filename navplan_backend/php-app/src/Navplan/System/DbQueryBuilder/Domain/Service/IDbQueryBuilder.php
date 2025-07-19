@@ -17,6 +17,8 @@ interface IDbQueryBuilder
 {
     function selectAllFrom(string $tableName): IDbQueryBuilder;
 
+    function selectFrom(string $tableName, string ...$colNames): IDbQueryBuilder;
+
     function whereClause(DbWhereClause $clause): IDbQueryBuilder;
 
     function where(string $colName, DbWhereOp $op, string|int|float|bool|null $value): IDbQueryBuilder;

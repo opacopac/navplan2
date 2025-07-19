@@ -41,6 +41,19 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
 
+    public function test_select_from() {
+        // given
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectFrom("test_table", "col1", "col2", "col3");
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT col1, col2, col3 FROM test_table", $query);
+    }
+
+
     public function test_where_equals()
     {
         // given
@@ -109,7 +122,7 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
 
-    public function test_select_with_generic_where()
+    public function test_generic_where_clause()
     {
         // given
         $qb = $this->mySqlDbQueryBuilder
@@ -132,7 +145,7 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
 
-    public function test_order_by_asc()
+    public function test_order_by()
     {
         // given
         $qb = $this->mySqlDbQueryBuilder
