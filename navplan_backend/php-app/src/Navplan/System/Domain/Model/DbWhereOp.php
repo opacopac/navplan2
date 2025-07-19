@@ -11,4 +11,7 @@ enum DbWhereOp
     case GT_OR_E;
     case LT;
     case LT_OR_E;
+    case LIKE_PREFIX;
+    case LIKE_SUFFIX;
+    case LIKE_SUBSTR;
 }

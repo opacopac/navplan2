@@ -5,6 +5,7 @@ namespace Navplan\AerodromeReporting\Persistence\Query;
 use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByTextQuery;
 use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
+use Navplan\System\Domain\Model\DbSortOrder;
 use Navplan\System\Domain\Service\IDbService;
 
 
@@ -19,6 +20,14 @@ class DbAerodromeReportingByTextQuery implements IAerodromeReportingByTextQuery
 
     public function search(string $searchText, int $maxResults): array
     {
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableReportingPoints::TABLE_NAME)
+            ->wherePrefixLike(DbTableReportingPoints::COL_NAME, $searchText)
+            ->orderBy(DbTableReportingPoints::COL_AD_ICAO, DbSortOrder::ASC)
+            ->orderBy(DbTableReportingPoints::COL_NAME, DbSortOrder::ASC)
+            ->limit($maxResults)
+            ->build();
+
         $searchText = $this->dbService->escapeString($searchText);
         $query = "SELECT * FROM " . DbTableReportingPoints::TABLE_NAME;
         $query .= " WHERE";

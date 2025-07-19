@@ -6,6 +6,8 @@ use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByPositionQuery;
 use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\System\Domain\Model\DbSortOrder;
+use Navplan\System\Domain\Model\DbWhereOp;
 use Navplan\System\Domain\Service\IDbService;
 
 
@@ -20,7 +22,7 @@ class DbAerodromeReportingByPositionQuery implements IAerodromeReportingByPositi
 
     public function search(Position2d $position, float $maxRadius_deg, int $maxResults): array
     {
-        /*$query = $this->dbService->getQueryBuilder()
+        $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableReportingPoints::TABLE_NAME)
             ->whereAll([
                 [DbTableReportingPoints::COL_LAT, DbWhereOp::GT, $position->latitude - $maxRadius_deg],
@@ -32,21 +34,10 @@ class DbAerodromeReportingByPositionQuery implements IAerodromeReportingByPositi
                 . " * (" . DbTableReportingPoints::COL_LAT . " - " . $position->latitude . ")"
                 . " + (" . DbTableReportingPoints::COL_LON . " - " . $position->longitude . ")"
                 . " * (" . DbTableReportingPoints::COL_LON . " - " . $position->longitude . "))",
-                DbSortDirection::ASC
+                DbSortOrder::ASC
             )
             ->limit($maxResults)
-            ->build();*/
-
-        $query = "SELECT * FROM " . DbTableReportingPoints::TABLE_NAME;
-        $query .= " WHERE";
-        $query .= "  " . DbTableReportingPoints::COL_LAT . " > " . ($position->latitude - $maxRadius_deg);
-        $query .= "  AND " . DbTableReportingPoints::COL_LAT . " < " . ($position->latitude + $maxRadius_deg);
-        $query .= "  AND " . DbTableReportingPoints::COL_LON . " > " . ($position->longitude - $maxRadius_deg);
-        $query .= "  AND " . DbTableReportingPoints::COL_LON . " < " . ($position->longitude + $maxRadius_deg);
-        $query .= " ORDER BY";
-        $query .= "  ((" . DbTableReportingPoints::COL_LAT . " - " . $position->latitude . ") * (" . DbTableReportingPoints::COL_LAT . " - " . $position->latitude
-            . ") + (" . DbTableReportingPoints::COL_LON . " - " . $position->longitude . ") * (" . DbTableReportingPoints::COL_LON . " - " . $position->longitude . ")) ASC";
-        $query .= " LIMIT " . $maxResults;
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching reporting points by position");
 

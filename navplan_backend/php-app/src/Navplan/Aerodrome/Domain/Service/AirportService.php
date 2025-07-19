@@ -77,7 +77,7 @@ class AirportService implements IAirportService
      */
     public function searchByPosition(Position2d $position, float $maxRadius_deg, int $maxResults): array
     {
-        return $this->airportByPositionQuery->search($position, $maxResults, $maxResults);
+        return $this->airportByPositionQuery->search($position, $maxRadius_deg, $maxResults);
     }
 
 

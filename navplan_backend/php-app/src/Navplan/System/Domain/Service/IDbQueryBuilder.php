@@ -3,18 +3,21 @@
 namespace Navplan\System\Domain\Service;
 
 
-use Navplan\System\Domain\Model\DbSortDirection;
+use Navplan\System\Domain\Model\DbSortOrder;
 use Navplan\System\Domain\Model\DbWhereClause;
+use Navplan\System\Domain\Model\DbWhereOp;
 
 interface IDbQueryBuilder
 {
     function selectAllFrom(string $tableName): IDbQueryBuilder;
 
-    function where(DbWhereClause $clause): IDbQueryBuilder;
+    function whereClause(DbWhereClause $clause): IDbQueryBuilder;
+
+    function where(string $colName, DbWhereOp $op, string|int|float|bool|null $value): IDbQueryBuilder;
 
     function whereEquals(string $colName, string|int|float|bool|null $value): IDbQueryBuilder;
 
-    function whereNotEquals(string $colName, string|int|float|bool|null $value): IDbQueryBuilder;
+    function wherePrefixLike(string $colName, string $value): IDbQueryBuilder;
 
     /**
      * @param $clauses [string, DbWhereOp, string|int|float|bool|null]
@@ -28,7 +31,7 @@ interface IDbQueryBuilder
      */
     public function whereAny(array $clauses): IDbQueryBuilder;
 
-    function orderBy(string $colName, DbSortDirection $direction): IDbQueryBuilder;
+    function orderBy(string $colName, DbSortOrder $direction): IDbQueryBuilder;
 
     function limit(int $limit): IDbQueryBuilder;
 

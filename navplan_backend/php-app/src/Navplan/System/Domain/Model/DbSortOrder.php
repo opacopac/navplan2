@@ -3,7 +3,7 @@
 namespace Navplan\System\Domain\Model;
 
 
-enum DbSortDirection {
+enum DbSortOrder {
     case ASC;
     case DESC;
 }

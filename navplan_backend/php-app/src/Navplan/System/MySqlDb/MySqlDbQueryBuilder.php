@@ -3,8 +3,9 @@
 namespace Navplan\System\MySqlDb;
 
 use InvalidArgumentException;
-use Navplan\System\Domain\Model\DbSortDirection;
+use Navplan\System\Domain\Model\DbSortOrder;
 use Navplan\System\Domain\Model\DbWhereClause;
+use Navplan\System\Domain\Model\DbWhereClauseFactory;
 use Navplan\System\Domain\Model\DbWhereCombinator;
 use Navplan\System\Domain\Model\DbWhereMultiClause;
 use Navplan\System\Domain\Model\DbWhereOp;
@@ -15,6 +16,7 @@ use Navplan\System\Domain\Service\IDbService;
 
 class MySqlDbQueryBuilder implements IDbQueryBuilder
 {
+    private DbWhereClauseFactory $w;
     private string $select;
 
     private ?DbWhereClause $where = null;
@@ -27,6 +29,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
     public function __construct(private readonly IDbService $dbService)
     {
+        $this->w = new DbWhereClauseFactory($dbService);
     }
 
 
@@ -38,7 +41,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function where(DbWhereClause $clause): IDbQueryBuilder
+    public function whereClause(DbWhereClause $clause): IDbQueryBuilder
     {
         $this->where = $clause;
 
@@ -46,19 +49,21 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function whereEquals(string $colName, string|int|float|bool|null $value): IDbQueryBuilder
+    public function where(string $colName, DbWhereOp $op, string|int|float|bool|null $value): IDbQueryBuilder
     {
-        return $this->where(
-            new DbWhereSingleClause($colName, DbWhereOp::EQ, $value)
-        );
+        return $this->whereClause($this->w->single($colName, $op, $value));
     }
 
 
-    public function whereNotEquals(string $colName, string|int|float|bool|null $value): IDbQueryBuilder
+    public function whereEquals(string $colName, string|int|float|bool|null $value): IDbQueryBuilder
     {
-        return $this->where(
-            new DbWhereSingleClause($colName, DbWhereOp::NE, $value)
-        );
+        return $this->where($colName, DbWhereOp::EQ, $value);
+    }
+
+
+    public function wherePrefixLike(string $colName, string $value): IDbQueryBuilder
+    {
+        return $this->where($colName, DbWhereOp::LIKE_PREFIX, $value);
     }
 
 
@@ -79,7 +84,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
             }, $clauses)
         );
 
-        $this->where($multiClause);
+        $this->whereClause($multiClause);
 
         return $this;
     }
@@ -102,15 +107,15 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
             }, $clauses)
         );
 
-        $this->where($multiClause);
+        $this->whereClause($multiClause);
 
         return $this;
     }
 
 
-    public function orderBy(string $colName, DbSortDirection $direction): IDbQueryBuilder
+    public function orderBy(string $colName, DbSortOrder $direction): IDbQueryBuilder
     {
-        $dirStr = $direction === DbSortDirection::ASC ? "ASC" : "DESC";
+        $dirStr = $direction === DbSortOrder::ASC ? "ASC" : "DESC";
         $this->orderList[] = $colName . " " . $dirStr;
 
         return $this;
@@ -180,17 +185,27 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
             DbWhereOp::GT => ">",
             DbWhereOp::GT_OR_E => ">=",
             DbWhereOp::LT => "<",
-            DbWhereOp::LT_OR_E => "<="
+            DbWhereOp::LT_OR_E => "<=",
+            DbWhereOp::LIKE_PREFIX => "LIKE",
+            DbWhereOp::LIKE_SUFFIX => "LIKE",
+            DbWhereOp::LIKE_SUBSTR => "LIKE",
         };
 
-        if (is_string($clause->value)) {
-            $valStr = DbHelper::getDbStringValue($this->dbService, $clause->value);
-        } else if (is_bool($clause->value)) {
-            $valStr = DbHelper::getDbBoolValue($clause->value);
-        } else if (is_int($clause->value)) {
-            $valStr = DbHelper::getDbIntValue($clause->value);
-        } else if (is_float($clause->value)) {
-            $valStr = DbHelper::getDbFloatValue($clause->value);
+        $preValue = match ($clause->operator) {
+            DbWhereOp::LIKE_PREFIX => $clause->value . "%",
+            DbWhereOp::LIKE_SUFFIX => "%" . $clause->value,
+            DbWhereOp::LIKE_SUBSTR => "%" . $clause->value . "%",
+            default => $clause->value
+        };
+
+        if (is_string($preValue)) {
+            $valStr = DbHelper::getDbStringValue($this->dbService, $preValue);
+        } else if (is_bool($preValue)) {
+            $valStr = DbHelper::getDbBoolValue($preValue);
+        } else if (is_int($preValue)) {
+            $valStr = DbHelper::getDbIntValue($preValue);
+        } else if (is_float($preValue)) {
+            $valStr = DbHelper::getDbFloatValue($preValue);
         } else {
             throw new InvalidArgumentException("Unsupported value type for where clause");
         }
