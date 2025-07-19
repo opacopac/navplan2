@@ -7,6 +7,8 @@ use Navplan\Aerodrome\Domain\Query\IAirportRadioQuery;
 use Navplan\Aerodrome\Persistence\Model\DbAirportRadioConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirportRadio;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
+use Navplan\System\DbQueryBuilder\MySql\MySqlDbCaseBuilder;
 
 
 class DbAirportRadioQuery implements IAirportRadioQuery
@@ -24,26 +26,32 @@ class DbAirportRadioQuery implements IAirportRadioQuery
      */
     public function read(int $airportId): array
     {
-        // TODO: query builder
-        $query = "SELECT *,";
-        $query .= "  (CASE";
-        $query .= "    WHEN " . DbTableAirportRadio::COL_CATEGORY . " = 'COMMUNICATION' THEN 1";
-        $query .= "    WHEN " . DbTableAirportRadio::COL_CATEGORY . " = 'OTHER' THEN 2";
-        $query .= "    WHEN " . DbTableAirportRadio::COL_CATEGORY . " = 'INFORMATION' THEN 3";
-        $query .= "    ELSE 4";
-        $query .= "  END) AS sortorder1,";
-        $query .= "  (CASE";
-        $query .= "    WHEN " . DbTableAirportRadio::COL_TYPE . " = 'TOWER' THEN 1";
-        $query .= "    WHEN " . DbTableAirportRadio::COL_TYPE . " = 'CTAF' THEN 2";
-        $query .= "    WHEN " . DbTableAirportRadio::COL_TYPE . " = 'OTHER' THEN 3";
-        $query .= "    ELSE 4";
-        $query .= "  END) AS sortorder2";
-        $query .= " FROM " . DbTableAirportRadio::TABLE_NAME;
-        $query .= " WHERE " . DbTableAirportRadio::COL_AIRPORT_ID . " = " . $airportId;
-        $query .= " ORDER BY";
-        $query .= "   sortorder1 ASC,";
-        $query .= "   sortorder2 ASC,";
-        $query .= DbTableAirportRadio::COL_FREQUENCY . " ASC";
+        $query = $this->dbService->getQueryBuilder()
+            ->selectFrom(
+                DbTableAirportRadio::TABLE_NAME,
+                DbTableAirportRadio::COL_CATEGORY,
+                DbTableAirportRadio::COL_FREQUENCY,
+                DbTableAirportRadio::COL_TYPE,
+                DbTableAirportRadio::COL_NAME,
+                DbTableAirportRadio::COL_IS_PRIMARY,
+                MySqlDbCaseBuilder::create($this->dbService)
+                    ->whenEquals(DbTableAirportRadio::COL_CATEGORY, "COMMUNICATION", "1")
+                    ->whenEquals(DbTableAirportRadio::COL_CATEGORY, "OTHER", "2")
+                    ->whenEquals(DbTableAirportRadio::COL_CATEGORY, "INFORMATION", "3")
+                    ->else("4")
+                    ->build() . " AS sortorder1",
+                MySqlDbCaseBuilder::create($this->dbService)
+                    ->whenEquals(DbTableAirportRadio::COL_TYPE, "TOWER", "1")
+                    ->whenEquals(DbTableAirportRadio::COL_TYPE, "CTAF", "2")
+                    ->whenEquals(DbTableAirportRadio::COL_TYPE, "OTHER", "3")
+                    ->else("4")
+                    ->build() . " AS sortorder2"
+            )
+            ->whereEquals(DbTableAirportRadio::COL_AIRPORT_ID, $airportId)
+            ->orderBy("sortorder1", DbSortOrder::ASC)
+            ->orderBy("sortorder2", DBSortOrder::ASC)
+            ->orderBy(DbTableAirportRadio::COL_FREQUENCY, DbSortOrder::ASC)
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading radios for airport id " . $airportId);
 
