@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aircraft\Persistence\Query;
+namespace Navplan\Aircraft\Persistence\Model;
 
 use Navplan\Aircraft\Domain\Model\DistancePerformanceTable;
 use Navplan\Aircraft\Domain\Model\PerformanceTableAltitudeReference;
 use Navplan\Aircraft\Domain\Model\PerformanceTableTemperatureReference;
-use Navplan\Aircraft\Persistence\Model\DbTableAircraftPerfDist;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Domain\Model\Temperature;

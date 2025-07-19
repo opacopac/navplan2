@@ -1,10 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aircraft\Persistence\Query;
+namespace Navplan\Aircraft\Persistence\Model;
 
 use Navplan\Aircraft\Domain\Model\WeightItem;
 use Navplan\Aircraft\Domain\Model\WeightItemType;
-use Navplan\Aircraft\Persistence\Model\DbTableAircraftWeightItems;
 use Navplan\Common\Persistence\Model\DbLengthConverter;
 use Navplan\Common\Persistence\Model\DbVolumeConverter;
 use Navplan\Common\Persistence\Model\DbWeightConverter;

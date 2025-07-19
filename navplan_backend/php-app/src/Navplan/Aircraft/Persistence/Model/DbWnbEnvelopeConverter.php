@@ -1,12 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aircraft\Persistence\Query;
+namespace Navplan\Aircraft\Persistence\Model;
 
 use Navplan\Aircraft\Domain\Model\WnbEnvelope;
 use Navplan\Aircraft\Domain\Model\WnbEnvelopeAxisType;
 use Navplan\Aircraft\Domain\Model\WnbLatEnvelopeCoordinate;
 use Navplan\Aircraft\Domain\Model\WnbLonEnvelopeCoordinate;
-use Navplan\Aircraft\Persistence\Model\DbTableAircraftWnbEnvelopes;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Domain\Model\Weight;

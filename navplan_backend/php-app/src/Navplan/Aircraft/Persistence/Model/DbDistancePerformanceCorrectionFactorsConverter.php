@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aircraft\Persistence\Query;
+namespace Navplan\Aircraft\Persistence\Model;
 
 use Navplan\Aircraft\Domain\Model\DistancePerformanceCorrectionFactors;
-use Navplan\Aircraft\Persistence\Model\DbTableAircraftPerfDist;
 use Navplan\Common\Persistence\Model\DbSpeedConverter;
 
 

@@ -5,7 +5,7 @@ namespace Navplan\Aircraft\Persistence\Command;
 use Navplan\Aircraft\Domain\Command\IWnbEnvelopeCreateCommand;
 use Navplan\Aircraft\Domain\Model\WnbEnvelope;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftWnbEnvelopes;
-use Navplan\Aircraft\Persistence\Query\DbWnbEnvelopeConverter;
+use Navplan\Aircraft\Persistence\Model\DbWnbEnvelopeConverter;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
 

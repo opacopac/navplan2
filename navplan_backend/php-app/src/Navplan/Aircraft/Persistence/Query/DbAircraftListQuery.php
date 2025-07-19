@@ -3,9 +3,10 @@
 namespace Navplan\Aircraft\Persistence\Query;
 
 use Navplan\Aircraft\Domain\Query\IAircraftListQuery;
+use Navplan\Aircraft\Persistence\Model\DbAircraftConverter;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
 
 class DbAircraftListQuery implements IAircraftListQuery
@@ -19,9 +20,11 @@ class DbAircraftListQuery implements IAircraftListQuery
 
     public function readList(int $userId): array
     {
-        $query = "SELECT * FROM " . DbTableAircraft::TABLE_NAME;
-        $query .= " WHERE " . DbTableAircraft::COL_ID_USER . "=" . DbHelper::getDbIntValue($userId);
-        $query .= " ORDER BY " . DbTableAircraft::COL_REGISTRATION . " ASC";
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableAircraft::TABLE_NAME)
+            ->whereEquals(DbTableAircraft::COL_ID_USER, $userId)
+            ->orderBy(DbTableAircraft::COL_REGISTRATION, DbSortOrder::ASC)
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading aircraft list");
 

@@ -4,10 +4,14 @@ namespace Navplan\Aircraft\Persistence\Query;
 
 use Navplan\Aircraft\Domain\Model\Aircraft;
 use Navplan\Aircraft\Domain\Query\IAircraftByIdQuery;
+use Navplan\Aircraft\Persistence\Model\DbAircraftConverter;
+use Navplan\Aircraft\Persistence\Model\DbDistancePerformanceTableConverter;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftPerfDist;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftWeightItems;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftWnbEnvelopes;
+use Navplan\Aircraft\Persistence\Model\DbWeightItemConverter;
+use Navplan\Aircraft\Persistence\Model\DbWnbEnvelopeConverter;
 use Navplan\Aircraft\Persistence\Model\PerfDistTableType;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;

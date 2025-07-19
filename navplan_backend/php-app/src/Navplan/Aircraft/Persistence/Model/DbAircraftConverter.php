@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aircraft\Persistence\Query;
+namespace Navplan\Aircraft\Persistence\Model;
 
 use Navplan\Aircraft\Domain\Model\Aircraft;
 use Navplan\Aircraft\Domain\Model\FuelType;
 use Navplan\Aircraft\Domain\Model\VehicleType;
-use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
 use Navplan\Common\Persistence\Model\DbConsumptionConverter;
 use Navplan\Common\Persistence\Model\DbLengthConverter;
 use Navplan\Common\Persistence\Model\DbSpeedConverter;

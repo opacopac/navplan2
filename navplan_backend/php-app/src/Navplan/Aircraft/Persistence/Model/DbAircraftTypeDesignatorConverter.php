@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Aircraft\Persistence\Query;
+namespace Navplan\Aircraft\Persistence\Model;
 
 use Navplan\Aircraft\Domain\Model\AircraftType;
 use Navplan\Aircraft\Domain\Model\AircraftTypeDesignator;
 use Navplan\Aircraft\Domain\Model\EngineType;
-use Navplan\Aircraft\Persistence\Model\DbTableAircraftTypeDesignator;
 use Navplan\System\Db\Domain\Model\IDbResult;
 
 
