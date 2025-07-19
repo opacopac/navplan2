@@ -4,6 +4,7 @@ namespace Navplan\Navaid\Persistence\Query;
 
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Navaid\Domain\Query\INavaidSearchByExtentQuery;
+use Navplan\Navaid\Persistence\Model\DbNavaidConverter;
 use Navplan\Navaid\Persistence\Model\DbTableNavaid;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereGeo;
@@ -33,6 +34,6 @@ class DbNavaidSearchByExtentQuery implements INavaidSearchByExtentQuery
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching navaids by extent");
 
-        return DbNavaidSearchQueryCommon::fromDbResult($result);
+        return DbNavaidConverter::fromDbResult($result);
     }
 }

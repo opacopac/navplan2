@@ -4,6 +4,7 @@ namespace Navplan\Navaid\Persistence\Query;
 
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Navaid\Domain\Query\INavaidSearchByPositionQuery;
+use Navplan\Navaid\Persistence\Model\DbNavaidConverter;
 use Navplan\Navaid\Persistence\Model\DbTableNavaid;
 use Navplan\System\Db\Domain\Service\IDbService;
 
@@ -28,6 +29,6 @@ class DbNavaidSearchByPositionQuery implements INavaidSearchByPositionQuery
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching navaids by position");
 
-        return DbNavaidSearchQueryCommon::fromDbResult($result);
+        return DbNavaidConverter::fromDbResult($result);
     }
 }

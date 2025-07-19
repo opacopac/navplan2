@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Navaid\Persistence\Query;
+namespace Navplan\Navaid\Persistence\Model;
 
 use Navplan\Common\Domain\Model\Altitude;
 use Navplan\Common\Domain\Model\AltitudeReference;
@@ -10,11 +10,10 @@ use Navplan\Common\Domain\Model\FrequencyUnit;
 use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 use Navplan\Navaid\Domain\Model\Navaid;
 use Navplan\Navaid\Domain\Model\NavaidType;
-use Navplan\Navaid\Persistence\Model\DbTableNavaid;
 use Navplan\System\Db\Domain\Model\IDbResult;
 
 
-class DbNavaidSearchQueryCommon {
+class DbNavaidConverter {
     public static function fromDbResult(IDbResult $result): array {
         $navaids = [];
         while ($row = $result->fetch_assoc()) {
