@@ -3,7 +3,7 @@
 namespace Navplan\Track\Persistence\Query;
 
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\Track\Domain\Query\ITrackListQuery;
 use Navplan\Track\Persistence\Model\DbTableTrack;
 use Navplan\Track\Persistence\Model\DbTrackConverter;
@@ -12,7 +12,7 @@ use Navplan\Track\Persistence\Model\DbTrackConverter;
 class DbTrackListQuery implements ITrackListQuery
 {
     public function __construct(
-        private IDbService $dbService
+        private readonly IDbService $dbService
     )
     {
     }
@@ -20,9 +20,12 @@ class DbTrackListQuery implements ITrackListQuery
 
     public function readList(int $userId): array
     {
-        $query = "SELECT * FROM " . DbTableTrack::TABLE_NAME;
-        $query .= " WHERE " . DbTableTrack::COL_ID_USER . "=" . DbHelper::getDbIntValue($userId);
-        $query .= " ORDER BY " . DbTableTrack::COL_TIMESTAMP . " DESC";
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DBTableTrack::TABLE_NAME)
+            ->whereEquals(DbTableTrack::COL_ID_USER, $userId)
+            ->orderBy(DBTableTrack::COL_TIMESTAMP, DbSortOrder::DESC)
+            ->build();
+
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading track list");
 

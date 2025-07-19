@@ -3,7 +3,7 @@
 namespace Navplan\Track\Persistence\Query;
 
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\Track\Domain\Model\Track;
 use Navplan\Track\Domain\Query\ITrackByIdQuery;
 use Navplan\Track\Persistence\Model\DbTableTrack;
@@ -13,7 +13,7 @@ use Navplan\Track\Persistence\Model\DbTrackConverter;
 class DbTrackByIdQuery implements ITrackByIdQuery
 {
     public function __construct(
-        private IDbService $dbService
+        private readonly IDbService $dbService
     )
     {
     }
@@ -21,9 +21,13 @@ class DbTrackByIdQuery implements ITrackByIdQuery
 
     public function read(int $trackId, int $userId): ?Track
     {
-        $query = "SELECT * FROM " . DbTableTrack::TABLE_NAME;
-        $query .= " WHERE " . DbTableTrack::COL_ID . "=" . DbHelper::getDbIntValue($trackId);
-        $query .= " AND " . DbTableTrack::COL_ID_USER . "=" . DbHelper::getDbIntValue($userId);
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DBTableTrack::TABLE_NAME)
+            ->whereAll(
+                DbCondSimple::equals(DbTableTrack::COL_ID, $trackId),
+                DbCondSimple::equals(DbTableTrack::COL_ID_USER, $userId)
+            )
+            ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading track");
 
