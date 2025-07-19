@@ -12,6 +12,10 @@ interface IDbCaseBuilder
 
     function whenEquals(string $colName, string|int|float|bool|null $value, string $thenValue): MySqlDbCaseBuilder;
 
+    function whenAll(array $conditions, string $thenValue): MySqlDbCaseBuilder;
+
+    function whenAny(array $conditions, string $thenValue): MySqlDbCaseBuilder;
+
     function else(string $elseValue): MySqlDbCaseBuilder;
 
     function build(): string;

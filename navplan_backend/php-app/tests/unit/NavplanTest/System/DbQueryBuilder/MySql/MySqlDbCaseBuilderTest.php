@@ -65,4 +65,21 @@ class MySqlDbCaseBuilderTest extends TestCase
         // then
         $this->assertEquals("CASE WHEN col1 = 'value1' THEN then_value1 END", $query);
     }
+
+
+    public function test_case_when_all()
+    {
+        // given
+        $cb = MySqlDbCaseBuilder::create($this->mockDbService)
+            ->whenAll([
+                DbCondSimple::create("col1", DbCondOp::EQ, "value1"),
+                DbCondSimple::create("col2", DbCondOp::EQ, "value2")
+            ], "then_value");
+
+        // when
+        $query = $cb->build();
+
+        // then
+        $this->assertEquals("CASE WHEN col1 = 'value1' AND col2 = 'value2' THEN then_value END", $query);
+    }
 }

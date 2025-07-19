@@ -5,6 +5,8 @@ namespace Navplan\System\DbQueryBuilder\MySql;
 use InvalidArgumentException;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbCaseBuilder;
@@ -42,10 +44,33 @@ class MySqlDbCaseBuilder implements IDbCaseBuilder
     }
 
 
-
     public function whenEquals(string $colName, float|bool|int|string|null $value, string $thenValue): MySqlDbCaseBuilder
     {
         $cond = DbCondSimple::create($colName, DbCondOp::EQ, $value);
+
+        return $this->when($cond, $thenValue);
+    }
+
+
+    public function whenAll(array $conditions, string $thenValue): MySqlDbCaseBuilder
+    {
+        if (count($conditions) === 0) {
+            throw new InvalidArgumentException("At least one condition must be provided for the whenAll method.");
+        }
+
+        $cond = DbCondMulti::create(DbCondCombinator::AND, ...$conditions);
+
+        return $this->when($cond, $thenValue);
+    }
+
+
+    public function whenAny(array $conditions, string $thenValue): MySqlDbCaseBuilder
+    {
+        if (count($conditions) === 0) {
+            throw new InvalidArgumentException("At least one condition must be provided for the whenAny method.");
+        }
+
+        $cond = DbCondMulti::create(DbCondCombinator::OR, ...$conditions);
 
         return $this->when($cond, $thenValue);
     }
