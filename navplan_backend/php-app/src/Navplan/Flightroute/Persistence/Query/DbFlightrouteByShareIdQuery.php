@@ -7,20 +7,24 @@ use Navplan\Flightroute\Domain\Query\IFlightrouteByShareIdQuery;
 use Navplan\Flightroute\Domain\Query\IWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
 
 
-class DbFlightrouteByShareIdQuery implements IFlightrouteByShareIdQuery {
+class DbFlightrouteByShareIdQuery implements IFlightrouteByShareIdQuery
+{
     public function __construct(
-        private IDbService $dbService,
-        private IWaypointsByFlightrouteQuery $waypointsByFlightrouteQuery
-    ) {
+        private readonly IDbService $dbService,
+        private readonly IWaypointsByFlightrouteQuery $waypointsByFlightrouteQuery
+    )
+    {
     }
 
 
-    public function readByShareId(string $shareId): ?Flightroute {
-        $query = "SELECT * FROM " . DbTableFlightroute::TABLE_NAME;
-        $query .= " WHERE share_id=" . DbHelper::getDbStringValue($this->dbService, $shareId);
+    public function readByShareId(string $shareId): ?Flightroute
+    {
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableFlightroute::TABLE_NAME)
+            ->whereEquals(DbTableFlightroute::COL_SHARE_ID, $shareId)
+            ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading shared flightroute");
 

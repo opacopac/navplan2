@@ -7,14 +7,14 @@ use Navplan\Flightroute\Domain\Query\IFlightrouteByIdQuery;
 use Navplan\Flightroute\Domain\Query\IWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 
 class DbFlightrouteByIdQuery implements IFlightrouteByIdQuery
 {
     public function __construct(
-        private IDbService $dbService,
-        private IWaypointsByFlightrouteQuery $waypointsByFlightrouteQuery
+        private readonly IDbService $dbService,
+        private readonly IWaypointsByFlightrouteQuery $waypointsByFlightrouteQuery
     )
     {
     }
@@ -22,9 +22,13 @@ class DbFlightrouteByIdQuery implements IFlightrouteByIdQuery
 
     public function read(int $flightrouteId, int $userId): ?Flightroute
     {
-        $query = "SELECT * FROM " . DbTableFlightroute::TABLE_NAME;
-        $query .= " WHERE " . DbTableFlightroute::COL_ID . "=" . DbHelper::getDbIntValue($flightrouteId);
-        $query .= " AND " . DbTableFlightroute::COL_ID_USER . "=" . DbHelper::getDbIntValue($userId);
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableFlightroute::TABLE_NAME)
+            ->whereAll(
+                DBCondSimple::equals(DbTableFlightroute::COL_ID, $flightrouteId),
+                DBCondSimple::equals(DbTableFlightroute::COL_ID_USER, $userId)
+            )
+            ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading flightroute");
 

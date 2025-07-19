@@ -6,23 +6,28 @@ use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Query\IWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightrouteWaypoints;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
 
-class DbWaypointsByFlightrouteQuery implements IWaypointsByFlightrouteQuery {
+class DbWaypointsByFlightrouteQuery implements IWaypointsByFlightrouteQuery
+{
     public function __construct(
-        private IDbService $dbService
-    ) {
+        private readonly IDbService $dbService
+    )
+    {
     }
 
 
-    public function readWaypointForFlightroute(?Flightroute $flightroute) {
+    public function readWaypointForFlightroute(?Flightroute $flightroute)
+    {
         if ($flightroute === null) {
             return;
         }
-
-        $query = "SELECT * FROM " . DbTableFlightrouteWaypoints::TABLE_NAME;
-        $query .= " WHERE " . DbTableFlightrouteWaypoints::COL_ID_FLIGHTROUTE . "=" . $flightroute->id;
-        $query .= " ORDER BY " . DbTableFlightrouteWaypoints::COL_SORTORDER . " ASC";
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableFlightrouteWaypoints::TABLE_NAME)
+            ->whereEquals(DbTableFlightrouteWaypoints::COL_ID_FLIGHTROUTE, $flightroute->id)
+            ->orderBy(DbTableFlightrouteWaypoints::COL_SORTORDER, DbSortOrder::ASC)
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading flightroute waypoints");
 

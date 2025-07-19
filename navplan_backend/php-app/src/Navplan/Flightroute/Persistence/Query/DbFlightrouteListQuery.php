@@ -5,7 +5,7 @@ namespace Navplan\Flightroute\Persistence\Query;
 use Navplan\Flightroute\Domain\Query\IFlightrouteListQuery;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
 
 class DbFlightrouteListQuery implements IFlightrouteListQuery
@@ -19,9 +19,11 @@ class DbFlightrouteListQuery implements IFlightrouteListQuery
 
     public function readList(int $userId): array
     {
-        $query = "SELECT * FROM " . DbTableFlightroute::TABLE_NAME;
-        $query .= " WHERE " . DbTableFlightroute::COL_ID_USER . "=" . DbHelper::getDbIntValue($userId);
-        $query .= " ORDER BY " . DbTableFlightroute::COL_TITLE . " ASC";
+        $query = $this->dbService->getQueryBuilder()
+            ->selectAllFrom(DbTableFlightroute::TABLE_NAME)
+            ->whereEquals(DbTableFlightroute::COL_ID_USER, $userId)
+            ->orderBy(DbTableFlightroute::COL_TITLE, DbSortOrder::ASC)
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading flightroute list");
 
