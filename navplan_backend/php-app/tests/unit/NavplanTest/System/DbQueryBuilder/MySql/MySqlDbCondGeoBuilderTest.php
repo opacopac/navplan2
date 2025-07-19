@@ -3,16 +3,16 @@
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereGeo;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpGeo;
-use Navplan\System\DbQueryBuilder\MySql\MySqlDbWhereClauseGeoBuilder;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
+use Navplan\System\DbQueryBuilder\MySql\MySqlDbCondGeoBuilder;
 use NavplanTest\System\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
 
 
-class MySqlDbWhereClauseGeoBuilderTest extends TestCase
+class MySqlDbCondGeoBuilderTest extends TestCase
 {
-    private MySqlDbWhereClauseGeoBuilder $whereClauseBuilder;
+    private MySqlDbCondGeoBuilder $whereClauseBuilder;
 
 
     protected function setUp(): void
@@ -20,7 +20,7 @@ class MySqlDbWhereClauseGeoBuilderTest extends TestCase
         parent::setUp();
 
         $mockDbService = new MockDbService();
-        $this->whereClauseBuilder = MySqlDbWhereClauseGeoBuilder::create($mockDbService);
+        $this->whereClauseBuilder = MySqlDbCondGeoBuilder::create($mockDbService);
     }
 
 
@@ -28,8 +28,8 @@ class MySqlDbWhereClauseGeoBuilderTest extends TestCase
     {
         // given
         $pos = new Position2d(7.5, 47.5);
-        $clause = DbWhereGeo::create("col1", DbWhereOpGeo::INTERSECTS_ST, $pos);
-        $wcb = $this->whereClauseBuilder->clause($clause);
+        $clause = DbCondGeo::create("col1", DbCondOpGeo::INTERSECTS_ST, $pos);
+        $wcb = $this->whereClauseBuilder->condition($clause);
 
         // when
         $query = $wcb->build();
@@ -42,8 +42,8 @@ class MySqlDbWhereClauseGeoBuilderTest extends TestCase
     {
         // given
         $dbPoint = new Position2d(7.5, 47.5);
-        $clause = DbWhereGeo::create("col1", DbWhereOpGeo::INTERSECTS_MBR, $dbPoint);
-        $wcb = $this->whereClauseBuilder->clause($clause);
+        $clause = DbCondGeo::create("col1", DbCondOpGeo::INTERSECTS_MBR, $dbPoint);
+        $wcb = $this->whereClauseBuilder->condition($clause);
 
         // when
         $query = $wcb->build();

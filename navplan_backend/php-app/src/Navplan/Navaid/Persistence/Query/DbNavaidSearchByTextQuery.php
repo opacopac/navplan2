@@ -6,9 +6,9 @@ use Navplan\Navaid\Domain\Query\INavaidSearchByTextQuery;
 use Navplan\Navaid\Persistence\Model\DbNavaidConverter;
 use Navplan\Navaid\Persistence\Model\DbTableNavaid;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpTxt;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereText;
 
 
 class DbNavaidSearchByTextQuery implements INavaidSearchByTextQuery
@@ -25,8 +25,8 @@ class DbNavaidSearchByTextQuery implements INavaidSearchByTextQuery
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableNavaid::TABLE_NAME)
             ->whereAny(
-                DbWhereText::create(DbTableNavaid::COL_KUERZEL, DbWhereOpTxt::LIKE_PREFIX, $searchText),
-                DbWhereText::create(DbTableNavaid::COL_NAME, DbWhereOpTxt::LIKE_PREFIX, $searchText)
+                DbCondText::create(DbTableNavaid::COL_KUERZEL, DbCondOpTxt::LIKE_PREFIX, $searchText),
+                DbCondText::create(DbTableNavaid::COL_NAME, DbCondOpTxt::LIKE_PREFIX, $searchText)
             )
             ->orderBy(
                 "CASE WHEN " . DbTableNavaid::COL_COUNTRY . " = 'CH' THEN 1 ELSE 2 END", // TODO: query builder

@@ -7,7 +7,7 @@ use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
 
 
 class DbAerodromeReportingByExtentQuery implements IAerodromeReportingByExtentQuery
@@ -23,7 +23,7 @@ class DbAerodromeReportingByExtentQuery implements IAerodromeReportingByExtentQu
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableReportingPoints::TABLE_NAME)
-            ->whereGeo(DbTableReportingPoints::COL_EXTENT, DbWhereOpGeo::INTERSECTS_MBR, $extent)
+            ->whereGeo(DbTableReportingPoints::COL_EXTENT, DbCondOpGeo::INTERSECTS_MBR, $extent)
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading reporting points by extent");

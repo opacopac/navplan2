@@ -3,7 +3,7 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Model;
 
 
-class DbWhereIn extends DbWhere
+class DbCondIn extends DbCond
 {
     /**
      * @param string $colName
@@ -22,10 +22,10 @@ class DbWhereIn extends DbWhere
      *
      * @param string $colName
      * @param string[]|int[]|float[]|bool[] $values
-     * @return DbWhereIn
+     * @return DbCondIn
      */
-    public static function create(string $colName, array $values): DbWhereIn
+    public static function create(string $colName, array $values): DbCondIn
     {
-        return new DbWhereIn($colName, $values);
+        return new DbCondIn($colName, $values);
     }
 }

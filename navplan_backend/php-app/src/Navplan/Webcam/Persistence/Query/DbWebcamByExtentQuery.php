@@ -4,8 +4,8 @@ namespace Navplan\Webcam\Persistence\Query;
 
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereSimple;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\Webcam\Domain\Query\IWebcamByExtentQuery;
 use Navplan\Webcam\Persistence\Model\DbTableWebcam;
 use Navplan\Webcam\Persistence\Model\DbWebcamConverter;
@@ -25,11 +25,11 @@ class DbWebcamByExtentQuery implements IWebcamByExtentQuery
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableWebcam::TABLE_NAME)
             ->whereAll(
-                DbWhereSimple::create(DbTableWebcam::COL_AD_ICAO, DbWhereOp::EQ, NULL),
-                DbWhereSimple::create(DbTableWebcam::COL_LON, DbWhereOp::GT_OR_E, $extent->minPos->longitude),
-                DbWhereSimple::create(DbTableWebcam::COL_LON, DbWhereOp::LT_OR_E, $extent->maxPos->longitude),
-                DbWhereSimple::create(DbTableWebcam::COL_LAT, DbWhereOp::GT_OR_E, $extent->minPos->latitude),
-                DbWhereSimple::create(DbTableWebcam::COL_LAT, DbWhereOp::LT_OR_E, $extent->maxPos->latitude)
+                DbCondSimple::create(DbTableWebcam::COL_AD_ICAO, DbCondOp::EQ, NULL),
+                DbCondSimple::create(DbTableWebcam::COL_LON, DbCondOp::GT_OR_E, $extent->minPos->longitude),
+                DbCondSimple::create(DbTableWebcam::COL_LON, DbCondOp::LT_OR_E, $extent->maxPos->longitude),
+                DbCondSimple::create(DbTableWebcam::COL_LAT, DbCondOp::GT_OR_E, $extent->minPos->latitude),
+                DbCondSimple::create(DbTableWebcam::COL_LAT, DbCondOp::LT_OR_E, $extent->maxPos->latitude)
             )
             ->build();
 

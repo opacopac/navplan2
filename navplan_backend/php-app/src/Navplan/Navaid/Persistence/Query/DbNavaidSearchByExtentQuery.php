@@ -7,10 +7,10 @@ use Navplan\Navaid\Domain\Query\INavaidSearchByExtentQuery;
 use Navplan\Navaid\Persistence\Model\DbNavaidConverter;
 use Navplan\Navaid\Persistence\Model\DbTableNavaid;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereGeo;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpGeo;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereSimple;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 
 class DbNavaidSearchByExtentQuery implements INavaidSearchByExtentQuery
@@ -27,8 +27,8 @@ class DbNavaidSearchByExtentQuery implements INavaidSearchByExtentQuery
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableNavaid::TABLE_NAME)
             ->whereAll(
-                DbWhereGeo::create(DbTableNavaid::COL_LONLAT, DbWhereOpGeo::INTERSECTS_ST, $extent),
-                DbWhereSimple::create(DbTableNavaid::COL_ZOOMMIN, DbWhereOp::LT_OR_E, $zoom),
+                DbCondGeo::create(DbTableNavaid::COL_LONLAT, DbCondOpGeo::INTERSECTS_ST, $extent),
+                DbCondSimple::create(DbTableNavaid::COL_ZOOMMIN, DbCondOp::LT_OR_E, $zoom),
             )
             ->build();
 

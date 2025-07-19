@@ -7,9 +7,9 @@ use Navplan\Aerodrome\Domain\Query\IAirportByTextQuery;
 use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpTxt;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereText;
 
 
 class DbAirportByTextQuery implements IAirportByTextQuery
@@ -31,8 +31,8 @@ class DbAirportByTextQuery implements IAirportByTextQuery
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAirport::TABLE_NAME)
             ->whereAny(
-                DbWhereText::create(DbTableAirport::COL_ICAO, DbWhereOpTxt::LIKE_PREFIX, $searchText),
-                DbWhereText::create(DbTableAirport::COL_NAME, DbWhereOpTxt::LIKE_PREFIX, $searchText)
+                DbCondText::create(DbTableAirport::COL_ICAO, DbCondOpTxt::LIKE_PREFIX, $searchText),
+                DbCondText::create(DbTableAirport::COL_NAME, DbCondOpTxt::LIKE_PREFIX, $searchText)
             )
             ->limit($maxResults)
             // TODO: query builder

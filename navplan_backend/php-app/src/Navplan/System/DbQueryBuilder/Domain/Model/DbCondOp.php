@@ -3,7 +3,7 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Model;
 
 
-enum DbWhereOp
+enum DbCondOp
 {
     case EQ;
     case NE;

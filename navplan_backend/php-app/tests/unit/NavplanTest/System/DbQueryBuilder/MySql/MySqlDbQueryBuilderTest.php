@@ -3,11 +3,11 @@
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereCombinator;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereMulti;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereSimple;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbQueryBuilder;
 use NavplanTest\System\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
@@ -92,9 +92,9 @@ class MySqlDbQueryBuilderTest extends TestCase
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
             ->whereAll(
-                DbWhereSimple::create("col1", DbWhereOp::EQ, true),
-                DbWhereSimple::create("col2", DbWhereOp::GT, 456),
-                DbWhereSimple::create("col3", DbWhereOp::LT_OR_E, 789),
+                DbCondSimple::create("col1", DbCondOp::EQ, true),
+                DbCondSimple::create("col2", DbCondOp::GT, 456),
+                DbCondSimple::create("col3", DbCondOp::LT_OR_E, 789),
             );
 
         // when
@@ -111,9 +111,9 @@ class MySqlDbQueryBuilderTest extends TestCase
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
             ->whereAny(
-                DbWhereSimple::create("col1", DbWhereOp::NE, 123),
-                DbWhereSimple::create("col2", DbWhereOp::LT, 456),
-                DbWhereSimple::create("col3", DbWhereOp::GT_OR_E, 789),
+                DbCondSimple::create("col1", DbCondOp::NE, 123),
+                DbCondSimple::create("col2", DbCondOp::LT, 456),
+                DbCondSimple::create("col3", DbCondOp::GT_OR_E, 789),
             );
 
         // when
@@ -129,13 +129,13 @@ class MySqlDbQueryBuilderTest extends TestCase
         // given
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->whereClause(
-                DbWhereMulti::create(DbWhereCombinator::AND,
-                    DbWhereMulti::create(DbWhereCombinator::OR,
-                        DbWhereSimple::create("col1", DbWhereOp::EQ, "value1"),
-                        DbWhereSimple::create("col2", DbWhereOp::EQ, 456)
+            ->whereCondition(
+                DbCondMulti::create(DbCondCombinator::AND,
+                    DbCondMulti::create(DbCondCombinator::OR,
+                        DbCondSimple::create("col1", DbCondOp::EQ, "value1"),
+                        DbCondSimple::create("col2", DbCondOp::EQ, 456)
                     ),
-                    DbWhereSimple::create("col3", DbWhereOp::NE, null)
+                    DbCondSimple::create("col3", DbCondOp::NE, null)
                 )
             );
 

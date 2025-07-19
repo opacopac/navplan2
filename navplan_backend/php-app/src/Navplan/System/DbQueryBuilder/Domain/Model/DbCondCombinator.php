@@ -3,9 +3,8 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Model;
 
 
-enum DbWhereOpTxt
+enum DbCondCombinator
 {
-    case LIKE_PREFIX;
-    case LIKE_SUFFIX;
-    case LIKE_SUBSTR;
+    case AND;
+    case OR;
 }

@@ -8,16 +8,16 @@ use Navplan\Common\Domain\Model\Line2d;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhere;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereCombinator;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereGeo;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereMulti;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpGeo;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOpTxt;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereSimple;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereText;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
 
 
@@ -25,7 +25,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 {
     private string $select;
 
-    private ?DbWhere $where = null;
+    private ?DbCond $where = null;
 
     /** @var string[] $orderList */
     private array $orderList = [];
@@ -65,71 +65,71 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function whereClause(DbWhere $clause): IDbQueryBuilder
+    public function whereCondition(DbCond $cond): IDbQueryBuilder
     {
-        $this->where = $clause;
+        $this->where = $cond;
 
         return $this;
     }
 
 
-    public function where(string $colName, DbWhereOp $op, string|int|float|bool|null $value): IDbQueryBuilder
+    public function where(string $colName, DbCondOp $op, string|int|float|bool|null $value): IDbQueryBuilder
     {
-        return $this->whereClause(
-            DbWhereSimple::create($colName, $op, $value),
+        return $this->whereCondition(
+            DbCondSimple::create($colName, $op, $value),
         );
     }
 
 
     public function whereEquals(string $colName, string|int|float|bool|null $value): IDbQueryBuilder
     {
-        return $this->where($colName, DbWhereOp::EQ, $value);
+        return $this->where($colName, DbCondOp::EQ, $value);
     }
 
 
-    public function whereText(string $colName, DbWhereOpTxt $op, string $value): IDbQueryBuilder
+    public function whereText(string $colName, DbCondOpTxt $op, string $value): IDbQueryBuilder
     {
-        return $this->whereClause(
-            DbWhereText::create($colName, $op, $value)
+        return $this->whereCondition(
+            DbCondText::create($colName, $op, $value)
         );
     }
 
 
     public function wherePrefixLike(string $colName, string $value): IDbQueryBuilder
     {
-        return $this->whereText($colName, DbWhereOpTxt::LIKE_PREFIX, $value);
+        return $this->whereText($colName, DbCondOpTxt::LIKE_PREFIX, $value);
     }
 
 
-    public function whereGeo(string $colName, DbWhereOpGeo $op, Position2d|Extent2d|Line2d|Ring2d $value): IDbQueryBuilder
+    public function whereGeo(string $colName, DbCondOpGeo $op, Position2d|Extent2d|Line2d|Ring2d $value): IDbQueryBuilder
     {
-        return $this->whereClause(
-            DbWhereGeo::create($colName, $op, $value)
+        return $this->whereCondition(
+            DbCondGeo::create($colName, $op, $value)
         );
     }
 
 
-    public function whereAll(DbWhere ...$clauses): IDbQueryBuilder
+    public function whereAll(DbCond ...$conditions): IDbQueryBuilder
     {
-        if (count($clauses) === 0) {
-            throw new InvalidArgumentException("At least one where clause is required");
+        if (count($conditions) === 0) {
+            throw new InvalidArgumentException("At least one where condition is required");
         }
 
-        $multiClause = DbWhereMulti::create(DbWhereCombinator::AND, ...$clauses);
-        $this->whereClause($multiClause);
+        $multiCond = DbCondMulti::create(DbCondCombinator::AND, ...$conditions);
+        $this->whereCondition($multiCond);
 
         return $this;
     }
 
 
-    public function whereAny(DbWhere ...$clauses): IDbQueryBuilder
+    public function whereAny(DbCond ...$conditions): IDbQueryBuilder
     {
-        if (count($clauses) === 0) {
-            throw new InvalidArgumentException("At least one where clause is required");
+        if (count($conditions) === 0) {
+            throw new InvalidArgumentException("At least one where condition is required");
         }
 
-        $multiClause = DbWhereMulti::create(DbWhereCombinator::OR, ...$clauses);
-        $this->whereClause($multiClause);
+        $multiCond = DbCondMulti::create(DbCondCombinator::OR, ...$conditions);
+        $this->whereCondition($multiCond);
 
         return $this;
     }
@@ -138,10 +138,10 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     public function whereInMaxDist(string $latColName, string $lonColName, Position2d $pos, float $maxDistDeg): IDbQueryBuilder
     {
         $this->whereAll(
-            DbWhereSimple::create($latColName, DbWhereOp::GT, $pos->latitude - $maxDistDeg),
-            DbWhereSimple::create($latColName, DbWhereOp::LT, $pos->latitude + $maxDistDeg),
-            DbWhereSimple::create($lonColName, DbWhereOp::GT, $pos->longitude - $maxDistDeg),
-            DbWhereSimple::create($lonColName, DbWhereOp::LT, $pos->longitude + $maxDistDeg)
+            DbCondSimple::create($latColName, DbCondOp::GT, $pos->latitude - $maxDistDeg),
+            DbCondSimple::create($latColName, DbCondOp::LT, $pos->latitude + $maxDistDeg),
+            DbCondSimple::create($lonColName, DbCondOp::GT, $pos->longitude - $maxDistDeg),
+            DbCondSimple::create($lonColName, DbCondOp::LT, $pos->longitude + $maxDistDeg)
         );
 
         return $this;
@@ -186,7 +186,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     {
         $selectStr = $this->buildSelectString();
         $whereStr = $this->where !== null
-            ? MySqlDbWhereClauseBuilder::create($this->dbService)->clause($this->where)->build()
+            ? MySqlDbCondBuilder::create($this->dbService)->condition($this->where)->build()
             : "";
         $orderByStr = $this->buildOrderByString();
         $limitStr = $this->buildLimitString();

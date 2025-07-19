@@ -2,16 +2,16 @@
 
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereOp;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereSimple;
-use Navplan\System\DbQueryBuilder\MySql\MySqlDbWhereClauseSimpleBuilder;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
+use Navplan\System\DbQueryBuilder\MySql\MySqlDbCondSimpleBuilder;
 use NavplanTest\System\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
 
 
-class MySqlDbWhereClauseSimpleBuilderTest extends TestCase
+class MySqlDbCondSimpleBuilderTest extends TestCase
 {
-    private MySqlDbWhereClauseSimpleBuilder $whereClauseBuilder;
+    private MySqlDbCondSimpleBuilder $whereClauseBuilder;
 
 
     protected function setUp(): void
@@ -19,15 +19,15 @@ class MySqlDbWhereClauseSimpleBuilderTest extends TestCase
         parent::setUp();
 
         $mockDbService = new MockDbService();
-        $this->whereClauseBuilder = MySqlDbWhereClauseSimpleBuilder::create($mockDbService);
+        $this->whereClauseBuilder = MySqlDbCondSimpleBuilder::create($mockDbService);
     }
 
 
     public function test_text()
     {
         // given
-        $clause = DbWhereSimple::create("col1", DbWhereOp::EQ, "value1");
-        $wcb = $this->whereClauseBuilder->clause($clause);
+        $clause = DbCondSimple::create("col1", DbCondOp::EQ, "value1");
+        $wcb = $this->whereClauseBuilder->condition($clause);
 
         // when
         $clauseStr = $wcb->build();
@@ -40,8 +40,8 @@ class MySqlDbWhereClauseSimpleBuilderTest extends TestCase
     public function test_int()
     {
         // given
-        $clause = DbWhereSimple::create("col1", DbWhereOp::EQ, 123);
-        $wcb = $this->whereClauseBuilder->clause($clause);
+        $clause = DbCondSimple::create("col1", DbCondOp::EQ, 123);
+        $wcb = $this->whereClauseBuilder->condition($clause);
 
         // when
         $query = $wcb->build();
@@ -54,8 +54,8 @@ class MySqlDbWhereClauseSimpleBuilderTest extends TestCase
     public function test_float()
     {
         // given
-        $clause = DbWhereSimple::create("col1", DbWhereOp::EQ, -123.456);
-        $wb = $this->whereClauseBuilder->clause($clause);
+        $clause = DbCondSimple::create("col1", DbCondOp::EQ, -123.456);
+        $wb = $this->whereClauseBuilder->condition($clause);
 
         // when
         $query = $wb->build();
@@ -68,8 +68,8 @@ class MySqlDbWhereClauseSimpleBuilderTest extends TestCase
     public function test_bool_true()
     {
         // given
-        $clause = DbWhereSimple::create("col1", DbWhereOp::EQ, true);
-        $wb = $this->whereClauseBuilder->clause($clause);
+        $clause = DbCondSimple::create("col1", DbCondOp::EQ, true);
+        $wb = $this->whereClauseBuilder->condition($clause);
 
         // when
         $query = $wb->build();
@@ -82,8 +82,8 @@ class MySqlDbWhereClauseSimpleBuilderTest extends TestCase
     public function test_bool_false()
     {
         // given
-        $clause = DbWhereSimple::create("col1", DbWhereOp::EQ, false);
-        $wb = $this->whereClauseBuilder->clause($clause);
+        $clause = DbCondSimple::create("col1", DbCondOp::EQ, false);
+        $wb = $this->whereClauseBuilder->condition($clause);
 
         // when
         $query = $wb->build();
@@ -96,8 +96,8 @@ class MySqlDbWhereClauseSimpleBuilderTest extends TestCase
     public function test_null()
     {
         // given
-        $clause = DbWhereSimple::create("col1", DbWhereOp::EQ, null);
-        $wb = $this->whereClauseBuilder->clause($clause);
+        $clause = DbCondSimple::create("col1", DbCondOp::EQ, null);
+        $wb = $this->whereClauseBuilder->condition($clause);
 
         // when
         $query = $wb->build();
@@ -110,8 +110,8 @@ class MySqlDbWhereClauseSimpleBuilderTest extends TestCase
     public function test_not_null()
     {
         // given
-        $clause = DbWhereSimple::create("col1", DbWhereOp::NE, null);
-        $wb = $this->whereClauseBuilder->clause($clause);
+        $clause = DbCondSimple::create("col1", DbCondOp::NE, null);
+        $wb = $this->whereClauseBuilder->condition($clause);
 
         // when
         $query = $wb->build();

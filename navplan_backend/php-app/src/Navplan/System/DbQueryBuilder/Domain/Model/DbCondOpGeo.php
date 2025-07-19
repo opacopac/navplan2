@@ -3,6 +3,8 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Model;
 
 
-abstract class DbWhere
+enum DbCondOpGeo
 {
+    case INTERSECTS_ST;
+    case INTERSECTS_MBR;
 }

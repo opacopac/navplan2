@@ -7,11 +7,11 @@ use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Line2d;
 use Navplan\Common\Domain\Model\Position2d;
 
-class DbWhereGeo extends DbWhere
+class DbCondGeo extends DbCond
 {
     private function __construct(
         public readonly string $colName,
-        public readonly DbWhereOpGeo $operator,
+        public readonly DbCondOpGeo $operator,
         public readonly Position2d|Extent2d|Line2d $value
     )
     {
@@ -20,10 +20,10 @@ class DbWhereGeo extends DbWhere
 
     public static function create(
         string $colName,
-        DbWhereOpGeo $operator,
+        DbCondOpGeo $operator,
         Position2d|Extent2d|Line2d $value
-    ): DbWhereGeo
+    ): DbCondGeo
     {
-        return new DbWhereGeo($colName, $operator, $value);
+        return new DbCondGeo($colName, $operator, $value);
     }
 }
