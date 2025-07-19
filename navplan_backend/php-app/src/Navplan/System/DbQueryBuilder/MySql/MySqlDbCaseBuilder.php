@@ -54,10 +54,6 @@ class MySqlDbCaseBuilder implements IDbCaseBuilder
 
     public function whenAll(array $conditions, string $thenValue): MySqlDbCaseBuilder
     {
-        if (count($conditions) === 0) {
-            throw new InvalidArgumentException("At least one condition must be provided for the whenAll method.");
-        }
-
         $cond = DbCondMulti::create(DbCondCombinator::AND, ...$conditions);
 
         return $this->when($cond, $thenValue);
@@ -66,10 +62,6 @@ class MySqlDbCaseBuilder implements IDbCaseBuilder
 
     public function whenAny(array $conditions, string $thenValue): MySqlDbCaseBuilder
     {
-        if (count($conditions) === 0) {
-            throw new InvalidArgumentException("At least one condition must be provided for the whenAny method.");
-        }
-
         $cond = DbCondMulti::create(DbCondCombinator::OR, ...$conditions);
 
         return $this->when($cond, $thenValue);

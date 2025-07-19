@@ -111,10 +111,6 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
     public function whereAll(DbCond ...$conditions): IDbQueryBuilder
     {
-        if (count($conditions) === 0) {
-            throw new InvalidArgumentException("At least one where condition is required");
-        }
-
         $multiCond = DbCondMulti::create(DbCondCombinator::AND, ...$conditions);
         $this->whereCondition($multiCond);
 
@@ -124,10 +120,6 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
     public function whereAny(DbCond ...$conditions): IDbQueryBuilder
     {
-        if (count($conditions) === 0) {
-            throw new InvalidArgumentException("At least one where condition is required");
-        }
-
         $multiCond = DbCondMulti::create(DbCondCombinator::OR, ...$conditions);
         $this->whereCondition($multiCond);
 

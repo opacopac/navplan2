@@ -35,7 +35,7 @@ class MySqlDbCondMultiBuilder implements IDbCondMultiBuilder
     {
         $clauseStrs = array_map(function ($subClause) {
             return MySqlDbCondBuilder::create($this->dbService)->condition($subClause)->build();
-        }, $this->cond->clauses);
+        }, $this->cond->conditions);
 
         $combinatorStr = match ($this->cond->combinator) {
             DbCondCombinator::AND => "AND",

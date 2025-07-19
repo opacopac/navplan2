@@ -3,15 +3,17 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Model;
 
 
+use InvalidArgumentException;
+
 class DbCondMulti extends DbCond
 {
     /**
      * @param DbCondCombinator $combinator
-     * @param DbCond[] $clauses
+     * @param DbCond[] $conditions
      */
     private function __construct(
         public readonly DbCondCombinator $combinator,
-        public readonly array $clauses
+        public readonly array $conditions
     )
     {
     }
@@ -19,11 +21,15 @@ class DbCondMulti extends DbCond
 
     /**
      * @param DbCondCombinator $combinator
-     * @param DbCond ...$clauses
+     * @param DbCond ...$conditions
      * @return DbCondMulti
      */
-    public static function create(DbCondCombinator $combinator, DbCond ...$clauses): DbCondMulti
+    public static function create(DbCondCombinator $combinator, DbCond ...$conditions): DbCondMulti
     {
-        return new DbCondMulti($combinator, $clauses);
+        if (count($conditions) === 0) {
+            throw new InvalidArgumentException("At least one where condition is required");
+        }
+
+        return new DbCondMulti($combinator, $conditions);
     }
 }
