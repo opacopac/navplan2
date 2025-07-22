@@ -24,16 +24,19 @@ class DbNavaidConverter {
 
 
     public static function fromDbRow(array $row): Navaid {
+        $r = new DbRowNavaid($row);
+        $freqType = $r->getType() === "NDB" ? FrequencyUnit::KHZ : FrequencyUnit::MHZ;
+
         return new Navaid(
-            intval($row[DbTableNavaid::COL_ID]),
-            NavaidType::from($row[DbTableNavaid::COL_TYPE]),
-            $row[DbTableNavaid::COL_KUERZEL],
-            $row[DbTableNavaid::COL_NAME],
-            DbPosition2dConverter::fromDbRow($row),
-            new Altitude(floatval($row[DbTableNavaid::COL_ELEVATION]), AltitudeUnit::M, AltitudeReference::MSL),
-            new Frequency(floatval($row[DbTableNavaid::COL_FREQUENCY]), $row[DbTableNavaid::COL_TYPE] === "NDB" ? FrequencyUnit::KHZ : FrequencyUnit::MHZ),
-            floatval($row[DbTableNavaid::COL_DECLINATION]),
-            boolval($row[DbTableNavaid::COL_TRUENORTH])
+            $r->getId(),
+            NavaidType::from($r->getType()),
+            $r->getKuerzel(),
+            $r->getName(),
+            $r->getPosition(),
+            Altitude::fromMtAmsl($r->getElevation()),
+            new Frequency(floatval($r->getFrequency()), $freqType),
+            $r->getDeclination(),
+            $r->isTrueNorth()
         );
     }
 }

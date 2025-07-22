@@ -18,13 +18,13 @@ class DbReportingPointConverter
     {
         $reportingPoints = [];
         while ($row = $result->fetch_assoc()) {
-            $reportingPoints[] = self::fromDbRow2($row);
+            $reportingPoints[] = self::fromDbRow($row);
         }
         return $reportingPoints;
     }
 
 
-    public static function fromDbRow2(array $row): ReportingPoint
+    public static function fromDbRow(array $row): ReportingPoint
     {
         $r = new DbRowReportingPoints($row);
 
