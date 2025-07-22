@@ -24,8 +24,9 @@ class DbNavaidSearchByExtentQuery implements INavaidSearchByExtentQuery
 
     public function searchByExtent(Extent2d $extent, int $zoom): array
     {
+        $t = new DbTableNavaid();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableNavaid::TABLE_NAME)
+            ->selectAllFrom($t)
             ->whereAll(
                 DbCondGeo::create(DbTableNavaid::COL_LONLAT, DbCondOpGeo::INTERSECTS_ST, $extent),
                 DbCondSimple::create(DbTableNavaid::COL_ZOOMMIN, DbCondOp::LT_OR_E, $zoom),

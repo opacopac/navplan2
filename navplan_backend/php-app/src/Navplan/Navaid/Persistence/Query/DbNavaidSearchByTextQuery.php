@@ -23,8 +23,9 @@ class DbNavaidSearchByTextQuery implements INavaidSearchByTextQuery
 
     public function searchByText(string $searchText, int $maxResults): array
     {
+        $t = new DbTableNavaid();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableNavaid::TABLE_NAME)
+            ->selectAllFrom($t)
             ->whereAny(
                 DbCondText::create(DbTableNavaid::COL_KUERZEL, DbCondOpTxt::LIKE_PREFIX, $searchText),
                 DbCondText::create(DbTableNavaid::COL_NAME, DbCondOpTxt::LIKE_PREFIX, $searchText)
@@ -35,7 +36,7 @@ class DbNavaidSearchByTextQuery implements INavaidSearchByTextQuery
                 ->build(),
                 DbSortOrder::ASC
             )
-            ->orderBy(DbTableNavaid::COL_KUERZEL, DbSortOrder::ASC)
+            ->orderBy($t->colKuerzel(), DbSortOrder::ASC)
             ->limit($maxResults)
             ->build();
 
