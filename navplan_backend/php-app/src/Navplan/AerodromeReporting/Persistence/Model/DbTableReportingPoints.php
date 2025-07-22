@@ -48,79 +48,79 @@ class DbTableReportingPoints extends DbTable
     }
 
 
-    public function getColId(): DbCol
+    public function colId(): DbCol
     {
         return self::getCol(self::COL_ID);
     }
 
 
-    public function getColType(): DbCol
+    public function colType(): DbCol
     {
         return self::getCol(self::COL_TYPE);
     }
 
 
-    public function getColAdIcao(): DbCol
+    public function colAdIcao(): DbCol
     {
         return self::getCol(self::COL_AD_ICAO);
     }
 
 
-    public function getColName(): DbCol
+    public function colName(): DbCol
     {
         return self::getCol(self::COL_NAME);
     }
 
 
-    public function getColHeli(): DbCol
+    public function colHeli(): DbCol
     {
         return self::getCol(self::COL_HELI);
     }
 
 
-    public function getColInbdComp(): DbCol
+    public function colInbdComp(): DbCol
     {
         return self::getCol(self::COL_INBD_COMP);
     }
 
 
-    public function getColOutbdComp(): DbCol
+    public function colOutbdComp(): DbCol
     {
         return self::getCol(self::COL_OUTBD_COMP);
     }
 
 
-    public function getColMinFt(): DbCol
+    public function colMinFt(): DbCol
     {
         return self::getCol(self::COL_MIN_FT);
     }
 
 
-    public function getColMaxFt(): DbCol
+    public function colMaxFt(): DbCol
     {
         return self::getCol(self::COL_MAX_FT);
     }
 
 
-    public function getColLat(): DbCol
+    public function colLat(): DbCol
     {
         return self::getCol(self::COL_LAT);
     }
 
 
-    public function getColLon(): DbCol
+    public function colLon(): DbCol
     {
         return self::getCol(self::COL_LON);
     }
 
 
-    public function getColPolygon(): DbCol
+    public function colPolygon(): DbCol
     {
         return self::getCol(self::COL_POLYGON);
     }
 
 
-    public function getColExtent(): DbCol
+    public function colExtent(): DbCol
     {
         return self::getCol(self::COL_EXTENT);
     }

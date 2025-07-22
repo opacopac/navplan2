@@ -21,9 +21,10 @@ class DbAerodromeReportingByExtentQuery implements IAerodromeReportingByExtentQu
 
     public function search(Extent2d $extent): array
     {
+        $t = new DbTableReportingPoints();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableReportingPoints::TABLE_NAME)
-            ->whereGeo(DbTableReportingPoints::COL_EXTENT, DbCondOpGeo::INTERSECTS_MBR, $extent)
+            ->selectAllFrom($t)
+            ->whereGeo($t->colExtent(), DbCondOpGeo::INTERSECTS_MBR, $extent)
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading reporting points by extent");

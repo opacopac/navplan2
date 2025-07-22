@@ -20,11 +20,12 @@ class DbAerodromeReportingByTextQuery implements IAerodromeReportingByTextQuery
 
     public function search(string $searchText, int $maxResults): array
     {
+        $t = new DbTableReportingPoints();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableReportingPoints::TABLE_NAME)
-            ->wherePrefixLike(DbTableReportingPoints::COL_NAME, $searchText)
-            ->orderBy(DbTableReportingPoints::COL_AD_ICAO, DbSortOrder::ASC)
-            ->orderBy(DbTableReportingPoints::COL_NAME, DbSortOrder::ASC)
+            ->selectAllFrom($t)
+            ->wherePrefixLike($t->colName(), $searchText)
+            ->orderBy($t->colAdIcao(), DbSortOrder::ASC)
+            ->orderBy($t->colName(), DbSortOrder::ASC)
             ->limit($maxResults)
             ->build();
 

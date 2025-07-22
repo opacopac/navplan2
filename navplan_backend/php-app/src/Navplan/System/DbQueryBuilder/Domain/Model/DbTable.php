@@ -34,6 +34,12 @@ class DbTable
     }
 
 
+    public function hasAlias(): bool
+    {
+        return $this->alias !== null;
+    }
+
+
     public function getAlias(): ?string
     {
         return $this->alias;

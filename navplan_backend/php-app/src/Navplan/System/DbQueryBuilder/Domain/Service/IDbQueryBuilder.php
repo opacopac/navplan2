@@ -7,6 +7,7 @@ use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Line2d;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\Model\Ring2d;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
@@ -18,29 +19,29 @@ interface IDbQueryBuilder
 {
     function selectAllFrom(DbTable|string $table): IDbQueryBuilder;
 
-    function selectFrom(string $table, string ...$colNames): IDbQueryBuilder;
+    function selectFrom(string $table, string|DbCol ...$columns): IDbQueryBuilder;
 
     function whereCondition(DbCond $cond): IDbQueryBuilder;
 
-    function where(string $colName, DbCondOp $op, string|int|float|bool|null $value): IDbQueryBuilder;
+    function where(DbCol|string $column, DbCondOp $op, string|int|float|bool|null $value): IDbQueryBuilder;
 
-    function whereText(string $colName, DbCondOpTxt $op, string $value): IDbQueryBuilder;
+    function whereText(DbCol|string $column, DbCondOpTxt $op, string $value): IDbQueryBuilder;
 
-    function whereGeo(string $colName, DbCondOpGeo $op, Position2d|Extent2d|Line2d|Ring2d $value): IDbQueryBuilder;
+    function whereGeo(DbCol|string $column, DbCondOpGeo $op, Position2d|Extent2d|Line2d|Ring2d $value): IDbQueryBuilder;
 
-    function whereEquals(string $colName, string|int|float|bool|null $value): IDbQueryBuilder;
+    function whereEquals(DbCol|string $column, string|int|float|bool|null $value): IDbQueryBuilder;
 
-    function wherePrefixLike(string $colName, string $value): IDbQueryBuilder;
+    function wherePrefixLike(DbCol|string $column, string $value): IDbQueryBuilder;
 
     public function whereAll(DbCond ...$conditions): IDbQueryBuilder;
 
     public function whereAny(DbCond ...$conditions): IDbQueryBuilder;
 
-    public function whereInMaxDist(string $latColName, string $lonColName, Position2d $pos, float $maxDistDeg): IDbQueryBuilder;
+    public function whereInMaxDist(DbCol|string $latColumn, string $lonColumn, Position2d $pos, float $maxDistDeg): IDbQueryBuilder;
 
-    function orderBy(string $colName, DbSortOrder $direction): IDbQueryBuilder;
+    function orderBy(DbCol|string $column, DbSortOrder $direction): IDbQueryBuilder;
 
-    function orderByLatLonDist(string $latColName, string $lonColName, Position2d $pos): IDbQueryBuilder;
+    function orderByLatLonDist(DbCol|string $latColumn, DbCol|string $lonColumn, Position2d $pos): IDbQueryBuilder;
 
     function limit(int $limit): IDbQueryBuilder;
 

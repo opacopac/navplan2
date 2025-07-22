@@ -8,6 +8,7 @@ use Navplan\Common\Domain\Model\Line2d;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
@@ -47,16 +48,23 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
     public function selectAllFrom(DbTable|string $table): IDbQueryBuilder
     {
-        $this->select = "SELECT * FROM " . $this->buildTableName($table);
+        $allColName = $this->buildAllColName($table);
+
+        $this->select = "SELECT " . $allColName . " FROM " . $this->buildTableName($table);
 
         return $this;
     }
 
 
-    public function selectFrom(DbTable|string $table, string ...$colNames): IDbQueryBuilder
+    public function selectFrom(DbTable|string $table, DbCol|string ...$columns): IDbQueryBuilder
     {
-        if (count($colNames) === 0) {
+        if (count($columns) === 0) {
             throw new InvalidArgumentException("At least one column name is required");
+        }
+
+        $colNames = [];
+        foreach ($columns as $col) {
+            $colNames[] = $this->buildColName($col);
         }
 
         $colList = implode(", ", $colNames);
@@ -74,36 +82,42 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function where(string $colName, DbCondOp $op, string|int|float|bool|null $value): IDbQueryBuilder
+    public function where(DbCol|string $column, DbCondOp $op, string|int|float|bool|null $value): IDbQueryBuilder
     {
+        $colName = $this->buildColName($column);
+
         return $this->whereCondition(
             DbCondSimple::create($colName, $op, $value),
         );
     }
 
 
-    public function whereEquals(string $colName, string|int|float|bool|null $value): IDbQueryBuilder
+    public function whereEquals(DbCol|string $column, string|int|float|bool|null $value): IDbQueryBuilder
     {
-        return $this->where($colName, DbCondOp::EQ, $value);
+        return $this->where($column, DbCondOp::EQ, $value);
     }
 
 
-    public function whereText(string $colName, DbCondOpTxt $op, string $value): IDbQueryBuilder
+    public function whereText(DbCol|string $column, DbCondOpTxt $op, string $value): IDbQueryBuilder
     {
+        $colName = $this->buildColName($column);
+
         return $this->whereCondition(
             DbCondText::create($colName, $op, $value)
         );
     }
 
 
-    public function wherePrefixLike(string $colName, string $value): IDbQueryBuilder
+    public function wherePrefixLike(DbCol|string $column, string $value): IDbQueryBuilder
     {
-        return $this->whereText($colName, DbCondOpTxt::LIKE_PREFIX, $value);
+        return $this->whereText($column, DbCondOpTxt::LIKE_PREFIX, $value);
     }
 
 
-    public function whereGeo(string $colName, DbCondOpGeo $op, Position2d|Extent2d|Line2d|Ring2d $value): IDbQueryBuilder
+    public function whereGeo(DbCol|string $column, DbCondOpGeo $op, Position2d|Extent2d|Line2d|Ring2d $value): IDbQueryBuilder
     {
+        $colName = $this->buildColName($column);
+
         return $this->whereCondition(
             DbCondGeo::create($colName, $op, $value)
         );
@@ -128,8 +142,11 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function whereInMaxDist(string $latColName, string $lonColName, Position2d $pos, float $maxDistDeg): IDbQueryBuilder
+    public function whereInMaxDist(DbCol|string $latColumn, DbCol|string $lonColumn, Position2d $pos, float $maxDistDeg): IDbQueryBuilder
     {
+        $latColName = $this->buildColName($latColumn);
+        $lonColName = $this->buildColName($lonColumn);
+
         $this->whereAll(
             DbCondSimple::create($latColName, DbCondOp::GT, $pos->latitude - $maxDistDeg),
             DbCondSimple::create($latColName, DbCondOp::LT, $pos->latitude + $maxDistDeg),
@@ -141,8 +158,10 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function orderBy(string $colName, DbSortOrder $direction): IDbQueryBuilder
+    public function orderBy(DbCol|string $column, DbSortOrder $direction): IDbQueryBuilder
     {
+        $colName = $this->buildColName($column);
+
         $dirStr = $direction === DbSortOrder::ASC ? "ASC" : "DESC";
         $this->orderList[] = $colName . " " . $dirStr;
 
@@ -150,8 +169,11 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function orderByLatLonDist(string $latColName, string $lonColName, Position2d $pos): IDbQueryBuilder
+    public function orderByLatLonDist(DbCol|string $latColumn, DbCol|string $lonColumn, Position2d $pos): IDbQueryBuilder
     {
+        $latColName = $this->buildColName($latColumn);
+        $lonColName = $this->buildColName($lonColumn);
+
         $pseudoColName = "((" . $latColName . " - " . $pos->latitude . ")"
             . " * (" . $latColName . " - " . $pos->latitude . ")"
             . " + (" . $lonColName . " - " . $pos->longitude . ")"
@@ -200,6 +222,34 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
         };
 
         return $tableName;
+    }
+
+
+    private function buildAllColName(DbTable|string $table): string
+    {
+        match (true) {
+            $table instanceof DbTable => $allColName = $table->hasAlias()
+                ? $table->getAlias() . ".*"
+                : "*",
+            is_string($table) => $allColName = "*",
+            default => throw new InvalidArgumentException("Unsupported table type")
+        };
+
+        return $allColName;
+    }
+
+
+    private function buildColName(DbCol|string $col): string
+    {
+        match (true) {
+            $col instanceof DbCol => $colName = $col->getTable()->hasAlias()
+                ? $col->getTable()->getAlias() . "." . $col->getName()
+                : $col->getName(),
+            is_string($col) => $colName = $col,
+            default => throw new InvalidArgumentException("Unsupported column type")
+        };
+
+        return $colName;
     }
 
 

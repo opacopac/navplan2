@@ -20,10 +20,11 @@ class DbAerodromeReportingByPositionQuery implements IAerodromeReportingByPositi
 
     public function search(Position2d $position, float $maxRadius_deg, int $maxResults): array
     {
+        $t = new DbTableReportingPoints();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableReportingPoints::TABLE_NAME)
-            ->whereInMaxDist(DbTableReportingPoints::COL_LAT, DbTableReportingPoints::COL_LON, $position, $maxRadius_deg)
-            ->orderByLatLonDist(DbTableReportingPoints::COL_LAT, DbTableReportingPoints::COL_LON, $position)
+            ->selectAllFrom($t)
+            ->whereInMaxDist($t->colLat(), $t->colLon(), $position, $maxRadius_deg)
+            ->orderByLatLonDist($t->colLat(), $t->colLon(), $position)
             ->limit($maxResults)
             ->build();
 

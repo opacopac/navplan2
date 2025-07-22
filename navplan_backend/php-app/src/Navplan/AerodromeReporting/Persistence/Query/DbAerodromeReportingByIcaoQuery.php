@@ -19,9 +19,10 @@ class DbAerodromeReportingByIcaoQuery implements IAerodromeReportingByIcaoQuery
 
     public function read(string $airportIcao): array
     {
+        $t = new DbTableReportingPoints();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableReportingPoints::TABLE_NAME)
-            ->whereEquals(DbTableReportingPoints::COL_AD_ICAO, $airportIcao)
+            ->selectAllFrom($t)
+            ->whereEquals($t->colAdIcao(), $airportIcao)
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading reporting points by airport ICAO");

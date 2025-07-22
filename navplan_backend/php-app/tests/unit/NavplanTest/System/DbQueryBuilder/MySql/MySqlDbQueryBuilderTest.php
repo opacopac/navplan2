@@ -29,14 +29,14 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
 
-    // region select tests
+    // region select all tests
 
     public function test_select_all()
     {
         // given
-        $table = new DbTable("test_table", null, ["col1", "col2", "col3"]);
+        $t = new DbTable("test_table", null, ["col1", "col2", "col3"]);
         $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom($table);
+            ->selectAllFrom($t);
 
         // when
         $query = $qb->build();
@@ -49,15 +49,15 @@ class MySqlDbQueryBuilderTest extends TestCase
     public function test_select_all_with_alias()
     {
         // given
-        $table = new DbTable("test_table", "t", ["col1", "col2", "col3"]);
+        $t = new DbTable("test_table", "t1", ["col1", "col2", "col3"]);
         $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom($table);
+            ->selectAllFrom($t);
 
         // when
         $query = $qb->build();
 
         // then
-        $this->assertEquals("SELECT * FROM test_table AS t", $query);
+        $this->assertEquals("SELECT t1.* FROM test_table AS t1", $query);
     }
 
 
@@ -74,8 +74,46 @@ class MySqlDbQueryBuilderTest extends TestCase
         $this->assertEquals("SELECT * FROM test_table", $query);
     }
 
+    // endregion
+
+
+    // region select from tests
 
     public function test_select_from()
+    {
+        // given
+        $t = new DbTable("test_table", null, ["col1", "col2"]);
+        $c1 = $t->getCol("col1");
+        $c2 = $t->getCol("col2");
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectFrom($t, $c1, $c2);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT col1, col2 FROM test_table", $query);
+    }
+
+
+    public function test_select_from_with_alias()
+    {
+        // given
+        $t = new DbTable("test_table", "t1", ["col1", "col2"]);
+        $c1 = $t->getCol("col1");
+        $c2 = $t->getCol("col2");
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectFrom($t, $c1, $c2);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT t1.col1, t1.col2 FROM test_table AS t1", $query);
+    }
+
+
+    public function test_select_from_by_string()
     {
         // given
         $qb = $this->mySqlDbQueryBuilder
@@ -88,6 +126,10 @@ class MySqlDbQueryBuilderTest extends TestCase
         $this->assertEquals("SELECT col1, col2, col3 FROM test_table", $query);
     }
 
+    // endregion
+
+
+    // region where tests
 
     public function test_where_equals()
     {
@@ -103,10 +145,6 @@ class MySqlDbQueryBuilderTest extends TestCase
         $this->assertEquals("SELECT * FROM test_table WHERE col1 = 'value1'", $query);
     }
 
-    // endregion
-
-
-    // region where tests
 
     public function test_where_prefix_like()
     {
@@ -204,7 +242,46 @@ class MySqlDbQueryBuilderTest extends TestCase
 
     // region order by tests
 
+
     public function test_order_by()
+    {
+        // given
+        $t = new DbTable("test_table", null, ["col1", "col2"]);
+        $col1 = $t->getCol("col1");
+        $col2 = $t->getCol("col2");
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom($t)
+            ->orderBy($col1, DbSortOrder::ASC)
+            ->orderBy($col2, DbSortOrder::DESC);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table ORDER BY col1 ASC, col2 DESC", $query);
+    }
+
+
+    public function test_order_by_with_alias()
+    {
+        // given
+        $t = new DbTable("test_table", "t1", ["col1", "col2"]);
+        $col1 = $t->getCol("col1");
+        $col2 = $t->getCol("col2");
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom($t)
+            ->orderBy($col1, DbSortOrder::ASC)
+            ->orderBy($col2, DbSortOrder::DESC);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT t1.* FROM test_table AS t1 ORDER BY t1.col1 ASC, t1.col2 DESC", $query);
+    }
+
+
+    public function test_order_by_text()
     {
         // given
         $qb = $this->mySqlDbQueryBuilder
