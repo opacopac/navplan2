@@ -8,6 +8,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbQueryBuilder;
 use NavplanTest\System\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +29,39 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
 
+    // region select tests
+
     public function test_select_all()
+    {
+        // given
+        $table = new DbTable("test_table", null, ["col1", "col2", "col3"]);
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom($table);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table", $query);
+    }
+
+
+    public function test_select_all_with_alias()
+    {
+        // given
+        $table = new DbTable("test_table", "t", ["col1", "col2", "col3"]);
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom($table);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT * FROM test_table AS t", $query);
+    }
+
+
+    public function test_select_all_by_string()
     {
         // given
         $qb = $this->mySqlDbQueryBuilder
@@ -70,6 +103,10 @@ class MySqlDbQueryBuilderTest extends TestCase
         $this->assertEquals("SELECT * FROM test_table WHERE col1 = 'value1'", $query);
     }
 
+    // endregion
+
+
+    // region where tests
 
     public function test_where_prefix_like()
     {
@@ -162,6 +199,10 @@ class MySqlDbQueryBuilderTest extends TestCase
         $this->assertEquals("SELECT * FROM test_table WHERE (lat > '47' AND lat < '48' AND lon > '7' AND lon < '8')", $query);
     }
 
+    // endregion
+
+
+    // region order by tests
 
     public function test_order_by()
     {
@@ -194,6 +235,10 @@ class MySqlDbQueryBuilderTest extends TestCase
         $this->assertEquals("SELECT * FROM test_table ORDER BY ((lat - 47.5) * (lat - 47.5) + (lon - 7.5) * (lon - 7.5)) ASC", $query);
     }
 
+    // endregion
+
+
+    // region limit tests
 
     public function test_limit()
     {
@@ -208,4 +253,6 @@ class MySqlDbQueryBuilderTest extends TestCase
         // then
         $this->assertEquals("SELECT * FROM test_table LIMIT 10", $query);
     }
+
+    // endregion
 }

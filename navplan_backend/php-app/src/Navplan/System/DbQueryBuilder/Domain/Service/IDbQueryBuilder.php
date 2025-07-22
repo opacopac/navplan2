@@ -12,12 +12,13 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 
 interface IDbQueryBuilder
 {
-    function selectAllFrom(string $tableName): IDbQueryBuilder;
+    function selectAllFrom(DbTable|string $table): IDbQueryBuilder;
 
-    function selectFrom(string $tableName, string ...$colNames): IDbQueryBuilder;
+    function selectFrom(string $table, string ...$colNames): IDbQueryBuilder;
 
     function whereCondition(DbCond $cond): IDbQueryBuilder;
 

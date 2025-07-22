@@ -18,6 +18,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
 
 
@@ -44,22 +45,22 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function selectAllFrom(string $tableName): IDbQueryBuilder
+    public function selectAllFrom(DbTable|string $table): IDbQueryBuilder
     {
-        $this->select = "SELECT * FROM " . $tableName;
+        $this->select = "SELECT * FROM " . $this->buildTableName($table);
 
         return $this;
     }
 
 
-    public function selectFrom(string $tableName, string ...$colNames): IDbQueryBuilder
+    public function selectFrom(DbTable|string $table, string ...$colNames): IDbQueryBuilder
     {
         if (count($colNames) === 0) {
             throw new InvalidArgumentException("At least one column name is required");
         }
 
         $colList = implode(", ", $colNames);
-        $this->select = "SELECT " . $colList . " FROM " . $tableName;
+        $this->select = "SELECT " . $colList . " FROM " . $this->buildTableName($table);
 
         return $this;
     }
@@ -187,6 +188,18 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
             . ($whereStr !== "" ? " WHERE " . $whereStr : "")
             . ($orderByStr !== "" ? " ORDER BY " . $orderByStr : "")
             . ($limitStr !== "" ? " " . $limitStr : "");
+    }
+
+
+    private function buildTableName(DbTable|string $table): string
+    {
+        match (true) {
+            $table instanceof DbTable => $tableName = $table->getName() . ($table->getAlias() ? " AS " . $table->getAlias() : ""),
+            is_string($table) => $tableName = $table,
+            default => throw new InvalidArgumentException("Unsupported table type")
+        };
+
+        return $tableName;
     }
 
 

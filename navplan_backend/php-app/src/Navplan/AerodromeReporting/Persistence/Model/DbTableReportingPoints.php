@@ -2,8 +2,11 @@
 
 namespace Navplan\AerodromeReporting\Persistence\Model;
 
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 
-class DbTableReportingPoints
+
+class DbTableReportingPoints extends DbTable
 {
     public const TABLE_NAME = "reporting_points";
     public const COL_ID = "id";
@@ -19,4 +22,106 @@ class DbTableReportingPoints
     public const COL_LON = "longitude";
     public const COL_POLYGON = "polygon";
     public const COL_EXTENT = "extent";
+
+
+    public function __construct(string $alias = null)
+    {
+        parent::__construct(
+            self::TABLE_NAME,
+            $alias,
+            [
+                self::COL_ID,
+                self::COL_TYPE,
+                self::COL_AD_ICAO,
+                self::COL_NAME,
+                self::COL_HELI,
+                self::COL_INBD_COMP,
+                self::COL_OUTBD_COMP,
+                self::COL_MIN_FT,
+                self::COL_MAX_FT,
+                self::COL_LAT,
+                self::COL_LON,
+                self::COL_POLYGON,
+                self::COL_EXTENT
+            ]
+        );
+    }
+
+
+    public function getColId(): DbCol
+    {
+        return self::getCol(self::COL_ID);
+    }
+
+
+    public function getColType(): DbCol
+    {
+        return self::getCol(self::COL_TYPE);
+    }
+
+
+    public function getColAdIcao(): DbCol
+    {
+        return self::getCol(self::COL_AD_ICAO);
+    }
+
+
+    public function getColName(): DbCol
+    {
+        return self::getCol(self::COL_NAME);
+    }
+
+
+    public function getColHeli(): DbCol
+    {
+        return self::getCol(self::COL_HELI);
+    }
+
+
+    public function getColInbdComp(): DbCol
+    {
+        return self::getCol(self::COL_INBD_COMP);
+    }
+
+
+    public function getColOutbdComp(): DbCol
+    {
+        return self::getCol(self::COL_OUTBD_COMP);
+    }
+
+
+    public function getColMinFt(): DbCol
+    {
+        return self::getCol(self::COL_MIN_FT);
+    }
+
+
+    public function getColMaxFt(): DbCol
+    {
+        return self::getCol(self::COL_MAX_FT);
+    }
+
+
+    public function getColLat(): DbCol
+    {
+        return self::getCol(self::COL_LAT);
+    }
+
+
+    public function getColLon(): DbCol
+    {
+        return self::getCol(self::COL_LON);
+    }
+
+
+    public function getColPolygon(): DbCol
+    {
+        return self::getCol(self::COL_POLYGON);
+    }
+
+
+    public function getColExtent(): DbCol
+    {
+        return self::getCol(self::COL_EXTENT);
+    }
 }
