@@ -14,7 +14,11 @@ class Ring2d implements IGeometry2d {
      * @return Ring2d
      * @throws InvalidArgumentException
      */
-    public static function createFromString(string $ringString, string $posSeparator = ',', string $lonLatSeparator = ' '): Ring2d {
+    public static function createFromString(string|null $ringString, string $posSeparator = ',', string $lonLatSeparator = ' '): ?Ring2d {
+        if ($ringString === NULL || $ringString === '') {
+            return NULL;
+        }
+
         return new Ring2d(
             array_map(
                 function (string $posString) use ($lonLatSeparator) {

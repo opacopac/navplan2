@@ -16,17 +16,29 @@ class Length {
     }
 
 
-    public static function fromM(float $value): Length {
+    public static function fromM(float|null $value): ?Length {
+        if ($value === null) {
+            return null;
+        }
+
         return new Length($value, LengthUnit::M);
     }
 
 
-    public static function fromFt(float $value): Length {
+    public static function fromFt(float|null $value): ?Length {
+        if ($value === null) {
+            return null;
+        }
+
         return new Length($value, LengthUnit::FT);
     }
 
 
-    public static function fromNm(float $value): Length {
+    public static function fromNm(float|null $value): ?Length {
+        if ($value === null) {
+            return null;
+        }
+
         return new Length($value, LengthUnit::NM);
     }
 
