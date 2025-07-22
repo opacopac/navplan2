@@ -6,7 +6,7 @@ namespace Navplan\System\DbQueryBuilder\Domain\Model;
 class DbCondSimple extends DbCond
 {
     private function __construct(
-        public readonly string $colName,
+        public readonly DbCol|string $column,
         public readonly DbCondOp $operator,
         public readonly string|int|float|bool|null $value
     )
@@ -14,14 +14,14 @@ class DbCondSimple extends DbCond
     }
 
 
-    public static function create(string $colName, DbCondOp $operator, string|int|float|bool|null $value): DbCondSimple
+    public static function create(DbCol|string $column, DbCondOp $operator, string|int|float|bool|null $value): DbCondSimple
     {
-        return new DbCondSimple($colName, $operator, $value);
+        return new DbCondSimple($column, $operator, $value);
     }
 
 
-    public static function equals(string $colName, string|int|float|bool|null $value): DbCondSimple
+    public static function equals(DbCol|string $column, string|int|float|bool|null $value): DbCondSimple
     {
-        return self::create($colName, DbCondOp::EQ, $value);
+        return self::create($column, DbCondOp::EQ, $value);
     }
 }

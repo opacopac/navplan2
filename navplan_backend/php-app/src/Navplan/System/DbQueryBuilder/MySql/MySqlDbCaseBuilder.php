@@ -4,6 +4,7 @@ namespace Navplan\System\DbQueryBuilder\MySql;
 
 use InvalidArgumentException;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
@@ -43,9 +44,9 @@ class MySqlDbCaseBuilder implements IDbCaseBuilder
     }
 
 
-    public function whenEquals(string $colName, float|bool|int|string|null $value, string $thenValue): MySqlDbCaseBuilder
+    public function whenEquals(DbCol|string $column, float|bool|int|string|null $value, string $thenValue): MySqlDbCaseBuilder
     {
-        $cond = DbCondSimple::equals($colName, $value);
+        $cond = DbCondSimple::equals($column, $value);
 
         return $this->when($cond, $thenValue);
     }

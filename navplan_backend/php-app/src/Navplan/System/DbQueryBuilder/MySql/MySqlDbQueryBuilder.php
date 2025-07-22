@@ -227,29 +227,13 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
     private function buildAllColName(DbTable|string $table): string
     {
-        match (true) {
-            $table instanceof DbTable => $allColName = $table->hasAlias()
-                ? $table->getAlias() . ".*"
-                : "*",
-            is_string($table) => $allColName = "*",
-            default => throw new InvalidArgumentException("Unsupported table type")
-        };
-
-        return $allColName;
+        return MySqlDbColBuilder::buildAllColName($table);
     }
 
 
     private function buildColName(DbCol|string $col): string
     {
-        match (true) {
-            $col instanceof DbCol => $colName = $col->getTable()->hasAlias()
-                ? $col->getTable()->getAlias() . "." . $col->getName()
-                : $col->getName(),
-            is_string($col) => $colName = $col,
-            default => throw new InvalidArgumentException("Unsupported column type")
-        };
-
-        return $colName;
+        return MySqlDbColBuilder::buildColName($col);
     }
 
 

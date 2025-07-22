@@ -44,6 +44,8 @@ class MySqlDbCondGeoBuilder implements IDbCondGeoBuilder
             DbCondOpGeo::INTERSECTS_MBR => "MBRIntersects",
         };
 
+        $colName = MySqlDbColBuilder::buildColName($this->cond->column);
+
         $geoValueStr = match (true) {
             $this->cond->value instanceof Position2d => DbHelper::getDbPointStringFromPos($this->cond->value),
             $this->cond->value instanceof Extent2d => DbHelper::getDbExtentPolygon2($this->cond->value),
@@ -52,6 +54,6 @@ class MySqlDbCondGeoBuilder implements IDbCondGeoBuilder
             default => throw new InvalidArgumentException("Unsupported geometry type for where clause"),
         };
 
-        return $opStr . "(" . $this->cond->colName . ", " . $geoValueStr . ")";
+        return $opStr . "(" . $colName . ", " . $geoValueStr . ")";
     }
 }

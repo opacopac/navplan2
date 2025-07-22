@@ -6,7 +6,7 @@ namespace Navplan\System\DbQueryBuilder\Domain\Model;
 class DbCondText extends DbCond
 {
     private function __construct(
-        public readonly string $colName,
+        public readonly DbCol|string $column,
         public readonly DbCondOpTxt $operator,
         public readonly string $value
     )
@@ -14,8 +14,8 @@ class DbCondText extends DbCond
     }
 
 
-    public static function create(string $colName, DbCondOpTxt $operator, string $value): DbCondText
+    public static function create(DbCol|string $column, DbCondOpTxt $operator, string $value): DbCondText
     {
-        return new DbCondText($colName, $operator, $value);
+        return new DbCondText($column, $operator, $value);
     }
 }

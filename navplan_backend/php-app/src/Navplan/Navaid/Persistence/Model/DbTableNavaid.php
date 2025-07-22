@@ -73,12 +73,12 @@ class DbTableNavaid extends DbTable {
     }
 
 
-    public function colLongitude(): DbCol {
+    public function colLon(): DbCol {
         return self::getCol(self::COL_LONGITUDE);
     }
 
 
-    public function colLatitude(): DbCol {
+    public function colLat(): DbCol {
         return self::getCol(self::COL_LATITUDE);
     }
 

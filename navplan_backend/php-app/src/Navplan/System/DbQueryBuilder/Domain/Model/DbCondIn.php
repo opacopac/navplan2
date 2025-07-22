@@ -6,11 +6,11 @@ namespace Navplan\System\DbQueryBuilder\Domain\Model;
 class DbCondIn extends DbCond
 {
     /**
-     * @param string $colName
+     * @param DbCol|string $column
      * @param string[]|int[]|float[]|bool[] $values
      */
     private function __construct(
-        public readonly string $colName,
+        public readonly DbCol|string $column,
         public readonly array $values
     )
     {
@@ -20,12 +20,12 @@ class DbCondIn extends DbCond
     /**
      * Creates a DbWhereClauseIn instance.
      *
-     * @param string $colName
+     * @param DbCol|string $column
      * @param string[]|int[]|float[]|bool[] $values
      * @return DbCondIn
      */
-    public static function create(string $colName, array $values): DbCondIn
+    public static function create(DbCol|string $column, array $values): DbCondIn
     {
-        return new DbCondIn($colName, $values);
+        return new DbCondIn($column, $values);
     }
 }

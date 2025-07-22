@@ -34,6 +34,8 @@ class MySqlDbCondTextBuilder implements IDbCondTextBuilder
 
     public function build(): string
     {
+        $colName = MySqlDbColBuilder::buildColName($this->cond->column);
+
         $opStr = "LIKE";
 
         $valStr = $this->cond->value;
@@ -44,6 +46,6 @@ class MySqlDbCondTextBuilder implements IDbCondTextBuilder
         };
         $valStr = DbHelper::getDbStringValue($this->dbService, $valStr);
 
-        return $this->cond->colName . " " . $opStr . " " . $valStr;
+        return $colName . " " . $opStr . " " . $valStr;
     }
 }

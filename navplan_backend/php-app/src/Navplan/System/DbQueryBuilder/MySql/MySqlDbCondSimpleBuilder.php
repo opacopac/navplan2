@@ -35,12 +35,14 @@ class MySqlDbCondSimpleBuilder implements IDbCondSimpleBuilder
 
     public function build(): string
     {
+        $colName = MySqlDbColBuilder::buildColName($this->cond->column);
+
         // handle NULL values separately
         if ($this->cond->value === NULL) {
             if ($this->cond->operator === DbCondOp::EQ) {
-                return $this->cond->colName . " IS NULL";
+                return $colName . " IS NULL";
             } else {
-                return $this->cond->colName . " IS NOT NULL";
+                return $colName . " IS NOT NULL";
             }
         }
 
@@ -62,6 +64,6 @@ class MySqlDbCondSimpleBuilder implements IDbCondSimpleBuilder
             default => throw new InvalidArgumentException("Unsupported value type for where clause"),
         };
 
-        return $this->cond->colName . " " . $opStr . " " . $valStr;
+        return $colName . " " . $opStr . " " . $valStr;
     }
 }

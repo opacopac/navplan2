@@ -134,15 +134,34 @@ class MySqlDbQueryBuilderTest extends TestCase
     public function test_where_equals()
     {
         // given
+        $t = new DbTable("test_table", null, ["col1"]);
+        $c1 = $t->getCol("col1");
         $qb = $this->mySqlDbQueryBuilder
-            ->selectAllFrom("test_table")
-            ->whereEquals("col1", "value1");
+            ->selectAllFrom($t)
+            ->whereEquals($c1, "value1");
 
         // when
         $query = $qb->build();
 
         // then
         $this->assertEquals("SELECT * FROM test_table WHERE col1 = 'value1'", $query);
+    }
+
+
+    public function test_where_equals_with_alias()
+    {
+        // given
+        $t = new DbTable("test_table", "t1", ["col1"]);
+        $c1 = $t->getCol("col1");
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom($t)
+            ->whereEquals($c1, "value1");
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT t1.* FROM test_table AS t1 WHERE t1.col1 = 'value1'", $query);
     }
 
 

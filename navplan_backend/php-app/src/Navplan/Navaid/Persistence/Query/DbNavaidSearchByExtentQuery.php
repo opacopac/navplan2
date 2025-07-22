@@ -15,9 +15,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 class DbNavaidSearchByExtentQuery implements INavaidSearchByExtentQuery
 {
-    public function __construct(
-        private IDbService $dbService
-    )
+    public function __construct(private readonly IDbService $dbService)
     {
     }
 
@@ -28,8 +26,8 @@ class DbNavaidSearchByExtentQuery implements INavaidSearchByExtentQuery
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom($t)
             ->whereAll(
-                DbCondGeo::create(DbTableNavaid::COL_LONLAT, DbCondOpGeo::INTERSECTS_ST, $extent),
-                DbCondSimple::create(DbTableNavaid::COL_ZOOMMIN, DbCondOp::LT_OR_E, $zoom),
+                DbCondGeo::create($t->colLonLat(), DbCondOpGeo::INTERSECTS_ST, $extent),
+                DbCondSimple::create($t->colZoomMin(), DbCondOp::LT_OR_E, $zoom),
             )
             ->build();
 

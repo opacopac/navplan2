@@ -4,6 +4,7 @@ namespace NavplanTest\System\DbQueryBuilder\MySql;
 
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbCondTextBuilder;
 use NavplanTest\System\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
@@ -26,14 +27,16 @@ class MySqlDbCondTextBuilderTest extends TestCase
     public function test_like_prefix()
     {
         // given
-        $clause = DbCondText::create("col1", DbCondOpTxt::LIKE_PREFIX, "value1");
+        $t = new DbTable("test_table", "t1", ["col1", "col2"]);
+        $c1 = $t->getCol("col1");
+        $clause = DbCondText::create($c1, DbCondOpTxt::LIKE_PREFIX, "value1");
         $wcb = $this->whereClauseBuilder->condition($clause);
 
         // when
         $query = $wcb->build();
 
         // then
-        $this->assertEquals("col1 LIKE 'value1%'", $query);
+        $this->assertEquals("t1.col1 LIKE 'value1%'", $query);
     }
 
 
