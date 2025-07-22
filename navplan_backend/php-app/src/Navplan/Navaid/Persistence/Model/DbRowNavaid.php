@@ -68,10 +68,4 @@ class DbRowNavaid extends DbRow
     {
         return StringNumberHelper::parseBoolOrFalse($this->row, DbTableNavaid::COL_TRUENORTH);
     }
-
-
-    public function getGeohash(): ?string
-    {
-        return StringNumberHelper::parseStringOrNull($this->row, DbTableNavaid::COL_GEOHASH);
-    }
 }
