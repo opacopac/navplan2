@@ -25,7 +25,7 @@ class DbAirportChartByIdQuery implements IAirportChartByIdQuery
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAirportCharts::TABLE_NAME)
-            ->where()->all(
+            ->where(DbCondMulti::all(
                 DbCondSimple::equals(DbTableAirportCharts::COL_ID, $id),
                 DbCondSimple::equals(DbTableAirportCharts::COL_ACTIVE, true),
                 $userId > 0
@@ -35,7 +35,7 @@ class DbAirportChartByIdQuery implements IAirportChartByIdQuery
                     DbCondSimple::equals(DbTableAirportCharts::COL_USER_ID, null)
                 )
                     : DbCondSimple::equals(DbTableAirportCharts::COL_USER_ID, null)
-            )->end()
+            ))
             ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, false, "error reading chart by id");

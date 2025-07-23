@@ -12,7 +12,6 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
-use Navplan\System\DbQueryBuilder\Domain\Service\IDbWhereClauseBuilder;
 
 
 class MySqlDbQueryBuilder implements IDbQueryBuilder
@@ -68,13 +67,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function where(): IDbWhereClauseBuilder
-    {
-        return new MySqlDbWhereClauseBuilder($this->dbService, $this);
-    }
-
-
-    public function whereCondition(DbCond $cond): IDbQueryBuilder
+    public function where(DbCond $cond): IDbQueryBuilder
     {
         $this->where = $cond;
 
@@ -84,7 +77,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
     public function whereEquals(DbCol|string $column, string|int|float|bool|null $value): IDbQueryBuilder
     {
-        return $this->whereCondition(
+        return $this->where(
             DbCondSimple::create($column, DbCondOp::EQ, $value),
         );
     }

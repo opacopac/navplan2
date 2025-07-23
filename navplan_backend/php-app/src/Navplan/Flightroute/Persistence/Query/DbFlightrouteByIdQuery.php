@@ -7,6 +7,7 @@ use Navplan\Flightroute\Domain\Query\IFlightrouteByIdQuery;
 use Navplan\Flightroute\Domain\Query\IWaypointsByFlightrouteQuery;
 use Navplan\Flightroute\Persistence\Model\DbTableFlightroute;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 
@@ -24,10 +25,10 @@ class DbFlightrouteByIdQuery implements IFlightrouteByIdQuery
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableFlightroute::TABLE_NAME)
-            ->where()->all(
+            ->where(DbCondMulti::all(
                 DBCondSimple::equals(DbTableFlightroute::COL_ID, $flightrouteId),
                 DBCondSimple::equals(DbTableFlightroute::COL_ID_USER, $userId)
-            )->end()
+            ))
             ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading flightroute");

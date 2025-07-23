@@ -8,6 +8,7 @@ use Navplan\Navaid\Persistence\Model\DbNavaidConverter;
 use Navplan\Navaid\Persistence\Model\DbTableNavaid;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
@@ -25,10 +26,10 @@ class DbNavaidSearchByExtentQuery implements INavaidSearchByExtentQuery
         $t = new DbTableNavaid();
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom($t)
-            ->where()->all(
+            ->where(DbCondMulti::all(
                 DbCondGeo::create($t->colLonLat(), DbCondOpGeo::INTERSECTS_ST, $extent),
                 DbCondSimple::create($t->colZoomMin(), DbCondOp::LT_OR_E, $zoom),
-            )->end()
+            ))
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching navaids by extent");

@@ -7,6 +7,7 @@ use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
 
 
 class DbAerodromeReportingByPositionQuery implements IAerodromeReportingByPositionQuery
@@ -23,8 +24,17 @@ class DbAerodromeReportingByPositionQuery implements IAerodromeReportingByPositi
         $t = new DbTableReportingPoints();
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom($t)
-            ->where()->inMaxDist($t->colLat(), $t->colLon(), $position, $maxRadius_deg)->end()
-            ->orderByLatLonDist($t->colLat(), $t->colLon(), $position)
+            ->where(DbCondGeo::inMaxDist(
+                $t->colLat(),
+                $t->colLon(),
+                $position,
+                $maxRadius_deg
+            ))
+            ->orderByLatLonDist(
+                $t->colLat(),
+                $t->colLon(),
+                $position
+            )
             ->limit($maxResults)
             ->build();
 

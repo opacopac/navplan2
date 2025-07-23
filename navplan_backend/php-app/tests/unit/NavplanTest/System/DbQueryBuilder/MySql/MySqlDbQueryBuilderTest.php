@@ -3,10 +3,13 @@
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbQueryBuilder;
@@ -155,7 +158,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         $c1 = $t->getCol("col1");
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom($t)
-            ->where()->equals($c1, "value1")->end();
+            ->whereEquals($c1, "value1");
 
         // when
         $query = $qb->build();
@@ -170,7 +173,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         // given
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->where()->prefixLike("col1", "value1")->end();
+            ->where(DbCondText::prefixLike("col1", "value1"));
 
         // when
         $query = $qb->build();
@@ -185,11 +188,11 @@ class MySqlDbQueryBuilderTest extends TestCase
         // given
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->where()->all(
+            ->where(DbCondMulti::all(
                 DbCondSimple::create("col1", DbCondOp::EQ, true),
                 DbCondSimple::create("col2", DbCondOp::GT, 456),
                 DbCondSimple::create("col3", DbCondOp::LT_OR_E, 789),
-            )->end();
+            ));
 
         // when
         $query = $qb->build();
@@ -204,11 +207,11 @@ class MySqlDbQueryBuilderTest extends TestCase
         // given
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->where()->any(
+            ->where(DbCondMulti::any(
                 DbCondSimple::create("col1", DbCondOp::NE, 123),
                 DbCondSimple::create("col2", DbCondOp::LT, 456),
                 DbCondSimple::create("col3", DbCondOp::GT_OR_E, 789),
-            )->end();
+            ));
 
         // when
         $query = $qb->build();
@@ -223,7 +226,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         // given
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->whereCondition(
+            ->where(
                 DbCondMulti::create(DbCondCombinator::AND,
                     DbCondMulti::create(DbCondCombinator::OR,
                         DbCondSimple::equals("col1", "value1"),
@@ -247,7 +250,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         $pos = new Position2d(7.5, 47.5);
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->where()->inMaxDist("lat", "lon", $pos, 0.5)->end();
+            ->where(DbCondGeo::inMaxDist("lat", "lon", $pos, 0.5));
 
         // when
         $query = $qb->build();

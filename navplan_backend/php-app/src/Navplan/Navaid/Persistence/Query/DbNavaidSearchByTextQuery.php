@@ -6,6 +6,7 @@ use Navplan\Navaid\Domain\Query\INavaidSearchByTextQuery;
 use Navplan\Navaid\Persistence\Model\DbNavaidConverter;
 use Navplan\Navaid\Persistence\Model\DbTableNavaid;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
@@ -26,10 +27,10 @@ class DbNavaidSearchByTextQuery implements INavaidSearchByTextQuery
         $t = new DbTableNavaid();
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom($t)
-            ->where()->any(
+            ->where(DbCondMulti::any(
                 DbCondText::create($t->colKuerzel(), DbCondOpTxt::LIKE_PREFIX, $searchText),
                 DbCondText::create($t->colName(), DbCondOpTxt::LIKE_PREFIX, $searchText)
-            )->end()
+            ))
             ->orderBy(MySqlDbCaseBuilder::create($this->dbService)
                 ->whenEquals($t->colCountry(), "CH", "1")
                 ->else("2")

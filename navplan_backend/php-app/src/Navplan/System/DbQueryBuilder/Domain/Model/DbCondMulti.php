@@ -32,4 +32,16 @@ class DbCondMulti extends DbCond
 
         return new DbCondMulti($combinator, $conditions);
     }
+
+
+    public static function all(DbCond ...$conditions): DbCondMulti
+    {
+        return self::create(DbCondCombinator::AND, ...$conditions);
+    }
+
+    
+    public static function any(DbCond ...$conditions): DbCondMulti
+    {
+        return self::create(DbCondCombinator::OR, ...$conditions);
+    }
 }

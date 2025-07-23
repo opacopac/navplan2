@@ -3,6 +3,7 @@
 namespace Navplan\Track\Persistence\Query;
 
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\Track\Domain\Model\Track;
 use Navplan\Track\Domain\Query\ITrackByIdQuery;
@@ -23,10 +24,10 @@ class DbTrackByIdQuery implements ITrackByIdQuery
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DBTableTrack::TABLE_NAME)
-            ->where()->all(
+            ->where(DbCondMulti::all(
                 DbCondSimple::equals(DbTableTrack::COL_ID, $trackId),
                 DbCondSimple::equals(DbTableTrack::COL_ID_USER, $userId)
-            )->end()
+            ))
             ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading track");

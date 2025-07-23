@@ -15,12 +15,7 @@ interface IDbQueryBuilder
 
     function selectFrom(string $table, string|DbCol ...$columns): IDbQueryBuilder;
 
-    /**
-     * @return IDbWhereClauseBuilder<IDbQueryBuilder>
-     */
-    function where(): IDbWhereClauseBuilder;
-
-    function whereCondition(DbCond $cond): IDbQueryBuilder;
+    function where(DbCond $cond): IDbQueryBuilder;
 
     function whereEquals(DbCol|string $column, string|int|float|bool|null $value): IDbQueryBuilder;
 

@@ -6,6 +6,7 @@ use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByTextQuery;
 use Navplan\AerodromeReporting\Persistence\Model\DbReportingPointConverter;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
 
@@ -23,7 +24,7 @@ class DbAerodromeReportingByTextQuery implements IAerodromeReportingByTextQuery
         $t = new DbTableReportingPoints();
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom($t)
-            ->where()->prefixLike($t->colName(), $searchText)->end()
+            ->where(DbCondText::prefixLike($t->colName(), $searchText))
             ->orderBy($t->colAdIcao(), DbSortOrder::ASC)
             ->orderBy($t->colName(), DbSortOrder::ASC)
             ->limit($maxResults)

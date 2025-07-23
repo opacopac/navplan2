@@ -8,6 +8,7 @@ use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
 
 
 class DbAirportByPositionQuery implements IAirportByPositionQuery
@@ -29,7 +30,12 @@ class DbAirportByPositionQuery implements IAirportByPositionQuery
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAirport::TABLE_NAME)
-            ->where()->inMaxDist(DbTableAirport::COL_LATITUDE, DbTableAirport::COL_LONGITUDE, $position, $maxRadius_deg)->end()
+            ->where(DbCondGeo::inMaxDist(
+                DbTableAirport::COL_LATITUDE,
+                DbTableAirport::COL_LONGITUDE,
+                $position,
+                $maxRadius_deg
+            ))
             ->orderByLatLonDist(DbTableAirport::COL_LATITUDE, DbTableAirport::COL_LONGITUDE, $position)
             ->limit($maxResults)
             ->build();

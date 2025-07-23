@@ -26,4 +26,16 @@ class DbCondGeo extends DbCond
     {
         return new DbCondGeo($colName, $operator, $value);
     }
+
+
+    public static function inMaxDist(DbCol|string $latColumn, DbCol|string $lonColumn, Position2d $pos, float $maxDistDeg): DbCond
+    {
+        return DbCondMulti::create(
+            DbCondCombinator::AND,
+            DbCondSimple::create($latColumn, DbCondOp::GT, $pos->latitude - $maxDistDeg),
+            DbCondSimple::create($latColumn, DbCondOp::LT, $pos->latitude + $maxDistDeg),
+            DbCondSimple::create($lonColumn, DbCondOp::GT, $pos->longitude - $maxDistDeg),
+            DbCondSimple::create($lonColumn, DbCondOp::LT, $pos->longitude + $maxDistDeg)
+        );
+    }
 }

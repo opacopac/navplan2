@@ -18,4 +18,10 @@ class DbCondText extends DbCond
     {
         return new DbCondText($column, $operator, $value);
     }
+
+
+    public static function prefixLike(DbCol|string $column, string $value): DbCondText
+    {
+        return self::create($column, DbCondOpTxt::LIKE_PREFIX, $value);
+    }
 }

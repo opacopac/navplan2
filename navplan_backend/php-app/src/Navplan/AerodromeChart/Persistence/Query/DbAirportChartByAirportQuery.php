@@ -7,6 +7,7 @@ use Navplan\AerodromeChart\Domain\Query\IAirportChartByAirportQuery;
 use Navplan\AerodromeChart\Persistence\Model\DbAirportChart2Converter;
 use Navplan\AerodromeChart\Persistence\Model\DbTableAirportCharts;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
@@ -43,7 +44,7 @@ class DbAirportChartByAirportQuery implements IAirportChartByAirportQuery
                     ->else("4")
                     ->build() . " AS sortorder1"
             )
-            ->where()->all(
+            ->where(DbCondMulti::all(
                 DbCondSimple::equals(DbTableAirportCharts::COL_AD_ICAO, $airportIcao),
                 DbCondSimple::equals(DbTableAirportCharts::COL_ACTIVE, true),
                 $userId > 0
@@ -53,7 +54,7 @@ class DbAirportChartByAirportQuery implements IAirportChartByAirportQuery
                     DbCondSimple::equals(DbTableAirportCharts::COL_USER_ID, null)
                 )
                     : DbCondSimple::equals(DbTableAirportCharts::COL_USER_ID, null)
-            )->end()
+            ))
             ->orderBy(DbTableAirportCharts::COL_SOURCE, DbSortOrder::ASC)
             ->orderBy("sortorder1", DbSortOrder::ASC)
             ->build();

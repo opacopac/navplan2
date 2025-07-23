@@ -7,6 +7,7 @@ use Navplan\Aerodrome\Domain\Query\IAirportByTextQuery;
 use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
@@ -32,10 +33,10 @@ class DbAirportByTextQuery implements IAirportByTextQuery
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAirport::TABLE_NAME)
-            ->where()->any(
+            ->where(DbCondMulti::any(
                 DbCondText::create(DbTableAirport::COL_ICAO, DbCondOpTxt::LIKE_PREFIX, $searchText),
                 DbCondText::create(DbTableAirport::COL_NAME, DbCondOpTxt::LIKE_PREFIX, $searchText)
-            )->end()
+            ))
             ->orderBy(MySqlDbCaseBuilder::create($this->dbService)
                 ->whenEquals(DbTableAirport::COL_COUNTRY, "CH", "1")
                 ->else("2")
