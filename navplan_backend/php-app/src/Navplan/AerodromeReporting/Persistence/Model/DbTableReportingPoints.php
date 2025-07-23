@@ -3,6 +3,7 @@
 namespace Navplan\AerodromeReporting\Persistence\Model;
 
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbColType;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 
 
@@ -26,25 +27,21 @@ class DbTableReportingPoints extends DbTable
 
     public function __construct(string $alias = null)
     {
-        parent::__construct(
-            self::TABLE_NAME,
-            $alias,
-            [
-                self::COL_ID,
-                self::COL_TYPE,
-                self::COL_AD_ICAO,
-                self::COL_NAME,
-                self::COL_HELI,
-                self::COL_INBD_COMP,
-                self::COL_OUTBD_COMP,
-                self::COL_MIN_FT,
-                self::COL_MAX_FT,
-                self::COL_LAT,
-                self::COL_LON,
-                self::COL_POLYGON,
-                self::COL_EXTENT
-            ]
-        );
+        parent::__construct(self::TABLE_NAME, $alias, []);
+
+        $this->addCol(self::COL_ID, DbColType::INT);
+        $this->addCol(self::COL_TYPE, DbColType::STRING);
+        $this->addCol(self::COL_AD_ICAO, DbColType::STRING);
+        $this->addCol(self::COL_NAME, DbColType::STRING);
+        $this->addCol(self::COL_HELI, DbColType::BOOL, true);
+        $this->addCol(self::COL_INBD_COMP, DbColType::BOOL, true);
+        $this->addCol(self::COL_OUTBD_COMP, DbColType::BOOL, true);
+        $this->addCol(self::COL_MIN_FT, DbColType::INT, true);
+        $this->addCol(self::COL_MAX_FT, DbColType::INT, true);
+        $this->addCol(self::COL_LAT, DbColType::DOUBLE, true);
+        $this->addCol(self::COL_LON, DbColType::DOUBLE, true);
+        $this->addCol(self::COL_POLYGON, DbColType::STRING, true);
+        $this->addCol(self::COL_EXTENT, DbColType::STRING);
     }
 
 

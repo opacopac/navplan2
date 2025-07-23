@@ -23,7 +23,7 @@ class DbTable
     )
     {
         foreach ($colNames as $colName) {
-            $this->addCol($colName);
+            $this->addCol($colName, DbColType::STRING, false); // TODO: use correct col type
         }
     }
 
@@ -61,9 +61,9 @@ class DbTable
     }
 
 
-    private function addCol(string $colName): void
+    protected function addCol(string $colName, DbColType $colType, bool $isNullable = false): void
     {
-        $col = new DbCol($this, $colName);
+        $col = new DbCol($this, $colName, $colType, $isNullable);
         $this->cols[$colName] = $col;
     }
 }
