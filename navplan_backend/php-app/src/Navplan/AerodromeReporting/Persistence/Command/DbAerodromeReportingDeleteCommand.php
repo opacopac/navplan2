@@ -17,7 +17,7 @@ class DbAerodromeReportingDeleteCommand implements IAerodromeReportingDeleteComm
     }
 
 
-    public function delete(int $reportingPointId, int $userId)
+    public function delete(int $reportingPointId, int $userId): void
     {
         $t = new DbTableReportingPoints();
         $query = $this->dbService->getDeleteCommandBuilder()
