@@ -25,10 +25,10 @@ class DbNavaidSearchByExtentQuery implements INavaidSearchByExtentQuery
         $t = new DbTableNavaid();
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom($t)
-            ->whereAll(
+            ->where()->all(
                 DbCondGeo::create($t->colLonLat(), DbCondOpGeo::INTERSECTS_ST, $extent),
                 DbCondSimple::create($t->colZoomMin(), DbCondOp::LT_OR_E, $zoom),
-            )
+            )->end()
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching navaids by extent");

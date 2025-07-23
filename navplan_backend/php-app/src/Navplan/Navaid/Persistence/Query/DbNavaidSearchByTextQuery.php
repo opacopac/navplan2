@@ -26,10 +26,10 @@ class DbNavaidSearchByTextQuery implements INavaidSearchByTextQuery
         $t = new DbTableNavaid();
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom($t)
-            ->whereAny(
+            ->where()->any(
                 DbCondText::create($t->colKuerzel(), DbCondOpTxt::LIKE_PREFIX, $searchText),
                 DbCondText::create($t->colName(), DbCondOpTxt::LIKE_PREFIX, $searchText)
-            )
+            )->end()
             ->orderBy(MySqlDbCaseBuilder::create($this->dbService)
                 ->whenEquals($t->colCountry(), "CH", "1")
                 ->else("2")

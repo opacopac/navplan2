@@ -30,10 +30,10 @@ class DbAircraftByIdQuery implements IAircraftByIdQuery
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAircraft::TABLE_NAME)
-            ->whereAll(
+            ->where()->all(
                 DbCondSimple::equals(DbTableAircraft::COL_ID, $aircraftId),
                 DbCondSimple::equals(DbTableAircraft::COL_ID_USER, $userId)
-            )
+            )->end()
             ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading aircraft");

@@ -21,6 +21,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbWhereClauseBuilder;
 
 
 class MySqlDbQueryBuilder implements IDbQueryBuilder
@@ -74,6 +75,11 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
+    public function where(): IDbWhereClauseBuilder {
+        return new MySqlDbWhereClauseBuilder($this->dbService, $this);
+    }
+
+
     public function whereCondition(DbCond $cond): IDbQueryBuilder
     {
         $this->where = $cond;
@@ -82,79 +88,11 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function where(DbCol|string $column, DbCondOp $op, string|int|float|bool|null $value): IDbQueryBuilder
-    {
-        $colName = $this->buildColName($column);
-
-        return $this->whereCondition(
-            DbCondSimple::create($colName, $op, $value),
-        );
-    }
-
-
     public function whereEquals(DbCol|string $column, string|int|float|bool|null $value): IDbQueryBuilder
     {
-        return $this->where($column, DbCondOp::EQ, $value);
-    }
-
-
-    public function whereText(DbCol|string $column, DbCondOpTxt $op, string $value): IDbQueryBuilder
-    {
-        $colName = $this->buildColName($column);
-
         return $this->whereCondition(
-            DbCondText::create($colName, $op, $value)
+            DbCondSimple::create($column, DbCondOp::EQ, $value),
         );
-    }
-
-
-    public function wherePrefixLike(DbCol|string $column, string $value): IDbQueryBuilder
-    {
-        return $this->whereText($column, DbCondOpTxt::LIKE_PREFIX, $value);
-    }
-
-
-    public function whereGeo(DbCol|string $column, DbCondOpGeo $op, Position2d|Extent2d|Line2d|Ring2d $value): IDbQueryBuilder
-    {
-        $colName = $this->buildColName($column);
-
-        return $this->whereCondition(
-            DbCondGeo::create($colName, $op, $value)
-        );
-    }
-
-
-    public function whereAll(DbCond ...$conditions): IDbQueryBuilder
-    {
-        $multiCond = DbCondMulti::create(DbCondCombinator::AND, ...$conditions);
-        $this->whereCondition($multiCond);
-
-        return $this;
-    }
-
-
-    public function whereAny(DbCond ...$conditions): IDbQueryBuilder
-    {
-        $multiCond = DbCondMulti::create(DbCondCombinator::OR, ...$conditions);
-        $this->whereCondition($multiCond);
-
-        return $this;
-    }
-
-
-    public function whereInMaxDist(DbCol|string $latColumn, DbCol|string $lonColumn, Position2d $pos, float $maxDistDeg): IDbQueryBuilder
-    {
-        $latColName = $this->buildColName($latColumn);
-        $lonColName = $this->buildColName($lonColumn);
-
-        $this->whereAll(
-            DbCondSimple::create($latColName, DbCondOp::GT, $pos->latitude - $maxDistDeg),
-            DbCondSimple::create($latColName, DbCondOp::LT, $pos->latitude + $maxDistDeg),
-            DbCondSimple::create($lonColName, DbCondOp::GT, $pos->longitude - $maxDistDeg),
-            DbCondSimple::create($lonColName, DbCondOp::LT, $pos->longitude + $maxDistDeg)
-        );
-
-        return $this;
     }
 
 

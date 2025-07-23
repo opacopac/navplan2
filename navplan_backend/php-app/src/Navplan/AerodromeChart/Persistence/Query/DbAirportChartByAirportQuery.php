@@ -43,7 +43,7 @@ class DbAirportChartByAirportQuery implements IAirportChartByAirportQuery
                     ->else("4")
                     ->build() . " AS sortorder1"
             )
-            ->whereAll(
+            ->where()->all(
                 DbCondSimple::equals(DbTableAirportCharts::COL_AD_ICAO, $airportIcao),
                 DbCondSimple::equals(DbTableAirportCharts::COL_ACTIVE, true),
                 $userId > 0
@@ -53,7 +53,7 @@ class DbAirportChartByAirportQuery implements IAirportChartByAirportQuery
                     DbCondSimple::equals(DbTableAirportCharts::COL_USER_ID, null)
                 )
                     : DbCondSimple::equals(DbTableAirportCharts::COL_USER_ID, null)
-            )
+            )->end()
             ->orderBy(DbTableAirportCharts::COL_SOURCE, DbSortOrder::ASC)
             ->orderBy("sortorder1", DbSortOrder::ASC)
             ->build();

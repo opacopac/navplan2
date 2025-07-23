@@ -32,10 +32,10 @@ class DbAirportByTextQuery implements IAirportByTextQuery
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAirport::TABLE_NAME)
-            ->whereAny(
+            ->where()->any(
                 DbCondText::create(DbTableAirport::COL_ICAO, DbCondOpTxt::LIKE_PREFIX, $searchText),
                 DbCondText::create(DbTableAirport::COL_NAME, DbCondOpTxt::LIKE_PREFIX, $searchText)
-            )
+            )->end()
             ->orderBy(MySqlDbCaseBuilder::create($this->dbService)
                 ->whenEquals(DbTableAirport::COL_COUNTRY, "CH", "1")
                 ->else("2")

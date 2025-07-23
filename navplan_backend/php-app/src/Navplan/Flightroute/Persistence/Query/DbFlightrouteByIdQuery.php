@@ -24,10 +24,10 @@ class DbFlightrouteByIdQuery implements IFlightrouteByIdQuery
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableFlightroute::TABLE_NAME)
-            ->whereAll(
+            ->where()->all(
                 DBCondSimple::equals(DbTableFlightroute::COL_ID, $flightrouteId),
                 DBCondSimple::equals(DbTableFlightroute::COL_ID_USER, $userId)
-            )
+            )->end()
             ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading flightroute");

@@ -23,10 +23,10 @@ class DbTrackByIdQuery implements ITrackByIdQuery
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DBTableTrack::TABLE_NAME)
-            ->whereAll(
+            ->where()->all(
                 DbCondSimple::equals(DbTableTrack::COL_ID, $trackId),
                 DbCondSimple::equals(DbTableTrack::COL_ID_USER, $userId)
-            )
+            )->end()
             ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading track");

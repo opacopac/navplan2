@@ -29,7 +29,7 @@ class DbAirportByPositionQuery implements IAirportByPositionQuery
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAirport::TABLE_NAME)
-            ->whereInMaxDist(DbTableAirport::COL_LATITUDE, DbTableAirport::COL_LONGITUDE, $position, $maxRadius_deg)
+            ->where()->inMaxDist(DbTableAirport::COL_LATITUDE, DbTableAirport::COL_LONGITUDE, $position, $maxRadius_deg)->end()
             ->orderByLatLonDist(DbTableAirport::COL_LATITUDE, DbTableAirport::COL_LONGITUDE, $position)
             ->limit($maxResults)
             ->build();

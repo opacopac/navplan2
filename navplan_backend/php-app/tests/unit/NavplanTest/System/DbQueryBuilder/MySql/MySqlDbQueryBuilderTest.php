@@ -138,7 +138,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         $c1 = $t->getCol("col1");
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom($t)
-            ->whereEquals($c1, "value1");
+            ->where()->equals($c1, "value1")->end();
 
         // when
         $query = $qb->build();
@@ -155,7 +155,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         $c1 = $t->getCol("col1");
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom($t)
-            ->whereEquals($c1, "value1");
+            ->where()->equals($c1, "value1")->end();
 
         // when
         $query = $qb->build();
@@ -170,7 +170,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         // given
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->wherePrefixLike("col1", "value1");
+            ->where()->prefixLike("col1", "value1")->end();
 
         // when
         $query = $qb->build();
@@ -185,11 +185,11 @@ class MySqlDbQueryBuilderTest extends TestCase
         // given
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->whereAll(
+            ->where()->all(
                 DbCondSimple::create("col1", DbCondOp::EQ, true),
                 DbCondSimple::create("col2", DbCondOp::GT, 456),
                 DbCondSimple::create("col3", DbCondOp::LT_OR_E, 789),
-            );
+            )->end();
 
         // when
         $query = $qb->build();
@@ -204,11 +204,11 @@ class MySqlDbQueryBuilderTest extends TestCase
         // given
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->whereAny(
+            ->where()->any(
                 DbCondSimple::create("col1", DbCondOp::NE, 123),
                 DbCondSimple::create("col2", DbCondOp::LT, 456),
                 DbCondSimple::create("col3", DbCondOp::GT_OR_E, 789),
-            );
+            )->end();
 
         // when
         $query = $qb->build();
@@ -247,7 +247,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         $pos = new Position2d(7.5, 47.5);
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom("test_table")
-            ->whereInMaxDist("lat", "lon", $pos, 0.5);
+            ->where()->inMaxDist("lat", "lon", $pos, 0.5)->end();
 
         // when
         $query = $qb->build();

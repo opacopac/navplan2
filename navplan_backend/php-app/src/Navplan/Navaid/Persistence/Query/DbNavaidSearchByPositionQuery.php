@@ -23,7 +23,7 @@ class DbNavaidSearchByPositionQuery implements INavaidSearchByPositionQuery
         $t = new DbTableNavaid();
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom($t)
-            ->whereInMaxDist($t->colLat(), $t->colLon(), $position, $maxRadius_deg)
+            ->where()->inMaxDist($t->colLat(), $t->colLon(), $position, $maxRadius_deg)->end()
             ->orderByLatLonDist($t->colLat(), $t->colLon(), $position)
             ->limit($maxResults)
             ->build();

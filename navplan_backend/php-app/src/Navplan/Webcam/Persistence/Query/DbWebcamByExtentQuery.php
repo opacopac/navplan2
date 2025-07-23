@@ -24,13 +24,13 @@ class DbWebcamByExtentQuery implements IWebcamByExtentQuery
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableWebcam::TABLE_NAME)
-            ->whereAll(
+            ->where()->all(
                 DbCondSimple::equals(DbTableWebcam::COL_AD_ICAO, NULL),
                 DbCondSimple::create(DbTableWebcam::COL_LON, DbCondOp::GT_OR_E, $extent->minPos->longitude),
                 DbCondSimple::create(DbTableWebcam::COL_LON, DbCondOp::LT_OR_E, $extent->maxPos->longitude),
                 DbCondSimple::create(DbTableWebcam::COL_LAT, DbCondOp::GT_OR_E, $extent->minPos->latitude),
                 DbCondSimple::create(DbTableWebcam::COL_LAT, DbCondOp::LT_OR_E, $extent->maxPos->latitude)
-            )
+            )->end()
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error while searching webcams by extent");

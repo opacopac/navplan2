@@ -28,10 +28,10 @@ class DbAirportRunwayQuery implements IAirportRunwayQuery
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAirportRunway::TABLE_NAME)
-            ->whereAll(
+            ->where()->all(
                 DbCondSimple::equals(DbTableAirportRunway::COL_AIRPORT_ID, $airportId),
                 DbCondSimple::equals(DbTableAirportRunway::COL_OPERATIONS, "ACTIVE")
-            )
+            )->end()
             ->orderBy(DbTableAirportRunway::COL_LENGTH, DbSortOrder::DESC)
             ->orderBy(DbTableAirportRunway::COL_SURFACE, DbSortOrder::ASC)
             ->orderBy(DbTableAirportRunway::COL_ID, DbSortOrder::ASC)
