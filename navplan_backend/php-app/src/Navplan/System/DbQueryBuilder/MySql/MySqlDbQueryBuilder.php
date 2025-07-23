@@ -140,13 +140,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
     private function buildTableName(DbTable|string $table): string
     {
-        match (true) {
-            $table instanceof DbTable => $tableName = $table->getName() . ($table->getAlias() ? " AS " . $table->getAlias() : ""),
-            is_string($table) => $tableName = $table,
-            default => throw new InvalidArgumentException("Unsupported table type")
-        };
-
-        return $tableName;
+        return MySqlDbTableBuilder::buildTableName($table);
     }
 
 

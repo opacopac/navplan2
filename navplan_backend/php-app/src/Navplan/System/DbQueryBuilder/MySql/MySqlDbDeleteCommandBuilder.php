@@ -2,7 +2,6 @@
 
 namespace Navplan\System\DbQueryBuilder\MySql;
 
-use InvalidArgumentException;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
@@ -32,7 +31,7 @@ class MySqlDbDeleteCommandBuilder implements IDbDeleteCommandBuilder
 
     public function deleteFrom(DbTable|string $table): IDbDeleteCommandBuilder
     {
-        $this->deleteStr = "DELETE FROM " . $this->buildTableName($table);
+        $this->deleteStr = "DELETE FROM " . MySqlDbTableBuilder::buildTableName($table);
 
         return $this;
     }
@@ -59,17 +58,5 @@ class MySqlDbDeleteCommandBuilder implements IDbDeleteCommandBuilder
             : "";
 
         return $this->deleteStr . ($whereStr !== "" ? " WHERE " . $whereStr : "");
-    }
-
-
-    private function buildTableName(DbTable|string $table): string
-    {
-        match (true) {
-            $table instanceof DbTable => $tableName = $table->getName() . ($table->getAlias() ? " AS " . $table->getAlias() : ""),
-            is_string($table) => $tableName = $table,
-            default => throw new InvalidArgumentException("Unsupported table type")
-        };
-
-        return $tableName;
     }
 }
