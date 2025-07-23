@@ -27,6 +27,7 @@ class DbAerodromeReportingByIcaoQuery implements IAerodromeReportingByIcaoQuery
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading reporting points by airport ICAO");
 
-        return DbReportingPointConverter::fromDbResult($result);
+        return DbReportingPointConverter::create()
+            ->fromDbResult($result);
     }
 }

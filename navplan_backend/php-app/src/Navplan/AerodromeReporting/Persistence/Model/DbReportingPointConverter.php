@@ -5,26 +5,21 @@ namespace Navplan\AerodromeReporting\Persistence\Model;
 use Navplan\AerodromeReporting\Domain\Model\ReportingPoint;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Ring2d;
-use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\DbEntityConverter;
 
 
-class DbReportingPointConverter
+/**
+ * @extends DbEntityConverter<ReportingPoint>
+ */
+class DbReportingPointConverter extends DbEntityConverter
 {
-    /**
-     * @param IDbResult $result
-     * @return ReportingPoint[]
-     */
-    public static function fromDbResult(IDbResult $result): array
+    public static function create(): DbReportingPointConverter
     {
-        $reportingPoints = [];
-        while ($row = $result->fetch_assoc()) {
-            $reportingPoints[] = self::fromDbRow($row);
-        }
-        return $reportingPoints;
+        return new DbReportingPointConverter();
     }
 
 
-    public static function fromDbRow(array $row): ReportingPoint
+    public function fromDbRow(array $row): ReportingPoint
     {
         $r = new DbRowReportingPoints($row);
 
