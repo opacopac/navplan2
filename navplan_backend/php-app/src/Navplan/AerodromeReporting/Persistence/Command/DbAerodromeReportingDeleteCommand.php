@@ -8,7 +8,7 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
 
 
-class DbAerodromeErportingDeleteCommand implements IAerodromeReportingDeleteCommand
+class DbAerodromeReportingDeleteCommand implements IAerodromeReportingDeleteCommand
 {
     public function __construct(
         private readonly IDbService $dbService,
@@ -19,9 +19,12 @@ class DbAerodromeErportingDeleteCommand implements IAerodromeReportingDeleteComm
 
     public function delete(int $reportingPointId, int $userId)
     {
-        $query = "DELETE FROM " . DbTableReportingPoints::TABLE_NAME;
-        $query .= " WHERE " . DbTableReportingPoints::COL_ID . "=" . DbHelper::getDbIntValue($reportingPointId);
-        //$query .= " AND " . DbTableReportingPoints::COL_USER_ID . "=" . DbHelper::getDbIntValue($userId);
+        $t = new DbTableReportingPoints();
+        $query = $this->dbService->getDeleteCommandBuilder()
+            ->deleteFrom($t)
+            ->whereEquals($t->colId(), DbHelper::getDbIntValue($reportingPointId))
+            ->build();
+
         $this->dbService->execCUDQuery($query, "error deleting reporting point");
     }
 }

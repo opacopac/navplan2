@@ -8,6 +8,8 @@ use Navplan\System\Db\Domain\Model\IDbStatement;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbCredentials;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseFactory;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbDeleteCommandBuilder;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
 
 
@@ -104,5 +106,15 @@ class MockDbService implements IDbService {
     function getWhereClauseFactory(): DbWhereClauseFactory
     {
         // TODO: Implement getWhereClauseFactory() method.
+    }
+
+    function getInsertCommandBuilder(): IDbInsertCommandBuilder
+    {
+        // TODO: Implement getInsertCommandBuilder() method.
+    }
+
+    function getDeleteCommandBuilder(): IDbDeleteCommandBuilder
+    {
+        // TODO: Implement getDeleteCommandBuilder() method.
     }
 }

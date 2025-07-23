@@ -25,14 +25,22 @@ class MySqlDbColBuilder
 
     public static function buildColName(DbCol|string $col): string
     {
-        match (true) {
-            $col instanceof DbCol => $colName = $col->getTable()->hasAlias()
+        return match (true) {
+            $col instanceof DbCol => $col->getTable()->hasAlias()
                 ? $col->getTable()->getAlias() . "." . $col->getName()
                 : $col->getName(),
-            is_string($col) => $colName = $col,
+            is_string($col) => $col,
             default => throw new InvalidArgumentException("Unsupported column type")
         };
+    }
 
-        return $colName;
+
+    public static function buildColNameWithoutAlias(DbCol|string $col): string
+    {
+        return match (true) {
+            $col instanceof DbCol => $col->getName(),
+            is_string($col) => $col,
+            default => throw new InvalidArgumentException("Unsupported column type")
+        };
     }
 }

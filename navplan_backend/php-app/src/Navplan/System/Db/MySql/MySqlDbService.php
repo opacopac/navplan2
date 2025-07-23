@@ -8,7 +8,11 @@ use Navplan\System\Db\Domain\Model\DbException;
 use Navplan\System\Db\Domain\Model\IDbResult;
 use Navplan\System\Db\Domain\Model\IDbStatement;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbDeleteCommandBuilder;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
+use Navplan\System\DbQueryBuilder\MySql\MySqlDbDeleteCommandBuilder;
+use Navplan\System\DbQueryBuilder\MySql\MySqlDbInsertCommandBuilder;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbQueryBuilder;
 use Navplan\System\Domain\Service\ILoggingService;
 
@@ -221,6 +225,18 @@ class MySqlDbService implements IDbService
     public function getQueryBuilder(): IDbQueryBuilder
     {
         return MySqlDbQueryBuilder::create($this);
+    }
+
+
+    public function getInsertCommandBuilder(): IDbInsertCommandBuilder
+    {
+        return MySqlDbInsertCommandBuilder::create($this);
+    }
+
+
+    public function getDeleteCommandBuilder(): IDbDeleteCommandBuilder
+    {
+        return MySqlDbDeleteCommandBuilder::create($this);
     }
 
 

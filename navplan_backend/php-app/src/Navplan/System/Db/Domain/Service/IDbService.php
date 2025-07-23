@@ -5,6 +5,8 @@ namespace Navplan\System\Db\Domain\Service;
 use Navplan\System\Db\Domain\Model\IDbResult;
 use Navplan\System\Db\Domain\Model\IDbStatement;
 use Navplan\System\Db\MySql\DbCredentials;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbDeleteCommandBuilder;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
 
 
@@ -36,4 +38,8 @@ interface IDbService
     function prepareStatement(string $query): IDbStatement;
 
     function getQueryBuilder(): IDbQueryBuilder;
+
+    function getInsertCommandBuilder(): IDbInsertCommandBuilder;
+
+    function getDeleteCommandBuilder(): IDbDeleteCommandBuilder;
 }

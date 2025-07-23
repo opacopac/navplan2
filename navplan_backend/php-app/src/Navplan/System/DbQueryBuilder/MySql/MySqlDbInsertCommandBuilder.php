@@ -14,11 +14,11 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
 {
     private string $insertIntoStr;
     /**
-     * @var DbCol[]
+     * @var DbCol|string[]
      */
     private array $columns = [];
     /**
-     * @var string[]
+     * @var float|bool|int|string|null[]
      */
     private array $values = [];
 
@@ -42,17 +42,10 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
     }
 
 
-    public function columns(DbCol ...$columns): IDbInsertCommandBuilder
+    function setValue(string|DbCol $column, float|bool|int|string|null $value): IDbInsertCommandBuilder
     {
-        $this->columns = $columns;
-
-        return $this;
-    }
-
-
-    public function values(string ...$values): IDbInsertCommandBuilder
-    {
-        $this->values = $values;
+        $this->columns[] = $column;
+        $this->values[] = $value;
 
         return $this;
     }
@@ -64,9 +57,15 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
             throw new InvalidArgumentException("Columns and values must be set and have the same number of entries before building the insert command.");
         }
 
-        $columnsStr = join(", ", array_map(fn(DbCol $col) => $col->getName(), $this->columns));
+        $columnsStr = join(", ", array_map(
+            fn(DbCol|string $col) => MySqlDbColBuilder::buildColNameWithoutAlias($col),
+            $this->columns
+        ));
 
-        $valuesStr = join(", ", array_map(fn(string $value) => DbHelper::getDbStringValue($this->dbService, $value), $this->values));
+        $valuesStr = join(", ", array_map(
+            fn(string $value) => DbHelper::getDbStringValue($this->dbService, $value), // TODO
+            $this->values
+        ));
 
         return $this->insertIntoStr . " (" . $columnsStr . ") VALUES (" . $valuesStr . ")";
     }

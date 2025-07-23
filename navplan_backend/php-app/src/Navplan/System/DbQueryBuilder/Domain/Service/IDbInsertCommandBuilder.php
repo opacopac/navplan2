@@ -9,9 +9,7 @@ interface IDbInsertCommandBuilder
 {
     function insertInto(string $table): IDbInsertCommandBuilder;
 
-    function columns(DBCol ...$columns): IDbInsertCommandBuilder;
-
-    function values(string ...$values): IDbInsertCommandBuilder;
+    function setValue(DbCol|string $column, string|int|float|bool|null $value): IDbInsertCommandBuilder;
 
     function build(): string;
 }

@@ -30,8 +30,7 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
         $c1 = $t->getCol("col1");
         $qb = $this->insertCommandBuilder
             ->insertInto($t)
-            ->columns($c1)
-            ->values("value1");
+            ->setValue($c1, "value1");
 
         // when
         $query = $qb->build();
@@ -49,8 +48,8 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
         $c2 = $t->getCol("col2");
         $qb = $this->insertCommandBuilder
             ->insertInto($t)
-            ->columns($c1, $c2)
-            ->values("value1", "value2");
+            ->setValue($c1, "value1")
+            ->setValue($c2, "value2");
 
         // when
         $query = $qb->build();
@@ -67,8 +66,7 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
         $c1 = $t->getCol("col1");
         $qb = $this->insertCommandBuilder
             ->insertInto($t)
-            ->columns($c1)
-            ->values("value1");
+            ->setValue($c1, "value1");
 
         // when
         $query = $qb->build();
