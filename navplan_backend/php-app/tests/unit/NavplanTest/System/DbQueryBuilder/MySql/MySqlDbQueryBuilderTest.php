@@ -138,7 +138,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         $c1 = $t->getCol("col1");
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom($t)
-            ->where()->equals($c1, "value1")->end();
+            ->whereEquals($c1, "value1");
 
         // when
         $query = $qb->build();

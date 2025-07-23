@@ -3,21 +3,12 @@
 namespace Navplan\System\DbQueryBuilder\MySql;
 
 use InvalidArgumentException;
-use Navplan\Common\Domain\Model\Extent2d;
-use Navplan\Common\Domain\Model\Line2d;
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
@@ -30,7 +21,9 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
     private ?DbCond $where = null;
 
-    /** @var string[] $orderList */
+    /**
+     * @var string[] $orderList
+     */
     private array $orderList = [];
 
     private int $limit = 0;
@@ -75,7 +68,8 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function where(): IDbWhereClauseBuilder {
+    public function where(): IDbWhereClauseBuilder
+    {
         return new MySqlDbWhereClauseBuilder($this->dbService, $this);
     }
 

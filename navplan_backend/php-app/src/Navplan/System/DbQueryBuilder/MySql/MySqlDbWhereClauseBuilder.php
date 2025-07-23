@@ -21,6 +21,9 @@ use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbWhereClauseBuilder;
 
 
+/**
+ * @implements IDbWhereClauseBuilder<IDbQueryBuilder>
+ */
 class MySqlDbWhereClauseBuilder implements IDbWhereClauseBuilder
 {
     private ?DbCond $whereCondition = null;

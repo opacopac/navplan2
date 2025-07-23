@@ -13,6 +13,9 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
 
 
+/**
+ * @template T
+ */
 interface IDbWhereClauseBuilder
 {
     function condition(DbCond $cond): IDbWhereClauseBuilder;
@@ -33,5 +36,8 @@ interface IDbWhereClauseBuilder
 
     public function inMaxDist(DbCol|string $latColumn, DbCol|string $lonColumn, Position2d $pos, float $maxDistDeg): IDbWhereClauseBuilder;
 
-    function end(): IDbQueryBuilder;
+    /**
+     * @return T
+     */
+    function end(): mixed;
 }
