@@ -10,4 +10,7 @@ enum DbColType
     case DOUBLE;
     case STRING;
     case BLOB;
+    case TIMESTAMP;
+    case GEO_POINT;
+    case GEOMETRY;
 }

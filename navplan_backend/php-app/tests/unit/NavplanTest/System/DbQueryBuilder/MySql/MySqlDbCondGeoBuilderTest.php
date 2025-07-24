@@ -3,6 +3,7 @@
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbColType;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
@@ -28,9 +29,10 @@ class MySqlDbCondGeoBuilderTest extends TestCase
     public function test_intersects_st()
     {
         // given
-        $t = new DbTable("test_table", "t1", ["col1"]);
+        $t = new DbTable("test_table", "t1");
+        $c1 = $t->addCol("col1", DbColType::STRING);
         $pos = new Position2d(7.5, 47.5);
-        $clause = DbCondGeo::create($t->getCol("col1"), DbCondOpGeo::INTERSECTS_ST, $pos);
+        $clause = DbCondGeo::create($c1, DbCondOpGeo::INTERSECTS_ST, $pos);
         $wcb = $this->whereClauseBuilder->condition($clause);
 
         // when

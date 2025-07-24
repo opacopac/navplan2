@@ -2,6 +2,7 @@
 
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
+use Navplan\System\DbQueryBuilder\Domain\Model\DbColType;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpTxt;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
@@ -27,8 +28,8 @@ class MySqlDbCondTextBuilderTest extends TestCase
     public function test_like_prefix()
     {
         // given
-        $t = new DbTable("test_table", "t1", ["col1", "col2"]);
-        $c1 = $t->getCol("col1");
+        $t = new DbTable("test_table", "t1");
+        $c1 = $t->addCol("col1", DbColType::STRING);
         $clause = DbCondText::create($c1, DbCondOpTxt::LIKE_PREFIX, "value1");
         $wcb = $this->whereClauseBuilder->condition($clause);
 

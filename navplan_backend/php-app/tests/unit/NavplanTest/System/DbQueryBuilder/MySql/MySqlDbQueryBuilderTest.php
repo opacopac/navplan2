@@ -3,6 +3,7 @@
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbColType;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
@@ -37,7 +38,8 @@ class MySqlDbQueryBuilderTest extends TestCase
     public function test_select_all()
     {
         // given
-        $t = new DbTable("test_table", null, ["col1", "col2", "col3"]);
+        $t = new DbTable("test_table", null);
+        $t->addCol("col1", DbColType::STRING);
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom($t);
 
@@ -52,7 +54,8 @@ class MySqlDbQueryBuilderTest extends TestCase
     public function test_select_all_with_alias()
     {
         // given
-        $t = new DbTable("test_table", "t1", ["col1", "col2", "col3"]);
+        $t = new DbTable("test_table", "t1");
+        $t->addCol("col1", DbColType::STRING);
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom($t);
 
@@ -85,9 +88,9 @@ class MySqlDbQueryBuilderTest extends TestCase
     public function test_select_from()
     {
         // given
-        $t = new DbTable("test_table", null, ["col1", "col2"]);
-        $c1 = $t->getCol("col1");
-        $c2 = $t->getCol("col2");
+        $t = new DbTable("test_table", null);
+        $c1 = $t->addCol("col1", DbColType::STRING);
+        $c2 = $t->addCol("col2", DbColType::STRING);
         $qb = $this->mySqlDbQueryBuilder
             ->selectFrom($t, $c1, $c2);
 
@@ -102,9 +105,9 @@ class MySqlDbQueryBuilderTest extends TestCase
     public function test_select_from_with_alias()
     {
         // given
-        $t = new DbTable("test_table", "t1", ["col1", "col2"]);
-        $c1 = $t->getCol("col1");
-        $c2 = $t->getCol("col2");
+        $t = new DbTable("test_table", "t1");
+        $c1 = $t->addCol("col1", DbColType::STRING);
+        $c2 = $t->addCol("col2", DbColType::STRING);
         $qb = $this->mySqlDbQueryBuilder
             ->selectFrom($t, $c1, $c2);
 
@@ -137,8 +140,8 @@ class MySqlDbQueryBuilderTest extends TestCase
     public function test_where_equals()
     {
         // given
-        $t = new DbTable("test_table", null, ["col1"]);
-        $c1 = $t->getCol("col1");
+        $t = new DbTable("test_table", null);
+        $c1 = $t->addCol("col1", DbColType::STRING);
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom($t)
             ->whereEquals($c1, "value1");
@@ -154,8 +157,8 @@ class MySqlDbQueryBuilderTest extends TestCase
     public function test_where_equals_with_alias()
     {
         // given
-        $t = new DbTable("test_table", "t1", ["col1"]);
-        $c1 = $t->getCol("col1");
+        $t = new DbTable("test_table", "t1");
+        $c1 = $t->addCol("col1", DbColType::STRING);
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom($t)
             ->whereEquals($c1, "value1");
@@ -268,13 +271,13 @@ class MySqlDbQueryBuilderTest extends TestCase
     public function test_order_by()
     {
         // given
-        $t = new DbTable("test_table", null, ["col1", "col2"]);
-        $col1 = $t->getCol("col1");
-        $col2 = $t->getCol("col2");
+        $t = new DbTable("test_table", null);
+        $c1 = $t->addCol("col1", DbColType::STRING);
+        $c2 = $t->addCol("col2", DbColType::STRING);
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom($t)
-            ->orderBy($col1, DbSortOrder::ASC)
-            ->orderBy($col2, DbSortOrder::DESC);
+            ->orderBy($c1, DbSortOrder::ASC)
+            ->orderBy($c2, DbSortOrder::DESC);
 
         // when
         $query = $qb->build();
@@ -287,13 +290,13 @@ class MySqlDbQueryBuilderTest extends TestCase
     public function test_order_by_with_alias()
     {
         // given
-        $t = new DbTable("test_table", "t1", ["col1", "col2"]);
-        $col1 = $t->getCol("col1");
-        $col2 = $t->getCol("col2");
+        $t = new DbTable("test_table", "t1");
+        $c1 = $t->addCol("col1", DbColType::STRING);
+        $c2 = $t->addCol("col2", DbColType::STRING);
         $qb = $this->mySqlDbQueryBuilder
             ->selectAllFrom($t)
-            ->orderBy($col1, DbSortOrder::ASC)
-            ->orderBy($col2, DbSortOrder::DESC);
+            ->orderBy($c1, DbSortOrder::ASC)
+            ->orderBy($c2, DbSortOrder::DESC);
 
         // when
         $query = $qb->build();

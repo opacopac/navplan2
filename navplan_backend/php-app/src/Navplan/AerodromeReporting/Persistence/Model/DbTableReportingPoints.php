@@ -27,7 +27,7 @@ class DbTableReportingPoints extends DbTable
 
     public function __construct(string $alias = null)
     {
-        parent::__construct(self::TABLE_NAME, $alias, []);
+        parent::__construct(self::TABLE_NAME, $alias);
 
         $this->addCol(self::COL_ID, DbColType::INT);
         $this->addCol(self::COL_TYPE, DbColType::STRING);
@@ -41,7 +41,7 @@ class DbTableReportingPoints extends DbTable
         $this->addCol(self::COL_LAT, DbColType::DOUBLE, true);
         $this->addCol(self::COL_LON, DbColType::DOUBLE, true);
         $this->addCol(self::COL_POLYGON, DbColType::STRING, true);
-        $this->addCol(self::COL_EXTENT, DbColType::STRING);
+        $this->addCol(self::COL_EXTENT, DbColType::GEOMETRY);
     }
 
 

@@ -8,7 +8,7 @@ class DbTable
     /**
      * @var DbCol[]
      */
-    private array $cols;
+    private array $cols = [];
 
 
     /**
@@ -18,13 +18,9 @@ class DbTable
      */
     public function __construct(
         private readonly string $name,
-        private readonly ?string $alias = null,
-        array $colNames = []
+        private readonly ?string $alias = null
     )
     {
-        foreach ($colNames as $colName) {
-            $this->addCol($colName, DbColType::STRING, false); // TODO: use correct col type
-        }
     }
 
 
@@ -61,9 +57,11 @@ class DbTable
     }
 
 
-    protected function addCol(string $colName, DbColType $colType, bool $isNullable = false): void
+    public function addCol(string $colName, DbColType $colType, bool $isNullable = false): DbCol
     {
         $col = new DbCol($this, $colName, $colType, $isNullable);
         $this->cols[$colName] = $col;
+
+        return $col;
     }
 }
