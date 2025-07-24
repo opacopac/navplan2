@@ -5,7 +5,10 @@ namespace Navplan\System\Db\Domain\Model;
 interface IDbStatement {
     function bind_param(string $types, mixed &...$vars): bool;
 
-    function execute(): bool;
+    /**
+     * @throws DbException
+     */
+    function execute(string $errorMessage): bool;
 
     function getInsertId(): int;
 }

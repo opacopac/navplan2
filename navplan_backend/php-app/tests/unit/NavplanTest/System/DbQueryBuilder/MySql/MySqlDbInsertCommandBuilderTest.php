@@ -123,4 +123,22 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
         // then
         $this->assertEquals("INSERT INTO test_table (col1, col2) VALUES (?, ?)", $statementStr);
     }
+
+
+    public function test_build_prepared_statement_for_geo_types() {
+        // given
+        $t = new DbTable("test_table", null);
+        $c1 = $t->addCol("col1", DbColType::GEOMETRY);
+        $c2 = $t->addCol("col2", DbColType::GEO_POINT);
+        $qb = $this->insertCommandBuilder
+            ->insertInto($t)
+            ->setValue($c1, "POINT(1 2)")
+            ->setValue($c2, "POINT(3 4)");
+
+        // when
+        $statementStr = $qb->build(true);
+
+        // then
+        $this->assertEquals("INSERT INTO test_table (col1, col2) VALUES (ST_GeomFromText(?), ST_GeomFromText(?))", $statementStr);
+    }
 }

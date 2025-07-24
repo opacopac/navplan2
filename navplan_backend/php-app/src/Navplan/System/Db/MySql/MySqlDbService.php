@@ -243,7 +243,7 @@ class MySqlDbService implements IDbService
     /**
      * @throws DbException
      */
-    private function autoOpen()
+    private function autoOpen(): void
     {
         if (!$this->isOpen()) {
             $this->openDb();

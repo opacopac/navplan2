@@ -3,6 +3,7 @@
 namespace Navplan\System\DbQueryBuilder\MySql;
 
 use InvalidArgumentException;
+use Navplan\System\Db\Domain\Model\IDbStatement;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
@@ -16,12 +17,9 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
 {
     private string $insertIntoStr;
     /**
-     * @var DbCol|string[]
+     * @var DbCol[]
      */
     private array $columns = [];
-    /**
-     * @var float|bool|int|string|null[]
-     */
     private array $values = [];
 
 
@@ -36,20 +34,26 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
     }
 
 
-    public function insertInto(DbTable|string $table): IDbInsertCommandBuilder
+    public function insertInto(DbTable $table): IDbInsertCommandBuilder
     {
-        $this->insertIntoStr = "INSERT INTO " . MySqlDbTableBuilder::buildTableNameWithoutAlias($table);
+        $this->insertIntoStr = "INSERT INTO " . MySqlDbTableBuilder::buildTableName($table, false);
 
         return $this;
     }
 
 
-    function setValue(string|DbCol $column, float|bool|int|string|null $value): IDbInsertCommandBuilder
+    function setValue(DbCol $column, mixed $value): IDbInsertCommandBuilder
     {
         $this->columns[] = $column;
         $this->values[] = $value;
 
         return $this;
+    }
+
+
+    public function getValues(): array
+    {
+        return $this->values;
     }
 
 
@@ -79,6 +83,23 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
     }
 
 
+    public function buildStatement(): IDbStatement
+    {
+        $query = $this->build(true);
+        return $this->dbService->prepareStatement($query);
+    }
+
+
+    public function buildAndBindStatement(): IDbStatement
+    {
+        $statement = $this->buildStatement();
+        $bindParamTypes = $this->buildBindParamTypes();
+        $statement->bind_param($bindParamTypes, ...$this->getValues());
+
+        return $statement;
+    }
+
+
     private function buildColStr(): string
     {
         return join(", ", array_map(
@@ -102,14 +123,45 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
 
     private function buildValuesStr(bool $isPreparedStatement = false): string
     {
-        if ($isPreparedStatement) {
-            return join(", ", array_fill(0, count($this->values), "?"));
-        } else {
-            return join(", ", array_map(
-                fn(float|bool|int|string|null $value) => DbHelper::getDbStringValue($this->dbService, $value), // TODO: use proper type conversion
-                $this->values
-            ));
+        $valueStrs = [];
+
+        for ($i = 0; $i < count($this->columns); $i++) {
+            $col = $this->columns[$i];
+            $value = $this->values[$i];
+            $valueStrs[] = $isPreparedStatement
+                ? $this->buildPreparedValueStr($col, $value)
+                : $this->buildValueStr($col, $value);
         }
+
+        return join(", ", $valueStrs);
+    }
+
+
+    private function buildPreparedValueStr(DbCol $col, mixed $value): string {
+        return match ($col->getType()) {
+            DbColType::GEOMETRY,
+            DbColType::GEO_POINT => "ST_GeomFromText(?)",
+            default => "?",
+        };
+    }
+
+
+
+    private function buildValueStr(DbCol $col, mixed $value): string
+    {
+        if ($value === null) {
+            return "NULL";
+        }
+
+        return match ($col->getType()) {
+            DbColType::STRING => DbHelper::getDbStringValue($this->dbService, $value),
+            DbColType::INT => DbHelper::getDbIntValue($value),
+            DbColType::BOOL => DbHelper::getDbBoolValue($value),
+            DbColType::DOUBLE => DbHelper::getDbFloatValue($value),
+            DbColType::TIMESTAMP => DbHelper::getDbUtcTimeString($value),
+            DbColType::GEO_POINT => DbHelper::getDbPointStringFromPos($value),
+            default => throw new InvalidArgumentException("Unsupported column type: " . $col->getType()->name),
+        };
     }
 
 

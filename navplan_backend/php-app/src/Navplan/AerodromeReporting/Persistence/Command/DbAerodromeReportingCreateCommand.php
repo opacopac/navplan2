@@ -5,6 +5,7 @@ namespace Navplan\AerodromeReporting\Persistence\Command;
 use Navplan\AerodromeReporting\Domain\Command\IAerodromeReportingCreateCommand;
 use Navplan\AerodromeReporting\Domain\Model\ReportingPoint;
 use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
+use Navplan\System\Db\Domain\Model\DbException;
 use Navplan\System\Db\Domain\Service\IDbService;
 
 
@@ -17,10 +18,13 @@ class DbAerodromeReportingCreateCommand implements IAerodromeReportingCreateComm
     }
 
 
+    /**
+     * @throws DbException
+     */
     public function create(ReportingPoint $reportingPoint, int $userId): ReportingPoint
     {
         $t = new DbTableReportingPoints();
-        $query = $this->dbService->getInsertCommandBuilder()
+        $statement = $this->dbService->getInsertCommandBuilder()
             ->insertInto($t)
             ->setValue($t->colType(), $reportingPoint->type)
             ->setValue($t->colAdIcao(), $reportingPoint->airport_icao)
@@ -33,10 +37,10 @@ class DbAerodromeReportingCreateCommand implements IAerodromeReportingCreateComm
             ->setValue($t->colLat(), $reportingPoint->position?->latitude ?? NULL)
             ->setValue($t->colLon(), $reportingPoint->position?->longitude ?? NULL)
             ->setValue($t->colPolygon(), $reportingPoint->polygon?->toString() ?? "")
-            ->build();
+            ->buildAndBindStatement();
 
-        $this->dbService->execCUDQuery($query, "error creating reporting point");
-        $reportingPoint->id = $this->dbService->getInsertId();
+        $statement->execute("error creating reporting point");
+        $reportingPoint->id = $statement->getInsertId();
 
         return $reportingPoint;
     }

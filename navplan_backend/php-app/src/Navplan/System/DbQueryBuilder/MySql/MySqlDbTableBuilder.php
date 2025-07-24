@@ -8,20 +8,10 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 
 class MySqlDbTableBuilder
 {
-    public static function buildTableName(DbTable|string $table): string
+    public static function buildTableName(DbTable|string $table, bool $withAlias = true): string
     {
         return match (true) {
-            $table instanceof DbTable => $tableName = $table->getName() . ($table->getAlias() ? " AS " . $table->getAlias() : ""),
-            is_string($table) => $tableName = $table,
-            default => throw new InvalidArgumentException("Unsupported table type")
-        };
-    }
-
-
-    public static function buildTableNameWithoutAlias(DbTable|string $table): string
-    {
-        return match (true) {
-            $table instanceof DbTable => $table->getName(),
+            $table instanceof DbTable => $table->getName() . ($withAlias && $table->getAlias() ? " AS " . $table->getAlias() : ""),
             is_string($table) => $table,
             default => throw new InvalidArgumentException("Unsupported table type")
         };
