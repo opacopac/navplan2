@@ -9,8 +9,8 @@ use Navplan\System\Domain\Service\ILoggingService;
 
 class MySqlDbStatement implements IDbStatement {
     public function __construct(
-        private mysqli_stmt $stmt,
-        private ILoggingService $loggingService
+        private readonly mysqli_stmt $stmt,
+        private readonly ILoggingService $loggingService
     ) {
     }
 

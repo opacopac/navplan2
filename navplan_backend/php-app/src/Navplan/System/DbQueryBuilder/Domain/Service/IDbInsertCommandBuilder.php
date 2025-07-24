@@ -3,6 +3,7 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Service;
 
 
+use Navplan\System\Db\Domain\Model\IDbStatement;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
 
 interface IDbInsertCommandBuilder
@@ -11,5 +12,7 @@ interface IDbInsertCommandBuilder
 
     function setValue(DbCol|string $column, string|int|float|bool|null $value): IDbInsertCommandBuilder;
 
-    function build(): string;
+    function build(bool $isPreparedStatement = false): string;
+
+    function buildBindParamTypes(): string;
 }
