@@ -5,34 +5,47 @@ namespace Navplan\Navaid\Persistence\Command;
 use Navplan\Common\GeoHelper;
 use Navplan\Navaid\Domain\Command\INavaidInsertAllCommand;
 use Navplan\Navaid\Persistence\Model\DbTableNavaid;
+use Navplan\System\Db\Domain\Model\DbException;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\MySql\MySqlDbInsertCommandBuilder;
 use Navplan\System\Domain\Service\ILoggingService;
 use Throwable;
 
 
-class DbNavaidInsertAllCommand implements INavaidInsertAllCommand {
+class DbNavaidInsertAllCommand implements INavaidInsertAllCommand
+{
     public function __construct(
-        private IDbService $dbService,
-        private ILoggingService $loggingService
-    ) {
+        private readonly IDbService $dbService,
+        private readonly ILoggingService $loggingService
+    )
+    {
     }
 
 
-    public function insertAll(array $navaids): void {
-        $query = "INSERT INTO " . DbTableNavaid::TABLE_NAME . " (" . join(", ", [
-                DbTableNavaid::COL_TYPE,
-                DbTableNavaid::COL_KUERZEL,
-                DbTableNavaid::COL_NAME,
-                DbTableNavaid::COL_COUNTRY,
-                DbTableNavaid::COL_LONGITUDE,
-                DbTableNavaid::COL_LATITUDE,
-                DbTableNavaid::COL_ELEVATION,
-                DbTableNavaid::COL_FREQUENCY,
-                DbTableNavaid::COL_DECLINATION,
-                DbTableNavaid::COL_TRUENORTH,
-                DbTableNavaid::COL_GEOHASH,
-                DbTableNavaid::COL_LONLAT
-            ]) . ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ST_GeomFromText(?))";
+    /**
+     * @throws Throwable
+     * @throws DbException
+     */
+    public function insertAll(array $navaids): void
+    {
+        $t = new DbTableNavaid();
+        $icb = MySqlDbInsertCommandBuilder::create($this->dbService)
+            ->insertInto($t)
+            ->setValue($t->colType(), null)
+            ->setValue($t->colCountry(), null)
+            ->setValue($t->colName(), null)
+            ->setValue($t->colKuerzel(), null)
+            ->setValue($t->colLat(), null)
+            ->setValue($t->colLon(), null)
+            ->setValue($t->colElevation(), null)
+            ->setValue($t->colFrequency(), null)
+            ->setValue($t->colDeclination(), null)
+            ->setValue($t->colTrueNorth(), null)
+            ->setValue($t->colGeoHash(), null)
+            ->setValue($t->colLonlat(), null);
+
+        $query = $icb->build(true);
+        $bindParamTypes = $icb->buildBindParamTypes();
 
         $statement = $this->dbService->prepareStatement($query);
 
@@ -44,13 +57,14 @@ class DbNavaidInsertAllCommand implements INavaidInsertAllCommand {
                 $lonlat = "POINT(" . $navaid->position->longitude . " " . $navaid->position->latitude . ")";
                 $country = "XX"; // TODO
 
-                $statement->bind_param("ssssdddsdiss",
+                $statement->bind_param(
+                    $bindParamTypes,
                     $type,
-                    $navaid->kuerzel,
-                    $navaid->name,
                     $country,
-                    $navaid->position->longitude,
+                    $navaid->name,
+                    $navaid->kuerzel,
                     $navaid->position->latitude,
+                    $navaid->position->longitude,
                     $elevation,
                     $navaid->frequency->value,
                     $navaid->declination,
