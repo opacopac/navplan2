@@ -64,7 +64,7 @@ class DbHelper
     }
 
 
-    public static function getDbPointStringFromPos(Position2d $position): string
+    public static function getDbPointString(Position2d $position): string
     {
         return "ST_PointFromText('POINT(" . $position->longitude . " " . $position->latitude . ")')";
     }

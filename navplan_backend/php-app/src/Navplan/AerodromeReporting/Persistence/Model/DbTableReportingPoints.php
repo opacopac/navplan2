@@ -41,7 +41,7 @@ class DbTableReportingPoints extends DbTable
         $this->addCol(self::COL_LAT, DbColType::DOUBLE, true);
         $this->addCol(self::COL_LON, DbColType::DOUBLE, true);
         $this->addCol(self::COL_POLYGON, DbColType::STRING, true);
-        $this->addCol(self::COL_EXTENT, DbColType::GEOMETRY);
+        $this->addCol(self::COL_EXTENT, DbColType::GEO_POLY);
     }
 
 

@@ -47,7 +47,7 @@ class MySqlDbCondGeoBuilder implements IDbCondGeoBuilder
         $colName = MySqlDbColBuilder::buildColName($this->cond->column);
 
         $geoValueStr = match (true) {
-            $this->cond->value instanceof Position2d => DbHelper::getDbPointStringFromPos($this->cond->value),
+            $this->cond->value instanceof Position2d => DbHelper::getDbPointString($this->cond->value),
             $this->cond->value instanceof Line2d => DbHelper::getDbLineString($this->cond->value),
             $this->cond->value instanceof Extent2d => DbHelper::getDbPolygonString($this->cond->value),
             $this->cond->value instanceof Ring2d => DbHelper::getDbPolygonString($this->cond->value),

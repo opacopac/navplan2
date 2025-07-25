@@ -75,9 +75,7 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
         $this->checkReadyForBuildOrThrow();
 
         $types = array_map(
-            fn(DbCol|string $col) => $col instanceof DbCol
-                ? $this->getBindStatementType($col->getType())
-                : "s", // TODO: handle string columns (e.g. based on value)
+            fn(DbCol $col) => $this->getBindStatementType($col->getType()),
             $this->columns
         );
 
@@ -163,7 +161,7 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
             DbColType::BOOL => DbHelper::getDbBoolValue($value),
             DbColType::DOUBLE => DbHelper::getDbFloatValue($value),
             DbColType::TIMESTAMP => DbHelper::getDbUtcTimeString($value),
-            DbColType::GEO_POINT => DbHelper::getDbPointStringFromPos($value),
+            DbColType::GEO_POINT => DbHelper::getDbPointString($value),
             DbColType::GEO_LINE => DbHelper::getDbLineString($value),
             DbColType::GEO_POLY => DbHelper::getDbPolygonString($value),
             default => throw new InvalidArgumentException("Unsupported column type: " . $col->getType()->name),
@@ -177,6 +175,7 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
             DbColType::STRING,
             DbColType::TIMESTAMP,
             DbColType::GEO_POINT,
+            DbColType::GEO_LINE,
             DbColType::GEO_POLY,
             DbColType::GEOMETRY => "s",
             DbColType::INT,

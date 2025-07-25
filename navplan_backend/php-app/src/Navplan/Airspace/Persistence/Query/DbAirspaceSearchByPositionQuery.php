@@ -21,7 +21,7 @@ class DbAirspaceSearchByPositionQuery implements IAirspaceSearchByPositionQuery 
         $query .= "  NULL AS " . DbTableAirspace::COL_POLYGON;
         $query .= " FROM " . DbTableAirspace::TABLE_NAME . " air";
         $query .= " WHERE";
-        $query .= "  ST_INTERSECTS(air." . DbTableAirspace::COL_EXTENT . ", " . DbHelper::getDbPointStringFromPos($position2d) . ")";
+        $query .= "  ST_INTERSECTS(air." . DbTableAirspace::COL_EXTENT . ", " . DbHelper::getDbPointString($position2d) . ")";
         $query .= "    AND";
         $query .= "  (air." . DbTableAirspace::COL_ALT_BOT_HEIGHT . " < " . DbAirspaceSearchQueryCommon::MAX_BOTTOM_ALT_FL . " OR air." . DbTableAirspace::COL_ALT_BOT_UNIT . " <> 'FL')";
         $result = $this->dbService->execMultiResultQuery($query, "error searching airspaces by line");

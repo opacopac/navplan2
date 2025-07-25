@@ -57,7 +57,7 @@ class DbNotamRepo implements INotamRepo {
             . "    ntm.startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
             . "    AND ntm.enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
             . "    AND (geo.zoommax = 255 OR geo.zoommax IS NULL)"
-            . "    AND ST_INTERSECTS(geo.extent,". DbHelper::getDbPointStringFromPos($position) . ")"
+            . "    AND ST_INTERSECTS(geo.extent,". DbHelper::getDbPointString($position) . ")"
             . "   ORDER BY ntm.startdate DESC";
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching notams");

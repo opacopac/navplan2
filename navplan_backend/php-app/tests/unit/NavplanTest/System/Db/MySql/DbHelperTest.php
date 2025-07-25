@@ -107,7 +107,7 @@ class DbHelperTest extends DbTestCase
         $position = new Position2d(7.5, 47.5);
 
         // when
-        $result = DbHelper::getDbPointStringFromPos($position);
+        $result = DbHelper::getDbPointString($position);
 
         // then
         $this->assertEquals("ST_PointFromText('POINT(7.5 47.5)')", $result);

@@ -7,24 +7,34 @@ use Navplan\System\Db\Domain\Model\IDbResult;
 use Navplan\System\Db\Domain\Model\IDbStatement;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbCredentials;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbWhereClauseFactory;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbDeleteCommandBuilder;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
 
 
-class MockDbService implements IDbService {
+class MockDbService implements IDbService
+{
     private array $mockResultList = [];
     public array $queryList = [];
     public int $insertId = 12345;
+    public MockDbStatement $mockDbStatement;
+    public string $prepareStatementQuery = '';
 
 
-    public function getAllQueriesString(string $separator = ' '): string {
+    public function __construct()
+    {
+        $this->mockDbStatement = new MockDbStatement();
+    }
+
+
+    public function getAllQueriesString(string $separator = ' '): string
+    {
         return join($separator, $this->queryList);
     }
 
 
-    private function shiftMockResult($query): MockDbResult {
+    private function shiftMockResult($query): MockDbResult
+    {
         if (!$this->mockResultList || count($this->mockResultList) === 0) {
             throw new InvalidArgumentException("no mock result available for query: " . $query);
         }
@@ -34,84 +44,96 @@ class MockDbService implements IDbService {
     }
 
 
-    public function pushMockResult(array $resultSet) {
-        array_push($this->mockResultList, $resultSet);
+    public function pushMockResult(array $resultSet): void
+    {
+        $this->mockResultList[] = $resultSet;
     }
 
 
-    public function init(string $db_host, string $db_user, string $db_pw, string $db_name) {
+    public function init(string $db_host, string $db_user, string $db_pw, string $db_name)
+    {
     }
 
 
-    public function openDb() {
+    public function openDb()
+    {
     }
 
 
-    public function closeDb() {
+    public function closeDb()
+    {
     }
 
 
-    public function escapeString(string $escapeString): string {
+    public function escapeString(string $escapeString): string
+    {
         return str_replace("'", "\\'", $escapeString);
     }
 
 
-    public function execSingleResultQuery(string $query, bool $allowZeroResults, string $errorMessage): IDbResult {
-        array_push($this->queryList, $query);
+    public function execSingleResultQuery(string $query, bool $allowZeroResults, string $errorMessage): IDbResult
+    {
+        $this->queryList[] = $query;
         return $this->shiftMockResult($query);
     }
 
 
-    public function execMultiResultQuery(string $query, string $errorMessage): IDbResult {
-        array_push($this->queryList, $query);
+    public function execMultiResultQuery(string $query, string $errorMessage): IDbResult
+    {
+        $this->queryList[] = $query;
         return $this->shiftMockResult($query);
     }
 
 
-    public function execCUDQuery(string $query, string $errorMessage): bool {
-        array_push($this->queryList, $query);
+    public function execCUDQuery(string $query, string $errorMessage): bool
+    {
+        $this->queryList[] = $query;
         return true;
     }
 
 
-    public function getInsertId(): int {
+    public function getInsertId(): int
+    {
         return $this->insertId;
     }
+
 
     function escapeAndQuoteString(string $escapeString): string
     {
         // TODO: Implement escapeAndQuoteString() method.
     }
 
+
     function escapeAndQuoteStringOrNull(?string $escapeString): string
     {
         // TODO: Implement escapeAndQuoteStringOrNull() method.
     }
+
 
     function init2(DbCredentials $credentials)
     {
         // TODO: Implement init2() method.
     }
 
+
     function prepareStatement(string $query): IDbStatement
     {
-        // TODO: Implement prepareStatement() method.
+        $this->prepareStatementQuery = $query;
+        return $this->mockDbStatement;
     }
+
 
     function getQueryBuilder(): IDbQueryBuilder
     {
         // TODO: Implement getQueryBuilder() method.
     }
 
-    function getWhereClauseFactory(): DbWhereClauseFactory
-    {
-        // TODO: Implement getWhereClauseFactory() method.
-    }
 
     function getInsertCommandBuilder(): IDbInsertCommandBuilder
     {
         // TODO: Implement getInsertCommandBuilder() method.
     }
+
 
     function getDeleteCommandBuilder(): IDbDeleteCommandBuilder
     {
