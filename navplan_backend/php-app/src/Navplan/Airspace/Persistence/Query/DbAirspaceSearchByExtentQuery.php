@@ -18,7 +18,7 @@ class DbAirspaceSearchByExtentQuery implements IAirspaceSearchByExtentQuery {
 
 
     public function searchByExtent(Extent2d $extent, int $zoom): array {
-        $extent = DbHelper::getDbExtentPolygon2($extent);
+        $extent = DbHelper::getDbPolygonString($extent);
         $pixelResolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom);
         $minDiameterDeg = $pixelResolutionDeg * DbAirspaceSearchQueryCommon::MIN_PIXEL_AIRSPACE_DIAMETER;
 

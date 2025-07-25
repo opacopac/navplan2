@@ -8,15 +8,18 @@ use Navplan\Common\Domain\Model\LineInterval2d;
 use Navplan\Common\Domain\Model\Position2d;
 
 
-class GeoHelper {
-    public static function getDecFromDms(string $nsew, int $deg, int $min, float $sec): float {
+class GeoHelper
+{
+    public static function getDecFromDms(string $nsew, int $deg, int $min, float $sec): float
+    {
         $sign = (strtoupper($nsew) === "N" || strtoupper($nsew) === "E") ? 1 : -1;
 
         return $sign * ($deg + $min / 60 + $sec / 3600);
     }
 
 
-    public static function calcHaversineDistance(Position2d $pos1, Position2d $pos2): Length {
+    public static function calcHaversineDistance(Position2d $pos1, Position2d $pos2): Length
+    {
         $radE = 6371000;
         $phi1 = Angle::convert($pos1->latitude, AngleUnit::DEG, AngleUnit::RAD);
         $phi2 = Angle::convert($pos2->latitude, AngleUnit::DEG, AngleUnit::RAD);
@@ -31,7 +34,8 @@ class GeoHelper {
     }
 
 
-    public static function simplifyPolygon(array $polygonPoints, float $epsilon): array {
+    public static function simplifyPolygon(array $polygonPoints, float $epsilon): array
+    {
         $numPoints = count($polygonPoints);
         if ($numPoints <= 3) {
             return $polygonPoints;
@@ -56,7 +60,8 @@ class GeoHelper {
     }
 
 
-    public static function simplifyMultipolygon(array $polygonList, float $epsilon): array {
+    public static function simplifyMultipolygon(array $polygonList, float $epsilon): array
+    {
         $simplePolygonList = [];
         foreach ($polygonList as $polygon) {
             $simplePolygonList[] = self::simplifyPolygon($polygon, $epsilon);
@@ -65,7 +70,8 @@ class GeoHelper {
     }
 
 
-    public static function simplifyLine(array $linePoints, float $epsilon): array {
+    public static function simplifyLine(array $linePoints, float $epsilon): array
+    {
         $numPoints = count($linePoints);
         if ($numPoints <= 2) {
             return $linePoints;
@@ -91,7 +97,8 @@ class GeoHelper {
     }
 
 
-    public static function calcPseudoDistance(array $pointA, array $pointB): float {
+    public static function calcPseudoDistance(array $pointA, array $pointB): float
+    {
         return sqrt(pow($pointB[0] - $pointA[0], 2) + pow($pointB[1] - $pointA[1], 2));
     }
 
@@ -115,12 +122,14 @@ class GeoHelper {
     }
 
 
-    public static function calcDegPerPixelByZoom(int $zoom, int $tileWidthPixel = 256): float {
+    public static function calcDegPerPixelByZoom(int $zoom, int $tileWidthPixel = 256): float
+    {
         return 360.0 / (pow(2, $zoom) * $tileWidthPixel);
     }
 
 
-    public static function calcGeoHash(float $longitude, float $latitude, int $maxZoomLevel): string {
+    public static function calcGeoHash(float $longitude, float $latitude, int $maxZoomLevel): string
+    {
         $minLon = -180.0;
         $minLat = -90.0;
         $maxLon = 180.0;
@@ -156,7 +165,8 @@ class GeoHelper {
     }
 
 
-    public static function parsePolygonFromString(string $polygonString, int $roundToDigits = 6, string $pointDelimiter = ",", string $xyDelimiter = " "): array {
+    public static function parsePolygonFromString(string $polygonString, int $roundToDigits = 6, string $pointDelimiter = ",", string $xyDelimiter = " "): array
+    {
         $polygon = [];
         $coord_pairs = explode($pointDelimiter, $polygonString);
 
@@ -171,7 +181,8 @@ class GeoHelper {
     }
 
 
-    public static function joinPolygonToString(array $polygon, string $pointDelimiter = ",", string $xyDelimiter = " "): string {
+    public static function joinPolygonToString(array $polygon, string $pointDelimiter = ",", string $xyDelimiter = " "): string
+    {
         $coordPairStrings = [];
         foreach ($polygon as $coordPair) {
             $coordPairStrings[] = join($xyDelimiter, $coordPair);
@@ -181,20 +192,23 @@ class GeoHelper {
     }
 
 
-    public static function reduceCoordinateAccuracy(&$coordPair, int $roundToDigits = 6) {
+    public static function reduceCoordinateAccuracy(&$coordPair, int $roundToDigits = 6): void
+    {
         $coordPair[0] = round($coordPair[0], $roundToDigits);
         $coordPair[1] = round($coordPair[1], $roundToDigits);
     }
 
 
-    public static function reducePolygonAccuracy(&$polygon, int $roundToDigits = 6) {
+    public static function reducePolygonAccuracy(&$polygon, int $roundToDigits = 6): void
+    {
         foreach ($polygon as &$coordPair) {
             self::reduceCoordinateAccuracy($coordPair, $roundToDigits);
         }
     }
 
 
-    public static function reduceMultiPolygonAccuracy(&$multiPolygon, int $roundToDigits = 6) {
+    public static function reduceMultiPolygonAccuracy(&$multiPolygon, int $roundToDigits = 6): void
+    {
         foreach ($multiPolygon as &$polygon) {
             foreach ($polygon as &$coordPair) {
                 self::reduceCoordinateAccuracy($coordPair, $roundToDigits);
@@ -203,7 +217,8 @@ class GeoHelper {
     }
 
 
-    public static function moveBearDist($lat, $lon, $brngDeg, $distM) {
+    public static function moveBearDist(float $lat, float $lon, float $brngDeg, float $distM): array
+    {
         $lat1 = deg2rad($lat);
         $lon1 = deg2rad($lon);
         $distNm = $distM / 1000.0 / 1.852;
@@ -216,7 +231,8 @@ class GeoHelper {
     }
 
 
-    public static function getCircleExtent($lat, $lon, $radiusM) {
+    public static function getCircleExtent(float $lat, float $lon, float $radiusM): array
+    {
         $dlat = (self::moveBearDist($lat, $lon, 0, $radiusM)[1] - $lat);
         $dlon = (self::moveBearDist($lat, $lon, 90, $radiusM)[0] - $lon);
 
@@ -232,19 +248,18 @@ class GeoHelper {
     }
 
 
-    public static function isPointInPolygon($point, $polygon): bool {
+    public static function isPointInPolygon($point, $polygon): bool
+    {
         $c = 0;
         $p1 = $polygon[0];
         $n = count($polygon);
 
-        for ($i = 1; $i <= $n; $i++)
-        {
+        for ($i = 1; $i <= $n; $i++) {
             $p2 = $polygon[$i % $n];
             if ($point[0] > min($p1[0], $p2[0])
                 && $point[0] <= max($p1[0], $p2[0])
                 && $point[1] <= max($p1[1], $p2[1])
-                && $p1[0] != $p2[0])
-            {
+                && $p1[0] != $p2[0]) {
                 $xinters = ($point[0] - $p1[0]) * ($p2[1] - $p1[1]) / ($p2[0] - $p1[0]) + $p1[1];
                 if ($p1[1] == $p2[1] || $point[1] <= $xinters)
                     $c++;
@@ -257,7 +272,8 @@ class GeoHelper {
     }
 
 
-    public static function calcLineIntersection(LineInterval2d $line1, LineInterval2d $line2): ?Position2d {
+    public static function calcLineIntersection(LineInterval2d $line1, LineInterval2d $line2): ?Position2d
+    {
         $a1 = $line1->end->latitude - $line1->start->latitude;
         $b1 = $line1->start->longitude - $line1->end->longitude;
         $c1 = $a1 * $line1->start->longitude + $b1 * $line1->start->latitude;

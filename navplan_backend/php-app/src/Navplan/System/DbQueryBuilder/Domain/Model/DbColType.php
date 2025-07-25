@@ -11,5 +11,7 @@ enum DbColType
     case STRING;
     case TIMESTAMP;
     case GEO_POINT;
+    case GEO_LINE;
+    case GEO_POLY;
     case GEOMETRY;
 }

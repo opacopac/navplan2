@@ -24,7 +24,7 @@ class DbNotamRepo implements INotamRepo {
 
 
     public function searchByExtent(Extent2d $extent, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
-        $dbExtent = DbHelper::getDbExtentPolygon2($extent);
+        $dbExtent = DbHelper::getDbPolygonString($extent);
         $pixelResolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom); // TODO
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_NOTAMAREA_DIAMETER;
         // get firs & ads within extent
@@ -82,7 +82,7 @@ class DbNotamRepo implements INotamRepo {
 
 
     private function loadIcaoListByExtent(Extent2d $extent): array {
-        $extentSql = DbHelper::getDbExtentPolygon2($extent);
+        $extentSql = DbHelper::getDbPolygonString($extent);
         $query = "SELECT DISTINCT icao FROM icao_fir WHERE ST_INTERSECTS(polygon, " . $extentSql . ") AND icao <> ''";
         $query .= " UNION ";
         $query .= "SELECT DISTINCT icao FROM openaip_airports WHERE ST_INTERSECTS(lonlat, " . $extentSql . ") AND icao <> ''";

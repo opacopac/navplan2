@@ -2,13 +2,18 @@
 
 namespace Navplan\System\Db\MySql;
 
+use InvalidArgumentException;
 use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Line2d;
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\Db\Domain\Service\IDbService;
 
 
-class DbHelper {
-    public static function getDbStringValue(IDbService $dbService, ?string $value, string $nullValue = 'NULL'): string {
+class DbHelper
+{
+    public static function getDbStringValue(IDbService $dbService, ?string $value, string $nullValue = 'NULL'): string
+    {
         if ($value === NULL) {
             return $nullValue;
         } else {
@@ -17,7 +22,8 @@ class DbHelper {
     }
 
 
-    public static function getDbIntValue(?int $value, string $nullValue = 'NULL'): string {
+    public static function getDbIntValue(?int $value, string $nullValue = 'NULL'): string
+    {
         if ($value === NULL) {
             return $nullValue;
         } else {
@@ -26,7 +32,8 @@ class DbHelper {
     }
 
 
-    public static function getDbFloatValue(?float $value, string $nullValue = 'NULL'): string {
+    public static function getDbFloatValue(?float $value, string $nullValue = 'NULL'): string
+    {
         if ($value === NULL) {
             return $nullValue;
         } else {
@@ -35,7 +42,8 @@ class DbHelper {
     }
 
 
-    public static function getDbBoolValue(?bool $value, string $nullValue = 'NULL'): string {
+    public static function getDbBoolValue(?bool $value, string $nullValue = 'NULL'): string
+    {
         if ($value === NULL) {
             return $nullValue;
         } else if ($value === TRUE) {
@@ -46,7 +54,8 @@ class DbHelper {
     }
 
 
-    public static function getDbUtcTimeString(int $timestampSec): string {
+    public static function getDbUtcTimeString(int $timestampSec): string
+    {
         /*if ($timestampSec < -2147483648 || $timestampSec > 2147483647) {
             throw new InvalidArgumentException('unix timestamp [s] is not in correct range');
         }*/
@@ -55,43 +64,44 @@ class DbHelper {
     }
 
 
-    public static function getDbExtentPolygon(float $minLon, float $minLat, float $maxLon, float $maxLat): string {
-        return "ST_GeomFromText('POLYGON((" . $minLon . " " . $minLat . "," . $maxLon . " " . $minLat . ","
-            . $maxLon . " " . $maxLat . "," . $minLon . " " . $maxLat . "," . $minLon . " " . $minLat . "))')";
-    }
-
-
-    public static function getDbExtentPolygon2(Extent2d $extent): string {
-        return "ST_GeomFromText('POLYGON((" .
-            $extent->minPos->longitude . " " . $extent->minPos->latitude . "," .
-            $extent->maxPos->longitude . " " . $extent->minPos->latitude . "," .
-            $extent->maxPos->longitude . " " . $extent->maxPos->latitude . "," .
-            $extent->minPos->longitude . " " . $extent->maxPos->latitude . "," .
-            $extent->minPos->longitude . " " . $extent->minPos->latitude . "))')";
+    public static function getDbPointStringFromPos(Position2d $position): string
+    {
+        return "ST_PointFromText('POINT(" . $position->longitude . " " . $position->latitude . ")')";
     }
 
 
     /**
-     * @param Position2d[] $positionList
+     * @param Line2d|Position2d[] $line
      * @return string
      */
-    public static function getDbLineString(array $positionList): string {
-        $lonLatStrings = [];
+    public static function getDbLineString(Line2d|array $line): string
+    {
+        $posList = $line instanceof Line2d ? $line->position2dList : $line;
 
-        foreach ($positionList as $position) {
+        $lonLatStrings = [];
+        foreach ($posList as $position) {
             $lonLatStrings[] = $position->toString();
         }
 
-        $lineString = "ST_GeomFromText('LINESTRING(" . join(",", $lonLatStrings) . ")')";
-
-        return $lineString;
+        return "ST_LineFromText('LINESTRING(" . join(",", $lonLatStrings) . ")')";
     }
 
 
-    public static function getDbPolygonString(array $lonLatList): string {
-        $lonLatStrings = [];
+    /**
+     * @param Ring2d|Extent2d|array{0: float, 1: float}[] $poly
+     * @return string
+     */
+    public static function getDbPolygonString(Ring2d|Extent2d|array $poly): string
+    {
+        $posList = match (true) {
+            $poly instanceof Ring2d => $poly->toArray(),
+            $poly instanceof Extent2d => $poly->toRing2d()->toArray(),
+            is_array($poly) => $poly,
+            default => throw new InvalidArgumentException("Unsupported polygon type: " . gettype($poly)),
+        };
 
-        foreach ($lonLatList as $lonLat) {
+        $lonLatStrings = [];
+        foreach ($posList as $lonLat) {
             $lonLatStrings[] = join(" ", $lonLat);
         }
 
@@ -100,13 +110,12 @@ class DbHelper {
             $lonLatStrings[] = $lonLatStrings[0];
         }
 
-        $polyString = "ST_GeomFromText('POLYGON((" . join(",", $lonLatStrings) . "))')";
-
-        return $polyString;
+        return "ST_PolyFromText('POLYGON((" . join(",", $lonLatStrings) . "))')";
     }
 
 
-    public static function getDbMultiPolygonString(array $polygonList): string {
+    public static function getDbMultiPolygonString(array $polygonList): string
+    {
         $polyStrings = [];
         foreach ($polygonList as $polygon) {
             $lonLatStrings = [];
@@ -119,14 +128,13 @@ class DbHelper {
             $polyStrings[] = "((" . join(",", $lonLatStrings) . "))";
         }
 
-        $multiPolyString = "ST_GeomFromText('MULTIPOLYGON(" . join(",", $polyStrings) . ")')";
-
-        return $multiPolyString;
+        return "ST_GeomFromText('MULTIPOLYGON(" . join(",", $polyStrings) . ")')";
     }
 
 
     // retrieve lon lat from the format: POINT(-76.867 38.8108)
-    public static function parseLonLatFromDbPoint(string $dbPointString): ?Position2d {
+    public static function parseLonLatFromDbPoint(string $dbPointString): ?Position2d
+    {
         $decimalRegExpPart = '([\-\+]?\d+\.?\d*)';
         $dbPointRegexp = '/POINT\(\s*' . $decimalRegExpPart . '\s+' . $decimalRegExpPart . '\s*\)/im';
 
@@ -136,17 +144,5 @@ class DbHelper {
             return null;
 
         return new Position2d(floatval($matches[1]), floatval($matches[2]));
-    }
-
-
-    public static function getDbPointStringFromPos(Position2d $position): string {
-        return "ST_GeomFromText('POINT(" . $position->longitude . " " . $position->latitude . ")')";
-    }
-
-
-    public static function getPreparedInsertStatementQuery(string $tableName, string ...$colNames): string{
-        $placeholders = array_fill(0, count($colNames), "?");
-
-        return "INSERT INTO " . $tableName . " (" . join(", ", $colNames) . ") VALUES (" . join(", ", $placeholders) . ")";
     }
 }

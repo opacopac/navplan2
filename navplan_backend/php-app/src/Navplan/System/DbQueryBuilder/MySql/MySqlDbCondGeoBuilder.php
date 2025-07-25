@@ -48,9 +48,9 @@ class MySqlDbCondGeoBuilder implements IDbCondGeoBuilder
 
         $geoValueStr = match (true) {
             $this->cond->value instanceof Position2d => DbHelper::getDbPointStringFromPos($this->cond->value),
-            $this->cond->value instanceof Extent2d => DbHelper::getDbExtentPolygon2($this->cond->value),
-            $this->cond->value instanceof Line2d => DbHelper::getDbLineString($this->cond->value->position2dList),
-            $this->cond->value instanceof Ring2d => DbHelper::getDbPolygonString($this->cond->value->toArray()),
+            $this->cond->value instanceof Line2d => DbHelper::getDbLineString($this->cond->value),
+            $this->cond->value instanceof Extent2d => DbHelper::getDbPolygonString($this->cond->value),
+            $this->cond->value instanceof Ring2d => DbHelper::getDbPolygonString($this->cond->value),
             default => throw new InvalidArgumentException("Unsupported geometry type for where clause"),
         };
 

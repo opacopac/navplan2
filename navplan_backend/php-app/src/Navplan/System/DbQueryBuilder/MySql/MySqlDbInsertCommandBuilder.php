@@ -3,6 +3,8 @@
 namespace Navplan\System\DbQueryBuilder\MySql;
 
 use InvalidArgumentException;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\Db\Domain\Model\IDbStatement;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
@@ -137,14 +139,16 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
     }
 
 
-    private function buildPreparedValueStr(DbCol $col, mixed $value): string {
+    private function buildPreparedValueStr(DbCol $col, mixed $value): string
+    {
         return match ($col->getType()) {
-            DbColType::GEOMETRY,
-            DbColType::GEO_POINT => "ST_GeomFromText(?)",
+            DbColType::GEO_POINT => "ST_PointFromText(?)",
+            DbColType::GEO_LINE => "ST_LineFromText(?)",
+            DbColType::GEO_POLY => "ST_PolyFromText(?)",
+            DbColType::GEOMETRY => "ST_GeomFromText(?)",
             default => "?",
         };
     }
-
 
 
     private function buildValueStr(DbCol $col, mixed $value): string
@@ -160,6 +164,8 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
             DbColType::DOUBLE => DbHelper::getDbFloatValue($value),
             DbColType::TIMESTAMP => DbHelper::getDbUtcTimeString($value),
             DbColType::GEO_POINT => DbHelper::getDbPointStringFromPos($value),
+            DbColType::GEO_LINE => DbHelper::getDbLineString($value),
+            DbColType::GEO_POLY => DbHelper::getDbPolygonString($value),
             default => throw new InvalidArgumentException("Unsupported column type: " . $col->getType()->name),
         };
     }
@@ -170,8 +176,9 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
         return match ($type) {
             DbColType::STRING,
             DbColType::TIMESTAMP,
-            DbColType::GEOMETRY,
-            DbColType::GEO_POINT => "s",
+            DbColType::GEO_POINT,
+            DbColType::GEO_POLY,
+            DbColType::GEOMETRY => "s",
             DbColType::INT,
             DbColType::BOOL => "i",
             DbColType::DOUBLE => "d",
