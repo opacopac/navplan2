@@ -47,7 +47,7 @@ class MySqlDbCondSimpleBuilderTest extends TestCase
         $query = $wcb->build();
 
         // then
-        $this->assertEquals("col1 = '123'", $query);
+        $this->assertEquals("col1 = 123", $query);
     }
 
 
@@ -61,7 +61,7 @@ class MySqlDbCondSimpleBuilderTest extends TestCase
         $query = $wb->build();
 
         // then
-        $this->assertEquals("col1 = '-123.456'", $query);
+        $this->assertEquals("col1 = -123.456", $query);
     }
 
 
@@ -75,7 +75,7 @@ class MySqlDbCondSimpleBuilderTest extends TestCase
         $query = $wb->build();
 
         // then
-        $this->assertEquals("col1 = '1'", $query);
+        $this->assertEquals("col1 = 1", $query);
     }
 
 
@@ -89,7 +89,7 @@ class MySqlDbCondSimpleBuilderTest extends TestCase
         $query = $wb->build();
 
         // then
-        $this->assertEquals("col1 = '0'", $query);
+        $this->assertEquals("col1 = 0", $query);
     }
 
 

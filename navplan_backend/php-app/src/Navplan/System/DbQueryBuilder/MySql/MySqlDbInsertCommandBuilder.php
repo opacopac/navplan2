@@ -3,8 +3,6 @@
 namespace Navplan\System\DbQueryBuilder\MySql;
 
 use InvalidArgumentException;
-use Navplan\Common\Domain\Model\Extent2d;
-use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\Db\Domain\Model\IDbStatement;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
@@ -94,7 +92,15 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
     {
         $statement = $this->buildStatement();
         $bindParamTypes = $this->buildBindParamTypes();
-        $statement->bind_param($bindParamTypes, ...$this->getValues());
+
+        $values = [];
+        for ($i = 0; $i < count($this->columns); $i++) {
+            $col = $this->columns[$i];
+            $value = $this->values[$i];
+            $values[] = $this->buildBindValue($col, $value);
+        }
+
+        $statement->bind_param($bindParamTypes, ...$values);
 
         return $statement;
     }
@@ -165,6 +171,18 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
             DbColType::GEO_LINE => DbHelper::getDbLineString($value),
             DbColType::GEO_POLY => DbHelper::getDbPolygonString($value),
             default => throw new InvalidArgumentException("Unsupported column type: " . $col->getType()->name),
+        };
+    }
+
+
+    private function buildBindValue(DbCol $col, mixed $value): mixed
+    {
+        return match ($col->getType()) {
+            DbColType::TIMESTAMP => DbHelper::getDbUtcTimeString($value),
+            DbColType::GEO_POINT => DbHelper::getDbPointString($value, false),
+            DbColType::GEO_LINE => DbHelper::getDbLineString($value, false),
+            DbColType::GEO_POLY => DbHelper::getDbPolygonString($value, false),
+            default => $value,
         };
     }
 

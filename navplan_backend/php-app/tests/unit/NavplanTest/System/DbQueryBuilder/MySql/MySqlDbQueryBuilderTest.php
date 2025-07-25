@@ -201,7 +201,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         $query = $qb->build();
 
         // then
-        $this->assertEquals("SELECT * FROM test_table WHERE (col1 = '1' AND col2 > '456' AND col3 <= '789')", $query);
+        $this->assertEquals("SELECT * FROM test_table WHERE (col1 = 1 AND col2 > 456 AND col3 <= 789)", $query);
     }
 
 
@@ -220,7 +220,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         $query = $qb->build();
 
         // then
-        $this->assertEquals("SELECT * FROM test_table WHERE (col1 != '123' OR col2 < '456' OR col3 >= '789')", $query);
+        $this->assertEquals("SELECT * FROM test_table WHERE (col1 != 123 OR col2 < 456 OR col3 >= 789)", $query);
     }
 
 
@@ -243,7 +243,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         $query = $qb->build();
 
         // then
-        $this->assertEquals("SELECT * FROM test_table WHERE ((col1 = 'value1' OR col2 = '456') AND col3 IS NOT NULL)", $query);
+        $this->assertEquals("SELECT * FROM test_table WHERE ((col1 = 'value1' OR col2 = 456) AND col3 IS NOT NULL)", $query);
     }
 
 
@@ -259,7 +259,7 @@ class MySqlDbQueryBuilderTest extends TestCase
         $query = $qb->build();
 
         // then
-        $this->assertEquals("SELECT * FROM test_table WHERE (lat > '47' AND lat < '48' AND lon > '7' AND lon < '8')", $query);
+        $this->assertEquals("SELECT * FROM test_table WHERE (lat > 47 AND lat < 48 AND lon > 7 AND lon < 8)", $query);
     }
 
     // endregion

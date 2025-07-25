@@ -27,7 +27,7 @@ class DbHelper
         if ($value === NULL) {
             return $nullValue;
         } else {
-            return "'" . $value . "'";
+            return "" . $value;
         }
     }
 
@@ -37,7 +37,7 @@ class DbHelper
         if ($value === NULL) {
             return $nullValue;
         } else {
-            return "'" . $value . "'";
+            return "" . $value;
         }
     }
 
@@ -47,9 +47,9 @@ class DbHelper
         if ($value === NULL) {
             return $nullValue;
         } else if ($value === TRUE) {
-            return "'1'";
+            return "1";
         } else {
-            return "'0'";
+            return "0";
         }
     }
 
@@ -64,9 +64,13 @@ class DbHelper
     }
 
 
-    public static function getDbPointString(Position2d $position): string
+    public static function getDbPointString(Position2d $position, bool $wrapStFunct = true): string
     {
-        return "ST_PointFromText('POINT(" . $position->longitude . " " . $position->latitude . ")')";
+        $text = "POINT(" . $position->longitude . " " . $position->latitude . ")";
+
+        return $wrapStFunct
+            ? "ST_PointFromText('" . $text . "')"
+            : $text;
     }
 
 
@@ -74,7 +78,7 @@ class DbHelper
      * @param Line2d|Position2d[] $line
      * @return string
      */
-    public static function getDbLineString(Line2d|array $line): string
+    public static function getDbLineString(Line2d|array $line, bool $wrapStFunct = true): string
     {
         $posList = $line instanceof Line2d ? $line->position2dList : $line;
 
@@ -83,7 +87,11 @@ class DbHelper
             $lonLatStrings[] = $position->toString();
         }
 
-        return "ST_LineFromText('LINESTRING(" . join(",", $lonLatStrings) . ")')";
+        $text = "LINESTRING(" . join(",", $lonLatStrings) . ")";
+
+        return $wrapStFunct
+            ? "ST_LineFromText('" . $text . "')"
+            : $text;
     }
 
 
@@ -91,7 +99,7 @@ class DbHelper
      * @param Ring2d|Extent2d|array{0: float, 1: float}[] $poly
      * @return string
      */
-    public static function getDbPolygonString(Ring2d|Extent2d|array $poly): string
+    public static function getDbPolygonString(Ring2d|Extent2d|array $poly, bool $wrapStFunct = true): string
     {
         $posList = match (true) {
             $poly instanceof Ring2d => $poly->toArray(),
@@ -110,11 +118,15 @@ class DbHelper
             $lonLatStrings[] = $lonLatStrings[0];
         }
 
-        return "ST_PolyFromText('POLYGON((" . join(",", $lonLatStrings) . "))')";
+        $text = "POLYGON((" . join(",", $lonLatStrings) . "))";
+
+        return $wrapStFunct
+            ? "ST_PolyFromText('" . $text . "')"
+            : $text;
     }
 
 
-    public static function getDbMultiPolygonString(array $polygonList): string
+    public static function getDbMultiPolygonString(array $polygonList, bool $wrapStFunct = true): string
     {
         $polyStrings = [];
         foreach ($polygonList as $polygon) {
@@ -128,7 +140,11 @@ class DbHelper
             $polyStrings[] = "((" . join(",", $lonLatStrings) . "))";
         }
 
-        return "ST_GeomFromText('MULTIPOLYGON(" . join(",", $polyStrings) . ")')";
+        $text = "MULTIPOLYGON(" . join(",", $polyStrings) . ")";
+
+        return $wrapStFunct
+            ? "ST_GeomFromText('" . $text . "')"
+            : $text;
     }
 
 

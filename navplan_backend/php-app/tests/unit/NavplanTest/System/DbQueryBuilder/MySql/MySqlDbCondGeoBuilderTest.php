@@ -39,7 +39,7 @@ class MySqlDbCondGeoBuilderTest extends TestCase
         $query = $wcb->build();
 
         // then
-        $this->assertEquals("ST_Intersects(t1.col1, ST_GeomFromText('POINT(7.5 47.5)'))", $query);
+        $this->assertEquals("ST_Intersects(t1.col1, ST_PointFromText('POINT(7.5 47.5)'))", $query);
     }
 
 
@@ -54,7 +54,7 @@ class MySqlDbCondGeoBuilderTest extends TestCase
         $query = $wcb->build();
 
         // then
-        $this->assertEquals("ST_Intersects(col1, ST_GeomFromText('POINT(7.5 47.5)'))", $query);
+        $this->assertEquals("ST_Intersects(col1, ST_PointFromText('POINT(7.5 47.5)'))", $query);
     }
 
 
@@ -69,6 +69,6 @@ class MySqlDbCondGeoBuilderTest extends TestCase
         $query = $wcb->build();
 
         // then
-        $this->assertEquals("MBRIntersects(col1, ST_GeomFromText('POINT(7.5 47.5)'))", $query);
+        $this->assertEquals("MBRIntersects(col1, ST_PointFromText('POINT(7.5 47.5)'))", $query);
     }
 }
