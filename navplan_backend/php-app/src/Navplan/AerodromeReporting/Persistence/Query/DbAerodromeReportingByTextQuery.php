@@ -31,8 +31,8 @@ class DbAerodromeReportingByTextQuery implements IAerodromeReportingByTextQuery
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching reporting points by text");
+        $converter = new DbReportingPointConverter($t);
 
-        return DbReportingPointConverter::create()
-            ->fromDbResult($t, $result);
+        return $converter->fromDbResult($result);
     }
 }

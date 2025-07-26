@@ -33,7 +33,8 @@ class DbNavaidSearchByExtentQuery implements INavaidSearchByExtentQuery
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching navaids by extent");
+        $converter = new DbNavaidConverter($t);
 
-        return DbNavaidConverter::fromDbResult($result);
+        return $converter->fromDbResult($result);
     }
 }

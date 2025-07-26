@@ -30,8 +30,8 @@ class DbAerodromeReportingByExtentQuery implements IAerodromeReportingByExtentQu
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading reporting points by extent");
+        $converter = new DbReportingPointConverter($t);
 
-        return DbReportingPointConverter::create()
-            ->fromDbResult($t, $result);
+        return $converter->fromDbResult($result);
     }
 }

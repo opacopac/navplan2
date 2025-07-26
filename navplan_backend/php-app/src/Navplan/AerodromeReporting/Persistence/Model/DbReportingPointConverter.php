@@ -9,24 +9,18 @@ use Navplan\System\Db\Domain\Model\DbEntityConverter;
 
 
 /**
- * @extends DbEntityConverter<ReportingPoint, DbTableReportingPoints>
+ * @extends DbEntityConverter<ReportingPoint>
  */
 class DbReportingPointConverter extends DbEntityConverter
 {
-    public static function create(): DbReportingPointConverter
+    public function __construct(private readonly DbTableReportingPoints $table)
     {
-        return new DbReportingPointConverter();
     }
 
 
-    /**
-     * @param DbTableReportingPoints $table
-     * @param array $row
-     * @return ReportingPoint
-     */
-    public function fromDbRow($table, array $row): ReportingPoint
+    public function fromDbRow(array $row): ReportingPoint
     {
-        $r = new DbRowReportingPoints($table, $row);
+        $r = new DbRowReportingPoints($this->table, $row);
 
         return new ReportingPoint(
             $r->getId(),

@@ -42,7 +42,8 @@ class DbNavaidSearchByTextQuery implements INavaidSearchByTextQuery
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching navaids by text");
+        $converter = new DbNavaidConverter($t);
 
-        return DbNavaidConverter::fromDbResult($result);
+        return $converter->fromDbResult($result);
     }
 }
