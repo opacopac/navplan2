@@ -51,6 +51,7 @@ class DbNavaidInsertAllCommand implements INavaidInsertAllCommand
 
         foreach ($navaids as $navaid) {
             try {
+                // TODO: bind more beautifully/generically
                 $type = $navaid->type->value;
                 $elevation = $navaid->elevation->getHeightAmsl()->getM();
                 $geoHash = GeoHelper::calcGeoHash($navaid->position->longitude, $navaid->position->latitude, 14); // TODO

@@ -9,6 +9,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbJoinType;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
@@ -17,6 +18,8 @@ use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
 class MySqlDbQueryBuilder implements IDbQueryBuilder
 {
     private string $select;
+
+    private string $join = "";
 
     private ?DbCond $where = null;
 
@@ -62,6 +65,27 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
 
         $colList = implode(", ", $colNames);
         $this->select = "SELECT " . $colList . " FROM " . $this->buildTableName($table);
+
+        return $this;
+    }
+
+
+    public function join(DbJoinType $joinType, string|DbTable $table, string|DbCol $leftColumn, string|DbCol $rightColumn): IDbQueryBuilder
+    {
+        $joinStr = match ($joinType) {
+            DbJoinType::INNER => "INNER JOIN",
+            DbJoinType::LEFT => "LEFT JOIN",
+            default => throw new InvalidArgumentException("Unsupported join type: " . $joinType->name),
+        };
+
+        $tableName = $this->buildTableName($table);
+        $colName1 = $this->buildColName($leftColumn);
+        $colName2 = $this->buildColName($rightColumn);
+
+        if ($this->join !== "") {
+            $this->join .= " ";
+        }
+        $this->join .= $joinStr . " " . $tableName . " ON " . $colName1 . " = " . $colName2;
 
         return $this;
     }
@@ -132,6 +156,7 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
         $limitStr = $this->buildLimitString();
 
         return $selectStr
+            . ($this->join !== "" ? " " . $this->join : "")
             . ($whereStr !== "" ? " WHERE " . $whereStr : "")
             . ($orderByStr !== "" ? " ORDER BY " . $orderByStr : "")
             . ($limitStr !== "" ? " " . $limitStr : "");

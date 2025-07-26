@@ -5,6 +5,7 @@ namespace Navplan\System\DbQueryBuilder\Domain\Service;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbJoinType;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 
@@ -14,6 +15,8 @@ interface IDbQueryBuilder
     function selectAllFrom(DbTable|string $table): IDbQueryBuilder;
 
     function selectFrom(string $table, string|DbCol ...$columns): IDbQueryBuilder;
+
+    function join(DbJoinType $joinType, DbTable|string $table, DbCol|string $leftColumn, DbCol|string $rightColumn): IDbQueryBuilder;
 
     function where(DbCond $cond): IDbQueryBuilder;
 

@@ -4,13 +4,13 @@ namespace NavplanTest\System\DbQueryBuilder\MySql;
 
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbColType;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbJoinType;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbQueryBuilder;
@@ -131,6 +131,30 @@ class MySqlDbQueryBuilderTest extends TestCase
         // then
         $this->assertEquals("SELECT col1, col2, col3 FROM test_table", $query);
     }
+
+    // endregion
+
+
+    // region join tests
+
+    public function test_inner_join()
+    {
+        // given
+        $t1 = new DbTable("test_table1", "t1");
+        $t2 = new DbTable("test_table2", "t2");
+        $c1 = $t1->addCol("col1", DbColType::STRING);
+        $c2 = $t2->addCol("col2", DbColType::STRING);
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectFrom($t1, $c1, $c2)
+            ->join(DbJoinType::INNER, $t2, $c1, $c2);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT t1.col1, t2.col2 FROM test_table1 AS t1 INNER JOIN test_table2 AS t2 ON t1.col1 = t2.col2", $query);
+    }
+
 
     // endregion
 

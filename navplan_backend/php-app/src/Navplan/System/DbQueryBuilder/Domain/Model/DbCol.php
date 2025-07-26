@@ -3,13 +3,13 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Model;
 
 
-readonly class DbCol
+class DbCol
 {
     public function __construct(
-        private DbTable $table,
-        private string $name,
-        private DbColType $type,
-        private bool $isNullable = false,
+        private readonly DbTable $table,
+        private readonly string $name,
+        private readonly DbColType $type,
+        private readonly bool $isNullable = false,
     )
     {
     }
