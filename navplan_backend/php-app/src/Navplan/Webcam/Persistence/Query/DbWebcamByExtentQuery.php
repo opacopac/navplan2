@@ -35,7 +35,8 @@ class DbWebcamByExtentQuery implements IWebcamByExtentQuery
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error while searching webcams by extent");
+        $converter = new DbWebcamConverter(new DbTableWebcam());
 
-        return DbWebcamConverter::fromDbResult($result);
+        return $converter->fromDbResult($result);
     }
 }

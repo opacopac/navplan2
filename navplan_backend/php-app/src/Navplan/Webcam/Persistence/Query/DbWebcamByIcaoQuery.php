@@ -25,7 +25,8 @@ class DbWebcamByIcaoQuery implements IWebcamByIcaoQuery
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading webcams for airport $airportIcao");
+        $converter = new DbWebcamConverter(new DbTableWebcam());
 
-        return DbWebcamConverter::fromDbResult($result);
+        return $converter->fromDbResult($result);
     }
 }
