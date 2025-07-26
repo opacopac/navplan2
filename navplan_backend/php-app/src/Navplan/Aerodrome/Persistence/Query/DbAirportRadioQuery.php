@@ -26,35 +26,37 @@ class DbAirportRadioQuery implements IAirportRadioQuery
      */
     public function read(int $airportId): array
     {
+        $t = new DbTableAirportRadio();
         $query = $this->dbService->getQueryBuilder()
             ->selectFrom(
-                DbTableAirportRadio::TABLE_NAME,
-                DbTableAirportRadio::COL_CATEGORY,
-                DbTableAirportRadio::COL_FREQUENCY,
-                DbTableAirportRadio::COL_TYPE,
-                DbTableAirportRadio::COL_NAME,
-                DbTableAirportRadio::COL_IS_PRIMARY,
+                $t,
+                $t->colCategory(),
+                $t->colFrequency(),
+                $t->colType(),
+                $t->colName(),
+                $t->colIsPrimary(),
                 MySqlDbCaseBuilder::create($this->dbService)
-                    ->whenEquals(DbTableAirportRadio::COL_CATEGORY, "COMMUNICATION", "1")
-                    ->whenEquals(DbTableAirportRadio::COL_CATEGORY, "OTHER", "2")
-                    ->whenEquals(DbTableAirportRadio::COL_CATEGORY, "INFORMATION", "3")
+                    ->whenEquals($t->colType(), "COMMUNICATION", "1")
+                    ->whenEquals($t->colType(), "OTHER", "2")
+                    ->whenEquals($t->colType(), "INFORMATION", "3")
                     ->else("4")
                     ->build() . " AS sortorder1",
                 MySqlDbCaseBuilder::create($this->dbService)
-                    ->whenEquals(DbTableAirportRadio::COL_TYPE, "TOWER", "1")
-                    ->whenEquals(DbTableAirportRadio::COL_TYPE, "CTAF", "2")
-                    ->whenEquals(DbTableAirportRadio::COL_TYPE, "OTHER", "3")
+                    ->whenEquals($t->colType(), "TOWER", "1")
+                    ->whenEquals($t->colType(), "CTAF", "2")
+                    ->whenEquals($t->colType(), "OTHER", "3")
                     ->else("4")
                     ->build() . " AS sortorder2"
             )
-            ->whereEquals(DbTableAirportRadio::COL_AIRPORT_ID, $airportId)
+            ->whereEquals($t->colAirportId(), $airportId)
             ->orderBy("sortorder1", DbSortOrder::ASC)
             ->orderBy("sortorder2", DBSortOrder::ASC)
-            ->orderBy(DbTableAirportRadio::COL_FREQUENCY, DbSortOrder::ASC)
+            ->orderBy($t->colFrequency(), DbSortOrder::ASC)
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading radios for airport id " . $airportId);
+        $converter = new DbAirportRadioConverter($t);
 
-        return DbAirportRadioConverter::fromDbResult($result);
+        return $converter->fromDbResult($result);
     }
 }

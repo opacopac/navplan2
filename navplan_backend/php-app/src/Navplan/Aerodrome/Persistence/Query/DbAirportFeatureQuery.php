@@ -25,15 +25,17 @@ class DbAirportFeatureQuery implements IAirportFeatureQuery
      */
     public function read(string $airportIcao): array
     {
+        $t = new DbTableMapFeatures();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableMapFeatures::TABLE_NAME)
-            ->whereEquals(DbTableMapFeatures::COL_AD_ICAO, $airportIcao)
-            ->orderBy(DbTableMapFeatures::COL_TYPE, DbSortOrder::ASC)
-            ->orderBy(DbTableMapFeatures::COL_NAME, DbSortOrder::ASC)
+            ->selectAllFrom($t)
+            ->whereEquals($t->colAdIcao(), $airportIcao)
+            ->orderBy($t->colType(), DbSortOrder::ASC)
+            ->orderBy($t->colName(), DbSortOrder::ASC)
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading map features for airport icao " . $airportIcao);
+        $converter = new DbAirportFeatureConverter($t);
 
-        return DbAirportFeatureConverter::fromDbResult($result);
+        return $converter->fromDbResult($result);
     }
 }

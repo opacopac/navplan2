@@ -27,19 +27,21 @@ class DbAirportRunwayQuery implements IAirportRunwayQuery
      */
     public function read(int $airportId): array
     {
+        $t = new DbTableAirportRunway();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableAirportRunway::TABLE_NAME)
+            ->selectAllFrom($t)
             ->where(DbCondMulti::all(
-                DbCondSimple::equals(DbTableAirportRunway::COL_AIRPORT_ID, $airportId),
-                DbCondSimple::equals(DbTableAirportRunway::COL_OPERATIONS, "ACTIVE")
+                DbCondSimple::equals($t->colAirportId(), $airportId),
+                DbCondSimple::equals($t->colOperations(), "ACTIVE")
             ))
-            ->orderBy(DbTableAirportRunway::COL_LENGTH, DbSortOrder::DESC)
-            ->orderBy(DbTableAirportRunway::COL_SURFACE, DbSortOrder::ASC)
-            ->orderBy(DbTableAirportRunway::COL_ID, DbSortOrder::ASC)
+            ->orderBy($t->colLength(), DbSortOrder::DESC)
+            ->orderBy($t->colSurface(), DbSortOrder::ASC)
+            ->orderBy($t->colId(), DbSortOrder::ASC)
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading runways for airport id " . $airportId);
+        $converter = new DbAirportRunwayConverter($t);
 
-        return DbAirportRunwayConverter::fromDbResult($result);
+        return $converter->fromDbResult($result);
     }
 }

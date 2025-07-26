@@ -3,33 +3,27 @@
 namespace Navplan\Aerodrome\Persistence\Model;
 
 use Navplan\Aerodrome\Domain\Model\AirportFeature;
-use Navplan\Common\Persistence\Model\DbPosition2dConverter;
-use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\DbEntityConverter;
 
 
-class DbAirportFeatureConverter
+/**
+ * @extends DbEntityConverter<AirportFeature>
+ */
+class DbAirportFeatureConverter extends DbEntityConverter
 {
-    public static function fromDbRow(array $row): AirportFeature
+    public function __construct(private readonly DbTableMapFeatures $table)
     {
-        return new AirportFeature(
-            $row["type"],
-            $row["name"],
-            DbPosition2dConverter::fromDbRow($row)
-        );
     }
 
 
-    /**
-     * @param IDbResult $result
-     * @return AirportFeature[]
-     */
-    public static function fromDbResult(IDbResult $result): array
+    public function fromDbRow(array $row): AirportFeature
     {
-        $adFeature = [];
-        while ($row = $result->fetch_assoc()) {
-            $adFeature[] = self::fromDbRow($row);
-        }
+        $r = new DbRowAirportFeature($this->table, $row);
 
-        return $adFeature;
+        return new AirportFeature(
+            $r->getType(),
+            $r->getName(),
+            $r->getPosition()
+        );
     }
 }

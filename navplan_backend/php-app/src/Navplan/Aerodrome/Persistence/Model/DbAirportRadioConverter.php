@@ -6,39 +6,37 @@ use Navplan\Aerodrome\Domain\Model\AirportRadio;
 use Navplan\Aerodrome\Domain\Model\AirportRadioType;
 use Navplan\Common\Domain\Model\Frequency;
 use Navplan\Common\Domain\Model\FrequencyUnit;
-use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\DbEntityConverter;
 use Navplan\System\Db\Domain\Model\IDbStatement;
 use Navplan\System\Db\Domain\Service\IDbService;
 
 
-class DbAirportRadioConverter {
-    public static function fromDbRow(array $row): AirportRadio {
+/**
+ * @extends DbEntityConverter<AirportRadio>
+ */
+class DbAirportRadioConverter extends DbEntityConverter
+{
+    public function __construct(private readonly DbTableAirportRadio $table)
+    {
+    }
+
+
+    public function fromDbRow(array $row): AirportRadio
+    {
+        $r = new DbRowAirportRadio($this->table, $row);
+
         return new AirportRadio(
-            $row[DbTableAirportRadio::COL_CATEGORY],
-            new Frequency(floatval($row[DbTableAirportRadio::COL_FREQUENCY]), FrequencyUnit::MHZ),
-            AirportRadioType::from($row[DbTableAirportRadio::COL_TYPE]),
-            $row[DbTableAirportRadio::COL_NAME] ?? null,
-            boolval($row[DbTableAirportRadio::COL_IS_PRIMARY])
+            $r->getCategory(),
+            new Frequency($r->getFrequency(), FrequencyUnit::MHZ),
+            AirportRadioType::from($r->getType()),
+            $r->getName(),
+            $r->isPrimary()
         );
     }
 
 
-    /**
-     * @param IDbResult $result
-     * @return AirportRadio[]
-     */
-    public static function fromDbResult(IDbResult $result): array
+    public static function prepareInsertStatement(IDbService $dbService): IDbStatement
     {
-        $adRadio = [];
-        while ($row = $result->fetch_assoc()) {
-            $adRadio[] = self::fromDbRow($row);
-        }
-
-        return $adRadio;
-    }
-
-
-    public static function prepareInsertStatement(IDbService $dbService): IDbStatement {
         $query = "INSERT INTO " . DbTableAirportRadio::TABLE_NAME . " (" . join(", ", [
                 DbTableAirportRadio::COL_AIRPORT_ID,
                 DbTableAirportRadio::COL_CATEGORY,
@@ -52,7 +50,8 @@ class DbAirportRadioConverter {
     }
 
 
-    public static function bindInsertStatement(AirportRadio $radio, int $airport_id, IDbStatement $insertStatement) {
+    public static function bindInsertStatement(AirportRadio $radio, int $airport_id, IDbStatement $insertStatement)
+    {
         $type = $radio->type->value;
 
         $insertStatement->bind_param("isdssi",
