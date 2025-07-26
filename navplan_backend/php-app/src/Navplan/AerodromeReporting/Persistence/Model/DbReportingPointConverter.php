@@ -9,7 +9,7 @@ use Navplan\System\Db\Domain\Model\DbEntityConverter;
 
 
 /**
- * @extends DbEntityConverter<ReportingPoint>
+ * @extends DbEntityConverter<ReportingPoint, DbTableReportingPoints>
  */
 class DbReportingPointConverter extends DbEntityConverter
 {
@@ -19,18 +19,23 @@ class DbReportingPointConverter extends DbEntityConverter
     }
 
 
-    public function fromDbRow(array $row): ReportingPoint
+    /**
+     * @param DbTableReportingPoints $table
+     * @param array $row
+     * @return ReportingPoint
+     */
+    public function fromDbRow($table, array $row): ReportingPoint
     {
-        $r = new DbRowReportingPoints($row);
+        $r = new DbRowReportingPoints($table, $row);
 
         return new ReportingPoint(
             $r->getId(),
             $r->getType(),
             $r->getAirportIcao(),
             $r->getName(),
-            $r->isHeli(),
-            $r->isInbdComp(),
-            $r->isOutbdComp(),
+            $r->isHeli() ?? false,
+            $r->isInbdComp() ?? false,
+            $r->isOutbdComp() ?? false,
             Length::fromFt($r->getMinFt()),
             Length::fromFt($r->getMaxFt()),
             $r->getPosition(),

@@ -3,28 +3,33 @@
 namespace Navplan\System\Db\Domain\Model;
 
 
+use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
+
 /**
- * @template T
+ * @template ENTITY
+ * @template TABLE of DbTable
  */
 abstract class DbEntityConverter
 {
     /**
+     * @param TABLE $table
      * @param IDbResult $result
-     * @return T[]
+     * @return ENTITY[]
      */
-    public function fromDbResult(IDbResult $result): array
+    public function fromDbResult($table, IDbResult $result): array
     {
         $reportingPoints = [];
         while ($row = $result->fetch_assoc()) {
-            $reportingPoints[] = static::fromDbRow($row);
+            $reportingPoints[] = $this->fromDbRow($table, $row);
         }
         return $reportingPoints;
     }
 
 
     /**
+     * @param TABLE $table
      * @param array $row
-     * @return T
+     * @return ENTITY
      */
-    public abstract function fromDbRow(array $row): mixed;
+    public abstract function fromDbRow($table, array $row): mixed;
 }

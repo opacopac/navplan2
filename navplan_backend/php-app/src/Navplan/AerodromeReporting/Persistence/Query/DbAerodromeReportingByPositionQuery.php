@@ -41,6 +41,6 @@ class DbAerodromeReportingByPositionQuery implements IAerodromeReportingByPositi
         $result = $this->dbService->execMultiResultQuery($query, "error searching reporting points by position");
 
         return DbReportingPointConverter::create()
-            ->fromDbResult($result);
+            ->fromDbResult($t, $result);
     }
 }

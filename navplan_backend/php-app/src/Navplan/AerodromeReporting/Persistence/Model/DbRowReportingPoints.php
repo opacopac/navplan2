@@ -4,74 +4,82 @@ namespace Navplan\AerodromeReporting\Persistence\Model;
 
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Persistence\Model\DbPosition2dConverter;
-use Navplan\Common\StringNumberHelper;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbRow;
 
 
 class DbRowReportingPoints extends DbRow
 {
+    public function __construct(
+        private readonly DbTableReportingPoints $table,
+        array $row
+    )
+    {
+        parent::__construct($row);
+    }
+
+
     public function getId(): int
     {
-        return StringNumberHelper::parseIntOrError($this->row, DbTableReportingPoints::COL_ID);
+        return $this->getValue($this->table->colId());
     }
 
 
     public function getType(): string
     {
-        return StringNumberHelper::parseStringOrError($this->row, DbTableReportingPoints::COL_TYPE);
+        return $this->getValue($this->table->colType());
     }
 
 
     public function getAirportIcao(): string
     {
-        return StringNumberHelper::parseStringOrError($this->row, DbTableReportingPoints::COL_AD_ICAO);
+        return $this->getValue($this->table->colAdIcao());
     }
 
 
     public function getName(): string
     {
-        return StringNumberHelper::parseStringOrError($this->row, DbTableReportingPoints::COL_NAME);
+        return $this->getValue($this->table->colName());
     }
 
 
-    public function isHeli(): bool
+    public function isHeli(): ?bool
     {
-        return StringNumberHelper::parseBoolOrFalse($this->row, DbTableReportingPoints::COL_HELI);
+        return $this->getValue($this->table->colHeli());
     }
 
 
-    public function isInbdComp(): bool
+    public function isInbdComp(): ?bool
     {
-        return StringNumberHelper::parseBoolOrFalse($this->row, DbTableReportingPoints::COL_INBD_COMP);
+        return $this->getValue($this->table->colInbdComp());
     }
 
 
-    public function isOutbdComp(): bool
+    public function isOutbdComp(): ?bool
     {
-        return StringNumberHelper::parseBoolOrFalse($this->row, DbTableReportingPoints::COL_OUTBD_COMP);
+        return $this->getValue($this->table->colOutbdComp());
     }
 
 
     public function getMinFt(): ?int
     {
-        return StringNumberHelper::parseIntOrNull($this->row, DbTableReportingPoints::COL_MIN_FT);
+        return $this->getValue($this->table->colMinFt());
     }
 
 
     public function getMaxFt(): ?int
     {
-        return StringNumberHelper::parseIntOrNull($this->row, DbTableReportingPoints::COL_MAX_FT);
+        return $this->getValue($this->table->colMaxFt());
     }
 
 
     public function getPosition(): ?Position2d
     {
-        return DbPosition2dConverter::fromDbRow($this->row);
+        return DbPosition2dConverter::fromDbRow($this->row); // TODO
     }
 
 
     public function getPolygon(): ?string
     {
-        return StringNumberHelper::parseStringOrNull($this->row, DbTableReportingPoints::COL_POLYGON);
+        return $this->getValue($this->table->colPolygon());
     }
 }
