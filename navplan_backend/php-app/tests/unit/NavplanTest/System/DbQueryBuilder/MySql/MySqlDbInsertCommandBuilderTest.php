@@ -37,10 +37,10 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
         $c4 = $t->addCol("col4", DbColType::BOOL);
         $qb = $this->insertCommandBuilder
             ->insertInto($t)
-            ->setValue($c1, "value1")
-            ->setValue($c2, 123)
-            ->setValue($c3, 45.67)
-            ->setValue($c4, true);
+            ->addCol($c1, "value1")
+            ->addCol($c2, 123)
+            ->addCol($c3, 45.67)
+            ->addCol($c4, true);
 
         // when
         $query = $qb->build();
@@ -64,9 +64,9 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
         $c3 = $t->addCol("col3", DbColType::GEO_POLY);
         $qb = $this->insertCommandBuilder
             ->insertInto($t)
-            ->setValue($c1, $pos1)
-            ->setValue($c2, $line)
-            ->setValue($c3, $ring);
+            ->addCol($c1, $pos1)
+            ->addCol($c2, $line)
+            ->addCol($c3, $ring);
 
         // when
         $query = $qb->build();
@@ -89,7 +89,7 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
         $c1 = $t->addCol("col1", DbColType::STRING);
         $qb = $this->insertCommandBuilder
             ->insertInto($t)
-            ->setValue($c1, "value1");
+            ->addCol($c1, "value1");
 
         // when
         $query = $qb->build();
@@ -114,15 +114,15 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
         $c9 = $t->addCol("col9", DbColType::GEOMETRY);
         $qb = $this->insertCommandBuilder
             ->insertInto($t)
-            ->setValue($c1, "value1")
-            ->setValue($c2, 123)
-            ->setValue($c3, 45.67)
-            ->setValue($c4, true)
-            ->setValue($c5, "2023-10-01 12:00:00")
-            ->setValue($c6, "POINT(1 2)")
-            ->setValue($c7, "LINESTRING(1 2, 3 4)")
-            ->setValue($c8, "POLYGON((1 2, 3 4, 5 6, 1 2))")
-            ->setValue($c9, "MULTIPOLYGON(((1 2, 3 4, 5 6, 1 2)))");
+            ->addCol($c1, "value1")
+            ->addCol($c2, 123)
+            ->addCol($c3, 45.67)
+            ->addCol($c4, true)
+            ->addCol($c5, "2023-10-01 12:00:00")
+            ->addCol($c6, "POINT(1 2)")
+            ->addCol($c7, "LINESTRING(1 2, 3 4)")
+            ->addCol($c8, "POLYGON((1 2, 3 4, 5 6, 1 2))")
+            ->addCol($c9, "MULTIPOLYGON(((1 2, 3 4, 5 6, 1 2)))");
 
         // when
         $types = $qb->buildBindParamTypes();
@@ -143,11 +143,11 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
         $c5 = $t->addCol("col5", DbColType::TIMESTAMP);
         $qb = $this->insertCommandBuilder
             ->insertInto($t)
-            ->setValue($c1, "value1")
-            ->setValue($c2, 123)
-            ->setValue($c3, 45.67)
-            ->setValue($c4, true)
-            ->setValue($c5, 1753443777);
+            ->addCol($c1, "value1")
+            ->addCol($c2, 123)
+            ->addCol($c3, 45.67)
+            ->addCol($c4, true)
+            ->addCol($c5, 1753443777);
 
         // when
         $statementStr = $qb->build(true);
@@ -168,11 +168,11 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
         $c5 = $t->addCol("col5", DbColType::GEOMETRY);
         $qb = $this->insertCommandBuilder
             ->insertInto($t)
-            ->setValue($c1, "value1")
-            ->setValue($c2, "POINT(1 2)")
-            ->setValue($c3, "LINESTRING(1 2, 3 4)")
-            ->setValue($c4, "POLYGON((1 2, 3 4, 5 6, 1 2))")
-            ->setValue($c5, "MULTIPOLYGON(((1 2, 3 4, 5 6, 1 2)))");
+            ->addCol($c1, "value1")
+            ->addCol($c2, "POINT(1 2)")
+            ->addCol($c3, "LINESTRING(1 2, 3 4)")
+            ->addCol($c4, "POLYGON((1 2, 3 4, 5 6, 1 2))")
+            ->addCol($c5, "MULTIPOLYGON(((1 2, 3 4, 5 6, 1 2)))");
 
         // when
         $statementStr = $qb->build(true);
@@ -230,14 +230,14 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
 
         return MySqlDbInsertCommandBuilder::create($this->mockDbService)
             ->insertInto($t)
-            ->setValue($c1, "value1")
-            ->setValue($c2, 123)
-            ->setValue($c3, 45.67)
-            ->setValue($c4, true)
-            ->setValue($c5, 1753443777)
-            ->setValue($c6, $pos1)
-            ->setValue($c7, $line)
-            ->setValue($c8, $ring)
-            ->setValue($c9, "MULTIPOLYGON(((1 2, 3 4, 5 6, 1 2)))");
+            ->addCol($c1, "value1")
+            ->addCol($c2, 123)
+            ->addCol($c3, 45.67)
+            ->addCol($c4, true)
+            ->addCol($c5, 1753443777)
+            ->addCol($c6, $pos1)
+            ->addCol($c7, $line)
+            ->addCol($c8, $ring)
+            ->addCol($c9, "MULTIPOLYGON(((1 2, 3 4, 5 6, 1 2)))");
     }
 }

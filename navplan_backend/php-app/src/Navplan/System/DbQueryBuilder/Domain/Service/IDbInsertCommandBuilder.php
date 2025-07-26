@@ -11,9 +11,9 @@ interface IDbInsertCommandBuilder
 {
     function insertInto(DbTable $table): IDbInsertCommandBuilder;
 
-    function setValue(DbCol $column, mixed $value): IDbInsertCommandBuilder;
+    function addCol(DbCol $column, mixed $value = null): IDbInsertCommandBuilder;
 
-    function getValues(): array;
+    function setColValue(DbCol $column, mixed $value): IDbInsertCommandBuilder;
 
     function build(bool $isPreparedStatement = false): string;
 
@@ -22,4 +22,6 @@ interface IDbInsertCommandBuilder
     function buildStatement(): IDbStatement;
 
     function buildAndBindStatement(): IDbStatement;
+
+    function bindStatementValues(): void;
 }

@@ -20,7 +20,8 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
      * @var DbCol[]
      */
     private array $columns = [];
-    private array $values = [];
+    private array $colValues = array();
+    private IDBStatement $statement;
 
 
     private function __construct(private readonly IDbService $dbService)
@@ -42,18 +43,19 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
     }
 
 
-    function setValue(DbCol $column, mixed $value): IDbInsertCommandBuilder
+    public function addCol(DbCol $column, mixed $value = null): IDbInsertCommandBuilder
     {
         $this->columns[] = $column;
-        $this->values[] = $value;
 
-        return $this;
+        return $this->setColValue($column, $value);
     }
 
 
-    public function getValues(): array
+    public function setColValue(DbCol $column, mixed $value): IDbInsertCommandBuilder
     {
-        return $this->values;
+        $this->colValues[$column->getName()] = $value;
+
+        return $this;
     }
 
 
@@ -84,25 +86,37 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
     public function buildStatement(): IDbStatement
     {
         $query = $this->build(true);
-        return $this->dbService->prepareStatement($query);
+        $this->statement = $this->dbService->prepareStatement($query);
+
+        return $this->statement;
+    }
+
+
+    public function bindStatementValues(): void
+    {
+        if (empty($this->statement)) {
+            throw new RuntimeException("Statement must be built before binding values.");
+        }
+
+        $bindParamTypes = $this->buildBindParamTypes();
+        $values = [];
+
+        for ($i = 0; $i < count($this->columns); $i++) {
+            $col = $this->columns[$i];
+            $value = $this->colValues[$col->getName()];
+            $values[] = $this->buildBindValue($col, $value);
+        }
+
+        $this->statement->bind_param($bindParamTypes, ...$values);
     }
 
 
     public function buildAndBindStatement(): IDbStatement
     {
-        $statement = $this->buildStatement();
-        $bindParamTypes = $this->buildBindParamTypes();
+        $this->buildStatement();
+        $this->bindStatementValues();
 
-        $values = [];
-        for ($i = 0; $i < count($this->columns); $i++) {
-            $col = $this->columns[$i];
-            $value = $this->values[$i];
-            $values[] = $this->buildBindValue($col, $value);
-        }
-
-        $statement->bind_param($bindParamTypes, ...$values);
-
-        return $statement;
+        return $this->statement;
     }
 
 
@@ -121,8 +135,8 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
             throw new RuntimeException("Insert command must be initialized with insertInto() before building.");
         }
 
-        if (empty($this->columns) || empty($this->values) || count($this->columns) !== count($this->values)) {
-            throw new InvalidArgumentException("Columns and values must be set and have the same number of entries before building the insert command.");
+        if (empty($this->columns)) {
+            throw new InvalidArgumentException("Columns and values must be set before building the insert command.");
         }
     }
 
@@ -133,7 +147,7 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
 
         for ($i = 0; $i < count($this->columns); $i++) {
             $col = $this->columns[$i];
-            $value = $this->values[$i];
+            $value = $this->colValues[$col->getName()];
             $valueStrs[] = $isPreparedStatement
                 ? $this->buildPreparedValueStr($col, $value)
                 : $this->buildValueStr($col, $value);

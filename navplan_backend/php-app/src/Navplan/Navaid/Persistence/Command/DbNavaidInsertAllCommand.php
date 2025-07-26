@@ -31,48 +31,37 @@ class DbNavaidInsertAllCommand implements INavaidInsertAllCommand
         $t = new DbTableNavaid();
         $icb = MySqlDbInsertCommandBuilder::create($this->dbService)
             ->insertInto($t)
-            ->setValue($t->colType(), null)
-            ->setValue($t->colCountry(), null)
-            ->setValue($t->colName(), null)
-            ->setValue($t->colKuerzel(), null)
-            ->setValue($t->colLat(), null)
-            ->setValue($t->colLon(), null)
-            ->setValue($t->colElevation(), null)
-            ->setValue($t->colFrequency(), null)
-            ->setValue($t->colDeclination(), null)
-            ->setValue($t->colTrueNorth(), null)
-            ->setValue($t->colGeoHash(), null)
-            ->setValue($t->colLonlat(), null);
+            ->addCol($t->colType())
+            ->addCol($t->colCountry())
+            ->addCol($t->colName())
+            ->addCol($t->colKuerzel())
+            ->addCol($t->colLat())
+            ->addCol($t->colLon())
+            ->addCol($t->colElevation())
+            ->addCol($t->colFrequency())
+            ->addCol($t->colDeclination())
+            ->addCol($t->colTrueNorth())
+            ->addCol($t->colGeoHash())
+            ->addCol($t->colLonlat());
 
-        $query = $icb->build(true);
-        $bindParamTypes = $icb->buildBindParamTypes();
-
-        $statement = $this->dbService->prepareStatement($query);
+        $statement = $icb->buildStatement();
 
         foreach ($navaids as $navaid) {
             try {
-                // TODO: bind more beautifully/generically
-                $type = $navaid->type->value;
-                $elevation = $navaid->elevation->getHeightAmsl()->getM();
-                $geoHash = GeoHelper::calcGeoHash($navaid->position->longitude, $navaid->position->latitude, 14); // TODO
-                $lonlat = "POINT(" . $navaid->position->longitude . " " . $navaid->position->latitude . ")";
-                $country = "XX"; // TODO
-
-                $statement->bind_param(
-                    $bindParamTypes,
-                    $type,
-                    $country,
-                    $navaid->name,
-                    $navaid->kuerzel,
-                    $navaid->position->latitude,
-                    $navaid->position->longitude,
-                    $elevation,
-                    $navaid->frequency->value,
-                    $navaid->declination,
-                    $navaid->isTrueNorth,
-                    $geoHash,
-                    $lonlat
-                );
+                $icb->setColValue($t->colType(), $navaid->type->value);
+                $icb->setColValue($t->colCountry(), "XX"); // TODO: country code
+                $icb->setColValue($t->colName(), $navaid->name);
+                $icb->setColValue($t->colKuerzel(), $navaid->kuerzel);
+                $icb->setColValue($t->colLat(), $navaid->position->latitude);
+                $icb->setColValue($t->colLon(), $navaid->position->longitude);
+                $icb->setColValue($t->colElevation(), $navaid->elevation->getHeightAmsl()->getM());
+                $icb->setColValue($t->colFrequency(), $navaid->frequency->value);
+                $icb->setColValue($t->colDeclination(), $navaid->declination);
+                $icb->setColValue($t->colTrueNorth(), $navaid->isTrueNorth);
+                $icb->setColValue($t->colGeoHash(), GeoHelper::calcGeoHash(
+                    $navaid->position->longitude, $navaid->position->latitude, 14)); // TODO: geohash precision
+                $icb->setColValue($t->colLonlat(), $navaid->position);
+                $icb->bindStatementValues();
 
                 $statement->execute();
             } catch (Throwable $ex) {
