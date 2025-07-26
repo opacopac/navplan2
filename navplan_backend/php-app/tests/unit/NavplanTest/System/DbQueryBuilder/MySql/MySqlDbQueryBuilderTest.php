@@ -156,6 +156,25 @@ class MySqlDbQueryBuilderTest extends TestCase
     }
 
 
+    public function test_left_join()
+    {
+        // given
+        $t1 = new DbTable("test_table1", "t1");
+        $t2 = new DbTable("test_table2", "t2");
+        $c1 = $t1->addCol("col1", DbColType::STRING);
+        $c2 = $t2->addCol("col2", DbColType::STRING);
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectAllFrom($t1)
+            ->join(DbJoinType::LEFT, $t2, $c1, $c2);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT t1.* FROM test_table1 AS t1 LEFT JOIN test_table2 AS t2 ON t1.col1 = t2.col2", $query);
+    }
+
+
     // endregion
 
 
