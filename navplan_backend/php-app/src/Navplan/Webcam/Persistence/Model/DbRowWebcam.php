@@ -37,7 +37,7 @@ class DbRowWebcam extends DbRow
 
     public function getPosition(): ?Position2d
     {
-        return DbPosition2dConverter::fromDbRow($this->row); // TODO
+        return DbPosition2dConverter::fromDbRow($this->row);
     }
 
 
