@@ -5,46 +5,40 @@ namespace Navplan\Aerodrome\Persistence\Model;
 use Navplan\Aerodrome\Domain\Model\Airport;
 use Navplan\Aerodrome\Domain\Model\AirportType;
 use Navplan\Common\Domain\Model\Altitude;
-use Navplan\Common\Domain\Model\AltitudeReference;
-use Navplan\Common\Domain\Model\AltitudeUnit;
 use Navplan\Common\GeoHelper;
-use Navplan\Common\Persistence\Model\DbPosition2dConverter;
-use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\DbEntityConverter;
 use Navplan\System\Db\Domain\Model\IDbStatement;
 use Navplan\System\Db\Domain\Service\IDbService;
 
 
-class DbAirportConverter {
-    public static function fromDbRow(array $row): Airport {
+/**
+ * @extends DbEntityConverter<Airport>
+ */
+class DbAirportConverter extends DBEntityConverter
+{
+    public function __construct(private readonly DbTableAirport $table)
+    {
+    }
+
+
+    public function fromDbRow(array $row): Airport
+    {
+        $r = new DbRowAirport($this->table, $row);
+
         return new Airport(
-            intval($row[DbTableAirport::COL_ID]),
-            AirportType::from($row[DbTableAirport::COL_TYPE]),
-            $row[DbTableAirport::COL_NAME],
-            $row[DbTableAirport::COL_ICAO] !== "" ? $row[DbTableAirport::COL_ICAO] : NULL,
-            $row[DbTableAirport::COL_COUNTRY],
-            DbPosition2dConverter::fromDbRow($row, DbTableAirport::COL_LONGITUDE, DbTableAirport::COL_LATITUDE),
-            new Altitude(floatval($row[DbTableAirport::COL_ELEVATION]), AltitudeUnit::M, AltitudeReference::MSL)
+            $r->getId(),
+            AirportType::from($r->getType()),
+            $r->getName(),
+            $r->getIcao(),
+            $r->getCountry(),
+            $r->getPosition(),
+            Altitude::fromMtAmsl($r->getElevationMtAmsl())
         );
     }
 
 
-    /**
-     * @param IDbResult $result
-     * @return Airport[]
-     */
-    public static function fromDbResult(IDbResult $result): array
+    public static function prepareInsertStatement(IDbService $dbService): IDbStatement
     {
-        $airports = [];
-
-        while ($row = $result->fetch_assoc()) {
-            $airports[] = DbAirportConverter::fromDbRow($row);
-        }
-
-        return $airports;
-    }
-
-
-    public static function prepareInsertStatement(IDbService $dbService): IDbStatement {
         $query = "INSERT INTO " . DbTableAirport::TABLE_NAME . " (" . join(", ", [
                 DbTableAirport::COL_TYPE,
                 DbTableAirport::COL_NAME,
@@ -61,7 +55,8 @@ class DbAirportConverter {
     }
 
 
-    public static function bindInsertStatement(Airport $airport, IDbStatement $insertStatement) {
+    public static function bindInsertStatement(Airport $airport, IDbStatement $insertStatement)
+    {
         $type = $airport->type->value;
         $elevation = $airport->elevation->getHeightAmsl()->getM();
         $geoHash = GeoHelper::calcGeoHash($airport->position->longitude, $airport->position->latitude, 14); // TODO

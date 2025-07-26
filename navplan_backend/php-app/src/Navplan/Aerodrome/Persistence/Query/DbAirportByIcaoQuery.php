@@ -20,13 +20,15 @@ class DbAirportByIcaoQuery implements IAirportByIcaoQuery
 
     public function read(string $icao): Airport
     {
+        $t = new DbTableAirport();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableAirport::TABLE_NAME)
-            ->whereEquals(DbTableAirport::COL_ICAO, $icao)
+            ->selectAllFrom($t)
+            ->whereEquals($t->colIcao(), $icao)
             ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, false, "error loading airport by icao '" . $icao . "'");
+        $converter = new DbAirportConverter($t);
 
-        return DbAirportConverter::fromDbRow($result->fetch_assoc());
+        return $converter->fromDbRow($result->fetch_assoc());
     }
 }

@@ -28,11 +28,12 @@ class DbAirportByPositionQuery implements IAirportByPositionQuery
      */
     public function search(Position2d $position, float $maxRadius_deg, int $maxResults): array
     {
+        $t = new DbTableAirport();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableAirport::TABLE_NAME)
+            ->selectAllFrom($t)
             ->where(DbCondGeo::inMaxDist(
-                DbTableAirport::COL_LATITUDE,
-                DbTableAirport::COL_LONGITUDE,
+                $t->colLatitude(),
+                $t->colLongitude(),
                 $position,
                 $maxRadius_deg
             ))
@@ -41,7 +42,8 @@ class DbAirportByPositionQuery implements IAirportByPositionQuery
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching airports by position");
+        $converter = new DbAirportConverter($t);
 
-        return DbAirportConverter::fromDbResult($result);
+        return $converter->fromDbResult($result);
     }
 }

@@ -3,38 +3,34 @@
 namespace Navplan\Aerodrome\Persistence\Model;
 
 use Navplan\Aerodrome\Domain\Model\ShortAirport;
-use Navplan\Common\Persistence\Model\DbPosition2dConverter;
-use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\DbEntityConverter;
 
 
-class DbShortAirportConverter
+/**
+ * @extends DbEntityConverter<ShortAirport>
+ */
+class DbShortAirportConverter extends DbEntityConverter
 {
-    public static function fromDbRow(array $row): ShortAirport
+    public function __construct(
+        private readonly DbTableAirport $tAd,
+        private readonly DbTableAirportRunway $tRwy,
+    )
     {
-        return new ShortAirport(
-            intval($row[DbTableAirport::COL_ID]),
-            $row[DbTableAirport::COL_TYPE],
-            $row[DbTableAirport::COL_ICAO],
-            DbPosition2dConverter::fromDbRow($row),
-            is_null(intval($row[DbTableAirportRunway::COL_DIRECTION])) ? null : intval($row[DbTableAirportRunway::COL_DIRECTION]),
-            $row[DbTableAirportRunway::COL_SURFACE],
-            $row["features"] ? explode(",", $row["features"]) : []
-        );
     }
 
 
-    /**
-     * @param IDbResult $result
-     * @return ShortAirport[]
-     */
-    public static function fromDbResult(IDbResult $result): array
+    public function fromDbRow(array $row): ShortAirport
     {
-        $airports = [];
+        $r = new DbRowShortAirport($this->tAd, $this->tRwy, $row);
 
-        while ($row = $result->fetch_assoc()) {
-            $airports[] = DbShortAirportConverter::fromDbRow($row);
-        }
-
-        return $airports;
+        return new ShortAirport(
+            $r->getId(),
+            $r->getType(),
+            $r->getIcao(),
+            $r->getPosition(),
+            $r->getRwyDirection(),
+            $r->getRwySurface(),
+            $r->getFeatures()
+        );
     }
 }
