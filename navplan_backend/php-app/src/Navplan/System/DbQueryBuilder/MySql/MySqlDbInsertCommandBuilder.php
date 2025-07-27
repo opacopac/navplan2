@@ -21,7 +21,7 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
      */
     private array $columns = [];
     private array $colValues = array();
-    private IDBStatement $statement;
+    private ?IDBStatement $statement = null;
 
 
     private function __construct(private readonly IDbService $dbService)
@@ -83,16 +83,27 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
     }
 
 
-    public function buildStatement(): IDbStatement
+    public function buildAndBindStatement(): IDbStatement
     {
-        $query = $this->build(true);
-        $this->statement = $this->dbService->prepareStatement($query);
+        $this->buildStatement();
+        $this->bindStatementValues();
 
         return $this->statement;
     }
 
 
-    public function bindStatementValues(): void
+    private function buildStatement(): IDbStatement
+    {
+        if (!$this->statement) {
+            $query = $this->build(true);
+            $this->statement = $this->dbService->prepareStatement($query);
+        }
+
+        return $this->statement;
+    }
+
+
+    private function bindStatementValues(): void
     {
         if (empty($this->statement)) {
             throw new RuntimeException("Statement must be built before binding values.");
@@ -108,15 +119,6 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
         }
 
         $this->statement->bind_param($bindParamTypes, ...$values);
-    }
-
-
-    public function buildAndBindStatement(): IDbStatement
-    {
-        $this->buildStatement();
-        $this->bindStatementValues();
-
-        return $this->statement;
     }
 
 

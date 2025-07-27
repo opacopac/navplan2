@@ -183,19 +183,6 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
     }
 
 
-    public function test_build_statement()
-    {
-        // given
-        $qb = $this->createAllColTypesValuesBuilder();
-
-        // when
-        $statement = $qb->buildStatement();
-
-        // then
-        $this->assertNotNull($statement);
-    }
-
-
     public function test_build_and_bind_statement()
     {
         // given
@@ -203,9 +190,11 @@ class MySqlDbInsertCommandBuilderTest extends TestCase
 
         // when
         $statement = $qb->buildAndBindStatement();
+        $statement2 = $qb->buildAndBindStatement(); // test that it can be called multiple times
 
         // then
         $this->assertNotNull($statement);
+        $this->assertSame($statement, $statement2);
     }
 
 
