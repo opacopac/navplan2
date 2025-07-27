@@ -13,5 +13,5 @@ $importFilter = new OpenAipImportFilter("CH");
 $importer = $diContainer->getOpenAipDiContainer()->getOpenAipImporter();
 $importer->setImportFilter($importFilter);
 $importer->importNavaids();
-//$importer->importAirports();
-//$importer->importAirspaces();
+$importer->importAirports();
+$importer->importAirspaces();
