@@ -7,8 +7,7 @@ use Navplan\Aerodrome\Domain\Model\AirportRadioType;
 use Navplan\Common\Domain\Model\Frequency;
 use Navplan\Common\Domain\Model\FrequencyUnit;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
-use Navplan\System\Db\Domain\Model\IDbStatement;
-use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
 
 /**
@@ -35,32 +34,13 @@ class DbAirportRadioConverter extends DbEntityConverter
     }
 
 
-    public static function prepareInsertStatement(IDbService $dbService): IDbStatement
+    public function bindInsertValues(AirportRadio $radio, int $adId, IDbInsertCommandBuilder $icb): void
     {
-        $query = "INSERT INTO " . DbTableAirportRadio::TABLE_NAME . " (" . join(", ", [
-                DbTableAirportRadio::COL_AIRPORT_ID,
-                DbTableAirportRadio::COL_CATEGORY,
-                DbTableAirportRadio::COL_FREQUENCY,
-                DbTableAirportRadio::COL_TYPE,
-                DbTableAirportRadio::COL_NAME,
-                DbTableAirportRadio::COL_IS_PRIMARY,
-            ]) . ") VALUES (?, ?, ?, ?, ?, ?)";
-
-        return $dbService->prepareStatement($query);
-    }
-
-
-    public static function bindInsertStatement(AirportRadio $radio, int $airport_id, IDbStatement $insertStatement)
-    {
-        $type = $radio->type->value;
-
-        $insertStatement->bind_param("isdssi",
-            $airport_id,
-            $radio->category,
-            $radio->frequency->value,
-            $type,
-            $radio->name,
-            $radio->isPrimary
-        );
+        $icb->setColValue($this->table->colAirportId(), $adId)
+            ->setColValue($this->table->colCategory(), $radio->category)
+            ->setColValue($this->table->colFrequency(), $radio->frequency->value)
+            ->setColValue($this->table->colType(), $radio->type->value)
+            ->setColValue($this->table->colName(), $radio->name)
+            ->setColValue($this->table->colIsPrimary(), $radio->isPrimary);
     }
 }

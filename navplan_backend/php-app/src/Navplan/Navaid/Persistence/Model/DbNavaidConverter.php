@@ -5,9 +5,11 @@ namespace Navplan\Navaid\Persistence\Model;
 use Navplan\Common\Domain\Model\Altitude;
 use Navplan\Common\Domain\Model\Frequency;
 use Navplan\Common\Domain\Model\FrequencyUnit;
+use Navplan\Common\GeoHelper;
 use Navplan\Navaid\Domain\Model\Navaid;
 use Navplan\Navaid\Domain\Model\NavaidType;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
 
 /**
@@ -40,5 +42,22 @@ class DbNavaidConverter extends DbEntityConverter
             $r->getDeclination(),
             $r->isTrueNorth()
         );
+    }
+
+
+    public function bindInsertValues(Navaid $navaid, IDbInsertCommandBuilder $icb): void
+    {
+        $icb->setColValue($this->table->colType(), $navaid->type->value)
+            ->setColValue($this->table->colCountry(), "XX") // TODO: country code
+            ->setColValue($this->table->colName(), $navaid->name)
+            ->setColValue($this->table->colKuerzel(), $navaid->kuerzel)
+            ->setColValue($this->table->colLat(), $navaid->position->latitude)
+            ->setColValue($this->table->colLon(), $navaid->position->longitude)
+            ->setColValue($this->table->colElevation(), $navaid->elevation->getHeightAmsl()->getM())
+            ->setColValue($this->table->colFrequency(), $navaid->frequency->value)
+            ->setColValue($this->table->colDeclination(), $navaid->declination)
+            ->setColValue($this->table->colTrueNorth(), $navaid->isTrueNorth)
+            ->setColValue($this->table->colGeoHash(), GeoHelper::calcGeoHash($navaid->position, 14)) // TODO: geohash precision
+            ->setColValue($this->table->colLonlat(), $navaid->position);
     }
 }

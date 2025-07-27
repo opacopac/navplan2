@@ -7,7 +7,11 @@ use Navplan\Aerodrome\Domain\Model\Airport;
 use Navplan\Aerodrome\Persistence\Model\DbAirportConverter;
 use Navplan\Aerodrome\Persistence\Model\DbAirportRadioConverter;
 use Navplan\Aerodrome\Persistence\Model\DbAirportRunwayConverter;
+use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
+use Navplan\Aerodrome\Persistence\Model\DbTableAirportRadio;
+use Navplan\Aerodrome\Persistence\Model\DbTableAirportRunway;
 use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\MySql\MySqlDbInsertCommandBuilder;
 use Navplan\System\Domain\Service\ILoggingService;
 use Throwable;
 
@@ -29,31 +33,39 @@ class DbAirportCreateAllCommand implements IAirportCreateAllCommand
      */
     public function createAll(array $airports): void
     {
-        $airport_statement = DbAirportConverter::prepareInsertStatement($this->dbService);
+        $tAd = new DbTableAirport();
+        $tRad = new DbTableAirportRadio();
+        $tRwy = new DbTableAirportRunway();
+        $convAd = new DbAirportConverter($tAd);
+        $convRad = new DbAirportRadioConverter($tRad);
+        $convRwy = new DbAirportRunwayConverter($tRwy);
+        $icbAd = MySqlDbInsertCommandBuilder::create($this->dbService)->insertInto($tAd);
+        $icbRad = MySqlDbInsertCommandBuilder::create($this->dbService)->insertInto($tRad);
+        $icbRwy = MySqlDbInsertCommandBuilder::create($this->dbService)->insertInto($tRwy);
 
+        // airports
         foreach ($airports as $airport) {
             try {
-                DbAirportConverter::bindInsertStatement($airport, $airport_statement);
-                $airport_statement->execute();
-                $airport_id = $airport_statement->getInsertId();
+                $convAd->bindInsertValues($airport, $icbAd);
+                $statAd = $icbAd->buildAndBindStatement();
+                $statAd->execute();
+                $adId = $statAd->getInsertId();
 
                 // radios
                 if ($airport->hasRadios()) {
-                    $radio_statement = DbAirportRadioConverter::prepareInsertStatement($this->dbService);
-
                     foreach ($airport->radios as $radio) {
-                        DbAirportRadioConverter::bindInsertStatement($radio, $airport_id, $radio_statement);
-                        $radio_statement->execute();
+                        $convRad->bindInsertValues($radio, $adId, $icbRad);
+                        $statRad = $icbRad->buildAndBindStatement();
+                        $statRad->execute();
                     }
                 }
 
                 // runways
                 if ($airport->hasRunways()) {
-                    $rwy_statement = DbAirportRunwayConverter::prepareInsertStatement($this->dbService);
-
                     foreach ($airport->runways as $rwy) {
-                        DbAirportRunwayConverter::bindInsertStatement($rwy, $airport_id, $rwy_statement);
-                        $rwy_statement->execute();
+                        $convRwy->bindInsertValues($rwy, $adId, $icbRwy);
+                        $statRwy = $icbRwy->buildAndBindStatement();
+                        $statRwy->execute();
                     }
                 }
             } catch (Throwable $ex) {

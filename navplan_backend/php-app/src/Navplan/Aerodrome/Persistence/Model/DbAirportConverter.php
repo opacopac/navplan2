@@ -7,8 +7,7 @@ use Navplan\Aerodrome\Domain\Model\AirportType;
 use Navplan\Common\Domain\Model\Altitude;
 use Navplan\Common\GeoHelper;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
-use Navplan\System\Db\Domain\Model\IDbStatement;
-use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
 
 /**
@@ -37,41 +36,16 @@ class DbAirportConverter extends DBEntityConverter
     }
 
 
-    public static function prepareInsertStatement(IDbService $dbService): IDbStatement
+    public function bindInsertValues(Airport $airport, IDbInsertCommandBuilder $icb): void
     {
-        $query = "INSERT INTO " . DbTableAirport::TABLE_NAME . " (" . join(", ", [
-                DbTableAirport::COL_TYPE,
-                DbTableAirport::COL_NAME,
-                DbTableAirport::COL_ICAO,
-                DbTableAirport::COL_COUNTRY,
-                DbTableAirport::COL_LONGITUDE,
-                DbTableAirport::COL_LATITUDE,
-                DbTableAirport::COL_ELEVATION,
-                DbTableAirport::COL_GEOHASH,
-                DbTableAirport::COL_LONLAT
-            ]) . ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ST_GeomFromText(?))";
-
-        return $dbService->prepareStatement($query);
-    }
-
-
-    public static function bindInsertStatement(Airport $airport, IDbStatement $insertStatement)
-    {
-        $type = $airport->type->value;
-        $elevation = $airport->elevation->getHeightAmsl()->getM();
-        $geoHash = GeoHelper::calcGeoHash($airport->position->longitude, $airport->position->latitude, 14); // TODO
-        $lonlat = "POINT(" . $airport->position->longitude . " " . $airport->position->latitude . ")";
-
-        $insertStatement->bind_param("ssssdddss",
-            $type,
-            $airport->name,
-            $airport->icao,
-            $airport->country,
-            $airport->position->longitude,
-            $airport->position->latitude,
-            $elevation,
-            $geoHash,
-            $lonlat
-        );
+        $icb->setColValue($this->table->colType(), $airport->type->value)
+            ->setColValue($this->table->colName(), $airport->name)
+            ->setColValue($this->table->colIcao(), $airport->icao)
+            ->setColValue($this->table->colCountry(), $airport->country)
+            ->setColValue($this->table->colLongitude(), $airport->position->longitude)
+            ->setColValue($this->table->colLatitude(), $airport->position->latitude)
+            ->setColValue($this->table->colElevation(), $airport->elevation->getHeightAmsl()->getM())
+            ->setColValue($this->table->colGeoHash(), GeoHelper::calcGeoHash($airport->position, 14)) // TODO: precision
+            ->setColValue($this->table->colLonLat(), $airport->position);
     }
 }

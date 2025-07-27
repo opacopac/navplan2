@@ -128,7 +128,7 @@ class GeoHelper
     }
 
 
-    public static function calcGeoHash(float $longitude, float $latitude, int $maxZoomLevel): string
+    public static function calcGeoHash(Position2d $position, int $maxZoomLevel): string
     {
         $minLon = -180.0;
         $minLat = -90.0;
@@ -140,8 +140,8 @@ class GeoHelper
             $midLon = ($minLon + $maxLon) / 2;
             $midLat = ($minLat + $maxLat) / 2;
 
-            if ($longitude < $midLon) {
-                if ($latitude < $midLat) {
+            if ($position->longitude < $midLon) {
+                if ($position->latitude < $midLat) {
                     $geoHash .= "a"; // SW
                     $maxLat = $midLat;
                 } else {
@@ -150,7 +150,7 @@ class GeoHelper
                 }
                 $maxLon = $midLon;
             } else {
-                if ($latitude < $midLat) {
+                if ($position->latitude < $midLat) {
                     $geoHash .= "c"; // SE
                     $maxLat = $midLat;
                 } else {

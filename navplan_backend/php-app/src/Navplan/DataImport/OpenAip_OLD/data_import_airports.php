@@ -5,6 +5,7 @@ include_once __DIR__ . "/../php/Navplan/Db/MySqlDb/DbService.php";
 include_once __DIR__ . "/../php/Navplan/Shared/LoggingServiceOld.php";
 include_once __DIR__ . "/../php/Navplan/Shared/GeoHelper.php";
 
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\GeoHelper;
 use Navplan\Common\LoggingServiceOld;
 use Navplan\System\Db\MySql\DbService;
@@ -52,7 +53,7 @@ foreach ($dir_entries as $filename) {
 			continue;*/
 		$longitude = $airport->GEOLOCATION->LON->__toString();
         $latitude = $airport->GEOLOCATION->LAT->__toString();
-        $geohash = GeoHelper::calcGeoHash($longitude, $latitude, MAX_ZOOM);
+        $geohash = GeoHelper::calcGeoHash(new Position2d($longitude, $latitude), MAX_ZOOM);
 
 		$query = "INSERT INTO openaip_airports2 (type, country, name, icao, latitude, longitude, elevation, geohash, lonlat) VALUES (";
 		$query .= " '" . $airport['TYPE'] . "',";

@@ -7,8 +7,7 @@ use Navplan\Aerodrome\Domain\Model\AirportRunwayOperations;
 use Navplan\Aerodrome\Domain\Model\AirportRunwayType;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
-use Navplan\System\Db\Domain\Model\IDbStatement;
-use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
 
 /**
@@ -38,45 +37,17 @@ class DbAirportRunwayConverter extends DbEntityConverter
     }
 
 
-    public static function prepareInsertStatement(IDbService $dbService): IDbStatement
+    public function bindInsertValues(AirportRunway $rwy, int $adId, IDbInsertCommandBuilder $icb): void
     {
-        $query = "INSERT INTO " . DbTableAirportRunway::TABLE_NAME . " (" . join(", ", [
-                DbTableAirportRunway::COL_AIRPORT_ID,
-                DbTableAirportRunway::COL_NAME,
-                DbTableAirportRunway::COL_SURFACE,
-                DbTableAirportRunway::COL_LENGTH,
-                DbTableAirportRunway::COL_WIDTH,
-                DbTableAirportRunway::COL_DIRECTION,
-                DbTableAirportRunway::COL_TORA,
-                DbTableAirportRunway::COL_LDA,
-                DbTableAirportRunway::COL_PAPI,
-                DbTableAirportRunway::COL_OPERATIONS,
-            ]) . ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        return $dbService->prepareStatement($query);
-    }
-
-
-    public static function bindInsertStatement(AirportRunway $rwy, int $airport_id, IDbStatement $insertStatement)
-    {
-        $surface = $rwy->surface->value;
-        $length = $rwy->length->getM();
-        $width = $rwy->width->getM();
-        $tora = $rwy->tora?->getM();
-        $lda = $rwy->lda?->getM();
-        $operations = $rwy->operations->value;
-
-        $insertStatement->bind_param("issddiiiis",
-            $airport_id,
-            $rwy->name,
-            $surface,
-            $length,
-            $width,
-            $rwy->direction,
-            $tora,
-            $lda,
-            $rwy->papi,
-            $operations
-        );
+        $icb->setColValue($this->table->colAirportId(), $adId)
+            ->setColValue($this->table->colName(), $rwy->name)
+            ->setColValue($this->table->colSurface(), $rwy->surface->value)
+            ->setColValue($this->table->colLength(), $rwy->length->getM())
+            ->setColValue($this->table->colWidth(), $rwy->width->getM())
+            ->setColValue($this->table->colDirection(), $rwy->direction)
+            ->setColValue($this->table->colTora(), $rwy->tora?->getM())
+            ->setColValue($this->table->colLda(), $rwy->lda?->getM())
+            ->setColValue($this->table->colPapi(), $rwy->papi)
+            ->setColValue($this->table->colOperations(), $rwy->operations->value);
     }
 }
