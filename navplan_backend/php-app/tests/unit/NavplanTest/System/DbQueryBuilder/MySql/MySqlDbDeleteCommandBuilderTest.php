@@ -42,6 +42,21 @@ class MySqlDbDeleteCommandBuilderTest extends TestCase
     }
 
 
+    public function test_delete_all_from() {
+        // given
+        $t = new DbTable("test_table", null);
+        $t->addCol("col1", DbColType::STRING);
+        $qb = $this->deleteCommandBuilder
+            ->deleteAllFrom($t);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("TRUNCATE TABLE test_table", $query);
+    }
+
+
     public function test_delete_from_with_where_equals()
     {
         // given

@@ -29,12 +29,21 @@ class MySqlDbDeleteCommandBuilder implements IDbDeleteCommandBuilder
     }
 
 
-    public function deleteFrom(DbTable|string $table): IDbDeleteCommandBuilder
+    public function deleteFrom(DbTable $table): IDbDeleteCommandBuilder
     {
         $this->deleteStr = "DELETE FROM " . MySqlDbTableBuilder::buildTableName($table);
 
         return $this;
     }
+
+
+    public function deleteAllFrom(DbTable $table): IDbDeleteCommandBuilder
+    {
+        $this->deleteStr = "TRUNCATE TABLE " . MySqlDbTableBuilder::buildTableName($table);
+
+        return $this;
+    }
+
 
 
     public function where(DbCond $cond): IDbDeleteCommandBuilder

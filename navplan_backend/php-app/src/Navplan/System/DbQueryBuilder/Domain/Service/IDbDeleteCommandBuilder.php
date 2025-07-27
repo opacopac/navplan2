@@ -4,11 +4,14 @@ namespace Navplan\System\DbQueryBuilder\Domain\Service;
 
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 
 
 interface IDbDeleteCommandBuilder
 {
-    function deleteFrom(string $table): IDbDeleteCommandBuilder;
+    function deleteFrom(DbTable $table): IDbDeleteCommandBuilder;
+
+    function deleteAllFrom(DbTable $table): IDbDeleteCommandBuilder;
 
     function where(DbCond $cond): IDbDeleteCommandBuilder;
 
