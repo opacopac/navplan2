@@ -227,18 +227,24 @@ class MySqlDbService implements IDbService
 
     public function beginTransaction(): bool
     {
+        $this->autoOpen(); // TODO
+
         return $this->connection->begin_transaction();
     }
 
 
     public function commitTransaction(): bool
     {
+        $this->autoOpen(); // TODO
+
         return $this->connection->commit();
     }
 
 
     public function rollbackTransaction(): bool
     {
+        $this->autoOpen(); // TODO
+
         return $this->connection->rollback();
     }
 
