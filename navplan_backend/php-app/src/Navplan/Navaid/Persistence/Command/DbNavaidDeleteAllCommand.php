@@ -7,15 +7,21 @@ use Navplan\Navaid\Persistence\Model\DbTableNavaid;
 use Navplan\System\Db\Domain\Service\IDbService;
 
 
-class DbNavaidDeleteAllCommand implements INavaidDeleteAllCommand {
+class DbNavaidDeleteAllCommand implements INavaidDeleteAllCommand
+{
     public function __construct(
-        private IDbService $dbService
-    ) {
+        private readonly IDbService $dbService
+    )
+    {
     }
 
 
-    public function deleteAll(): bool {
-        $query = "TRUNCATE TABLE " . DbTableNavaid::TABLE_NAME;
+    public function deleteAll(): bool
+    {
+        $t = new DbTableNavaid();
+        $query = $this->dbService->getDeleteCommandBuilder($t)
+            ->deleteAllFrom($t)
+            ->build();
 
         return $this->dbService->execCUDQuery($query);
     }

@@ -8,16 +8,22 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 
 
-class DbAirspaceDeleteAllCommand implements IAirspaceDeleteAllCommand {
+class DbAirspaceDeleteAllCommand implements IAirspaceDeleteAllCommand
+{
     public function __construct(
         private readonly IDbService $dbService,
         private readonly ILoggingService $loggingService
-    ) {
+    )
+    {
     }
 
 
-    public function deleteAll(): bool {
-        $query = "TRUNCATE TABLE " . DbTableAirspace::TABLE_NAME;
+    public function deleteAll(): bool
+    {
+        $t = new DbTableAirspace();
+        $query = $this->dbService->getDeleteCommandBuilder($t)
+            ->deleteAllFrom($t)
+            ->build();
 
         return $this->dbService->execCUDQuery($query);
     }
