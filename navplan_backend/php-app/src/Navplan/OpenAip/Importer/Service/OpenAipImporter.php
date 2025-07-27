@@ -23,12 +23,12 @@ class OpenAipImporter implements IOpenAipImporter
 
 
     public function __construct(
-        private IOpenAipService $openAipApiService,
-        private IAirportService $airportService,
-        private IAirspaceService $airspaceService,
-        private INavaidService $navaidService,
-        private ILoggingService $loggingService,
-        private IDbService $dbService
+        private readonly IOpenAipService $openAipApiService,
+        private readonly IAirportService $airportService,
+        private readonly IAirspaceService $airspaceService,
+        private readonly INavaidService $navaidService,
+        private readonly ILoggingService $loggingService,
+        private readonly IDbService $dbService
     )
     {
     }
@@ -59,31 +59,43 @@ class OpenAipImporter implements IOpenAipImporter
     {
         $this->loggingService->info("importing airports...");
 
-        $this->loggingService->info("deleting existing airports from db...");
-        $this->airportService->deleteAll();
-        $this->loggingService->info("done.");
-        $airportCount = 0;
+        $this->dbService->beginTransaction();
+        try {
+            $this->loggingService->info("deleting existing airports from db...");
+            $this->airportService->deleteAll();
+            $this->loggingService->info("done.");
+            $airportCount = 0;
 
-        $page = 1;
-        do {
-            $this->loggingService->info("reading page " . $page . " from openaip...");
-            $response = $this->openAipApiService->readAirports($page, $this->importFilter);
-            $this->loggingService->info("successfully read page " . $response->page . "/" . $response->totalPages);
-            $airportCount += count($response->items);
+            $page = 1;
+            do {
+                $this->loggingService->info("reading page " . $page . " from openaip...");
+                $response = $this->openAipApiService->readAirports($page, $this->importFilter);
+                $this->loggingService->info("successfully read page " . $response->page . "/" . $response->totalPages);
+                $airportCount += count($response->items);
 
-            $this->loggingService->info("inserting " . count($response->items) . " airports into db...");
-            $this->airportService->insertAll($response->items);
+                $this->loggingService->info("inserting " . count($response->items) . " airports into db...");
+                $this->airportService->insertAll($response->items);
+                $this->loggingService->info("done.");
+
+                $page = $response->nextPage;
+            } while ($page >= 1);
+
+            $this->loggingService->info("successfully imported " . $airportCount . " airports");
+
+            // zoomlevel sorter
+            $this->loggingService->info("sorting airports by zoom level...");
+            $zoomLevelSorter = new ZoomLevelSorter($this->loggingService);
+            $airportSorter = new AirportZoomLevelSortItem($this->dbService);
+            $zoomLevelSorter->sort($airportSorter);
             $this->loggingService->info("done.");
 
-            $page = $response->nextPage;
-        } while ($page >= 1);
-
-        $this->loggingService->info("successfully imported " . $airportCount . " airports");
-
-        // zoomlevel sorter
-        $zoomLevelSorter = new ZoomLevelSorter($this->loggingService);
-        $airportSorter = new AirportZoomLevelSortItem($this->dbService);
-        $zoomLevelSorter->sort($airportSorter);
+            $this->dbService->commitTransaction();
+        } catch (Exception $e) {
+            $this->loggingService->error("import failed: " . $e->getMessage());
+            $this->loggingService->error("inner exception: " . $e->getTraceAsString());
+            $this->dbService->rollbackTransaction();
+            return new ImportResult(false, 0);
+        }
 
         return new ImportResult(true, $airportCount);
     }
@@ -93,29 +105,43 @@ class OpenAipImporter implements IOpenAipImporter
     {
         $this->loggingService->info("importing airspaces...");
 
-        $this->loggingService->info("deleting existing airspaces from db...");
-        $this->airspaceService->deleteAll();
-        $this->loggingService->info("done.");
-        $airspaceCount = 0;
+        $this->dbService->beginTransaction();
 
-        $page = 1;
-        do {
-            $this->loggingService->info("reading page " . $page . " from openaip...");
-            $response = $this->openAipApiService->readAirspaces($page, $this->importFilter);
-            $this->loggingService->info("successfully read page " . $response->page . "/" . $response->totalPages);
-            $airspaceCount += count($response->items);
+        try {
+            $this->loggingService->info("deleting existing airspaces from db...");
+            $this->airspaceService->deleteAll();
+            $this->loggingService->info("done.");
+            $airspaceCount = 0;
 
-            $this->loggingService->info("inserting " . count($response->items) . " airspaces into db...");
-            $this->airspaceService->insertAll($response->items);
+            $page = 1;
+            do {
+                $this->loggingService->info("reading page " . $page . " from openaip...");
+                $response = $this->openAipApiService->readAirspaces($page, $this->importFilter);
+                $this->loggingService->info("successfully read page " . $response->page . "/" . $response->totalPages);
+                $airspaceCount += count($response->items);
+
+                $this->loggingService->info("inserting " . count($response->items) . " airspaces into db...");
+                $this->airspaceService->insertAll($response->items);
+                $this->loggingService->info("done.");
+
+                $page = $response->nextPage;
+            } while ($page >= 1);
+
+            $this->loggingService->info("successfully imported " . $airspaceCount . " airspaces");
+
+            // create detail levels
+            $this->loggingService->info("creating airspace detail levels...");
+            $detailLevelCreator = new AirspaceDetaillevelCreator($this->dbService, $this->loggingService);
+            $detailLevelCreator->go();
             $this->loggingService->info("done.");
 
-            $page = $response->nextPage;
-        } while ($page >= 1);
-
-        $this->loggingService->info("successfully imported " . $airspaceCount . " airspaces");
-
-        $detailLevelCreator = new AirspaceDetaillevelCreator($this->dbService, $this->loggingService);
-        $detailLevelCreator->go();
+            $this->dbService->commitTransaction();
+        } catch (Exception $e) {
+            $this->loggingService->error("import failed: " . $e->getMessage());
+            $this->loggingService->error("inner exception: " . $e->getTraceAsString());
+            $this->dbService->rollbackTransaction();
+            return new ImportResult(false, 0);
+        }
 
         return new ImportResult(true, $airspaceCount);
     }
@@ -125,31 +151,43 @@ class OpenAipImporter implements IOpenAipImporter
     {
         $this->loggingService->info("importing navaids...");
 
-        $this->loggingService->info("deleting existing navaids from db...");
-        $this->navaidService->deleteAll();
-        $this->loggingService->info("done.");
-        $navaidCount = 0;
+        $this->dbService->beginTransaction();
+        try {
+            $this->loggingService->info("deleting existing navaids from db...");
+            $this->navaidService->deleteAll();
+            $this->loggingService->info("done.");
+            $navaidCount = 0;
 
-        $page = 1;
-        do {
-            $this->loggingService->info("reading page " . $page . " from openaip...");
-            $response = $this->openAipApiService->readNavaids($page, $this->importFilter);
-            $this->loggingService->info("successfully read page " . $response->page . "/" . $response->totalPages);
-            $navaidCount += count($response->items);
+            $page = 1;
+            do {
+                $this->loggingService->info("reading page " . $page . " from openaip...");
+                $response = $this->openAipApiService->readNavaids($page, $this->importFilter);
+                $this->loggingService->info("successfully read page " . $response->page . "/" . $response->totalPages);
+                $navaidCount += count($response->items);
 
-            $this->loggingService->info("inserting " . count($response->items) . " navaids into db...");
-            $this->navaidService->insertAll($response->items);
+                $this->loggingService->info("inserting " . count($response->items) . " navaids into db...");
+                $this->navaidService->insertAll($response->items);
+                $this->loggingService->info("done.");
+
+                $page = $response->nextPage;
+            } while ($page >= 1);
+
+            $this->loggingService->info("successfully imported " . $navaidCount . " navaids");
+
+            // zoomlevel sorter
+            $this->loggingService->info("sorting navaids by zoom level...");
+            $zoomLevelSorter = new ZoomLevelSorter($this->loggingService);
+            $navaidSorter = new NavaidZoomLevelSortItem($this->dbService);
+            $zoomLevelSorter->sort($navaidSorter);
             $this->loggingService->info("done.");
 
-            $page = $response->nextPage;
-        } while ($page >= 1);
-
-        $this->loggingService->info("successfully imported " . $navaidCount . " navaids");
-
-        // zoomlevel sorter
-        $zoomLevelSorter = new ZoomLevelSorter($this->loggingService);
-        $navaidSorter = new NavaidZoomLevelSortItem($this->dbService);
-        $zoomLevelSorter->sort($navaidSorter);
+            $this->dbService->commitTransaction();
+        } catch (Exception $e) {
+            $this->loggingService->error("import failed: " . $e->getMessage());
+            $this->loggingService->error("inner exception: " . $e->getTraceAsString());
+            $this->dbService->rollbackTransaction();
+            return new ImportResult(false, 0);
+        }
 
         return new ImportResult(true, $navaidCount);
     }
