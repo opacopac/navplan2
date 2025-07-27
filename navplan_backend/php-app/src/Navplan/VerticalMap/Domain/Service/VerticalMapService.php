@@ -51,10 +51,10 @@ class VerticalMapService implements IVerticalMapService {
         $maxTerrainElevation = $this->getMaxTerrainHeight($terrainSteps);
 
         // waypoints
-        $wpSteps = $this->createWaypointSteps($waypoints->position2dList, $maxTerrainElevation);
+        $wpSteps = $this->createWaypointSteps($waypoints->pos2dList, $maxTerrainElevation);
 
         // airspaces
-        $airspaceCandidates = $this->airspaceService->searchByRouteIntersection($waypoints->position2dList);
+        $airspaceCandidates = $this->airspaceService->searchByRouteIntersection($waypoints->pos2dList);
         $vmAirspaces = $this->createVmAirspaces($airspaceCandidates, $wpSteps, $terrainSteps);
 
         //TODO: notam

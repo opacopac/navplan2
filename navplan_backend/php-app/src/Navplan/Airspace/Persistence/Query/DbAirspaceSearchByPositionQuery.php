@@ -3,29 +3,63 @@
 namespace Navplan\Airspace\Persistence\Query;
 
 use Navplan\Airspace\Domain\Query\IAirspaceSearchByPositionQuery;
+use Navplan\Airspace\Persistence\Model\DbAirspaceConverter;
 use Navplan\Airspace\Persistence\Model\DbTableAirspace;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 
-class DbAirspaceSearchByPositionQuery implements IAirspaceSearchByPositionQuery {
+class DbAirspaceSearchByPositionQuery implements IAirspaceSearchByPositionQuery
+{
+    private const MAX_BOTTOM_ALT_FL = 200;
+
+
     public function __construct(
         private IDbService $dbService
-    ) {
+    )
+    {
     }
 
 
-    public function searchByPosition(Position2d $position2d): array {
-        $query = DbAirspaceSearchQueryCommon::getSelectClauseCommonPart();
-        $query .= "  NULL AS " . DbTableAirspace::COL_POLYGON;
-        $query .= " FROM " . DbTableAirspace::TABLE_NAME . " air";
-        $query .= " WHERE";
-        $query .= "  ST_INTERSECTS(air." . DbTableAirspace::COL_EXTENT . ", " . DbHelper::getDbPointString($position2d) . ")";
-        $query .= "    AND";
-        $query .= "  (air." . DbTableAirspace::COL_ALT_BOT_HEIGHT . " < " . DbAirspaceSearchQueryCommon::MAX_BOTTOM_ALT_FL . " OR air." . DbTableAirspace::COL_ALT_BOT_UNIT . " <> 'FL')";
-        $result = $this->dbService->execMultiResultQuery($query, "error searching airspaces by line");
+    public function searchByPosition(Position2d $position2d): array
+    {
+        $t = new DbTableAirspace();
+        $query = $this->dbService->getQueryBuilder()
+            ->selectFrom(
+                $t,
+                $t->colId(),
+                $t->colCategory(),
+                $t->colClass(),
+                $t->colType(),
+                $t->colCountry(),
+                $t->colName(),
+                $t->colAltTopRef(),
+                $t->colAltTopHeight(),
+                $t->colAltTopUnit(),
+                $t->colAltBotRef(),
+                $t->colAltBotHeight(),
+                $t->colAltBotUnit(),
+                "NULL AS " . $t->colPolygon()->getName() // TODO
+            )
+            ->where(
+                DbCondMulti::all(
+                    DbCondGeo::create($t->colExtent(), DbCondOpGeo::INTERSECTS_ST, $position2d),
+                    DbCondMulti::any(
+                        DbCondSimple::create($t->colAltBotHeight(), DbCondOp::LT, self::MAX_BOTTOM_ALT_FL),
+                        DbCondSimple::create($t->colAltBotUnit(), DbCondOp::NE, "FL"),
+                    ),
+                )
+            )
+            ->build();
 
-        return DbAirspaceSearchQueryCommon::fromDbResult($result);
+        $result = $this->dbService->execMultiResultQuery($query, "error searching airspaces by line");
+        $converter = new DbAirspaceConverter($t);
+
+        return $converter->fromDbResult($result);
     }
 }

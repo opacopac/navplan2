@@ -17,7 +17,7 @@ class RestLine2dConverter {
     public static function toRest(Line2d $line2d, ?int $roundToDigits = NULL): array {
         return array_map(
             function (Position2d $pos) use ($roundToDigits) { return RestPosition2dConverter::toRest($pos, $roundToDigits); },
-            $line2d->position2dList
+            $line2d->pos2dList
         );
     }
 

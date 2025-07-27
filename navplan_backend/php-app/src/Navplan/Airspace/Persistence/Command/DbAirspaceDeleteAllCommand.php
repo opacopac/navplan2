@@ -10,8 +10,8 @@ use Navplan\System\Domain\Service\ILoggingService;
 
 class DbAirspaceDeleteAllCommand implements IAirspaceDeleteAllCommand {
     public function __construct(
-        private IDbService $dbService,
-        private ILoggingService $loggingService
+        private readonly IDbService $dbService,
+        private readonly ILoggingService $loggingService
     ) {
     }
 

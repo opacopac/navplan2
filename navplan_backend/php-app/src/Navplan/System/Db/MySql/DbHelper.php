@@ -80,7 +80,7 @@ class DbHelper
      */
     public static function getDbLineString(Line2d|array $line, bool $wrapStFunct = true): string
     {
-        $posList = $line instanceof Line2d ? $line->position2dList : $line;
+        $posList = $line instanceof Line2d ? $line->pos2dList : $line;
 
         $lonLatStrings = [];
         foreach ($posList as $position) {

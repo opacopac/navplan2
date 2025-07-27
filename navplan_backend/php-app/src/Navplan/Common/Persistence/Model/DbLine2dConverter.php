@@ -14,7 +14,7 @@ class DbLine2dConverter {
 
     // e.g. to LINESTRING(0 0,0 10,10 0) or (LineFromText('LINESTRING(0 0,0 10,10 0)'))
     public static function toWktLineString(Line2d $line2d, bool $wrapFromText = true): string {
-        $wkt = "LINESTRING(" . DbPosition2dConverter::toWktCoordinatePairList($line2d->position2dList) . ")";
+        $wkt = "LINESTRING(" . DbPosition2dConverter::toWktCoordinatePairList($line2d->pos2dList) . ")";
 
         if ($wrapFromText) {
             return "(LineFromText('" . $wkt . "'))";
@@ -29,7 +29,7 @@ class DbLine2dConverter {
         $wkt = "MULTILINESTRING((" . join(
                 "),(",
                 array_map(
-                    function (Line2d $line) { return DbPosition2dConverter::toWktCoordinatePairList($line->position2dList); },
+                    function (Line2d $line) { return DbPosition2dConverter::toWktCoordinatePairList($line->pos2dList); },
                     $line2dList
                 )
             )

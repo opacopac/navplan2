@@ -8,8 +8,8 @@ use Navplan\Common\Domain\Model\Position2d;
 
 interface IAirspaceSearchByRouteQuery {
     /**
-     * @param Position2d[] $lonLatList
+     * @param Position2d[] $pos2dList
      * @return Airspace[]
      */
-    function searchByRouteIntersection(array $lonLatList): array;
+    function searchByRouteIntersection(array $pos2dList): array;
 }

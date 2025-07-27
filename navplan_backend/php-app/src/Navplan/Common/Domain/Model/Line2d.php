@@ -8,10 +8,10 @@ use Navplan\Common\GeoHelper;
 
 class Line2d implements IGeometry2d {
     /**
-     * @param Position2d[] $position2dList
+     * @param Position2d[] $pos2dList
      */
-    public function __construct(public array $position2dList) {
-        $posCount = count($this->position2dList);
+    public function __construct(public array $pos2dList) {
+        $posCount = count($this->pos2dList);
         if ($posCount < 2) {
             throw new InvalidArgumentException("number of positions must be >=2 but was " . $posCount);
         }
@@ -20,8 +20,8 @@ class Line2d implements IGeometry2d {
 
     public function calcTotalDist(): Length {
         $routeDistM = 0;
-        for ($i = 0; $i < count($this->position2dList) - 1; $i++) {
-            $routeDistM += GeoHelper::calcHaversineDistance($this->position2dList[$i], $this->position2dList[$i + 1])->getM();
+        for ($i = 0; $i < count($this->pos2dList) - 1; $i++) {
+            $routeDistM += GeoHelper::calcHaversineDistance($this->pos2dList[$i], $this->pos2dList[$i + 1])->getM();
         }
 
         return Length::fromM($routeDistM);
@@ -37,9 +37,9 @@ class Line2d implements IGeometry2d {
         $stepSizeM = max($minStepSize->getM(), $this->calcTotalDist()->getM() / $maxSteps);
 
         $subDivPosList = [];
-        for ($i = 0; $i < count($this->position2dList) - 1; $i++) {
-            $pos1 = $this->position2dList[$i];
-            $pos2 = $this->position2dList[$i + 1];
+        for ($i = 0; $i < count($this->pos2dList) - 1; $i++) {
+            $pos1 = $this->pos2dList[$i];
+            $pos2 = $this->pos2dList[$i + 1];
             $legDistM = GeoHelper::calcHaversineDistance($pos1, $pos2)->getM();
             $steps = ceil($legDistM / $stepSizeM);
             $stepSize = $legDistM / $steps;
@@ -53,7 +53,7 @@ class Line2d implements IGeometry2d {
                 );
             }
         }
-        $subDivPosList[] = $this->position2dList[count($this->position2dList) - 1]; // "manually" add last pos
+        $subDivPosList[] = $this->pos2dList[count($this->pos2dList) - 1]; // "manually" add last pos
 
         return $subDivPosList;
     }

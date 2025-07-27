@@ -46,10 +46,10 @@ class Line2dConverterTest extends TestCase {
 
         $result = DbLine2dConverter::fromWktLineString($lineString);
 
-        $this->assertCount(3, $result->position2dList);
-        $this->assertEquals(new Position2d(0, 0), $result->position2dList[0]);
-        $this->assertEquals(new Position2d(0, 10), $result->position2dList[1]);
-        $this->assertEquals(new Position2d(10, 0), $result->position2dList[2]);
+        $this->assertCount(3, $result->pos2dList);
+        $this->assertEquals(new Position2d(0, 0), $result->pos2dList[0]);
+        $this->assertEquals(new Position2d(0, 10), $result->pos2dList[1]);
+        $this->assertEquals(new Position2d(10, 0), $result->pos2dList[2]);
     }
 
 
