@@ -54,7 +54,7 @@ class DbAirspaceConverter extends DbEntityConverter
             ->setColValue($this->table->colAltBotRef(), $airspace->alt_bottom->reference->value)
             ->setColValue($this->table->colAltBotHeight(), $airspace->alt_bottom->value)
             ->setColValue($this->table->colAltBotUnit(), $airspace->alt_bottom->unit->value)
-            ->setColValue($this->table->colPolygon(), $airspace->polygon)
-            ->setColValue($this->table->colDiameter(), $airspace->diameter);
+            ->setColValue($this->table->colPolygon(), $airspace->polygon->toString())
+            ->setColValue($this->table->colExtent(), $airspace->polygon);
     }
 }
