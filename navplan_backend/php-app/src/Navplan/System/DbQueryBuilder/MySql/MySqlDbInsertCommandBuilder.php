@@ -45,7 +45,7 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
 
     public function setColValue(DbCol $column, mixed $value): IDbInsertCommandBuilder
     {
-        if (array_key_exists($column->getName(), $this->colValues)) {
+        if (!array_key_exists($column->getName(), $this->colValues)) {
             $this->columns[] = $column;
         }
 
@@ -131,7 +131,7 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
             throw new RuntimeException("Insert command must be initialized with insertInto() before building.");
         }
 
-        if (empty($this->columns)) {
+        if (empty($this->columns) || empty($this->colValues)) {
             throw new InvalidArgumentException("Columns and values must be set before building the insert command.");
         }
     }
