@@ -44,8 +44,8 @@ class DbAirspaceConverter extends DbEntityConverter
     public function bindInsertValues(Airspace $airspace, IDbInsertCommandBuilder $icb): void
     {
         $icb->setColValue($this->table->colCategory(), $airspace->category)
-            ->setColValue($this->table->colClass(), $airspace->class)
-            ->setColValue($this->table->colType(), $airspace->type)
+            ->setColValue($this->table->colClass(), $airspace->class?->value)
+            ->setColValue($this->table->colType(), $airspace->type?->value)
             ->setColValue($this->table->colCountry(), $airspace->country)
             ->setColValue($this->table->colName(), $airspace->name)
             ->setColValue($this->table->colAltTopRef(), $airspace->alt_top->reference->value)
