@@ -92,14 +92,12 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
     }
 
 
-    private function buildStatement(): IDbStatement
+    private function buildStatement(): void
     {
         if (!$this->statement) {
             $query = $this->build(true);
             $this->statement = $this->dbService->prepareStatement($query);
         }
-
-        return $this->statement;
     }
 
 

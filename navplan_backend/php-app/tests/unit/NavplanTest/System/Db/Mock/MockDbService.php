@@ -123,6 +123,24 @@ class MockDbService implements IDbService
     }
 
 
+    public function beginTransaction(): bool
+    {
+        // TODO: Implement beginTransaction() method.
+    }
+
+
+    public function commitTransaction(): bool
+    {
+        // TODO: Implement commitTransaction() method.
+    }
+
+
+    public function rollbackTransaction(): bool
+    {
+        // TODO: Implement rollbackTransaction() method.
+    }
+
+
     function getQueryBuilder(): IDbQueryBuilder
     {
         // TODO: Implement getQueryBuilder() method.

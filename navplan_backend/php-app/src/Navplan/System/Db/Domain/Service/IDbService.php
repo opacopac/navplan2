@@ -12,14 +12,14 @@ use Navplan\System\DbQueryBuilder\Domain\Service\IDbQueryBuilder;
 
 interface IDbService
 {
-    function init2(DbCredentials $credentials);
+    function init2(DbCredentials $credentials): void;
 
     // TODO: remove
-    function init(string $db_host, string $db_user, string $db_pw, string $db_name);
+    function init(string $db_host, string $db_user, string $db_pw, string $db_name): void;
 
-    function openDb();
+    function openDb(): void;
 
-    function closeDb();
+    function closeDb(): void;
 
     function escapeString(string $escapeString): string;
 
@@ -36,6 +36,12 @@ interface IDbService
     function getInsertId(): int;
 
     function prepareStatement(string $query): IDbStatement;
+
+    function beginTransaction(): bool;
+
+    function commitTransaction(): bool;
+
+    function rollbackTransaction(): bool;
 
     function getQueryBuilder(): IDbQueryBuilder;
 
