@@ -11,8 +11,6 @@ interface IDbInsertCommandBuilder
 {
     function insertInto(DbTable $table): IDbInsertCommandBuilder;
 
-    function addCol(DbCol $column, mixed $value = null): IDbInsertCommandBuilder;
-
     function setColValue(DbCol $column, mixed $value): IDbInsertCommandBuilder;
 
     function build(bool $isPreparedStatement = false): string;

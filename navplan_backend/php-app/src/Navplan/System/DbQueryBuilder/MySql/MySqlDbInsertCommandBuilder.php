@@ -43,16 +43,12 @@ class MySqlDbInsertCommandBuilder implements IDbInsertCommandBuilder
     }
 
 
-    public function addCol(DbCol $column, mixed $value = null): IDbInsertCommandBuilder
-    {
-        $this->columns[] = $column;
-
-        return $this->setColValue($column, $value);
-    }
-
-
     public function setColValue(DbCol $column, mixed $value): IDbInsertCommandBuilder
     {
+        if (array_key_exists($column->getName(), $this->colValues)) {
+            $this->columns[] = $column;
+        }
+
         $this->colValues[$column->getName()] = $value;
 
         return $this;

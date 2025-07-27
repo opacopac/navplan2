@@ -26,17 +26,17 @@ class DbAerodromeReportingCreateCommand implements IAerodromeReportingCreateComm
         $t = new DbTableReportingPoints();
         $statement = $this->dbService->getInsertCommandBuilder()
             ->insertInto($t)
-            ->addCol($t->colType(), $reportingPoint->type)
-            ->addCol($t->colAdIcao(), $reportingPoint->airport_icao)
-            ->addCol($t->colName(), $reportingPoint->name)
-            ->addCol($t->colHeli(), $reportingPoint->heli)
-            ->addCol($t->colInbdComp(), $reportingPoint->inbd_comp)
-            ->addCol($t->colOutbdComp(), $reportingPoint->outbd_comp)
-            ->addCol($t->colMinFt(), $reportingPoint->alt_min?->ft ?? NULL)
-            ->addCol($t->colMaxFt(), $reportingPoint->alt_max?->ft ?? NULL)
-            ->addCol($t->colLat(), $reportingPoint->position?->latitude ?? NULL)
-            ->addCol($t->colLon(), $reportingPoint->position?->longitude ?? NULL)
-            ->addCol($t->colPolygon(), $reportingPoint->polygon?->toString() ?? "")
+            ->setColValue($t->colType(), $reportingPoint->type)
+            ->setColValue($t->colAdIcao(), $reportingPoint->airport_icao)
+            ->setColValue($t->colName(), $reportingPoint->name)
+            ->setColValue($t->colHeli(), $reportingPoint->heli)
+            ->setColValue($t->colInbdComp(), $reportingPoint->inbd_comp)
+            ->setColValue($t->colOutbdComp(), $reportingPoint->outbd_comp)
+            ->setColValue($t->colMinFt(), $reportingPoint->alt_min?->ft ?? NULL)
+            ->setColValue($t->colMaxFt(), $reportingPoint->alt_max?->ft ?? NULL)
+            ->setColValue($t->colLat(), $reportingPoint->position?->latitude ?? NULL)
+            ->setColValue($t->colLon(), $reportingPoint->position?->longitude ?? NULL)
+            ->setColValue($t->colPolygon(), $reportingPoint->polygon?->toString() ?? "")
             ->buildAndBindStatement();
 
         $statement->execute("error creating reporting point");
