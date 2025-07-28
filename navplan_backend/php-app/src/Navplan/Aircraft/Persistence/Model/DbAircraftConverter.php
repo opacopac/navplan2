@@ -4,6 +4,7 @@ namespace Navplan\Aircraft\Persistence\Model;
 
 use Navplan\Aircraft\Domain\Model\Aircraft;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
 
 /**
@@ -39,5 +40,26 @@ class DbAircraftConverter extends DbEntityConverter
             [],
             []
         );
+    }
+
+
+    public function bindInsertValues(Aircraft $aircraft, int $userId, IDbInsertCommandBuilder $icb): void
+    {
+        $icb->setColValue($this->table->colIdUser(), $userId)
+            ->setColValue($this->table->colVehicleType(), $aircraft->vehicleType->value)
+            ->setColValue($this->table->colRegistration(), $aircraft->registration)
+            ->setColValue($this->table->colIcaoType(), $aircraft->icaoType)
+            ->setColValue($this->table->colCruiseSpeed(), $aircraft->cruiseSpeed->value)
+            ->setColValue($this->table->colSpeedUnit(), $aircraft->cruiseSpeed->unit->value)
+            ->setColValue($this->table->colCruiseConsumption(), $aircraft->cruiseFuel->value)
+            ->setColValue($this->table->colConsumptionUnit(), $aircraft->cruiseFuel->unit->value)
+            ->setColValue($this->table->colFuelType(), $aircraft->fuelType?->value)
+            ->setColValue($this->table->colBew(), $aircraft->bew?->value)
+            ->setColValue($this->table->colMtow(), $aircraft->mtow?->value)
+            ->setColValue($this->table->colWeightUnit(), $aircraft->mtow ? $aircraft->mtow->unit->value : $aircraft->bew?->unit->value)
+            ->setColValue($this->table->colRocSealevel(), $aircraft->rocSealevel?->value)
+            ->setColValue($this->table->colVerticalSpeedUnit(), $aircraft->rocSealevel?->unit->value)
+            ->setColValue($this->table->colServiceCeiling(), $aircraft->serviceCeiling?->value)
+            ->setColValue($this->table->colAltitudeUnit(), $aircraft->serviceCeiling?->unit->value);
     }
 }

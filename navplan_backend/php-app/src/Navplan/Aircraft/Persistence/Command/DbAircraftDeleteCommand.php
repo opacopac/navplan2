@@ -8,10 +8,11 @@ use Navplan\Aircraft\Domain\Command\IWeightItemDeleteCommand;
 use Navplan\Aircraft\Domain\Command\IWnbEnvelopeDeleteCommand;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraft;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 
-class DbAircraftDeleteCommand implements IAircraftDeleteCommand
+readonly class DbAircraftDeleteCommand implements IAircraftDeleteCommand
 {
     public function __construct(
         private IDbService $dbService,
@@ -23,7 +24,7 @@ class DbAircraftDeleteCommand implements IAircraftDeleteCommand
     }
 
 
-    public function delete(int $aircraftId, int $userId)
+    public function delete(int $aircraftId, int $userId): bool
     {
         // delete performance tables
         $this->distancePerformanceTableDeleteCommand->deleteByAircraft($aircraftId);
@@ -34,9 +35,18 @@ class DbAircraftDeleteCommand implements IAircraftDeleteCommand
         // delete wnb envelopes
         $this->wnbEnvelopeDeleteCommand->deleteByAircraft($aircraftId);
 
-        $query = "DELETE FROM " . DbTableAircraft::TABLE_NAME;
-        $query .= " WHERE " . DbTableAircraft::COL_ID . "=" . DbHelper::getDbIntValue($aircraftId);
-        $query .= " AND " . DbTableAircraft::COL_ID_USER . "=" . DbHelper::getDbIntValue($userId);
-        $this->dbService->execCUDQuery($query, "error deleting aircraft");
+        $t = new DbTableAircraft();
+        $dcb = $this->dbService->getDeleteCommandBuilder();
+        $query = $dcb
+            ->deleteFrom($t)
+            ->where(
+                DbCondMulti::all(
+                    DbCondSimple::equals($t->colId(), $aircraftId),
+                    DbCondSimple::equals($t->colIdUser(), $userId)
+                )
+            )
+            ->build();
+
+        return $this->dbService->execCUDQuery($query, "error deleting aircraft");
     }
 }
