@@ -355,7 +355,6 @@ class ProdNavplanDiContainer
     {
         if (!isset($this->systemDiContainer)) {
             $this->systemDiContainer = new ProdSystemDiContainer(
-                $this->getConfigDiContainer(),
                 $this->getConfigDiContainer()
             );
         }

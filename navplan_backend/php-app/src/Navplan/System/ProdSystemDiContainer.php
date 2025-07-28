@@ -2,9 +2,6 @@
 
 namespace Navplan\System;
 
-use Navplan\System\Db\Domain\Model\IDbConfig;
-use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\MySqlDbService;
 use Navplan\System\Domain\Service\ICurlService;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
@@ -32,14 +29,12 @@ class ProdSystemDiContainer implements ISystemDiContainer
     private ITimeService $timeService;
     private IProcService $procService;
     private ILoggingService $fileLogger;
-    private IDbService $dbService;
     private IImageService $imageService;
     private ICurlService $curlService;
 
 
     public function __construct(
         private readonly ISystemConfig $systemConfig,
-        private readonly IDbConfig $dbConfig
     )
     {
     }
@@ -112,25 +107,6 @@ class ProdSystemDiContainer implements ISystemDiContainer
         }
 
         return $this->fileLogger;
-    }
-
-
-    public function getDbService(): IDbService
-    {
-        if (!isset($this->dbService)) {
-            $this->dbService = new MySqlDbService(
-                $this->getLoggingService()
-            );
-            $credentials = $this->dbConfig->getCredentials();
-            $this->dbService->init(
-                $credentials->host,
-                $credentials->user,
-                $credentials->pw,
-                $credentials->database
-            );
-        }
-
-        return $this->dbService;
     }
 
 

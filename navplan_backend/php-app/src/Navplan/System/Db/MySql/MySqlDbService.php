@@ -41,16 +41,13 @@ class MySqlDbService implements IDbService
     }
 
 
-    public function init2(DbCredentials $credentials): void
+    public function init(DbCredentials $credentials, bool $autoOpen = true): void
     {
         $this->credentials = $credentials;
-    }
 
-
-    // TODO: remove
-    public function init(string $db_host, string $db_user, string $db_pw, string $db_name): void
-    {
-        $this->credentials = new DbCredentials($db_host, $db_user, $db_pw, $db_name);
+        if ($autoOpen) {
+            $this->openDb();
+        }
     }
 
 
@@ -106,8 +103,6 @@ class MySqlDbService implements IDbService
      */
     public function escapeString(string $escapeString): string
     {
-        $this->autoOpen(); // TODO
-
         return $this->connection->real_escape_string($escapeString);
     }
 
@@ -139,8 +134,6 @@ class MySqlDbService implements IDbService
     {
         $this->logQuery($query);
 
-        $this->autoOpen();
-
         $result = $this->connection->query($query);
         if ($result === FALSE
             || $result->num_rows > 1
@@ -163,8 +156,6 @@ class MySqlDbService implements IDbService
     {
         $this->logQuery($query);
 
-        $this->autoOpen();
-
         $result = $this->connection->query($query);
         if ($result === FALSE) {
             $this->logAndThrowDbException($errorMessage, $this->connection->error, $query);
@@ -183,8 +174,6 @@ class MySqlDbService implements IDbService
     public function execCUDQuery(string $query, string $errorMessage = "error executing query"): bool
     {
         $this->logQuery($query);
-
-        $this->autoOpen();
 
         $result = $this->connection->query($query);
         if ($result === FALSE) {
@@ -218,8 +207,6 @@ class MySqlDbService implements IDbService
     {
         $this->logQuery($query, true);
 
-        $this->autoOpen();
-
         $stmt = $this->connection->prepare($query);
         if ($stmt !== false) {
             return new MySqlDbStatement($stmt, $this->loggingService);
@@ -231,24 +218,18 @@ class MySqlDbService implements IDbService
 
     public function beginTransaction(): bool
     {
-        $this->autoOpen(); // TODO
-
         return $this->connection->begin_transaction();
     }
 
 
     public function commitTransaction(): bool
     {
-        $this->autoOpen(); // TODO
-
         return $this->connection->commit();
     }
 
 
     public function rollbackTransaction(): bool
     {
-        $this->autoOpen(); // TODO
-
         return $this->connection->rollback();
     }
 
@@ -268,17 +249,6 @@ class MySqlDbService implements IDbService
     public function getDeleteCommandBuilder(): IDbDeleteCommandBuilder
     {
         return MySqlDbDeleteCommandBuilder::create($this);
-    }
-
-
-    /**
-     * @throws DbException
-     */
-    private function autoOpen(): void
-    {
-        if (!$this->isOpen()) {
-            $this->openDb();
-        }
     }
 
 

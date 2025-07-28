@@ -3,6 +3,7 @@
 namespace NavplanTest\System\Db\MySql;
 
 use Navplan\System\Db\Domain\Model\DbException;
+use Navplan\System\Db\MySql\DbCredentials;
 use Navplan\System\Db\MySql\MySqlDbService;
 use PHPUnit\Framework\TestCase;
 
@@ -10,35 +11,52 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . "/../../../config_test.php";
 
 
-class MySqlDbServiceTest extends TestCase {
+class MySqlDbServiceTest extends TestCase
+{
     private MySqlDbService $dbService;
 
 
-    private function getDbService(): MySqlDbService {
+    private function getDbService(): MySqlDbService
+    {
         return $this->dbService;
     }
 
 
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
         global $db_host, $db_user, $db_pw, $db_name;
         parent::setUp();
 
+        $credentials = new DbCredentials(
+            $db_host,
+            $db_user,
+            $db_pw,
+            $db_name
+        );
         $this->dbService = MySqlDbService::getInstance();
-        $this->getDbService()->init($db_host, $db_user, $db_pw, $db_name);
+        $this->getDbService()->init($credentials);
     }
 
 
     // region openDb
 
-    public function test_openDb_success() {
+    public function test_openDb_success()
+    {
         $this->assertFalse($this->getDbService()->isOpen());
         $this->getDbService()->openDb();
         $this->assertTrue($this->getDbService()->isOpen());
     }
 
 
-    public function test_openDb_error() {
-        $this->getDbService()->init('xxx', 'xxx', 'xxx', 'xxx');
+    public function test_openDb_error()
+    {
+        $credentials = new DbCredentials(
+            'xxx',
+            'xxx',
+            'xxx',
+            'xxx'
+        );
+        $this->getDbService()->init($credentials);
         $this->expectException(DbException::class);
         $this->getDbService()->openDb();
     }
@@ -48,7 +66,8 @@ class MySqlDbServiceTest extends TestCase {
 
     // region closeDb
 
-    public function test_closeDb_success() {
+    public function test_closeDb_success()
+    {
         $this->getDbService()->openDb();
         $this->getDbService()->closeDb();
 
@@ -56,7 +75,8 @@ class MySqlDbServiceTest extends TestCase {
     }
 
 
-    public function test_closeDb_throws_dbexception_on_error() {
+    public function test_closeDb_throws_dbexception_on_error()
+    {
         $this->getDbService()->openDb();
         $this->getDbService()->closeDb();
         $this->assertFalse($this->getDbService()->isOpen());
@@ -69,7 +89,8 @@ class MySqlDbServiceTest extends TestCase {
 
     // region escapeString
 
-    public function test_escapeString_success() {
+    public function test_escapeString_success()
+    {
         $this->getDbService()->openDb();
         $result1 = $this->getDbService()->escapeString("abcabc");
         $result2 = $this->getDbService()->escapeString("abc'abc");
@@ -78,7 +99,8 @@ class MySqlDbServiceTest extends TestCase {
     }
 
 
-    public function test_escapeString_auto_open_if_db_closed() {
+    public function test_escapeString_auto_open_if_db_closed()
+    {
         $this->getDbService()->openDb();
         $this->getDbService()->closeDb();
 
@@ -92,7 +114,8 @@ class MySqlDbServiceTest extends TestCase {
 
     // region execSingleResultQuery
 
-    public function test_execSingleResultQuery_success() {
+    public function test_execSingleResultQuery_success()
+    {
         $query = "SELECT 3";
         $this->getDbService()->openDb();
         $result = $this->getDbService()->execSingleResultQuery($query);
@@ -101,7 +124,8 @@ class MySqlDbServiceTest extends TestCase {
     }
 
 
-    public function test_execSingleResultQuery_throws_error_for_multiple_results() {
+    public function test_execSingleResultQuery_throws_error_for_multiple_results()
+    {
         $query = "SELECT 3 UNION SELECT 4";
         $this->getDbService()->openDb();
 
@@ -110,7 +134,8 @@ class MySqlDbServiceTest extends TestCase {
     }
 
 
-    public function test_execSingleResultQuery_throws_error_for_invalid_query() {
+    public function test_execSingleResultQuery_throws_error_for_invalid_query()
+    {
         $query = "SELOECT 3";
         $this->getDbService()->openDb();
 
@@ -119,7 +144,8 @@ class MySqlDbServiceTest extends TestCase {
     }
 
 
-    public function test_execSingleResultQuery_0_results_success() {
+    public function test_execSingleResultQuery_0_results_success()
+    {
         $query = "SELECT (SELECT 3) LIMIT 0";
         $this->getDbService()->openDb();
         $result = $this->getDbService()->execSingleResultQuery($query);
@@ -128,7 +154,8 @@ class MySqlDbServiceTest extends TestCase {
     }
 
 
-    public function test_execSingleResultQuery_0_results_error() {
+    public function test_execSingleResultQuery_0_results_error()
+    {
         $query = "SELECT (SELECT 3) LIMIT 0";
         $this->getDbService()->openDb();
 
@@ -141,7 +168,8 @@ class MySqlDbServiceTest extends TestCase {
 
     // region execMultiResultQuery
 
-    public function test_execMultiResultQuery_success() {
+    public function test_execMultiResultQuery_success()
+    {
         $query = "SELECT 3 UNION SELECT 4";
         $this->getDbService()->openDb();
         $result = $this->getDbService()->execMultiResultQuery($query);
@@ -150,7 +178,8 @@ class MySqlDbServiceTest extends TestCase {
     }
 
 
-    public function test_execMultiResultQuery_throws_error_for_invalid_query() {
+    public function test_execMultiResultQuery_throws_error_for_invalid_query()
+    {
         $query = "SELOECT 3";
         $this->getDbService()->openDb();
 
@@ -163,7 +192,8 @@ class MySqlDbServiceTest extends TestCase {
 
     // region execCUDQuery
 
-    public function test_execCUDQuery_success() {
+    public function test_execCUDQuery_success()
+    {
         $query = "create temporary table temp as select 'a' as a";
         $this->getDbService()->openDb();
         $result = $this->getDbService()->execCUDQuery($query);

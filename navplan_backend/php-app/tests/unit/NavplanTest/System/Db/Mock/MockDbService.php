@@ -50,17 +50,17 @@ class MockDbService implements IDbService
     }
 
 
-    public function init(string $db_host, string $db_user, string $db_pw, string $db_name)
+    public function init(DbCredentials $credentials): void
     {
     }
 
 
-    public function openDb()
+    public function openDb(): void
     {
     }
 
 
-    public function closeDb()
+    public function closeDb(): void
     {
     }
 
@@ -100,19 +100,13 @@ class MockDbService implements IDbService
 
     function escapeAndQuoteString(string $escapeString): string
     {
-        // TODO: Implement escapeAndQuoteString() method.
+        throw new InvalidArgumentException("not implemented");
     }
 
 
     function escapeAndQuoteStringOrNull(?string $escapeString): string
     {
-        // TODO: Implement escapeAndQuoteStringOrNull() method.
-    }
-
-
-    function init2(DbCredentials $credentials)
-    {
-        // TODO: Implement init2() method.
+        throw new InvalidArgumentException("not implemented");
     }
 
 
@@ -125,36 +119,36 @@ class MockDbService implements IDbService
 
     public function beginTransaction(): bool
     {
-        // TODO: Implement beginTransaction() method.
+        throw new InvalidArgumentException("not implemented");
     }
 
 
     public function commitTransaction(): bool
     {
-        // TODO: Implement commitTransaction() method.
+        throw new InvalidArgumentException("not implemented");
     }
 
 
     public function rollbackTransaction(): bool
     {
-        // TODO: Implement rollbackTransaction() method.
+        throw new InvalidArgumentException("not implemented");
     }
 
 
     function getQueryBuilder(): IDbQueryBuilder
     {
-        // TODO: Implement getQueryBuilder() method.
+        throw new InvalidArgumentException("not implemented");
     }
 
 
     function getInsertCommandBuilder(): IDbInsertCommandBuilder
     {
-        // TODO: Implement getInsertCommandBuilder() method.
+        throw new InvalidArgumentException("not implemented");
     }
 
 
     function getDeleteCommandBuilder(): IDbDeleteCommandBuilder
     {
-        // TODO: Implement getDeleteCommandBuilder() method.
+        throw new InvalidArgumentException("not implemented");
     }
 }

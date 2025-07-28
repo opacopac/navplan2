@@ -8,7 +8,7 @@ use Navplan\Aerodrome\Domain\Model\Airport;
 interface IAirportCreateAllCommand
 {
     /**
-     * @param Airport $airports
+     * @param Airport[] $airports
      * @return void
      */
     function createAll(array $airports): void;
