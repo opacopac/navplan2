@@ -11,13 +11,19 @@ use Navplan\Aerodrome\Persistence\Model\DbTableAirportRunway;
 use Navplan\Aerodrome\Persistence\Model\DbTableMapFeatures;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbExp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbJoinType;
 
 
-class DbAirportByExtentQuery implements IAirportByExtentQuery
+readonly class DbAirportByExtentQuery implements IAirportByExtentQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }
@@ -32,8 +38,10 @@ class DbAirportByExtentQuery implements IAirportByExtentQuery
     {
         $tAd = new DbTableAirport("ad");
         $tRwy = new DbTableAirportRunway("rwy");
+        $tRwy2 = new DbTableAirportRunway();
         $tFeat = new DbTableMapFeatures("fea");
-        /*$query = $this->dbService->getQueryBuilder()
+
+        $query = $this->dbService->getQueryBuilder()
             ->selectFrom(
                 $tAd,
                 $tAd->colId(),
@@ -55,41 +63,18 @@ class DbAirportByExtentQuery implements IAirportByExtentQuery
                         DbCondSimple::equals($tRwy->colId(), null),
                         DbCondMulti::all(
                             DbCondSimple::equals($tRwy->colOperations(), AirportRunwayOperations::ACTIVE->value),
-                            DbCondSimple::equals($tRwy->colLength(), "TODO")
+                            DbCondSimple::equals($tRwy->colLength(), DbExp::fromString("(" .
+                                $this->dbService->getQueryBuilder()
+                                    ->selectFrom($tRwy2, "MAX(length)") // TODO
+                                    ->whereEquals($tRwy2->colAirportId(), $tAd->colId())
+                                    ->build()
+                                . ")"))
                         )
                     )
                 )
-            );*/
-
-        // TODO: query builder
-        $extentPoly = DbHelper::getDbPolygonString($extent);
-        $query = "SELECT ";
-        $query .= "  ad." . DbTableAirport::COL_ID . ",";
-        $query .= "  ad." . DbTableAirport::COL_TYPE . ",";
-        $query .= "  ad." . DbTableAirport::COL_ICAO . ",";
-        $query .= "  ad." . DbTableAirport::COL_LATITUDE . ",";
-        $query .= "  ad." . DbTableAirport::COL_LONGITUDE . ",";
-        $query .= "  rwy." . DbTableAirportRunway::COL_DIRECTION . ",";
-        $query .= "  rwy." . DbTableAirportRunway::COL_SURFACE . ",";
-        $query .= "  GROUP_CONCAT(fea.type) as features";
-        $query .= " FROM " . DbTableAirport::TABLE_NAME . " ad";
-        $query .= " LEFT JOIN " . DbTableAirportRunway::TABLE_NAME . " rwy ON rwy." . DbTableAirportRunway::COL_AIRPORT_ID . " = ad." . DbTableAirport::COL_ID;
-        $query .= " LEFT JOIN map_features fea ON fea.airport_icao = ad." . DbTableAirport::COL_ICAO;
-        $query .= " WHERE";
-        $query .= "  ST_INTERSECTS(ad." . DbTableAirport::COL_LONLAT . ", " . $extentPoly . ")";
-        $query .= "    AND";
-        $query .= "  ad." . DbTableAirport::COL_ZOOMMIN . " <= " . $zoom;
-        $query .= "    AND";
-        $query .= "  (";
-        $query .= "    rwy." . DbTableAirportRunway::COL_ID . " IS NULL";
-        $query .= "      OR";
-        $query .= "    (";
-        $query .= "      rwy." . DbTableAirportRunway::COL_OPERATIONS . " = '" . AirportRunwayOperations::ACTIVE->value . "'";
-        $query .= "        AND";
-        $query .= "      rwy.length = (SELECT MAX(" . DbTableAirportRunway::COL_LENGTH . ") FROM " . DbTableAirportRunway::TABLE_NAME . " WHERE " . DbTableAirportRunway::COL_AIRPORT_ID . " = ad." . DbTableAirport::COL_ID . ")";
-        $query .= "    )";
-        $query .= "  )";
-        $query .= "  GROUP BY ad." . DbTableAirport::COL_ID;
+            )
+            ->groupBy($tAd->colId())
+            ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching airports by extent");
         $converter = new DbShortAirportConverter($tAd, $tRwy);

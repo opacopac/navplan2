@@ -308,6 +308,48 @@ class MySqlDbQueryBuilderTest extends TestCase
     // endregion
 
 
+    // region group by tests
+
+    public function test_group_by()
+    {
+        // given
+        $t = new DbTable("test_table", null);
+        $c1 = $t->addCol("col1", DbColType::STRING);
+        $c2 = $t->addCol("col2", DbColType::STRING);
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectFrom($t, $c1, $c2)
+            ->groupBy($c1)
+            ->groupBy($c2);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT col1, col2 FROM test_table GROUP BY col1, col2", $query);
+    }
+
+
+    public function test_group_by_with_alias()
+    {
+        // given
+        $t = new DbTable("test_table", "t1");
+        $c1 = $t->addCol("col1", DbColType::STRING);
+        $c2 = $t->addCol("col2", DbColType::STRING);
+        $qb = $this->mySqlDbQueryBuilder
+            ->selectFrom($t, $c1, $c2)
+            ->groupBy($c1)
+            ->groupBy($c2);
+
+        // when
+        $query = $qb->build();
+
+        // then
+        $this->assertEquals("SELECT t1.col1, t1.col2 FROM test_table AS t1 GROUP BY t1.col1, t1.col2", $query);
+    }
+
+    // endregion
+
+
     // region order by tests
 
 

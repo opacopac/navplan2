@@ -9,6 +9,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbExp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbJoinType;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
@@ -22,6 +23,11 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     private string $join = "";
 
     private ?DbCond $where = null;
+
+    /**
+     * @var string[] $groupByList
+     */
+    private array $groupByList = [];
 
     /**
      * @var string[] $orderList
@@ -99,11 +105,20 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     }
 
 
-    public function whereEquals(DbCol|string $column, string|int|float|bool|null $value): IDbQueryBuilder
+    public function whereEquals(DbCol|string $column, string|int|float|bool|null|DbExp|DbCol $value): IDbQueryBuilder
     {
         return $this->where(
             DbCondSimple::create($column, DbCondOp::EQ, $value),
         );
+    }
+
+
+    public function groupBy(DbCol|string $column): IDbQueryBuilder
+    {
+        $colName = $this->buildColName($column);
+        $this->groupByList[] = $colName;
+
+        return $this;
     }
 
 
@@ -152,12 +167,14 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
         $whereStr = $this->where !== null
             ? MySqlDbCondBuilder::create($this->dbService)->condition($this->where)->build()
             : "";
+        $groupByStr = $this->buildGroupByString();
         $orderByStr = $this->buildOrderByString();
         $limitStr = $this->buildLimitString();
 
         return $selectStr
             . ($this->join !== "" ? " " . $this->join : "")
             . ($whereStr !== "" ? " WHERE " . $whereStr : "")
+            . ($groupByStr !== "" ? " GROUP BY " . $groupByStr : "")
             . ($orderByStr !== "" ? " ORDER BY " . $orderByStr : "")
             . ($limitStr !== "" ? " " . $limitStr : "");
     }
@@ -184,6 +201,16 @@ class MySqlDbQueryBuilder implements IDbQueryBuilder
     private function buildSelectString(): string
     {
         return $this->select;
+    }
+
+
+    private function buildGroupByString(): string
+    {
+        if (count($this->groupByList) === 0) {
+            return "";
+        }
+
+        return implode(", ", $this->groupByList);
     }
 
 

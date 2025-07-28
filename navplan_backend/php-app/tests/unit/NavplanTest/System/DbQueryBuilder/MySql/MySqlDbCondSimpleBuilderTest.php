@@ -2,8 +2,11 @@
 
 namespace NavplanTest\System\DbQueryBuilder\MySql;
 
+use Navplan\System\DbQueryBuilder\Domain\Model\DbColType;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbExp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbCondSimpleBuilder;
 use NavplanTest\System\Db\Mock\MockDbService;
 use PHPUnit\Framework\TestCase;
@@ -23,7 +26,7 @@ class MySqlDbCondSimpleBuilderTest extends TestCase
     }
 
 
-    public function test_text()
+    public function test_string()
     {
         // given
         $clause = DbCondSimple::equals("col1", "value1");
@@ -118,5 +121,34 @@ class MySqlDbCondSimpleBuilderTest extends TestCase
 
         // then
         $this->assertEquals("col1 IS NOT NULL", $query);
+    }
+
+
+    public function test_expression_fromString()
+    {
+        // given
+        $clause = DbCondSimple::equals("col1", DbExp::fromString("MAX(5, 13)"));
+        $wcb = $this->whereClauseBuilder->condition($clause);
+
+        // when
+        $clauseStr = $wcb->build();
+
+        // then
+        $this->assertEquals("col1 = MAX(5, 13)", $clauseStr);
+    }
+
+
+    public function test_col_equals_col_with_alias() {
+        // given
+        $t = new DbTable("test_table", "t2");
+        $c2 = $t->addCol("col2", DbColType::STRING, false);
+        $clause = DbCondSimple::equals("col1", $c2);
+        $wcb = $this->whereClauseBuilder->condition($clause);
+
+        // when
+        $clauseStr = $wcb->build();
+
+        // then
+        $this->assertEquals("col1 = t2.col2", $clauseStr);
     }
 }

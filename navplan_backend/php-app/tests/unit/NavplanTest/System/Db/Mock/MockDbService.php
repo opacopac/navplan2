@@ -50,7 +50,7 @@ class MockDbService implements IDbService
     }
 
 
-    public function init(DbCredentials $credentials): void
+    public function init(DbCredentials $credentials, bool $autoOpen = true): void
     {
     }
 

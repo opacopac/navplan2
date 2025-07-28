@@ -5,8 +5,10 @@ namespace Navplan\System\DbQueryBuilder\MySql;
 use InvalidArgumentException;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCol;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbExp;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbCondSimpleBuilder;
 
 
@@ -57,6 +59,8 @@ class MySqlDbCondSimpleBuilder implements IDbCondSimpleBuilder
 
         $valStr = $this->cond->value;
         $valStr = match (true) {
+            $valStr instanceof DbExp => $valStr->getValue(),
+            $valStr instanceof DbCol => MySqlDbColBuilder::buildColName($valStr),
             is_string($valStr) => DbHelper::getDbStringValue($this->dbService, $valStr),
             is_bool($valStr) => DbHelper::getDbBoolValue($valStr),
             is_int($valStr) => DbHelper::getDbIntValue($valStr),
