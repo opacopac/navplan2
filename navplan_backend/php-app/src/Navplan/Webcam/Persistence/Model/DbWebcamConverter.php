@@ -2,6 +2,7 @@
 
 namespace Navplan\Webcam\Persistence\Model;
 
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
 use Navplan\Webcam\Domain\Model\Webcam;
 
@@ -23,7 +24,7 @@ class DbWebcamConverter extends DbEntityConverter
         return new Webcam(
             $r->getName(),
             $r->getUrl(),
-            $r->getPosition(),
+            Position2d::fromLonLat($r->getLongitude(), $r->getLatitude()),
             $r->getAirportIcao()
         );
     }

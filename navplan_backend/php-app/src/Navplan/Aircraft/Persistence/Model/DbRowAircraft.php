@@ -2,16 +2,6 @@
 
 namespace Navplan\Aircraft\Persistence\Model;
 
-use Navplan\Aircraft\Domain\Model\FuelType;
-use Navplan\Aircraft\Domain\Model\VehicleType;
-use Navplan\Common\Domain\Model\Consumption;
-use Navplan\Common\Domain\Model\Length;
-use Navplan\Common\Domain\Model\Speed;
-use Navplan\Common\Domain\Model\Weight;
-use Navplan\Common\Persistence\Model\DbConsumptionConverter;
-use Navplan\Common\Persistence\Model\DbLengthConverter;
-use Navplan\Common\Persistence\Model\DbSpeedConverter;
-use Navplan\Common\Persistence\Model\DbWeightConverter;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbRow;
 
 
@@ -38,9 +28,9 @@ class DbRowAircraft extends DbRow
     }
 
 
-    public function getVehicleType(): VehicleType
+    public function getVehicleType(): string
     {
-        return VehicleType::from($this->getValue($this->table->colVehicleType()));
+        return $this->getValue($this->table->colVehicleType());
     }
 
 
@@ -56,72 +46,74 @@ class DbRowAircraft extends DbRow
     }
 
 
-    public function getCruiseSpeed(): Speed
+    public function getCruiseSpeed(): float
     {
-        return DbSpeedConverter::fromDbRow(
-            $this->row,
-            $this->table->colCruiseSpeed()->getName(),
-            $this->table->colSpeedUnit()->getName(),
-        );
+        return $this->getValue($this->table->colCruiseSpeed());
     }
 
 
-    public function getCruiseConsumption(): Consumption
+    public function getSpeedUnit(): string
     {
-        return DbConsumptionConverter::fromDbRow(
-            $this->row,
-            $this->table->colCruiseConsumption()->getName(),
-            $this->table->colConsumptionUnit()->getName(),
-        );
+        return $this->getValue($this->table->colSpeedUnit());
     }
 
 
-    public function getFuelType(): ?FuelType
+    public function getCruiseConsumption(): float
     {
-        $value = $this->getValue($this->table->colFuelType());
-
-        return $value !== null
-            ? FuelType::from($value)
-            : null;
+        return $this->getValue($this->table->colCruiseConsumption());
     }
 
 
-    public function getBew(): ?Weight
+    public function getConsumptionUnit(): string
     {
-        return DbWeightConverter::fromDbRow(
-            $this->row,
-            $this->table->colBew(),
-            $this->table->colWeightUnit(),
-        );
+        return $this->getValue($this->table->colConsumptionUnit());
     }
 
 
-    public function getMtow(): ?Weight
+    public function getFuelType(): ?string
     {
-        return DbWeightConverter::fromDbRow(
-            $this->row,
-            $this->table->colMtow(),
-            $this->table->colWeightUnit(),
-        );
+        return $this->getValue($this->table->colFuelType());
     }
 
 
-    public function getRocSealevel(): ?Speed
+    public function getBew(): ?float
     {
-        return DbSpeedConverter::fromDbRow(
-            $this->row,
-            $this->table->colRocSealevel(),
-            $this->table->colVerticalSpeedUnit(),
-        );
+        return $this->getValue($this->table->colBew());
     }
 
 
-    public function getServiceCeiling(): ?Length
+    public function getMtow(): ?float
     {
-        return DbLengthConverter::fromDbRow(
-            $this->row,
-            $this->table->colServiceCeiling(),
-            $this->table->colAltitudeUnit(),
-        );
+        return $this->getValue($this->table->colMtow());
+    }
+
+
+    public function getWeightUnit(): ?string
+    {
+        return $this->getValue($this->table->colWeightUnit());
+    }
+
+
+    public function getRocSealevel(): ?float
+    {
+        return $this->getValue($this->table->colRocSealevel());
+    }
+
+
+    public function getVerticalSpeedUnit(): ?string
+    {
+        return $this->getValue($this->table->colVerticalSpeedUnit());
+    }
+
+
+    public function getServiceCeiling(): ?float
+    {
+        return $this->getValue($this->table->colServiceCeiling());
+    }
+
+
+    public function getAltitudeUnit(): ?string
+    {
+        return $this->getValue($this->table->colAltitudeUnit());
     }
 }

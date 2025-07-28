@@ -13,7 +13,7 @@ class DbRow
     }
 
 
-    public function getValue(DbCol $column, bool $forceNullable = false, bool $zeroIsNull = false): mixed
+    public function getValue(DbCol $column, bool $forceNullable = false, bool $zeroIsNull = false): bool|int|float|string|null
     {
         if (!array_key_exists($column->getName(), $this->row)) {
             throw new InvalidArgumentException("Column {$column->getName()} does not exist in the row.");

@@ -36,6 +36,19 @@ class Consumption {
     }
 
 
+    public static function fromValueAndUnitString(
+        ?float $value,
+        ?string $unit
+    ): ?Consumption {
+        if ($value === null || $unit === null || $unit === '') {
+            return null;
+        }
+
+        $consumptionUnit = ConsumptionUnit::from($unit);
+        return new Consumption($value, $consumptionUnit);
+    }
+
+
     public function getLph(): float {
         return $this->getValue(ConsumptionUnit::L_PER_H);
     }

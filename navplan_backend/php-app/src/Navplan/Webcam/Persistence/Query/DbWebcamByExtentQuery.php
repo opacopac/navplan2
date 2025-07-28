@@ -12,10 +12,10 @@ use Navplan\Webcam\Persistence\Model\DbTableWebcam;
 use Navplan\Webcam\Persistence\Model\DbWebcamConverter;
 
 
-class DbWebcamByExtentQuery implements IWebcamByExtentQuery
+readonly class DbWebcamByExtentQuery implements IWebcamByExtentQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }
@@ -23,19 +23,20 @@ class DbWebcamByExtentQuery implements IWebcamByExtentQuery
 
     public function search(Extent2d $extent): array
     {
+        $t = new DbTableWebcam();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableWebcam::TABLE_NAME)
+            ->selectAllFrom($t)
             ->where(DbCondMulti::all(
-                DbCondSimple::equals(DbTableWebcam::COL_AD_ICAO, NULL),
-                DbCondSimple::create(DbTableWebcam::COL_LON, DbCondOp::GT_OR_E, $extent->minPos->longitude),
-                DbCondSimple::create(DbTableWebcam::COL_LON, DbCondOp::LT_OR_E, $extent->maxPos->longitude),
-                DbCondSimple::create(DbTableWebcam::COL_LAT, DbCondOp::GT_OR_E, $extent->minPos->latitude),
-                DbCondSimple::create(DbTableWebcam::COL_LAT, DbCondOp::LT_OR_E, $extent->maxPos->latitude)
+                DbCondSimple::equals($t->colAdIcao(), NULL),
+                DbCondSimple::create($t->colLon(), DbCondOp::GT_OR_E, $extent->minPos->longitude),
+                DbCondSimple::create($t->colLon(), DbCondOp::LT_OR_E, $extent->maxPos->longitude),
+                DbCondSimple::create($t->colLat(), DbCondOp::GT_OR_E, $extent->minPos->latitude),
+                DbCondSimple::create($t->colLat(), DbCondOp::LT_OR_E, $extent->maxPos->latitude)
             ))
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error while searching webcams by extent");
-        $converter = new DbWebcamConverter(new DbTableWebcam());
+        $converter = new DbWebcamConverter($t);
 
         return $converter->fromDbResult($result);
     }

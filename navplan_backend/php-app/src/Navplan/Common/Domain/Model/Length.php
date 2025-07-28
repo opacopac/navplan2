@@ -98,6 +98,15 @@ class Length {
     }
 
 
+    public static function fromValueAndUnitString(?float $value, ?string $unit): ?Length {
+        if ($value === null || $unit === null || $unit === '') {
+            return null;
+        }
+
+        return new Length($value, LengthUnit::from($unit));
+    }
+
+
     public function __construct(
         public float $value,
         public LengthUnit $unit

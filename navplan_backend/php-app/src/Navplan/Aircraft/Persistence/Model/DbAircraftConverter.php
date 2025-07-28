@@ -3,6 +3,12 @@
 namespace Navplan\Aircraft\Persistence\Model;
 
 use Navplan\Aircraft\Domain\Model\Aircraft;
+use Navplan\Aircraft\Domain\Model\FuelType;
+use Navplan\Aircraft\Domain\Model\VehicleType;
+use Navplan\Common\Domain\Model\Consumption;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\Speed;
+use Navplan\Common\Domain\Model\Weight;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
@@ -23,16 +29,36 @@ class DbAircraftConverter extends DbEntityConverter
 
         return new Aircraft(
             $r->getId(),
-            $r->getVehicleType(),
+            VehicleType::from($r->getVehicleType()),
             $r->getRegistration(),
             $r->getIcaoType(),
-            $r->getCruiseSpeed(),
-            $r->getCruiseConsumption(),
-            $r->getFuelType(),
-            $r->getMtow(),
-            $r->getBew(),
-            $r->getRocSealevel(),
-            $r->getServiceCeiling(),
+            Speed::fromValueAndUnitString(
+                $r->getCruiseSpeed(),
+                $r->getSpeedUnit()
+            ),
+            Consumption::fromValueAndUnitString(
+                $r->getCruiseConsumption(),
+                $r->getConsumptionUnit()
+            ),
+            $r->getFuelType() !== null
+                ? FuelType::from($r->getFuelType())
+                : null,
+            Weight::fromValueAndUnitString(
+                $r->getMtow(),
+                $r->getWeightUnit()
+            ),
+            Weight::fromValueAndUnitString(
+                $r->getBew(),
+                $r->getWeightUnit()
+            ),
+            Speed::fromValueAndUnitString(
+                $r->getRocSealevel(),
+                $r->getVerticalSpeedUnit()
+            ),
+            Length::fromValueAndUnitString(
+                $r->getServiceCeiling(),
+                $r->getAltitudeUnit()
+            ),
             null,
             null,
             null,

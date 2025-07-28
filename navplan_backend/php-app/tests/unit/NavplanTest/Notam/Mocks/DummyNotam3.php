@@ -34,7 +34,7 @@ class DummyNotam3
             "W0997\/19-LSAS",
             "airspace",
             new NotamGeometry(
-                Ring2d::createFromArray([[28.231586,-26.128897],[28.231642,-26.128453],[28.230906,-26.128975]]),
+                Ring2d::fromArray([[28.231586,-26.128897],[28.231642,-26.128453],[28.230906,-26.128975]]),
                 Altitude::fromFl(0),
                 Altitude::fromFl(130)
             )

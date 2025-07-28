@@ -42,6 +42,16 @@ class Weight
     }
 
 
+    public static function fromValueAndUnitString(?float $value, ?string $unit): ?Weight
+    {
+        if ($value === null || $unit === null || $unit === '') {
+            return null;
+        }
+
+        return new Weight($value, WeightUnit::from($unit));
+    }
+
+
     public function getKg(): float
     {
         return $this->getValue(WeightUnit::KG);

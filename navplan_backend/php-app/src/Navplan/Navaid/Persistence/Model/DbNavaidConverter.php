@@ -4,7 +4,7 @@ namespace Navplan\Navaid\Persistence\Model;
 
 use Navplan\Common\Domain\Model\Altitude;
 use Navplan\Common\Domain\Model\Frequency;
-use Navplan\Common\Domain\Model\FrequencyUnit;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\GeoHelper;
 use Navplan\Navaid\Domain\Model\Navaid;
 use Navplan\Navaid\Domain\Model\NavaidType;
@@ -29,16 +29,17 @@ class DbNavaidConverter extends DbEntityConverter
     public function fromDbRow(array $row): Navaid
     {
         $r = new DbRowNavaid($this->table, $row);
-        $freqType = $r->getType() === "NDB" ? FrequencyUnit::KHZ : FrequencyUnit::MHZ;
 
         return new Navaid(
             $r->getId(),
             NavaidType::from($r->getType()),
             $r->getKuerzel(),
             $r->getName(),
-            $r->getPosition(),
+            Position2d::fromLonLat($r->getLongitude(), $r->getLatitude()),
             Altitude::fromMtAmsl($r->getElevation()),
-            new Frequency(floatval($r->getFrequency()), $freqType),
+            $r->getType() === NavaidType::NDB->value ?
+                Frequency::fromKhz(floatval($r->getFrequency())) :
+                Frequency::fromMhz(floatval($r->getFrequency())),
             $r->getDeclination(),
             $r->isTrueNorth()
         );

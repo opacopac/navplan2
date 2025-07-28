@@ -2,10 +2,6 @@
 
 namespace Navplan\Airspace\Persistence\Model;
 
-use Navplan\Common\Domain\Model\Altitude;
-use Navplan\Common\Domain\Model\AltitudeReference;
-use Navplan\Common\Domain\Model\AltitudeUnit;
-use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbRow;
 
 
@@ -56,23 +52,39 @@ class DbRowAirspace extends DbRow
     }
 
 
-    public function getAltTop(): Altitude
+    public function getAltTopRef(): string
     {
-        return $this->getAltitude(
-            $this->getValue($this->table->colAltTopHeight()),
-            $this->getValue($this->table->colAltTopUnit()),
-            $this->getValue($this->table->colAltTopRef())
-        );
+        return $this->getValue($this->table->colAltTopRef());
     }
 
 
-    public function getAltBottom(): Altitude
+    public function getAltTopHeight(): int
     {
-        return $this->getAltitude(
-            $this->getValue($this->table->colAltBotHeight()),
-            $this->getValue($this->table->colAltBotUnit()),
-            $this->getValue($this->table->colAltBotRef())
-        );
+        return $this->getValue($this->table->colAltTopHeight());
+    }
+
+
+    public function getAltTopUnit(): string
+    {
+        return $this->getValue($this->table->colAltTopUnit());
+    }
+
+
+    public function getAltBotRef(): string
+    {
+        return $this->getValue($this->table->colAltBotRef());
+    }
+
+
+    public function getAltBotHeight(): int
+    {
+        return $this->getValue($this->table->colAltBotHeight());
+    }
+
+
+    public function getAltBotUnit(): string
+    {
+        return $this->getValue($this->table->colAltBotUnit());
     }
 
 
@@ -82,24 +94,14 @@ class DbRowAirspace extends DbRow
     }
 
 
-    public function getPolygon(): ?Ring2d
+    public function getPolygon(): string
     {
-        return Ring2d::createFromString($this->getValue($this->table->colPolygon(), true));
+        return $this->getValue($this->table->colPolygon());
     }
 
 
     public function getExtent(): string
     {
         return $this->getValue($this->table->colExtent());
-    }
-
-
-    private function getAltitude(int $height, string $unitStr, string $refStr): Altitude
-    {
-        return new Altitude(
-            $height,
-            AltitudeUnit::from($unitStr === "F" ? "FT" : $unitStr),
-            AltitudeReference::from($refStr)
-        );
     }
 }

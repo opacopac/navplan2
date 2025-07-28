@@ -24,8 +24,8 @@ class DbTableWebcam extends DbTable
         $this->addCol(self::COL_ID, DbColType::INT);
         $this->addCol(self::COL_NAME, DbColType::STRING);
         $this->addCol(self::COL_URL, DbColType::STRING);
-        $this->addCol(self::COL_LAT, DbColType::DOUBLE);
-        $this->addCol(self::COL_LON, DbColType::DOUBLE);
+        $this->addCol(self::COL_LAT, DbColType::DOUBLE, true);
+        $this->addCol(self::COL_LON, DbColType::DOUBLE, true);
         $this->addCol(self::COL_AD_ICAO, DbColType::STRING, true);
     }
 

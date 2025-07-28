@@ -5,7 +5,6 @@ namespace Navplan\Aerodrome\Persistence\Model;
 use Navplan\Aerodrome\Domain\Model\AirportRadio;
 use Navplan\Aerodrome\Domain\Model\AirportRadioType;
 use Navplan\Common\Domain\Model\Frequency;
-use Navplan\Common\Domain\Model\FrequencyUnit;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
@@ -26,7 +25,7 @@ class DbAirportRadioConverter extends DbEntityConverter
 
         return new AirportRadio(
             $r->getCategory(),
-            new Frequency($r->getFrequency(), FrequencyUnit::MHZ),
+            Frequency::fromMhz($r->getFrequency()),
             AirportRadioType::from($r->getType()),
             $r->getName(),
             $r->isPrimary()

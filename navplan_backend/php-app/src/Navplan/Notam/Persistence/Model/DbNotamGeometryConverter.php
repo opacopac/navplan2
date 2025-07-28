@@ -66,7 +66,7 @@ class DbNotamGeometryConverter {
 
     private static function readShapeFromResult(array $geometry): ?IGeometry2d {
         if (isset($geometry["polygon"])) {
-            return Ring2d::createFromArray($geometry["polygon"]);
+            return Ring2d::fromArray($geometry["polygon"]);
         } else if (isset($geometry["multipolygon"])) {
             return MultiRing2d::createFromArray($geometry["multipolygon"]);
         } else if (isset($geometry["center"]) && isset($geometry["radius"])) {

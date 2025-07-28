@@ -2,8 +2,6 @@
 
 namespace Navplan\AerodromeReporting\Persistence\Model;
 
-use Navplan\Common\Domain\Model\Position2d;
-use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbRow;
 
 
@@ -72,9 +70,15 @@ class DbRowReportingPoints extends DbRow
     }
 
 
-    public function getPosition(): ?Position2d
+    public function getLatitude(): ?float
     {
-        return DbPosition2dConverter::fromDbRow($this->row); // TODO
+        return $this->getValue($this->table->colLat());
+    }
+
+
+    public function getLongitude(): ?float
+    {
+        return $this->getValue($this->table->colLon());
     }
 
 

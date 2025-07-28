@@ -45,7 +45,7 @@ class NotamGeometryConverterTest extends TestCase {
 
 
     public function test_toRest_polygon() {
-        $polygon = Ring2d::createFromString("7.1 47.1,7.9 47.9,8.1 48.1,7.1 47.1");
+        $polygon = Ring2d::fromString("7.1 47.1,7.9 47.9,8.1 48.1,7.1 47.1");
         $notamGeometry = new NotamGeometry($polygon, NULL, NULL);
         $rest = RestNotamGeometryConverter::toRest($notamGeometry);
 
@@ -55,8 +55,8 @@ class NotamGeometryConverterTest extends TestCase {
 
     public function test_toRest_multipolygon() {
         $multipoly = new MultiRing2d([
-            Ring2d::createFromString("7.1 47.1,7.9 47.9,8.1 48.1,7.1 47.1"),
-            Ring2d::createFromString("4.1 44.1,4.9 44.9,5.1 45.1,4.1 44.1")]);
+            Ring2d::fromString("7.1 47.1,7.9 47.9,8.1 48.1,7.1 47.1"),
+            Ring2d::fromString("4.1 44.1,4.9 44.9,5.1 45.1,4.1 44.1")]);
         $alt_bottom = Altitude::fromFl(100);
         $notamGeometry = new NotamGeometry($multipoly, $alt_bottom, NULL);
         $rest = RestNotamGeometryConverter::toRest($notamGeometry);

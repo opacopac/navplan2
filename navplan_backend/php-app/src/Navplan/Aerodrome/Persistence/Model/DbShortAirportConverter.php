@@ -3,6 +3,7 @@
 namespace Navplan\Aerodrome\Persistence\Model;
 
 use Navplan\Aerodrome\Domain\Model\ShortAirport;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
 
 
@@ -27,10 +28,12 @@ class DbShortAirportConverter extends DbEntityConverter
             $r->getId(),
             $r->getType(),
             $r->getIcao(),
-            $r->getPosition(),
+            Position2d::fromLonLat($r->getLongitude(), $r->getLatitude()),
             $r->getRwyDirection(),
             $r->getRwySurface(),
-            $r->getFeatures()
+            $r->getFeatures() !== null && $r->getFeatures() !== ""
+                ? explode(",", $r->getFeatures())
+                : []
         );
     }
 }

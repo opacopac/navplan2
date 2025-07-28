@@ -14,7 +14,7 @@ class Ring2d implements IGeometry2d
      * @param string $lonLatSeparator
      * @return Ring2d|null
      */
-    public static function createFromString(string|null $ringString, string $posSeparator = ',', string $lonLatSeparator = ' '): ?Ring2d
+    public static function fromString(string|null $ringString, string $posSeparator = ',', string $lonLatSeparator = ' '): ?Ring2d
     {
         if ($ringString === NULL || $ringString === '') {
             return NULL;
@@ -32,7 +32,7 @@ class Ring2d implements IGeometry2d
     }
 
 
-    public static function createFromArray(array $lonLatList): Ring2d
+    public static function fromArray(array $lonLatList): Ring2d
     {
         return new Ring2d(
             array_map(

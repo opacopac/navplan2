@@ -2,8 +2,6 @@
 
 namespace Navplan\Navaid\Persistence\Model;
 
-use Navplan\Common\Domain\Model\Position2d;
-use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbRow;
 
 
@@ -47,9 +45,15 @@ class DbRowNavaid extends DbRow
     }
 
 
-    public function getPosition(): Position2d
+    public function getLatitude(): float
     {
-        return DbPosition2dConverter::fromDbRow($this->row);
+        return $this->getValue($this->table->colLat());
+    }
+
+
+    public function getLongitude(): float
+    {
+        return $this->getValue($this->table->colLon());
     }
 
 

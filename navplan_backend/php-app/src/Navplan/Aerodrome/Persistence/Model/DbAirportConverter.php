@@ -5,6 +5,7 @@ namespace Navplan\Aerodrome\Persistence\Model;
 use Navplan\Aerodrome\Domain\Model\Airport;
 use Navplan\Aerodrome\Domain\Model\AirportType;
 use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\GeoHelper;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
@@ -30,7 +31,7 @@ class DbAirportConverter extends DBEntityConverter
             $r->getName(),
             $r->getIcao(),
             $r->getCountry(),
-            $r->getPosition(),
+            Position2d::fromLonLat($r->getLongitude(), $r->getLatitude()),
             Altitude::fromMtAmsl($r->getElevationMtAmsl())
         );
     }

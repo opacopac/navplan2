@@ -14,7 +14,6 @@ class DbTable
     /**
      * @param string $name
      * @param string|null $alias
-     * @param string[] $colNames
      */
     public function __construct(
         private readonly string $name,

@@ -9,7 +9,7 @@ use Navplan\Notam\Domain\Model\NotamGeometry;
 class DummyNotamGeometry2 {
     public static function create(): NotamGeometry {
         return new NotamGeometry(
-            Ring2d::createFromArray([[28.231586,-26.128897],[28.231642,-26.128453],[28.230906,-26.128975]]),
+            Ring2d::fromArray([[28.231586,-26.128897],[28.231642,-26.128453],[28.230906,-26.128975]]),
             NULL,
             NULL
         );

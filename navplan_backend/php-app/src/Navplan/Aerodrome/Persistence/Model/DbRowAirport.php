@@ -2,8 +2,6 @@
 
 namespace Navplan\Aerodrome\Persistence\Model;
 
-use Navplan\Common\Domain\Model\Position2d;
-use Navplan\Common\Persistence\Model\DbPosition2dConverter;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbRow;
 
 
@@ -36,7 +34,7 @@ class DbRowAirport extends DbRow
     }
 
 
-    public function getIcao(): string
+    public function getIcao(): ?string
     {
         return $this->getValue($this->table->colIcao());
     }
@@ -48,9 +46,15 @@ class DbRowAirport extends DbRow
     }
 
 
-    public function getPosition(): Position2d
+    public function getLatitude(): float
     {
-        return DbPosition2dConverter::fromDbRow($this->row);
+        return $this->getValue($this->table->colLatitude());
+    }
+
+
+    public function getLongitude(): float
+    {
+        return $this->getValue($this->table->colLongitude());
     }
 
 

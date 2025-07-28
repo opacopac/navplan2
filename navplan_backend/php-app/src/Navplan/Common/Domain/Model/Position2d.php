@@ -26,6 +26,18 @@ class Position2d implements IGeometry2d, GeoCoordinate {
     }
 
 
+    public static function fromLonLat(
+        ?float $longitude,
+        ?float $latitude
+    ): ?Position2d {
+        if ($longitude === null || $latitude === null) {
+            return null;
+        }
+
+        return new Position2d($longitude, $latitude);
+    }
+
+
     public function __construct(
         public float $longitude,
         public float $latitude

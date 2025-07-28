@@ -29,7 +29,7 @@ class Ring2dTest extends TestCase
     public function test_createFromString()
     {
         $polyString = "7.1 47.1,7.9 47.9,8.1 48.1,7.1 47.1";
-        $poly = Ring2d::createFromString($polyString);
+        $poly = Ring2d::fromString($polyString);
 
         $this->assertNotNull($poly);
         $this->assertEquals(array(7.1, 47.1), $poly->position2dList[0]->toArray());
@@ -42,7 +42,7 @@ class Ring2dTest extends TestCase
     public function test_createFromString2()
     {
         $polyString = "7.1 47.1, 7.9 47.9, 8.1 48.1, 7.1 47.1";
-        $poly = Ring2d::createFromString($polyString);
+        $poly = Ring2d::fromString($polyString);
 
         $this->assertNotNull($poly);
         $this->assertEquals(array(7.1, 47.1), $poly->position2dList[0]->toArray());
@@ -56,7 +56,7 @@ class Ring2dTest extends TestCase
     {
         $polyString = "XXX";
         $this->expectException(InvalidArgumentException::class);
-        Ring2d::createFromString($polyString);
+        Ring2d::fromString($polyString);
     }
 
 
@@ -64,7 +64,7 @@ class Ring2dTest extends TestCase
     {
         $polyString = "7.1 47.1,7.9 xx.x,8.1 48.1,7.1 47.1";
         $this->expectException(InvalidArgumentException::class);
-        Ring2d::createFromString($polyString);
+        Ring2d::fromString($polyString);
     }
 
 
@@ -72,28 +72,28 @@ class Ring2dTest extends TestCase
     {
         $polyString = "7.1 47.1,7.9,8.1 48.1,7.1 47.1";
         $this->expectException(InvalidArgumentException::class);
-        Ring2d::createFromString($polyString);
+        Ring2d::fromString($polyString);
     }
 
 
     public function test_createFromArray()
     {
         $polyArray = [[7.1, 47.1], [7.9, 47.9], [8.1, 48.1], [7.1, 47.1]];
-        $poly = Ring2d::createFromArray($polyArray);
+        $poly = Ring2d::fromArray($polyArray);
         $this->assertEquals($poly->toArray(), $polyArray);
     }
 
 
     public function test_toString()
     {
-        $poly = Ring2d::createFromArray([[7.1, 47.1], [7.9, 47.9], [8.1, 48.1], [7.1, 47.1]]);
+        $poly = Ring2d::fromArray([[7.1, 47.1], [7.9, 47.9], [8.1, 48.1], [7.1, 47.1]]);
         $polyString = $poly->toString();
         $this->assertEquals("7.1 47.1,7.9 47.9,8.1 48.1,7.1 47.1", $polyString);
     }
 
 
     public function test_calcIntersectionPoints() {
-        $poly = Ring2d::createFromArray([[0, 0], [2, 2], [4, 0]]);
+        $poly = Ring2d::fromArray([[0, 0], [2, 2], [4, 0]]);
         $interval = new LineInterval2d(
             new Position2d(0, 1),
             new Position2d(4, 1)
@@ -108,7 +108,7 @@ class Ring2dTest extends TestCase
 
 
     public function test_calcIntersectionPoints_reverse() {
-        $poly = Ring2d::createFromArray([[0, 0], [2, 2], [4, 0]]);
+        $poly = Ring2d::fromArray([[0, 0], [2, 2], [4, 0]]);
         $interval = new LineInterval2d(
             new Position2d(4, 1),
             new Position2d(1, 1)

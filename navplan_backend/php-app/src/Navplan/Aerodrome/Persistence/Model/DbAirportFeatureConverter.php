@@ -3,6 +3,7 @@
 namespace Navplan\Aerodrome\Persistence\Model;
 
 use Navplan\Aerodrome\Domain\Model\AirportFeature;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
 
 
@@ -23,7 +24,7 @@ class DbAirportFeatureConverter extends DbEntityConverter
         return new AirportFeature(
             $r->getType(),
             $r->getName(),
-            $r->getPosition()
+            Position2d::fromLonLat($r->getLongitude(), $r->getLatitude())
         );
     }
 }

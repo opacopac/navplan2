@@ -4,6 +4,7 @@ namespace Navplan\AerodromeReporting\Persistence\Model;
 
 use Navplan\AerodromeReporting\Domain\Model\ReportingPoint;
 use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
 
@@ -32,8 +33,8 @@ class DbReportingPointConverter extends DbEntityConverter
             $r->isOutbdComp() ?? false,
             Length::fromFt($r->getMinFt()),
             Length::fromFt($r->getMaxFt()),
-            $r->getPosition(),
-            Ring2d::createFromString($r->getPolygon())
+            Position2d::fromLonLat($r->getLongitude(), $r->getLatitude()),
+            Ring2d::fromString($r->getPolygon())
         );
     }
 }

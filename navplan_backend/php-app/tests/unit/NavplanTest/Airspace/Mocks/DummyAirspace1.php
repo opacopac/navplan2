@@ -16,7 +16,7 @@ class DummyAirspace1 {
             "CTR Payerne (HX): 128.67",
             Altitude::fromFtAgl(0),
             Altitude::fromFl(100),
-            Ring2d::createFromArray([
+            Ring2d::fromArray([
                 [6.9919444444444, 46.939444444444],
                 [7.0763888888889, 46.875833333333],
                 [6.8536111111111, 46.735555555556],

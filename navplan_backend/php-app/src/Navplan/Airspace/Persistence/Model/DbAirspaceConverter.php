@@ -5,6 +5,10 @@ namespace Navplan\Airspace\Persistence\Model;
 use Navplan\Airspace\Domain\Model\Airspace;
 use Navplan\Airspace\Domain\Model\AirspaceClass;
 use Navplan\Airspace\Domain\Model\AirspaceType;
+use Navplan\Common\Domain\Model\Altitude;
+use Navplan\Common\Domain\Model\AltitudeReference;
+use Navplan\Common\Domain\Model\AltitudeUnit;
+use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
@@ -34,9 +38,17 @@ class DbAirspaceConverter extends DbEntityConverter
             $r->getCategory(),
             $r->getCountry(),
             $r->getName(),
-            $r->getAltBottom(),
-            $r->getAltTop(),
-            $r->getPolygon()
+            $this->getAltitude(
+                $r->getAltBotHeight(),
+                $r->getAltBotUnit(),
+                $r->getAltBotRef()
+            ),
+            $this->getAltitude(
+                $r->getAltTopHeight(),
+                $r->getAltTopUnit(),
+                $r->getAltTopRef()
+            ),
+            Ring2d::fromString($r->getPolygon()),
         );
     }
 
@@ -56,5 +68,17 @@ class DbAirspaceConverter extends DbEntityConverter
             ->setColValue($this->table->colAltBotUnit(), $airspace->alt_bottom->unit->value)
             ->setColValue($this->table->colPolygon(), $airspace->polygon->toString())
             ->setColValue($this->table->colExtent(), $airspace->polygon);
+    }
+
+
+
+
+    private function getAltitude(int $height, string $unitStr, string $refStr): Altitude
+    {
+        return new Altitude(
+            $height,
+            AltitudeUnit::from($unitStr === "F" ? "FT" : $unitStr),
+            AltitudeReference::from($refStr)
+        );
     }
 }

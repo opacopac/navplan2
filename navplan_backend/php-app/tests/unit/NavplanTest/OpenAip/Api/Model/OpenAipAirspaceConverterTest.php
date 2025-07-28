@@ -81,7 +81,7 @@ class OpenAipAirspaceConverterTest extends TestCase {
         $this->assertEquals("DANGER", $airspace->category);
         $this->assertEquals(new Altitude(0, AltitudeUnit::FT, AltitudeReference::GND), $airspace->alt_bottom);
         $this->assertEquals(new Altitude(999, AltitudeUnit::FL, AltitudeReference::STD), $airspace->alt_top);
-        $this->assertEquals(Ring2d::createFromArray([
+        $this->assertEquals(Ring2d::fromArray([
             [23.465833333333, 40.348888888889],
             [23.949166666667, 40.398888888889],
             [24.5825, 40.082222222222],

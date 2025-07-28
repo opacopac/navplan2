@@ -55,6 +55,19 @@ class Speed
     }
 
 
+    public static function fromValueAndUnitString(
+        ?float $value,
+        ?string $unit
+    ): ?Speed
+    {
+        if ($value === null || $unit === null || $unit === '') {
+            return null;
+        }
+
+        return new Speed($value, SpeedUnit::from($unit));
+    }
+
+
     public function getKt(): float
     {
         return $this->getValue(SpeedUnit::KT);

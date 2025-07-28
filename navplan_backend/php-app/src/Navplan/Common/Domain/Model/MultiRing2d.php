@@ -9,7 +9,7 @@ class MultiRing2d implements IGeometry2d {
     public static function createFromArray(array $ringArrays): MultiRing2d {
         return new MultiRing2d(
             array_map(
-                function (array $ringArray) { return Ring2d::createFromArray($ringArray); },
+                function (array $ringArray) { return Ring2d::fromArray($ringArray); },
                 $ringArrays
             )
         );
