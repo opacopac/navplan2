@@ -12,7 +12,7 @@ use Navplan\System\Db\MySql\DbHelper;
 class DbAircraftTypeDesignatorSearchQuery implements IAircraftTypeDesignatorSearchQuery
 {
     public function __construct(
-        private IDbService $dbService
+        private readonly IDbService $dbService
     )
     {
     }

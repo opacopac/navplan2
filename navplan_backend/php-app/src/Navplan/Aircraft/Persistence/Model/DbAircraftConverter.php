@@ -3,35 +3,35 @@
 namespace Navplan\Aircraft\Persistence\Model;
 
 use Navplan\Aircraft\Domain\Model\Aircraft;
-use Navplan\Aircraft\Domain\Model\FuelType;
-use Navplan\Aircraft\Domain\Model\VehicleType;
-use Navplan\Common\Persistence\Model\DbConsumptionConverter;
-use Navplan\Common\Persistence\Model\DbLengthConverter;
-use Navplan\Common\Persistence\Model\DbSpeedConverter;
-use Navplan\Common\Persistence\Model\DbWeightConverter;
-use Navplan\Common\StringNumberHelper;
-use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\DbEntityConverter;
 
 
-class DbAircraftConverter
+/**
+ * @extends DbEntityConverter<Aircraft>
+ */
+class DbAircraftConverter extends DbEntityConverter
 {
-    public static function fromDbRow(array $row): Aircraft
+    public function __construct(private readonly DbTableAircraft $table)
     {
+    }
+
+
+    public function fromDbRow(array $row): Aircraft
+    {
+        $r = new DbRowAircraft($this->table, $row);
+
         return new Aircraft(
-            intval($row[DbTableAircraft::COL_ID]),
-            VehicleType::from($row[DbTableAircraft::COL_VEHICLE_TYPE]),
-            $row[DbTableAircraft::COL_REGISTRATION],
-            $row[DbTableAircraft::COL_ICAO_TYPE],
-            DbSpeedConverter::fromDbRow($row, DbTableAircraft::COL_CRUISE_SPEED,
-                DbTableAircraft::COL_SPEED_UNIT),
-            DbConsumptionConverter::fromDbRow($row, DbTableAircraft::COL_CRUISE_CONSUMPTION,
-                DbTableAircraft::COL_CONSUMPTION_UNIT),
-            StringNumberHelper::isNullOrEmpty($row, DbTableAircraft::COL_FUEL_TYPE)
-                ? null : FuelType::from($row[DbTableAircraft::COL_FUEL_TYPE]),
-            DbWeightConverter::fromDbRow($row, DbTableAircraft::COL_MTOW, DbTableAircraft::COL_WEIGHT_UNIT),
-            DbWeightConverter::fromDbRow($row, DbTableAircraft::COL_BEW, DbTableAircraft::COL_WEIGHT_UNIT),
-            DbSpeedConverter::fromDbRow($row, DbTableAircraft::COL_ROC_SEALEVEL, DbTableAircraft::COL_VERTICAL_SPEED_UNIT),
-            DbLengthConverter::fromDbRow($row, DbTableAircraft::COL_SERVICE_CEILING, DbTableAircraft::COL_ALTITUDE_UNIT),
+            $r->getId(),
+            $r->getVehicleType(),
+            $r->getRegistration(),
+            $r->getIcaoType(),
+            $r->getCruiseSpeed(),
+            $r->getCruiseConsumption(),
+            $r->getFuelType(),
+            $r->getMtow(),
+            $r->getBew(),
+            $r->getRocSealevel(),
+            $r->getServiceCeiling(),
             null,
             null,
             null,
@@ -39,20 +39,5 @@ class DbAircraftConverter
             [],
             []
         );
-    }
-
-
-    /**
-     * @param IDbResult $result
-     * @return Aircraft[]
-     */
-    public static function fromDbResult(IDbResult $result): array
-    {
-        $aircrafts = [];
-        while ($row = $result->fetch_assoc()) {
-            $aircrafts[] = DbAircraftConverter::fromDbRow($row);
-        }
-
-        return $aircrafts;
     }
 }

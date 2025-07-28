@@ -29,17 +29,19 @@ class DbAircraftByIdQuery implements IAircraftByIdQuery
 
     public function read(int $aircraftId, int $userId): ?Aircraft
     {
+        $t = new DbTableAircraft();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableAircraft::TABLE_NAME)
+            ->selectAllFrom($t)
             ->where(DbCondMulti::all(
-                DbCondSimple::equals(DbTableAircraft::COL_ID, $aircraftId),
-                DbCondSimple::equals(DbTableAircraft::COL_ID_USER, $userId)
+                DbCondSimple::equals($t->colId(), $aircraftId),
+                DbCondSimple::equals($t->colIdUser(), $userId)
             ))
             ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, true, "error reading aircraft");
+        $converter = new DbAircraftConverter($t);
 
-        $aircraft = DbAircraftConverter::fromDbRow($result->fetch_assoc());
+        $aircraft = $converter->fromDbRow($result->fetch_assoc());
         $this->readAircraftWeightItems($aircraft);
         $this->readAircraftWnbEnvelopes($aircraft);
         $this->readDistancePerformanceTable($aircraft);

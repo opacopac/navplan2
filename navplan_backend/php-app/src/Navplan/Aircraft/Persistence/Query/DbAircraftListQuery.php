@@ -12,7 +12,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 class DbAircraftListQuery implements IAircraftListQuery
 {
     public function __construct(
-        private IDbService $dbService
+        private readonly IDbService $dbService
     )
     {
     }
@@ -20,14 +20,16 @@ class DbAircraftListQuery implements IAircraftListQuery
 
     public function readList(int $userId): array
     {
+        $t = new DbTableAircraft();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableAircraft::TABLE_NAME)
-            ->whereEquals(DbTableAircraft::COL_ID_USER, $userId)
-            ->orderBy(DbTableAircraft::COL_REGISTRATION, DbSortOrder::ASC)
+            ->selectAllFrom($t)
+            ->whereEquals($t->colIdUser(), $userId)
+            ->orderBy($t->colRegistration(), DbSortOrder::ASC)
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading aircraft list");
+        $converter = new DbAircraftConverter($t);
 
-        return DbAircraftConverter::fromDbResult($result);
+        return $converter->fromDbResult($result);
     }
 }
