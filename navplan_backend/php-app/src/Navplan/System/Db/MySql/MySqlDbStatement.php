@@ -20,6 +20,9 @@ class MySqlDbStatement implements IDbStatement
 
     public function bind_param(string $types, mixed &...$vars): bool
     {
+        $varsStr = implode(',', array_map(fn($v) => is_object($v) ? get_class($v) : (string)$v, $vars));
+        $this->loggingService->debug("Binding prepared statement values: types=$types, vars=" . $varsStr);
+
         return $this->stmt->bind_param($types, ...$vars);
     }
 
@@ -29,6 +32,8 @@ class MySqlDbStatement implements IDbStatement
      */
     public function execute(string $errorMessage = "error executing prepared statement"): bool
     {
+        $this->loggingService->debug("Executing prepared statement...");
+
         $result = $this->stmt->execute();
         if ($result === false) {
             $this->logAndThrowDbException($errorMessage, $this->stmt->error);

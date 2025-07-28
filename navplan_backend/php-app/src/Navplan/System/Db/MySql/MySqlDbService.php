@@ -59,6 +59,8 @@ class MySqlDbService implements IDbService
      */
     public function openDb(): void
     {
+        $this->loggingService->debug('Opening DB connection...');
+
         try {
             $this->connection = new mysqli(
                 $this->credentials->host,
@@ -214,6 +216,8 @@ class MySqlDbService implements IDbService
      */
     public function prepareStatement(string $query): IDbStatement
     {
+        $this->logQuery($query, true);
+
         $this->autoOpen();
 
         $stmt = $this->connection->prepare($query);
@@ -292,8 +296,9 @@ class MySqlDbService implements IDbService
     }
 
 
-    private function logQuery(string $query): void
+    private function logQuery(string $query, bool $preparedStatement = false): void
     {
-        $this->loggingService->debug('Executing DB query: ' . $query);
+        $text = $preparedStatement ? 'Prepared statement' : 'Executing query';
+        $this->loggingService->debug($text . ': ' . $query);
     }
 }
