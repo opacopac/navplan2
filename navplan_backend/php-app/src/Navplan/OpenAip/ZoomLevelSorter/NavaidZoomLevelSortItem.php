@@ -6,7 +6,8 @@ use Navplan\System\Db\Domain\Model\IDbResult;
 use Navplan\System\Db\Domain\Service\IDbService;
 
 
-class NavaidZoomLevelSortItem implements IZoomLevelSortItem {
+class NavaidZoomLevelSortItem implements IZoomLevelSortItem
+{
     const NAVAID_TYPE_PRIO = array(
         "DVOR-DME" => 9,
         "DVORTAC" => 8,
@@ -20,18 +21,21 @@ class NavaidZoomLevelSortItem implements IZoomLevelSortItem {
     );
 
 
-    public function __construct(private IDbService $dbService) {
+    public function __construct(private readonly IDbService $dbService)
+    {
     }
 
 
-    public function cleanZoomLevels() {
-        $query =  "UPDATE openaip_navaids2 SET zoommin = NULL";
+    public function cleanZoomLevels(): bool
+    {
+        $query = "UPDATE openaip_navaids2 SET zoommin = NULL";
 
-        $this->dbService->execCUDQuery($query);
+        return $this->dbService->execCUDQuery($query);
     }
 
 
-    public function getNextBatch(?string $lastGeoHash, int $maxCount): IDbResult {
+    public function getNextBatch(?string $lastGeoHash, int $maxCount): IDbResult
+    {
         // read batch from DB
         $query = "SELECT ";
         $query .= "  id, type, latitude, longitude, geohash";
@@ -50,12 +54,13 @@ class NavaidZoomLevelSortItem implements IZoomLevelSortItem {
      * @param int $zoomMin
      * @param int[] $idList
      */
-    public function updateZoomLevels(int $zoomMin, array $idList) {
+    public function updateZoomLevels(int $zoomMin, array $idList): bool
+    {
         $query = "UPDATE openaip_navaids2";
         $query .= " SET zoommin = " . $zoomMin;
         $query .= " WHERE id IN (" . join(",", $idList) . ")";
 
-        $this->dbService->execCUDQuery($query);
+        return $this->dbService->execCUDQuery($query);
     }
 
 

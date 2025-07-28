@@ -5,16 +5,19 @@ namespace Navplan\OpenAip\ZoomLevelSorter;
 
 use Navplan\System\Domain\Service\ILoggingService;
 
-class ZoomLevelSorter {
+class ZoomLevelSorter
+{
     const MAX_ZOOM = 14;
     const MAX_COUNT_DB_RECORDS = 1000;
 
 
-    public function __construct(private ILoggingService $loggingService) {
+    public function __construct(private ILoggingService $loggingService)
+    {
     }
 
 
-    public function sort(IZoomLevelSortItem $sortItemType) {
+    public function sort(IZoomLevelSortItem $sortItemType): void
+    {
         // delete zoom levels from db
         $sortItemType->cleanZoomLevels();
 
@@ -81,7 +84,8 @@ class ZoomLevelSorter {
     }
 
 
-    private static function setBranchMinZoom(IZoomLevelSortItem $sortItemType, &$branchItems, $startPos, $count, $isOpenStart, $isOpenEnd, $commonPrefix) {
+    private static function setBranchMinZoom(IZoomLevelSortItem $sortItemType, &$branchItems, $startPos, $count, $isOpenStart, $isOpenEnd, $commonPrefix): void
+    {
         list($startPos2, $count2) = self::getCommonPrefixPointers($branchItems, $startPos, $count, $commonPrefix);
 
         if ($count2 <= 1) {
@@ -120,7 +124,8 @@ class ZoomLevelSorter {
     }
 
 
-    private static function getCommonPrefixPointers($itemList, $startPos, $maxCount, $commonPrefix): array {
+    private static function getCommonPrefixPointers($itemList, $startPos, $maxCount, $commonPrefix): array
+    {
         $commonPrefixLen = strlen($commonPrefix);
         $pos = $startPos;
         $count = 0;

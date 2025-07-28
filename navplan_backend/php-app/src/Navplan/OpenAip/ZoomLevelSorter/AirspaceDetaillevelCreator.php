@@ -8,20 +8,23 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 
 
-class AirspaceDetaillevelCreator {
+class AirspaceDetaillevelCreator
+{
     const MIN_PIXEL_COORDINATE_RESOLUTION = 1.0;
     const MIN_ZOOM = 0;
     const MAX_ZOOM = 14;
 
 
     public function __construct(
-        private IDbService $dbService,
-        private ILoggingService $loggingService
-    ) {
+        private readonly IDbService $dbService,
+        private readonly ILoggingService $loggingService
+    )
+    {
     }
 
 
-    public function go() {
+    public function go()
+    {
         $query = "TRUNCATE openaip_airspace_detaillevels";
         $this->dbService->execCUDQuery($query);
 
@@ -76,7 +79,8 @@ class AirspaceDetaillevelCreator {
     }
 
 
-    private function writeDistance($id, $diameter) {
+    private function writeDistance($id, $diameter): void
+    {
         $query = "UPDATE " . DbTableAirspace::TABLE_NAME;
         $query .= " SET " . DbTableAirspace::COL_DIAMETER . "=" . $diameter;
         $query .= " WHERE id =" . $id;
@@ -85,7 +89,8 @@ class AirspaceDetaillevelCreator {
     }
 
 
-    private function writePolygonDetailLevel($id, $minZoom, $maxZoom, $polygonString) {
+    private function writePolygonDetailLevel($id, $minZoom, $maxZoom, $polygonString): void
+    {
         $query = "INSERT INTO openaip_airspace_detaillevels";
         $query .= " (airspace_id, zoommin, zoommax, polygon)";
         $query .= " VALUES ('" . $id . "','" . $minZoom . "','" . $maxZoom . "','" . $polygonString . "')";
