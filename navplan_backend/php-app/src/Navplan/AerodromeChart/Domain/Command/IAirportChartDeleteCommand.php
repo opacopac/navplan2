@@ -5,5 +5,5 @@ namespace Navplan\AerodromeChart\Domain\Command;
 
 interface IAirportChartDeleteCommand
 {
-    function delete(int $airportChartId, int $userId);
+    function delete(int $airportChartId, int $userId): bool;
 }

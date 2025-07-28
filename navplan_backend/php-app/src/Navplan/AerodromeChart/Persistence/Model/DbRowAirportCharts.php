@@ -2,63 +2,163 @@
 
 namespace Navplan\AerodromeChart\Persistence\Model;
 
-use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
-use Navplan\Common\StringNumberHelper;
+use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Persistence\Model\DbExtent2dConverter;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbRow;
 
 
 class DbRowAirportCharts extends DbRow
 {
-    /*
-     *     public const COL_ID = "id";
-    public const COL_AD_ICAO = "ad_icao";
-    public const COL_USER_ID = "user_id";
-    public const COL_SOURCE = "source";
-    public const COL_NAME = "name";
-    public const COL_ACTIVE = "active";
-    public const COL_FILENAME = "filename";
-    public const COL_MINLON = "minlon";
-    public const COL_MINLAT = "minlat";
-    public const COL_MAXLON = "maxlon";
-    public const COL_MAXLAT = "maxlat";
-    public const COL_IMPORT_FILENAME = "import_filename";
-    public const COL_IMPORT_CHECKSUM = "import_checksum";
-    public const COL_PDF_PAGE = "pdf_page";
-    public const COL_PDF_ROT_DEG = "pdf_rot_deg";
-    public const COL_PDF_DPI = "pdf_dpi";
-    public const COL_REGISTRATION_TYPE = "registration_type";
-    public const COL_GEOCOORD_TYPE = "geocoord_type";
-    public const COL_POS1_PIXEL_X = "pos1_pixel_x";
-    public const COL_POS1_PIXEL_Y = "pos1_pixel_y";
-    public const COL_POS1_GEOCOORD_E = "pos1_geocoord_e";
-    public const COL_POS1_GEOCOORD_N = "pos1_geocoord_n";
-    public const COL_CHART_SCALE = "chart_scale";
-    public const COL_POS2_PIXEL_X = "pos2_pixel_x";
-    public const COL_POS2_PIXEL_Y = "pos2_pixel_y";
-    public const COL_POS2_GEOCOORD_E = "pos2_geocoord_e";
-    public const COL_POS2_GEOCOORD_N = "pos2_geocoord_n";
-     */
+    public function __construct(
+        private readonly DbTableAirportCharts $table,
+        array $row
+    )
+    {
+        parent::__construct($row);
+    }
+
 
     public function getId(): int
     {
-        return StringNumberHelper::parseIntOrError($this->row, DbTableReportingPoints::COL_ID);
+        return $this->getValue($this->table->colId());
     }
 
 
     public function getAdIcao(): string
     {
-        return StringNumberHelper::parseStringOrError($this->row, DbTableAirportCharts::COL_AD_ICAO);
+        return $this->getValue($this->table->colAdIcao());
     }
 
 
     public function getUserId(): ?int
     {
-        return StringNumberHelper::parseIntOrNull($this->row, DbTableAirportCharts::COL_USER_ID);
+        return $this->getValue($this->table->colUserId());
     }
 
 
     public function getSource(): string
     {
-        return StringNumberHelper::parseStringOrError($this->row, DbTableAirportCharts::COL_SOURCE);
+        return $this->getValue($this->table->colSource());
+
+    }
+
+
+    public function getName(): string
+    {
+        return $this->getValue($this->table->colName());
+    }
+
+
+    public function isActive(): bool
+    {
+        return $this->getValue($this->table->colActive());
+    }
+
+
+    public function getFilename(): string
+    {
+        return $this->getValue($this->table->colFilename());
+    }
+
+
+    public function getExtent(): Extent2d
+    {
+        return DbExtent2dConverter::fromDbRow($this->row);
+    }
+
+
+    public function getImportFilename(): string
+    {
+        return $this->getValue($this->table->colFilename());
+    }
+
+
+    public function getImportChecksum(): string
+    {
+        return $this->getValue($this->table->colImportChecksum());
+    }
+
+
+    public function getPdfPage(): ?int
+    {
+        return $this->getValue($this->table->colPdfPage());
+    }
+
+
+    public function getPdfRotDeg(): ?float
+    {
+        return $this->getValue($this->table->colPdfRotDeg());
+    }
+
+
+    public function getPdfDpi(): ?int
+    {
+        return $this->getValue($this->table->colPdfDpi());
+    }
+
+
+    public function getRegistrationType(): string
+    {
+        return $this->getValue($this->table->colRegistrationType());
+    }
+
+
+    public function getGeocoordType(): string
+    {
+        return $this->getValue($this->table->colGeocoordType());
+    }
+
+
+    public function getPos1PixelX(): ?int
+    {
+        return $this->getValue($this->table->colPos1PixelX());
+    }
+
+
+    public function getPos1PixelY(): ?int
+    {
+        return $this->getValue($this->table->colPos1PixelY());
+    }
+
+
+    public function getPos1GeoCoordE(): ?float
+    {
+        return $this->getValue($this->table->colPos1GeocoordE());
+    }
+
+
+    public function getPos1GeoCoordN(): ?float
+    {
+        return $this->getValue($this->table->colPos1GeocoordN());
+    }
+
+
+    public function getChartScale(): ?int
+    {
+        return $this->getValue($this->table->colChartScale());
+    }
+
+
+    public function getPos2PixelX(): ?int
+    {
+        return $this->getValue($this->table->colPos2PixelX());
+    }
+
+
+    public function getPos2PixelY(): ?int
+    {
+        return $this->getValue($this->table->colPos2PixelY());
+    }
+
+
+    public function getPos2GeoCoordE(): ?float
+    {
+        return $this->getValue($this->table->colPos2GeocoordE());
+    }
+
+
+    public function getPos2GeoCoordN(): ?float
+    {
+        return $this->getValue($this->table->colPos2GeocoordN());
     }
 }

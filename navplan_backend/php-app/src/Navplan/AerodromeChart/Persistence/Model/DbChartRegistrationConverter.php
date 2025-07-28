@@ -11,67 +11,54 @@ use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\Model\XyCoord;
 use Navplan\Common\Domain\SwissTopo\Lv03Coordinate;
 use Navplan\Common\Domain\SwissTopo\Lv95Coordinate;
-use Navplan\Common\StringNumberHelper;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
 
 class DbChartRegistrationConverter
 {
-    public static function fromDbRow(array $row): ChartRegistration
+    public static function fromDbRow(DbRowAirportCharts $row): ChartRegistration
     {
-        $geoCoordType = GeoCoordinateType::from($row[DbTableAirportCharts::COL_GEOCOORD_TYPE]);
+        $geoCoordType = GeoCoordinateType::from($row->getGeocoordType());
 
         return new ChartRegistration(
-            ChartRegistrationType::from($row[DbTableAirportCharts::COL_REGISTRATION_TYPE]),
+            ChartRegistrationType::from($row->getRegistrationType()),
             $geoCoordType,
-            self::getPos2Xy($row, DbTableAirportCharts::COL_POS1_PIXEL_X, DbTableAirportCharts::COL_POS1_PIXEL_Y),
-            self::getGeoCoord(
-                $row,
-                DbTableAirportCharts::COL_POS1_GEOCOORD_E,
-                DbTableAirportCharts::COL_POS1_GEOCOORD_N,
-                $geoCoordType
-            ),
-            self::GetPos2Xy($row, DbTableAirportCharts::COL_POS2_PIXEL_X, DbTableAirportCharts::COL_POS2_PIXEL_Y),
-            self::getGeoCoord(
-                $row,
-                DbTableAirportCharts::COL_POS2_GEOCOORD_E,
-                DbTableAirportCharts::COL_POS2_GEOCOORD_N,
-                $geoCoordType
-            ),
-            StringNumberHelper::parseIntOrZero($row, DbTableAirportCharts::COL_CHART_SCALE),
+            XyCoord::create($row->getPos1PixelX(), $row->getPos1PixelY()),
+            self::getGeoCoord($row->getPos1GeoCoordE(), $row->getPos1GeoCoordN(), $geoCoordType),
+            XyCoord::create($row->getPos2PixelX(), $row->getPos2PixelY()),
+            self::getGeoCoord($row->getPos2GeoCoordE(), $row->getPos2GeoCoordN(), $geoCoordType),
+            $row->getChartScale() ?? 0
         );
     }
 
 
-    private static function getPos2Xy(array $row, string $keyX, string $keyY): ?XyCoord
+    public static function bindInsertValues(ChartRegistration $reg, IDbInsertCommandBuilder $icb, DbTableAirportCharts $table): void
     {
-        if ($row[$keyX] == null || $row[$keyY] == null) {
-            return null;
-        } else {
-            return new XyCoord(
-                StringNumberHelper::parseFloatOrZero($row, $keyX),
-                StringNumberHelper::parseFloatOrZero($row, $keyY)
-            );
-        }
+        $icb->setColValue($table->colRegistrationType(), $reg->registrationType->value)
+            ->setColValue($table->colGeocoordType(), $reg->coordinateType->value)
+            ->setColValue($table->colPos1PixelX(), $reg->pixelXy1->getIntX())
+            ->setColValue($table->colPos1PixelY(), $reg->pixelXy1->getIntY())
+            ->setColValue($table->colPos1GeoCoordE(), $reg->geoCoord1->getE())
+            ->setColValue($table->colPos1GeoCoordN(), $reg->geoCoord2->getN())
+            ->setColValue($table->colChartScale(), $reg->scale)
+            ->setColValue($table->colPos2PixelX(), $reg->pixelXy2?->getIntX())
+            ->setColValue($table->colPos2PixelY(), $reg->pixelXy2?->getIntY())
+            ->setColValue($table->colPos2GeoCoordE(), $reg->geoCoord2?->getE())
+            ->setColValue($table->colPos2GeoCoordN(), $reg->geoCoord2?->getN());
     }
 
 
-    private static function getGeoCoord(array $row, string $keyE, string $keyN, GeoCoordinateType $coordinateType): ?GeoCoordinate
+    private static function getGeoCoord(?float $coordE, ?float $coordN, GeoCoordinateType $coordinateType): ?GeoCoordinate
     {
-        if ($row[$keyE] == null || $row[$keyN] == null) {
+        if ($coordE == null || $coordN == null) {
             return null;
-        } else {
-            $eValue = StringNumberHelper::parseFloatOrError($row, $keyE);
-            $nValue = StringNumberHelper::parseFloatOrError($row, $keyN);
-            switch ($coordinateType) {
-                case GeoCoordinateType::LV03:
-                    return new Lv03Coordinate($eValue, $nValue);
-                case GeoCoordinateType::LV95:
-                    return new Lv95Coordinate($eValue, $nValue);
-                case GeoCoordinateType::LON_LAT:
-                    return new Position2d($eValue, $nValue);
-                default:
-                    throw new InvalidArgumentException("Unknown coordinate type: $coordinateType->value");
-            }
         }
+
+        return match ($coordinateType) {
+            GeoCoordinateType::LV03 => new Lv03Coordinate($coordE, $coordN),
+            GeoCoordinateType::LV95 => new Lv95Coordinate($coordE, $coordN),
+            GeoCoordinateType::LON_LAT => new Position2d($coordE, $coordN),
+            default => throw new InvalidArgumentException("Unknown coordinate type: $coordinateType->value"),
+        };
     }
 }

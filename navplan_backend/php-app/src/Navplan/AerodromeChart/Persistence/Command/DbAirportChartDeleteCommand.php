@@ -5,23 +5,32 @@ namespace Navplan\AerodromeChart\Persistence\Command;
 use Navplan\AerodromeChart\Domain\Command\IAirportChartDeleteCommand;
 use Navplan\AerodromeChart\Persistence\Model\DbTableAirportCharts;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 
 class DbAirportChartDeleteCommand implements IAirportChartDeleteCommand
 {
     public function __construct(
-        private IDbService $dbService,
+        private readonly IDbService $dbService,
     )
     {
     }
 
 
-    public function delete(int $airportChartId, int $userId)
+    public function delete(int $airportChartId, int $userId): bool
     {
-        $query = "DELETE FROM " . DbTableAirportCharts::TABLE_NAME;
-        $query .= " WHERE " . DbTableAirportCharts::COL_ID . "=" . DbHelper::getDbIntValue($airportChartId);
-        $query .= " AND " . DbTableAirportCharts::COL_USER_ID . "=" . DbHelper::getDbIntValue($userId);
-        $this->dbService->execCUDQuery($query, "error deleting airport chart");
+        $t = new DbTableAirportCharts();
+        $query = $this->dbService->getDeleteCommandBuilder($t)
+            ->deleteFrom($t)
+            ->where(
+                DbCondMulti::all(
+                    DbCondSimple::equals($t->colId(), $airportChartId),
+                    DbCondSimple::equals($t->colUserId(), $userId)
+                )
+            )
+            ->build();
+
+        return $this->dbService->execCUDQuery($query, "error deleting airport chart");
     }
 }

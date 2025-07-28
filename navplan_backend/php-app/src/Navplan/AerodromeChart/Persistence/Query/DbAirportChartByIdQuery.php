@@ -4,7 +4,7 @@ namespace Navplan\AerodromeChart\Persistence\Query;
 
 use Navplan\AerodromeChart\Domain\Model\AirportChart;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByIdQuery;
-use Navplan\AerodromeChart\Persistence\Model\DbAirportChart2Converter;
+use Navplan\AerodromeChart\Persistence\Model\DbAirportChartConverter;
 use Navplan\AerodromeChart\Persistence\Model\DbTableAirportCharts;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondCombinator;
@@ -23,23 +23,25 @@ class DbAirportChartByIdQuery implements IAirportChartByIdQuery
 
     public function read(int $id, int $userId): AirportChart
     {
+        $t = new DbTableAirportCharts();
         $query = $this->dbService->getQueryBuilder()
-            ->selectAllFrom(DbTableAirportCharts::TABLE_NAME)
+            ->selectAllFrom($t)
             ->where(DbCondMulti::all(
-                DbCondSimple::equals(DbTableAirportCharts::COL_ID, $id),
-                DbCondSimple::equals(DbTableAirportCharts::COL_ACTIVE, true),
+                DbCondSimple::equals($t->colId(), $id),
+                DbCondSimple::equals($t->colActive(), true),
                 $userId > 0
                     ? DbCondMulti::create(
                     DbCondCombinator::OR,
-                    DbCondSimple::equals(DbTableAirportCharts::COL_USER_ID, $userId),
-                    DbCondSimple::equals(DbTableAirportCharts::COL_USER_ID, null)
+                    DbCondSimple::equals($t->colUserId(), $userId),
+                    DbCondSimple::equals($t->colUserId(), null)
                 )
-                    : DbCondSimple::equals(DbTableAirportCharts::COL_USER_ID, null)
+                    : DbCondSimple::equals($t->colUserId(), null)
             ))
             ->build();
 
         $result = $this->dbService->execSingleResultQuery($query, false, "error reading chart by id");
+        $converter = new DbAirportChartConverter($t);
 
-        return DbAirportChart2Converter::fromDbRow($result->fetch_assoc());
+        return $converter->fromDbRow($result->fetch_assoc());
     }
 }

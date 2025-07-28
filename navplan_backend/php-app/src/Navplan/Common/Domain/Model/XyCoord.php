@@ -13,6 +13,16 @@ class XyCoord
     }
 
 
+    public static function create(?float $x, ?float $y): ?XyCoord
+    {
+        if ($x === null || $y === null) {
+            return null;
+        }
+
+        return new XyCoord($x, $y);
+    }
+
+
     public function getIntX(): int
     {
         return (int) round($this->x);

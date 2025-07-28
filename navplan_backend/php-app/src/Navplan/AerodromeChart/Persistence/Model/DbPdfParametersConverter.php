@@ -4,25 +4,29 @@ namespace Navplan\AerodromeChart\Persistence\Model;
 
 use Navplan\AerodromeChart\Domain\Model\PdfParameters;
 use Navplan\Common\Domain\Model\Angle;
-use Navplan\Common\Domain\Model\AngleUnit;
-use Navplan\Common\StringNumberHelper;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
 
 class DbPdfParametersConverter
 {
-    public static function fromDbRow(array $row): ?PdfParameters
+    public static function fromDbRow(DbRowAirportCharts $row): ?PdfParameters
     {
-        if (StringNumberHelper::isNullOrEmpty($row, DbTableAirportCharts::COL_PDF_PAGE)
-            || StringNumberHelper::isNullOrEmpty($row, DbTableAirportCharts::COL_PDF_ROT_DEG)
-            || StringNumberHelper::isNullOrEmpty($row, DbTableAirportCharts::COL_PDF_DPI)
-        ) {
+        if ($row->getPdfPage() === null || $row->getPdfRotDeg() === null || $row->getPdfDpi() === null) {
             return null;
         }
 
         return new PdfParameters(
-            StringNumberHelper::parseIntOrError($row, DbTableAirportCharts::COL_PDF_PAGE),
-            new Angle(StringNumberHelper::parseFloatOrError($row, DbTableAirportCharts::COL_PDF_ROT_DEG), AngleUnit::DEG),
-            StringNumberHelper::parseIntOrError($row, DbTableAirportCharts::COL_PDF_DPI),
+            $row->getPdfPage(),
+            Angle::fromDeg($row->getPdfRotDeg()),
+            $row->getPdfDpi()
         );
+    }
+
+
+    public static function bindInsertValues(?PdfParameters $params, IDbInsertCommandBuilder $icb, DbTableAirportCharts $table): void
+    {
+        $icb->setColValue($table->colPdfPage(), $params?->page)
+            ->setColValue($table->colPdfRotDeg(), $params?->rotation->toDeg())
+            ->setColValue($table->colPdfDpi(), $params?->dpi);
     }
 }
