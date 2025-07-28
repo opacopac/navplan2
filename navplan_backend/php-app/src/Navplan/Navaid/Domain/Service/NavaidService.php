@@ -13,11 +13,11 @@ use Navplan\Navaid\Domain\Query\INavaidSearchByTextQuery;
 
 class NavaidService implements INavaidService {
     public function __construct(
-        private INavaidSearchByExtentQuery $searchByExtentQuery,
-        private INavaidSearchByPositionQuery $searchByPositionQuery,
-        private INavaidSearchByTextQuery $searchByTextQuery,
-        private INavaidInsertAllCommand $insertAllCommand,
-        private INavaidDeleteAllCommand $deleteAllCommand
+        private readonly INavaidSearchByExtentQuery $searchByExtentQuery,
+        private readonly INavaidSearchByPositionQuery $searchByPositionQuery,
+        private readonly INavaidSearchByTextQuery $searchByTextQuery,
+        private readonly INavaidInsertAllCommand $insertAllCommand,
+        private readonly INavaidDeleteAllCommand $deleteAllCommand
     ) {
     }
 

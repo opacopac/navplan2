@@ -42,12 +42,12 @@ class MySqlDbDeleteCommandBuilderTest extends TestCase
     }
 
 
-    public function test_delete_all_from() {
+    public function test_truncate() {
         // given
         $t = new DbTable("test_table", null);
         $t->addCol("col1", DbColType::STRING);
         $qb = $this->deleteCommandBuilder
-            ->deleteAllFrom($t);
+            ->truncate($t);
 
         // when
         $query = $qb->build();

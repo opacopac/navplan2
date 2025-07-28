@@ -22,7 +22,7 @@ class DbAirspaceDeleteAllCommand implements IAirspaceDeleteAllCommand
     {
         $t = new DbTableAirspace();
         $query = $this->dbService->getDeleteCommandBuilder($t)
-            ->deleteAllFrom($t)
+            ->deleteFrom($t)
             ->build();
 
         return $this->dbService->execCUDQuery($query);

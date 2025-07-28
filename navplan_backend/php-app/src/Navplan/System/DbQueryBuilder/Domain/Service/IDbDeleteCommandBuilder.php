@@ -11,7 +11,11 @@ interface IDbDeleteCommandBuilder
 {
     function deleteFrom(DbTable $table): IDbDeleteCommandBuilder;
 
-    function deleteAllFrom(DbTable $table): IDbDeleteCommandBuilder;
+    /*
+     * Truncate deletes all rows from the table and resets any auto-increment counters.
+     * IMPORTANT: This operation cannot be rolled back in transactions!
+     */
+    function truncate(DbTable $table): IDbDeleteCommandBuilder;
 
     function where(DbCond $cond): IDbDeleteCommandBuilder;
 

@@ -20,7 +20,7 @@ class DbNavaidDeleteAllCommand implements INavaidDeleteAllCommand
     {
         $t = new DbTableNavaid();
         $query = $this->dbService->getDeleteCommandBuilder($t)
-            ->deleteAllFrom($t)
+            ->deleteFrom($t)
             ->build();
 
         return $this->dbService->execCUDQuery($query);

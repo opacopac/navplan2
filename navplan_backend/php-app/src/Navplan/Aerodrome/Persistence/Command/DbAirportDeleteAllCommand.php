@@ -24,14 +24,26 @@ class DbAirportDeleteAllCommand implements IAirportDeleteAllCommand
     {
         $this->loggingService->info("deleting all airports, runways and radios...");
 
-        $query = "TRUNCATE TABLE " . DbTableAirportRunway::TABLE_NAME;
-        $result1 = $this->dbService->execCUDQuery($query);
+        // airport runways
+        $tRwy = new DbTableAirportRunway();
+        $queryRwy = $this->dbService->getDeleteCommandBuilder()
+            ->deleteFrom($tRwy)
+            ->build();
+        $result1 = $this->dbService->execCUDQuery($queryRwy);
 
-        $query = "TRUNCATE TABLE " . DbTableAirportRadio::TABLE_NAME;
-        $result2 = $this->dbService->execCUDQuery($query);
+        // airport radios
+        $tRad = new DbTableAirportRadio();
+        $queryRad = $this->dbService->getDeleteCommandBuilder()
+            ->deleteFrom($tRad)
+            ->build();
+        $result2 = $this->dbService->execCUDQuery($queryRad);
 
-        $query = "TRUNCATE TABLE " . DbTableAirport::TABLE_NAME;
-        $result3 = $this->dbService->execCUDQuery($query);
+        // airports
+        $tAd = new DbTableAirport();
+        $queryAd = $this->dbService->getDeleteCommandBuilder()
+            ->deleteFrom($tAd)
+            ->build();
+        $result3 = $this->dbService->execCUDQuery($queryAd);
 
         return $result1 && $result2 && $result3;
     }
