@@ -8,5 +8,5 @@ use Navplan\Aircraft\Persistence\Model\PerfDistTableType;
 
 interface IDistancePerformanceTableCreateCommand
 {
-    function create(int $aircraftId, PerfDistTableType $tableType, DistancePerformanceTable $perfTable);
+    function create(int $aircraftId, PerfDistTableType $tableType, DistancePerformanceTable $perfTable): void;
 }

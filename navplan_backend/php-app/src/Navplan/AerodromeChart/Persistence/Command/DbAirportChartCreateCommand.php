@@ -22,13 +22,12 @@ readonly class DbAirportChartCreateCommand implements IAirportChartCreateCommand
     public function create(AirportChart $airportChart, int $userId): AirportChart
     {
         $t = new DbTableAirportCharts();
+        $icb = MySqlDbInsertCommandBuilder::create($this->dbService)->insertInto($t);
         $converter = new DbAirportChartConverter($t);
-        $icb = MySqlDbInsertCommandBuilder::create($this->dbService)
-            ->insertInto($t);
         $converter->bindInsertValues($airportChart, $userId, $icb);
+
         $statement = $icb->buildAndBindStatement();
         $statement->execute();
-
         $airportChart->id = $this->dbService->getInsertId();
 
         return $airportChart;

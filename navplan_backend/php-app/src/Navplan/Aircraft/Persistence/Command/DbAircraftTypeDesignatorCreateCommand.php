@@ -21,8 +21,8 @@ readonly class DbAircraftTypeDesignatorCreateCommand implements IAircraftTypeDes
     public function create(AircraftTypeDesignator $acTypeDesignator): AircraftTypeDesignator
     {
         $t = new DbTableAircraftTypeDesignator();
-        $converter = new DbAircraftTypeDesignatorConverter($t);
         $icb = $this->dbService->getInsertCommandBuilder()->insertInto($t);
+        $converter = new DbAircraftTypeDesignatorConverter($t);
         $converter->bindInsertValues($acTypeDesignator, $icb);
 
         $statement = $icb->buildAndBindStatement();

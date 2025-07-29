@@ -29,8 +29,8 @@ readonly class DbAircraftCreateCommand implements IAircraftCreateCommand
     {
         // create aircraft
         $t = new DbTableAircraft();
-        $converter = new DbAircraftConverter($t);
         $icb = $this->dbService->getInsertCommandBuilder()->insertInto($t);
+        $converter = new DbAircraftConverter($t);
         $converter->bindInsertValues($aircraft, $userId, $icb);
 
         $statement = $icb->buildAndBindStatement();

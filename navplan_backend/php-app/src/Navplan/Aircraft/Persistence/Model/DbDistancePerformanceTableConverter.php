@@ -10,6 +10,7 @@ use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Domain\Model\Temperature;
 use Navplan\Common\Domain\Model\TemperatureUnit;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
 
 /**
@@ -54,6 +55,34 @@ class DbDistancePerformanceTableConverter extends DbEntityConverter
     }
 
 
+    public function bindInsertValues(
+        DistancePerformanceTable $perfTable,
+        int $aircraftId,
+        PerfDistTableType $tableType,
+        IDbInsertCommandBuilder $icb
+    ): void
+    {
+        $icb->setColValue($this->table->colIdAircraft(), $aircraftId)
+            ->setColValue($this->table->colType(), $tableType->value)
+            ->setColValue($this->table->colProfileName(), $perfTable->profileName)
+            ->setColValue($this->table->colAltRef(), $perfTable->altitudeReference->value)
+            ->setColValue($this->table->colAltSteps(), self::createAltitudeStepsJsonString($perfTable->altitudeSteps))
+            ->setColValue($this->table->colAltUnit(), $perfTable->altitudeSteps[0]->unit->value)
+            ->setColValue($this->table->colTempRef(), $perfTable->temperatureReference->value)
+            ->setColValue($this->table->colTempSteps(), self::createTemperatureStepsJsonString($perfTable->temperatureSteps))
+            ->setColValue($this->table->colTempUnit(), $perfTable->temperatureSteps[0]->unit->value)
+            ->setColValue($this->table->colDistances(), self::createDistanceValuesJsonString($perfTable->distanceValues))
+            ->setColValue($this->table->colDistanceUnit(), $perfTable->distanceValues[0][0]->unit->value)
+            ->setColValue($this->table->colHeadwindDecPerc(), $perfTable->correctionFactors->headwindDecPercent)
+            ->setColValue($this->table->colHeadwindDecPerSpeed(), $perfTable->correctionFactors->headwindDecPerSpeed->value)
+            ->setColValue($this->table->colTailwindIncPerc(), $perfTable->correctionFactors->tailwindIncPercent)
+            ->setColValue($this->table->colTailwindIncPerSpeed(), $perfTable->correctionFactors->tailwindIncPerSpeed->value)
+            ->setColValue($this->table->colSpeedUnit(), $perfTable->correctionFactors->headwindDecPerSpeed->unit->value)
+            ->setColValue($this->table->colGrassRwyIncPerc(), $perfTable->correctionFactors->grassRwyIncPercent)
+            ->setColValue($this->table->colWetRwyIncPerc(), $perfTable->correctionFactors->wetRwyIncPercent);
+    }
+
+
     /**
      * @param string $jsonString
      * @return Length[]
@@ -95,5 +124,49 @@ class DbDistancePerformanceTableConverter extends DbEntityConverter
         }
 
         return $distances;
+    }
+
+
+    /**
+     * @param Length[] $altitudeSteps
+     * @return string
+     */
+    private static function createAltitudeStepsJsonString(array $altitudeSteps): string
+    {
+        return json_encode(
+            array_map(function (Length $value) {
+                return $value->value;
+            }, $altitudeSteps)
+        );
+    }
+
+
+    /**
+     * @param Temperature[] $temperatureSteps
+     * @return string
+     */
+    private static function createTemperatureStepsJsonString(array $temperatureSteps): string
+    {
+        return json_encode(
+            array_map(function (Temperature $value) {
+                return $value->value;
+            }, $temperatureSteps)
+        );
+    }
+
+
+    /**
+     * @param Length[][] $distances
+     * @return string
+     */
+    private static function createDistanceValuesJsonString(array $distances): string
+    {
+        return json_encode(
+            array_map(function (array $value) {
+                return array_map(function (Length $value) {
+                    return $value->value;
+                }, $value);
+            }, $distances)
+        );
     }
 }
