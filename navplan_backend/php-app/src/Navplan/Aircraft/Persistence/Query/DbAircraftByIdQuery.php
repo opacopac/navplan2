@@ -18,10 +18,10 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 
-class DbAircraftByIdQuery implements IAircraftByIdQuery
+readonly class DbAircraftByIdQuery implements IAircraftByIdQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }
@@ -30,6 +30,7 @@ class DbAircraftByIdQuery implements IAircraftByIdQuery
     public function read(int $aircraftId, int $userId): ?Aircraft
     {
         $t = new DbTableAircraft();
+        $tPerf = new DbTableAircraftPerfDist();
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom($t)
             ->where(DbCondMulti::all(
@@ -44,7 +45,7 @@ class DbAircraftByIdQuery implements IAircraftByIdQuery
         $aircraft = $converter->fromDbRow($result->fetch_assoc());
         $this->readAircraftWeightItems($aircraft);
         $this->readAircraftWnbEnvelopes($aircraft);
-        $this->readDistancePerformanceTable($aircraft);
+        $this->readDistancePerformanceTable($aircraft, $tPerf);
 
         return $aircraft;
     }
@@ -76,7 +77,7 @@ class DbAircraftByIdQuery implements IAircraftByIdQuery
     }
 
 
-    private function readDistancePerformanceTable(Aircraft &$aircraft): void
+    private function readDistancePerformanceTable(Aircraft &$aircraft, DbTableAircraftPerfDist $tPerf): void
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAircraftPerfDist::TABLE_NAME)
@@ -84,22 +85,23 @@ class DbAircraftByIdQuery implements IAircraftByIdQuery
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading aircraft distance performance");
+        $converter = new DbDistancePerformanceTableConverter($tPerf);
 
         while ($row = $result->fetch_assoc()) {
-            $type = $row[DbTableAircraftPerfDist::COL_TYPE];
-            $table = DbDistancePerformanceTableConverter::fromDbRow($row);
+            $acPerfTable = $converter->fromDbRow($row);
+            $type = $converter->getType($row);
             switch ($type) {
                 case PerfDistTableType::TKOFF_ROLL->value:
-                    $aircraft->perfTakeoffGroundRoll = $table;
+                    $aircraft->perfTakeoffGroundRoll = $acPerfTable;
                     break;
                 case PerfDistTableType::TKOFF_50FT->value:
-                    $aircraft->perfTakeoffDist50ft = $table;
+                    $aircraft->perfTakeoffDist50ft = $acPerfTable;
                     break;
                 case PerfDistTableType::LANDING_ROLL->value:
-                    $aircraft->perfLandingGroundRoll = $table;
+                    $aircraft->perfLandingGroundRoll = $acPerfTable;
                     break;
                 case PerfDistTableType::LANDING_50FT->value:
-                    $aircraft->perfLandingDist50ft = $table;
+                    $aircraft->perfLandingDist50ft = $acPerfTable;
                     break;
             }
         }

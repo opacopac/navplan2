@@ -9,32 +9,45 @@ use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Domain\Model\Temperature;
 use Navplan\Common\Domain\Model\TemperatureUnit;
+use Navplan\System\Db\Domain\Model\DbEntityConverter;
 
 
-class DbDistancePerformanceTableConverter
+/**
+ * @extends DbEntityConverter<DistancePerformanceTable>
+ */
+class DbDistancePerformanceTableConverter extends DbEntityConverter
 {
-    public static function fromDbRow(array $row): DistancePerformanceTable
+    public function __construct(private readonly DbTableAircraftPerfDist $table)
     {
-        $altSteps = self::parseAltitudeSteps(
-            $row[DbTableAircraftPerfDist::COL_ALT_STEPS],
-            LengthUnit::from($row[DbTableAircraftPerfDist::COL_ALT_UNIT])
-        );
-        $tempSteps = self::parseTemperatureSteps(
-            $row[DbTableAircraftPerfDist::COL_TEMP_STEPS],
-            TemperatureUnit::from($row[DbTableAircraftPerfDist::COL_TEMP_UNIT])
-        );
+    }
+
+
+    public function getType(array $row): string
+    {
+        $r = new DbRowAircraftPerfDist($this->table, $row);
+
+        return $r->getType();
+    }
+
+
+    public function fromDbRow(array $row): DistancePerformanceTable
+    {
+        $r = new DbRowAircraftPerfDist($this->table, $row);
+
+        $altSteps = self::parseAltitudeSteps($r->getAltSteps(), LengthUnit::from($r->getAltUnit()));
+        $tempSteps = self::parseTemperatureSteps($r->getTempSteps(), TemperatureUnit::from($r->getTempUnit()));
 
         return new DistancePerformanceTable(
-            $row[DbTableAircraftPerfDist::COL_PROFILE_NAME],
-            PerformanceTableAltitudeReference::from($row[DbTableAircraftPerfDist::COL_ALT_REF]),
+            $r->getProfileName(),
+            PerformanceTableAltitudeReference::from($r->getAltRef()),
             $altSteps,
-            PerformanceTableTemperatureReference::from($row[DbTableAircraftPerfDist::COL_TEMP_REF]),
+            PerformanceTableTemperatureReference::from($r->getTempRef()),
             $tempSteps,
             self::parseDistances(
-                $row[DbTableAircraftPerfDist::COL_DISTANCES],
+                $r->getDistanceValues(),
                 count($altSteps),
                 count($tempSteps),
-                LengthUnit::from($row[DbTableAircraftPerfDist::COL_DISTANCE_UNIT])
+                LengthUnit::from($r->getdistanceUnit()),
             ),
             DbDistancePerformanceCorrectionFactorsConverter::fromDbRow($row)
         );
