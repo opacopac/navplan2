@@ -12,10 +12,10 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
 
-class DbAirportRunwayQuery implements IAirportRunwayQuery
+readonly class DbAirportRunwayQuery implements IAirportRunwayQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }

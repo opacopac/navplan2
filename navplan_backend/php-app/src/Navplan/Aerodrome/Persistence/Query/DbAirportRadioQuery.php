@@ -11,10 +11,10 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbCaseBuilder;
 
 
-class DbAirportRadioQuery implements IAirportRadioQuery
+readonly class DbAirportRadioQuery implements IAirportRadioQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }

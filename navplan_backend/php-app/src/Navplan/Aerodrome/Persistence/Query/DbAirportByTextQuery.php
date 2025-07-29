@@ -15,10 +15,10 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbCaseBuilder;
 
 
-class DbAirportByTextQuery implements IAirportByTextQuery
+readonly class DbAirportByTextQuery implements IAirportByTextQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }

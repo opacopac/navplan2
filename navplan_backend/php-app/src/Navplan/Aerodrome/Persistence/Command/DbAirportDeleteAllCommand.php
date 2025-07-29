@@ -10,11 +10,11 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ILoggingService;
 
 
-class DbAirportDeleteAllCommand implements IAirportDeleteAllCommand
+readonly class DbAirportDeleteAllCommand implements IAirportDeleteAllCommand
 {
     public function __construct(
-        private readonly IDbService $dbService,
-        private readonly ILoggingService $loggingService
+        private IDbService $dbService,
+        private ILoggingService $loggingService
     )
     {
     }

@@ -11,10 +11,10 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
 
 
-class DbAirportByPositionQuery implements IAirportByPositionQuery
+readonly class DbAirportByPositionQuery implements IAirportByPositionQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }

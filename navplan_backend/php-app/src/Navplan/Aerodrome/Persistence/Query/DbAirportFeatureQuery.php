@@ -10,10 +10,10 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
 
-class DbAirportFeatureQuery implements IAirportFeatureQuery
+readonly class DbAirportFeatureQuery implements IAirportFeatureQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }

@@ -9,10 +9,10 @@ use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
 use Navplan\System\Db\Domain\Service\IDbService;
 
 
-class DbAirportByIcaoQuery implements IAirportByIcaoQuery
+readonly class DbAirportByIcaoQuery implements IAirportByIcaoQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }
