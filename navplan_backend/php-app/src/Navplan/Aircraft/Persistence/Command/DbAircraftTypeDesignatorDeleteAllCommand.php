@@ -7,7 +7,7 @@ use Navplan\Aircraft\Persistence\Model\DbTableAircraftTypeDesignator;
 use Navplan\System\Db\Domain\Service\IDbService;
 
 
-class DbAircraftTypeDesignatorDeleteAllCommand implements IAircraftTypeDesignatorDeleteAllCommand
+readonly class DbAircraftTypeDesignatorDeleteAllCommand implements IAircraftTypeDesignatorDeleteAllCommand
 {
     public function __construct(
         private IDbService $dbService,
@@ -16,9 +16,14 @@ class DbAircraftTypeDesignatorDeleteAllCommand implements IAircraftTypeDesignato
     }
 
 
-    public function deleteAll()
+    public function deleteAll(): void
     {
-        $query = "DELETE FROM " . DbTableAircraftTypeDesignator::TABLE_NAME;
+        $t = new DbTableAircraftTypeDesignator();
+        $dcb = $this->dbService->getDeleteCommandBuilder();
+        $query = $dcb
+            ->deleteFrom($t)
+            ->build();
+
         $this->dbService->execCUDQuery($query, "error deleting all aircraft type desinators");
     }
 }

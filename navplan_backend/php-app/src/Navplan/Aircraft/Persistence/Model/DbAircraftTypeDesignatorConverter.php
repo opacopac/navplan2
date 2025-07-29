@@ -5,37 +5,46 @@ namespace Navplan\Aircraft\Persistence\Model;
 use Navplan\Aircraft\Domain\Model\AircraftType;
 use Navplan\Aircraft\Domain\Model\AircraftTypeDesignator;
 use Navplan\Aircraft\Domain\Model\EngineType;
-use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\System\Db\Domain\Model\DbEntityConverter;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
 
-class DbAircraftTypeDesignatorConverter
+/*
+ * @extends DbEntityConverter<AircraftTypeDesignator>
+ */
+
+class DbAircraftTypeDesignatorConverter extends DbEntityConverter
 {
-    public static function fromDbRow(array $row): AircraftTypeDesignator
+    public function __construct(private readonly DbTableAircraftTypeDesignator $table)
     {
+    }
+
+
+    public function fromDbRow(array $row): AircraftTypeDesignator
+    {
+        $r = new DbRowAircraftTypeDesignator($this->table, $row);
+
         return new AircraftTypeDesignator(
-            intval($row[DbTableAircraftTypeDesignator::COL_ID]),
-            $row[DbTableAircraftTypeDesignator::COL_DESIGNATOR],
-            $row[DbTableAircraftTypeDesignator::COL_MODEL],
-            $row[DbTableAircraftTypeDesignator::COL_MANUFACTURER],
-            AircraftType::from($row[DbTableAircraftTypeDesignator::COL_AC_TYPE]),
-            EngineType::from($row[DbTableAircraftTypeDesignator::COL_ENG_TYPE]),
-            intval($row[DbTableAircraftTypeDesignator::COL_ENG_COUNT]),
-            $row[DbTableAircraftTypeDesignator::COL_WTC]
+            $r->getId(),
+            $r->getDesignator(),
+            $r->getModel(),
+            $r->getManufacturer(),
+            AircraftType::from($r->getAcType()),
+            EngineType::from($r->getEngType()),
+            $r->getEngCount(),
+            $r->getWtc()
         );
     }
 
 
-    /**
-     * @param IDbResult $result
-     * @return AircraftTypeDesignator[]
-     */
-    public static function fromDbResult(IDbResult $result): array
+    public function bindInsertValues(AircraftTypeDesignator $acTypeDesignator, IDbInsertCommandBuilder $icb): void
     {
-        $acTypeDesignators = [];
-        while ($row = $result->fetch_assoc()) {
-            $acTypeDesignators[] = DbAircraftTypeDesignatorConverter::fromDbRow($row);
-        }
-
-        return $acTypeDesignators;
+        $icb->setColValue($this->table->colDesignator(), $acTypeDesignator->designator)
+            ->setColValue($this->table->colModel(), $acTypeDesignator->model)
+            ->setColValue($this->table->colManufacturer(), $acTypeDesignator->manufacturer)
+            ->setColValue($this->table->colAcType(), $acTypeDesignator->ac_type->value)
+            ->setColValue($this->table->colEngType(), $acTypeDesignator->engine_type->value)
+            ->setColValue($this->table->colEngCount(), $acTypeDesignator->engine_count)
+            ->setColValue($this->table->colWtc(), $acTypeDesignator->wtc);
     }
 }

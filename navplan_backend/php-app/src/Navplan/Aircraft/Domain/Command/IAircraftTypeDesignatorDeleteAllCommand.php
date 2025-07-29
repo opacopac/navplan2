@@ -5,5 +5,5 @@ namespace Navplan\Aircraft\Domain\Command;
 
 interface IAircraftTypeDesignatorDeleteAllCommand
 {
-    function deleteAll();
+    function deleteAll(): void;
 }

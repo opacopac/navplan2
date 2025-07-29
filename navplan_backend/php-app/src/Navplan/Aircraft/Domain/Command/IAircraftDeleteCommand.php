@@ -5,5 +5,5 @@ namespace Navplan\Aircraft\Domain\Command;
 
 interface IAircraftDeleteCommand
 {
-    function delete(int $aircraftId, int $userId): bool;
+    function delete(int $aircraftId, int $userId): void;
 }

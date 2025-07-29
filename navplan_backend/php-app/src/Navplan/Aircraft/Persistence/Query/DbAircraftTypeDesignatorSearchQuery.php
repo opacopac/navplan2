@@ -22,6 +22,7 @@ class DbAircraftTypeDesignatorSearchQuery implements IAircraftTypeDesignatorSear
     {
         $prefixSearchText = DbHelper::getDbStringValue($this->dbService, strtolower(trim($searchText)) . '%');
         $fullSearchText = DbHelper::getDbStringValue($this->dbService, '%' . strtolower(trim($searchText)) . '%');
+        $t = new DbTableAircraftTypeDesignator();
 
         // TODO: query builder
         $query = "(";
@@ -42,7 +43,8 @@ class DbAircraftTypeDesignatorSearchQuery implements IAircraftTypeDesignatorSear
         $query .= " LIMIT " . $maxResults;
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading aircraft type designators");
+        $converter = new DbAircraftTypeDesignatorConverter($t);
 
-        return DbAircraftTypeDesignatorConverter::fromDbResult($result);
+        return $converter->fromDbResult($result);
     }
 }

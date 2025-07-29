@@ -59,7 +59,7 @@ class MySqlDbCondSimpleBuilder implements IDbCondSimpleBuilder
 
         $valStr = $this->cond->value;
         $valStr = match (true) {
-            $valStr instanceof DbExp => $valStr->getValue(),
+            $valStr instanceof DbExp => MySqlDbExpBuilder::create($this->dbService)->expression($valStr)->build(),
             $valStr instanceof DbCol => MySqlDbColBuilder::buildColName($valStr),
             is_string($valStr) => DbHelper::getDbStringValue($this->dbService, $valStr),
             is_bool($valStr) => DbHelper::getDbBoolValue($valStr),

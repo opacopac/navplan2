@@ -10,7 +10,7 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
 
 
-class DbWnbEnvelopeCreateCommand implements IWnbEnvelopeCreateCommand
+readonly class DbWnbEnvelopeCreateCommand implements IWnbEnvelopeCreateCommand
 {
     public function __construct(
         private IDbService $dbService

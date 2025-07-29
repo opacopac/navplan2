@@ -32,33 +32,15 @@ class DbAircraftConverter extends DbEntityConverter
             VehicleType::from($r->getVehicleType()),
             $r->getRegistration(),
             $r->getIcaoType(),
-            Speed::fromValueAndUnitString(
-                $r->getCruiseSpeed(),
-                $r->getSpeedUnit()
-            ),
-            Consumption::fromValueAndUnitString(
-                $r->getCruiseConsumption(),
-                $r->getConsumptionUnit()
-            ),
+            Speed::fromValueAndUnitString($r->getCruiseSpeed(), $r->getSpeedUnit()),
+            Consumption::fromValueAndUnitString($r->getCruiseConsumption(), $r->getConsumptionUnit()),
             $r->getFuelType() !== null
                 ? FuelType::from($r->getFuelType())
                 : null,
-            Weight::fromValueAndUnitString(
-                $r->getMtow(),
-                $r->getWeightUnit()
-            ),
-            Weight::fromValueAndUnitString(
-                $r->getBew(),
-                $r->getWeightUnit()
-            ),
-            Speed::fromValueAndUnitString(
-                $r->getRocSealevel(),
-                $r->getVerticalSpeedUnit()
-            ),
-            Length::fromValueAndUnitString(
-                $r->getServiceCeiling(),
-                $r->getAltitudeUnit()
-            ),
+            Weight::fromValueAndUnitString($r->getMtow(), $r->getWeightUnit()),
+            Weight::fromValueAndUnitString($r->getBew(), $r->getWeightUnit()),
+            Speed::fromValueAndUnitString($r->getRocSealevel(), $r->getVerticalSpeedUnit()),
+            Length::fromValueAndUnitString($r->getServiceCeiling(), $r->getAltitudeUnit()),
             null,
             null,
             null,

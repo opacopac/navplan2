@@ -5,5 +5,5 @@ namespace Navplan\Aircraft\Domain\Command;
 
 interface IDistancePerformanceTableDeleteCommand
 {
-    function deleteByAircraft(int $aircraftId);
+    function deleteByAircraft(int $aircraftId): void;
 }

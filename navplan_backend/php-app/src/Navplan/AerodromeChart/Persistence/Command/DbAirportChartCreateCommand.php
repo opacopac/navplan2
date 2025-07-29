@@ -10,10 +10,10 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbInsertCommandBuilder;
 
 
-class DbAirportChartCreateCommand implements IAirportChartCreateCommand
+readonly class DbAirportChartCreateCommand implements IAirportChartCreateCommand
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }

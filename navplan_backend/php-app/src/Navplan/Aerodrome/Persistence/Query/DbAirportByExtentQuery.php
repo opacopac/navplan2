@@ -16,7 +16,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbExp;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbExpText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbJoinType;
 
 
@@ -63,7 +63,7 @@ readonly class DbAirportByExtentQuery implements IAirportByExtentQuery
                         DbCondSimple::equals($tRwy->colId(), null),
                         DbCondMulti::all(
                             DbCondSimple::equals($tRwy->colOperations(), AirportRunwayOperations::ACTIVE->value),
-                            DbCondSimple::equals($tRwy->colLength(), DbExp::fromString("(" .
+                            DbCondSimple::equals($tRwy->colLength(), DbExpText::create("(" .
                                 $this->dbService->getQueryBuilder()
                                     ->selectFrom($tRwy2, "MAX(length)") // TODO
                                     ->whereEquals($tRwy2->colAirportId(), $tAd->colId())

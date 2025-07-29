@@ -31,6 +31,7 @@ class MySqlDbCondBuilder implements IDbCondBuilder
     public function condition(DbCond $cond): MySqlDbCondBuilder
     {
         $this->cond = $cond;
+
         return $this;
     }
 

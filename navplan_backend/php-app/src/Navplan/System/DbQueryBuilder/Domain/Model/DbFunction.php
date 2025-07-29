@@ -3,6 +3,8 @@
 namespace Navplan\System\DbQueryBuilder\Domain\Model;
 
 
-abstract class DbExp
+enum DbFunction
 {
+    case LOWER;
+    case MAX;
 }

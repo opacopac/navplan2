@@ -16,7 +16,7 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
 
 
-class DbAircraftUpdateCommand implements IAircraftUpdateCommand
+readonly class DbAircraftUpdateCommand implements IAircraftUpdateCommand
 {
     public function __construct(
         private IDbService $dbService,

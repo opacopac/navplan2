@@ -24,7 +24,7 @@ readonly class DbAircraftDeleteCommand implements IAircraftDeleteCommand
     }
 
 
-    public function delete(int $aircraftId, int $userId): bool
+    public function delete(int $aircraftId, int $userId): void
     {
         // delete performance tables
         $this->distancePerformanceTableDeleteCommand->deleteByAircraft($aircraftId);
@@ -47,6 +47,6 @@ readonly class DbAircraftDeleteCommand implements IAircraftDeleteCommand
             )
             ->build();
 
-        return $this->dbService->execCUDQuery($query, "error deleting aircraft");
+        $this->dbService->execCUDQuery($query, "error deleting aircraft");
     }
 }

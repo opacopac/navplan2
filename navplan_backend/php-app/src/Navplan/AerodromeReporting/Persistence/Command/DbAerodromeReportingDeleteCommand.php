@@ -7,10 +7,10 @@ use Navplan\AerodromeReporting\Persistence\Model\DbTableReportingPoints;
 use Navplan\System\Db\Domain\Service\IDbService;
 
 
-class DbAerodromeReportingDeleteCommand implements IAerodromeReportingDeleteCommand
+readonly class DbAerodromeReportingDeleteCommand implements IAerodromeReportingDeleteCommand
 {
     public function __construct(
-        private readonly IDbService $dbService,
+        private IDbService $dbService,
     )
     {
     }

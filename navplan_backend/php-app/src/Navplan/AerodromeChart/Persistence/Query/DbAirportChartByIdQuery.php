@@ -12,10 +12,10 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 
-class DbAirportChartByIdQuery implements IAirportChartByIdQuery
+readonly class DbAirportChartByIdQuery implements IAirportChartByIdQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }

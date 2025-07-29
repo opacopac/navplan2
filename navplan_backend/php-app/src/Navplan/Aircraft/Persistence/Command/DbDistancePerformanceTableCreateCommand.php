@@ -12,7 +12,7 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
 
 
-class DbDistancePerformanceTableCreateCommand implements IDistancePerformanceTableCreateCommand
+readonly class DbDistancePerformanceTableCreateCommand implements IDistancePerformanceTableCreateCommand
 {
     public function __construct(
         private IDbService $dbService

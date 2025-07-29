@@ -9,10 +9,10 @@ use Navplan\System\Db\Domain\Model\DbException;
 use Navplan\System\Db\Domain\Service\IDbService;
 
 
-class DbAerodromeReportingCreateCommand implements IAerodromeReportingCreateCommand
+readonly class DbAerodromeReportingCreateCommand implements IAerodromeReportingCreateCommand
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }

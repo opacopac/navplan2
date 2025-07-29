@@ -5,10 +5,9 @@ namespace Navplan\Aircraft\Persistence\Command;
 use Navplan\Aircraft\Domain\Command\IDistancePerformanceTableDeleteCommand;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftPerfDist;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
 
 
-class DbDistancePerformanceTableDeleteCommand implements IDistancePerformanceTableDeleteCommand
+readonly class DbDistancePerformanceTableDeleteCommand implements IDistancePerformanceTableDeleteCommand
 {
     public function __construct(
         private IDbService $dbService
@@ -17,10 +16,15 @@ class DbDistancePerformanceTableDeleteCommand implements IDistancePerformanceTab
     }
 
 
-    public function deleteByAircraft(int $aircraftId)
+    public function deleteByAircraft(int $aircraftId): void
     {
-        $query = "DELETE FROM " . DbTableAircraftPerfDist::TABLE_NAME;
-        $query .= " WHERE " . DbTableAircraftPerfDist::COL_ID_AIRCRAFT . "=" . DbHelper::getDbIntValue($aircraftId);
+        $t = new DbTableAircraftPerfDist();
+        $dcb = $this->dbService->getDeleteCommandBuilder();
+        $query = $dcb
+            ->deleteFrom($t)
+            ->whereEquals($t->colIdAircraft(), $aircraftId)
+            ->build();
+
         $this->dbService->execCUDQuery($query, "error deleting distance performance tables from aircraft");
     }
 }

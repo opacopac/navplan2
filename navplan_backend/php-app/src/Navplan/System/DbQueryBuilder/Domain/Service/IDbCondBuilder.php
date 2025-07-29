@@ -7,7 +7,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 
 interface IDbCondBuilder
 {
-    function condition(DbCond $cond);
+    function condition(DbCond $cond): IDbCondBuilder;
 
     function build(): string;
 }

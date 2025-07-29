@@ -9,7 +9,7 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
 
 
-class DbWeightItemCreateCommand implements IWeightItemCreateCommand
+readonly class DbWeightItemCreateCommand implements IWeightItemCreateCommand
 {
     public function __construct(
         private IDbService $dbService
