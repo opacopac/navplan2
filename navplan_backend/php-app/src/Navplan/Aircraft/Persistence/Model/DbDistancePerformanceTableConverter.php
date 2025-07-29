@@ -35,8 +35,8 @@ class DbDistancePerformanceTableConverter extends DbEntityConverter
     {
         $r = new DbRowAircraftPerfDist($this->table, $row);
 
-        $altSteps = self::parseAltitudeSteps($r->getAltSteps(), LengthUnit::from($r->getAltUnit()));
-        $tempSteps = self::parseTemperatureSteps($r->getTempSteps(), TemperatureUnit::from($r->getTempUnit()));
+        $altSteps = $this->parseAltitudeSteps($r->getAltSteps(), LengthUnit::from($r->getAltUnit()));
+        $tempSteps = $this->parseTemperatureSteps($r->getTempSteps(), TemperatureUnit::from($r->getTempUnit()));
 
         return new DistancePerformanceTable(
             $r->getProfileName(),
@@ -44,13 +44,13 @@ class DbDistancePerformanceTableConverter extends DbEntityConverter
             $altSteps,
             PerformanceTableTemperatureReference::from($r->getTempRef()),
             $tempSteps,
-            self::parseDistances(
+            $this->parseDistances(
                 $r->getDistanceValues(),
                 count($altSteps),
                 count($tempSteps),
                 LengthUnit::from($r->getdistanceUnit()),
             ),
-            DbDistancePerformanceCorrectionFactorsConverter::fromDbRow($row)
+            DbDistancePerformanceCorrectionFactorsConverter::fromDbRow($row, $r)
         );
     }
 
@@ -66,12 +66,12 @@ class DbDistancePerformanceTableConverter extends DbEntityConverter
             ->setColValue($this->table->colType(), $tableType->value)
             ->setColValue($this->table->colProfileName(), $perfTable->profileName)
             ->setColValue($this->table->colAltRef(), $perfTable->altitudeReference->value)
-            ->setColValue($this->table->colAltSteps(), self::createAltitudeStepsJsonString($perfTable->altitudeSteps))
+            ->setColValue($this->table->colAltSteps(), $this->createAltitudeStepsJsonString($perfTable->altitudeSteps))
             ->setColValue($this->table->colAltUnit(), $perfTable->altitudeSteps[0]->unit->value)
             ->setColValue($this->table->colTempRef(), $perfTable->temperatureReference->value)
-            ->setColValue($this->table->colTempSteps(), self::createTemperatureStepsJsonString($perfTable->temperatureSteps))
+            ->setColValue($this->table->colTempSteps(), $this->createTemperatureStepsJsonString($perfTable->temperatureSteps))
             ->setColValue($this->table->colTempUnit(), $perfTable->temperatureSteps[0]->unit->value)
-            ->setColValue($this->table->colDistances(), self::createDistanceValuesJsonString($perfTable->distanceValues))
+            ->setColValue($this->table->colDistances(), $this->createDistanceValuesJsonString($perfTable->distanceValues))
             ->setColValue($this->table->colDistanceUnit(), $perfTable->distanceValues[0][0]->unit->value)
             ->setColValue($this->table->colHeadwindDecPerc(), $perfTable->correctionFactors->headwindDecPercent)
             ->setColValue($this->table->colHeadwindDecPerSpeed(), $perfTable->correctionFactors->headwindDecPerSpeed->value)
@@ -87,7 +87,7 @@ class DbDistancePerformanceTableConverter extends DbEntityConverter
      * @param string $jsonString
      * @return Length[]
      */
-    private static function parseAltitudeSteps(string $jsonString, LengthUnit $altUnit): array
+    private function parseAltitudeSteps(string $jsonString, LengthUnit $altUnit): array
     {
         return array_map(function ($value) use ($altUnit) {
             return new Length($value, $altUnit);
@@ -99,7 +99,7 @@ class DbDistancePerformanceTableConverter extends DbEntityConverter
      * @param string $jsonString
      * @return Temperature[]
      */
-    private static function parseTemperatureSteps(string $jsonString, TemperatureUnit $tempUnit): array
+    private function parseTemperatureSteps(string $jsonString, TemperatureUnit $tempUnit): array
     {
         return array_map(function ($value) use ($tempUnit) {
             return new Temperature($value, $tempUnit);
@@ -111,7 +111,7 @@ class DbDistancePerformanceTableConverter extends DbEntityConverter
      * @param string $jsonString
      * @return Length[][]
      */
-    private static function parseDistances(string $jsonString, int $rows, $cols, LengthUnit $distanceUnit): array
+    private function parseDistances(string $jsonString, int $rows, $cols, LengthUnit $distanceUnit): array
     {
         $distances = [];
         $jsonArray = json_decode($jsonString, true);
@@ -131,7 +131,7 @@ class DbDistancePerformanceTableConverter extends DbEntityConverter
      * @param Length[] $altitudeSteps
      * @return string
      */
-    private static function createAltitudeStepsJsonString(array $altitudeSteps): string
+    private function createAltitudeStepsJsonString(array $altitudeSteps): string
     {
         return json_encode(
             array_map(function (Length $value) {
@@ -145,7 +145,7 @@ class DbDistancePerformanceTableConverter extends DbEntityConverter
      * @param Temperature[] $temperatureSteps
      * @return string
      */
-    private static function createTemperatureStepsJsonString(array $temperatureSteps): string
+    private function createTemperatureStepsJsonString(array $temperatureSteps): string
     {
         return json_encode(
             array_map(function (Temperature $value) {
@@ -159,7 +159,7 @@ class DbDistancePerformanceTableConverter extends DbEntityConverter
      * @param Length[][] $distances
      * @return string
      */
-    private static function createDistanceValuesJsonString(array $distances): string
+    private function createDistanceValuesJsonString(array $distances): string
     {
         return json_encode(
             array_map(function (array $value) {

@@ -3,22 +3,20 @@
 namespace Navplan\Aircraft\Persistence\Model;
 
 use Navplan\Aircraft\Domain\Model\DistancePerformanceCorrectionFactors;
-use Navplan\Common\Persistence\Model\DbSpeedConverter;
+use Navplan\Common\Domain\Model\Speed;
 
 
 class DbDistancePerformanceCorrectionFactorsConverter
 {
-    public static function fromDbRow(array $row): DistancePerformanceCorrectionFactors
+    public static function fromDbRow(array $row, DbRowAircraftPerfDist $r): DistancePerformanceCorrectionFactors
     {
         return new DistancePerformanceCorrectionFactors(
-            floatval($row[DbTableAircraftPerfDist::COL_GRASS_RWY_INC_PERC]),
-            floatval($row[DbTableAircraftPerfDist::COL_WET_RWY_INC_PERC]),
-            floatval($row[DbTableAircraftPerfDist::COL_HEADWIND_DEC_PERC]),
-            DbSpeedConverter::fromDbRow($row, DbTableAircraftPerfDist::COL_HEADWIND_DEC_PER_SPEED,
-                DbTableAircraftPerfDist::COL_SPEED_UNIT),
-            floatval($row[DbTableAircraftPerfDist::COL_TAILWIND_INC_PERC]),
-            DbSpeedConverter::fromDbRow($row, DbTableAircraftPerfDist::COL_TAILWIND_INC_PER_SPEED,
-                DbTableAircraftPerfDist::COL_SPEED_UNIT)
+            $r->getGrassRwyIncPercent(),
+            $r->getWetRwyIncPercent(),
+            $r->getHeadwindDecPercent(),
+            Speed::fromValueAndUnitString($r->getHeadwindDecPerSpeed(), $r->getspeedUnit()),
+            $r->getTailwindIncPercent(),
+            Speed::fromValueAndUnitString($r->getTailwindIncPerSpeed(), $r->getspeedUnit()),
         );
     }
 }
