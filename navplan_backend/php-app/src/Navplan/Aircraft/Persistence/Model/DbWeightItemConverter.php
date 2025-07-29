@@ -4,40 +4,60 @@ namespace Navplan\Aircraft\Persistence\Model;
 
 use Navplan\Aircraft\Domain\Model\WeightItem;
 use Navplan\Aircraft\Domain\Model\WeightItemType;
-use Navplan\Common\Persistence\Model\DbLengthConverter;
-use Navplan\Common\Persistence\Model\DbVolumeConverter;
-use Navplan\Common\Persistence\Model\DbWeightConverter;
-use Navplan\System\Db\Domain\Model\IDbResult;
+use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\Volume;
+use Navplan\Common\Domain\Model\Weight;
+use Navplan\System\Db\Domain\Model\DbEntityConverter;
+use Navplan\System\DbQueryBuilder\Domain\Service\IDbInsertCommandBuilder;
 
 
-class DbWeightItemConverter
+/*
+ * @extends DbEntityConverter<WeightItem>
+ */
+
+class DbWeightItemConverter extends DbEntityConverter
 {
-    public static function fromDbRow(array $row): WeightItem
+    public function __construct(private readonly DbTableAircraftWeightItems $table)
     {
+    }
+
+
+    public function fromDbRow(array $row): WeightItem
+    {
+        $r = new DbRowAircraftWeightItems($this->table, $row);
+
         return new WeightItem(
-            WeightItemType::from($row[DbTableAircraftWeightItems::COL_TYPE]),
-            $row[DbTableAircraftWeightItems::COL_NAME],
-            DbLengthConverter::fromDbRow($row, DbTableAircraftWeightItems::COL_ARM_LONG, DbTableAircraftWeightItems::COL_ARM_UNIT),
-            DbLengthConverter::fromDbRow($row, DbTableAircraftWeightItems::COL_ARM_LAT, DbTableAircraftWeightItems::COL_ARM_UNIT),
-            DbWeightConverter::fromDbRow($row, DbTableAircraftWeightItems::COL_MAX_WEIGHT, DbTableAircraftWeightItems::COL_WEIGHT_UNIT),
-            DbVolumeConverter::fromDbRow($row, DbTableAircraftWeightItems::COL_MAX_FUEL, DbTableAircraftWeightItems::COL_FUEL_UNIT),
-            DbWeightConverter::fromDbRow($row, DbTableAircraftWeightItems::COL_DEFAULT_WEIGHT, DbTableAircraftWeightItems::COL_WEIGHT_UNIT),
-            DbVolumeConverter::fromDbRow($row, DbTableAircraftWeightItems::COL_DEFAULT_FUEL, DbTableAircraftWeightItems::COL_FUEL_UNIT)
+            WeightItemType::from($r->getType()),
+            $r->getName(),
+            Length::fromValueAndUnitString($r->getArmLong(), $r->getArmUnit()),
+            Length::fromValueAndUnitString($r->getArmLat(), $r->getArmUnit()),
+            Weight::fromValueAndUnitString($r->getMaxWeight(), $r->getWeightUnit()),
+            Volume::fromValueAndUnitString($r->getMaxFuel(), $r->getFuelUnit()),
+            Weight::fromValueAndUnitString($r->getDefaultWeight(), $r->getWeightUnit()),
+            Volume::fromValueAndUnitString($r->getDefaultFuel(), $r->getFuelUnit()),
         );
     }
 
 
-    /**
-     * @param IDbResult $result
-     * @return WeightItem[]
-     */
-    public static function fromDbResult(IDbResult $result): array
+    public function bindInsertValues(int $aircraftId, WeightItem $weightItem, IDbInsertCommandBuilder $icb): void
     {
-        $weightItem = [];
-        while ($row = $result->fetch_assoc()) {
-            $weightItem[] = DbWeightItemConverter::fromDbRow($row);
-        }
-
-        return $weightItem;
+        $icb->setColValue($this->table->colIdAircraft(), $aircraftId)
+            ->setColValue($this->table->colType(), $weightItem->type->value)
+            ->setColValue($this->table->colName(), $weightItem->name)
+            ->setColValue($this->table->colArmLong(), $weightItem->armLong->value)
+            ->setColValue($this->table->colArmLat(), $weightItem->armLat->value)
+            ->setColValue($this->table->colArmUnit(), $weightItem->armLong->unit->value)
+            ->setColValue($this->table->colMaxWeight(), $weightItem->maxWeight?->value)
+            ->setColValue($this->table->colDefaultWeight(), $weightItem->defaultWeight?->value)
+            ->setColValue($this->table->colWeightUnit(), $weightItem->maxWeight
+                ? $weightItem->maxWeight->unit->value
+                : $weightItem->defaultWeight?->unit->value
+            )
+            ->setColValue($this->table->colMaxFuel(), $weightItem->maxFuel?->value)
+            ->setColValue($this->table->colDefaultFuel(), $weightItem->defaultFuel?->value)
+            ->setColValue($this->table->colFuelUnit(), $weightItem->maxFuel
+                ? $weightItem->maxFuel->unit->value
+                : $weightItem->defaultFuel?->unit->value
+            );
     }
 }

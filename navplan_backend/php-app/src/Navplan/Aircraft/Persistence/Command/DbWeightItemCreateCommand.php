@@ -3,10 +3,9 @@
 namespace Navplan\Aircraft\Persistence\Command;
 
 use Navplan\Aircraft\Domain\Command\IWeightItemCreateCommand;
-use Navplan\Aircraft\Domain\Model\WeightItem;
 use Navplan\Aircraft\Persistence\Model\DbTableAircraftWeightItems;
+use Navplan\Aircraft\Persistence\Model\DbWeightItemConverter;
 use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Db\MySql\DbHelper;
 
 
 readonly class DbWeightItemCreateCommand implements IWeightItemCreateCommand
@@ -20,50 +19,14 @@ readonly class DbWeightItemCreateCommand implements IWeightItemCreateCommand
 
     public function create(int $aircraftId, array $weightItems): void
     {
+        $t = new DbTableAircraftWeightItems();
+        $icb = $this->dbService->getInsertCommandBuilder()->insertInto($t);
+        $converter = new DbWeightItemConverter($t);
+
         foreach ($weightItems as $weightItem) {
-            $query = $this->createSingleEntrySqlQuery($aircraftId, $weightItem);
-            $this->dbService->execCUDQuery($query, "error inserting weight item");
+            $converter->bindInsertValues($aircraftId, $weightItem, $icb);
+            $statement = $icb->buildAndBindStatement();
+            $statement->execute("error inserting weight item");
         }
-    }
-
-
-    private function createSingleEntrySqlQuery(int $aircraftId, WeightItem $weightItem): string
-    {
-        $query = "INSERT INTO " . DbTableAircraftWeightItems::TABLE_NAME . " (" . join(",", [
-                DbTableAircraftWeightItems::COL_ID_AIRCRAFT,
-                DbTableAircraftWeightItems::COL_TYPE,
-                DbTableAircraftWeightItems::COL_NAME,
-                DbTableAircraftWeightItems::COL_ARM_LONG,
-                DbTableAircraftWeightItems::COL_ARM_LAT,
-                DbTableAircraftWeightItems::COL_ARM_UNIT,
-                DbTableAircraftWeightItems::COL_MAX_WEIGHT,
-                DbTableAircraftWeightItems::COL_DEFAULT_WEIGHT,
-                DbTableAircraftWeightItems::COL_WEIGHT_UNIT,
-                DbTableAircraftWeightItems::COL_MAX_FUEL,
-                DbTableAircraftWeightItems::COL_DEFAULT_FUEL,
-                DbTableAircraftWeightItems::COL_FUEL_UNIT
-            ]);
-        $query .= ") VALUES (";
-        $query .= join(",", array(
-            DbHelper::getDbIntValue($aircraftId),
-            DbHelper::getDbStringValue($this->dbService, $weightItem->type->value),
-            DbHelper::getDbStringValue($this->dbService, $weightItem->name),
-            DbHelper::getDbFloatValue($weightItem->armLong->value),
-            DbHelper::getDbFloatValue($weightItem->armLat->value),
-            DbHelper::getDbStringValue($this->dbService, $weightItem->armLong->unit->value),
-            DbHelper::getDbFloatValue($weightItem->maxWeight?->value),
-            DbHelper::getDbFloatValue($weightItem->defaultWeight?->value),
-            DbHelper::getDbStringValue($this->dbService, $weightItem->maxWeight
-                ? $weightItem->maxWeight->unit->value
-                : $weightItem->defaultWeight?->unit->value),
-            DbHelper::getDbFloatValue($weightItem->maxFuel?->value),
-            DbHelper::getDbFloatValue($weightItem->defaultFuel?->value),
-            DbHelper::getDbStringValue($this->dbService, $weightItem->maxFuel
-                ? $weightItem->maxFuel->unit->value
-                : $weightItem->defaultFuel?->unit->value)
-        ));
-        $query .= ")";
-
-        return $query;
     }
 }

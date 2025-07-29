@@ -39,6 +39,16 @@ class Volume {
     }
 
 
+    public static function fromValueAndUnitString(?float $value, ?string $unit): ?Volume
+    {
+        if ($value === null || $unit === null || $unit === '') {
+            return null;
+        }
+
+        return new Volume($value, VolumeUnit::from($unit));
+    }
+
+
     public function getL(): float {
         return $this->getValue(VolumeUnit::L);
     }

@@ -31,6 +31,7 @@ readonly class DbAircraftByIdQuery implements IAircraftByIdQuery
     {
         $t = new DbTableAircraft();
         $tPerf = new DbTableAircraftPerfDist();
+        $tWi = new DbTableAircraftWeightItems();
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom($t)
             ->where(DbCondMulti::all(
@@ -43,7 +44,7 @@ readonly class DbAircraftByIdQuery implements IAircraftByIdQuery
         $converter = new DbAircraftConverter($t);
 
         $aircraft = $converter->fromDbRow($result->fetch_assoc());
-        $this->readAircraftWeightItems($aircraft);
+        $this->readAircraftWeightItems($aircraft, $tWi);
         $this->readAircraftWnbEnvelopes($aircraft);
         $this->readDistancePerformanceTable($aircraft, $tPerf);
 
@@ -51,7 +52,7 @@ readonly class DbAircraftByIdQuery implements IAircraftByIdQuery
     }
 
 
-    private function readAircraftWeightItems(Aircraft &$aircraft): void
+    private function readAircraftWeightItems(Aircraft &$aircraft, DbTableAircraftWeightItems $t): void
     {
         $query = $this->dbService->getQueryBuilder()
             ->selectAllFrom(DbTableAircraftWeightItems::TABLE_NAME)
@@ -59,8 +60,9 @@ readonly class DbAircraftByIdQuery implements IAircraftByIdQuery
             ->build();
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading aircraft weight items");
+        $converter = new DbWeightItemConverter($t);
 
-        $aircraft->wnbWeightItems = DbWeightItemConverter::fromDbResult($result);
+        $aircraft->wnbWeightItems = $converter->fromDbResult($result);
     }
 
 
