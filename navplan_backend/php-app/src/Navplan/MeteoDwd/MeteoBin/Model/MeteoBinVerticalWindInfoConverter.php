@@ -43,7 +43,7 @@ class MeteoBinVerticalWindInfoConverter {
 
         $speedKt = round(sqrt($valueWindUMps * $valueWindUMps + $valueWindVMps * $valueWindVMps), 1);
         $directionDeg = round(atan2($valueWindVMps, $valueWindUMps) / pi() * 180, 1);
-        $directionDeg2 = (360 - $directionDeg + 270) % 360;
+        $directionDeg2 = intval(round(360 - $directionDeg + 270)) % 360;
 
         return new VerticalWindLevel(
             Altitude::fromFtAmsl($valueAlt * 100),
