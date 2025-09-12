@@ -12,7 +12,6 @@ use Navplan\MeteoDwd\Domain\Model\WeatherModelConfig;
 use Navplan\MeteoDwd\Domain\Model\WeatherModelType;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
 use Navplan\MeteoDwd\Domain\Service\IMeteoDwdForecastRepo;
-use Navplan\System\Domain\Model\FileServiceException;
 use Navplan\System\Domain\Service\IFileService;
 
 
@@ -37,7 +36,6 @@ class MeteoBinForecastRepo implements IMeteoDwdForecastRepo
 
     /**
      * @return ForecastRun[]
-     * @throws FileServiceException
      */
     function readAvailableForecasts(): array
     {
