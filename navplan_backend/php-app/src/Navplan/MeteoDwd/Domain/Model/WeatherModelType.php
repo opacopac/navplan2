@@ -9,6 +9,7 @@ class WeatherModelType {
     const ICON_D2 = 1;
     const ICON_EU = 2;
     const ICON = 3;
+    const ICON_CH1 = 4;
 
 
     public static function fromString(string $modelString): int {
@@ -16,6 +17,7 @@ class WeatherModelType {
             'ICON_D2' => self::ICON_D2,
             'ICON_EU' => self::ICON_EU,
             'ICON' => self::ICON,
+            'ICON_CH1' => self::ICON_CH1,
             default => throw new InvalidArgumentException('unknown weather model ' . $modelString),
         };
     }
@@ -26,6 +28,7 @@ class WeatherModelType {
             self::ICON_D2 => 'ICON_D2',
             self::ICON_EU => 'ICON_EU',
             self::ICON => 'ICON',
+            self::ICON_CH1 => 'ICON_CH1',
             default => throw new InvalidArgumentException('unknown weather model ' . $weatherModel),
         };
     }
