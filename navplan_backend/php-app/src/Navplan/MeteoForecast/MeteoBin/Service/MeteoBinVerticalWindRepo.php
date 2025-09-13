@@ -17,7 +17,7 @@ use Navplan\System\Domain\Service\IFileService;
 
 class MeteoBinVerticalWindRepo implements IMeteoForecastVerticalWindRepo
 {
-    private const METEOBIN_VERTICAL_WIND_PATH = "/vertical_wind/VERTICAL_WIND_D2.meteobin";
+    private const METEOBIN_VERTICAL_WIND_PATH = "/vertical_wind/VERTICAL_WIND.meteobin";
     private const BYTES_PER_POS = 41 * 3;
 
     private string $iconD2BaseDir;

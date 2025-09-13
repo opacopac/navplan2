@@ -15,7 +15,7 @@ use Navplan\System\Domain\Service\IFileService;
 
 class MeteoBinPrecipRepo implements IMeteoForecastPrecipRepo
 {
-    private const METEOBIN_PRECIP_PATH = "/clct_precip/PRECIP_D2.meteobin";
+    private const METEOBIN_PRECIP_PATH = "/clct_precip/PRECIP.meteobin";
     private const BYTES_PER_POS = 1;
 
     private string $iconD2BaseDir;

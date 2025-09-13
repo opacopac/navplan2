@@ -19,7 +19,7 @@ use Navplan\System\Domain\Service\IFileService;
 
 class MeteoBinWindRepo implements IMeteoForecastWindRepo
 {
-    public const METEOBIN_WIND_PATH = "/wind/WIND_D2.meteobin";
+    public const METEOBIN_WIND_PATH = "/wind/WIND.meteobin";
 
     private string $iconD2BaseDir;
 

@@ -15,7 +15,7 @@ use Navplan\System\Domain\Service\IFileService;
 
 class MeteoBinTempRepo implements IMeteoForecastTempRepo
 {
-    private const METEOBIN_TEMP_PATH = "/temp/TEMP_D2.meteobin";
+    private const METEOBIN_TEMP_PATH = "/temp/TEMP.meteobin";
     private const BYTES_PER_POS = 1;
 
     private string $iconD2BaseDir;
