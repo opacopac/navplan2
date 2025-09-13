@@ -1,11 +1,11 @@
-import {MeteogramTerrainSvg} from '../../../meteo-dwd/view/svg/meteogram-terrain-svg';
+import {MeteogramTerrainSvg} from '../../../meteo-forecast/view/svg/meteogram-terrain-svg';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
-import {HeightGridSvg} from '../../../meteo-dwd/view/svg/height-grid-svg';
+import {HeightGridSvg} from '../../../meteo-forecast/view/svg/height-grid-svg';
 import {CloudMeteogram} from '../../domain/model/cloud-meteogram';
 import {WidthGridFcStepsSvg} from './width-grid-fc-steps-svg';
-import {ForecastRun} from '../../../meteo-dwd/domain/model/forecast-run';
+import {ForecastRun} from '../../../meteo-forecast/domain/model/forecast-run';
 import {MeteogramVerticalClouds} from './meteogram-vertical-clouds-svg';
 import {SvgBuilder} from '../../../common/svg/svg-builder';
 

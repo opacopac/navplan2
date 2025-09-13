@@ -1,5 +1,5 @@
 <div class="{{ getTimeLineClass() | async }}">
-    <app-meteo-dwd-timeline
+    <app-meteo-forecast-timeline
         [currentForecastRun]="this.forecastRun$ | async"
         [selectedStep]="this.selectedStep$ | async"
         (previousStepClicked)="this.onPreviousStepClicked()"

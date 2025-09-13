@@ -46,7 +46,7 @@ RUN mkdir -p /var/log/navplan/ /var/www/html/tmp/ && chmod -R 777 /var/log/navpl
 RUN mkdir -p /var/www/html/charts/ && chmod -R 777 /var/www/html/charts/
 
 # Copy sample meteo data
-COPY meteo_dwd /var/www/html/meteo_dwd
+COPY meteo_forecast /var/www/html/meteo_forecast
 
 # Copy sample terrain tiles
 RUN mkdir -p /var/www/html/terraintiles && \

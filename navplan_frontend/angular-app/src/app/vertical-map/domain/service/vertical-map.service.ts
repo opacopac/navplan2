@@ -5,7 +5,7 @@ import {Flightroute} from '../../../flightroute/domain/model/flightroute';
 import {tap} from 'rxjs/operators';
 import {IVerticalMapService} from './i-vertical-map.service';
 import {IVerticalMapRepoService} from './i-vertical-map-repo.service';
-import {ForecastSelection} from '../../../meteo-dwd/domain/model/forecast-selection';
+import {ForecastSelection} from '../../../meteo-forecast/domain/model/forecast-selection';
 
 
 @Injectable()

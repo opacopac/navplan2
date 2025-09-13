@@ -73,15 +73,17 @@ import {OlSmaMeasurementContainer} from '../../../../meteo-sma/view/ol-component
 import {
     MapOverlayAirspaceStructureComponent
 } from '../../../../airspace/view/ng-components/map-overlay-airspace-structure/map-overlay-airspace-structure.component';
-import {OlDwdForecastContainer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-container';
+import {OlMeteoForecastContainer} from '../../../../meteo-forecast/view/ol-components/ol-meteo-forecast-container';
 import {
-    getMeteoDwdLayer,
-    getMeteoDwdMapTilesUrl,
-    getMeteoDwdWeatherValues,
-    getMeteoDwdWindValues
-} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
-import {OlDwdForecastMapTileLayer} from '../../../../meteo-dwd/view/ol-components/ol-dwd-forecast-map-tile-layer';
-import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
+    getMeteoForecastLayer,
+    getMeteoForecastMapTilesUrl,
+    getMeteoForecastWeatherValues,
+    getMeteoForecastWindValues
+} from '../../../../meteo-forecast/state/ngrx/meteo-forecast.selectors';
+import {
+    OlMeteoForecastMapTileLayer
+} from '../../../../meteo-forecast/view/ol-components/ol-meteo-forecast-map-tile-layer';
+import {MeteoForecastActions} from '../../../../meteo-forecast/state/ngrx/meteo-forecast.actions';
 import {getAltitudeUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {
     SearchContainerComponent
@@ -168,7 +170,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private olTraffic: OlTrafficContainer;
     private olOwnPlane: OlOwnPlaneContainer;
     private olSmaMeasurementsContainer: OlSmaMeasurementContainer;
-    private olDwdForecastContainer: OlDwdForecastContainer;
+    private olMeteoForecastContainer: OlMeteoForecastContainer;
     private readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
     private readonly showOverlay$: Observable<OverlayState> = this.appStore.pipe(select(getFlightMapShowOverlay));
     private readonly verticalMapState$ = this.appStore.pipe(select(getVerticalMapState));
@@ -213,7 +215,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             this.mapOverlayComponent?.showOverlay(overlayState);
         });
 
-        this.appStore.dispatch(MeteoDwdActions.readAvailableForecastRuns());
+        this.appStore.dispatch(MeteoForecastActions.readAvailableForecastRuns());
     }
 
 
@@ -235,7 +237,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olTraffic.destroy();
         this.olOwnPlane.destroy();
         this.olSmaMeasurementsContainer.destroy();
-        this.olDwdForecastContainer.destroy();
+        this.olMeteoForecastContainer.destroy();
 
         this.showOverlaySubscription.unsubscribe();
     }
@@ -268,9 +270,9 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const pointSearchLayer = new OlVectorLayer();
         const smaMeasurementsBgLayer = new OlVectorLayer();
         const smaMeasurementsLayer = new OlVectorLayer();
-        const dwdForecastBgLayer = new OlDwdForecastMapTileLayer();
-        const dwdForecastWeatherIconLayer = new OlVectorLayer(true);
-        const dwdForecastWindIconLayer = new OlVectorLayer(true);
+        const meteoForecastBgLayer = new OlMeteoForecastMapTileLayer();
+        const meteoForecastWeatherIconLayer = new OlVectorLayer(true);
+        const meteoForecastWindIconLayer = new OlVectorLayer(true);
         const crosshairIconLayer = new OlVectorLayer(true);
 
         const olMap = this.mapContainer.createMap(
@@ -286,9 +288,9 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
                 navaidLayer,
                 airportLayer,
                 metarTafLayer,
-                dwdForecastBgLayer,
-                dwdForecastWeatherIconLayer,
-                dwdForecastWindIconLayer,
+                meteoForecastBgLayer,
+                meteoForecastWeatherIconLayer,
+                meteoForecastWindIconLayer,
                 smaMeasurementsBgLayer,
                 smaMeasurementsLayer,
                 flightrouteLayer,
@@ -391,14 +393,14 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             this.appStore.pipe(select(getMeteoSmaState)),
             rotation
         );
-        this.olDwdForecastContainer = new OlDwdForecastContainer(
-            dwdForecastBgLayer,
-            dwdForecastWeatherIconLayer,
-            dwdForecastWindIconLayer,
-            this.appStore.pipe(select(getMeteoDwdLayer)),
-            this.appStore.pipe(select(getMeteoDwdWeatherValues)),
-            this.appStore.pipe(select(getMeteoDwdWindValues)),
-            this.appStore.pipe(select(getMeteoDwdMapTilesUrl)),
+        this.olMeteoForecastContainer = new OlMeteoForecastContainer(
+            meteoForecastBgLayer,
+            meteoForecastWeatherIconLayer,
+            meteoForecastWindIconLayer,
+            this.appStore.pipe(select(getMeteoForecastLayer)),
+            this.appStore.pipe(select(getMeteoForecastWeatherValues)),
+            this.appStore.pipe(select(getMeteoForecastWindValues)),
+            this.appStore.pipe(select(getMeteoForecastMapTilesUrl)),
         );
     }
 

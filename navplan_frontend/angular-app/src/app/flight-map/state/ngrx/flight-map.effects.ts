@@ -26,7 +26,7 @@ import {IAirportService} from '../../../aerodrome/domain/service/i-airport.servi
 import {INotamService} from '../../../notam/domain/service/i-notam.service';
 import {MeteoSmaActions} from '../../../meteo-sma/state/ngrx/meteo-sma.actions';
 import {MeteoLayer} from '../../domain/model/meteo-layer';
-import {MeteoDwdActions} from '../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
+import {MeteoForecastActions} from '../../../meteo-forecast/state/ngrx/meteo-forecast.actions';
 import {SidebarMode} from './sidebar-mode';
 
 
@@ -80,16 +80,16 @@ export class FlightMapEffects {
                     case MeteoLayer.SmaStationsLayer:
                         returnActions.push(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.SmaStationsLayer}));
                         break;
-                    case MeteoLayer.DwdWeatherLayer:
-                        returnActions.push(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.DwdWeatherLayer}));
+                    case MeteoLayer.ForecastWeatherLayer:
+                        returnActions.push(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.ForecastWeatherLayer}));
                         break;
-                    case MeteoLayer.DwdWindLayer:
-                        returnActions.push(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.DwdWindLayer}));
+                    case MeteoLayer.ForecastWindLayer:
+                        returnActions.push(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.ForecastWindLayer}));
                         break;
                 }
             } else {
                 returnActions.push(MeteoSmaActions.close());
-                returnActions.push(MeteoDwdActions.close());
+                returnActions.push(MeteoForecastActions.close());
             }
 
             return returnActions;
@@ -105,18 +105,18 @@ export class FlightMapEffects {
 
             switch (action.meteoLayer) {
                 case MeteoLayer.SmaStationsLayer:
-                    returnActions.push(MeteoDwdActions.close());
+                    returnActions.push(MeteoForecastActions.close());
                     returnActions.push(MeteoSmaActions.open());
                     break;
-                case MeteoLayer.DwdWeatherLayer:
+                case MeteoLayer.ForecastWeatherLayer:
                     returnActions.push(MeteoSmaActions.close());
-                    returnActions.push(MeteoDwdActions.open());
-                    returnActions.push(MeteoDwdActions.selectWeatherForecast());
+                    returnActions.push(MeteoForecastActions.open());
+                    returnActions.push(MeteoForecastActions.selectWeatherForecast());
                     break;
-                case MeteoLayer.DwdWindLayer:
+                case MeteoLayer.ForecastWindLayer:
                     returnActions.push(MeteoSmaActions.close());
-                    returnActions.push(MeteoDwdActions.open());
-                    returnActions.push(MeteoDwdActions.selectWindForecast());
+                    returnActions.push(MeteoForecastActions.open());
+                    returnActions.push(MeteoForecastActions.selectWindForecast());
                     break;
             }
 

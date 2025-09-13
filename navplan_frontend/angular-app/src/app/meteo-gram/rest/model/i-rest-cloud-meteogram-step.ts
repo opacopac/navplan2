@@ -1,4 +1,4 @@
-import {IRestVerticalCloudLevel} from '../../../meteo-dwd/rest/model/i-rest-vertical-cloud-level';
+import {IRestVerticalCloudLevel} from '../../../meteo-forecast/rest/model/i-rest-vertical-cloud-level';
 import {IRestTemperature} from '../../../geo-physics/rest/model/i-rest-temperature';
 import {IRestPrecipitation} from '../../../geo-physics/rest/model/i-rest-precipitation';
 

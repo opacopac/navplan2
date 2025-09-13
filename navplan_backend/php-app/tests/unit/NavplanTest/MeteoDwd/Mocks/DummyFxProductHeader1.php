@@ -3,7 +3,7 @@
 namespace NavplanTest\MeteoDwd\Mocks;
 
 use DateTime;
-use Navplan\MeteoDwd\Domain\RunLengthFormat\RunLengthFormatHeader;
+use Navplan\MeteoForecast\Domain\RunLengthFormat\RunLengthFormatHeader;
 
 
 class DummyFxProductHeader1 {

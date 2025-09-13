@@ -85,10 +85,10 @@ RewriteRule ^meteograms$ %{ENV:BASEPATH}MeteoGram/Rest/Service/ReadCloudMeteogra
 ### meteo ###
 
 # Rewrite for /api/meteo/forecasts
-RewriteRule ^meteo/forecasts$ %{ENV:BASEPATH}MeteoDwd/MeteoDwd.php [L,QSA]
+RewriteRule ^meteo/forecasts$ %{ENV:BASEPATH}MeteoForecast/MeteoForecast.php [L,QSA]
 
 # Rewrite for /api/meteo/forecasts/{run}/{step}/{param}
-RewriteRule ^meteo/forecasts/([^/]+)/(\d+)/([^/]+)$ %{ENV:BASEPATH}MeteoDwd/MeteoDwd.php?run=$1&step=$2&param=$3 [L,QSA]
+RewriteRule ^meteo/forecasts/([^/]+)/(\d+)/([^/]+)$ %{ENV:BASEPATH}MeteoForecast/MeteoForecast.php?run=$1&step=$2&param=$3 [L,QSA]
 
 # Rewrite for /api/meteo/measurements
 RewriteRule ^meteo/measurements$ %{ENV:BASEPATH}MeteoSma/MeteoSma.php [L,QSA]

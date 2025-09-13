@@ -1,6 +1,6 @@
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {SvgTextBuilder} from '../../../common/svg/svg-text-builder';
-import {ForecastRun} from '../../../meteo-dwd/domain/model/forecast-run';
+import {ForecastRun} from '../../../meteo-forecast/domain/model/forecast-run';
 import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
 import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 

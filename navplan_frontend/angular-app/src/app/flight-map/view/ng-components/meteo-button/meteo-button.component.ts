@@ -41,11 +41,11 @@ export class MeteoButtonComponent implements OnInit {
 
 
     public onWeatherForecastSelected() {
-        this.appStore.dispatch(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.DwdWeatherLayer}));
+        this.appStore.dispatch(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.ForecastWeatherLayer}));
     }
 
 
     public onWindForecastSelected() {
-        this.appStore.dispatch(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.DwdWindLayer}));
+        this.appStore.dispatch(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.ForecastWindLayer}));
     }
 }

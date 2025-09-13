@@ -1,5 +1,5 @@
 import {CloudMeteogram} from '../../domain/model/cloud-meteogram';
-import {ForecastRun} from '../../../meteo-dwd/domain/model/forecast-run';
+import {ForecastRun} from '../../../meteo-forecast/domain/model/forecast-run';
 import {PrecipBarsSvg} from './precip-bars-svg';
 import {WidthGridFcStepsSvg} from './width-grid-fc-steps-svg';
 import {PrecipTempGridSvg} from './precip-temp-grid-svg';

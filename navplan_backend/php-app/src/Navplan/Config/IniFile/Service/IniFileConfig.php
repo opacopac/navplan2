@@ -4,7 +4,7 @@ namespace Navplan\Config\IniFile\Service;
 
 use InvalidArgumentException;
 use Navplan\AerodromeChart\Domain\Service\IAerodromeChartConfig;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdConfig;
+use Navplan\MeteoForecast\Domain\Service\IMeteoForecastConfig;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\OpenAip\Config\IOpenAipConfig;
 use Navplan\System\Db\Domain\Model\IDbConfig;
@@ -18,13 +18,13 @@ use Navplan\User\Domain\Service\ITokenConfig;
 
 
 class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexConfig,
-    INotamConfig, IMeteoDwdConfig, ITerrainConfig, IAerodromeChartConfig, ISystemConfig {
+    INotamConfig, IMeteoForecastConfig, ITerrainConfig, IAerodromeChartConfig, ISystemConfig {
     private readonly DbCredentials $credentials;
     private readonly TokenCredentials $tokenCredentials;
     private readonly string $icaoApiKey;
     private readonly string $adsbExchangeApiKey;
     private readonly string $openAipApiKey;
-    private readonly string $meteoDwdBaseDir;
+    private readonly string $meteoForecastBaseDir;
     private readonly string $terrainTilesBaseDir;
     private readonly string $chartBaseDir;
     private readonly string $tmpDir;
@@ -52,7 +52,7 @@ class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexC
         $this->icaoApiKey = $iniValues['icao_api_key'];
         $this->adsbExchangeApiKey = $iniValues['adsbexchange_api_key'];
         $this->openAipApiKey = $iniValues['openaip_api_key'];
-        $this->meteoDwdBaseDir = $iniValues['meteo_dwd_base_dir'];
+        $this->meteoForecastBaseDir = $iniValues['meteo_forecast_base_dir'];
         $this->terrainTilesBaseDir = $iniValues['terrain_tiles_base_dir'];
         $this->chartBaseDir = $iniValues['chart_base_dir'];
         $this->tmpDir = $iniValues['tmp_dir'];
@@ -87,8 +87,8 @@ class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexC
     }
 
 
-    public function getMeteoDwdBaseDir(): string {
-        return $this->meteoDwdBaseDir;
+    public function getMeteoForecastBaseDir(): string {
+        return $this->meteoForecastBaseDir;
     }
 
 

@@ -1,7 +1,7 @@
 import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
-import {VerticalCloudColumn} from '../../../meteo-dwd/domain/model/vertical-cloud-column';
-import {CloudColumnSvg} from '../../../meteo-dwd/view/svg/cloud-column-svg';
+import {VerticalCloudColumn} from '../../../meteo-forecast/domain/model/vertical-cloud-column';
+import {CloudColumnSvg} from '../../../meteo-forecast/view/svg/cloud-column-svg';
 
 
 export class VerticalCloudsSvg {

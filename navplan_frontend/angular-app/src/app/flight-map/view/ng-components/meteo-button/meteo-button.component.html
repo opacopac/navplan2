@@ -14,7 +14,7 @@
         [buttonFormat]="'small_round'"
         [tooltipText]="'Clouds & Precipitation Forecast'"
         [tooltipPosition]="'right'"
-        [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.DwdWeatherLayer"
+        [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.ForecastWeatherLayer"
         (buttonClicked)="this.onWeatherForecastSelected()"
         >
         <i class="fa-solid fa-cloud"></i>
@@ -23,7 +23,7 @@
         [buttonFormat]="'small_round'"
         [tooltipText]="'Wind Forecast'"
         [tooltipPosition]="'right'"
-        [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.DwdWindLayer"
+        [toggleOnOff]="(this.meteoLayer$ | async) === MeteoLayer.ForecastWindLayer"
         (buttonClicked)="this.onWindForecastSelected()"
         >
         <i class="fa-solid fa-wind"></i>

@@ -24,8 +24,8 @@ use Navplan\Flightroute\IFlightrouteDiContainer;
 use Navplan\Flightroute\ProdFlightrouteDiContainer;
 use Navplan\Geoname\IGeonameDiContainer;
 use Navplan\Geoname\ProdGeonameDiContainer;
-use Navplan\MeteoDwd\IMeteoDwdDiContainer;
-use Navplan\MeteoDwd\ProdMeteoDwdDiContainer;
+use Navplan\MeteoForecast\IMeteoForecastDiContainer;
+use Navplan\MeteoForecast\ProdMeteoForecastDiContainer;
 use Navplan\MeteoGram\IMeteoGramDiContainer;
 use Navplan\MeteoGram\ProdMeteoGramDiContainer;
 use Navplan\MeteoSma\IMeteoSmaDiContainer;
@@ -69,7 +69,7 @@ class ProdNavplanDiContainer
     private INavaidDiContainer $navaidDiContainer;
     private IFlightrouteDiContainer $flightrouteDiContainer;
     private IGeonameDiContainer $geonameDiContainer;
-    private IMeteoDwdDiContainer $meteoDwdDiContainer;
+    private IMeteoForecastDiContainer $meteoForecastDiContainer;
     private IMeteoGramDiContainer $meteoGramDiContainer;
     private IMeteoSmaDiContainer $meteoSmaDiContainer;
     private INotamDiContainer $notamDiContainer;
@@ -257,17 +257,17 @@ class ProdNavplanDiContainer
     }
 
 
-    function getMeteoDwdDiContainer(): IMeteoDwdDiContainer
+    function getMeteoForecastDiContainer(): IMeteoForecastDiContainer
     {
-        if (!isset($this->meteoDwdDiContainer)) {
-            $this->meteoDwdDiContainer = new ProdMeteoDwdDiContainer(
+        if (!isset($this->meteoForecastDiContainer)) {
+            $this->meteoForecastDiContainer = new ProdMeteoForecastDiContainer(
                 $this->getSystemDiContainer()->getFileService(),
                 $this->getSystemDiContainer()->getHttpService(),
                 $this->getConfigDiContainer()
             );
         }
 
-        return $this->meteoDwdDiContainer;
+        return $this->meteoForecastDiContainer;
     }
 
 
@@ -276,9 +276,9 @@ class ProdNavplanDiContainer
         if (!isset($this->meteoGramDiContainer)) {
             $this->meteoGramDiContainer = new ProdMeteoGramDiContainer(
                 $this->getSystemDiContainer()->getHttpService(),
-                $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalCloudRepo(),
-                $this->getMeteoDwdDiContainer()->getMeteoDwdPrecipRepo(),
-                $this->getMeteoDwdDiContainer()->getMeteoDwdTempRepo(),
+                $this->getMeteoForecastDiContainer()->getMeteoForecastVerticalCloudRepo(),
+                $this->getMeteoForecastDiContainer()->getMeteoForecastPrecipRepo(),
+                $this->getMeteoForecastDiContainer()->getMeteoForecastTempRepo(),
                 $this->getTerrainDiContainer()->getTerrainService()
             );
         }
@@ -443,8 +443,8 @@ class ProdNavplanDiContainer
             $this->verticalMapDiContainer = new ProdVerticalMapDiContainer(
                 $this->getTerrainDiContainer()->getTerrainService(),
                 $this->getAirspaceDiContainer()->getAirspaceService(),
-                $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalCloudRepo(),
-                $this->getMeteoDwdDiContainer()->getMeteoDwdVerticalWindRepo(),
+                $this->getMeteoForecastDiContainer()->getMeteoForecastVerticalCloudRepo(),
+                $this->getMeteoForecastDiContainer()->getMeteoForecastVerticalWindRepo(),
                 $this->getSystemDiContainer()->getHttpService(),
             );
         }

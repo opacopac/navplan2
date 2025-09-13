@@ -5,10 +5,10 @@ namespace Navplan\MeteoGram\Domain\Service;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Temperature;
 use Navplan\Common\Domain\Model\TemperatureUnit;
-use Navplan\MeteoDwd\Domain\Model\ForecastStep;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdPrecipRepo;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdTempRepo;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
+use Navplan\MeteoForecast\Domain\Model\ForecastStep;
+use Navplan\MeteoForecast\Domain\Service\IMeteoForecastPrecipRepo;
+use Navplan\MeteoForecast\Domain\Service\IMeteoForecastTempRepo;
+use Navplan\MeteoForecast\Domain\Service\IMeteoForecastVerticalCloudRepo;
 use Navplan\MeteoGram\Domain\Model\CloudMeteogram;
 use Navplan\MeteoGram\Domain\Model\CloudMeteogramStep;
 use Navplan\Terrain\Domain\Service\ITerrainService;
@@ -16,9 +16,9 @@ use Navplan\Terrain\Domain\Service\ITerrainService;
 
 class CloudMeteoGramService implements ICloudMeteoGramService  {
     public function __construct(
-        private readonly IMeteoDwdVerticalCloudRepo $verticalCloudRepo,
-        private readonly IMeteoDwdPrecipRepo $precipRepo,
-        private readonly IMeteoDwdTempRepo $tempRepo,
+        private readonly IMeteoForecastVerticalCloudRepo $verticalCloudRepo,
+        private readonly IMeteoForecastPrecipRepo $precipRepo,
+        private readonly IMeteoForecastTempRepo $tempRepo,
         private readonly ITerrainService $terrainService
     ) {
     }

@@ -1,4 +1,4 @@
-import {VerticalCloudLevel} from '../../../meteo-dwd/domain/model/vertical-cloud-level';
+import {VerticalCloudLevel} from '../../../meteo-forecast/domain/model/vertical-cloud-level';
 import {Temperature} from '../../../geo-physics/domain/model/quantities/temperature';
 import {Precipitation} from '../../../geo-physics/domain/model/quantities/precipitation';
 

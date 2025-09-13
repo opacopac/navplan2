@@ -2,8 +2,8 @@
 
 namespace NavplanTest\MeteoDwd\Mocks;
 
-use Navplan\MeteoDwd\Domain\RunLengthFormat\RunLengthFormat;
-use Navplan\MeteoDwd\RunLengthFormatParser\RunLengthFormatHeaderParser;
+use Navplan\MeteoForecast\Domain\RunLengthFormat\RunLengthFormat;
+use Navplan\MeteoForecast\RunLengthFormatParser\RunLengthFormatHeaderParser;
 
 
 class DummyFxProduct1 {

@@ -6,7 +6,7 @@ import {catchError, map} from 'rxjs/operators';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {IMeteoGramService} from '../../domain/service/i-meteo-gram.service';
-import {ForecastRun} from '../../../meteo-dwd/domain/model/forecast-run';
+import {ForecastRun} from '../../../meteo-forecast/domain/model/forecast-run';
 import {CloudMeteogram} from '../../domain/model/cloud-meteogram';
 import {IRestCloudMeteogram} from '../model/i-rest-cloud-meteogram';
 import {RestCloudMeteogramConverter} from '../model/rest-cloud-meteogram-converter';

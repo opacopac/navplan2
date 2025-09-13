@@ -12,7 +12,7 @@ import {AerodromeCircuitsViewModule} from '../../aerodrome-circuits/view/aerodro
 import {AerodromeReportingViewModule} from '../../aerodrome-reporting/view/aerodrome-reporting-view.module';
 import {MeteoSmaViewModule} from '../../meteo-sma/view/meteo-sma-view.module';
 import {LocationViewModule} from '../../location/location-view/location-view.module';
-import {MeteoDwdViewModule} from '../../meteo-dwd/view/meteo-dwd-view.module';
+import {MeteoForecastViewModule} from '../../meteo-forecast/view/meteo-forecast-view.module';
 import {BaseMapViewModule} from '../../base-map/view/base-map-view.module';
 import {NavaidViewModule} from '../../navaid/view/navaid-view.module';
 import {WebcamViewModule} from '../../webcam/view/webcam-view.module';
@@ -35,7 +35,7 @@ import {TrafficViewModule} from '../../traffic/view/traffic-view.module';
         FlightrouteViewModule,
         LocationViewModule,
         MetarTafViewModule,
-        MeteoDwdViewModule,
+        MeteoForecastViewModule,
         MeteoGramViewModule,
         MeteoSmaViewModule,
         NavaidViewModule,

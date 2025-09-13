@@ -4,8 +4,8 @@ namespace Navplan\VerticalMap\Domain\Service\RestModel;
 
 use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Rest\Converter\RestLengthConverter;
-use Navplan\MeteoDwd\Rest\Model\RestVerticalCloudColumnConverter;
-use Navplan\MeteoDwd\Rest\Model\RestVerticalWindColumnConverter;
+use Navplan\MeteoForecast\Rest\Model\RestVerticalCloudColumnConverter;
+use Navplan\MeteoForecast\Rest\Model\RestVerticalWindColumnConverter;
 use Navplan\VerticalMap\Domain\Model\VerticalMap;
 
 

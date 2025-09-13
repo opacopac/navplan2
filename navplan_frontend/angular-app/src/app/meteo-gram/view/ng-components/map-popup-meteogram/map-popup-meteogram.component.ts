@@ -1,12 +1,12 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {select, Store} from '@ngrx/store';
-import {getMeteoDwdForecastRun} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
+import {getMeteoForecastForecastRun} from '../../../../meteo-forecast/state/ngrx/meteo-forecast.selectors';
 import {Observable, Subscription} from 'rxjs';
 import {CloudMeteogramSvg} from '../../svg/cloud-meteogram-svg';
 import {CloudMeteogram} from '../../../domain/model/cloud-meteogram';
 import {withLatestFrom} from 'rxjs/operators';
-import {ForecastRun} from '../../../../meteo-dwd/domain/model/forecast-run';
+import {ForecastRun} from '../../../../meteo-forecast/domain/model/forecast-run';
 import {MeteoGramActions} from '../../../state/ngrx/meteo-gram.actions';
 import {getCloudMeteogram} from '../../../state/ngrx/meteo-gram.selectors';
 
@@ -21,7 +21,7 @@ export class MapPopupMeteogramComponent implements OnInit {
     @ViewChild('container') container: ElementRef;
     private readonly cloudMeteogram$: Observable<[CloudMeteogram, ForecastRun]> = this.appStore.pipe(
         select(getCloudMeteogram),
-        withLatestFrom(this.appStore.pipe(select(getMeteoDwdForecastRun)))
+        withLatestFrom(this.appStore.pipe(select(getMeteoForecastForecastRun)))
     );
     private readonly meteogramStepsSubscription: Subscription;
     private currentMeteogram: [CloudMeteogram, ForecastRun];

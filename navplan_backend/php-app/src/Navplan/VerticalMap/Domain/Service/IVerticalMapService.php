@@ -3,7 +3,7 @@
 namespace Navplan\VerticalMap\Domain\Service;
 
 use Navplan\Common\Domain\Model\Line2d;
-use Navplan\MeteoDwd\Domain\Model\ForecastStep;
+use Navplan\MeteoForecast\Domain\Model\ForecastStep;
 use Navplan\VerticalMap\Domain\Model\VerticalMap;
 
 

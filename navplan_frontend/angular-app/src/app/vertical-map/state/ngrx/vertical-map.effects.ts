@@ -10,18 +10,18 @@ import {getVerticalMapState} from './vertical-map.selectors';
 import {VerticalMapState} from '../state-model/vertical-map-state';
 import {VerticalMapButtonStatus} from '../../domain/model/vertical-map-button-status';
 import {IVerticalMapService} from '../../domain/service/i-vertical-map.service';
-import {MeteoDwdState} from '../../../meteo-dwd/state/model/meteo-dwd-state';
-import {getMeteoDwdState} from '../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
-import {ForecastSelection} from '../../../meteo-dwd/domain/model/forecast-selection';
-import {MeteoDwdStatus} from '../../../meteo-dwd/domain/model/meteo-dwd-status';
+import {MeteoForecastState} from '../../../meteo-forecast/state/model/meteo-forecast-state';
+import {getMeteoForecastState} from '../../../meteo-forecast/state/ngrx/meteo-forecast.selectors';
+import {ForecastSelection} from '../../../meteo-forecast/domain/model/forecast-selection';
+import {MeteoForecastStatus} from '../../../meteo-forecast/domain/model/meteo-forecast-status';
 
 
 @Injectable()
 export class VerticalMapEffects {
     private readonly vmState$: Observable<VerticalMapState> = this.appStore.pipe(select(getVerticalMapState));
     private readonly flightroute$: Observable<Flightroute> = this.appStore.pipe(select(getFlightroute));
-    private readonly meteoDwdstate$: Observable<MeteoDwdState> = this.appStore.pipe(select(getMeteoDwdState));
-    private readonly forecastSelection$: Observable<ForecastSelection> = this.meteoDwdstate$.pipe(
+    private readonly meteoForecaststate$: Observable<MeteoForecastState> = this.appStore.pipe(select(getMeteoForecastState));
+    private readonly forecastSelection$: Observable<ForecastSelection> = this.meteoForecaststate$.pipe(
         map(state => VerticalMapEffects.convertForecastSelection(state)),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
     );
@@ -83,9 +83,9 @@ export class VerticalMapEffects {
     ));
 
 
-    private static convertForecastSelection(state: MeteoDwdState): ForecastSelection {
+    private static convertForecastSelection(state: MeteoForecastState): ForecastSelection {
         if (
-            state.status !== MeteoDwdStatus.CURRENT
+            state.status !== MeteoForecastStatus.CURRENT
             || state.showLayer === null
             || state.forecastRun === null
             || state.selectedStep === null

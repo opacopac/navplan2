@@ -2,7 +2,7 @@ import {SvgGroupElement} from '../../../common/svg/svg-group-element';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
-import {CloudColumnSvg} from '../../../meteo-dwd/view/svg/cloud-column-svg';
+import {CloudColumnSvg} from '../../../meteo-forecast/view/svg/cloud-column-svg';
 import {CloudMeteogramStep} from '../../domain/model/cloud-meteogram-step';
 
 

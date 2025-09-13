@@ -1,0 +1,34 @@
+<div class="meteo-fc-timeline flex-row-100">
+    <button mat-button (click)="this.onPreviousStepClicked(); $event.preventDefault()"><i
+        class="fa-solid fa-angle-left meteo-fc-buttons"></i>
+    </button>
+    <button mat-button (click)="this.onNextStepClicked(); $event.preventDefault()"><i
+        class="fa-solid fa-angle-right meteo-fc-buttons"></i>
+    </button>
+    <div class="meteo-fc-timeline-slider-and-markings flex-col">
+        <form [formGroup]="this.meteoFcTimelineForm">
+            <!-- markings -->
+            <app-meteo-forecast-timeline-markings
+                [currentForecastRun]="this.currentForecastRun"
+                class="meteo-fc-timeline-markings"
+            />
+            <!-- slider -->
+            <mat-slider
+                [min]="this.getMinStep()"
+                [max]="this.getMaxStep()"
+                [step]="this.getStepInterval()"
+                [discrete]="true"
+                [showTickMarks]="true"
+                [displayWith]="formatLabel"
+                aria-label="units"
+                class="meteo-fc-timeline-slider"
+            >
+                <input
+                    matSliderThumb
+                    formControlName="step"
+                    (valueChange)="this.onStepSelected($event)"
+                />
+            </mat-slider>
+        </form>
+    </div>
+</div>

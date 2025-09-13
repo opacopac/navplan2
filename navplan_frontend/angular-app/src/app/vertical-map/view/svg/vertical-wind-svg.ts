@@ -4,7 +4,7 @@ import {WindIcon} from '../../../meteo-common/view/wind_icons/wind-icon';
 import {SvgImageElement} from '../../../common/svg/svg-image-element';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
-import {VerticalWindColumn} from '../../../meteo-dwd/domain/model/vertical-wind-column';
+import {VerticalWindColumn} from '../../../meteo-forecast/domain/model/vertical-wind-column';
 
 
 export class VerticalWindSvg {

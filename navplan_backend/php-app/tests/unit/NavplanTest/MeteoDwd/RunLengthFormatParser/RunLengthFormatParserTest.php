@@ -2,7 +2,7 @@
 
 namespace NavplanTest\MeteoDwd\RunLengthFormatParser;
 
-use Navplan\MeteoDwd\RunLengthFormatParser\RunLengthFormatParser;
+use Navplan\MeteoForecast\RunLengthFormatParser\RunLengthFormatParser;
 use NavplanTest\MeteoDwd\Mocks\DummyFxProduct1;
 use PHPUnit\Framework\TestCase;
 

@@ -5,9 +5,9 @@ namespace Navplan\VerticalMap\Domain\Service\RestModel;
 use InvalidArgumentException;
 use Navplan\Common\Domain\Model\Line2d;
 use Navplan\Common\Rest\Converter\RestLine2dConverter;
-use Navplan\MeteoDwd\Domain\Model\ForecastStep;
-use Navplan\MeteoDwd\Domain\Model\WeatherModelLayer;
-use Navplan\MeteoDwd\Rest\Model\RestForecastStepConverter;
+use Navplan\MeteoForecast\Domain\Model\ForecastStep;
+use Navplan\MeteoForecast\Domain\Model\WeatherModelLayer;
+use Navplan\MeteoForecast\Rest\Model\RestForecastStepConverter;
 
 
 class ReadVerticalMapRequest {

@@ -49,9 +49,9 @@ class ProdConfigDiContainer implements IConfigDiContainer
     }
 
 
-    public function getMeteoDwdBaseDir(): string
+    public function getMeteoForecastBaseDir(): string
     {
-        return $this->getIniFileConfig()->getMeteoDwdBaseDir();
+        return $this->getIniFileConfig()->getMeteoForecastBaseDir();
     }
 
 

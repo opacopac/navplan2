@@ -67,7 +67,7 @@ Thumbs.db
 /logs/
 /data_import/
 /adcharts/
-/meteo_dwd/
+/meteo_forecast/
 
 # 3rd party php
 /navplan_backend/php-app/vendor/
@@ -76,7 +76,6 @@ composer.lock
 # misc
 devsbb/
 navplan2.iml
-/src/php/Navplan/MeteoDwd/asdf.php
 /.phpunit.result.cache
 /navplan_frontend/angular-app/.browserslistrc
 /src/tmp/
@@ -88,5 +87,5 @@ navplan2.iml
 /navplan_frontend/angular-app/dist/
 /navplan_frontend/angular-app/package-lock.json
 /navplan_backend/php-app/src/Navplan/Aircraft/Importer/Data/
-/navplan_backend/meteo_dwd/
+/navplan_backend/meteo_forecast/
 /navplan_backend/tools/

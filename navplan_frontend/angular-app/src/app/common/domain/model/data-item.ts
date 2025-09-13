@@ -17,8 +17,8 @@ export enum DataItemType {
     airportChart = 14,
     searchItem = 15,
     smaMeasurement = 16,
-    dwdWindForecast = 17,
-    dwdWwForecast = 18,
+    meteoWindForecast = 17,
+    meteoWwForecast = 18,
 }
 
 

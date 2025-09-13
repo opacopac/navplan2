@@ -3,9 +3,9 @@
 namespace Navplan\MeteoGram;
 
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdPrecipRepo;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdTempRepo;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
+use Navplan\MeteoForecast\Domain\Service\IMeteoForecastPrecipRepo;
+use Navplan\MeteoForecast\Domain\Service\IMeteoForecastTempRepo;
+use Navplan\MeteoForecast\Domain\Service\IMeteoForecastVerticalCloudRepo;
 use Navplan\MeteoGram\Domain\Service\CloudMeteoGramService;
 use Navplan\MeteoGram\Domain\Service\ICloudMeteoGramService;
 use Navplan\MeteoGram\Rest\Service\ReadCloudMeteogramController;
@@ -20,9 +20,9 @@ class ProdMeteoGramDiContainer implements IMeteoGramDiContainer {
 
     public function __construct(
         private readonly IHttpService $httpService,
-        private readonly IMeteoDwdVerticalCloudRepo $verticalCloudRepo,
-        private readonly IMeteoDwdPrecipRepo $precipRepo,
-        private readonly IMeteoDwdTempRepo $tempRepo,
+        private readonly IMeteoForecastVerticalCloudRepo $verticalCloudRepo,
+        private readonly IMeteoForecastPrecipRepo $precipRepo,
+        private readonly IMeteoForecastTempRepo $tempRepo,
         private readonly ITerrainService $terrainService
     ) {
     }

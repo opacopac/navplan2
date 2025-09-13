@@ -3,7 +3,7 @@
 namespace NavplanTest\MeteoDwd\Image;
 
 use InvalidArgumentException;
-use Navplan\MeteoDwd\Image\RectangularPngCreator;
+use Navplan\MeteoForecast\Image\RectangularPngCreator;
 use PHPUnit\Framework\TestCase;
 
 

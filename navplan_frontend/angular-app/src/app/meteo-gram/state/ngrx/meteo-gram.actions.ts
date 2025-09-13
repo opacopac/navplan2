@@ -10,7 +10,7 @@ export class MeteoGramActions {
     );
 
     public static readonly readCloudMeteogramSuccess = createAction(
-        '[MeteoDwdEffects] Read cloud meteogram success',
+        '[MeteoForecastEffects] Read cloud meteogram success',
         props<{ cloudMeteogram: CloudMeteogram }>()
     );
 }

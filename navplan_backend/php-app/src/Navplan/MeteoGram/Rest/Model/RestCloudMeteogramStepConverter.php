@@ -4,7 +4,7 @@ namespace Navplan\MeteoGram\Rest\Model;
 
 use Navplan\Common\Rest\Converter\RestPrecipitationConverter;
 use Navplan\Common\Rest\Converter\RestTemperatureConverter;
-use Navplan\MeteoDwd\Rest\Model\RestVerticalCloudLevelConverter;
+use Navplan\MeteoForecast\Rest\Model\RestVerticalCloudLevelConverter;
 use Navplan\MeteoGram\Domain\Model\CloudMeteogramStep;
 
 

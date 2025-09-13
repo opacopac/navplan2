@@ -13,10 +13,10 @@ use Navplan\Common\Domain\Model\LineInterval2d;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\Model\Position3d;
 use Navplan\Common\GeoHelper;
-use Navplan\MeteoDwd\Domain\Model\ForecastStep;
-use Navplan\MeteoDwd\Domain\Model\WeatherModelLayer;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalCloudRepo;
-use Navplan\MeteoDwd\Domain\Service\IMeteoDwdVerticalWindRepo;
+use Navplan\MeteoForecast\Domain\Model\ForecastStep;
+use Navplan\MeteoForecast\Domain\Model\WeatherModelLayer;
+use Navplan\MeteoForecast\Domain\Service\IMeteoForecastVerticalCloudRepo;
+use Navplan\MeteoForecast\Domain\Service\IMeteoForecastVerticalWindRepo;
 use Navplan\Terrain\Domain\Service\ITerrainService;
 use Navplan\VerticalMap\Domain\Model\VerticalMap;
 use Navplan\VerticalMap\Domain\Model\VerticalMapAirspace;
@@ -37,8 +37,8 @@ class VerticalMapService implements IVerticalMapService {
     public function __construct(
         private ITerrainService  $terrainService,
         private IAirspaceService $airspaceService,
-        private IMeteoDwdVerticalCloudRepo $verticalCloudRepo,
-        private IMeteoDwdVerticalWindRepo $verticalWindRepo
+        private IMeteoForecastVerticalCloudRepo $verticalCloudRepo,
+        private IMeteoForecastVerticalWindRepo $verticalWindRepo
     ) {
     }
 

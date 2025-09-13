@@ -4,12 +4,15 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {MeteoLayer} from '../../../domain/model/meteo-layer';
 import {getFlightMapMeteoLayer} from '../../../state/ngrx/flight-map.selectors';
-import {ForecastRun} from '../../../../meteo-dwd/domain/model/forecast-run';
-import {getMeteoDwdForecastRun, getMeteoDwdSelectedStep} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.selectors';
-import {MeteoDwdActions} from '../../../../meteo-dwd/state/ngrx/meteo-dwd.actions';
+import {ForecastRun} from '../../../../meteo-forecast/domain/model/forecast-run';
 import {
-    MeteoDwdTimelineComponent
-} from '../../../../meteo-dwd/view/ng-components/meteo-dwd-timeline/meteo-dwd-timeline.component';
+    getMeteoForecastForecastRun,
+    getMeteoForecastSelectedStep
+} from '../../../../meteo-forecast/state/ngrx/meteo-forecast.selectors';
+import {MeteoForecastActions} from '../../../../meteo-forecast/state/ngrx/meteo-forecast.actions';
+import {
+    MeteoForecastTimelineComponent
+} from '../../../../meteo-forecast/view/ng-components/meteo-forecast-timeline/meteo-forecast-timeline.component';
 import {CommonModule} from '@angular/common';
 
 
@@ -17,15 +20,15 @@ import {CommonModule} from '@angular/common';
     selector: 'app-meteo-container',
     imports: [
         CommonModule,
-        MeteoDwdTimelineComponent
+        MeteoForecastTimelineComponent
     ],
     templateUrl: './meteo-container.component.html',
     styleUrls: ['./meteo-container.component.scss']
 })
 export class MeteoContainerComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly meteoLayer$ = this.appStore.pipe(select(getFlightMapMeteoLayer));
-    protected readonly forecastRun$: Observable<ForecastRun> = this.appStore.pipe(select(getMeteoDwdForecastRun));
-    protected readonly selectedStep$: Observable<number> = this.appStore.pipe(select(getMeteoDwdSelectedStep));
+    protected readonly forecastRun$: Observable<ForecastRun> = this.appStore.pipe(select(getMeteoForecastForecastRun));
+    protected readonly selectedStep$: Observable<number> = this.appStore.pipe(select(getMeteoForecastSelectedStep));
 
 
     constructor(private readonly appStore: Store<any>) {
@@ -52,16 +55,16 @@ export class MeteoContainerComponent implements OnInit, OnDestroy, AfterViewInit
 
 
     protected onPreviousStepClicked() {
-        this.appStore.dispatch(MeteoDwdActions.previousStep());
+        this.appStore.dispatch(MeteoForecastActions.previousStep());
     }
 
 
     protected onNextStepClicked() {
-        this.appStore.dispatch(MeteoDwdActions.nextStep());
+        this.appStore.dispatch(MeteoForecastActions.nextStep());
     }
 
 
     protected onStepSelected(step: number) {
-        this.appStore.dispatch(MeteoDwdActions.selectStep({step: step}));
+        this.appStore.dispatch(MeteoForecastActions.selectStep({step: step}));
     }
 }
