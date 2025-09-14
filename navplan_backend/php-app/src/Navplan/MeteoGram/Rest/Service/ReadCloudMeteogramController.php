@@ -11,10 +11,10 @@ use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 
 
-class ReadCloudMeteogramController implements IRestController {
+readonly class ReadCloudMeteogramController implements IRestController {
     public function __construct(
-        private readonly IHttpService $httpService,
-        private readonly ICloudMeteoGramService $meteoGramService
+        private IHttpService $httpService,
+        private ICloudMeteoGramService $meteoGramService
     ) {
     }
 

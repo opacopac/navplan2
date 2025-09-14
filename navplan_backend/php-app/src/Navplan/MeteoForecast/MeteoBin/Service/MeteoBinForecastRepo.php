@@ -16,17 +16,11 @@ use Navplan\System\Domain\Service\IFileService;
 
 class MeteoBinForecastRepo implements IMeteoForecastRepo
 {
-    private string $iconD2BaseDir;
-    private string $iconCh1BaseDir;
-
-
     public function __construct(
         private readonly IFileService $fileService,
         private readonly IMeteoForecastConfig $meteoForecastConfig
     )
     {
-        $this->iconD2BaseDir = $this->meteoForecastConfig->getMeteoForecastBaseDir() . WeatherModelIconD2::FORECAST_DIR;
-        $this->iconCh1BaseDir = $this->meteoForecastConfig->getMeteoForecastBaseDir() . WeatherModelIconCh1::FORECAST_DIR;
     }
 
 
@@ -37,12 +31,14 @@ class MeteoBinForecastRepo implements IMeteoForecastRepo
     {
         $fcRuns = [];
 
-        $latestIconCh1Run = $this->findLatestModelForecast(WeatherModelType::ICON_CH1, $this->iconCh1BaseDir);
+        $iconCh1BaseDir = $this->meteoForecastConfig->getMeteoForecastBaseDir() . WeatherModelIconCh1::FORECAST_DIR;
+        $latestIconCh1Run = $this->findLatestModelForecast(WeatherModelType::ICON_CH1, $iconCh1BaseDir);
         if ($latestIconCh1Run != null) {
             $fcRuns[] = $latestIconCh1Run;
         }
 
-        $latestIconD2Run = $this->findLatestModelForecast(WeatherModelType::ICON_D2, $this->iconD2BaseDir);
+        $iconD2BaseDir = $this->meteoForecastConfig->getMeteoForecastBaseDir() . WeatherModelIconD2::FORECAST_DIR;
+        $latestIconD2Run = $this->findLatestModelForecast(WeatherModelType::ICON_D2, $iconD2BaseDir);
         if ($latestIconD2Run != null) {
             $fcRuns[] = $latestIconD2Run;
         }

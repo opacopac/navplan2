@@ -24,7 +24,9 @@ class WeatherModelIconCh1
             $minStep,
             $maxStep,
             new Time(self::STEP_LENGTH_H, TimeUnit::H),
-            Length::fromM(self::GRID_RESOLUTION_M)
+            Length::fromM(self::GRID_RESOLUTION_M),
+            self::VERT_LAYERS,
+            self::FORECAST_DIR
         );
     }
 }

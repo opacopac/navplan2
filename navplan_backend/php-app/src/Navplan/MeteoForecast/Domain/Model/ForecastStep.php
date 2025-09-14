@@ -5,6 +5,7 @@ namespace Navplan\MeteoForecast\Domain\Model;
 
 class ForecastStep {
     public function __construct(
+        public WeatherModelConfig $modelConfig,
         public string $runName,
         public int $step
     ) {

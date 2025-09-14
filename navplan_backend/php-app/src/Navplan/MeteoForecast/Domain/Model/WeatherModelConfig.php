@@ -13,7 +13,9 @@ class WeatherModelConfig
         public int $minStep,
         public int $maxStep,
         public Time $stepLength,
-        public Length $gridResolution
+        public Length $gridResolution,
+        public int $vertLayers,
+        public string $baseDir,
     )
     {
     }

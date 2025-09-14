@@ -5,7 +5,6 @@ namespace Navplan\MeteoForecast\MeteoBin\Service;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoForecast\Domain\Model\ForecastStep;
 use Navplan\MeteoForecast\Domain\Model\IconGridDefinition;
-use Navplan\MeteoForecast\Domain\Model\WeatherModelIconD2;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastConfig;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastTempRepo;
 use Navplan\MeteoForecast\MeteoBin\Model\MeteoBinTempConverter;
@@ -18,15 +17,12 @@ class MeteoBinTempRepo implements IMeteoForecastTempRepo
     private const METEOBIN_TEMP_PATH = "/temp/TEMP.meteobin";
     private const BYTES_PER_POS = 1;
 
-    private string $iconD2BaseDir;
-
 
     public function __construct(
         private readonly IFileService $fileService,
         private readonly IMeteoForecastConfig $meteoForecastConfig,
     )
     {
-        $this->iconD2BaseDir = $this->meteoForecastConfig->getMeteoForecastBaseDir() . WeatherModelIconD2::FORECAST_DIR;
     }
 
 
@@ -52,8 +48,12 @@ class MeteoBinTempRepo implements IMeteoForecastTempRepo
 
     private function openMeteoBinFile(ForecastStep $forecastStep): IFile
     {
-        $step = StringNumberHelper::zeroPad($forecastStep->step, 3);
-        $fileName = $this->iconD2BaseDir . $forecastStep->runName . "/" . $step . self::METEOBIN_TEMP_PATH;
+        $fileName = $this->meteoForecastConfig->getMeteoForecastBaseDir()
+            . $forecastStep->modelConfig->baseDir
+            . $forecastStep->runName
+            . "/"
+            . StringNumberHelper::zeroPad($forecastStep->step, 3)
+            . self::METEOBIN_TEMP_PATH;
 
         return $this->fileService->fopen($fileName, "r");
     }

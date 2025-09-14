@@ -10,6 +10,7 @@ import {ForecastRun} from '../../../meteo-forecast/domain/model/forecast-run';
 import {CloudMeteogram} from '../../domain/model/cloud-meteogram';
 import {IRestCloudMeteogram} from '../model/i-rest-cloud-meteogram';
 import {RestCloudMeteogramConverter} from '../model/rest-cloud-meteogram-converter';
+import {WeatherModelType} from '../../../meteo-forecast/domain/model/weather-model-type';
 
 
 @Injectable()
@@ -24,6 +25,7 @@ export class RestMeteoGramService implements IMeteoGramService {
         }
 
         const params = new HttpParams()
+            .set('model', WeatherModelType[forecast.model.modelType])
             .set('forecastrun', forecast.getName())
             .set('minstep', forecast.model.minStep.toString())
             .set('maxstep', forecast.model.maxStep.toString())

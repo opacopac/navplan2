@@ -102,6 +102,8 @@ export class RestMeteoForecastService implements IMeteoForecastService {
                 return 'icon-eu';
             case WeatherModelType.ICON:
                 return 'icon';
+            case WeatherModelType.ICON_CH1:
+                return 'icon-ch1';
             default:
                 throw new Error('unknown model type');
         }

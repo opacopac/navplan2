@@ -27,7 +27,7 @@ class CloudMeteoGramService implements ICloudMeteoGramService  {
     public function readCloudMeteoGram(ReadCloudMeteogramRequest $request): CloudMeteogram {
         $cloudMeteogramSteps = [];
         for ($i = $request->minStep; $i <= $request->maxStep; $i++) {
-            $forecastStep = new ForecastStep($request->fcName, $i);
+            $forecastStep = new ForecastStep($request->modelConfig, $request->fcName, $i);
 
             $singleVerticalCloudColumn = $this->verticalCloudRepo->readVerticalClouds($forecastStep, [$request->pos]);
             $verticalCloudColumn = count($singleVerticalCloudColumn) > 0 ? $singleVerticalCloudColumn[0] : [];

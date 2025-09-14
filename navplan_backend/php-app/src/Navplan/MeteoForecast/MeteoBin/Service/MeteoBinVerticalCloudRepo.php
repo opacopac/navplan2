@@ -7,7 +7,6 @@ use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoForecast\Domain\Model\ForecastStep;
 use Navplan\MeteoForecast\Domain\Model\IconGridDefinition;
-use Navplan\MeteoForecast\Domain\Model\WeatherModelIconD2;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastConfig;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastVerticalCloudRepo;
 use Navplan\MeteoForecast\MeteoBin\Model\MeteoBinVerticalCloudInfoConverter;
@@ -18,9 +17,7 @@ use Navplan\System\Domain\Service\IFileService;
 class MeteoBinVerticalCloudRepo implements IMeteoForecastVerticalCloudRepo
 {
     private const METEOBIN_VERTICAL_CLOUDS_PATH = "/vertical_clouds/VERTICAL_CLOUDS.meteobin";
-    private const BYTES_PER_POS = 41 * 2;
-
-    private string $iconD2BaseDir;
+    private const BYTES_PER_POS = 2;
 
 
     public function __construct(
@@ -28,7 +25,6 @@ class MeteoBinVerticalCloudRepo implements IMeteoForecastVerticalCloudRepo
         private readonly IMeteoForecastConfig $meteoForecastConfig
     )
     {
-        $this->iconD2BaseDir = $this->meteoForecastConfig->getMeteoForecastBaseDir() . WeatherModelIconD2::FORECAST_DIR;
     }
 
 
@@ -37,6 +33,7 @@ class MeteoBinVerticalCloudRepo implements IMeteoForecastVerticalCloudRepo
         $iconD2Grid = IconGridDefinition::getIconD2Grid();
         $file = $this->openMeteoBinFile($forecastStep);
 
+        $bytesPerPos = self::BYTES_PER_POS * $forecastStep->modelConfig->vertLayers;
         $verticalCloudColumns = [];
         $horDist = Length::createZero();
         for ($i = 0; $i < count($posList); $i++) {
@@ -45,9 +42,9 @@ class MeteoBinVerticalCloudRepo implements IMeteoForecastVerticalCloudRepo
             }
             $x = floor($iconD2Grid->getX($posList[$i]->longitude));
             $y = floor($iconD2Grid->getY($posList[$i]->latitude));
-            $seekPos = (int)($iconD2Grid->width * $y + $x) * self::BYTES_PER_POS;
+            $seekPos = (int)($iconD2Grid->width * $y + $x) * $bytesPerPos;
             if ($file->fseek($seekPos) === 0) {
-                $rawBytes = $file->fread(self::BYTES_PER_POS);
+                $rawBytes = $file->fread($bytesPerPos);
                 $verticalCloudColumns[] = MeteoBinVerticalCloudInfoConverter::verticalCloudColumnFrom($rawBytes, $horDist);
             };
         }
@@ -58,8 +55,12 @@ class MeteoBinVerticalCloudRepo implements IMeteoForecastVerticalCloudRepo
 
     private function openMeteoBinFile(ForecastStep $forecastStep): IFile
     {
-        $step = StringNumberHelper::zeroPad($forecastStep->step, 3);
-        $fileName = $this->iconD2BaseDir . $forecastStep->runName . "/" . $step . self::METEOBIN_VERTICAL_CLOUDS_PATH;
+        $fileName = $this->meteoForecastConfig->getMeteoForecastBaseDir()
+            . $forecastStep->modelConfig->baseDir
+            . $forecastStep->runName
+            . "/"
+            . StringNumberHelper::zeroPad($forecastStep->step, 3)
+            . self::METEOBIN_VERTICAL_CLOUDS_PATH;
 
         return $this->fileService->fopen($fileName, "r");
     }

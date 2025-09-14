@@ -8,7 +8,6 @@ use Navplan\MeteoForecast\Domain\Model\ForecastStep;
 use Navplan\MeteoForecast\Domain\Model\GridDefinition;
 use Navplan\MeteoForecast\Domain\Model\IconGridDefinition;
 use Navplan\MeteoForecast\Domain\Model\WeatherInfo;
-use Navplan\MeteoForecast\Domain\Model\WeatherModelIconD2;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastConfig;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastWeatherRepo;
 use Navplan\MeteoForecast\MeteoBin\Model\MeteoBinWeatherInfoConverter;
@@ -19,22 +18,23 @@ class MeteoBinWeatherRepo implements IMeteoForecastWeatherRepo
 {
     private const METEOBIN_WW_PATH = "/clct_precip/WW.meteobin";
 
-    private string $iconD2BaseDir;
-
 
     public function __construct(
         private readonly IFileService $fileService,
         private readonly IMeteoForecastConfig $meteoForecastConfig
     )
     {
-        $this->iconD2BaseDir = $this->meteoForecastConfig->getMeteoForecastBaseDir() . WeatherModelIconD2::FORECAST_DIR;
     }
 
 
     public function readWeatherInfo(ForecastStep $forecastStep, GridDefinition $grid): array
     {
-        $step = StringNumberHelper::zeroPad($forecastStep->step, 3);
-        $fileName = $this->iconD2BaseDir . $forecastStep->runName . "/" . $step . self::METEOBIN_WW_PATH;
+        $fileName = $this->meteoForecastConfig->getMeteoForecastBaseDir()
+            . $forecastStep->modelConfig->baseDir
+            . $forecastStep->runName
+            . "/"
+            . StringNumberHelper::zeroPad($forecastStep->step, 3)
+            . self::METEOBIN_WW_PATH;
 
         $rawContent = $this->fileService->fileGetContents($fileName);
         $iconD2Grid = IconGridDefinition::getIconD2Grid();
