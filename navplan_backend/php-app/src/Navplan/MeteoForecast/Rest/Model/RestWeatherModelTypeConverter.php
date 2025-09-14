@@ -11,8 +11,12 @@ class RestWeatherModelTypeConverter
     const ARG_MODEL_TYPE = "model";
 
 
-    public static function fromRest(array $args): int
+    public static function fromRest(array $args): ?int
     {
-        return WeatherModelType::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_MODEL_TYPE));
+        if (!isset($args[self::ARG_MODEL_TYPE])) {
+            return null;
+        }
+
+        return WeatherModelType::fromString(StringNumberHelper::parseStringOrNull($args, self::ARG_MODEL_TYPE));
     }
 }

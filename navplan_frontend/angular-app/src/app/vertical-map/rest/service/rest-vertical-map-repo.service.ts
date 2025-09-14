@@ -11,6 +11,7 @@ import {IVerticalMapRepoService} from '../../domain/service/i-vertical-map-repo.
 import {ForecastSelection} from '../../../meteo-forecast/domain/model/forecast-selection';
 import {RestForecastStepConverter} from '../../../meteo-forecast/rest/model/rest-forecast-step-converter';
 import {RestMeteoForecastLayerConverter} from '../../../meteo-forecast/rest/model/rest-meteo-forecast-layer-converter';
+import {WeatherModelType} from '../../../meteo-forecast/domain/model/weather-model-type';
 
 
 @Injectable()
@@ -22,6 +23,7 @@ export class RestVerticalMapRepoService implements IVerticalMapRepoService {
     readVerticalMap(wpPositions: [number, number][], fcSelection: ForecastSelection): Observable<VerticalMap> {
         const requestBody = {
             positions: wpPositions,
+            model: fcSelection ? WeatherModelType[fcSelection.forecastRun.model.modelType] : null,
             run: fcSelection ? fcSelection.forecastRun.getName() : null,
             step: fcSelection ? RestForecastStepConverter.toRest(fcSelection.forecastStep) : null,
             layer: fcSelection ? RestMeteoForecastLayerConverter.toRest(fcSelection.layer) : null

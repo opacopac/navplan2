@@ -11,8 +11,12 @@ use Navplan\MeteoForecast\Domain\Model\WeatherModelType;
 
 class WeatherModelConfigService
 {
-    public static function createFromModelType(int $modelType): WeatherModelConfig
+    public static function createFromModelType(?int $modelType): WeatherModelConfig
     {
+        if ($modelType === null) {
+            throw new InvalidArgumentException("Model type is null");
+        }
+
         return match ($modelType) {
             WeatherModelType::ICON_D2 => WeatherModelIconD2::getModelConfig(),
             WeatherModelType::ICON_CH1 => WeatherModelIconCh1::getModelConfig(),
