@@ -112,6 +112,7 @@ export class RestMeteoForecastService implements IMeteoForecastService {
 
     private getRestServiceUrl(param: string, forecast: ForecastRun, step: number): string {
         return environment.meteoForecastApiBaseUrl
+            + '/' + WeatherModelType[forecast.model.modelType]
             + '/' + forecast.getName()
             + '/' + RestForecastStepConverter.toRest(step)
             + '/' + param;

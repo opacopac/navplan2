@@ -87,8 +87,8 @@ RewriteRule ^meteograms$ %{ENV:BASEPATH}MeteoGram/Rest/Service/ReadCloudMeteogra
 # Rewrite for /api/meteo/forecasts
 RewriteRule ^meteo/forecasts$ %{ENV:BASEPATH}MeteoForecast/MeteoForecast.php [L,QSA]
 
-# Rewrite for /api/meteo/forecasts/{run}/{step}/{param}
-RewriteRule ^meteo/forecasts/([^/]+)/(\d+)/([^/]+)$ %{ENV:BASEPATH}MeteoForecast/MeteoForecast.php?run=$1&step=$2&param=$3 [L,QSA]
+# Rewrite for /api/meteo/forecasts/{model}/{run}/{step}/{param}
+RewriteRule ^meteo/forecasts/([^/]+)/([^/]+)/(\d+)/([^/]+)$ %{ENV:BASEPATH}MeteoForecast/MeteoForecast.php?model=$1&run=$2&step=$3&param=$4 [L,QSA]
 
 # Rewrite for /api/meteo/measurements
 RewriteRule ^meteo/measurements$ %{ENV:BASEPATH}MeteoSma/MeteoSma.php [L,QSA]
