@@ -17,7 +17,7 @@ class WeatherModelIconCh1
     public const INC_LON = 0.01;
     public const INC_LAT = 0.01;
     public const MIN_STEP = 2;
-    public const MAX_STEP = 48;
+    public const MAX_STEP = 33;
     public const STEP_LENGTH_H = 1;
     public const GRID_RESOLUTION_M = 1000;
     public const VERT_LAYERS = 41;
