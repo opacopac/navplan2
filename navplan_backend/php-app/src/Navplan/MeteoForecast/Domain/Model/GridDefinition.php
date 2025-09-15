@@ -15,8 +15,8 @@ class GridDefinition {
         public int $width,
         public int $height,
         Position2d $minPos,
-        public float $stepLon,
-        public float $stepLat,
+        public float $incLon,
+        public float $incLat,
         public float $oddRowOffset,
     ) {
         if ($this->width <= 0 || $this->height <= 0) {
@@ -26,29 +26,29 @@ class GridDefinition {
         $this->extent = Extent2d::createFromCoords(
             $minPos->longitude,
             $minPos->latitude,
-            $minPos->longitude + $this->width * $this->stepLon,
-            $minPos->latitude + $this->height * $this->stepLat
+            $minPos->longitude + $this->width * $this->incLon,
+            $minPos->latitude + $this->height * $this->incLat
         );
     }
 
 
     public function getX(float $lon): float {
-        return ($lon - $this->extent->minPos->longitude) / $this->stepLon;
+        return ($lon - $this->extent->minPos->longitude) / $this->incLon;
     }
 
 
     public function getY(float $lat): float {
-        return ($lat - $this->extent->minPos->latitude) / $this->stepLat;
+        return ($lat - $this->extent->minPos->latitude) / $this->incLat;
     }
 
 
     public function getLon(float $x): float {
-        return $this->extent->minPos->longitude + $x * $this->stepLon;
+        return $this->extent->minPos->longitude + $x * $this->incLon;
     }
 
 
     public function getLat(float $y): float {
-        return $this->extent->minPos->latitude + $y * $this->stepLat;
+        return $this->extent->minPos->latitude + $y * $this->incLat;
     }
 
 
