@@ -24,6 +24,7 @@ class WeatherModelIconD2
             $minStep,
             $maxStep,
             new Time(self::STEP_LENGTH_H, TimeUnit::H),
+            IconGridDefinition::getIconD2Grid(),
             Length::fromM(self::GRID_RESOLUTION_M),
             self::VERT_LAYERS,
             self::FORECAST_DIR

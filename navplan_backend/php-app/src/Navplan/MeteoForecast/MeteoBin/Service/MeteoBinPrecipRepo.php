@@ -4,7 +4,6 @@ namespace Navplan\MeteoForecast\MeteoBin\Service;
 
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoForecast\Domain\Model\ForecastStep;
-use Navplan\MeteoForecast\Domain\Model\IconGridDefinition;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastConfig;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastPrecipRepo;
 use Navplan\MeteoForecast\MeteoBin\Model\MeteoBinPrecipConverter;
@@ -28,7 +27,7 @@ class MeteoBinPrecipRepo implements IMeteoForecastPrecipRepo
 
     public function readPrecip(ForecastStep $forecastStep, array $posList): array
     {
-        $iconD2Grid = IconGridDefinition::getIconD2Grid();
+        $iconD2Grid = $forecastStep->modelConfig->gridDefinition;
         $file = $this->openMeteoBinFile($forecastStep);
 
         $precipMmPerHour = [];

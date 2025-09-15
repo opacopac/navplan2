@@ -6,7 +6,6 @@ use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoForecast\Domain\Model\ForecastStep;
 use Navplan\MeteoForecast\Domain\Model\GridDefinition;
-use Navplan\MeteoForecast\Domain\Model\IconGridDefinition;
 use Navplan\MeteoForecast\Domain\Model\WeatherInfo;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastConfig;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastWeatherRepo;
@@ -37,7 +36,7 @@ class MeteoBinWeatherRepo implements IMeteoForecastWeatherRepo
             . self::METEOBIN_WW_PATH;
 
         $rawContent = $this->fileService->fileGetContents($fileName);
-        $iconD2Grid = IconGridDefinition::getIconD2Grid();
+        $iconD2Grid = $forecastStep->modelConfig->gridDefinition;
 
         $wwValues = [];
         for ($y = 0; $y < $grid->height; $y++) {

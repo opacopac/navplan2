@@ -7,7 +7,6 @@ use Navplan\Common\Domain\Model\SpeedUnit;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoForecast\Domain\Model\ForecastStep;
 use Navplan\MeteoForecast\Domain\Model\GridDefinition;
-use Navplan\MeteoForecast\Domain\Model\IconGridDefinition;
 use Navplan\MeteoForecast\Domain\Model\ValueGrid;
 use Navplan\MeteoForecast\Domain\Model\WindInfo;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastConfig;
@@ -67,7 +66,7 @@ class MeteoBinWindRepo implements IMeteoForecastWindRepo
 
         $rawContent = $this->fileService->fileGetContents($fileName);
 
-        $iconD2Grid = IconGridDefinition::getIconD2Grid();
+        $iconD2Grid = $forecastStep->modelConfig->gridDefinition;
         $e_values = [];
         $n_values = [];
         $gust_values = [];

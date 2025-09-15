@@ -6,7 +6,6 @@ use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
 use Navplan\MeteoForecast\Domain\Model\ForecastStep;
-use Navplan\MeteoForecast\Domain\Model\IconGridDefinition;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastConfig;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastVerticalCloudRepo;
 use Navplan\MeteoForecast\MeteoBin\Model\MeteoBinVerticalCloudInfoConverter;
@@ -30,7 +29,7 @@ class MeteoBinVerticalCloudRepo implements IMeteoForecastVerticalCloudRepo
 
     public function readVerticalClouds(ForecastStep $forecastStep, array $posList): array
     {
-        $iconD2Grid = IconGridDefinition::getIconD2Grid();
+        $iconD2Grid = $forecastStep->modelConfig->gridDefinition;
         $file = $this->openMeteoBinFile($forecastStep);
 
         $bytesPerPos = self::BYTES_PER_POS * $forecastStep->modelConfig->vertLayers;
