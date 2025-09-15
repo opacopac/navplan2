@@ -20,7 +20,7 @@ class WeatherModelIconCh1
     public const MAX_STEP = 33;
     public const STEP_LENGTH_H = 1;
     public const GRID_RESOLUTION_M = 1000;
-    public const VERT_LAYERS = 41;
+    public const VERT_LAYERS = 50;
     public const FORECAST_DIR = "icon-ch1/";
 
 
