@@ -29,7 +29,7 @@ class MeteoBinVerticalCloudRepo implements IMeteoForecastVerticalCloudRepo
 
     public function readVerticalClouds(ForecastStep $forecastStep, array $posList): array
     {
-        $iconD2Grid = $forecastStep->modelConfig->gridDefinition;
+        $gridDefinition = $forecastStep->modelConfig->gridDefinition;
         $file = $this->openMeteoBinFile($forecastStep);
 
         $bytesPerPos = self::BYTES_PER_POS * $forecastStep->modelConfig->vertLayers;
@@ -39,9 +39,9 @@ class MeteoBinVerticalCloudRepo implements IMeteoForecastVerticalCloudRepo
             if ($i > 0) {
                 $horDist = $horDist->add(GeoHelper::calcHaversineDistance($posList[$i - 1], $posList[$i]));
             }
-            $x = floor($iconD2Grid->getX($posList[$i]->longitude));
-            $y = floor($iconD2Grid->getY($posList[$i]->latitude));
-            $seekPos = (int)($iconD2Grid->width * $y + $x) * $bytesPerPos;
+            $x = floor($gridDefinition->getX($posList[$i]->longitude));
+            $y = floor($gridDefinition->getY($posList[$i]->latitude));
+            $seekPos = (int)($gridDefinition->width * $y + $x) * $bytesPerPos;
             if ($file->fseek($seekPos) === 0) {
                 $rawBytes = $file->fread($bytesPerPos);
                 $verticalCloudColumns[] = MeteoBinVerticalCloudInfoConverter::verticalCloudColumnFrom($rawBytes, $horDist);

@@ -27,14 +27,14 @@ class MeteoBinPrecipRepo implements IMeteoForecastPrecipRepo
 
     public function readPrecip(ForecastStep $forecastStep, array $posList): array
     {
-        $iconD2Grid = $forecastStep->modelConfig->gridDefinition;
+        $gridDefinition = $forecastStep->modelConfig->gridDefinition;
         $file = $this->openMeteoBinFile($forecastStep);
 
         $precipMmPerHour = [];
         for ($i = 0; $i < count($posList); $i++) {
-            $x = floor($iconD2Grid->getX($posList[$i]->longitude));
-            $y = floor($iconD2Grid->getY($posList[$i]->latitude));
-            $seekPos = (int)($iconD2Grid->width * $y + $x) * self::BYTES_PER_POS;
+            $x = floor($gridDefinition->getX($posList[$i]->longitude));
+            $y = floor($gridDefinition->getY($posList[$i]->latitude));
+            $seekPos = (int)($gridDefinition->width * $y + $x) * self::BYTES_PER_POS;
             if ($file->fseek($seekPos) === 0) {
                 $rawByte = $file->fread(self::BYTES_PER_POS);
                 $precipMmPerHour[] = MeteoBinPrecipConverter::precipFrom($rawByte);

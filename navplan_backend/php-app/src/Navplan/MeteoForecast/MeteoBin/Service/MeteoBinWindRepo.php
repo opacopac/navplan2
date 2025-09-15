@@ -66,13 +66,13 @@ class MeteoBinWindRepo implements IMeteoForecastWindRepo
 
         $rawContent = $this->fileService->fileGetContents($fileName);
 
-        $iconD2Grid = $forecastStep->modelConfig->gridDefinition;
+        $gridDefinition = $forecastStep->modelConfig->gridDefinition;
         $e_values = [];
         $n_values = [];
         $gust_values = [];
-        for ($y = 0; $y < $iconD2Grid->height; $y++) {
-            for ($x = 0; $x < $iconD2Grid->width; $x++) {
-                $idx = ($x + $y * $iconD2Grid->width) * 3;
+        for ($y = 0; $y < $gridDefinition->height; $y++) {
+            for ($x = 0; $x < $gridDefinition->width; $x++) {
+                $idx = ($x + $y * $gridDefinition->width) * 3;
                 $e_values[] = $rawContent[$idx];
                 $n_values[] = $rawContent[$idx + 1];
                 $gust_values[] = $rawContent[$idx + 2];
@@ -90,9 +90,9 @@ class MeteoBinWindRepo implements IMeteoForecastWindRepo
 
 
         return [
-            new ValueGrid($iconD2Grid, $e_values, $convertWindSpeedValueFn),
-            new ValueGrid($iconD2Grid, $n_values, $convertWindSpeedValueFn),
-            new ValueGrid($iconD2Grid, $gust_values, $convertGustValueFn)
+            new ValueGrid($gridDefinition, $e_values, $convertWindSpeedValueFn),
+            new ValueGrid($gridDefinition, $n_values, $convertWindSpeedValueFn),
+            new ValueGrid($gridDefinition, $gust_values, $convertGustValueFn)
         ];
     }
 }

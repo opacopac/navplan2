@@ -36,7 +36,7 @@ class MeteoBinWeatherRepo implements IMeteoForecastWeatherRepo
             . self::METEOBIN_WW_PATH;
 
         $rawContent = $this->fileService->fileGetContents($fileName);
-        $iconD2Grid = $forecastStep->modelConfig->gridDefinition;
+        $gridDefinition = $forecastStep->modelConfig->gridDefinition;
 
         $wwValues = [];
         for ($y = 0; $y < $grid->height; $y++) {
@@ -45,10 +45,10 @@ class MeteoBinWeatherRepo implements IMeteoForecastWeatherRepo
                 $lon = $grid->getLonWithOffset($x, $y);
                 $pos = new Position2d($lon, $lat);
 
-                if ($iconD2Grid->extent->containsPos($pos)) {
-                    $icon_x = (int)$iconD2Grid->getX($lon);
-                    $icon_y = (int)$iconD2Grid->getY($lat);
-                    $icon_idx = ($icon_x + $icon_y * $iconD2Grid->width) * 2;
+                if ($gridDefinition->extent->containsPos($pos)) {
+                    $icon_x = (int)$gridDefinition->getX($lon);
+                    $icon_y = (int)$gridDefinition->getY($lat);
+                    $icon_idx = ($icon_x + $icon_y * $gridDefinition->width) * 2;
 
                     $wwValue = MeteoBinWeatherInfoConverter::wwFromBinValue($rawContent[$icon_idx]);
                     $ceiling = MeteoBinWeatherInfoConverter::ceilingFtFromBinValue($rawContent[$icon_idx + 1]);
