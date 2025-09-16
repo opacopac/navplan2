@@ -94,9 +94,9 @@ class DbRowAirspace extends DbRow
     }
 
 
-    public function getPolygon(): string
+    public function getPolygon(): ?string
     {
-        return $this->getValue($this->table->colPolygon());
+        return $this->getValue($this->table->colPolygon(), true);
     }
 
 

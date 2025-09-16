@@ -2,6 +2,7 @@
 
 namespace Navplan\Airspace\Persistence\Query;
 
+use Navplan\Airspace\Domain\Model\Airspace;
 use Navplan\Airspace\Domain\Query\IAirspaceSearchByPositionQuery;
 use Navplan\Airspace\Persistence\Model\DbAirspaceConverter;
 use Navplan\Airspace\Persistence\Model\DbTableAirspace;
@@ -20,12 +21,16 @@ class DbAirspaceSearchByPositionQuery implements IAirspaceSearchByPositionQuery
 
 
     public function __construct(
-        private IDbService $dbService
+        private readonly IDbService $dbService
     )
     {
     }
 
 
+    /**
+     * @param Position2d $position2d
+     * @return Airspace[]
+     */
     public function searchByPosition(Position2d $position2d): array
     {
         $t = new DbTableAirspace();
