@@ -4,7 +4,7 @@ export interface IRestMetarTafEntry {
     wspd: number;
     wdir: number;
     cover: string;
-    wx: string;
+    wxString: string;
     lat: number;
     lon: number;
     rawOb: string;

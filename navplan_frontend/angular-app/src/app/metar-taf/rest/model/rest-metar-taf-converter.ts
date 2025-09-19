@@ -15,10 +15,10 @@ export class RestMetarTafConverter {
     public static fromRest(restMetarTafEntry: IRestMetarTafEntry): MetarTaf {
         return new MetarTaf(
             restMetarTafEntry.icaoId,
-            restMetarTafEntry.obsTime ? Math.round(parseInt(restMetarTafEntry.obsTime, 10) * 1000) : undefined,
+            restMetarTafEntry.obsTime ? parseInt(restMetarTafEntry.obsTime, 10) * 1000 : undefined,
             this.getTafObsTimestamp(restMetarTafEntry.rawTaf),
             restMetarTafEntry.cover,
-            restMetarTafEntry.wx ? restMetarTafEntry.wx : '',
+            restMetarTafEntry.wxString ? restMetarTafEntry.wxString : '',
             restMetarTafEntry.wdir,
             restMetarTafEntry.wspd,
             restMetarTafEntry.rawOb,
