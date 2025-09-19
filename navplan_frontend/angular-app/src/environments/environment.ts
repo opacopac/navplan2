@@ -22,7 +22,7 @@ export const environment = {
     exporterBaseUrl: WEBSITE_BASE_URL + 'api/exports',
     exportBaseUrl: WEBSITE_BASE_URL + 'tmp/',
     flightrouteApiBaseUrl: WEBSITE_BASE_URL + 'api/flightroutes',
-    metarTafBaseUrl: 'https://www.aviationweather.gov/cgi-bin/json/MetarJSON.php?taf=true&density=all&bbox=',
+    metarTafBaseUrl: 'https://aviationweather.gov/api/data/metar?format=json&taf=true&bbox=',
     meteoForecastApiBaseUrl: WEBSITE_BASE_URL + 'api/meteo/forecasts',
     meteoForecastMapTilesUrl: WEBSITE_BASE_URL + 'meteo_forecast/',
     meteogramApiBaseUrl: WEBSITE_BASE_URL + 'api/meteograms',

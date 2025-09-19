@@ -1,7 +1,4 @@
-import {IRestMetarTafFeature} from './i-rest-metar-taf-feature';
+import {IRestMetarTafEntry} from './i-rest-metar-taf-entry';
 
 
-export interface IRestMetarTafResponse {
-    type: string;
-    features: IRestMetarTafFeature[];
-}
+export type IRestMetarTafResponse = IRestMetarTafEntry[];

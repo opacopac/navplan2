@@ -1,30 +1,29 @@
 import {MetarTaf} from '../../domain/model/metar-taf';
 import {StringnumberHelper} from '../../../system/domain/service/stringnumber/stringnumber-helper';
-import {IRestMetarTafFeature} from './i-rest-metar-taf-feature';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
+import {IRestMetarTafEntry} from './i-rest-metar-taf-entry';
 
 
 export class RestMetarTafConverter {
-    public static listFromRest(restMetarTafFeatureList: IRestMetarTafFeature[]): MetarTaf[] {
-        return restMetarTafFeatureList
-            .filter(restMetarTaf => restMetarTaf.geometry?.coordinates)
+    public static listFromRest(restMetarTafEntries: IRestMetarTafEntry[]): MetarTaf[] {
+        return restMetarTafEntries
+            .filter(restMetarTaf => restMetarTaf.lon !== undefined && restMetarTaf.lat !== undefined)
             .map(restMetarTaf => RestMetarTafConverter.fromRest(restMetarTaf));
     }
 
 
-    public static fromRest(restMetarTafFeature: IRestMetarTafFeature): MetarTaf {
+    public static fromRest(restMetarTafEntry: IRestMetarTafEntry): MetarTaf {
         return new MetarTaf(
-            restMetarTafFeature.properties.id,
-            restMetarTafFeature.properties.site,
-            restMetarTafFeature.properties.obsTime ? Date.parse(restMetarTafFeature.properties.obsTime) : undefined,
-            this.getTafObsTimestamp(restMetarTafFeature.properties.rawTaf),
-            restMetarTafFeature.properties.cover,
-            restMetarTafFeature.properties.wx ? restMetarTafFeature.properties.wx : '',
-            restMetarTafFeature.properties.wdir,
-            restMetarTafFeature.properties.wspd,
-            restMetarTafFeature.properties.rawOb,
-            restMetarTafFeature.properties.rawTaf,
-            Position2d.createFromArray(restMetarTafFeature.geometry.coordinates),
+            restMetarTafEntry.icaoId,
+            restMetarTafEntry.obsTime ? Math.round(parseInt(restMetarTafEntry.obsTime, 10) * 1000) : undefined,
+            this.getTafObsTimestamp(restMetarTafEntry.rawTaf),
+            restMetarTafEntry.cover,
+            restMetarTafEntry.wx ? restMetarTafEntry.wx : '',
+            restMetarTafEntry.wdir,
+            restMetarTafEntry.wspd,
+            restMetarTafEntry.rawOb,
+            restMetarTafEntry.rawTaf,
+            new Position2d(restMetarTafEntry.lon, restMetarTafEntry.lat),
         );
     }
 

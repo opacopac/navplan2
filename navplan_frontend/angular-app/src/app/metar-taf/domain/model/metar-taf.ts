@@ -5,7 +5,6 @@ import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d'
 export class MetarTaf extends DataItem {
     constructor(
         public ad_icao: string,
-        public siteName: string,
         public metar_obs_timestamp: number,
         public taf_obs_timestamp: number,
         public cloud_cover: string,

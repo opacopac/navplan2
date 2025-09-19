@@ -19,10 +19,11 @@ export class RestMetarTafService implements IMetarTafRepoService {
 
 
     public load(extent: Extent2d): Observable<MetarTaf[]> {
-        const url = environment.metarTafBaseUrl + extent.minLon + ',' + extent.minLat + ',' + extent.maxLon + ',' + extent.maxLat;
-        return this.http.jsonp<IRestMetarTafResponse>(url, 'jsonp')
+        const bbox = extent.minLat + ',' + extent.minLon + ',' + extent.maxLat + ',' + extent.maxLon;
+        const url = environment.metarTafBaseUrl + encodeURIComponent(bbox);
+        return this.http.get<IRestMetarTafResponse>(url)
             .pipe(
-                map(response => RestMetarTafConverter.listFromRest(response.features)),
+                map(response => RestMetarTafConverter.listFromRest(response)),
                 catchError(error => {
                     LoggingService.logResponseError('ERROR reading METAR/TAF!', error);
                     return throwError(error);
