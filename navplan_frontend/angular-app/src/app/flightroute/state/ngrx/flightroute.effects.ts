@@ -33,7 +33,7 @@ export class FlightrouteEffects {
         map(([action, flightroute]) => {
             const newFlightroute = flightroute.clone();
             newFlightroute.extraTime = action.extraTime;
-            return FlightrouteActions.recalculate({flightroute: newFlightroute});
+            return FlightrouteActions.changed({flightroute: newFlightroute});
         })
     ));
 
@@ -46,7 +46,7 @@ export class FlightrouteEffects {
             newAircraftParams.speed = action.cruiseSpeed;
             const newFlightroute = flightroute.clone();
             newFlightroute.aircraftParams = newAircraftParams;
-            return FlightrouteActions.recalculate({flightroute: newFlightroute});
+            return FlightrouteActions.changed({flightroute: newFlightroute});
         })
     ));
 
@@ -59,19 +59,19 @@ export class FlightrouteEffects {
             newAircraftParams.consumption = action.cruiseConsumption;
             const newFlightroute = flightroute.clone();
             newFlightroute.aircraftParams = newAircraftParams;
-            return FlightrouteActions.recalculate({flightroute: newFlightroute});
+            return FlightrouteActions.changed({flightroute: newFlightroute});
         })
     ));
 
 
     clearFlightrouteAction$ = createEffect(() => this.actions$.pipe(
         ofType(FlightrouteActions.clear),
-        map(() => FlightrouteActions.recalculate({flightroute: initialFlightrouteState.flightroute.clone()}))
+        map(() => FlightrouteActions.changed({flightroute: initialFlightrouteState.flightroute.clone()}))
     ));
 
 
     recalculateFlightrouteAction$ = createEffect(() => this.actions$.pipe(
-        ofType(FlightrouteActions.recalculate),
+        ofType(FlightrouteActions.changed),
         withLatestFrom(this.routeDistanceUnit$),
         map(([action, routeDistanceUnit]) => {
             const newFlightRoute = action.flightroute?.clone();
@@ -93,7 +93,7 @@ export class FlightrouteEffects {
             const newFlightroute = flightroute.clone();
             newFlightroute.aircraftParams = newAircraftParams;
 
-            return FlightrouteActions.recalculate({flightroute: newFlightroute});
+            return FlightrouteActions.changed({flightroute: newFlightroute});
         })
     ));
 
@@ -109,7 +109,7 @@ export class FlightrouteEffects {
             const newFlightroute = flightroute.clone();
             newFlightroute.aircraftParams = newAircraftParams;
 
-            return FlightrouteActions.recalculate({flightroute: newFlightroute});
+            return FlightrouteActions.changed({flightroute: newFlightroute});
         })
     ));
 
@@ -125,7 +125,7 @@ export class FlightrouteEffects {
             const newFlightroute = flightroute.clone();
             newFlightroute.aircraftParams = newAircraftParams;
 
-            return FlightrouteActions.recalculate({flightroute: newFlightroute});
+            return FlightrouteActions.changed({flightroute: newFlightroute});
         })
     ));
 }

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Observable, of} from 'rxjs';
-import {catchError, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {mergeMap, Observable, of} from 'rxjs';
+import {catchError, filter, switchMap, withLatestFrom} from 'rxjs/operators';
 import {getCurrentUser} from '../../../user/state/ngrx/user.selectors';
 import {User} from '../../../user/domain/model/user';
 import {getFlightroute} from './flightroute.selectors';
@@ -36,7 +36,12 @@ export class FlightRouteCrudEffects {
         switchMap(([action, currentUser]) => this.flightrouteService.readFlightroute(
             action.flightrouteId
         ).pipe(
-            map(route => FlightrouteActions.recalculate({flightroute: route})),
+            mergeMap(route => [
+                MessageActions.showMessage({
+                    message: Message.success('Flight route ' + route.title + ' selected.')
+                }),
+                FlightrouteActions.changed({flightroute: route})
+            ]),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading flight route', error)
             })))
@@ -51,20 +56,17 @@ export class FlightRouteCrudEffects {
         switchMap(([action, flightroute]) => this.flightrouteService.saveFlightroute(
             flightroute
         ).pipe(
-            map(route => [
+            mergeMap(route => [
                 FlightrouteListActions.readList(),
                 FlightrouteActions.update({flightroute: route}),
                 MessageActions.showMessage({
                     message: Message.success('Flight route saved successfully.')
                 })
             ]),
-            catchError(error => [
-                of(MessageActions.showMessage({
-                    message: Message.error('Error while saving flight route:', error)
-                }))
-            ])
-        )),
-        switchMap((actions) => actions)
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error while saving flight route:', error)
+            })))
+        ))
     ));
 
 
@@ -73,20 +75,17 @@ export class FlightRouteCrudEffects {
         switchMap((action) => this.flightrouteService.duplicateFlightroute(
             action.flightrouteId
         ).pipe(
-            map(route => [
+            mergeMap(route => [
                 FlightrouteListActions.readList(),
                 FlightrouteActions.update({flightroute: route}),
                 MessageActions.showMessage({
                     message: Message.success('Flight route duplicated successfully.')
                 })
             ]),
-            catchError(error => [
-                of(MessageActions.showMessage({
-                    message: Message.error('Error while duplicating flight route:', error)
-                }))
-            ])
-        )),
-        switchMap((actions) => actions)
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error while duplicating flight route:', error)
+            })))
+        ))
     ));
 
 
@@ -96,18 +95,15 @@ export class FlightRouteCrudEffects {
         switchMap((action) => this.flightrouteService.deleteFlightroute(
             action.flightrouteId
         ).pipe(
-            map(() => [
+            mergeMap(() => [
                 FlightrouteListActions.readList(),
                 MessageActions.showMessage({
                     message: Message.success('Flight route deleted successfully.')
                 }),
             ]),
-            catchError(error => [
-                of(MessageActions.showMessage({
-                    message: Message.error('Error deleting flight route', error)
-                }))
-            ])
-        )),
-        switchMap((actions) => actions)
+            catchError(error => of(MessageActions.showMessage({
+                message: Message.error('Error deleting flight route', error)
+            })))
+        ))
     ));
 }

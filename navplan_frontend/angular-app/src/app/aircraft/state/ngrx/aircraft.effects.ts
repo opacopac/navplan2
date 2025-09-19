@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Observable, of} from 'rxjs';
+import {mergeMap, Observable, of} from 'rxjs';
 import {catchError, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {getCurrentUser} from '../../../user/state/ngrx/user.selectors';
 import {MessageActions} from '../../../message/state/ngrx/message.actions';
@@ -58,7 +58,7 @@ export class AircraftEffects {
     selectAircraftAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftListActions.selectAircraft),
         switchMap((action) => this.aircraftService.readAircraft(action.aircraftId).pipe(
-            switchMap(aircraft => [
+            mergeMap(aircraft => [
                 AircraftListActions.selectAircraftSuccess({aircraft: aircraft}),
                 MessageActions.showMessage({
                     message: Message.success('Aircraft ' + aircraft.registration + ' selected.')
@@ -73,7 +73,7 @@ export class AircraftEffects {
     editAircraftAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftListActions.editAircraft),
         switchMap((action) => this.aircraftService.readAircraft(action.aircraftId).pipe(
-            switchMap(aircraft => [
+            mergeMap(aircraft => [
                 AircraftListActions.selectAircraftSuccess({aircraft: aircraft}),
                 MessageActions.showMessage({
                     message: Message.success('Aircraft ' + aircraft.registration + ' selected.')
@@ -90,7 +90,7 @@ export class AircraftEffects {
         ofType(AircraftCrudActions.saveAircraft),
         withLatestFrom(this.aircraftState$),
         switchMap(([action, aircraftState]) => this.aircraftService.saveAircraft(aircraftState.currentAircraft).pipe(
-            switchMap(aircraft => [
+            mergeMap(aircraft => [
                 AircraftCrudActions.saveAircraftSuccess({aircraft: aircraft}),
                 MessageActions.showMessage({
                     message: Message.success('Aircraft saved successfully.')
@@ -105,7 +105,7 @@ export class AircraftEffects {
     duplicateAircraftAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftCrudActions.duplicateAircraft),
         switchMap((action) => this.aircraftService.duplicateAircraft(action.aircraftId).pipe(
-            switchMap(aircraft => [
+            mergeMap(aircraft => [
                 AircraftCrudActions.saveAircraftSuccess({aircraft: aircraft}),
                 AircraftListActions.readList(),
                 MessageActions.showMessage({
@@ -121,7 +121,7 @@ export class AircraftEffects {
     deleteAircraftAction$ = createEffect(() => this.actions$.pipe(
         ofType(AircraftCrudActions.deleteAircraft),
         switchMap((action) => this.aircraftService.deleteAircraft(action.aircraftId).pipe(
-            switchMap((success) => [
+            mergeMap((success) => [
                 AircraftCrudActions.deleteAircraftSuccess({aircraftId: action.aircraftId}),
                 AircraftListActions.readList(),
                 MessageActions.showMessage({

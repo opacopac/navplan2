@@ -34,7 +34,7 @@ export class WaypointEffects {
         map(([action, flightroute]) => {
             const newFlightroute = flightroute.clone();
             ArrayHelper.insertAt(newFlightroute.waypoints, action.index, action.newWaypoint.clone());
-            return FlightrouteActions.recalculate({flightroute: newFlightroute});
+            return FlightrouteActions.changed({flightroute: newFlightroute});
         })
     ));
 
@@ -64,7 +64,7 @@ export class WaypointEffects {
             const newFlightroute = flightroute.clone();
             const wpIndex = flightroute.getWaypointIndex(action.oldWp);
             newFlightroute.waypoints[wpIndex] = action.newWp.clone();
-            return FlightrouteActions.recalculate({flightroute: newFlightroute});
+            return FlightrouteActions.changed({flightroute: newFlightroute});
         })
     ));
 
@@ -80,7 +80,7 @@ export class WaypointEffects {
                 const idx = flightroute.getWaypointIndex(action.waypoint);
                 ArrayHelper.removeAt(newFlightroute.waypoints, idx);
             }
-            return FlightrouteActions.recalculate({flightroute: newFlightroute});
+            return FlightrouteActions.changed({flightroute: newFlightroute});
         })
     ));
 
@@ -91,7 +91,7 @@ export class WaypointEffects {
         map(([action, flightroute]) => {
             const newFlightroute = flightroute.clone();
             newFlightroute.waypoints[action.index] = action.newWaypoint.clone();
-            return FlightrouteActions.recalculate({flightroute: newFlightroute});
+            return FlightrouteActions.changed({flightroute: newFlightroute});
         })
     ));
 
@@ -120,7 +120,7 @@ export class WaypointEffects {
         map(([action, flightroute]) => {
             const newFlightroute = flightroute.clone();
             newFlightroute.waypoints.reverse();
-            return FlightrouteActions.recalculate({flightroute: newFlightroute});
+            return FlightrouteActions.changed({flightroute: newFlightroute});
         })
     ));
 
@@ -131,7 +131,7 @@ export class WaypointEffects {
         map(([action, flightroute]) => {
             const newFlightroute = flightroute.clone();
             newFlightroute.alternate = action.alternate?.clone();
-            return FlightrouteActions.recalculate({flightroute: newFlightroute});
+            return FlightrouteActions.changed({flightroute: newFlightroute});
         })
     ));
 
