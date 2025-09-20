@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {mergeMap, Observable, of} from 'rxjs';
-import {catchError, filter, switchMap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {getCurrentUser} from '../../../user/state/ngrx/user.selectors';
 import {User} from '../../../user/domain/model/user';
 import {getFlightroute} from './flightroute.selectors';
@@ -13,6 +13,8 @@ import {Message} from '../../../message/domain/model/message';
 import {FlightrouteActions} from './flightroute.actions';
 import {IFlightrouteService} from '../../domain/service/i-flightroute.service';
 import {FlightrouteListActions} from '../../../plan-route-list/state/ngrx/flightroute-list.actions';
+import {Router} from '@angular/router';
+import {PlanActions} from '../../../plan/state/ngrx/plan.actions';
 
 
 @Injectable()
@@ -24,7 +26,8 @@ export class FlightRouteCrudEffects {
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
-        private flightrouteService: IFlightrouteService
+        private flightrouteService: IFlightrouteService,
+        private router: Router,
     ) {
     }
 
@@ -37,11 +40,13 @@ export class FlightRouteCrudEffects {
             action.flightrouteId
         ).pipe(
             mergeMap(route => [
+                FlightrouteActions.changed({flightroute: route}),
+                PlanActions.selectPlanTab({selectedPlanTab: 'route'}),
                 MessageActions.showMessage({
                     message: Message.success('Flight route ' + route.title + ' selected.')
-                }),
-                FlightrouteActions.changed({flightroute: route})
+                })
             ]),
+            tap(() => this.router.navigate(['/plan', 'route'])), // TODO: move to effect?
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading flight route', error)
             })))
