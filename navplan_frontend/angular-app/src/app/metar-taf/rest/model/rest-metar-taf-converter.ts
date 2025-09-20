@@ -6,6 +6,10 @@ import {IRestMetarTafEntry} from './i-rest-metar-taf-entry';
 
 export class RestMetarTafConverter {
     public static listFromRest(restMetarTafEntries: IRestMetarTafEntry[]): MetarTaf[] {
+        if (!restMetarTafEntries) {
+            return [];
+        }
+
         return restMetarTafEntries
             .filter(restMetarTaf => restMetarTaf.lon !== undefined && restMetarTaf.lat !== undefined)
             .map(restMetarTaf => RestMetarTafConverter.fromRest(restMetarTaf));
