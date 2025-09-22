@@ -14,13 +14,17 @@ import {
     MeteoForecastTimelineComponent
 } from '../../../../meteo-forecast/view/ng-components/meteo-forecast-timeline/meteo-forecast-timeline.component';
 import {CommonModule} from '@angular/common';
+import {
+    MeteoForecastModelInfoComponent
+} from "../../../../meteo-forecast/view/ng-components/meteo-forecast-model-info/meteo-forecast-model-info.component";
 
 
 @Component({
     selector: 'app-meteo-container',
     imports: [
         CommonModule,
-        MeteoForecastTimelineComponent
+        MeteoForecastTimelineComponent,
+        MeteoForecastModelInfoComponent
     ],
     templateUrl: './meteo-container.component.html',
     styleUrls: ['./meteo-container.component.scss']

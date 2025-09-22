@@ -4,3 +4,13 @@
 .timeline-hide {
     visibility: hidden;
 }
+
+// display 10px below the container, right aligned
+.model-info {
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+    background: rgba(224, 224, 224, 0.9);
+    padding: 2px 5px;
+    border-radius: 3px;
+}

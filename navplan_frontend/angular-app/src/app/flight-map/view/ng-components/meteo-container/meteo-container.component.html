@@ -6,4 +6,8 @@
         (nextStepClicked)="this.onNextStepClicked()"
         (stepSelected)="this.onStepSelected($event)"
     />
+    <app-meteo-forecast-model-info
+        class="model-info"
+        [currentForecastRun]="this.forecastRun$ | async"
+    />
 </div>
