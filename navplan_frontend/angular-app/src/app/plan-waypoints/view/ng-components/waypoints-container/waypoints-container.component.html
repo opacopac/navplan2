@@ -43,5 +43,6 @@
 
     <app-save-button
         [isEnabled]="(this.isUserLoggedIn$ | async) && this.flightrouteForm.valid"
+        (saveClicked)="this.onSaveFlightrouteClick()"
     />
 </form>
