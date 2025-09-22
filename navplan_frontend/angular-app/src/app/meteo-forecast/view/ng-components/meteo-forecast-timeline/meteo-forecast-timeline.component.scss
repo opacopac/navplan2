@@ -1,14 +1,15 @@
 .meteo-fc-timeline {
     height: 50px;
     background: rgba(224, 224, 224, 0.9);
+    align-items: center;
 }
 
 .meteo-fc-buttons {
-    align-items: center;
 }
 
 .meteo-fc-timeline-slider-and-markings {
     position: relative;
+    align-self: baseline;
     align-items: stretch;
     flex-grow: 1;
 }
