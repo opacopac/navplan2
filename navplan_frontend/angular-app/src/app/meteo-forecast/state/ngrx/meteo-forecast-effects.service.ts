@@ -50,7 +50,8 @@ export class MeteoForecastEffects {
             MeteoForecastActions.selectStep,
             MeteoForecastActions.previousStep,
             MeteoForecastActions.nextStep,
-            MeteoForecastActions.readAvailableForecastRunsSuccess
+            MeteoForecastActions.readAvailableForecastRunsSuccess,
+            MeteoForecastActions.changeForecastRun
         ),
         withLatestFrom(this.meteoForecastState$),
         filter(([action, meteoFcState]) => meteoFcState.selectedFcRun !== undefined && meteoFcState.selectedStep !== undefined),
@@ -74,7 +75,8 @@ export class MeteoForecastEffects {
             MeteoForecastActions.previousStep,
             MeteoForecastActions.nextStep,
             BaseMapActions.mapMoved,
-            MeteoForecastActions.readAvailableForecastRunsSuccess
+            MeteoForecastActions.readAvailableForecastRunsSuccess,
+            MeteoForecastActions.changeForecastRun
         ),
         withLatestFrom(this.meteoForecastState$, this.mapState$),
         filter(([action, meteoFcState, mapState]) => meteoFcState.showLayer === MeteoForecastLayer.WeatherLayer),
@@ -96,7 +98,8 @@ export class MeteoForecastEffects {
             MeteoForecastActions.previousStep,
             MeteoForecastActions.nextStep,
             BaseMapActions.mapMoved,
-            MeteoForecastActions.readAvailableForecastRunsSuccess
+            MeteoForecastActions.readAvailableForecastRunsSuccess,
+            MeteoForecastActions.changeForecastRun
         ),
         withLatestFrom(this.meteoForecastState$, this.mapState$),
         filter(([action, meteoFcState, mapState]) => meteoFcState.showLayer === MeteoForecastLayer.WindLayer),
