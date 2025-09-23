@@ -96,7 +96,9 @@ export class MeteoContainerComponent implements OnInit, OnDestroy, AfterViewInit
 
         dialogRef.afterClosed().subscribe((selectedFcRun) => {
             if (selectedFcRun) {
-                this.appStore.dispatch(MeteoForecastActions.changeModel()); // TODO pass selected model
+                this.appStore.dispatch(MeteoForecastActions.changeForecastRun({
+                    forecastRun: selectedFcRun
+                }));
             }
         });
     }

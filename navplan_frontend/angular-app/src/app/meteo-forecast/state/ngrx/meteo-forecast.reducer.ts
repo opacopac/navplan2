@@ -87,6 +87,12 @@ export const meteoForecastReducer = createReducer(
         };
     }),
 
+    on(MeteoForecastActions.changeForecastRun, (state, action) => ({
+        ...state,
+        selectedFcRun: action.forecastRun,
+        selectedStep: action.forecastRun.model.minStep
+    })),
+
     on(MeteoForecastActions.readMapTilesUrlSuccess, (state, action) => ({
         ...state,
         mapTilesUrl: action.mapTilesUrl,

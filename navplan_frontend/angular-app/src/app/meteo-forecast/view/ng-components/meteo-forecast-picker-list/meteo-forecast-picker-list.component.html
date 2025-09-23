@@ -7,7 +7,7 @@
                 <td mat-cell
                     *matCellDef="let entry"
                     class="clickable"
-                    (click)="this.onSelectFcRunClick.emit(entry.id)"
+                    (click)="this.onSelectFcRunClick.emit(entry)"
                 >
                     {{ entry.getModelName() }}
                 </td>
@@ -17,7 +17,7 @@
                 <td mat-cell
                     *matCellDef="let entry"
                     class="clickable"
-                    (click)="this.onSelectFcRunClick.emit(entry.id)"
+                    (click)="this.onSelectFcRunClick.emit(entry)"
                 >
                     {{ entry.getRunName() }}
                 </td>
@@ -27,7 +27,7 @@
                 <td mat-cell
                     *matCellDef="let entry"
                     class="clickable"
-                    (click)="this.onSelectFcRunClick.emit(entry.id)"
+                    (click)="this.onSelectFcRunClick.emit(entry)"
                 >
                     <!--<a href="{{ entry.getProviderUrl() }}" target="_blank">-->
                     {{ entry.getProviderName() }}
