@@ -34,6 +34,10 @@ export class MeteoForecastActions {
         props<{ step: number }>()
     );
 
+    public static readonly changeModel = createAction(
+        '[MeteoForecastModelInfo] Change Model',
+    );
+
     public static readonly readAvailableForecastRuns = createAction(
         '[MeteoForecastEffects] Read Available Forecast Runs',
     );

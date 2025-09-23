@@ -9,5 +9,6 @@
     <app-meteo-forecast-model-info
         class="model-info"
         [currentForecastRun]="this.forecastRun$ | async"
+        (changeModelClicked)="this.onChangeModelClick()"
     />
 </div>

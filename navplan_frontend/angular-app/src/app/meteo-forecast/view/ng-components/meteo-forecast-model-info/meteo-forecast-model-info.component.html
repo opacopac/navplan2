@@ -1,3 +1,8 @@
 <div class="meteo-fc-model-info">
-    Model: <a href="#TBD">{{ getModelName() }}</a> / Run: {{ getRunName() }}
+    <span (click)="onChangeModelClick()" class="change-model" title="Change model">
+        <i class="fa-solid fa-bars"></i>
+        Model: <b>{{ getModelName() }}</b>
+    </span>
+    by <a href="{{ getProviderUrl() }}" target="_blank">{{ getProviderName() }}</a>
+    / Run: {{ getRunName() }}
 </div>

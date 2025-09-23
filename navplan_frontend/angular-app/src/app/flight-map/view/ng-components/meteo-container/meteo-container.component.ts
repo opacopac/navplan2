@@ -16,7 +16,7 @@ import {
 import {CommonModule} from '@angular/common';
 import {
     MeteoForecastModelInfoComponent
-} from "../../../../meteo-forecast/view/ng-components/meteo-forecast-model-info/meteo-forecast-model-info.component";
+} from '../../../../meteo-forecast/view/ng-components/meteo-forecast-model-info/meteo-forecast-model-info.component';
 
 
 @Component({
@@ -70,5 +70,10 @@ export class MeteoContainerComponent implements OnInit, OnDestroy, AfterViewInit
 
     protected onStepSelected(step: number) {
         this.appStore.dispatch(MeteoForecastActions.selectStep({step: step}));
+    }
+
+
+    protected onChangeModelClick() {
+        this.appStore.dispatch(MeteoForecastActions.changeModel());
     }
 }
