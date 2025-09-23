@@ -8,7 +8,8 @@ import {ForecastRun} from '../../domain/model/forecast-run';
 export interface MeteoForecastState {
     status: MeteoForecastStatus;
     showLayer: MeteoForecastLayer;
-    forecastRun: ForecastRun;
+    availableFcRuns: ForecastRun[];
+    selectedFcRun: ForecastRun;
     selectedStep: number;
     mapTilesUrl: string;
     weatherValues: WeatherInfo[];

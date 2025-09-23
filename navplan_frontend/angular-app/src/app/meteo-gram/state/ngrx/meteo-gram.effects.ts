@@ -26,7 +26,7 @@ export class MeteoGramEffects {
         ofType(MeteoGramActions.readCloudMeteogram),
         withLatestFrom(this.meteoForecastState$),
         switchMap(([action, meteoFcState]) => {
-            return this.meteoGramService.readCloudMeteoGram(meteoFcState.forecastRun, action.position);
+            return this.meteoGramService.readCloudMeteoGram(meteoFcState.selectedFcRun, action.position);
         }),
         map(response => MeteoGramActions.readCloudMeteogramSuccess({ cloudMeteogram: response }))
     ));

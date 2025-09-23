@@ -7,5 +7,6 @@ export const getMeteoForecastLayer = createSelector(getMeteoForecastState, state
 export const getMeteoForecastWindValues = createSelector(getMeteoForecastState, state => state.windValues);
 export const getMeteoForecastWeatherValues = createSelector(getMeteoForecastState, state => state.weatherValues);
 export const getMeteoForecastMapTilesUrl = createSelector(getMeteoForecastState, state => state.mapTilesUrl);
-export const getMeteoForecastForecastRun = createSelector(getMeteoForecastState, state => state.forecastRun);
+export const getMeteoForecastForecastRun = createSelector(getMeteoForecastState, state => state.selectedFcRun);
 export const getMeteoForecastSelectedStep = createSelector(getMeteoForecastState, state => state.selectedStep);
+export const getMeteoForecastAvailableForecastRuns = createSelector(getMeteoForecastState, state => state.availableFcRuns);

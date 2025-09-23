@@ -87,7 +87,7 @@ export class VerticalMapEffects {
         if (
             state.status !== MeteoForecastStatus.CURRENT
             || state.showLayer === null
-            || state.forecastRun === null
+            || state.selectedFcRun === null
             || state.selectedStep === null
         ) {
             return null;
@@ -95,7 +95,7 @@ export class VerticalMapEffects {
 
         return new ForecastSelection(
             state.showLayer,
-            state.forecastRun,
+            state.selectedFcRun,
             state.selectedStep
         );
     }

@@ -33,24 +33,33 @@ export class MeteoForecastEffects {
 
 
     readForecastRunAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(MeteoForecastActions.open, MeteoForecastActions.readAvailableForecastRuns),
+        ofType(
+            MeteoForecastActions.open,
+            MeteoForecastActions.readAvailableForecastRuns
+        ),
         switchMap(action => this.meteoForecastService.readAvailableForecasts()),
         map(runs => MeteoForecastActions.readAvailableForecastRunsSuccess({forecastRuns: runs}))
     ));
 
 
     readMapTilesUrlAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(MeteoForecastActions.open, MeteoForecastActions.selectWeatherForecast, MeteoForecastActions.selectWindForecast,
-            MeteoForecastActions.selectStep, MeteoForecastActions.previousStep, MeteoForecastActions.nextStep,
-            MeteoForecastActions.readAvailableForecastRunsSuccess),
+        ofType(
+            MeteoForecastActions.open,
+            MeteoForecastActions.selectWeatherForecast,
+            MeteoForecastActions.selectWindForecast,
+            MeteoForecastActions.selectStep,
+            MeteoForecastActions.previousStep,
+            MeteoForecastActions.nextStep,
+            MeteoForecastActions.readAvailableForecastRunsSuccess
+        ),
         withLatestFrom(this.meteoForecastState$),
-        filter(([action, meteoFcState]) => meteoFcState.forecastRun !== undefined && meteoFcState.selectedStep !== undefined),
+        filter(([action, meteoFcState]) => meteoFcState.selectedFcRun !== undefined && meteoFcState.selectedStep !== undefined),
         map(([action, meteoFcState]) => {
             switch (meteoFcState.showLayer) {
                 case MeteoForecastLayer.WeatherLayer:
-                    return this.meteoForecastService.getWeatherMapTilesUrl(meteoFcState.forecastRun, meteoFcState.selectedStep);
+                    return this.meteoForecastService.getWeatherMapTilesUrl(meteoFcState.selectedFcRun, meteoFcState.selectedStep);
                 case MeteoForecastLayer.WindLayer:
-                    return this.meteoForecastService.getWindMapTilesUrl(meteoFcState.forecastRun, meteoFcState.selectedStep);
+                    return this.meteoForecastService.getWindMapTilesUrl(meteoFcState.selectedFcRun, meteoFcState.selectedStep);
             }
         }),
         map(url => MeteoForecastActions.readMapTilesUrlSuccess({mapTilesUrl: url}))
@@ -58,30 +67,44 @@ export class MeteoForecastEffects {
 
 
     readWeatherGridAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(MeteoForecastActions.open, MeteoForecastActions.selectWeatherForecast, MeteoForecastActions.selectStep, MeteoForecastActions.previousStep,
-            MeteoForecastActions.nextStep, BaseMapActions.mapMoved, MeteoForecastActions.readAvailableForecastRunsSuccess),
+        ofType(
+            MeteoForecastActions.open,
+            MeteoForecastActions.selectWeatherForecast,
+            MeteoForecastActions.selectStep,
+            MeteoForecastActions.previousStep,
+            MeteoForecastActions.nextStep,
+            BaseMapActions.mapMoved,
+            MeteoForecastActions.readAvailableForecastRunsSuccess
+        ),
         withLatestFrom(this.meteoForecastState$, this.mapState$),
         filter(([action, meteoFcState, mapState]) => meteoFcState.showLayer === MeteoForecastLayer.WeatherLayer),
-        filter(([action, meteoFcState]) => meteoFcState.forecastRun !== undefined && meteoFcState.selectedStep !== undefined),
+        filter(([action, meteoFcState]) => meteoFcState.selectedFcRun !== undefined && meteoFcState.selectedStep !== undefined),
         switchMap(([action, meteoFcState, mapState]) => {
             const grid = this.getGridDefinition(mapState);
 
-            return this.meteoForecastService.readWeatherGrid(meteoFcState.forecastRun, meteoFcState.selectedStep, grid);
+            return this.meteoForecastService.readWeatherGrid(meteoFcState.selectedFcRun, meteoFcState.selectedStep, grid);
         }),
         map(weatherValues => MeteoForecastActions.readWeatherValuesSuccess({weatherValues: weatherValues}))
     ));
 
 
     readWindGridAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
-        ofType(MeteoForecastActions.open, MeteoForecastActions.selectWindForecast, MeteoForecastActions.selectStep, MeteoForecastActions.previousStep,
-            MeteoForecastActions.nextStep, BaseMapActions.mapMoved, MeteoForecastActions.readAvailableForecastRunsSuccess),
+        ofType(
+            MeteoForecastActions.open,
+            MeteoForecastActions.selectWindForecast,
+            MeteoForecastActions.selectStep,
+            MeteoForecastActions.previousStep,
+            MeteoForecastActions.nextStep,
+            BaseMapActions.mapMoved,
+            MeteoForecastActions.readAvailableForecastRunsSuccess
+        ),
         withLatestFrom(this.meteoForecastState$, this.mapState$),
         filter(([action, meteoFcState, mapState]) => meteoFcState.showLayer === MeteoForecastLayer.WindLayer),
-        filter(([action, meteoFcState]) => meteoFcState.forecastRun !== undefined && meteoFcState.selectedStep !== undefined),
+        filter(([action, meteoFcState]) => meteoFcState.selectedFcRun !== undefined && meteoFcState.selectedStep !== undefined),
         switchMap(([action, meteoFcState, mapState]) => {
             const grid = this.getGridDefinition(mapState);
 
-            return this.meteoForecastService.readWindGrid(meteoFcState.forecastRun, meteoFcState.selectedStep, grid);
+            return this.meteoForecastService.readWindGrid(meteoFcState.selectedFcRun, meteoFcState.selectedStep, grid);
         }),
         map(windValues => MeteoForecastActions.readWindValuesSuccess({windValues: windValues}))
     ));

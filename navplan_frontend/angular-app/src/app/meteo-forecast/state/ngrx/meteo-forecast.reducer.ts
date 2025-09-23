@@ -8,7 +8,8 @@ import {MeteoForecastLayer} from '../../domain/model/meteo-forecast-layer';
 const initialState: MeteoForecastState = {
     status: MeteoForecastStatus.OFF,
     showLayer: undefined,
-    forecastRun: undefined,
+    availableFcRuns: [],
+    selectedFcRun: undefined,
     selectedStep: 1,
     mapTilesUrl: '',
     weatherValues: undefined,
@@ -43,7 +44,7 @@ export const meteoForecastReducer = createReducer(
     })),
 
     on(MeteoForecastActions.previousStep, (state, action) => {
-        const selectedStep = state.selectedStep !== undefined && state.selectedStep > state.forecastRun.model.minStep
+        const selectedStep = state.selectedStep !== undefined && state.selectedStep > state.selectedFcRun.model.minStep
             ? state.selectedStep - 1
             : state.selectedStep;
 
@@ -54,7 +55,7 @@ export const meteoForecastReducer = createReducer(
     }),
 
     on(MeteoForecastActions.nextStep, (state, action) => {
-        const selectedStep = state.selectedStep !== undefined && state.selectedStep < state.forecastRun.model.maxStep
+        const selectedStep = state.selectedStep !== undefined && state.selectedStep < state.selectedFcRun.model.maxStep
             ? state.selectedStep + 1
             : state.selectedStep;
 
@@ -80,7 +81,8 @@ export const meteoForecastReducer = createReducer(
 
         return {
             ...state,
-            forecastRun: latestRun,
+            availableFcRuns: action.forecastRuns,
+            selectedFcRun: latestRun,
             selectedStep: selectedStep
         };
     }),
