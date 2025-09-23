@@ -1,8 +1,8 @@
 <div class="meteo-fc-model-info">
     <span (click)="onChangeModelClick()" class="change-model" title="Change model">
-        <i class="fa-solid fa-bars"></i>
-        Model: <b>{{ getModelName() }}</b>
+        Model: {{ getModelName() }}
+        &nbsp;<i class="fa-solid fa-magnifying-glass"></i>
     </span>
-    by <a href="{{ getProviderUrl() }}" target="_blank">{{ getProviderName() }}</a>
     / Run: {{ getRunName() }}
+    by <a href="{{ getProviderUrl() }}" target="_blank">{{ getProviderName() }}</a>
 </div>
