@@ -1,6 +1,6 @@
 <div class="{{ getTimeLineClass() | async }}">
     <app-meteo-forecast-timeline
-        [currentForecastRun]="this.forecastRun$ | async"
+        [currentForecastRun]="this.selectedFcRun$ | async"
         [selectedStep]="this.selectedStep$ | async"
         (previousStepClicked)="this.onPreviousStepClicked()"
         (nextStepClicked)="this.onNextStepClicked()"
@@ -8,7 +8,7 @@
     />
     <app-meteo-forecast-model-info
         class="model-info"
-        [currentForecastRun]="this.forecastRun$ | async"
+        [currentForecastRun]="this.selectedFcRun$ | async"
         (changeModelClicked)="this.onChangeModelClick()"
     />
 </div>

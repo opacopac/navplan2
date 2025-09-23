@@ -1,7 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ForecastRun} from '../../../domain/model/forecast-run';
-import {WeatherModelType} from '../../../domain/model/weather-model-type';
-import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 @Component({
@@ -24,73 +22,30 @@ export class MeteoForecastModelInfoComponent implements OnInit {
 
 
     protected getModelName(): string {
-        if (!this.currentForecastRun) {
-            return '';
-        }
-
-        switch (this.currentForecastRun.model.modelType) {
-            case WeatherModelType.ICON_D2:
-                return 'ICON-D2';
-            case WeatherModelType.ICON_EU:
-                return 'ICON-EU';
-            case WeatherModelType.ICON:
-                return 'ICON Global';
-            case WeatherModelType.ICON_CH1:
-                return 'ICON-CH1-EPS';
-            default:
-                return '';
-        }
+        return this.currentForecastRun
+            ? this.currentForecastRun.getModelName()
+            : '';
     }
 
 
     protected getProviderName(): string {
-        if (!this.currentForecastRun) {
-            return '';
-        }
-
-        switch (this.currentForecastRun.model.modelType) {
-            case WeatherModelType.ICON_D2:
-            case WeatherModelType.ICON_EU:
-            case WeatherModelType.ICON:
-                return 'DWD';
-            case WeatherModelType.ICON_CH1:
-                return 'MeteoSwiss';
-            default:
-                return '';
-        }
+        return this.currentForecastRun
+            ? this.currentForecastRun.getProviderName()
+            : '';
     }
 
 
     protected getProviderUrl(): string {
-        if (!this.currentForecastRun) {
-            return '';
-        }
-
-        switch (this.currentForecastRun.model.modelType) {
-            case WeatherModelType.ICON_D2:
-                return 'https://www.dwd.de/DE/forschung/wettervorhersage/num_modellierung/01_num_vorhersagemodelle/regionalmodell_icon_d2.html';
-            case WeatherModelType.ICON:
-            case WeatherModelType.ICON_EU:
-                return 'https://www.dwd.de/DE/forschung/wettervorhersage/num_modellierung/01_num_vorhersagemodelle/icon_beschreibung.html';
-            case WeatherModelType.ICON_CH1:
-                return 'https://www.meteoswiss.admin.ch/weather/warning-and-forecasting-systems/icon-forecasting-systems.html';
-            default:
-                return '';
-        }
+        return this.currentForecastRun
+            ? this.currentForecastRun.getProviderUrl()
+            : '';
     }
 
 
     protected getRunName(): string {
-        if (!this.currentForecastRun) {
-            return '';
-        }
-
-        const startTime = this.currentForecastRun.startTime;
-
-        return startTime.getUTCFullYear() + '-'
-            + StringnumberHelper.zeroPad(startTime.getUTCMonth() + 1, 2) + '-'
-            + StringnumberHelper.zeroPad(startTime.getUTCDate(), 2) + ' '
-            + StringnumberHelper.zeroPad(startTime.getUTCHours(), 2) + ':00 UTC';
+        return this.currentForecastRun
+            ? this.currentForecastRun.getRunName()
+            : '';
     }
 
 

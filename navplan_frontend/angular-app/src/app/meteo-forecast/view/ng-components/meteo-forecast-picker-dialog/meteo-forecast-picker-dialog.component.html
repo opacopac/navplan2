@@ -1,0 +1,20 @@
+<h3 mat-dialog-title>Select Meteo Forecast</h3>
+<mat-dialog-content>
+    <app-meteo-forecast-picker-list
+        class="fc-run-list"
+        [forecastRunList]="this.data.forecastRunList$ | async"
+        [currentFcRun]="this.data.currentForecastRun$ | async"
+        (onSelectFcRunClick)="this.onSelectClick($event)"
+    />
+</mat-dialog-content>
+<mat-dialog-actions class="action-buttons">
+    <button
+        mat-raised-button
+        color="accent"
+        type="button"
+        class="inline-button"
+        (click)="this.onCancelClick()"
+    >
+        Cancel
+    </button>
+</mat-dialog-actions>

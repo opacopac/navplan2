@@ -6,6 +6,7 @@ import {MeteoLayer} from '../../../domain/model/meteo-layer';
 import {getFlightMapMeteoLayer} from '../../../state/ngrx/flight-map.selectors';
 import {ForecastRun} from '../../../../meteo-forecast/domain/model/forecast-run';
 import {
+    getMeteoForecastAvailableForecastRuns,
     getMeteoForecastForecastRun,
     getMeteoForecastSelectedStep
 } from '../../../../meteo-forecast/state/ngrx/meteo-forecast.selectors';
@@ -17,6 +18,10 @@ import {CommonModule} from '@angular/common';
 import {
     MeteoForecastModelInfoComponent
 } from '../../../../meteo-forecast/view/ng-components/meteo-forecast-model-info/meteo-forecast-model-info.component';
+import {MatDialog} from '@angular/material/dialog';
+import {
+    MeteoForecastPickerDialogComponent
+} from '../../../../meteo-forecast/view/ng-components/meteo-forecast-picker-dialog/meteo-forecast-picker-dialog.component';
 
 
 @Component({
@@ -31,11 +36,15 @@ import {
 })
 export class MeteoContainerComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly meteoLayer$ = this.appStore.pipe(select(getFlightMapMeteoLayer));
-    protected readonly forecastRun$: Observable<ForecastRun> = this.appStore.pipe(select(getMeteoForecastForecastRun));
+    protected readonly availableFcRuns$: Observable<ForecastRun[]> = this.appStore.pipe(select(getMeteoForecastAvailableForecastRuns));
+    protected readonly selectedFcRun$: Observable<ForecastRun> = this.appStore.pipe(select(getMeteoForecastForecastRun));
     protected readonly selectedStep$: Observable<number> = this.appStore.pipe(select(getMeteoForecastSelectedStep));
 
 
-    constructor(private readonly appStore: Store<any>) {
+    constructor(
+        private readonly appStore: Store<any>,
+        private dialog: MatDialog
+    ) {
     }
 
 
@@ -74,6 +83,21 @@ export class MeteoContainerComponent implements OnInit, OnDestroy, AfterViewInit
 
 
     protected onChangeModelClick() {
-        this.appStore.dispatch(MeteoForecastActions.changeModel());
+        // this.appStore.dispatch(AircraftListActions.readList()); // TODO read available models
+
+        const dialogRef = this.dialog.open(MeteoForecastPickerDialogComponent, {
+            // height: '800px',
+            // width: '600px',
+            data: {
+                forecastRunList$: this.availableFcRuns$,
+                currentForecastRun$: this.selectedFcRun$
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((selectedFcRun) => {
+            if (selectedFcRun) {
+                this.appStore.dispatch(MeteoForecastActions.changeModel()); // TODO pass selected model
+            }
+        });
     }
 }
