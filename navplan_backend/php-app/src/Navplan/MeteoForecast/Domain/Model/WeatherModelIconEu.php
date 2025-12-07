@@ -19,7 +19,7 @@ class WeatherModelIconEu
     public const int MIN_STEP = 2;
     public const int MAX_STEP = 78;
     public const int STEP_LENGTH_H = 1;
-    public const int GRID_RESOLUTION_M = 6500; // 6.5km - 7km
+    public const int GRID_RESOLUTION_M = 6900;
     public const int VERT_LAYERS = 50;
     public const string FORECAST_DIR = "icon-eu/";
 

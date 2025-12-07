@@ -12,8 +12,8 @@ class WeatherModelIconD2
 {
     public const int GRID_WIDTH = 1215;
     public const int GRID_HEIGHT = 746;
-    public const float MIN_LON = -3.94;
-    public const float MIN_LAT = 43.18;
+    public const float MIN_LON = -3.94; // MAX_LON: 20.34
+    public const float MIN_LAT = 43.18; // MAX_LAT: 58.08
     public const float INC_LON = 0.02;
     public const float INC_LAT = 0.02;
     public const int MIN_STEP = 2;

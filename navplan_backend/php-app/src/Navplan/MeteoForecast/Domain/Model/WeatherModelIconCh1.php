@@ -12,14 +12,14 @@ class WeatherModelIconCh1
 {
     public const int GRID_WIDTH = 1851;
     public const int GRID_HEIGHT = 847;
-    public const float MIN_LON = -0.81;
-    public const float MIN_LAT = 42.03;
+    public const float MIN_LON = -0.81; // MAX_LON: 17.7
+    public const float MIN_LAT = 42.03; // MAX_LAT: 50.5
     public const float INC_LON = 0.01;
     public const float INC_LAT = 0.01;
     public const int MIN_STEP = 2;
     public const int MAX_STEP = 33;
     public const int STEP_LENGTH_H = 1;
-    public const int GRID_RESOLUTION_M = 1000;
+    public const int GRID_RESOLUTION_M = 1100;
     public const int VERT_LAYERS = 49;
     public const string FORECAST_DIR = "icon-ch1/";
 
