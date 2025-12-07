@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Navplan\MeteoForecast\Domain\Model\WeatherModelConfig;
 use Navplan\MeteoForecast\Domain\Model\WeatherModelIconCh1;
 use Navplan\MeteoForecast\Domain\Model\WeatherModelIconD2;
+use Navplan\MeteoForecast\Domain\Model\WeatherModelIconEu;
 use Navplan\MeteoForecast\Domain\Model\WeatherModelType;
 
 
@@ -20,6 +21,7 @@ class WeatherModelConfigService
         return match ($modelType) {
             WeatherModelType::ICON_D2 => WeatherModelIconD2::getModelConfig(),
             WeatherModelType::ICON_CH1 => WeatherModelIconCh1::getModelConfig(),
+            WeatherModelType::ICON_EU => WeatherModelIconEu::getModelConfig(),
             default => throw new InvalidArgumentException("Unsupported model: " . $modelType)
         };
     }

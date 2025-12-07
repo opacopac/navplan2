@@ -27,7 +27,7 @@ class WeatherModelIconEu
     public static function getModelConfig(int $minStep = self::MIN_STEP, int $maxStep = self::MAX_STEP): WeatherModelConfig
     {
         return new WeatherModelConfig(
-            WeatherModelType::ICON_D2,
+            WeatherModelType::ICON_EU,
             $minStep,
             $maxStep,
             new Time(self::STEP_LENGTH_H, TimeUnit::H),
