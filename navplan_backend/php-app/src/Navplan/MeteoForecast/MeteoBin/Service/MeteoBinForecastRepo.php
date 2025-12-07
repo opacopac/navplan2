@@ -14,11 +14,11 @@ use Navplan\MeteoForecast\Domain\Service\IMeteoForecastRepo;
 use Navplan\System\Domain\Service\IFileService;
 
 
-class MeteoBinForecastRepo implements IMeteoForecastRepo
+readonly class MeteoBinForecastRepo implements IMeteoForecastRepo
 {
     public function __construct(
-        private readonly IFileService $fileService,
-        private readonly IMeteoForecastConfig $meteoForecastConfig
+        private IFileService         $fileService,
+        private IMeteoForecastConfig $meteoForecastConfig
     )
     {
     }

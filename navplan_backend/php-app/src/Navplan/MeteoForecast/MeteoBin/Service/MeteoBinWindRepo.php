@@ -15,14 +15,14 @@ use Navplan\MeteoForecast\MeteoBin\Model\MeteoBinWindInfoConverter;
 use Navplan\System\Domain\Service\IFileService;
 
 
-class MeteoBinWindRepo implements IMeteoForecastWindRepo
+readonly class MeteoBinWindRepo implements IMeteoForecastWindRepo
 {
-    public const METEOBIN_WIND_PATH = "/wind/WIND.meteobin";
+    public const string METEOBIN_WIND_PATH = "/wind/WIND.meteobin";
 
 
     public function __construct(
-        private readonly IFileService $fileService,
-        private readonly IMeteoForecastConfig $meteoForecastConfig
+        private IFileService $fileService,
+        private IMeteoForecastConfig $meteoForecastConfig
     )
     {
     }

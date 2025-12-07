@@ -9,10 +9,10 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
 
 
-class DbAircraftTypeDesignatorSearchQuery implements IAircraftTypeDesignatorSearchQuery
+readonly class DbAircraftTypeDesignatorSearchQuery implements IAircraftTypeDesignatorSearchQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }

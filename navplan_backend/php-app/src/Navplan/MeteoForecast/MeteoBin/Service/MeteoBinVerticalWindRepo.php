@@ -13,15 +13,15 @@ use Navplan\System\Domain\Model\IFile;
 use Navplan\System\Domain\Service\IFileService;
 
 
-class MeteoBinVerticalWindRepo implements IMeteoForecastVerticalWindRepo
+readonly class MeteoBinVerticalWindRepo implements IMeteoForecastVerticalWindRepo
 {
-    private const METEOBIN_VERTICAL_WIND_PATH = "/vertical_wind/VERTICAL_WIND.meteobin";
-    private const BYTES_PER_POS = 3;
+    private const string METEOBIN_VERTICAL_WIND_PATH = "/vertical_wind/VERTICAL_WIND.meteobin";
+    private const int BYTES_PER_POS = 3;
 
 
     public function __construct(
-        private readonly IFileService $fileService,
-        private readonly IMeteoForecastConfig $meteoForecastConfig
+        private IFileService $fileService,
+        private IMeteoForecastConfig $meteoForecastConfig
     )
     {
     }

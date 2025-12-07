@@ -11,15 +11,15 @@ use Navplan\System\Domain\Model\IFile;
 use Navplan\System\Domain\Service\IFileService;
 
 
-class MeteoBinTempRepo implements IMeteoForecastTempRepo
+readonly class MeteoBinTempRepo implements IMeteoForecastTempRepo
 {
-    private const METEOBIN_TEMP_PATH = "/temp/TEMP.meteobin";
-    private const BYTES_PER_POS = 1;
+    private const string METEOBIN_TEMP_PATH = "/temp/TEMP.meteobin";
+    private const int BYTES_PER_POS = 1;
 
 
     public function __construct(
-        private readonly IFileService $fileService,
-        private readonly IMeteoForecastConfig $meteoForecastConfig,
+        private IFileService $fileService,
+        private IMeteoForecastConfig $meteoForecastConfig,
     )
     {
     }

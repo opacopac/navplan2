@@ -13,14 +13,14 @@ use Navplan\MeteoForecast\MeteoBin\Model\MeteoBinWeatherInfoConverter;
 use Navplan\System\Domain\Service\IFileService;
 
 
-class MeteoBinWeatherRepo implements IMeteoForecastWeatherRepo
+readonly class MeteoBinWeatherRepo implements IMeteoForecastWeatherRepo
 {
-    private const METEOBIN_WW_PATH = "/clct_precip/WW.meteobin";
+    private const string METEOBIN_WW_PATH = "/clct_precip/WW.meteobin";
 
 
     public function __construct(
-        private readonly IFileService $fileService,
-        private readonly IMeteoForecastConfig $meteoForecastConfig
+        private IFileService $fileService,
+        private IMeteoForecastConfig $meteoForecastConfig
     )
     {
     }

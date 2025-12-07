@@ -6,8 +6,8 @@ use InvalidArgumentException;
 
 
 class WeatherModelLayer {
-    const CLOUDS = 1;
-    const WIND = 2;
+    const int CLOUDS = 1;
+    const int WIND = 2;
 
 
     public static function fromString(string $layerString): int {

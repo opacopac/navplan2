@@ -6,10 +6,10 @@ use InvalidArgumentException;
 
 
 class WeatherModelType {
-    const ICON_D2 = 1;
-    const ICON_EU = 2;
-    const ICON = 3;
-    const ICON_CH1 = 4;
+    const int ICON_D2 = 1;
+    const int ICON_EU = 2;
+    const int ICON = 3;
+    const int ICON_CH1 = 4;
 
 
     public static function fromString(string $modelString): int {

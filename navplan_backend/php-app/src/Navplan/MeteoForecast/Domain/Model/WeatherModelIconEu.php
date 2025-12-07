@@ -10,18 +10,18 @@ use Navplan\Common\Domain\Model\TimeUnit;
 
 class WeatherModelIconEu
 {
-    public const GRID_WIDTH = 1377;
-    public const GRID_HEIGHT = 657;
-    public const MIN_LON = -23.5; // MAX_LON: 62.5
-    public const MIN_LAT = 29.5; // MAX_LAT: 70.5
-    public const INC_LON = 0.0625;
-    public const INC_LAT = 0.0625;
-    public const MIN_STEP = 2;
-    public const MAX_STEP = 78;
-    public const STEP_LENGTH_H = 1;
-    public const GRID_RESOLUTION_M = 6500; // 6.5km - 7km
-    public const VERT_LAYERS = 50;
-    public const FORECAST_DIR = "icon-eu/";
+    public const int GRID_WIDTH = 1377;
+    public const int GRID_HEIGHT = 657;
+    public const float MIN_LON = -23.5; // MAX_LON: 62.5
+    public const float MIN_LAT = 29.5; // MAX_LAT: 70.5
+    public const float INC_LON = 0.0625;
+    public const float INC_LAT = 0.0625;
+    public const int MIN_STEP = 2;
+    public const int MAX_STEP = 78;
+    public const int STEP_LENGTH_H = 1;
+    public const int GRID_RESOLUTION_M = 6500; // 6.5km - 7km
+    public const int VERT_LAYERS = 50;
+    public const string FORECAST_DIR = "icon-eu/";
 
 
     public static function getModelConfig(int $minStep = self::MIN_STEP, int $maxStep = self::MAX_STEP): WeatherModelConfig

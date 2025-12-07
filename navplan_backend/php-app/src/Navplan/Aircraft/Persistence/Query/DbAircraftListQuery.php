@@ -9,10 +9,10 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
 
-class DbAircraftListQuery implements IAircraftListQuery
+readonly class DbAircraftListQuery implements IAircraftListQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }

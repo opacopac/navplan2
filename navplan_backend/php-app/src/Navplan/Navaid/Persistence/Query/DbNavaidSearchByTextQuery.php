@@ -13,10 +13,10 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbCaseBuilder;
 
 
-class DbNavaidSearchByTextQuery implements INavaidSearchByTextQuery
+readonly class DbNavaidSearchByTextQuery implements INavaidSearchByTextQuery
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }
