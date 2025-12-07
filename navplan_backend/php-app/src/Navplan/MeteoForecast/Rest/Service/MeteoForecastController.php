@@ -19,11 +19,11 @@ use Navplan\System\Domain\Service\IHttpService;
 
 class MeteoForecastController implements IRestController
 {
-    const ARG_FORECAST_RUN = "run";
-    const ARG_FORECAST_STEP = "step";
-    const ARG_PARAM = "param";
-    const ARG_PARAM_WW = "ww";
-    const ARG_PARAM_WIND = "wind";
+    const string ARG_FORECAST_RUN = "run";
+    const string ARG_FORECAST_STEP = "step";
+    const string ARG_PARAM = "param";
+    const string ARG_PARAM_WW = "ww";
+    const string ARG_PARAM_WIND = "wind";
 
 
     public function __construct(

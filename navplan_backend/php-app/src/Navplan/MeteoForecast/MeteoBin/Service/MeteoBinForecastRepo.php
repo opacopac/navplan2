@@ -8,6 +8,7 @@ use Navplan\MeteoForecast\Domain\Model\ForecastRun;
 use Navplan\MeteoForecast\Domain\Model\WeatherModelConfig;
 use Navplan\MeteoForecast\Domain\Model\WeatherModelIconCh1;
 use Navplan\MeteoForecast\Domain\Model\WeatherModelIconD2;
+use Navplan\MeteoForecast\Domain\Model\WeatherModelIconEu;
 use Navplan\MeteoForecast\Domain\Model\WeatherModelType;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastConfig;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastRepo;
@@ -17,7 +18,7 @@ use Navplan\System\Domain\Service\IFileService;
 readonly class MeteoBinForecastRepo implements IMeteoForecastRepo
 {
     public function __construct(
-        private IFileService         $fileService,
+        private IFileService $fileService,
         private IMeteoForecastConfig $meteoForecastConfig
     )
     {
@@ -41,6 +42,12 @@ readonly class MeteoBinForecastRepo implements IMeteoForecastRepo
         $latestIconD2Run = $this->findLatestModelForecast(WeatherModelType::ICON_D2, $iconD2BaseDir);
         if ($latestIconD2Run != null) {
             $fcRuns[] = $latestIconD2Run;
+        }
+
+        $iconEuBaseDir = $this->meteoForecastConfig->getMeteoForecastBaseDir() . WeatherModelIconEu::FORECAST_DIR;
+        $latestIconEuRun = $this->findLatestModelForecast(WeatherModelType::ICON_EU, $iconEuBaseDir);
+        if ($latestIconEuRun != null) {
+            $fcRuns[] = $latestIconEuRun;
         }
 
         return $fcRuns;
@@ -145,6 +152,7 @@ readonly class MeteoBinForecastRepo implements IMeteoForecastRepo
         return match ($modelType) {
             WeatherModelType::ICON_D2 => WeatherModelIconD2::getModelConfig($minStepCount, $maxStepCount),
             WeatherModelType::ICON_CH1 => WeatherModelIconCh1::getModelConfig($minStepCount, $maxStepCount),
+            WeatherModelType::ICON_EU => WeatherModelIconEu::getModelConfig($minStepCount, $maxStepCount),
             default => null,
         };
     }
