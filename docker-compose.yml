@@ -37,6 +37,7 @@ services:
         volumes:
             - navplan_logs:/var/log/navplan
             - navplan_charts:/var/www/html/charts
+            - navplan_meteo_forecast:/var/www/html/meteo_forecast
 
     navplan_frontend:
         build:
@@ -50,6 +51,7 @@ volumes:
     navplan_data:
     navplan_logs:
     navplan_charts:
+    navplan_meteo_forecast:
 
 secrets:
     db_root_pw:
