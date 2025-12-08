@@ -1,6 +1,6 @@
 @echo off
 
-set SOURCE_PATH=d:\work\own\projects\grib2_meteo_charts\output
+set SOURCE_PATH=./meteo_forecast
 set CONTAINER_NAME=navplan_backend
 set CONTAINER_DEST=/var/www/html/meteo_forecast/
 
@@ -26,4 +26,3 @@ if %ERRORLEVEL% EQU 0 (
 )
 
 echo.
-pause
