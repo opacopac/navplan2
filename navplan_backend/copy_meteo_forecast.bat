@@ -12,10 +12,7 @@ echo.
 
 docker cp "%SOURCE_PATH%\." %CONTAINER_NAME%:%CONTAINER_DEST%
 
-if %ERRORLEVEL% EQU 0 (
-    echo.
-    echo Successfully copied meteo_forecast data to volume!
-) else (
+if %ERRORLEVEL% NEQ 0 (
     echo.
     echo Error: Failed to copy files. Make sure:
     echo 1. The %CONTAINER_NAME% container is running
@@ -24,5 +21,3 @@ if %ERRORLEVEL% EQU 0 (
     echo You can start the containers with: docker-compose up -d
     exit /b 1
 )
-
-echo.
