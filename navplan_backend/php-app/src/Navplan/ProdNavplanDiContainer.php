@@ -30,6 +30,8 @@ use Navplan\MeteoGram\IMeteoGramDiContainer;
 use Navplan\MeteoGram\ProdMeteoGramDiContainer;
 use Navplan\MeteoSma\IMeteoSmaDiContainer;
 use Navplan\MeteoSma\ProdMeteoSmaDiContainer;
+use Navplan\MetarTaf\IMetarTafDiContainer;
+use Navplan\MetarTaf\ProdMetarTafDiContainer;
 use Navplan\Navaid\INavaidDiContainer;
 use Navplan\Navaid\ProdNavaidDiContainer;
 use Navplan\Notam\INotamDiContainer;
@@ -72,6 +74,7 @@ class ProdNavplanDiContainer
     private IMeteoForecastDiContainer $meteoForecastDiContainer;
     private IMeteoGramDiContainer $meteoGramDiContainer;
     private IMeteoSmaDiContainer $meteoSmaDiContainer;
+    private IMetarTafDiContainer $metarTafDiContainer;
     private INotamDiContainer $notamDiContainer;
     private IOpenAipDiContainer $openAipDiContainer;
     private ISearchDiContainer $searchDiContainer;
@@ -284,6 +287,18 @@ class ProdNavplanDiContainer
         }
 
         return $this->meteoGramDiContainer;
+    }
+
+
+    function getMetarTafDiContainer(): IMetarTafDiContainer
+    {
+        if (!isset($this->metarTafDiContainer)) {
+            $this->metarTafDiContainer = new ProdMetarTafDiContainer(
+                $this->getSystemDiContainer()->getHttpService()
+            );
+        }
+
+        return $this->metarTafDiContainer;
     }
 
 

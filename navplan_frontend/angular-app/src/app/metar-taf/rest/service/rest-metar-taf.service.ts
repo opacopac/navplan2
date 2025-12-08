@@ -20,7 +20,7 @@ export class RestMetarTafService implements IMetarTafRepoService {
 
     public load(extent: Extent2d): Observable<MetarTaf[]> {
         const bbox = extent.minLat + ',' + extent.minLon + ',' + extent.maxLat + ',' + extent.maxLon;
-        const url = environment.metarTafBaseUrl + encodeURIComponent(bbox);
+        const url = environment.metarTafBaseUrl + '?bbox=' + encodeURIComponent(bbox);
         return this.http.get<IRestMetarTafResponse>(url)
             .pipe(
                 map(response => RestMetarTafConverter.listFromRest(response)),
