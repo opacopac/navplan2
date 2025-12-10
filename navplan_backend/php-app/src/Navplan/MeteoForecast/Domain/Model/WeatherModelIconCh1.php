@@ -22,6 +22,7 @@ class WeatherModelIconCh1
     public const int GRID_RESOLUTION_M = 1100;
     public const int VERT_LAYERS = 49;
     public const string FORECAST_DIR = "icon-ch1/";
+    public const int MAX_ZOOM_LEVEL = 8;
 
 
     public static function getModelConfig(int $minStep = self::MIN_STEP, int $maxStep = self::MAX_STEP): WeatherModelConfig
@@ -34,7 +35,8 @@ class WeatherModelIconCh1
             self::getGridDefinition(),
             Length::fromM(self::GRID_RESOLUTION_M),
             self::VERT_LAYERS,
-            self::FORECAST_DIR
+            self::FORECAST_DIR,
+            self::MAX_ZOOM_LEVEL
         );
     }
 

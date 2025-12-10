@@ -10,7 +10,8 @@ export class RestWeatherModelConfigConverter {
             WeatherModelType[restConfig.model],
             restConfig.minstep,
             restConfig.maxstep,
-            RestTimeConverter.fromRest(restConfig.steplen)
+            RestTimeConverter.fromRest(restConfig.steplen),
+            restConfig.maxzoom
         );
     }
 
@@ -24,7 +25,8 @@ export class RestWeatherModelConfigConverter {
             model: WeatherModelType[config.modelType],
             minstep: config.minStep,
             maxstep: config.maxStep,
-            steplen: RestTimeConverter.toRest(config.stepLength)
+            steplen: RestTimeConverter.toRest(config.stepLength),
+            maxzoom: config.maxZoomLevel
         };
     }
 }

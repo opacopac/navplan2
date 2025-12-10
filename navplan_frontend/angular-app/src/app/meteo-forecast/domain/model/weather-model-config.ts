@@ -7,7 +7,8 @@ export class WeatherModelConfig {
         public modelType: WeatherModelType,
         public minStep: number,
         public maxStep: number,
-        public stepLength: Time
+        public stepLength: Time,
+        public maxZoomLevel: number
     ) {
     }
 }

@@ -17,6 +17,7 @@ class WeatherModelConfig
         public Length $gridResolution,
         public int $vertLayers,
         public string $baseDir,
+        public int $maxZoomLevel,
     )
     {
     }

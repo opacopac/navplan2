@@ -12,6 +12,7 @@ class RestWeatherModelConfigConverter {
     const ARG_MIN_STEP = "minstep";
     const ARG_MAX_STEP = "maxstep";
     const ARG_STEP_LENGRH = "steplen";
+    const ARG_MAX_ZOOM_LEVEL = "maxzoom";
 
 
     public static function toRest(WeatherModelConfig $modelConfig): ?array {
@@ -19,7 +20,8 @@ class RestWeatherModelConfigConverter {
             self::ARG_MODEL_TYPE => WeatherModelType::toString($modelConfig->modelType),
             self::ARG_MIN_STEP => $modelConfig->minStep,
             self::ARG_MAX_STEP => $modelConfig->maxStep,
-            self::ARG_STEP_LENGRH => RestTimeConverter::toRest($modelConfig->stepLength)
+            self::ARG_STEP_LENGRH => RestTimeConverter::toRest($modelConfig->stepLength),
+            self::ARG_MAX_ZOOM_LEVEL => $modelConfig->maxZoomLevel
         );
     }
 }

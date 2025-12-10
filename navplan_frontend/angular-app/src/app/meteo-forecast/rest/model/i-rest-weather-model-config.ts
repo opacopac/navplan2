@@ -6,4 +6,5 @@ export interface IRestWeatherModelConfig {
     minstep: number;
     maxstep: number;
     steplen: IRestTime;
+    maxzoom: number;
 }
