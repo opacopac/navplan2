@@ -11,6 +11,7 @@ import {MeteoForecastLayer} from '../../domain/model/meteo-forecast-layer';
 export class OlMeteoForecastContainer {
     private readonly showLayerSubscription: Subscription;
     private readonly mapTilesUrlSubscription: Subscription;
+    private readonly maxZoomLevelSubscription: Subscription;
     private readonly weatherIconLayer: OlMeteoForecastWeatherIconLayer;
     private readonly windIconLayer: OlMeteoForecastWindIconLayer;
 
@@ -22,7 +23,8 @@ export class OlMeteoForecastContainer {
         private readonly showLayer$: Observable<MeteoForecastLayer>,
         private readonly meteoFcWeatherValues: Observable<WeatherInfo[]>,
         private readonly meteoFcWindValues$: Observable<WindInfo[]>,
-        private readonly meteoFcMapTilesUrl$: Observable<string>
+        private readonly meteoFcMapTilesUrl$: Observable<string>,
+        private readonly meteoFcMaxZoomLevel$: Observable<number>
     ) {
         this.showLayerSubscription = this.showLayer$.subscribe(showLayer => {
             this.showLayers(showLayer);
@@ -30,6 +32,10 @@ export class OlMeteoForecastContainer {
 
         this.mapTilesUrlSubscription = this.meteoFcMapTilesUrl$.subscribe(url => {
             this.meteoFcBgLayer.setUrl(url);
+        });
+
+        this.maxZoomLevelSubscription = this.meteoFcMaxZoomLevel$.subscribe(maxZoom => {
+            this.meteoFcBgLayer.setMaxZoom(maxZoom);
         });
 
         this.weatherIconLayer = new OlMeteoForecastWeatherIconLayer(
@@ -47,6 +53,7 @@ export class OlMeteoForecastContainer {
     public destroy() {
         this.showLayerSubscription.unsubscribe();
         this.mapTilesUrlSubscription.unsubscribe();
+        this.maxZoomLevelSubscription.unsubscribe();
 
         this.showLayers(undefined);
 

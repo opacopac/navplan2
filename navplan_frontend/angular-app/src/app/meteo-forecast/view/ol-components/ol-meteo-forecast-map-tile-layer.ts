@@ -28,12 +28,17 @@ export class OlMeteoForecastMapTileLayer implements OlLayer {
     }
 
 
+    public setMaxZoom(maxZoom: number) {
+        this.layer.getSource().setProperties({maxZoom: maxZoom});
+    }
+
+
     private createLayer(): TileLayer<XYZ> {
         return new TileLayer({
             opacity: 0.75,
             source: new XYZ({
                 url: undefined,
-                maxZoom: 7,
+                maxZoom: 8,
                 // imageSmoothing: false
                 // attributions: attributions
             })

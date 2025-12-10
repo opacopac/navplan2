@@ -78,7 +78,8 @@ import {
     getMeteoForecastLayer,
     getMeteoForecastMapTilesUrl,
     getMeteoForecastWeatherValues,
-    getMeteoForecastWindValues
+    getMeteoForecastWindValues,
+    getMeteoForecastMaxZoomLevel
 } from '../../../../meteo-forecast/state/ngrx/meteo-forecast.selectors';
 import {
     OlMeteoForecastMapTileLayer
@@ -401,6 +402,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             this.appStore.pipe(select(getMeteoForecastWeatherValues)),
             this.appStore.pipe(select(getMeteoForecastWindValues)),
             this.appStore.pipe(select(getMeteoForecastMapTilesUrl)),
+            this.appStore.pipe(select(getMeteoForecastMaxZoomLevel)),
         );
     }
 
