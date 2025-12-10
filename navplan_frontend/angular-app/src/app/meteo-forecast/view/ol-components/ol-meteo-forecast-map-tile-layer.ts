@@ -26,14 +26,12 @@ export class OlMeteoForecastMapTileLayer implements OlLayer {
 
 
     public setUrl(url: string) {
-        debugger;
         this.currentUrl = url;
         this.updateSource();
     }
 
 
     public setMaxZoom(maxZoom: number) {
-        debugger;
         this.currentMaxZoom = maxZoom;
         this.updateSource();
     }
