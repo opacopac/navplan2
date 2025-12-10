@@ -6,6 +6,8 @@ import {OlLayer} from '../../../base-map/view/ol-model/ol-layer';
 
 export class OlMeteoForecastMapTileLayer implements OlLayer {
     private readonly layer: TileLayer<XYZ>;
+    private currentUrl: string | undefined;
+    private currentMaxZoom: number | undefined;
 
 
     public constructor() {
@@ -24,24 +26,36 @@ export class OlMeteoForecastMapTileLayer implements OlLayer {
 
 
     public setUrl(url: string) {
-        this.layer.getSource().setUrl(url);
+        debugger;
+        this.currentUrl = url;
+        this.updateSource();
     }
 
 
     public setMaxZoom(maxZoom: number) {
-        this.layer.getSource().setProperties({maxZoom: maxZoom});
+        debugger;
+        this.currentMaxZoom = maxZoom;
+        this.updateSource();
     }
 
 
-    private createLayer(): TileLayer<XYZ> {
-        return new TileLayer({
+    private createLayer() {
+        return new TileLayer<XYZ>({
             opacity: 0.75,
-            source: new XYZ({
-                url: undefined,
-                maxZoom: 8,
+            visible: false
+        });
+    }
+
+
+    private updateSource() {
+        if (this.currentUrl !== undefined && this.currentMaxZoom !== undefined) {
+            const newSource = new XYZ({
+                url: this.currentUrl,
+                maxZoom: this.currentMaxZoom,
                 // imageSmoothing: false
                 // attributions: attributions
-            })
-        });
+            });
+            this.layer.setSource(newSource);
+        }
     }
 }
