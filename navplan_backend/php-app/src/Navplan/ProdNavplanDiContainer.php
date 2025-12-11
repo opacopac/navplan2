@@ -247,7 +247,7 @@ class ProdNavplanDiContainer
     }
 
 
-    function getGeonameDiContainer(): IGeonameDiContainer
+    public function getGeonameDiContainer(): IGeonameDiContainer
     {
         if (!isset($this->geonameDiContainer)) {
             $this->geonameDiContainer = new ProdGeonameDiContainer(
@@ -260,7 +260,7 @@ class ProdNavplanDiContainer
     }
 
 
-    function getMeteoForecastDiContainer(): IMeteoForecastDiContainer
+    public function getMeteoForecastDiContainer(): IMeteoForecastDiContainer
     {
         if (!isset($this->meteoForecastDiContainer)) {
             $this->meteoForecastDiContainer = new ProdMeteoForecastDiContainer(
@@ -274,7 +274,7 @@ class ProdNavplanDiContainer
     }
 
 
-    function getMeteoGramDiContainer(): IMeteoGramDiContainer
+    public function getMeteoGramDiContainer(): IMeteoGramDiContainer
     {
         if (!isset($this->meteoGramDiContainer)) {
             $this->meteoGramDiContainer = new ProdMeteoGramDiContainer(
@@ -290,7 +290,7 @@ class ProdNavplanDiContainer
     }
 
 
-    function getMetarTafDiContainer(): IMetarTafDiContainer
+    public function getMetarTafDiContainer(): IMetarTafDiContainer
     {
         if (!isset($this->metarTafDiContainer)) {
             $this->metarTafDiContainer = new ProdMetarTafDiContainer(
