@@ -20,7 +20,6 @@ class WeatherModelConfig
         public string $baseDir,
         public Ring2d $spatialCoverage,
         public int $maxZoomLevel,
-    )
-    {
+    ) {
     }
 }
