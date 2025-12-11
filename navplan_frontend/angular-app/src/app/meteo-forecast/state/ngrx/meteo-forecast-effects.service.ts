@@ -13,6 +13,7 @@ import {BaseMapState} from '../../../base-map/state/state-model/base-map-state';
 import {getMapState} from '../../../base-map/state/ngrx/base-map.selectors';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 import {MeteoForecastLayer} from '../../domain/model/meteo-forecast-layer';
+import {ForecastRunSelector} from '../../domain/service/forecast-run-selector';
 
 
 @Injectable()
@@ -39,6 +40,18 @@ export class MeteoForecastEffects {
         ),
         switchMap(action => this.meteoForecastService.readAvailableForecasts()),
         map(runs => MeteoForecastActions.readAvailableForecastRunsSuccess({forecastRuns: runs}))
+    ));
+
+
+    selectForecastRunOnOpenAction$: Observable<Action> = createEffect(() => this.actions$.pipe(
+        ofType(MeteoForecastActions.open),
+        switchMap(() => this.meteoForecastService.readAvailableForecasts()),
+        withLatestFrom(this.mapState$),
+        map(([runs, mapState]) => {
+            const selectedRun = ForecastRunSelector.selectBestForecastRun(runs, mapState.extent);
+            return MeteoForecastActions.changeForecastRun({forecastRun: selectedRun});
+        }),
+        filter(action => action.forecastRun !== undefined)
     ));
 
 

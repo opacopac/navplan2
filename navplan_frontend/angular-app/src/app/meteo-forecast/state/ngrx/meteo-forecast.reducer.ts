@@ -70,22 +70,10 @@ export const meteoForecastReducer = createReducer(
         selectedStep: action.step,
     })),
 
-    on(MeteoForecastActions.readAvailableForecastRunsSuccess, (state, action) => {
-        const latestRun = action.forecastRuns && action.forecastRuns.length > 0
-            ? action.forecastRuns[action.forecastRuns.length - 1]
-            : undefined;
-        const selectedStep = latestRun && (state.selectedStep === undefined
-            || state.selectedStep < latestRun.model.minStep || state.selectedStep > latestRun.model.maxStep)
-            ? latestRun.model.minStep
-            : state.selectedStep;
-
-        return {
-            ...state,
-            availableFcRuns: action.forecastRuns,
-            selectedFcRun: latestRun,
-            selectedStep: selectedStep
-        };
-    }),
+    on(MeteoForecastActions.readAvailableForecastRunsSuccess, (state, action) => ({
+        ...state,
+        availableFcRuns: action.forecastRuns
+    })),
 
     on(MeteoForecastActions.changeForecastRun, (state, action) => ({
         ...state,
