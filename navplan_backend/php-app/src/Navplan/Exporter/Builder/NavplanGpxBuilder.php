@@ -3,20 +3,24 @@
 
 namespace Navplan\Exporter\Builder;
 
+use Navplan\Common\DateTimeHelper;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Flightroute\Domain\Model\Waypoint;
 use Navplan\Track\Domain\Model\Track;
 
 
-class NavplanGpxBuilder {
+class NavplanGpxBuilder
+{
     private string $xml;
 
 
-    public function __construct() {
+    public function __construct()
+    {
     }
 
 
-    public function buildGpx(?Flightroute $flightroute, ?Track $track): string {
+    public function buildGpx(?Flightroute $flightroute, ?Track $track): string
+    {
         $this->xml = "";
         $this->createHeader();
         $this->createRoute($flightroute);
@@ -27,7 +31,8 @@ class NavplanGpxBuilder {
     }
 
 
-    private function createHeader(): void {
+    private function createHeader(): void
+    {
         $this->xml .= '' .
             '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>' . "\n" .
             '<gpx creator="www.navplan.ch" version="1.1" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">' . "\n" .
@@ -36,7 +41,8 @@ class NavplanGpxBuilder {
     }
 
 
-    private function createRoute(?Flightroute $flightroute): void {
+    private function createRoute(?Flightroute $flightroute): void
+    {
         $waypoints = $flightroute ? $flightroute->getWaypointsInclAlternate() : [];
 
         if ($waypoints && count($waypoints) > 0) {
@@ -66,7 +72,8 @@ class NavplanGpxBuilder {
     }
 
 
-    private function createTrack(?Track $track): void {
+    private function createTrack(?Track $track): void
+    {
         $trackpoints = $track ? $track->positionList : [];
 
         if ($trackpoints && count($trackpoints) > 0) {
@@ -76,11 +83,11 @@ class NavplanGpxBuilder {
                 '    <trkseg>' . "\n";
 
             for ($i = 0; $i < count($trackpoints); $i++) {
-                $unixTimeStamp = floor($trackpoints[$i]->timestamp->toS());
+                $unixTimeStamp = $trackpoints[$i]->timestamp->toS();
                 $this->xml .= '' .
                     '    <trkpt lat="' . $trackpoints[$i]->latitude . '" lon="' . $trackpoints[$i]->longitude . '">' .
                     '<ele>' . $trackpoints[$i]->altitude->getHeightAmsl()->getM() . '</ele>' .
-                    '<time>' . getIsoTimeString($unixTimeStamp) . '</time>' .
+                    '<time>' . DateTimeHelper::getIsoTimeString($unixTimeStamp) . '</time>' .
                     '</trkpt>' . "\n";
             }
 
@@ -91,13 +98,15 @@ class NavplanGpxBuilder {
     }
 
 
-    private function createFooter(): void {
+    private function createFooter(): void
+    {
         $this->xml .= '' .
             '</gpx>';
     }
 
 
-    private function getWpType(Waypoint $waypoint): string {
+    private function getWpType(Waypoint $waypoint): string
+    {
         return match ($waypoint->type) {
             'airport' => "Airport",
             'report' => "Fix",

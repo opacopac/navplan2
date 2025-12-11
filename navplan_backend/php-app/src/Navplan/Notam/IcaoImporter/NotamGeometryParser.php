@@ -92,14 +92,14 @@ class NotamGeometryParser
             }
 
             if ($notam["geometry"]["polygon"]) {
-                $this->logger->debug("geometry.polygon:" . array_implode(",", " ", $notam["geometry"]["polygon"]));
+                $this->logger->debug("geometry.polygon:" . StringNumberHelper::array_implode(",", " ", $notam["geometry"]["polygon"]));
             }
 
             if ($notam["geometry"]["multipolygon"]) {
                 $counter = 0;
                 foreach ($notam["geometry"]["multipolygon"] as $polygon) {
                     $counter++;
-                    $this->logger->debug("geometry.multipolygon(" . $counter . "):" . array_implode(",", " ", $polygon));
+                    $this->logger->debug("geometry.multipolygon(" . $counter . "):" . StringNumberHelper::array_implode(",", " ", $polygon));
                 }
             }
 
@@ -117,7 +117,7 @@ class NotamGeometryParser
 
             if ($notam["polyzoomlevels"]) {
                 foreach ($notam["polyzoomlevels"] as $polyzoomlevel) {
-                    $this->logger->debug("zoom:" . $polyzoomlevel["zoommin"] . "-" . $polyzoomlevel["zoommax"] . ", polygon: " . array_implode(",", " ", $polyzoomlevel["polygon"]));
+                    $this->logger->debug("zoom:" . $polyzoomlevel["zoommin"] . "-" . $polyzoomlevel["zoommax"] . ", polygon: " . StringNumberHelper::array_implode(",", " ", $polyzoomlevel["polygon"]));
                 }
             }
 
@@ -126,7 +126,7 @@ class NotamGeometryParser
                     $counter = 0;
                     foreach ($multipolyzoomlevel["multipolygon"] as $polygon) {
                         $counter++;
-                        $this->logger->debug("zoom:" . $multipolyzoomlevel["zoommin"] . "-" . $multipolyzoomlevel["zoommax"] . ", multipolygon(" . $counter . "): " . array_implode(",", " ", $polygon));
+                        $this->logger->debug("zoom:" . $multipolyzoomlevel["zoommin"] . "-" . $multipolyzoomlevel["zoommax"] . ", multipolygon(" . $counter . "): " . StringNumberHelper::array_implode(",", " ", $polygon));
                     }
                 }
             }
@@ -424,7 +424,7 @@ class NotamGeometryParser
             $polygon = $this->tryParsePolygon($notam["message"]);
             if ($polygon) {
                 if (!str_contains($notam["message"], "CIRCLE")) {
-                    $this->logger->debug("pure polygon geometry in message found: " . array_implode(",", " ", $polygon));
+                    $this->logger->debug("pure polygon geometry in message found: " . StringNumberHelper::array_implode(",", " ", $polygon));
 
                     $geometry["polygon"] = $polygon;
                     return $geometry;
