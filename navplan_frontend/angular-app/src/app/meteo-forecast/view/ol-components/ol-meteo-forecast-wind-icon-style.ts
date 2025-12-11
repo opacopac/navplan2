@@ -1,6 +1,7 @@
 import {Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {Angle} from '../../../geo-physics/domain/model/quantities/angle';
 import {WindInfo} from '../../domain/model/wind-info';
+import {GustLevel} from '../../domain/model/gust-level';
 import {WindIcon} from '../../../meteo-common/view/wind_icons/wind-icon';
 
 
@@ -23,9 +24,9 @@ export class OlMeteoForecastWindIconStyle {
         const gustLevel = windSpeedDir.getGustLevel();
 
         let textColor = '#000000';
-        if (gustLevel === 3) {
+        if (gustLevel === GustLevel.VIOLENT_GUSTS) {
             textColor = '#FF0000';
-        } else if (gustLevel === 2) {
+        } else if (gustLevel === GustLevel.STRONG_GUSTS) {
             textColor = '#FFAA00';
         }
 
