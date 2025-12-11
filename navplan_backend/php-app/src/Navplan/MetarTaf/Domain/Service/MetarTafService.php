@@ -2,6 +2,7 @@
 
 namespace Navplan\MetarTaf\Domain\Service;
 
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\MetarTaf\Domain\Model\MetarTafResponse;
 use RuntimeException;
 
@@ -42,7 +43,7 @@ class MetarTafService implements IMetarTafService {
     }
 
 
-    private function extentToBboxString($extent): string {
+    private function extentToBboxString(Extent2d $extent): string {
         return $extent->minPos->latitude . ',' . $extent->minPos->longitude . ',' . $extent->maxPos->latitude . ',' . $extent->maxPos->longitude;
     }
 }
