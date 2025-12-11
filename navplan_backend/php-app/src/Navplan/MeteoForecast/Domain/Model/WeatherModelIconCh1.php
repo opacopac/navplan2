@@ -4,6 +4,7 @@ namespace Navplan\MeteoForecast\Domain\Model;
 
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\Common\Domain\Model\Time;
 use Navplan\Common\Domain\Model\TimeUnit;
 
@@ -23,6 +24,13 @@ class WeatherModelIconCh1
     public const int VERT_LAYERS = 49;
     public const string FORECAST_DIR = "icon-ch1/";
     public const int MAX_ZOOM_LEVEL = 8;
+    private const COVERAGE_COORDS = [
+        [-0.81, 42.03],
+        [17.69, 42.03],
+        [17.69, 50.49],
+        [-0.81, 50.49],
+        [-0.81, 42.03]
+    ];
 
 
     public static function getModelConfig(int $minStep = self::MIN_STEP, int $maxStep = self::MAX_STEP): WeatherModelConfig
@@ -36,6 +44,7 @@ class WeatherModelIconCh1
             Length::fromM(self::GRID_RESOLUTION_M),
             self::VERT_LAYERS,
             self::FORECAST_DIR,
+            Ring2d::fromArray(self::COVERAGE_COORDS),
             self::MAX_ZOOM_LEVEL
         );
     }

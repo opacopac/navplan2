@@ -3,6 +3,7 @@
 namespace Navplan\MeteoForecast\Domain\Model;
 
 use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\Common\Domain\Model\Time;
 
 
@@ -17,6 +18,7 @@ class WeatherModelConfig
         public Length $gridResolution,
         public int $vertLayers,
         public string $baseDir,
+        public Ring2d $spatialCoverage,
         public int $maxZoomLevel,
     )
     {
