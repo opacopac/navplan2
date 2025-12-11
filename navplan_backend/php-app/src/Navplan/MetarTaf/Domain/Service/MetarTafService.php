@@ -43,6 +43,6 @@ class MetarTafService implements IMetarTafService {
 
 
     private function extentToBboxString($extent): string {
-        return $extent->minPos->longitude . ',' . $extent->minPos->latitude . ',' . $extent->maxPos->longitude . ',' . $extent->maxPos->latitude;
+        return $extent->minPos->latitude . ',' . $extent->minPos->longitude . ',' . $extent->maxPos->latitude . ',' . $extent->maxPos->longitude;
     }
 }

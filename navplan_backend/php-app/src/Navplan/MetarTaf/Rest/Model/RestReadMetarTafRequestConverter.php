@@ -17,14 +17,14 @@ class RestReadMetarTafRequestConverter {
         $bboxParts = explode(',', $bboxStr);
 
         if (count($bboxParts) !== 4) {
-            throw new InvalidArgumentException("Invalid bbox format. Expected: minLon,minLat,maxLon,maxLat");
+            throw new InvalidArgumentException("Invalid bbox format. Expected: minLat,minLon,maxLat,maxLon");
         }
 
         $extent = Extent2d::createFromCoords(
-            (float)$bboxParts[0],
             (float)$bboxParts[1],
-            (float)$bboxParts[2],
-            (float)$bboxParts[3]
+            (float)$bboxParts[0],
+            (float)$bboxParts[3],
+            (float)$bboxParts[2]
         );
 
         return new ReadMetarTafRequest($extent);
