@@ -1,17 +1,9 @@
 import {ForecastRun} from '../model/forecast-run';
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
-import {WeatherModelType} from '../model/weather-model-type';
+import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
 
 
 export class ForecastRunSelector {
-    private static readonly MODEL_PRIORITY: Map<WeatherModelType, number> = new Map([
-        [WeatherModelType.ICON_CH1, 1],
-        [WeatherModelType.ICON_D2, 2],
-        [WeatherModelType.ICON_EU, 3],
-        [WeatherModelType.ICON, 4]
-    ]);
-
-
     public static selectBestForecastRun(
         forecastRuns: ForecastRun[],
         mapExtent: Extent2d
@@ -30,11 +22,11 @@ export class ForecastRunSelector {
             return forecastRuns[forecastRuns.length - 1];
         }
 
-        // Sort by priority (lower number = higher priority)
+        // Sort by grid resolution (shortest distance = highest resolution = best quality)
         matchingRuns.sort((a, b) => {
-            const priorityA = this.MODEL_PRIORITY.get(a.model.modelType) ?? 999;
-            const priorityB = this.MODEL_PRIORITY.get(b.model.modelType) ?? 999;
-            return priorityA - priorityB;
+            const resolutionA = a.model.gridResolution?.getValue(LengthUnit.M) ?? Number.MAX_VALUE;
+            const resolutionB = b.model.gridResolution?.getValue(LengthUnit.M) ?? Number.MAX_VALUE;
+            return resolutionA - resolutionB;
         });
 
         return matchingRuns[0];
