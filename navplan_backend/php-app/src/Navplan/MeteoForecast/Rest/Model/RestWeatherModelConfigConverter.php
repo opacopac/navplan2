@@ -10,17 +10,17 @@ use Navplan\MeteoForecast\Domain\Model\WeatherModelType;
 
 
 class RestWeatherModelConfigConverter {
-    const ARG_MODEL_TYPE = "model";
-    const ARG_MIN_STEP = "minstep";
-    const ARG_MAX_STEP = "maxstep";
-    const ARG_STEP_LENGRH = "steplen";
-    const ARG_GRID_RESOLUTION = "gridresolution";
-    const ARG_SPATIAL_COVERAGE = "spatialcoverage";
-    const ARG_MAX_ZOOM_LEVEL = "maxzoom";
+    private const string ARG_MODEL_TYPE = "model";
+    private const string ARG_MIN_STEP = "minstep";
+    private const string ARG_MAX_STEP = "maxstep";
+    private const string ARG_STEP_LENGRH = "steplen";
+    private const string ARG_GRID_RESOLUTION = "gridresolution";
+    private const string ARG_SPATIAL_COVERAGE = "spatialcoverage";
+    private const string ARG_MAX_ZOOM_LEVEL = "maxzoom";
 
 
     public static function toRest(WeatherModelConfig $modelConfig): ?array {
-        return array(
+        return [
             self::ARG_MODEL_TYPE => WeatherModelType::toString($modelConfig->modelType),
             self::ARG_MIN_STEP => $modelConfig->minStep,
             self::ARG_MAX_STEP => $modelConfig->maxStep,
@@ -28,6 +28,6 @@ class RestWeatherModelConfigConverter {
             self::ARG_GRID_RESOLUTION => RestLengthConverter::toRest($modelConfig->gridResolution),
             self::ARG_SPATIAL_COVERAGE => RestRing2dConverter::toRest($modelConfig->spatialCoverage),
             self::ARG_MAX_ZOOM_LEVEL => $modelConfig->maxZoomLevel
-        );
+        ];
     }
 }
