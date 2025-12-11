@@ -10,4 +10,4 @@ export const getMeteoForecastMapTilesUrl = createSelector(getMeteoForecastState,
 export const getMeteoForecastForecastRun = createSelector(getMeteoForecastState, state => state.selectedFcRun);
 export const getMeteoForecastSelectedStep = createSelector(getMeteoForecastState, state => state.selectedStep);
 export const getMeteoForecastAvailableForecastRuns = createSelector(getMeteoForecastState, state => state.availableFcRuns);
-export const getMeteoForecastMaxZoomLevel = createSelector(getMeteoForecastState, state => state.selectedFcRun?.model?.maxZoomLevel ?? 8);
+export const getMeteoForecastMaxZoomLevel = createSelector(getMeteoForecastState, state => state.selectedFcRun?.model?.maxZoomLevel);

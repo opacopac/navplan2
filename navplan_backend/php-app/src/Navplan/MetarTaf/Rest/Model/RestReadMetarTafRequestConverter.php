@@ -3,7 +3,7 @@
 namespace Navplan\MetarTaf\Rest\Model;
 
 use InvalidArgumentException;
-use Navplan\MetarTaf\Domain\Model\BoundingBox;
+use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\MetarTaf\Domain\Service\ReadMetarTafRequest;
 
 
@@ -20,13 +20,13 @@ class RestReadMetarTafRequestConverter {
             throw new InvalidArgumentException("Invalid bbox format. Expected: minLon,minLat,maxLon,maxLat");
         }
 
-        $bbox = new BoundingBox(
+        $extent = Extent2d::createFromCoords(
             (float)$bboxParts[0],
             (float)$bboxParts[1],
             (float)$bboxParts[2],
             (float)$bboxParts[3]
         );
 
-        return new ReadMetarTafRequest($bbox);
+        return new ReadMetarTafRequest($extent);
     }
 }

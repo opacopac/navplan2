@@ -12,7 +12,7 @@ class MetarTafService implements IMetarTafService {
 
 
     public function readMetarTaf(ReadMetarTafRequest $request): MetarTafResponse {
-        $bbox = urlencode($request->bbox->toString());
+        $bbox = urlencode($this->extentToBboxString($request->extent));
         $apiUrl = self::API_URL . "?format=json&taf=true&bbox=" . $bbox;
 
         $ch = curl_init();
@@ -39,5 +39,10 @@ class MetarTafService implements IMetarTafService {
         }
 
         return new MetarTafResponse($data);
+    }
+
+
+    private function extentToBboxString($extent): string {
+        return $extent->minPos->longitude . ',' . $extent->minPos->latitude . ',' . $extent->maxPos->longitude . ',' . $extent->maxPos->latitude;
     }
 }

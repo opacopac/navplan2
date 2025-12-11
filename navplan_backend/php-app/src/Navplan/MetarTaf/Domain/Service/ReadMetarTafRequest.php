@@ -2,12 +2,12 @@
 
 namespace Navplan\MetarTaf\Domain\Service;
 
-use Navplan\MetarTaf\Domain\Model\BoundingBox;
+use Navplan\Common\Domain\Model\Extent2d;
 
 
 class ReadMetarTafRequest {
     public function __construct(
-        public BoundingBox $bbox
+        public Extent2d $extent
     ) {
     }
 }
