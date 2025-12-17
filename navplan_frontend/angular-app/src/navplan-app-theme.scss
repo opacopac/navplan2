@@ -111,13 +111,13 @@ $navplan-app-theme-dense: mat.m2-define-light-theme((
 ));
 
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
+// Base theme (colors/typography/density) applied once to avoid duplicate color styles.
 @include mat.all-component-themes($navplan-app-theme);
-@include mat.form-field-theme($navplan-app-theme-dense);
-@include mat.table-theme($navplan-app-theme-dense);
-@include mat.icon-button-theme($navplan-app-theme-dense);
-@include mat.radio-theme($navplan-app-theme-dense);
-@include mat.checkbox-theme($navplan-app-theme-dense);
-@include mat.button-toggle-theme($navplan-app-theme-dense);
+
+// Apply only density overrides for selected components to keep color styles single-emitted.
+@include mat.form-field-density($navplan-app-theme-dense);
+@include mat.table-density($navplan-app-theme-dense);
+@include mat.icon-button-density($navplan-app-theme-dense);
+@include mat.radio-density($navplan-app-theme-dense);
+@include mat.checkbox-density($navplan-app-theme-dense);
+@include mat.button-toggle-density($navplan-app-theme-dense);
