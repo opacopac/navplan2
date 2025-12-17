@@ -5,7 +5,6 @@ namespace Navplan\Notam\Persistence\Service;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\GeoHelper;
-use Navplan\Notam\Domain\Model\Notam;
 use Navplan\Notam\Domain\Service\INotamRepo;
 use Navplan\Notam\Persistence\Model\DbNotamConverter;
 use Navplan\System\Db\Domain\Model\IDbResult;
@@ -27,8 +26,7 @@ class DbNotamRepo implements INotamRepo {
         $dbExtent = DbHelper::getDbPolygonString($extent);
         $pixelResolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom); // TODO
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_NOTAMAREA_DIAMETER;
-        // get firs & ads within extent
-        $icaoList = $this->loadIcaoListByExtent($extent); // TODO: why?
+        $icaoList = $this->loadFirAndAdIcaoListByExtent($extent);
 
         // load notams by icao
         $query = "SELECT ntm.id, ntm.notam AS notam, geo.geometry AS geometry, ST_AsText(geo.extent) AS extent"
@@ -81,7 +79,7 @@ class DbNotamRepo implements INotamRepo {
     }
 
 
-    private function loadIcaoListByExtent(Extent2d $extent): array {
+    private function loadFirAndAdIcaoListByExtent(Extent2d $extent): array {
         $extentSql = DbHelper::getDbPolygonString($extent);
         $query = "SELECT DISTINCT icao FROM icao_fir WHERE ST_INTERSECTS(polygon, " . $extentSql . ") AND icao <> ''";
         $query .= " UNION ";
