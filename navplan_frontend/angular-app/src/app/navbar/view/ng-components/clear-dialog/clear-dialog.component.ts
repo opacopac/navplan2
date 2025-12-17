@@ -5,6 +5,7 @@ import {Store} from '@ngrx/store';
 import {AirportChartActions} from '../../../../aerodrome-charts/state/ngrx/airport-chart.actions';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
+import {AircraftListActions} from '../../../../aircraft/state/ngrx/aircraft-list.actions';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class ClearDialogComponent implements OnInit {
     public onOKClicked() {
         this.appStore.dispatch(FlightrouteActions.clear());
         this.appStore.dispatch(TrackActions.clear());
+        this.appStore.dispatch(AircraftListActions.clearSelectedAircraft());
         this.appStore.dispatch(AirportChartActions.closeAllAirportCharts());
     }
 }

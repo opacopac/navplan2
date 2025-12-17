@@ -47,6 +47,11 @@ export const aircraftReducer = createReducer(
         currentAircraft: action.aircraft
     })),
 
+    on(AircraftListActions.clearSelectedAircraft, (state) => ({
+        ...state,
+        currentAircraft: undefined
+    })),
+
     on(AircraftListActions.updateTableState, (state, action) => ({
         ...state,
         aircraftTableState: action.tableState

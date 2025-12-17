@@ -33,4 +33,8 @@ export class AircraftListActions {
         '[Aircraft List] Update table state',
         props<{ tableState: TableState }>()
     );
+
+    public static readonly clearSelectedAircraft = createAction(
+        '[ClearDialog] Clear selected aircraft'
+    );
 }
