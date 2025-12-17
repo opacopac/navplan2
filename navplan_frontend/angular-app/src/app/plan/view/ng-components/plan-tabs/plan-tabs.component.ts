@@ -71,7 +71,9 @@ export class PlanTabsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     ngOnDestroy() {
-        this.tabSubscription.unsubscribe();
+        if (this.tabSubscription) {
+            this.tabSubscription.unsubscribe();
+        }
     }
 
 

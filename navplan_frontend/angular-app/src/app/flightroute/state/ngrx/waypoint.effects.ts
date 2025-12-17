@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {map, switchMap, withLatestFrom} from 'rxjs/operators';
+import {filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {WaypointActions} from './waypoints.actions';
 import {WaypointConverter} from '../../domain/converter/waypoint-converter';
 import {ISearchService} from '../../../search/domain/service/i-search.service';
@@ -11,6 +11,7 @@ import {select, Store} from '@ngrx/store';
 import {getFlightroute} from './flightroute.selectors';
 import {FlightrouteActions} from './flightroute.actions';
 import {ArrayHelper} from '../../../system/domain/service/array/array-helper';
+import {PlanActions} from '../../../plan/state/ngrx/plan.actions';
 
 
 @Injectable()
@@ -36,6 +37,14 @@ export class WaypointEffects {
             ArrayHelper.insertAt(newFlightroute.waypoints, action.index, action.newWaypoint.clone());
             return FlightrouteActions.changed({flightroute: newFlightroute});
         })
+    ));
+
+
+    selectPlanTabOnFirstWaypoint$ = createEffect(() => this.actions$.pipe(
+        ofType(WaypointActions.insert),
+        withLatestFrom(this.flightroute$),
+        filter(([_, flightroute]) => !flightroute?.waypoints || flightroute.waypoints.length === 0),
+        map(() => PlanActions.selectPlanTab({selectedPlanTab: 'route'}))
     ));
 
 

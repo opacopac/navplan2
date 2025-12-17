@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {map, withLatestFrom} from 'rxjs/operators';
+import {filter, map, withLatestFrom} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 import {getFlightroute} from './flightroute.selectors';
 import {FlightrouteActions} from './flightroute.actions';
@@ -9,6 +9,7 @@ import {getRouteDistanceUnit} from '../../../geo-physics/state/ngrx/geo-physics.
 import {initialFlightrouteState} from './flightroute.reducer';
 import {AircraftListActions} from '../../../aircraft/state/ngrx/aircraft-list.actions';
 import {getCurrentAircraft} from '../../../aircraft/state/ngrx/aircraft.selectors';
+import {PlanActions} from '../../../plan/state/ngrx/plan.actions';
 
 
 @Injectable()
@@ -127,5 +128,12 @@ export class FlightrouteEffects {
 
             return FlightrouteActions.changed({flightroute: newFlightroute});
         })
+    ));
+
+
+    resetPlanTabWhenRouteEmpty$ = createEffect(() => this.actions$.pipe(
+        ofType(FlightrouteActions.update),
+        filter(action => !action.flightroute || !action.flightroute.waypoints || action.flightroute.waypoints.length === 0),
+        map(() => PlanActions.selectPlanTab({selectedPlanTab: 'routelist'}))
     ));
 }
