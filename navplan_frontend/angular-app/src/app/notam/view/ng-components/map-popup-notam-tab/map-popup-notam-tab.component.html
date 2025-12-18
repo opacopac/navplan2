@@ -1,21 +1,4 @@
 <div class="notam-table">
-    <table mat-table [dataSource]="this.notams">
-        <ng-container matColumnDef="fullNotam">
-            <th mat-header-cell *matHeaderCellDef>NOTAM</th>
-            <td mat-cell *matCellDef="let notam">
-                <div class="notam-validity">
-                    {{ this.getNotamValidity(notam) }}
-                    <mat-icon class="info-icon" title="LT = Browser Time">info_outlined</mat-icon>
-                </div>
-                <div class="notam-title">
-                    {{ this.getNotamTitle(notam) }}
-                    <!--<mat-icon class="info-icon" title="LT = Browser Time">info_outlined</mat-icon>-->
-                </div>
-                <div class="notam-text" [innerHtml]="this.getNotamText(notam)"></div>
-            </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="this.getNotamColumns()"></tr>
-        <tr mat-row *matRowDef="let row; columns: this.getNotamColumns();"></tr>
-    </table>
+    NOTAMS:
+    <app-map-popup-notam-list [notams]="this.notams"/>
 </div>
