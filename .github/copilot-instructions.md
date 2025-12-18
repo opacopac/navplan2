@@ -46,3 +46,10 @@ Navplan2 is a web-based flight planning application for VFR pilots in Switzerlan
 ## Common tasks
 - Add a new REST endpoint: update Apache rewrite in `php-app/api/.htaccess`, implement domain service under `php-app/src/Navplan/<Feature>`, wire via `Prod*DiContainer`, and add frontend `Rest*Repo` + NgRx actions/effects.
 - Wire a map overlay: create `view/ol-components/*` for styling/interaction, connect to feature state, fetch data via the feature `Rest*Repo` using `environment.*` URLs.
+
+## Notes and Comments
+- please always update these instructions when you notice missing context or useful information for AI coding assistants
+- use the "AI Longterm Braindump" section below to collect any additional relevant information that may help the AI coding assistants be more effective
+
+## AI Longterm Braindump
+- TBD
