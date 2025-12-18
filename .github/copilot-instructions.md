@@ -16,7 +16,7 @@ Purpose: Give AI coding agents the minimum project-specific context to be produc
 - Angular local dev: You can also run `ng serve` inside `navplan_frontend/angular-app` and point to backend `http://localhost:8080/` (already configured in `environment.ts`).
 
 ## Project Conventions
-- Frontend layering per feature: `domain/` (models, interfaces), `rest/` (DTOs + converters + repos), `state/` (NgRx reducers/effects/actions), `view/` (`ng-components` and `ol-components` for OpenLayers). Example: Navaid feature in `src/app/navaid/*`.
+- Frontend layering per feature: `domain/` (models, interfaces), `rest/` (DTOs + converters + repos), `state/` (NgRx reducers/effects/actions), `view/` (`ng-components` for angular components and `ol-components` for OpenLayers). Example: Navaid feature in `src/app/navaid/*`.
 - HTTP calls always go through feature-specific `Rest*Repo` services implementing `I*RepoService`, using `HttpHelper.mergeParameters` and `*Converter` classes for request/response typing.
 - Map rendering uses OpenLayers; interaction/state lives in NgRx; styles in dedicated `ol-*-style.ts` files.
 - Backend is structured by domains under `php-app/src/Navplan/*`, each with its own `Prod*DiContainer`. Apache `.htaccess` in `php-app/api` maps REST paths to domain entrypoints.
