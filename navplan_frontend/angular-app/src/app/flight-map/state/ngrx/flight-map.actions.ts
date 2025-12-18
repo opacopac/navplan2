@@ -7,6 +7,7 @@ import {Waypoint} from '../../../flightroute/domain/model/waypoint';
 import {MeteoLayer} from '../../domain/model/meteo-layer';
 import {Airport} from '../../../aerodrome/domain/model/airport';
 import {CrosshairIcon} from "../../../aerodrome-charts/domain/model/crosshair-icon";
+import {Traffic} from '../../../traffic/domain/model/traffic';
 
 
 export class FlightMapActions {
@@ -69,5 +70,14 @@ export class FlightMapActions {
 
     public static readonly hideNotamPopup = createAction(
         '[FlightMapEffects] Hide NOTAM popup',
+    );
+
+    public static readonly showTrafficPopup = createAction(
+        '[FlightMapEffects] Show traffic popup',
+        props<{ traffic: Traffic, clickPos: Position2d }>()
+    );
+
+    public static readonly hideTrafficPopup = createAction(
+        '[FlightMapEffects] Hide traffic popup',
     );
 }

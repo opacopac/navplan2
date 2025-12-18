@@ -163,6 +163,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private showOverlaySubscription: Subscription;
     private showNotamPopupSubscription: Subscription;
     private hideNotamPopupSubscription: Subscription;
+    private showTrafficPopupSubscription: Subscription;
+    private hideTrafficPopupSubscription: Subscription;
     private olAirportContainer: OlAirportContainer;
     private olAirportChartContainer: OlAirportChartContainer;
     private olCrosshairIconContainer: OlCrosshairContainer;
@@ -242,6 +244,21 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             this.mapOverlayNotamComponent?.closeOverlay();
         });
 
+        this.showTrafficPopupSubscription = this.actions$.pipe(
+            ofType(FlightMapActions.showTrafficPopup)
+        ).subscribe(action => {
+            this.mapOverlayComponent?.closeOverlay();
+            this.mapOverlayNotamComponent?.closeOverlay();
+            this.mapOverlayAirspaceContainerComponent.closeOverlay();
+            this.mapOverlayTrafficComponent?.bindDataItem(action.traffic, action.clickPos);
+        });
+
+        this.hideTrafficPopupSubscription = this.actions$.pipe(
+            ofType(FlightMapActions.hideTrafficPopup)
+        ).subscribe(() => {
+            this.mapOverlayTrafficComponent?.closeOverlay();
+        });
+
         this.appStore.dispatch(MeteoForecastActions.readAvailableForecastRuns());
     }
 
@@ -269,6 +286,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.showOverlaySubscription.unsubscribe();
         this.showNotamPopupSubscription.unsubscribe();
         this.hideNotamPopupSubscription.unsubscribe();
+        this.showTrafficPopupSubscription.unsubscribe();
+        this.hideTrafficPopupSubscription.unsubscribe();
     }
 
     // endregion

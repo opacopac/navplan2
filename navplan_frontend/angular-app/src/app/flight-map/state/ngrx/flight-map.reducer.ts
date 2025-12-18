@@ -16,6 +16,7 @@ const initialState: FlightMapState = {
         tabIndex: 0
     },
     showNotamPopup: false,
+    showTrafficPopup: false,
     showFullScreen: false,
     showMapLayerSelection: false,
     showMeteoLayer: false,
@@ -80,5 +81,13 @@ export const flightMapReducer = createReducer(
     on(FlightMapActions.hideNotamPopup, (state) => ({
         ...state,
         showNotamPopup: false
+    })),
+    on(FlightMapActions.showTrafficPopup, (state) => ({
+        ...state,
+        showTrafficPopup: true
+    })),
+    on(FlightMapActions.hideTrafficPopup, (state) => ({
+        ...state,
+        showTrafficPopup: false
     }))
 );

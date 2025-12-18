@@ -28,6 +28,7 @@ import {MeteoSmaActions} from '../../../meteo-sma/state/ngrx/meteo-sma.actions';
 import {MeteoLayer} from '../../domain/model/meteo-layer';
 import {MeteoForecastActions} from '../../../meteo-forecast/state/ngrx/meteo-forecast.actions';
 import {SidebarMode} from './sidebar-mode';
+import {Traffic} from '../../../traffic/domain/model/traffic';
 
 
 @Injectable()
@@ -158,6 +159,12 @@ export class FlightMapEffects {
                             clickPos: action.clickPos,
                         }));
                         break;
+                    case DataItemType.traffic:
+                        returnActions.push(FlightMapActions.showTrafficPopup({
+                            traffic: action.dataItem as Traffic,
+                            clickPos: action.clickPos,
+                        }));
+                        break;
                     case DataItemType.webcam:
                         returnActions.push(WebcamActions.show({
                             webcam: action.dataItem as Webcam
@@ -180,13 +187,18 @@ export class FlightMapEffects {
                 returnActions.push(FlightMapActions.hideNotamPopup());
             }
 
+            // close traffic popup, if no map item clicked
+            if (!action.dataItem) {
+                returnActions.push(FlightMapActions.hideTrafficPopup());
+            }
+
             // close position search results, if previously open
             if (searchState.positionSearchState.clickPos) {
                 returnActions.push(SearchActions.hidePositionSearchResults());
             }
 
             // perform position search, if no map item clicked and no position search results active and no overlay active
-            if (!action.dataItem && !searchState.positionSearchState.clickPos && !flightMapState.showMapOverlay.dataItem && !flightMapState.showNotamPopup) {
+            if (!action.dataItem && !searchState.positionSearchState.clickPos && !flightMapState.showMapOverlay.dataItem && !flightMapState.showNotamPopup && !flightMapState.showTrafficPopup) {
                 returnActions.push(SearchActions.searchByPosition({
                     clickPos: action.clickPos,
                     zoom: action.zoom

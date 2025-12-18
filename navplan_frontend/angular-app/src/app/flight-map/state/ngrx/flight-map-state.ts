@@ -7,6 +7,7 @@ import {SidebarMode} from './sidebar-mode';
 export interface FlightMapState {
     showMapOverlay: OverlayState;
     showNotamPopup: boolean;
+    showTrafficPopup: boolean;
     showFullScreen: boolean;
     showMapLayerSelection: boolean;
     showMeteoLayer: boolean;
