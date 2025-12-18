@@ -6,6 +6,7 @@ use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Domain\Model\LineInterval2d;
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\Ring2d;
 
 
 class GeoHelper
@@ -308,9 +309,9 @@ class GeoHelper
 
 
     /**
-     * Calculate initial bearing from pos1 to pos2 in degrees (0..360)
+     * Calculate initial bearing from pos1 to pos2
      */
-    public static function calcBearing(Position2d $pos1, Position2d $pos2): float
+    public static function calcBearing(Position2d $pos1, Position2d $pos2): Angle
     {
         $lat1 = deg2rad($pos1->latitude);
         $lat2 = deg2rad($pos2->latitude);
@@ -320,15 +321,14 @@ class GeoHelper
         $x = cos($lat1) * sin($lat2) - sin($lat1) * cos($lat2) * cos($dLon);
         $theta = atan2($y, $x);
 
-        return fmod((rad2deg($theta) + 360), 360);
+        return new Angle(fmod((rad2deg($theta) + 360), 360), AngleUnit::DEG);
     }
 
 
     /**
      * Calculate destination position from start point, bearing, and distance
-     * @return array [lon, lat]
      */
-    public static function calcDestination(Position2d $start, float $bearingDeg, Length $distance): array
+    public static function calcDestination(Position2d $start, float $bearingDeg, Length $distance): Position2d
     {
         $phi1 = deg2rad($start->latitude);
         $lambda1 = deg2rad($start->longitude);
@@ -340,18 +340,17 @@ class GeoHelper
             cos($d_per_R) - sin($phi1) * sin($phi2)
         );
 
-        return [rad2deg($lambda2), rad2deg($phi2)];
+        return new Position2d(rad2deg($lambda2), rad2deg($phi2));
     }
 
 
     /**
      * Create a rectangle polygon around a line segment with lateral offset of distance
      * and extended by distance before start and after end.
-     * @return array{0: float, 1: float}[] Polygon coordinates [[lon, lat], ...]
      */
-    public static function getLineBox(Position2d $pos1, Position2d $pos2, Length $distance): array
+    public static function getLineBox(Position2d $pos1, Position2d $pos2, Length $distance): Ring2d
     {
-        $bearing = self::calcBearing($pos1, $pos2);
+        $bearing = self::calcBearing($pos1, $pos2)->getValue(AngleUnit::DEG);
         $backBearing = fmod(($bearing + 180), 360);
         
         // Calculate perpendicular angles (left and right)
@@ -360,21 +359,21 @@ class GeoHelper
 
         // Extend start point backward
         $pos1Back = self::calcDestination($pos1, $backBearing, $distance);
-        $pos1Left = self::calcDestination(new Position2d($pos1Back[0], $pos1Back[1]), $perpLeft, $distance);
-        $pos1Right = self::calcDestination(new Position2d($pos1Back[0], $pos1Back[1]), $perpRight, $distance);
+        $pos1Left = self::calcDestination($pos1Back, $perpLeft, $distance);
+        $pos1Right = self::calcDestination($pos1Back, $perpRight, $distance);
 
         // Extend end point forward
         $pos2Fwd = self::calcDestination($pos2, $bearing, $distance);
-        $pos2Left = self::calcDestination(new Position2d($pos2Fwd[0], $pos2Fwd[1]), $perpLeft, $distance);
-        $pos2Right = self::calcDestination(new Position2d($pos2Fwd[0], $pos2Fwd[1]), $perpRight, $distance);
+        $pos2Left = self::calcDestination($pos2Fwd, $perpLeft, $distance);
+        $pos2Right = self::calcDestination($pos2Fwd, $perpRight, $distance);
 
-        // Return polygon points (closed ring)
-        return [
+        // Return polygon as Ring2d
+        return new Ring2d([
             $pos1Left,
             $pos1Right,
             $pos2Right,
             $pos2Left,
             $pos1Left
-        ];
+        ]);
     }
 }
