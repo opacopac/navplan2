@@ -2,9 +2,14 @@
 
 Purpose: Give AI coding agents the minimum project-specific context to be productive here without guesswork.
 
-## Big Picture
-- Three services managed by Docker Compose: `navplan_persistence` (MariaDB), `navplan_backend` (PHP + Apache), `navplan_frontend` (Angular built and served by Nginx). See docker-compose for ports and volumes.
+## Business Context
+Navplan2 is a web-based flight planning application for VFR pilots in Switzerland, providing map-based route planning, weather, notams, aircraft w&b, aircraft performance, etc. The app serves recreational pilots, aiming to simplify pre-flight planning in the browser on a map with integrated charts, terrain data, and meteorological information, etc.
+
+## Architecture Overview
+- The application consists of three parts managed by Docker Compose: `navplan_persistence` (MariaDB), `navplan_backend` (PHP + Apache), `navplan_frontend` (Angular built and served by Nginx). See docker-compose for ports and volumes.
 - Frontend calls REST endpoints exposed by Apache rewrite rules under `/api/...`, implemented in modular PHP domains (`Navplan/*`) wired via a DI container (`ProdNavplanDiContainer`).
+- Each of the parts is primarily structured by business dommains, e.g.: Navaids, Airspaces, Airports, Routes, Flight Plans, Aircraft, Performance, Charts, Terrain, Meteo, etc.
+- Each domain is structured into subfolders, depending on the required layers (e.g. backend: domain model, API entrypoint, service, repo; frontend: domain model, view, state, rest).
 - Data flows: Angular → `environment.*.ts` base URL → Apache `.htaccess` routes → PHP domain services → MariaDB + file-based resources (charts, terrain, meteo). Static assets (charts, forecast tiles) mounted as volumes.
 
 ## Dev Workflow
