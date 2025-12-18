@@ -49,7 +49,7 @@ Navplan2 is a web-based flight planning application for VFR pilots in Switzerlan
 
 ## Notes and Comments
 - please always update these instructions when you notice missing context or useful information for AI coding assistants
-- use the "AI Longterm Braindump" section below to collect any additional relevant information that may help the AI coding assistants be more effective
+- use the "AI Longterm Braindump" section below to collect any relevant information which you'd like to persist outside of the current context window and which may help the AI coding assistant in future tasks.
 
 ## AI Longterm Braindump
 - TBD
