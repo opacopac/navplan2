@@ -3,8 +3,10 @@
 namespace Navplan\Notam\Persistence\Service;
 
 use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\GeoHelper;
+use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Notam\Domain\Service\INotamRepo;
 use Navplan\Notam\Persistence\Model\DbNotamConverter;
 use Navplan\System\Db\Domain\Model\IDbResult;
@@ -79,6 +81,49 @@ class DbNotamRepo implements INotamRepo {
     }
 
 
+    // TODO: maxDistFromRoute not used yet
+    public function searchByRoute(Flightroute $flightroute, Length $maxDistFromRoute, int $minNotamTimestamp, int $maxNotamTimestamp): array {
+        $waypoints = $flightroute->getWaypointsInclAlternate();
+
+        if (count($waypoints) === 0) {
+            return [];
+        }
+
+        // Build route line (including alternate at the end)
+        $posList = array_map(function ($wp) { return $wp->position; }, $waypoints);
+        $usePoint = count($posList) === 1;
+        $dbLineOrPoint = $usePoint
+            ? DbHelper::getDbPointString($posList[0])
+            : DbHelper::getDbLineString($posList);
+
+        // Compute tight route extent (no margin) for ICAO preselection
+        $minLon = PHP_FLOAT_MAX; $minLat = PHP_FLOAT_MAX; $maxLon = -PHP_FLOAT_MAX; $maxLat = -PHP_FLOAT_MAX;
+        foreach ($posList as $pos) {
+            $minLon = min($minLon, $pos->longitude);
+            $minLat = min($minLat, $pos->latitude);
+            $maxLon = max($maxLon, $pos->longitude);
+            $maxLat = max($maxLat, $pos->latitude);
+        }
+        $routeExtent = Extent2d::createFromCoords($minLon, $minLat, $maxLon, $maxLat);
+        $icaoList = $this->loadFirAndAdIcaoListByExtent($routeExtent);
+
+        // Load NOTAMs intersecting the route line
+        $query = "SELECT ntm.id, ntm.notam AS notam, geo.geometry AS geometry, ST_AsText(geo.extent) AS extent"
+            . "   FROM icao_notam AS ntm"
+            . "    INNER JOIN icao_notam_geometry2 AS geo ON geo.icao_notam_id = ntm.id"
+            . (count($icaoList) > 0 ? "   WHERE icao IN ('" .  join("','", $icaoList) . "')" : "   WHERE 1=1")
+            . "    AND startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
+            . "    AND enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
+            . "    AND ST_INTERSECTS(geo.extent, " . $dbLineOrPoint . ")"
+            . "   ORDER BY ntm.startdate DESC";
+
+        $result = $this->dbService->execMultiResultQuery($query, "error reading notams by route");
+        $notams = $this->readNotamFromResultList($result);
+
+        return $notams;
+    }
+
+
     private function loadFirAndAdIcaoListByExtent(Extent2d $extent): array {
         $extentSql = DbHelper::getDbPolygonString($extent);
         $query = "SELECT DISTINCT icao FROM icao_fir WHERE ST_INTERSECTS(polygon, " . $extentSql . ") AND icao <> ''";
@@ -127,3 +172,4 @@ class DbNotamRepo implements INotamRepo {
         return $notams;
     }
 }
+

@@ -8,6 +8,7 @@ use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Notam\Rest\Model\ReadNotamByExtentRequest;
 use Navplan\Notam\Rest\Model\ReadNotamByIcaoRequest;
 use Navplan\Notam\Rest\Model\ReadNotamByPositionRequest;
+use Navplan\Notam\Rest\Model\ReadNotamByRouteRequest;
 use Navplan\Notam\Rest\Model\ReadNotamResponse;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
@@ -44,6 +45,18 @@ class NotamController implements IRestController
                     $response = new ReadNotamResponse($notamList);
                 }
                 $this->httpService->sendArrayResponse($response->toRest());
+                break;
+            case HttpRequestMethod::POST:
+                $postArgs = $this->httpService->getPostArgs();
+                if ($this->httpService->hasPostArg(ReadNotamByRouteRequest::ARG_FLIGHTROUTE)) {
+                    $request = ReadNotamByRouteRequest::fromRest($postArgs);
+                    $notamList = $this->notamService->searchByRoute($request->flightroute,
+                        $request->maxDistFromRoute, $request->minNotamTimestamp, $request->maxNotamTimestamp);
+                    $response = new ReadNotamResponse($notamList);
+                    $this->httpService->sendArrayResponse($response->toRest());
+                } else {
+                    throw new InvalidArgumentException("invalid POST request - flightroute required");
+                }
                 break;
             default:
                 throw new InvalidArgumentException("invalid request'");

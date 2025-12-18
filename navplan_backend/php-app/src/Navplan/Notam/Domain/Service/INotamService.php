@@ -3,7 +3,9 @@
 namespace Navplan\Notam\Domain\Service;
 
 use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Notam\Domain\Model\Notam;
 
 
@@ -32,4 +34,13 @@ interface INotamService {
      * @return Notam[]
      */
     function searchByIcao(string $airportIcao, int $minNotamTimestamp, int $maxNotamTimestamp): array;
+
+    /**
+     * @param Flightroute $flightroute
+     * @param Length $maxDistFromRoute
+     * @param int $minNotamTimestamp
+     * @param int $maxNotamTimestamp
+     * @return Notam[]
+     */
+    function searchByRoute(Flightroute $flightroute, Length $maxDistFromRoute, int $minNotamTimestamp, int $maxNotamTimestamp): array;
 }
