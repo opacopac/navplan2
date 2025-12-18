@@ -305,4 +305,76 @@ class GeoHelper
 
         return new Position2d($lon, $lat);
     }
+
+
+    /**
+     * Calculate initial bearing from pos1 to pos2 in degrees (0..360)
+     */
+    public static function calcBearing(Position2d $pos1, Position2d $pos2): float
+    {
+        $lat1 = deg2rad($pos1->latitude);
+        $lat2 = deg2rad($pos2->latitude);
+        $dLon = deg2rad($pos2->longitude - $pos1->longitude);
+
+        $y = sin($dLon) * cos($lat2);
+        $x = cos($lat1) * sin($lat2) - sin($lat1) * cos($lat2) * cos($dLon);
+        $theta = atan2($y, $x);
+
+        return fmod((rad2deg($theta) + 360), 360);
+    }
+
+
+    /**
+     * Calculate destination position from start point, bearing, and distance
+     * @return array [lon, lat]
+     */
+    public static function calcDestination(Position2d $start, float $bearingDeg, Length $distance): array
+    {
+        $phi1 = deg2rad($start->latitude);
+        $lambda1 = deg2rad($start->longitude);
+        $d_per_R = $distance->getValue(LengthUnit::M) / 6371000;
+        
+        $phi2 = asin(sin($phi1) * cos($d_per_R) + cos($phi1) * sin($d_per_R) * cos(deg2rad($bearingDeg)));
+        $lambda2 = $lambda1 + atan2(
+            sin(deg2rad($bearingDeg)) * sin($d_per_R) * cos($phi1),
+            cos($d_per_R) - sin($phi1) * sin($phi2)
+        );
+
+        return [rad2deg($lambda2), rad2deg($phi2)];
+    }
+
+
+    /**
+     * Create a rectangle polygon around a line segment with lateral offset of distance
+     * and extended by distance before start and after end.
+     * @return array{0: float, 1: float}[] Polygon coordinates [[lon, lat], ...]
+     */
+    public static function getLineBox(Position2d $pos1, Position2d $pos2, Length $distance): array
+    {
+        $bearing = self::calcBearing($pos1, $pos2);
+        $backBearing = fmod(($bearing + 180), 360);
+        
+        // Calculate perpendicular angles (left and right)
+        $perpLeft = fmod(($bearing - 90 + 360), 360);
+        $perpRight = fmod(($bearing + 90), 360);
+
+        // Extend start point backward
+        $pos1Back = self::calcDestination($pos1, $backBearing, $distance);
+        $pos1Left = self::calcDestination(new Position2d($pos1Back[0], $pos1Back[1]), $perpLeft, $distance);
+        $pos1Right = self::calcDestination(new Position2d($pos1Back[0], $pos1Back[1]), $perpRight, $distance);
+
+        // Extend end point forward
+        $pos2Fwd = self::calcDestination($pos2, $bearing, $distance);
+        $pos2Left = self::calcDestination(new Position2d($pos2Fwd[0], $pos2Fwd[1]), $perpLeft, $distance);
+        $pos2Right = self::calcDestination(new Position2d($pos2Fwd[0], $pos2Fwd[1]), $perpRight, $distance);
+
+        // Return polygon points (closed ring)
+        return [
+            $pos1Left,
+            $pos1Right,
+            $pos2Right,
+            $pos2Left,
+            $pos1Left
+        ];
+    }
 }
