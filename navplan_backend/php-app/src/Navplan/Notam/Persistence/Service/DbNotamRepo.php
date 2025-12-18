@@ -81,7 +81,6 @@ class DbNotamRepo implements INotamRepo {
     }
 
 
-    // TODO: maxDistFromRoute not used yet
     public function searchByRoute(Flightroute $flightroute, Length $maxDistFromRoute, int $minNotamTimestamp, int $maxNotamTimestamp): array {
         $waypoints = $flightroute->getWaypointsInclAlternate();
 
@@ -89,12 +88,20 @@ class DbNotamRepo implements INotamRepo {
             return [];
         }
 
-        // Build route line (including alternate at the end)
         $posList = array_map(function ($wp) { return $wp->position; }, $waypoints);
-        $usePoint = count($posList) === 1;
-        $dbLineOrPoint = $usePoint
-            ? DbHelper::getDbPointString($posList[0])
-            : DbHelper::getDbLineString($posList);
+
+        // Build lineboxes for each consecutive waypoint pair
+        $lineBoxPolygons = [];
+        if (count($posList) === 1) {
+            // Single waypoint: use it as a point (will be buffered as a small circle via lineboxes)
+            $lineBoxPolygons[] = DbHelper::getDbPolygonString(GeoHelper::getLineBox($posList[0], $posList[0], $maxDistFromRoute));
+        } else {
+            // Multiple waypoints: create lineboxes for each segment
+            for ($i = 0; $i < count($posList) - 1; $i++) {
+                $ring2d = GeoHelper::getLineBox($posList[$i], $posList[$i + 1], $maxDistFromRoute);
+                $lineBoxPolygons[] = DbHelper::getDbPolygonString($ring2d);
+            }
+        }
 
         // Compute tight route extent (no margin) for ICAO preselection
         $minLon = PHP_FLOAT_MAX; $minLat = PHP_FLOAT_MAX; $maxLon = -PHP_FLOAT_MAX; $maxLat = -PHP_FLOAT_MAX;
@@ -107,14 +114,21 @@ class DbNotamRepo implements INotamRepo {
         $routeExtent = Extent2d::createFromCoords($minLon, $minLat, $maxLon, $maxLat);
         $icaoList = $this->loadFirAndAdIcaoListByExtent($routeExtent);
 
-        // Load NOTAMs intersecting the route line
+        // Build intersection condition for all lineboxes
+        $intersectionConditions = [];
+        foreach ($lineBoxPolygons as $polygon) {
+            $intersectionConditions[] = "ST_INTERSECTS(geo.extent, " . $polygon . ")";
+        }
+        $intersectionClause = "(" . join(" OR ", $intersectionConditions) . ")";
+
+        // Load NOTAMs intersecting any of the route segment lineboxes
         $query = "SELECT ntm.id, ntm.notam AS notam, geo.geometry AS geometry, ST_AsText(geo.extent) AS extent"
             . "   FROM icao_notam AS ntm"
             . "    INNER JOIN icao_notam_geometry2 AS geo ON geo.icao_notam_id = ntm.id"
             . (count($icaoList) > 0 ? "   WHERE icao IN ('" .  join("','", $icaoList) . "')" : "   WHERE 1=1")
             . "    AND startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
             . "    AND enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
-            . "    AND ST_INTERSECTS(geo.extent, " . $dbLineOrPoint . ")"
+            . "    AND " . $intersectionClause
             . "   ORDER BY ntm.startdate DESC";
 
         $result = $this->dbService->execMultiResultQuery($query, "error reading notams by route");
