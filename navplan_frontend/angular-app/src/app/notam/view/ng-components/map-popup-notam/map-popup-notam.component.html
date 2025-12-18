@@ -3,14 +3,11 @@
         <mat-card appearance="outlined">
             <mat-card-header>
                 <mat-card-title>
-                    {{ this.getTitle() }}
+                    NOTAM
                 </mat-card-title>
-                <mat-card-subtitle>
-                    {{ this.getNotamValidity() }}
-                </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-                <div [innerHTML]="this.getNotamText()"></div>
+                <app-map-popup-notam-list [notams]="[this.notam]"/>
             </mat-card-content>
         </mat-card>
     }
