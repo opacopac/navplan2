@@ -11,6 +11,8 @@ use Navplan\Common\Domain\Model\Ring2d;
 
 class GeoHelper
 {
+    private const EARTH_RADIUS_M = 6371000;
+
     public static function getDecFromDms(string $nsew, int $deg, int $min, float $sec): float
     {
         $sign = (strtoupper($nsew) === "N" || strtoupper($nsew) === "E") ? 1 : -1;
@@ -21,7 +23,7 @@ class GeoHelper
 
     public static function calcHaversineDistance(Position2d $pos1, Position2d $pos2): Length
     {
-        $radE = 6371000;
+        $radE = self::EARTH_RADIUS_M;
         $phi1 = Angle::convert($pos1->latitude, AngleUnit::DEG, AngleUnit::RAD);
         $phi2 = Angle::convert($pos2->latitude, AngleUnit::DEG, AngleUnit::RAD);
         $dphi = Angle::convert($pos2->latitude - $pos1->latitude, AngleUnit::DEG, AngleUnit::RAD);
@@ -332,7 +334,7 @@ class GeoHelper
     {
         $phi1 = deg2rad($start->latitude);
         $lambda1 = deg2rad($start->longitude);
-        $d_per_R = $distance->getValue(LengthUnit::M) / 6371000;
+        $d_per_R = $distance->getValue(LengthUnit::M) / self::EARTH_RADIUS_M;
         
         $phi2 = asin(sin($phi1) * cos($d_per_R) + cos($phi1) * sin($d_per_R) * cos(deg2rad($bearingDeg)));
         $lambda2 = $lambda1 + atan2(
@@ -375,5 +377,21 @@ class GeoHelper
             $pos2Left,
             $pos1Left
         ]);
+    }
+
+
+    /**
+     * Create a box (square) around a point with specified distance in cardinal directions
+     */
+    public static function getPointBox(Position2d $pos, Length $distance): Ring2d
+    {
+        // Create a square around the point with distance in each cardinal direction
+        $posNorth = self::calcDestination($pos, 0, $distance);
+        $posEast = self::calcDestination($pos, 90, $distance);
+        $posSouth = self::calcDestination($pos, 180, $distance);
+        $posWest = self::calcDestination($pos, 270, $distance);
+        
+        // Return closed polygon (5 points: 4 corners + closing point)
+        return new Ring2d([$posNorth, $posEast, $posSouth, $posWest, $posNorth]);
     }
 }

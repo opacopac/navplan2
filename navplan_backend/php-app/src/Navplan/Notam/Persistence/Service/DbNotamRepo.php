@@ -93,8 +93,8 @@ class DbNotamRepo implements INotamRepo {
         // Build lineboxes for each consecutive waypoint pair
         $lineBoxPolygons = [];
         if (count($posList) === 1) {
-            // Single waypoint: use it as a point (will be buffered as a small circle via lineboxes)
-            $lineBoxPolygons[] = DbHelper::getDbPolygonString(GeoHelper::getLineBox($posList[0], $posList[0], $maxDistFromRoute));
+            // Single waypoint: create a box around the point
+            $lineBoxPolygons[] = DbHelper::getDbPolygonString(GeoHelper::getPointBox($posList[0], $maxDistFromRoute));
         } else {
             // Multiple waypoints: create lineboxes for each segment
             for ($i = 0; $i < count($posList) - 1; $i++) {
