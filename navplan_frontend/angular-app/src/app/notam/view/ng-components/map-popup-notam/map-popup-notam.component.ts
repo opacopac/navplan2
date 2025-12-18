@@ -34,4 +34,9 @@ export class MapPopupNotamComponent extends OlOverlayBaseComponent implements On
         this.setPosition(clickPos);
         this.markForCheck();
     }
+
+
+    protected getNotamId(): string {
+        return this.notam?.idnotam ?? '';
+    }
 }
