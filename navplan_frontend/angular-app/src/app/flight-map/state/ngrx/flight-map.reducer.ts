@@ -15,6 +15,7 @@ const initialState: FlightMapState = {
         notams: [],
         tabIndex: 0
     },
+    showNotamPopup: false,
     showFullScreen: false,
     showMapLayerSelection: false,
     showMeteoLayer: false,
@@ -71,5 +72,13 @@ export const flightMapReducer = createReducer(
     on(FlightMapActions.setCrosshairIcons, (state, action) => ({
         ...state,
         crosshairIcons: action.icons
+    })),
+    on(FlightMapActions.showNotamPopup, (state) => ({
+        ...state,
+        showNotamPopup: true
+    })),
+    on(FlightMapActions.hideNotamPopup, (state) => ({
+        ...state,
+        showNotamPopup: false
     }))
 );

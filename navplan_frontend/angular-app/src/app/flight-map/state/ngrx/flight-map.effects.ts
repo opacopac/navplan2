@@ -152,6 +152,12 @@ export class FlightMapEffects {
                             clickPos: action.clickPos,
                         }));
                         break;
+                    case DataItemType.notam:
+                        returnActions.push(FlightMapActions.showNotamPopup({
+                            notam: action.dataItem as Notam,
+                            clickPos: action.clickPos,
+                        }));
+                        break;
                     case DataItemType.webcam:
                         returnActions.push(WebcamActions.show({
                             webcam: action.dataItem as Webcam
@@ -169,13 +175,18 @@ export class FlightMapEffects {
                 returnActions.push(FlightMapActions.hideOverlay());
             }
 
+            // close NOTAM popup, if no map item clicked
+            if (!action.dataItem) {
+                returnActions.push(FlightMapActions.hideNotamPopup());
+            }
+
             // close position search results, if previously open
             if (searchState.positionSearchState.clickPos) {
                 returnActions.push(SearchActions.hidePositionSearchResults());
             }
 
             // perform position search, if no map item clicked and no position search results active and no overlay active
-            if (!action.dataItem && !searchState.positionSearchState.clickPos && !flightMapState.showMapOverlay.dataItem) {
+            if (!action.dataItem && !searchState.positionSearchState.clickPos && !flightMapState.showMapOverlay.dataItem && !flightMapState.showNotamPopup) {
                 returnActions.push(SearchActions.searchByPosition({
                     clickPos: action.clickPos,
                     zoom: action.zoom

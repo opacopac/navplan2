@@ -15,7 +15,7 @@ export class OlNotam {
         notam: Notam,
         layer: OlVectorLayer
     ) {
-        const olFeature = new OlFeature(notam, false);
+        const olFeature = new OlFeature(notam, true);
         olFeature.setStyle(OlNotamStyle.createStyle(notam.idnotam));
         this.setGeometry(notam, olFeature);
         layer.addFeature(olFeature);

@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
+import {Actions, ofType} from '@ngrx/effects';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {Angle} from '../../../../geo-physics/domain/model/quantities/angle';
 import {combineLatest} from 'rxjs';
@@ -27,6 +28,9 @@ import {
 import {
     MapPopupTrafficComponent
 } from '../../../../traffic/view/ng-components/map-popup-traffic/map-popup-traffic.component';
+import {
+    MapPopupNotamComponent
+} from '../../../../notam/view/ng-components/map-popup-notam/map-popup-notam.component';
 import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {
@@ -85,6 +89,7 @@ import {
     OlMeteoForecastMapTileLayer
 } from '../../../../meteo-forecast/view/ol-components/ol-meteo-forecast-map-tile-layer';
 import {MeteoForecastActions} from '../../../../meteo-forecast/state/ngrx/meteo-forecast.actions';
+import {FlightMapActions} from '../../../state/ngrx/flight-map.actions';
 import {getAltitudeUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {
     SearchContainerComponent
@@ -142,6 +147,7 @@ import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
         VerticalMapComponent,
         MeteoContainerComponent,
         MapPopupTrafficComponent,
+        MapPopupNotamComponent,
         TrafficButtonComponent,
         ChartUploadContainerComponent,
     ],
@@ -151,9 +157,12 @@ import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
 export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(OlMapContainerComponent) mapContainer: OlMapContainerComponent;
     @ViewChild(MapPopupComponent) mapOverlayComponent: MapPopupComponent;
+    @ViewChild(MapPopupNotamComponent) mapOverlayNotamComponent: MapPopupNotamComponent;
     @ViewChild(MapPopupTrafficComponent) mapOverlayTrafficComponent: MapPopupTrafficComponent;
     @ViewChild(MapOverlayAirspaceStructureComponent) mapOverlayAirspaceContainerComponent: MapOverlayAirspaceStructureComponent;
     private showOverlaySubscription: Subscription;
+    private showNotamPopupSubscription: Subscription;
+    private hideNotamPopupSubscription: Subscription;
     private olAirportContainer: OlAirportContainer;
     private olAirportChartContainer: OlAirportChartContainer;
     private olCrosshairIconContainer: OlCrosshairContainer;
@@ -187,6 +196,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
 
     constructor(
         private readonly appStore: Store<any>,
+        private readonly actions$: Actions
     ) {
     }
 
@@ -210,10 +220,26 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         });
 
         this.showOverlaySubscription = this.showOverlay$.subscribe(overlayState => {
+            this.mapOverlayNotamComponent?.closeOverlay();
             this.mapOverlayComponent?.closeOverlay();
             this.mapOverlayTrafficComponent?.closeOverlay();
             this.mapOverlayAirspaceContainerComponent.closeOverlay();
             this.mapOverlayComponent?.showOverlay(overlayState);
+        });
+
+        this.showNotamPopupSubscription = this.actions$.pipe(
+            ofType(FlightMapActions.showNotamPopup)
+        ).subscribe(action => {
+            this.mapOverlayComponent?.closeOverlay();
+            this.mapOverlayTrafficComponent?.closeOverlay();
+            this.mapOverlayAirspaceContainerComponent.closeOverlay();
+            this.mapOverlayNotamComponent?.bindDataItem(action.notam, action.clickPos);
+        });
+
+        this.hideNotamPopupSubscription = this.actions$.pipe(
+            ofType(FlightMapActions.hideNotamPopup)
+        ).subscribe(() => {
+            this.mapOverlayNotamComponent?.closeOverlay();
         });
 
         this.appStore.dispatch(MeteoForecastActions.readAvailableForecastRuns());
@@ -241,6 +267,8 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olMeteoForecastContainer.destroy();
 
         this.showOverlaySubscription.unsubscribe();
+        this.showNotamPopupSubscription.unsubscribe();
+        this.hideNotamPopupSubscription.unsubscribe();
     }
 
     // endregion
@@ -302,6 +330,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
                 crosshairIconLayer
             ],
             [
+                this.mapOverlayNotamComponent.olOverlay,
                 this.mapOverlayComponent.olOverlay,
                 this.mapOverlayTrafficComponent.olOverlay,
                 this.mapOverlayAirspaceContainerComponent.olOverlay,

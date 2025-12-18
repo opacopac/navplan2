@@ -61,4 +61,13 @@ export class FlightMapActions {
         '[FlightMapPage] Add crosshair icon',
         props<{ icons: CrosshairIcon[] }>()
     );
+
+    public static readonly showNotamPopup = createAction(
+        '[FlightMapEffects] Show NOTAM popup',
+        props<{ notam: Notam, clickPos: Position2d }>()
+    );
+
+    public static readonly hideNotamPopup = createAction(
+        '[FlightMapEffects] Hide NOTAM popup',
+    );
 }
