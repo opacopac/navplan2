@@ -5,21 +5,21 @@ import {getRouteNotamState} from '../../../state/ngrx/route-notam.selectors';
 import {map} from 'rxjs/operators';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {getRouteDistanceUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
-import {PlanNotamRadiusComponent} from '../plan-notam-radius/plan-notam-radius.component';
 import {PlanNotamTableComponent} from '../plan-notam-table/plan-notam-table.component';
 import {CommonModule} from '@angular/common';
 import {
     RoutePickerContainerComponent
 } from '../../../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
+import {PlanDistanceFromRouteComponent} from '../../../../plan/view/ng-components/plan-distance-from-route/plan-distance-from-route.component';
 
 
 @Component({
     selector: 'app-plan-notam-container',
     imports: [
         CommonModule,
-        PlanNotamRadiusComponent,
         PlanNotamTableComponent,
-        RoutePickerContainerComponent
+        RoutePickerContainerComponent,
+        PlanDistanceFromRouteComponent
     ],
     templateUrl: './plan-notam-container.component.html',
     styleUrls: ['./plan-notam-container.component.scss']

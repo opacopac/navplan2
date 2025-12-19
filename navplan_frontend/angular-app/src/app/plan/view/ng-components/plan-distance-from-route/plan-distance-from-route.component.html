@@ -2,15 +2,15 @@
     <mat-label>Max. distance from route</mat-label>
     <input
         matInput
-        #maxRadius
+        #maxDistance
         type="number"
         required
         min="1"
         max="150"
-        [formControl]="this.maxRadiusInput"
-        [value]="this.getRadiusValue()"
-        (change)="this.maxRadiusInput.valid ? this.onMaxRadiusChanged(maxRadius.value) : {}"
+        [formControl]="this.maxDistanceInput"
+        [value]="this.getDistanceValue()"
+        (change)="this.maxDistanceInput.valid ? this.onMaxDistanceChanged(maxDistance.value) : {}"
     />
-    <span matTextSuffix>{{ this.getRadiusUnit() }}</span>
+    <span matTextSuffix>{{ this.getDistanceUnit() }}</span>
     <mat-error>Value must be a positive number between 1 and 150!</mat-error>
 </mat-form-field>

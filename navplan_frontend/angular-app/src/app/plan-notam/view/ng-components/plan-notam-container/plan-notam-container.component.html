@@ -5,10 +5,10 @@
         [showRouteName]="true"
     />
     @if ((this.notams$ | async)?.length > 0) {
-        <app-plan-notam-radius
-            [routeMaxNotamRadius]="this.maxRadius$ | async"
+        <app-plan-distance-from-route
+            [maxDistance]="this.maxRadius$ | async"
             [distanceUnit]="this.distanceUnit$ | async"
-            (radiusChanged)="this.onMaxRadiusChanged($event)"
+            (distanceChanged)="this.onMaxRadiusChanged($event)"
             class="max-radius-field"
         />
         <app-plan-notam-table
