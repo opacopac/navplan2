@@ -4,6 +4,7 @@ namespace Navplan\Notam\Rest\Service;
 
 use InvalidArgumentException;
 use Navplan\Common\Rest\Controller\IRestController;
+use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
 use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Notam\Rest\Model\ReadNotamByExtentRequest;
@@ -19,6 +20,7 @@ class NotamController implements IRestController
 {
     public function __construct(
         private INotamService $notamService,
+        private INotamSearchByIcaoQuery $notamSearchByIcaoQuery,
         private INotamSearchByPositionQuery $notamSearchByPositionQuery,
         private IHttpService $httpService
     )
@@ -32,7 +34,7 @@ class NotamController implements IRestController
             case HttpRequestMethod::GET:
                 if ($this->httpService->hasGetArg(ReadNotamByIcaoRequest::ARG_ICAO)) {
                     $request = ReadNotamByIcaoRequest::fromRest($getArgs);
-                    $notamList = $this->notamService->searchByIcao($request->airportIcao,
+                    $notamList = $this->notamSearchByIcaoQuery->searchByIcao($request->airportIcao,
                         $request->minNotamTimestamp, $request->maxNotamTimestamp);
                     $response = new ReadNotamResponse($notamList);
                 } else if ($this->httpService->hasGetArg(ReadNotamByPositionRequest::ARG_LAT)) {

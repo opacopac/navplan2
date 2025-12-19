@@ -48,21 +48,6 @@ class DbNotamRepo implements INotamRepo {
     }
 
 
-    public function searchByIcao(string $airportIcao, int $minNotamTimestamp, int $maxNotamTimestamp): array {
-        $query = "SELECT ntm.id, ntm.notam AS notam"
-            . "   FROM icao_notam AS ntm"
-            . "   WHERE"
-            . "    ntm.icao IN (" . $this->dbService->escapeAndQuoteString($airportIcao) . ")"
-            . "    AND ntm.startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
-            . "    AND ntm.enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
-            . "   ORDER BY ntm.startdate DESC";
-
-        $result = $this->dbService->execMultiResultQuery($query, "error searching notams");
-
-        return $this->readNotamFromResultList($result);
-    }
-
-
     public function searchByRoute(Flightroute $flightroute, Length $maxDistFromRoute, int $minNotamTimestamp, int $maxNotamTimestamp): array {
         $waypoints = $flightroute->getWaypointsInclAlternate();
 
