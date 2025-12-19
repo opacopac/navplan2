@@ -8,6 +8,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondIn;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondRaw;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
 use Navplan\System\DbQueryBuilder\Domain\Service\IDbCondBuilder;
@@ -47,6 +48,7 @@ class MySqlDbCondBuilder implements IDbCondBuilder
             DbCondMulti::class => MySqlDbCondMultiBuilder::create($this->dbService)->condition($cond)->build(),
             DbCondGeo::class => MySqlDbCondGeoBuilder::create($this->dbService)->condition($cond)->build(),
             DbCondIn::class => MySqlDbCondInBuilder::create($this->dbService)->condition($cond)->build(),
+            DbCondRaw::class => MySqlDbCondRawBuilder::create($this->dbService)->condition($cond)->build(),
             default => throw new InvalidArgumentException("Unsupported where clause type"),
         };
     }

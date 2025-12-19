@@ -9,7 +9,6 @@ use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Geoname\Domain\Service\IGeonameService;
 use Navplan\Navaid\Domain\Service\INavaidService;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
-use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Search\Domain\Model\SearchByPositionQuery;
 use Navplan\Search\Domain\Model\SearchByTextQuery;
 use Navplan\Search\Domain\Model\SearchItemType;
@@ -27,7 +26,6 @@ class SearchService implements ISearchService
     public function __construct(
         private readonly ISearchUserPointUc                 $searchUserPointUc,
         private readonly IAirspaceService                   $airspaceService,
-        private readonly INotamService                      $notamService,
         private readonly INotamSearchByPositionQuery        $notamSearchByPositionQuery,
         private readonly IAirportService                    $airportService,
         private readonly IAerodromeReportingByPositionQuery $aerodromeReportingByPositionQuery,

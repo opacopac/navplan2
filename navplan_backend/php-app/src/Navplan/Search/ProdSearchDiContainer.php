@@ -10,7 +10,6 @@ use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Geoname\Domain\Service\IGeonameService;
 use Navplan\Navaid\Domain\Service\INavaidService;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
-use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Search\Domain\Service\ISearchService;
 use Navplan\Search\Domain\Service\SearchService;
 use Navplan\Search\Rest\Service\SearchController;
@@ -28,7 +27,6 @@ class ProdSearchDiContainer implements ISearchDiContainer
         private readonly IHttpService                       $httpService,
         private readonly ISearchUserPointUc                 $searchUserPointUc,
         private readonly IAirspaceService                   $airspaceService,
-        private readonly INotamService                      $notamService,
         private readonly INotamSearchByPositionQuery        $notamSearchByPositionQuery,
         private readonly IAirportService                    $airportService,
         private readonly IAerodromeReportingByPositionQuery $aerodromeReportingByPositionQuery,
@@ -59,7 +57,7 @@ class ProdSearchDiContainer implements ISearchDiContainer
             $this->searchService = new SearchService(
                 $this->searchUserPointUc,
                 $this->airspaceService,
-                $this->notamService,
+
                 $this->notamSearchByPositionQuery,
                 $this->airportService,
                 $this->aerodromeReportingByPositionQuery,

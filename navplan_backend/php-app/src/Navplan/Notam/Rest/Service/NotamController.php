@@ -7,7 +7,7 @@ use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Notam\Domain\Query\INotamSearchByExtentQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
-use Navplan\Notam\Domain\Service\INotamService;
+use Navplan\Notam\Domain\Query\INotamSearchByRouteQuery;
 use Navplan\Notam\Rest\Model\ReadNotamByExtentRequest;
 use Navplan\Notam\Rest\Model\ReadNotamByIcaoRequest;
 use Navplan\Notam\Rest\Model\ReadNotamByPositionRequest;
@@ -20,10 +20,10 @@ use Navplan\System\Domain\Service\IHttpService;
 class NotamController implements IRestController
 {
     public function __construct(
-        private INotamService $notamService,
         private INotamSearchByExtentQuery $notamSearchByExtentQuery,
         private INotamSearchByIcaoQuery $notamSearchByIcaoQuery,
         private INotamSearchByPositionQuery $notamSearchByPositionQuery,
+        private INotamSearchByRouteQuery $notamSearchByRouteQuery,
         private IHttpService $httpService
     )
     {
@@ -56,7 +56,7 @@ class NotamController implements IRestController
                 $postArgs = $this->httpService->getPostArgs();
                 if ($this->httpService->hasPostArg(ReadNotamByRouteRequest::ARG_FLIGHTROUTE)) {
                     $request = ReadNotamByRouteRequest::fromRest($postArgs);
-                    $notamList = $this->notamService->searchByRoute($request->flightroute,
+                    $notamList = $this->notamSearchByRouteQuery->searchByRoute($request->flightroute,
                         $request->maxDistFromRoute, $request->minNotamTimestamp, $request->maxNotamTimestamp);
                     $response = new ReadNotamResponse($notamList);
                     $this->httpService->sendArrayResponse($response->toRest());

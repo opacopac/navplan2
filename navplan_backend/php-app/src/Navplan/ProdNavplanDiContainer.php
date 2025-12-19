@@ -353,7 +353,6 @@ class ProdNavplanDiContainer
                 $this->getSystemDiContainer()->getHttpService(),
                 $this->getUserDiContainer()->getSearchUserPointUc(),
                 $this->getAirspaceDiContainer()->getAirspaceService(),
-                $this->getNotamDiContainer()->getNotamService(),
                 $this->getNotamDiContainer()->getNotamSearchByPositionQuery(),
                 $this->getAerodromeDiContainer()->getAirportService(),
                 $this->getAerodromeReportingDiContainer()->getAerodromeReportingByPositionQuery(),
