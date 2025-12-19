@@ -53,24 +53,6 @@ class DbNotamSearchByPositionQuery implements INotamSearchByPositionQuery
 
         $result = $this->dbService->execMultiResultQuery($query, "error searching notams by position");
 
-        return $this->readNotamFromResultList($result);
-    }
-
-
-    private function readNotamFromResultList($result): array
-    {
-        $notams = [];
-        while ($row = $result->fetch_assoc()) {
-            $notam = DbNotamConverter::fromDbRow($row);
-
-            // filter by notam type (no KKKK)
-            if ($notam->qcode == "KKKK") {
-                continue;
-            }
-
-            $notams[] = $notam;
-        }
-
-        return $notams;
+        return DbNotamResultHelper::readNotamFromResultList($result);
     }
 }
