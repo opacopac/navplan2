@@ -12,11 +12,14 @@ import {getFlightroute} from './flightroute.selectors';
 import {FlightrouteActions} from './flightroute.actions';
 import {ArrayHelper} from '../../../system/domain/service/array/array-helper';
 import {PlanActions} from '../../../plan/state/ngrx/plan.actions';
+import { IDate } from '../../../system/domain/service/date/i-date';
+import { SystemConfig } from '../../../system/domain/service/system-config';
 
 
 @Injectable()
 export class WaypointEffects {
     private readonly HIT_TOLERANCE_PX = 10;
+    private readonly date: IDate;
 
     private flightroute$: Observable<Flightroute> = this.appStore.pipe(select(getFlightroute));
 
@@ -24,8 +27,10 @@ export class WaypointEffects {
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
-        private searchService: ISearchService
+        private searchService: ISearchService,
+        config: SystemConfig
     ) {
+        this.date = config.getDate();
     }
 
 
@@ -53,8 +58,8 @@ export class WaypointEffects {
         switchMap(action => this.searchService.searchByPosition(
             action.newPosition,
             OlGeometry.calcDegPerPixelByZoom(action.zoom) * this.HIT_TOLERANCE_PX,
-            0,
-            1
+            this.date.getDayStartTimestamp(0),
+            this.date.getDayEndTimestamp(2)
         ).pipe(
             map(results => ({action: action, results: results}))
         )),
@@ -110,8 +115,8 @@ export class WaypointEffects {
         switchMap(action => this.searchService.searchByPosition(
             action.newPosition,
             OlGeometry.calcDegPerPixelByZoom(action.zoom) * this.HIT_TOLERANCE_PX,
-            0,
-            1
+            this.date.getDayStartTimestamp(0),
+            this.date.getDayEndTimestamp(2)
         ).pipe(
             map(results => ({action: action, results: results}))
         )),

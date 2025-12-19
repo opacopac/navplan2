@@ -8,6 +8,7 @@ use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByTextQuery;
 use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Geoname\Domain\Service\IGeonameService;
 use Navplan\Navaid\Domain\Service\INavaidService;
+use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
 use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Search\Domain\Model\SearchByPositionQuery;
 use Navplan\Search\Domain\Model\SearchByTextQuery;
@@ -27,6 +28,7 @@ class SearchService implements ISearchService
         private readonly ISearchUserPointUc                 $searchUserPointUc,
         private readonly IAirspaceService                   $airspaceService,
         private readonly INotamService                      $notamService,
+        private readonly INotamSearchByPositionQuery        $notamSearchByPositionQuery,
         private readonly IAirportService                    $airportService,
         private readonly IAerodromeReportingByPositionQuery $aerodromeReportingByPositionQuery,
         private readonly IAerodromeReportingByTextQuery     $aerodromeReportingByTextQuery,
@@ -84,7 +86,7 @@ class SearchService implements ISearchService
         }
 
         if (in_array(SearchItemType::NOTAMS, $query->searchItems)) {
-            $notams = $this->notamService->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp);
+            $notams = $this->notamSearchByPositionQuery->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp);
         }
 
         return new SearchResult($airports, $navaids, $airspaces, $reportingPoints, $userPoints, [], $geonames, $notams, []);
@@ -136,7 +138,7 @@ class SearchService implements ISearchService
             }
         }
 
-        return new SearchResult($airports, $navaids, [], $reportingPoints, $userPoints, [], $geonames, [], [], []);
+        return new SearchResult($airports, $navaids, [], $reportingPoints, $userPoints, [], $geonames, [], []);
     }
 
 

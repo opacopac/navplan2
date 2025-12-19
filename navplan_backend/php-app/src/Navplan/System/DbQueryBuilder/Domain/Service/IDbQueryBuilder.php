@@ -15,7 +15,7 @@ interface IDbQueryBuilder
 {
     function selectAllFrom(DbTable|string $table): IDbQueryBuilder;
 
-    function selectFrom(string $table, string|DbCol ...$columns): IDbQueryBuilder;
+    function selectFrom(DbTable|string $table, string|DbCol ...$columns): IDbQueryBuilder;
 
     function join(DbJoinType $joinType, DbTable|string $table, DbCol|string $leftColumn, DbCol|string $rightColumn): IDbQueryBuilder;
 

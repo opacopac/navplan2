@@ -9,6 +9,8 @@ import {ISearchService} from '../../domain/service/i-search.service';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 import {FlightMapActions} from '../../../flight-map/state/ngrx/flight-map.actions';
+import {IDate} from '../../../system/domain/service/date/i-date';
+import {SystemConfig} from '../../../system/domain/service/system-config';
 
 
 const MIN_QUERY_LENGTH = 3;
@@ -17,11 +19,16 @@ const QUERY_DELAY_MS = 250;
 
 @Injectable()
 export class SearchEffects {
+    private readonly date: IDate;
+
+
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
-        private searchService: ISearchService
+        private searchService: ISearchService,
+        config: SystemConfig
     ) {
+        this.date = config.getDate();
     }
 
 
@@ -30,8 +37,8 @@ export class SearchEffects {
         switchMap(action => this.searchService.searchByPosition(
             action.clickPos,
             OlGeometry.calcDegPerPixelByZoom(action.zoom) * 50,
-            0,
-            999 // TODO
+            this.date.getDayStartTimestamp(0),
+            this.date.getDayEndTimestamp(2)
         ).pipe(
             tap(result => LoggingService.logAction('show position search results', result)),
             map(result => SearchActions.showPositionSearchResults({

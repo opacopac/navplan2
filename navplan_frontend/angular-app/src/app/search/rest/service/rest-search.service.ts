@@ -35,7 +35,7 @@ export class RestSearchService implements ISearchRepoService {
             .set('maxresults', maxResults.toString())
             .set('minnotamtime', minNotamTimestamp.toString())
             .set('maxnotamtime', maxNotamTimestamp.toString())
-            .set('searchItems', 'airports,navaids,airspaces,reportingpoints,userpoints,geonames');
+            .set('searchItems', 'airports,navaids,airspaces,reportingpoints,userpoints,geonames,notams');
         const url = environment.searchPositionApiBaseUrl + '?' + params.toString();
 
         return this.http

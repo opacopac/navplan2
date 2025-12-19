@@ -4,7 +4,6 @@ namespace Navplan\Notam\Persistence\Service;
 
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Length;
-use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\GeoHelper;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Notam\Domain\Service\INotamRepo;
@@ -46,23 +45,6 @@ class DbNotamRepo implements INotamRepo {
         $areaNotamList = self::removeNonAreaNotams($areaNotamList);
 
         return $areaNotamList;
-    }
-
-
-    public function searchByPosition(Position2d $position, int $minNotamTimestamp, int $maxNotamTimestamp): array {
-        $query = "SELECT ntm.id, ntm.notam AS notam"
-            . "   FROM icao_notam AS ntm"
-            . "    INNER JOIN icao_notam_geometry2 geo ON geo.icao_notam_id = ntm.id "
-            . "   WHERE"
-            . "    ntm.startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
-            . "    AND ntm.enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
-            . "    AND (geo.zoommax = 255 OR geo.zoommax IS NULL)"
-            . "    AND ST_INTERSECTS(geo.extent,". DbHelper::getDbPointString($position) . ")"
-            . "   ORDER BY ntm.startdate DESC";
-
-        $result = $this->dbService->execMultiResultQuery($query, "error searching notams");
-
-        return $this->readNotamFromResultList($result);
     }
 
 
