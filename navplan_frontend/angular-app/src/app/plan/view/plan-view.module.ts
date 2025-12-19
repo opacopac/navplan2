@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {PlanPerformanceViewModule} from '../../plan-performance/view/plan-performance-view.module';
 import {PlanWnbViewModule} from '../../plan-wnb/view/plan-wnb-view.module';
 import {PlanMeteoViewModule} from '../../plan-meteo/view/plan-meteo-view.module';
+import {PlanNotamViewModule} from '../../plan-notam/view/plan-notam-view.module';
 import {PlanStateModule} from '../state/plan-state.module';
 import {PlanRouteListViewModule} from '../../plan-route-list/view/plan-route-list-view.module';
 import {PlanFuelViewModule} from '../../plan-fuel/view/plan-fuel-view.module';
@@ -19,6 +20,7 @@ import {FlightrouteViewModule} from '../../flightroute/view/flightroute-view.mod
         PlanWnbViewModule,
         PlanPerformanceViewModule,
         PlanMeteoViewModule,
+        PlanNotamViewModule,
     ],
     declarations: [],
     exports: [],

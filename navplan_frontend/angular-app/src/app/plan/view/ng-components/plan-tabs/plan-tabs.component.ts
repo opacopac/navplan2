@@ -13,6 +13,7 @@ import {
 import {PlanMeteoContainerComponent} from '../../../../plan-meteo/view/ng-components/plan-meteo-container/plan-meteo-container.component';
 import {WaypointsContainerComponent} from '../../../../plan-waypoints/view/ng-components/waypoints-container/waypoints-container.component';
 import {PlanWnbContainerComponent} from '../../../../plan-wnb/view/ng-components/plan-wnb-container/plan-wnb-container.component';
+import {PlanNotamContainerComponent} from '../../../../plan-notam/view/ng-components/plan-notam-container/plan-notam-container.component';
 
 
 @Component({
@@ -24,7 +25,8 @@ import {PlanWnbContainerComponent} from '../../../../plan-wnb/view/ng-components
         PlanPerfContainerComponent,
         PlanMeteoContainerComponent,
         WaypointsContainerComponent,
-        PlanWnbContainerComponent
+        PlanWnbContainerComponent,
+        PlanNotamContainerComponent
     ],
     templateUrl: './plan-tabs.component.html',
     styleUrls: ['./plan-tabs.component.scss']
