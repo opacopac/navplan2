@@ -103,17 +103,6 @@ class DbNotamRepo implements INotamRepo {
             }
         }
 
-        // Compute tight route extent (no margin) for ICAO preselection
-        $minLon = PHP_FLOAT_MAX; $minLat = PHP_FLOAT_MAX; $maxLon = -PHP_FLOAT_MAX; $maxLat = -PHP_FLOAT_MAX;
-        foreach ($posList as $pos) {
-            $minLon = min($minLon, $pos->longitude);
-            $minLat = min($minLat, $pos->latitude);
-            $maxLon = max($maxLon, $pos->longitude);
-            $maxLat = max($maxLat, $pos->latitude);
-        }
-        $routeExtent = Extent2d::createFromCoords($minLon, $minLat, $maxLon, $maxLat);
-        $icaoList = $this->loadFirAndAdIcaoListByExtent($routeExtent);
-
         // Build intersection condition for all lineboxes
         $intersectionConditions = [];
         foreach ($lineBoxPolygons as $polygon) {
@@ -125,8 +114,7 @@ class DbNotamRepo implements INotamRepo {
         $query = "SELECT ntm.id, ntm.notam AS notam, geo.geometry AS geometry, ST_AsText(geo.extent) AS extent"
             . "   FROM icao_notam AS ntm"
             . "    INNER JOIN icao_notam_geometry2 AS geo ON geo.icao_notam_id = ntm.id"
-            . (count($icaoList) > 0 ? "   WHERE icao IN ('" .  join("','", $icaoList) . "')" : "   WHERE 1=1")
-            . "    AND startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
+            . "   WHERE startdate <= '" . DbHelper::getDbUtcTimeString($maxNotamTimestamp) . "'"
             . "    AND enddate >= '" . DbHelper::getDbUtcTimeString($minNotamTimestamp) . "'"
             . "    AND " . $intersectionClause
             . "   ORDER BY ntm.startdate DESC";
