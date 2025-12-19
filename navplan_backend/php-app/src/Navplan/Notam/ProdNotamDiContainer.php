@@ -4,10 +4,12 @@ namespace Navplan\Notam;
 
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Config\ProdConfigDiContainer;
+use Navplan\Notam\Domain\Query\INotamSearchByExtentQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\Notam\Domain\Service\INotamService;
+use Navplan\Notam\Persistence\Query\DbNotamSearchByExtentQuery;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByIcaoQuery;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByPositionQuery;
 use Navplan\Notam\Persistence\Service\DbNotamRepo;
@@ -21,6 +23,7 @@ class ProdNotamDiContainer implements INotamDiContainer
     private INotamConfig $notamConfig;
     private IRestController $notamController;
     private INotamService $notamService;
+    private INotamSearchByExtentQuery $searchByExtentQuery;
     private INotamSearchByPositionQuery $searchByPositionQuery;
     private INotamSearchByIcaoQuery $searchByIcaoQuery;
 
@@ -48,6 +51,7 @@ class ProdNotamDiContainer implements INotamDiContainer
         if (!isset($this->notamController)) {
             $this->notamController = new NotamController(
                 $this->getNotamService(),
+                $this->getNotamSearchByExtentQuery(),
                 $this->getNotamSearchByIcaoQuery(),
                 $this->getNotamSearchByPositionQuery(),
                 $this->httpService
@@ -65,6 +69,16 @@ class ProdNotamDiContainer implements INotamDiContainer
         }
 
         return $this->notamService;
+    }
+
+
+    public function getNotamSearchByExtentQuery(): INotamSearchByExtentQuery
+    {
+        if (!isset($this->searchByExtentQuery)) {
+            $this->searchByExtentQuery = new DbNotamSearchByExtentQuery($this->dbService);
+        }
+
+        return $this->searchByExtentQuery;
     }
 
 

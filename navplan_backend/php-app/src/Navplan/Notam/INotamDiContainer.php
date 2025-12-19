@@ -3,6 +3,7 @@
 namespace Navplan\Notam;
 
 use Navplan\Common\Rest\Controller\IRestController;
+use Navplan\Notam\Domain\Query\INotamSearchByExtentQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
 use Navplan\Notam\Domain\Service\INotamConfig;
@@ -16,6 +17,8 @@ interface INotamDiContainer
     function getNotamController(): IRestController;
 
     function getNotamService(): INotamService;
+
+    function getNotamSearchByExtentQuery(): INotamSearchByExtentQuery;
 
     function getNotamSearchByIcaoQuery(): INotamSearchByIcaoQuery;
 

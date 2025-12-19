@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCond;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbCondIn;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondText;
@@ -45,6 +46,7 @@ class MySqlDbCondBuilder implements IDbCondBuilder
             DbCondText::class => MySqlDbCondTextBuilder::create($this->dbService)->condition($cond)->build(),
             DbCondMulti::class => MySqlDbCondMultiBuilder::create($this->dbService)->condition($cond)->build(),
             DbCondGeo::class => MySqlDbCondGeoBuilder::create($this->dbService)->condition($cond)->build(),
+            DbCondIn::class => MySqlDbCondInBuilder::create($this->dbService)->condition($cond)->build(),
             default => throw new InvalidArgumentException("Unsupported where clause type"),
         };
     }
