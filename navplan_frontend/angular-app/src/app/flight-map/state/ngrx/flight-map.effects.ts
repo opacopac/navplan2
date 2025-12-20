@@ -9,8 +9,6 @@ import {FlightMapActions} from './flight-map.actions';
 import {getFlightMapState} from './flight-map.selectors';
 import {SearchActions} from '../../../search/state/ngrx/search.actions';
 import {getSearchState} from '../../../search/state/ngrx/search.selectors';
-import {IDate} from '../../../system/domain/service/date/i-date';
-import {SystemConfig} from '../../../system/domain/service/system-config';
 import {MetarTaf} from '../../../metar-taf/domain/model/metar-taf';
 import {WebcamActions} from '../../../webcam/state/ngrx/webcam.actions';
 import {Notam} from '../../../notam/domain/model/notam';
@@ -19,7 +17,6 @@ import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d'
 import {Webcam} from '../../../webcam/domain/model/webcam';
 import {AirportChartActions} from '../../../aerodrome-charts/state/ngrx/airport-chart.actions';
 import {AirportChart} from '../../../aerodrome-charts/domain/model/airport-chart';
-import {ISearchRepoService} from '../../../search/domain/service/i-search-repo.service';
 import {FlightMapStateService} from './flight-map-state.service';
 import {WaypointActions} from '../../../flightroute/state/ngrx/waypoints.actions';
 import {IAirportService} from '../../../aerodrome/domain/service/i-airport.service';
@@ -29,13 +26,15 @@ import {MeteoLayer} from '../../domain/model/meteo-layer';
 import {MeteoForecastActions} from '../../../meteo-forecast/state/ngrx/meteo-forecast.actions';
 import {SidebarMode} from './sidebar-mode';
 import {Traffic} from '../../../traffic/domain/model/traffic';
+import {NotamState} from '../../../notam/state/state-model/notam-state';
+import {getNotamState} from '../../../notam/state/ngrx/notam.selectors';
 
 
 @Injectable()
 export class FlightMapEffects {
-    private readonly date: IDate;
     private readonly flightMapState$ = this.appStore.select(pipe(getFlightMapState));
     private readonly searchState$ = this.appStore.select(pipe(getSearchState));
+    private readonly notamState$ = this.appStore.select(getNotamState);
 
 
     constructor(
@@ -43,11 +42,8 @@ export class FlightMapEffects {
         private readonly appStore: Store<any>,
         private readonly airportService: IAirportService,
         private readonly notamService: INotamService,
-        private readonly searchRepo: ISearchRepoService,
         private readonly flightMapStateService: FlightMapStateService,
-        config: SystemConfig
     ) {
-        this.date = config.getDate();
     }
 
 
@@ -216,11 +212,12 @@ export class FlightMapEffects {
 
     showOverlayAction$ = createEffect(() => this.actions$.pipe(
         ofType(FlightMapActions.showOverlay),
-        switchMap(action => combineLatest([
+        withLatestFrom(this.notamState$),
+        switchMap(([action, notamState]) => combineLatest([
             of(action),
             this.getOverlayDataItem$(action.dataItem),
             this.flightMapStateService.findWaypointsByPos$(action.dataItem?.getPosition()),
-            this.getOverlayNotams$(action),
+            this.getOverlayNotams$(action, notamState),
             this.getOverlayMetarTafs$(action.dataItem),
         ]).pipe(take(1))),
         map(([action, overlayDataItem, waypoints, notams, metarTaf]) => FlightMapActions.showOverlaySuccess({
@@ -282,23 +279,23 @@ export class FlightMapEffects {
     }
 
 
-    private getOverlayNotams$(action: {
-        dataItem: DataItem,
-        clickPos: Position2d
-    }): Observable<Notam[]> {
+    private getOverlayNotams$(
+        action: { dataItem: DataItem, clickPos: Position2d},
+        notamState: NotamState
+    ): Observable<Notam[]> {
         if (action.dataItem.dataItemType === DataItemType.airport) {
             return this.notamService.readByIcao(
                 (action.dataItem as ShortAirport).icao,
-                this.date.getDayStartTimestamp(0),
-                this.date.getDayEndTimestamp(2)
+                notamState.minStartTimestamp,
+                notamState.maxEndTimestamp
             );
         }
 
         if (action.clickPos) {
             return this.notamService.readByPosition(
                 action.clickPos,
-                this.date.getDayStartTimestamp(0),
-                this.date.getDayEndTimestamp(2)
+                notamState.minStartTimestamp,
+                notamState.maxEndTimestamp
             );
         }
 

@@ -2,15 +2,14 @@ import {Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {throwError} from 'rxjs';
-import {catchError, debounceTime, filter, map, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {SearchActions} from './search.actions';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {ISearchService} from '../../domain/service/i-search.service';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
 import {BaseMapActions} from '../../../base-map/state/ngrx/base-map.actions';
 import {FlightMapActions} from '../../../flight-map/state/ngrx/flight-map.actions';
-import {IDate} from '../../../system/domain/service/date/i-date';
-import {SystemConfig} from '../../../system/domain/service/system-config';
+import { getNotamState } from '../../../notam/state/ngrx/notam.selectors';
 
 
 const MIN_QUERY_LENGTH = 3;
@@ -19,26 +18,25 @@ const QUERY_DELAY_MS = 250;
 
 @Injectable()
 export class SearchEffects {
-    private readonly date: IDate;
+    private readonly notamState$ = this.appStore.select(getNotamState);
 
 
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
-        private searchService: ISearchService,
-        config: SystemConfig
+        private searchService: ISearchService
     ) {
-        this.date = config.getDate();
     }
 
 
     searchByPosition$ = createEffect(() => this.actions$.pipe(
         ofType(SearchActions.searchByPosition),
-        switchMap(action => this.searchService.searchByPosition(
+        withLatestFrom(this.notamState$),
+        switchMap(([action, notamState]) => this.searchService.searchByPosition(
             action.clickPos,
             OlGeometry.calcDegPerPixelByZoom(action.zoom) * 50,
-            this.date.getDayStartTimestamp(0),
-            this.date.getDayEndTimestamp(2)
+            notamState.minStartTimestamp,
+            notamState.maxEndTimestamp
         ).pipe(
             tap(result => LoggingService.logAction('show position search results', result)),
             map(result => SearchActions.showPositionSearchResults({

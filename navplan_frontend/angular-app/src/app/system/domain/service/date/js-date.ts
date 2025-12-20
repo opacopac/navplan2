@@ -27,4 +27,15 @@ export class JsDate implements IDate {
         const now = this.nowDate();
         return Math.floor(new Date(now.getFullYear(), now.getMonth(), now.getDate() + deltaDaysFromToday).getTime() / 1000);
     }
+
+
+    static getDayStartTimestampStatic(deltaDaysFromToday: number = 0): number {
+        const now = new Date();
+        return Math.floor(new Date(now.getFullYear(), now.getMonth(), now.getDate() + deltaDaysFromToday).getTime() / 1000);
+    }
+
+    static getDayEndTimestampStatic(deltaDaysFromToday: number = 0): number {
+        const now = new Date();
+        return Math.floor(new Date(now.getFullYear(), now.getMonth(), now.getDate() + deltaDaysFromToday + 1).getTime() / 1000) - 1;
+    }
 }

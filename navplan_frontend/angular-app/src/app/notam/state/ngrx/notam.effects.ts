@@ -37,12 +37,12 @@ export class NotamEffects {
             || !notamState.extent
             || notamState.zoom !== action.zoom
             || !notamState.extent.containsExtent2d(action.extent)
-            || notamState.timestampMs + this.NOTAMS_TIMEOUT_SEC * 1000 < this.date.nowMs()),
+            || notamState.lastLoadTimestampMs + this.NOTAMS_TIMEOUT_SEC * 1000 < this.date.nowMs()),
         switchMap(([action, notamState]) => this.notamService.readByExtent(
             action.extent.getOversizeExtent(environment.mapOversizeFactor),
             action.zoom,
-            this.date.getDayStartTimestamp(0),
-            this.date.getDayEndTimestamp(2)
+            notamState.minStartTimestamp,
+            notamState.maxEndTimestamp
         ).pipe(
             map(notams => NotamActions.readSuccess(
                 {

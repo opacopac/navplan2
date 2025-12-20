@@ -5,32 +5,27 @@ import {WaypointActions} from './waypoints.actions';
 import {WaypointConverter} from '../../domain/converter/waypoint-converter';
 import {ISearchService} from '../../../search/domain/service/i-search.service';
 import {OlGeometry} from '../../../base-map/view/ol-model/ol-geometry';
-import {Observable} from 'rxjs';
-import {Flightroute} from '../../domain/model/flightroute';
 import {select, Store} from '@ngrx/store';
 import {getFlightroute} from './flightroute.selectors';
 import {FlightrouteActions} from './flightroute.actions';
 import {ArrayHelper} from '../../../system/domain/service/array/array-helper';
 import {PlanActions} from '../../../plan/state/ngrx/plan.actions';
-import { IDate } from '../../../system/domain/service/date/i-date';
-import { SystemConfig } from '../../../system/domain/service/system-config';
+import { getNotamState } from '../../../notam/state/ngrx/notam.selectors';
 
 
 @Injectable()
 export class WaypointEffects {
     private readonly HIT_TOLERANCE_PX = 10;
-    private readonly date: IDate;
 
-    private flightroute$: Observable<Flightroute> = this.appStore.pipe(select(getFlightroute));
+    private readonly notamState$ = this.appStore.select(getNotamState);
+    private readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
 
 
     constructor(
         private actions$: Actions,
         private appStore: Store<any>,
         private searchService: ISearchService,
-        config: SystemConfig
     ) {
-        this.date = config.getDate();
     }
 
 
@@ -55,11 +50,12 @@ export class WaypointEffects {
 
     insertWaypointByPos$ = createEffect(() => this.actions$.pipe(
         ofType(WaypointActions.insertByPos),
-        switchMap(action => this.searchService.searchByPosition(
+        withLatestFrom(this.notamState$),
+        switchMap(([action, notamState]) => this.searchService.searchByPosition(
             action.newPosition,
             OlGeometry.calcDegPerPixelByZoom(action.zoom) * this.HIT_TOLERANCE_PX,
-            this.date.getDayStartTimestamp(0),
-            this.date.getDayEndTimestamp(2)
+            notamState.minStartTimestamp,
+            notamState.maxEndTimestamp
         ).pipe(
             map(results => ({action: action, results: results}))
         )),
@@ -112,11 +108,12 @@ export class WaypointEffects {
 
     replaceWaypointByPos$ = createEffect(() => this.actions$.pipe(
         ofType(WaypointActions.replaceByPos),
-        switchMap(action => this.searchService.searchByPosition(
+        withLatestFrom(this.notamState$),
+        switchMap(([action, notamState]) => this.searchService.searchByPosition(
             action.newPosition,
             OlGeometry.calcDegPerPixelByZoom(action.zoom) * this.HIT_TOLERANCE_PX,
-            this.date.getDayStartTimestamp(0),
-            this.date.getDayEndTimestamp(2)
+            notamState.minStartTimestamp,
+            notamState.maxEndTimestamp
         ).pipe(
             map(results => ({action: action, results: results}))
         )),
