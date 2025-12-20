@@ -25,10 +25,10 @@ class DbTableNotamGeometry extends DbTable
         $this->addCol(self::COL_ID, DbColType::INT);
         $this->addCol(self::COL_ICAO_NOTAM_ID, DbColType::INT);
         $this->addCol(self::COL_GEOMETRY, DbColType::STRING);
-        $this->addCol(self::COL_EXTENT, DbColType::GEO_POLY);
+        $this->addCol(self::COL_EXTENT, DbColType::GEO_POLY, true);
         $this->addCol(self::COL_DIAMETER, DbColType::DOUBLE);
-        $this->addCol(self::COL_ZOOMMIN, DbColType::INT);
-        $this->addCol(self::COL_ZOOMMAX, DbColType::INT);
+        $this->addCol(self::COL_ZOOMMIN, DbColType::INT, true);
+        $this->addCol(self::COL_ZOOMMAX, DbColType::INT, true);
     }
 
 

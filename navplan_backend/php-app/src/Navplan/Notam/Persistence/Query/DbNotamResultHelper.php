@@ -2,12 +2,17 @@
 
 namespace Navplan\Notam\Persistence\Query;
 
+use Navplan\Notam\Domain\Model\Notam;
 use Navplan\Notam\Persistence\Model\DbNotamConverter;
 use Navplan\System\Db\Domain\Model\IDbResult;
 
 
 class DbNotamResultHelper
 {
+    /**
+     * @param IDbResult $result
+     * @return Notam[]
+     */
     public static function readNotamFromResultList(IDbResult $result): array
     {
         $notams = [];

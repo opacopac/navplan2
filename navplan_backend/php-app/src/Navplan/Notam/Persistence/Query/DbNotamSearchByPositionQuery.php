@@ -4,7 +4,6 @@ namespace Navplan\Notam\Persistence\Query;
 
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
-use Navplan\Notam\Persistence\Model\DbNotamConverter;
 use Navplan\Notam\Persistence\Model\DbTableNotam;
 use Navplan\Notam\Persistence\Model\DbTableNotamGeometry;
 use Navplan\System\Db\Domain\Service\IDbService;
@@ -14,7 +13,6 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
-use Navplan\System\DbQueryBuilder\Domain\Model\DbExpText;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbJoinType;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
@@ -40,8 +38,8 @@ class DbNotamSearchByPositionQuery implements INotamSearchByPositionQuery
             ->selectFrom($t, $t->colId(), $t->colNotam())
             ->join(DbJoinType::INNER, $tGeo, $tGeo->colIcaoNotamId(), $t->colId())
             ->where(DbCondMulti::all(
-                DbCondSimple::create($t->colStartDate(), DbCondOp::LT_OR_E, DbExpText::create("'" . $maxTimestampStr . "'")),
-                DbCondSimple::create($t->colEndDate(), DbCondOp::GT_OR_E, DbExpText::create("'" . $minTimestampStr . "'")),
+                DbCondSimple::create($t->colStartDate(), DbCondOp::LT_OR_E, $maxTimestampStr),
+                DbCondSimple::create($t->colEndDate(), DbCondOp::GT_OR_E, $minTimestampStr),
                 DbCondMulti::any(
                     DbCondSimple::equals($tGeo->colZoomMax(), 255),
                     DbCondSimple::equals($tGeo->colZoomMax(), null)
