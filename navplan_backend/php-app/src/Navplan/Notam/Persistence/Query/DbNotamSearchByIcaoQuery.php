@@ -2,6 +2,7 @@
 
 namespace Navplan\Notam\Persistence\Query;
 
+use Navplan\Common\Domain\Model\TimestampInterval;
 use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
 use Navplan\Notam\Persistence\Model\DbTableNotam;
 use Navplan\System\Db\Domain\Service\IDbService;
@@ -21,12 +22,12 @@ class DbNotamSearchByIcaoQuery implements INotamSearchByIcaoQuery
     }
 
 
-    public function searchByIcao(string $airportIcao, int $minNotamTimestamp, int $maxNotamTimestamp): array
+    public function searchByIcao(string $airportIcao, TimestampInterval $interval): array
     {
         $t = new DbTableNotam('ntm');
 
-        $maxTimestampStr = DbHelper::getDbUtcTimeString($maxNotamTimestamp);
-        $minTimestampStr = DbHelper::getDbUtcTimeString($minNotamTimestamp);
+        $maxTimestampStr = DbHelper::getDbUtcTimeString($interval->end->toMs());
+        $minTimestampStr = DbHelper::getDbUtcTimeString($interval->start->toMs());
 
         $query = $this->dbService->getQueryBuilder()
             ->selectFrom($t, $t->colId(), $t->colNotam())

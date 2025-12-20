@@ -10,12 +10,15 @@ import {Flightroute} from '../../../flightroute/domain/model/flightroute';
 import {getFlightroute} from '../../../flightroute/state/ngrx/flightroute.selectors';
 import {IRouteNotamService} from '../../domain/service/i-route-notam.service';
 import {FlightrouteActions} from '../../../flightroute/state/ngrx/flightroute.actions';
+import {getNotamState} from '../../../notam/state/ngrx/notam.selectors';
+import {NotamState} from '../../../notam/state/state-model/notam-state';
 
 
 @Injectable()
 export class RouteNotamEffects {
     private readonly routeNotamState$: Observable<RouteNotamState> = this.appStore.select(getRouteNotamState);
     private readonly flightroute$: Observable<Flightroute> = this.appStore.pipe(select(getFlightroute));
+    private readonly notamState$: Observable<NotamState> = this.appStore.select(getNotamState);
 
 
     constructor(
@@ -28,11 +31,12 @@ export class RouteNotamEffects {
 
     updateRouteNotamAction$ = createEffect(() => this.actions$.pipe(
         ofType(RouteNotamActions.update, RouteNotamActions.maxRadiusChanged, FlightrouteActions.update),
-        withLatestFrom(this.flightroute$, this.routeNotamState$),
-        distinct(([action, route, notamState]) => [route, notamState]), // TODO: timeout
-        switchMap(([action, route, notamState]) => this.routeNotamService.getRouteNotams(
+        withLatestFrom(this.flightroute$, this.routeNotamState$, this.notamState$),
+        distinct(([action, route, routeNotamState, notamState]) => [route, routeNotamState, notamState]), // TODO: timeout
+        switchMap(([action, route, routeNotamState, notamState]) => this.routeNotamService.getRouteNotams(
             route,
-            notamState.maxNotamRadius
+            routeNotamState.maxNotamRadius,
+            notamState.interval
         ).pipe(
             map(notams => RouteNotamActions.updateSuccess({notams: notams}))
         ))

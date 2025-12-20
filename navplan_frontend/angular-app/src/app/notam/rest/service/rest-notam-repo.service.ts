@@ -15,6 +15,8 @@ import {HttpHelper} from '../../../system/domain/service/http/http-helper';
 import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
 import {RestZoomConverter} from '../../../geo-physics/rest/model/rest-zoom-converter';
 import {Position2dConverter} from '../../../geo-physics/rest/model/position2d-converter';
+import {TimestampInterval} from '../../../geo-physics/domain/model/quantities/timestamp-interval';
+import {RestTimestampIntervalConverter} from '../../../geo-physics/rest/model/rest-timestamp-interval-converter';
 
 
 @Injectable()
@@ -23,11 +25,11 @@ export class RestNotamRepo implements INotamRepoService {
     }
 
 
-    public readByExtent(extent: Extent2d, zoom: number, starttimestamp: number, endtimestamp: number): Observable<Notam[]> {
+    public readByExtent(extent: Extent2d, zoom: number, interval: TimestampInterval): Observable<Notam[]> {
         const params = HttpHelper.mergeParameters([
             RestExtent2dConverter.getUrlParams(extent),
             RestZoomConverter.getUrlParam(zoom),
-            this.getTimestampParams(starttimestamp, endtimestamp)
+            RestTimestampIntervalConverter.getUrlParams(interval)
         ]);
         const url = environment.notamRestApiBaseUrl;
 
@@ -43,10 +45,10 @@ export class RestNotamRepo implements INotamRepoService {
     }
 
 
-    public readByPosition(position: Position2d, starttimestamp: number, endtimestamp: number): Observable<Notam[]> {
+    public readByPosition(position: Position2d, interval: TimestampInterval): Observable<Notam[]> {
         const params = HttpHelper.mergeParameters([
             Position2dConverter.getUrlParams(position),
-            this.getTimestampParams(starttimestamp, endtimestamp)
+            RestTimestampIntervalConverter.getUrlParams(interval)
         ]);
         const url = environment.notamRestApiBaseUrl;
 
@@ -62,10 +64,10 @@ export class RestNotamRepo implements INotamRepoService {
     }
 
 
-    public readByIcao(airportIcao: string, starttimestamp: number, endtimestamp: number): Observable<Notam[]> {
+    public readByIcao(airportIcao: string, interval: TimestampInterval): Observable<Notam[]> {
         const params = HttpHelper.mergeParameters([
             new HttpParams().set('icao', airportIcao),
-            this.getTimestampParams(starttimestamp, endtimestamp)
+            RestTimestampIntervalConverter.getUrlParams(interval)
         ]);
         const url = environment.notamRestApiBaseUrl;
 
@@ -78,12 +80,5 @@ export class RestNotamRepo implements INotamRepoService {
                     return throwError(error);
                 })
             );
-    }
-
-
-    private getTimestampParams(starttimestamp: number, endtimestamp: number): HttpParams {
-        return new HttpParams()
-            .set('starttimestamp', starttimestamp.toString())
-            .set('endtimestamp', endtimestamp.toString());
     }
 }

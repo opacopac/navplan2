@@ -3,6 +3,7 @@
 namespace Navplan\Notam\Persistence\Query;
 
 use Navplan\Common\Domain\Model\Length;
+use Navplan\Common\Domain\Model\TimestampInterval;
 use Navplan\Common\GeoHelper;
 use Navplan\Flightroute\Domain\Model\Flightroute;
 use Navplan\Notam\Domain\Model\Notam;
@@ -33,11 +34,10 @@ class DbNotamSearchByRouteQuery implements INotamSearchByRouteQuery
     /**
      * @param Flightroute $flightroute
      * @param Length $maxDistFromRoute
-     * @param int $minNotamTimestamp
-     * @param int $maxNotamTimestamp
+     * @param TimestampInterval $interval
      * @return Notam[]
      */
-    public function searchByRoute(Flightroute $flightroute, Length $maxDistFromRoute, int $minNotamTimestamp, int $maxNotamTimestamp): array
+    public function searchByRoute(Flightroute $flightroute, Length $maxDistFromRoute, TimestampInterval $interval): array
     {
         $waypoints = $flightroute->getWaypointsInclAlternate();
 
@@ -68,8 +68,8 @@ class DbNotamSearchByRouteQuery implements INotamSearchByRouteQuery
             $lineBoxes
         );
 
-        $maxTimestampStr = DbHelper::getDbUtcTimeString($maxNotamTimestamp);
-        $minTimestampStr = DbHelper::getDbUtcTimeString($minNotamTimestamp);
+        $maxTimestampStr = DbHelper::getDbUtcTimeString($interval->end->toMs());
+        $minTimestampStr = DbHelper::getDbUtcTimeString($interval->start->toMs());
 
         $query = $this->dbService->getQueryBuilder()
             ->selectFrom(

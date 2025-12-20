@@ -15,8 +15,7 @@ class SearchByIcaoQueryConverterTest extends TestCase {
         $this->args = array(
             RestSearchByIcaoQueryConverter::ARG_SEARCH_ITEMS => "airports,navaids",
             RestSearchByIcaoQueryConverter::ARG_ICAO => "LSZB,LSZG,LSMP",
-            RestSearchByIcaoQueryConverter::ARG_MIN_NOTAM_TIME => "1558819678",
-            RestSearchByIcaoQueryConverter::ARG_MAX_NOTAM_TIME => "1558919678",
+            "tsinterval" => "1558819678,1558919678",
         );
     }
 
@@ -26,7 +25,7 @@ class SearchByIcaoQueryConverterTest extends TestCase {
         $this->assertNotNull($query);
         $this->assertEquals([SearchItemType::AIRPORTS, SearchItemType::NAVAIDS], $query->searchItems);
         $this->assertEquals(['LSZB', 'LSZG', 'LSMP'], $query->icaoList);
-        $this->assertEquals(1558819678, $query->minNotamTimestamp);
-        $this->assertEquals(1558919678, $query->maxNotamTimestamp);
+        $this->assertEquals(1558819678, $query->notamInterval->start->toMs());
+        $this->assertEquals(1558919678, $query->notamInterval->end->toMs());
     }
 }

@@ -286,16 +286,14 @@ export class FlightMapEffects {
         if (action.dataItem.dataItemType === DataItemType.airport) {
             return this.notamService.readByIcao(
                 (action.dataItem as ShortAirport).icao,
-                notamState.minStartTimestamp,
-                notamState.maxEndTimestamp
+                notamState.interval
             );
         }
 
         if (action.clickPos) {
             return this.notamService.readByPosition(
                 action.clickPos,
-                notamState.minStartTimestamp,
-                notamState.maxEndTimestamp
+                notamState.interval
             );
         }
 

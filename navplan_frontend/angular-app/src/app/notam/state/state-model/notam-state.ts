@@ -1,5 +1,6 @@
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {Notam} from '../../domain/model/notam';
+import {TimestampInterval} from '../../../geo-physics/domain/model/quantities/timestamp-interval';
 
 
 export interface NotamState {
@@ -7,6 +8,5 @@ export interface NotamState {
     zoom: number;
     notamList: Notam[];
     lastLoadTimestampMs: number;
-    minStartTimestamp: number;
-    maxEndTimestamp: number;
+    interval: TimestampInterval;
 }

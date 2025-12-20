@@ -3,6 +3,7 @@
 namespace Navplan\Notam\Domain\Query;
 
 use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\TimestampInterval;
 use Navplan\Notam\Domain\Model\Notam;
 
 
@@ -11,9 +12,8 @@ interface INotamSearchByExtentQuery
     /**
      * @param Extent2d $extent
      * @param int $zoom
-     * @param int $minNotamTimestamp
-     * @param int $maxNotamTimestamp
+     * @param TimestampInterval $interval
      * @return Notam[]
      */
-    function searchByExtent(Extent2d $extent, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array;
+    function searchByExtent(Extent2d $extent, int $zoom, TimestampInterval $interval): array;
 }

@@ -54,8 +54,7 @@ export class WaypointEffects {
         switchMap(([action, notamState]) => this.searchService.searchByPosition(
             action.newPosition,
             OlGeometry.calcDegPerPixelByZoom(action.zoom) * this.HIT_TOLERANCE_PX,
-            notamState.minStartTimestamp,
-            notamState.maxEndTimestamp
+            notamState.interval
         ).pipe(
             map(results => ({action: action, results: results}))
         )),
@@ -112,8 +111,7 @@ export class WaypointEffects {
         switchMap(([action, notamState]) => this.searchService.searchByPosition(
             action.newPosition,
             OlGeometry.calcDegPerPixelByZoom(action.zoom) * this.HIT_TOLERANCE_PX,
-            notamState.minStartTimestamp,
-            notamState.maxEndTimestamp
+            notamState.interval
         ).pipe(
             map(results => ({action: action, results: results}))
         )),

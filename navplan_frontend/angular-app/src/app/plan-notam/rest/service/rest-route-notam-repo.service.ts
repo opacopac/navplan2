@@ -12,25 +12,19 @@ import {RestRouteNotamConverter} from '../model/rest-route-notam-converter';
 import {IRestNotamResponse} from '../../../notam/rest/model/i-rest-notam-response';
 import {RestFlightrouteConverter} from '../../../flightroute/rest/converter/rest-flightroute-converter';
 import {RestLengthConverter} from '../../../geo-physics/rest/model/rest-length-converter';
-import {IDate} from '../../../system/domain/service/date/i-date';
-import {SystemConfig} from '../../../system/domain/service/system-config';
 import {Notam} from '../../../notam/domain/model/notam';
 import {of} from 'rxjs';
+import {TimestampInterval} from '../../../geo-physics/domain/model/quantities/timestamp-interval';
+import {RestTimestampIntervalConverter} from '../../../geo-physics/rest/model/rest-timestamp-interval-converter';
 
 
 @Injectable()
 export class RestRouteNotamRepo implements IRouteNotamRepoService {
-    private readonly date: IDate;
-
-    constructor(
-        private http: HttpClient,
-        config: SystemConfig
-    ) {
-        this.date = config.getDate();
+    constructor(private http: HttpClient) {
     }
 
 
-    public getRouteNotams(flightroute: Flightroute, maxRadius: Length): Observable<Notam[]> {
+    public getRouteNotams(flightroute: Flightroute, maxRadius: Length, interval: TimestampInterval): Observable<Notam[]> {
         if (!flightroute || flightroute.waypoints.length === 0) {
             return of([]);
         }
@@ -39,8 +33,7 @@ export class RestRouteNotamRepo implements IRouteNotamRepoService {
         const body = {
             flightroute: RestFlightrouteConverter.toRest(flightroute),
             maxdist: RestLengthConverter.toRest(maxRadius),
-            starttimestamp: this.date.getDayStartTimestamp(0),
-            endtimestamp: this.date.getDayEndTimestamp(2)
+            ...RestTimestampIntervalConverter.toRestBody(interval)
         };
 
         return this.http

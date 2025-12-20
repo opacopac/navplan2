@@ -19,8 +19,7 @@ class SearchByExtentQueryConverterTest extends TestCase {
             RestSearchByExtentQueryConverter::ARG_MAX_LON => "7.9",
             RestSearchByExtentQueryConverter::ARG_MAX_LAT => "47.9",
             RestSearchByExtentQueryConverter::ARG_ZOOM => "11",
-            RestSearchByExtentQueryConverter::ARG_MIN_NOTAM_TIME => "1558819678",
-            RestSearchByExtentQueryConverter::ARG_MAX_NOTAM_TIME => "1558919678",
+            "tsinterval" => "1558819678,1558919678",
             RestSearchByExtentQueryConverter::ARG_TOKEN => NULL, // TODO
         );
     }
@@ -35,8 +34,8 @@ class SearchByExtentQueryConverterTest extends TestCase {
         $this->assertEquals(7.9, $query->extent->maxPos->longitude);
         $this->assertEquals(47.9, $query->extent->maxPos->latitude);
         $this->assertEquals(11, $query->zoom);
-        $this->assertEquals(1558819678, $query->minNotamTimestamp);
-        $this->assertEquals(1558919678, $query->maxNotamTimestamp);
+        $this->assertEquals(1558819678, $query->notamInterval->start->toMs());
+        $this->assertEquals(1558919678, $query->notamInterval->end->toMs());
         $this->assertEquals(NULL, $query->token);
     }
 }

@@ -3,6 +3,7 @@
 namespace Navplan\Search\Domain\Model;
 
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\TimestampInterval;
 
 
 class SearchByPositionQuery {
@@ -11,8 +12,7 @@ class SearchByPositionQuery {
         public Position2d $position,
         public float $maxRadius_deg,
         public int $maxResults,
-        public int $minNotamTimestamp,
-        public int $maxNotamTimestamp,
+        public TimestampInterval $notamInterval,
         public ?string $token
     ) {
     }

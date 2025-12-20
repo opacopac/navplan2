@@ -5,6 +5,7 @@ namespace NavplanTest\Notam\Mocks;
 use InvalidArgumentException;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\TimestampInterval;
 use Navplan\Notam\Domain\Service\INotamRepo;
 
 
@@ -12,17 +13,17 @@ class MockNotamRepo implements INotamRepo {
     private array $mockResultList = [];
 
 
-    public function searchByExtent(Extent2d $extent, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array {
+    public function searchByExtent(Extent2d $extent, int $zoom, TimestampInterval $interval): array {
         return $this->shiftMockResult();
     }
 
 
-    public function searchByPosition(Position2d $position, int $minNotamTimestamp, int $maxNotamTimestamp, int $maxResults): array {
+    public function searchByPosition(Position2d $position, TimestampInterval $interval, int $maxResults): array {
         return $this->shiftMockResult();
     }
 
 
-    public function searchByIcao(array $icaoList, int $minNotamTimestamp, int $maxNotamTimestamp): array {
+    public function searchByIcao(array $icaoList, TimestampInterval $interval): array {
         return $this->shiftMockResult();
     }
 

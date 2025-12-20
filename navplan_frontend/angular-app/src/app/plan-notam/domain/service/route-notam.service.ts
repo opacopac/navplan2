@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {IRouteNotamRepoService} from './i-route-notam-repo.service';
 import {Notam} from '../../../notam/domain/model/notam';
+import {TimestampInterval} from '../../../geo-physics/domain/model/quantities/timestamp-interval';
 
 
 @Injectable()
@@ -13,7 +14,7 @@ export class RouteNotamService implements IRouteNotamService {
     }
 
 
-    public getRouteNotams(flightroute: Flightroute, maxRadius: Length): Observable<Notam[]> {
-        return this.routeNotamRepoService.getRouteNotams(flightroute, maxRadius);
+    public getRouteNotams(flightroute: Flightroute, maxRadius: Length, interval: TimestampInterval): Observable<Notam[]> {
+        return this.routeNotamRepoService.getRouteNotams(flightroute, maxRadius, interval);
     }
 }

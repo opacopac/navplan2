@@ -2,15 +2,15 @@
 
 namespace Navplan\Notam\Domain\Query;
 
+use Navplan\Common\Domain\Model\TimestampInterval;
 use Navplan\Notam\Domain\Model\Notam;
 
 
 interface INotamSearchByIcaoQuery {
     /**
      * @param string $airportIcao
-     * @param int $minNotamTimestamp
-     * @param int $maxNotamTimestamp
+     * @param TimestampInterval $interval
      * @return Notam[]
      */
-    function searchByIcao(string $airportIcao, int $minNotamTimestamp, int $maxNotamTimestamp): array;
+    function searchByIcao(string $airportIcao, TimestampInterval $interval): array;
 }

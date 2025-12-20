@@ -37,17 +37,17 @@ class NotamController implements IRestController
                 if ($this->httpService->hasGetArg(ReadNotamByIcaoRequest::ARG_ICAO)) {
                     $request = ReadNotamByIcaoRequest::fromRest($getArgs);
                     $notamList = $this->notamSearchByIcaoQuery->searchByIcao($request->airportIcao,
-                        $request->minNotamTimestamp, $request->maxNotamTimestamp);
+                        $request->interval);
                     $response = new ReadNotamResponse($notamList);
                 } else if ($this->httpService->hasGetArg(ReadNotamByPositionRequest::ARG_LAT)) {
                     $request = ReadNotamByPositionRequest::fromRest($getArgs);
                     $notamList = $this->notamSearchByPositionQuery->searchByPosition($request->position,
-                        $request->minNotamTimestamp, $request->maxNotamTimestamp);
+                        $request->interval);
                     $response = new ReadNotamResponse($notamList);
                 } else {
                     $request = ReadNotamByExtentRequest::fromRest($getArgs);
                     $notamList = $this->notamSearchByExtentQuery->searchByExtent($request->extent, $request->zoom,
-                        $request->minNotamTimestamp, $request->maxNotamTimestamp);
+                        $request->interval);
                     $response = new ReadNotamResponse($notamList);
                 }
                 $this->httpService->sendArrayResponse($response->toRest());
@@ -57,7 +57,7 @@ class NotamController implements IRestController
                 if ($this->httpService->hasPostArg(ReadNotamByRouteRequest::ARG_FLIGHTROUTE)) {
                     $request = ReadNotamByRouteRequest::fromRest($postArgs);
                     $notamList = $this->notamSearchByRouteQuery->searchByRoute($request->flightroute,
-                        $request->maxDistFromRoute, $request->minNotamTimestamp, $request->maxNotamTimestamp);
+                        $request->maxDistFromRoute, $request->interval);
                     $response = new ReadNotamResponse($notamList);
                     $this->httpService->sendArrayResponse($response->toRest());
                 } else {

@@ -3,6 +3,7 @@
 namespace Navplan\Search\Rest\Model;
 
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Rest\Converter\RestTimestampIntervalConverter;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Search\Domain\Model\SearchByPositionQuery;
 
@@ -13,8 +14,6 @@ class RestSearchByPositionQueryConverter {
     const ARG_LAT = "lat";
     const ARG_RADIUS = "rad";
     const ARG_MAX_RESULTS = "maxresults";
-    const ARG_MIN_NOTAM_TIME = "minnotamtime";
-    const ARG_MAX_NOTAM_TIME = "maxnotamtime";
     const ARG_TOKEN = "token";
 
 
@@ -25,8 +24,7 @@ class RestSearchByPositionQueryConverter {
         $position = new Position2d($lon, $lat);
         $maxRadius_deg = StringNumberHelper::parseFloatOrError($args, self::ARG_RADIUS);
         $maxResults = StringNumberHelper::parseIntOrError($args, self::ARG_MAX_RESULTS);
-        $minNotamTimestamp = StringNumberHelper::parseIntOrZero($args, self::ARG_MIN_NOTAM_TIME);
-        $maxNotamTimestamp = StringNumberHelper::parseIntOrZero($args, self::ARG_MAX_NOTAM_TIME);
+        $notamInterval = RestTimestampIntervalConverter::fromRest($args);
         $token = StringNumberHelper::parseStringOrNull($args, self::ARG_TOKEN);
 
         return new SearchByPositionQuery(
@@ -34,8 +32,7 @@ class RestSearchByPositionQueryConverter {
             $position,
             $maxRadius_deg,
             $maxResults,
-            $minNotamTimestamp,
-            $maxNotamTimestamp,
+            $notamInterval,
             $token
         );
     }

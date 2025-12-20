@@ -3,6 +3,7 @@
 namespace Navplan\Search\Rest\Model;
 
 use InvalidArgumentException;
+use Navplan\Common\Rest\Converter\RestTimestampIntervalConverter;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Search\Domain\Model\SearchByIcaoQuery;
 
@@ -10,21 +11,17 @@ use Navplan\Search\Domain\Model\SearchByIcaoQuery;
 class RestSearchByIcaoQueryConverter {
     const ARG_SEARCH_ITEMS = "searchItems";
     const ARG_ICAO = "icao";
-    const ARG_MIN_NOTAM_TIME = "minnotamtime";
-    const ARG_MAX_NOTAM_TIME = "maxnotamtime";
 
 
     public static function fromArgs(array $args): SearchByIcaoQuery {
         $searchItems = RestSearchItemTypeConverter::fromString(StringNumberHelper::parseStringOrError($args, self::ARG_SEARCH_ITEMS));
         $icaoList = self::checkEscapeIcaoList($args[self::ARG_ICAO]);
-        $minNotamTimestamp = StringNumberHelper::parseIntOrZero($args, self::ARG_MIN_NOTAM_TIME);
-        $maxNotamTimestamp = StringNumberHelper::parseIntOrZero($args, self::ARG_MAX_NOTAM_TIME);
+        $notamInterval = RestTimestampIntervalConverter::fromRest($args);
 
         return new SearchByIcaoQuery(
             $searchItems,
             $icaoList,
-            $minNotamTimestamp,
-            $maxNotamTimestamp
+            $notamInterval
         );
     }
 

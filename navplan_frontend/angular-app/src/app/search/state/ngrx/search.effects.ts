@@ -35,8 +35,7 @@ export class SearchEffects {
         switchMap(([action, notamState]) => this.searchService.searchByPosition(
             action.clickPos,
             OlGeometry.calcDegPerPixelByZoom(action.zoom) * 50,
-            notamState.minStartTimestamp,
-            notamState.maxEndTimestamp
+            notamState.interval
         ).pipe(
             tap(result => LoggingService.logAction('show position search results', result)),
             map(result => SearchActions.showPositionSearchResults({

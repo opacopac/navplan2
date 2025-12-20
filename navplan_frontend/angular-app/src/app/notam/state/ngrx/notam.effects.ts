@@ -41,8 +41,7 @@ export class NotamEffects {
         switchMap(([action, notamState]) => this.notamService.readByExtent(
             action.extent.getOversizeExtent(environment.mapOversizeFactor),
             action.zoom,
-            notamState.minStartTimestamp,
-            notamState.maxEndTimestamp
+            notamState.interval
         ).pipe(
             map(notams => NotamActions.readSuccess(
                 {

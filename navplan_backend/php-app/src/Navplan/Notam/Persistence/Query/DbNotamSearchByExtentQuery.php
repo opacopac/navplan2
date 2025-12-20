@@ -3,6 +3,7 @@
 namespace Navplan\Notam\Persistence\Query;
 
 use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\TimestampInterval;
 use Navplan\Common\GeoHelper;
 use Navplan\Notam\Domain\Model\Notam;
 use Navplan\Notam\Domain\Query\INotamSearchByExtentQuery;
@@ -36,11 +37,10 @@ class DbNotamSearchByExtentQuery implements INotamSearchByExtentQuery
     /**
      * @param Extent2d $extent
      * @param int $zoom
-     * @param int $minNotamTimestamp
-     * @param int $maxNotamTimestamp
+     * @param TimestampInterval $interval
      * @return Notam[]
      */
-    public function searchByExtent(Extent2d $extent, int $zoom, int $minNotamTimestamp, int $maxNotamTimestamp): array
+    public function searchByExtent(Extent2d $extent, int $zoom, TimestampInterval $interval): array
     {
         $pixelResolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom);
         $minDiameterDeg = $pixelResolutionDeg * self::MIN_PIXEL_NOTAMAREA_DIAMETER;
@@ -53,8 +53,8 @@ class DbNotamSearchByExtentQuery implements INotamSearchByExtentQuery
         $t = new DbTableNotam('ntm');
         $tGeo = new DbTableNotamGeometry('geo');
 
-        $maxTimestampStr = DbHelper::getDbUtcTimeString($maxNotamTimestamp);
-        $minTimestampStr = DbHelper::getDbUtcTimeString($minNotamTimestamp);
+        $maxTimestampStr = DbHelper::getDbUtcTimeString($interval->end->toMs());
+        $minTimestampStr = DbHelper::getDbUtcTimeString($interval->start->toMs());
 
         $query = $this->dbService->getQueryBuilder()
             ->selectFrom(

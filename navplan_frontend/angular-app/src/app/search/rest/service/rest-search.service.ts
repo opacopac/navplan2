@@ -13,6 +13,8 @@ import {ISearchRepoService} from '../../domain/service/i-search-repo.service';
 import {RestPositionSearchResponseConverter} from '../model/rest-position-search-response-converter';
 import {PositionSearchResultList} from '../../domain/model/position-search-result-list';
 import {HttpHelper} from '../../../system/domain/service/http/http-helper';
+import {TimestampInterval} from '../../../geo-physics/domain/model/quantities/timestamp-interval';
+import {RestTimestampIntervalConverter} from '../../../geo-physics/rest/model/rest-timestamp-interval-converter';
 
 
 @Injectable()
@@ -25,17 +27,17 @@ export class RestSearchService implements ISearchRepoService {
         position: Position2d,
         maxRadius_deg: number,
         maxResults: number,
-        minNotamTimestamp: number,
-        maxNotamTimestamp: number
+        notamInterval: TimestampInterval
     ): Observable<PositionSearchResultList> {
-        const params = new HttpParams()
-            .set('lat', position.latitude.toString())
-            .set('lon', position.longitude.toString())
-            .set('rad', maxRadius_deg.toString())
-            .set('maxresults', maxResults.toString())
-            .set('minnotamtime', minNotamTimestamp.toString())
-            .set('maxnotamtime', maxNotamTimestamp.toString())
-            .set('searchItems', 'airports,navaids,airspaces,reportingpoints,userpoints,geonames,notams');
+        const params = HttpHelper.mergeParameters([
+            new HttpParams()
+                .set('lat', position.latitude.toString())
+                .set('lon', position.longitude.toString())
+                .set('rad', maxRadius_deg.toString())
+                .set('maxresults', maxResults.toString())
+                .set('searchItems', 'airports,navaids,airspaces,reportingpoints,userpoints,geonames,notams'),
+            RestTimestampIntervalConverter.getUrlParams(notamInterval)
+        ]);
         const url = environment.searchPositionApiBaseUrl + '?' + params.toString();
 
         return this.http

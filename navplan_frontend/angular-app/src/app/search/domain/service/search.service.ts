@@ -7,6 +7,7 @@ import {ISearchRepoService} from './i-search-repo.service';
 import {PositionSearchResultList} from '../model/position-search-result-list';
 import {SearchItem} from '../model/search-item';
 import {SearchItemSearchResult} from '../model/generic-search-result';
+import {TimestampInterval} from '../../../geo-physics/domain/model/quantities/timestamp-interval';
 
 
 @Injectable()
@@ -21,15 +22,13 @@ export class SearchService implements ISearchService {
     public searchByPosition(
         position: Position2d,
         maxRadius_deg: number,
-        minNotamTimestamp: number,
-        maxNotamTimestamp: number
+        notamInterval: TimestampInterval
     ): Observable<PositionSearchResultList> {
         return this.searchRepo.searchByPosition(
             position,
             maxRadius_deg,
             this.MAX_POINT_RESULTS,
-            minNotamTimestamp,
-            maxNotamTimestamp
+            notamInterval
         );
     }
 

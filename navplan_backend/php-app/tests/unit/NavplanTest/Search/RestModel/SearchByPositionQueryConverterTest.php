@@ -17,8 +17,8 @@ class SearchByPositionQueryConverterTest extends TestCase {
             RestSearchByPositionQueryConverter::ARG_LON => "7.0",
             RestSearchByPositionQueryConverter::ARG_LAT => "47.0",
             RestSearchByPositionQueryConverter::ARG_RADIUS => "0.5",
-            RestSearchByPositionQueryConverter::ARG_MIN_NOTAM_TIME => "1558819678",
-            RestSearchByPositionQueryConverter::ARG_MAX_NOTAM_TIME => "1558919678",
+            RestSearchByPositionQueryConverter::ARG_MAX_RESULTS => "25",
+            "tsinterval" => "1558819678,1558919678",
             RestSearchByPositionQueryConverter::ARG_TOKEN => NULL, // TODO
         );
     }
@@ -31,8 +31,8 @@ class SearchByPositionQueryConverterTest extends TestCase {
         $this->assertEquals(7.0, $query->position->longitude);
         $this->assertEquals(47.0, $query->position->latitude);
         $this->assertEquals(0.5, $query->maxRadius_deg);
-        $this->assertEquals(1558819678, $query->minNotamTimestamp);
-        $this->assertEquals(1558919678, $query->maxNotamTimestamp);
+        $this->assertEquals(1558819678, $query->notamInterval->start->toMs());
+        $this->assertEquals(1558919678, $query->notamInterval->end->toMs());
         $this->assertEquals(NULL, $query->token);
     }
 }

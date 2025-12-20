@@ -3,6 +3,7 @@
 namespace Navplan\Notam\Persistence\Query;
 
 use Navplan\Common\Domain\Model\Position2d;
+use Navplan\Common\Domain\Model\TimestampInterval;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
 use Navplan\Notam\Persistence\Model\DbTableNotam;
 use Navplan\Notam\Persistence\Model\DbTableNotamGeometry;
@@ -26,13 +27,13 @@ class DbNotamSearchByPositionQuery implements INotamSearchByPositionQuery
     }
 
 
-    public function searchByPosition(Position2d $position, int $minNotamTimestamp, int $maxNotamTimestamp): array
+    public function searchByPosition(Position2d $position, TimestampInterval $interval): array
     {
         $t = new DbTableNotam('ntm');
         $tGeo = new DbTableNotamGeometry('geo');
 
-        $maxTimestampStr = DbHelper::getDbUtcTimeString($maxNotamTimestamp);
-        $minTimestampStr = DbHelper::getDbUtcTimeString($minNotamTimestamp);
+        $maxTimestampStr = DbHelper::getDbUtcTimeString($interval->end->toMs());
+        $minTimestampStr = DbHelper::getDbUtcTimeString($interval->start->toMs());
 
         $query = $this->dbService->getQueryBuilder()
             ->selectFrom($t, $t->colId(), $t->colNotam())

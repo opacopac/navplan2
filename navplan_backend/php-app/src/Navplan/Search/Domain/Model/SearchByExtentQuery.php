@@ -3,6 +3,7 @@
 namespace Navplan\Search\Domain\Model;
 
 use Navplan\Common\Domain\Model\Extent2d;
+use Navplan\Common\Domain\Model\TimestampInterval;
 
 
 class SearchByExtentQuery {
@@ -10,8 +11,7 @@ class SearchByExtentQuery {
         public array $searchItems,
         public Extent2d $extent,
         public int $zoom,
-        public ?int $minNotamTimestamp,
-        public ?int $maxNotamTimestamp,
+        public ?TimestampInterval $notamInterval,
         public ?string $token
     ) {
     }

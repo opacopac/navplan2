@@ -84,7 +84,7 @@ class SearchService implements ISearchService
         }
 
         if (in_array(SearchItemType::NOTAMS, $query->searchItems)) {
-            $notams = $this->notamSearchByPositionQuery->searchByPosition($query->position, $query->minNotamTimestamp, $query->maxNotamTimestamp);
+            $notams = $this->notamSearchByPositionQuery->searchByPosition($query->position, $query->notamInterval);
         }
 
         return new SearchResult($airports, $navaids, $airspaces, $reportingPoints, $userPoints, [], $geonames, $notams, []);
