@@ -1,6 +1,6 @@
 import {createAction, props} from '@ngrx/store';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
-import {Notam} from '../../../notam/domain/model/notam';
+import {LocationNotam} from '../../domain/model/location-notam';
 
 
 export class RouteNotamActions {
@@ -10,7 +10,7 @@ export class RouteNotamActions {
 
     public static readonly updateSuccess = createAction(
         '[RouteNotamEffects] Update Notams success',
-        props<{ notams: Notam[] }>()
+        props<{ locationNotams: LocationNotam[] }>()
     );
 
     public static readonly maxRadiusChanged = createAction(

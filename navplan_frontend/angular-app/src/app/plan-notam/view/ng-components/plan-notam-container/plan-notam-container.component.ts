@@ -5,7 +5,7 @@ import {getRouteNotamState} from '../../../state/ngrx/route-notam.selectors';
 import {map} from 'rxjs/operators';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {getRouteDistanceUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
-import {PlanNotamTableComponent} from '../plan-notam-table/plan-notam-table.component';
+import {LocationNotamsListComponent} from '../location-notams-list/location-notams-list.component';
 import {CommonModule} from '@angular/common';
 import {
     RoutePickerContainerComponent
@@ -17,7 +17,7 @@ import {PlanDistanceFromRouteComponent} from '../../../../plan/view/ng-component
     selector: 'app-plan-notam-container',
     imports: [
         CommonModule,
-        PlanNotamTableComponent,
+        LocationNotamsListComponent,
         RoutePickerContainerComponent,
         PlanDistanceFromRouteComponent
     ],
@@ -26,7 +26,7 @@ import {PlanDistanceFromRouteComponent} from '../../../../plan/view/ng-component
 })
 export class PlanNotamContainerComponent implements OnInit {
     protected readonly routeNotamState$ = this.appStore.select(getRouteNotamState);
-    protected readonly notams$ = this.routeNotamState$.pipe(map(rns => rns.notams));
+    protected readonly locationNotams$ = this.routeNotamState$.pipe(map(rns => rns.locationNotams));
     protected readonly maxRadius$ = this.routeNotamState$.pipe(map(rns => rns.maxNotamRadius));
     protected readonly distanceUnit$ = this.appStore.select(getRouteDistanceUnit);
 

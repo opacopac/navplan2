@@ -16,6 +16,7 @@ import {MatIconModule} from '@angular/material/icon';
 })
 export class MapPopupNotamListComponent implements OnInit {
     @Input() notams: Notam[];
+    @Input() tableHeaderText: string;
 
 
     constructor() {

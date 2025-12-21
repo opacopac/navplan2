@@ -72,7 +72,7 @@ class DbNotamGeometryConverter {
         } else if (isset($geometry["center"]) && isset($geometry["radius"])) {
             return new Circle2d(
                 Position2d::createFromArray($geometry["center"]),
-                new Length($geometry["radius"], LengthUnit::NM)
+                new Length($geometry["radius"], LengthUnit::M)
             );
         }
 

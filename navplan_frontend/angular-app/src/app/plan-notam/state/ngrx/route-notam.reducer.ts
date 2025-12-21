@@ -6,8 +6,8 @@ import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-un
 
 
 const initialState: RouteNotamState = {
-    maxNotamRadius: new Length(25, LengthUnit.NM),
-    notams: [],
+    maxNotamRadius: new Length(10, LengthUnit.NM),
+    locationNotams: [],
 };
 
 
@@ -16,7 +16,7 @@ export const routeNotamReducer = createReducer(
 
     on(RouteNotamActions.updateSuccess, (state, action) => ({
         ...state,
-        notams: action.notams
+        locationNotams: action.locationNotams
     })),
 
     on(RouteNotamActions.maxRadiusChanged, (state, action) => ({

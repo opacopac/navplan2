@@ -6,16 +6,16 @@ import {LocationNotam} from '../../../domain/model/location-notam';
 
 
 @Component({
-    selector: 'app-plan-notam-table',
+    selector: 'app-location-notams-list',
     imports: [
         CommonModule,
         MatTableModule,
         MapPopupNotamListComponent
     ],
-    templateUrl: './plan-notam-table.component.html',
-    styleUrls: ['./plan-notam-table.component.scss']
+    templateUrl: './location-notams-list.component.html',
+    styleUrls: ['./location-notams-list.component.scss']
 })
-export class PlanNotamTableComponent implements OnInit {
+export class LocationNotamsListComponent implements OnInit {
     @Input() public locationNotams: LocationNotam[];
 
 

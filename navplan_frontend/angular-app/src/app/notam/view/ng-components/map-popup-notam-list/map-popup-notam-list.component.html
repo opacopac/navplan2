@@ -1,4 +1,11 @@
 <table mat-table [dataSource]="this.notams">
+    @if (this.tableHeaderText) {
+        <ng-container matColumnDef="header">
+            <th mat-header-cell *matHeaderCellDef colspan="1" class="location-header">
+                {{ this.tableHeaderText }}
+            </th>
+        </ng-container>
+    }
     <ng-container matColumnDef="fullNotam">
         <td mat-cell *matCellDef="let notam">
             <div class="notam-validity">
@@ -12,5 +19,8 @@
         </td>
     </ng-container>
 
+    @if (this.tableHeaderText) {
+        <tr mat-header-row *matHeaderRowDef="['header']"></tr>
+    }
     <tr mat-row *matRowDef="let row; columns: this.getNotamColumns();"></tr>
 </table>

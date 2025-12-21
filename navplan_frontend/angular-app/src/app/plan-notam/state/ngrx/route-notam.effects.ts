@@ -38,7 +38,7 @@ export class RouteNotamEffects {
             routeNotamState.maxNotamRadius,
             notamState.interval
         ).pipe(
-            map(notams => RouteNotamActions.updateSuccess({notams: notams}))
+            map(locationNotams => RouteNotamActions.updateSuccess({locationNotams: locationNotams}))
         ))
     ));
 }
