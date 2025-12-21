@@ -1,6 +1,0 @@
-<div *ngFor="let locationNotam of this.locationNotams" class="notam-group">
-    <app-map-popup-notam-list 
-        [notams]="locationNotam.notams"
-        [tableHeaderText]="locationNotam.locationIcao + ' - ' + locationNotam.stateName"
-    />
-</div>
