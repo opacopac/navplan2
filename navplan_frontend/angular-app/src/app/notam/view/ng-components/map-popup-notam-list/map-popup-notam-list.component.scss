@@ -1,14 +1,6 @@
-.mat-mdc-row:nth-child(even), .mat-mdc-header-cell {
-    background-color: rgb(249, 249, 249);
-}
-.mat-mdc-row:nth-child(odd) {
-    background-color: white;
-}
 .notam-title {
-    color: rgb(63, 63, 63);
-    font-weight: bold;
+    font-weight: 500;
     margin-top: 5px;
-    margin-bottom: 5px;
 }
 .notam-validity {
     float: right;
@@ -16,6 +8,7 @@
     margin-top: 4px;
 }
 .notam-text {
+    margin: 8px;
 }
 .info-icon {
     color: rgb(122, 122, 122);

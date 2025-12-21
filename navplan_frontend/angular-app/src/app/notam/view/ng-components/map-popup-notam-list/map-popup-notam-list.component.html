@@ -1,7 +1,7 @@
 <table mat-table [dataSource]="this.notams">
     @if (this.tableHeaderText) {
         <ng-container matColumnDef="header">
-            <th mat-header-cell *matHeaderCellDef colspan="1" class="location-header">
+            <th mat-header-cell *matHeaderCellDef>
                 {{ this.tableHeaderText }}
             </th>
         </ng-container>
@@ -20,7 +20,7 @@
     </ng-container>
 
     @if (this.tableHeaderText) {
-        <tr mat-header-row *matHeaderRowDef="['header']"></tr>
+        <tr mat-header-row *matHeaderRowDef="['header']" class="header-row"></tr>
     }
-    <tr mat-row *matRowDef="let row; columns: this.getNotamColumns();"></tr>
+    <tr mat-row *matRowDef="let row; let even = even; columns: this.getNotamColumns();" [ngClass]="{ 'odd-row': !even }"></tr>
 </table>

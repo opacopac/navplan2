@@ -30,8 +30,8 @@
         <th mat-header-cell *matHeaderCellDef>PAPI</th>
         <td mat-cell *matCellDef="let runway">{{ runway.papi ? 'y' : '-' }}</td>
       </ng-container>
-      <tr mat-header-row *matHeaderRowDef="this.getRwyColumns()"></tr>
-      <tr mat-row *matRowDef="let row; columns: this.getRwyColumns();"></tr>
+      <tr mat-header-row *matHeaderRowDef="this.getRwyColumns()" class="header-row"></tr>
+      <tr mat-row *matRowDef="let row; let even = even; columns: this.getRwyColumns();" [ngClass]="{ 'odd-row': !even }"></tr>
     </table>
   }
   @if (!this.airport.hasRunways) {
