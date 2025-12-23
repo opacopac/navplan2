@@ -3,11 +3,13 @@ import {Notam} from '../../../domain/model/notam';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
+import {CommonModule} from '@angular/common';
 
 
 @Component({
     selector: 'app-map-popup-notam-list',
     imports: [
+        CommonModule,
         MatTableModule,
         MatIconModule
     ],

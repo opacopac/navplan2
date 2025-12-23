@@ -90,14 +90,12 @@
                 </mat-tab>
 
                 <!-- notam tab -->
-                @if (this.notams && this.notams.length > 0) {
-                    <mat-tab>
-                        <ng-template mat-tab-label>
-                            <i class="fa-solid fa-exclamation-triangle"></i>
-                        </ng-template>
-                        <app-map-popup-notam-tab [notams]="this.notams"/>
-                    </mat-tab>
-                }
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <i class="fa-solid fa-exclamation-triangle"></i>
+                    </ng-template>
+                    <app-map-popup-notam-tab [notams]="this.notams"/>
+                </mat-tab>
 
                 <!-- charts tab -->
                 @if (this.airport) {
