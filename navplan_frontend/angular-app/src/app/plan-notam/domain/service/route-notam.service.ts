@@ -9,7 +9,7 @@ import {TimestampInterval} from '../../../geo-physics/domain/model/quantities/ti
 import {map} from 'rxjs/operators';
 import {NotamLocationType} from '../../../notam/domain/model/notam-location-type';
 import {WaypointType} from '../../../flightroute/domain/model/waypoint-type';
-import { LocationNotam } from '../model/location-notam';
+import {LocationNotam} from '../model/location-notam';
 
 
 @Injectable()
@@ -27,13 +27,13 @@ export class RouteNotamService implements IRouteNotamService {
     private groupAndSortNotams(notams: Notam[], flightroute: Flightroute): LocationNotam[] {
         // Group NOTAMs by location
         const groupMap = new Map<string, LocationNotam>();
-        
+
         if (notams) {
             for (const notam of notams) {
                 if (!groupMap.has(notam.locationIcao)) {
                     groupMap.set(notam.locationIcao, {
                         locationIcao: notam.locationIcao,
-                        stateName: notam.StateName,
+                        locationName: notam.locationName,
                         locationType: notam.locationType,
                         notams: []
                     });
@@ -41,9 +41,9 @@ export class RouteNotamService implements IRouteNotamService {
                 groupMap.get(notam.locationIcao).notams.push(notam);
             }
         }
-        
+
         const locationNotams = Array.from(groupMap.values());
-        
+
         // Create a map of airport ICAO codes to their route order
         const routeOrderMap = new Map<string, number>();
         if (flightroute && flightroute.waypoints) {
@@ -55,7 +55,7 @@ export class RouteNotamService implements IRouteNotamService {
                     }
                 }
             });
-            
+
             // Also check alternate if it exists
             if (flightroute.alternate && flightroute.alternate.type === WaypointType.airport) {
                 const alternateIndex = flightroute.waypoints.length;
@@ -71,22 +71,22 @@ export class RouteNotamService implements IRouteNotamService {
             if (a.locationType !== b.locationType) {
                 return a.locationType === NotamLocationType.airport ? -1 : 1;
             }
-            
+
             // 2nd priority: for airports, sort by route order
             if (a.locationType === NotamLocationType.airport) {
                 const aOrder = routeOrderMap.get(a.locationIcao);
                 const bOrder = routeOrderMap.get(b.locationIcao);
-                
+
                 // If both are in route, sort by route order
                 if (aOrder !== undefined && bOrder !== undefined) {
                     return aOrder - bOrder;
                 }
-                
+
                 // Airport in route comes before airport not in route
                 if (aOrder !== undefined) return -1;
                 if (bOrder !== undefined) return 1;
             }
-            
+
             // Default: sort alphabetically by ICAO code
             return a.locationIcao.localeCompare(b.locationIcao);
         });

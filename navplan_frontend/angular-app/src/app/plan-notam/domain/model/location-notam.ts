@@ -4,7 +4,7 @@ import {NotamLocationType} from '../../../notam/domain/model/notam-location-type
 
 export interface LocationNotam {
     locationIcao: string;
-    stateName: string;
+    locationName: string;
     locationType: NotamLocationType;
     notams: Notam[];
 }

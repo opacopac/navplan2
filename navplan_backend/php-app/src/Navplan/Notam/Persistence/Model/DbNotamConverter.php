@@ -28,6 +28,7 @@ class DbNotamConverter {
             $notam["enddate"],
             $notam["all"],
             $notam["location"],
+            $notam["location"], // TODO: replace by actual location name
             boolval($notam["isICAO"]),
             $notam["Created"],
             $notam["key"],

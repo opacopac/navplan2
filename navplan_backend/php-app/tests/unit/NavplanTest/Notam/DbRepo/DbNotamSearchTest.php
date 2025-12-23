@@ -33,7 +33,7 @@ class DbNotamSearchTest extends TestCase {
         /*$this->assertEquals($dbNotam['notamid'], $notam->notamId);
         $this->assertEquals($dbNotam['country'], $notam->stateCode);
         $this->assertEquals($dbNotam['type'], $notam->type);
-        $this->assertEquals($dbNotam['icao'], $notam->location);
+        $this->assertEquals($dbNotam['icao'], $notam->locationIcao);
         $this->assertEquals($dbNotam['startdate'], $notam->startdate);
         $this->assertEquals($dbNotam['enddate'], $notam->enddate);*/
         // TODO: geometry, detail fields in JSON

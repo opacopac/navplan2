@@ -21,8 +21,9 @@ class Notam {
         public string $startdate, // Start datatime of the NOTAM
         public string $enddate, // End datatime of the NOTAM, 100 years after startdate for permanent (PERM) notams
         public string $all, // Full NOTAM
-        public string $location, // ICAO code of the location the NOTAM applies to
-        public bool $isIcao, // If the NOTAM is compliant with Doc ABC. If false, no Q-code decoding is available
+        public string $locationIcao, // ICAO code of the location the NOTAM applies to
+        public string $locationName, // Name of the location the NOTAM applies to
+        public bool $isIcaoFormat, // If the NOTAM is compliant with Doc ABC. If false, no Q-code decoding is available
         public string $created, // Dattime the NOTAM was created
         public string $key, // Concatenation of ID and Location to form unique id for all NOTAMS
         public string $type, // Location type, either airspace or airport
@@ -32,7 +33,7 @@ class Notam {
 
 
     public function isAreaNotam(): bool {
-        if ($this->isIcao) {
+        if ($this->isIcaoFormat) {
             $qtype = strtoupper(substr($this->qcode, 0, 1));
 
             if ($qtype == "W" || $qtype == "R") { // || $qtype == "X")

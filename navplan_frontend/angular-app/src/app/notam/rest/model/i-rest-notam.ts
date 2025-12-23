@@ -18,8 +18,9 @@ export interface IRestNotam {
     startdate: string;
     enddate: string;
     all: string;
-    location: string;
-    isicao: boolean;
+    locationicao: string;
+    locationname: string;
+    isicaoformat: boolean;
     created: string;
     key: string;
     type: string;

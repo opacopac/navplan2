@@ -12,6 +12,7 @@ export class Notam extends DataItem {
         public endDate: Date, // End datatime of the NOTAM, 100 years after startdate for permanent (PERM) notams
         public createdDate: Date, // Dattime the NOTAM was created
         public locationIcao: string, // ICAO code of the location the NOTAM applies to
+        public locationName: string, // Name of the location the NOTAM applies to
         public isIcaoFormat: boolean, // If the NOTAM is compliant with Doc ABC. If false, no Q-code decoding is available
         public key: string, // Concatenation of ID and Location to form unique id for all NOTAMS
         public locationType: NotamLocationType, // Location type, either airspace or airport
