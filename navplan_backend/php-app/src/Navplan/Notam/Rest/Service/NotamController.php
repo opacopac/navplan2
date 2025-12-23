@@ -4,10 +4,7 @@ namespace Navplan\Notam\Rest\Service;
 
 use InvalidArgumentException;
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\Notam\Domain\Query\INotamSearchByExtentQuery;
-use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
-use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
-use Navplan\Notam\Domain\Query\INotamSearchByRouteQuery;
+use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Notam\Rest\Model\ReadNotamByExtentRequest;
 use Navplan\Notam\Rest\Model\ReadNotamByIcaoRequest;
 use Navplan\Notam\Rest\Model\ReadNotamByPositionRequest;
@@ -20,10 +17,7 @@ use Navplan\System\Domain\Service\IHttpService;
 class NotamController implements IRestController
 {
     public function __construct(
-        private INotamSearchByExtentQuery $notamSearchByExtentQuery,
-        private INotamSearchByIcaoQuery $notamSearchByIcaoQuery,
-        private INotamSearchByPositionQuery $notamSearchByPositionQuery,
-        private INotamSearchByRouteQuery $notamSearchByRouteQuery,
+        private INotamService $notamService,
         private IHttpService $httpService
     )
     {
@@ -36,18 +30,15 @@ class NotamController implements IRestController
             case HttpRequestMethod::GET:
                 if ($this->httpService->hasGetArg(ReadNotamByIcaoRequest::ARG_ICAO)) {
                     $request = ReadNotamByIcaoRequest::fromRest($getArgs);
-                    $notamList = $this->notamSearchByIcaoQuery->searchByIcao($request->airportIcao,
-                        $request->interval);
+                    $notamList = $this->notamService->searchByIcao($request);
                     $response = new ReadNotamResponse($notamList);
                 } else if ($this->httpService->hasGetArg(ReadNotamByPositionRequest::ARG_LAT)) {
                     $request = ReadNotamByPositionRequest::fromRest($getArgs);
-                    $notamList = $this->notamSearchByPositionQuery->searchByPosition($request->position,
-                        $request->interval);
+                    $notamList = $this->notamService->searchByPosition($request);
                     $response = new ReadNotamResponse($notamList);
                 } else {
                     $request = ReadNotamByExtentRequest::fromRest($getArgs);
-                    $notamList = $this->notamSearchByExtentQuery->searchByExtent($request->extent, $request->zoom,
-                        $request->interval);
+                    $notamList = $this->notamService->searchByExtent($request);
                     $response = new ReadNotamResponse($notamList);
                 }
                 $this->httpService->sendArrayResponse($response->toRest());
@@ -56,8 +47,7 @@ class NotamController implements IRestController
                 $postArgs = $this->httpService->getPostArgs();
                 if ($this->httpService->hasPostArg(ReadNotamByRouteRequest::ARG_FLIGHTROUTE)) {
                     $request = ReadNotamByRouteRequest::fromRest($postArgs);
-                    $notamList = $this->notamSearchByRouteQuery->searchByRoute($request->flightroute,
-                        $request->maxDistFromRoute, $request->interval);
+                    $notamList = $this->notamService->searchByRoute($request);
                     $response = new ReadNotamResponse($notamList);
                     $this->httpService->sendArrayResponse($response->toRest());
                 } else {

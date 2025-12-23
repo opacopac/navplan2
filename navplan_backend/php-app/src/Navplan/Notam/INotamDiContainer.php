@@ -8,6 +8,7 @@ use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByRouteQuery;
 use Navplan\Notam\Domain\Service\INotamConfig;
+use Navplan\Notam\Domain\Service\INotamService;
 
 
 interface INotamDiContainer
@@ -15,6 +16,8 @@ interface INotamDiContainer
     function getNotamConfig(): INotamConfig;
 
     function getNotamController(): IRestController;
+
+    function getNotamService(): INotamService;
 
     function getNotamSearchByExtentQuery(): INotamSearchByExtentQuery;
 

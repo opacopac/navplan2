@@ -3,9 +3,9 @@
 namespace Navplan\Notam\Rest\Model;
 
 use Navplan\Common\Domain\Model\Extent2d;
-use Navplan\Common\Domain\Model\TimestampInterval;
 use Navplan\Common\Rest\Converter\RestTimestampIntervalConverter;
 use Navplan\Common\StringNumberHelper;
+use Navplan\Notam\Domain\Service\NotamExtentRequest;
 
 
 class ReadNotamByExtentRequest {
@@ -16,15 +16,7 @@ class ReadNotamByExtentRequest {
     const ARG_ZOOM = "zoom";
 
 
-    public function __construct(
-        public Extent2d $extent,
-        public int $zoom,
-        public TimestampInterval $interval
-    ) {
-    }
-
-
-    public static function fromRest(array $args): ReadNotamByExtentRequest {
+    public static function fromRest(array $args): NotamExtentRequest {
         $extent = Extent2d::createFromCoords(
             StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LON),
             StringNumberHelper::parseFloatOrError($args, self::ARG_MIN_LAT),
@@ -33,7 +25,7 @@ class ReadNotamByExtentRequest {
         );
         $zoom = StringNumberHelper::parseIntOrError($args, self::ARG_ZOOM);
 
-        return new ReadNotamByExtentRequest(
+        return new NotamExtentRequest(
             $extent,
             $zoom,
             RestTimestampIntervalConverter::fromRest($args)
