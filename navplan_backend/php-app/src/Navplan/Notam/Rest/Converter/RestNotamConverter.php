@@ -40,9 +40,9 @@ class RestNotamConverter {
      * @return array
      */
     public static function toRestList(array $notamList): array {
-        return array_map(
+        return array_values(array_map(
             function (Notam $notam) { return RestNotamConverter::toRest($notam); },
             $notamList
-        );
+        ));
     }
 }
