@@ -20,18 +20,20 @@ use Navplan\Config\IConfigDiContainer;
 use Navplan\Config\ProdConfigDiContainer;
 use Navplan\Exporter\IExporterDiContainer;
 use Navplan\Exporter\ProdExportDiContainer;
+use Navplan\Fir\IFirDiContainer;
+use Navplan\Fir\ProdFirDiContainer;
 use Navplan\Flightroute\IFlightrouteDiContainer;
 use Navplan\Flightroute\ProdFlightrouteDiContainer;
 use Navplan\Geoname\IGeonameDiContainer;
 use Navplan\Geoname\ProdGeonameDiContainer;
+use Navplan\MetarTaf\IMetarTafDiContainer;
+use Navplan\MetarTaf\ProdMetarTafDiContainer;
 use Navplan\MeteoForecast\IMeteoForecastDiContainer;
 use Navplan\MeteoForecast\ProdMeteoForecastDiContainer;
 use Navplan\MeteoGram\IMeteoGramDiContainer;
 use Navplan\MeteoGram\ProdMeteoGramDiContainer;
 use Navplan\MeteoSma\IMeteoSmaDiContainer;
 use Navplan\MeteoSma\ProdMeteoSmaDiContainer;
-use Navplan\MetarTaf\IMetarTafDiContainer;
-use Navplan\MetarTaf\ProdMetarTafDiContainer;
 use Navplan\Navaid\INavaidDiContainer;
 use Navplan\Navaid\ProdNavaidDiContainer;
 use Navplan\Notam\INotamDiContainer;
@@ -68,6 +70,7 @@ class ProdNavplanDiContainer
     private IAerodromeReportingDiContainer $aerodromeReportingDiContainer;
     private IAircraftDiContainer $aircraftDiContainer;
     private IAirspaceDiContainer $airspaceDiContainer;
+    private IFirDiContainer $firDiContainer;
     private INavaidDiContainer $navaidDiContainer;
     private IFlightrouteDiContainer $flightrouteDiContainer;
     private IGeonameDiContainer $geonameDiContainer;
@@ -203,6 +206,20 @@ class ProdNavplanDiContainer
         }
 
         return $this->airspaceDiContainer;
+    }
+
+
+    public function getFirDiContainer(): IFirDiContainer
+    {
+        if (!isset($this->firDiContainer)) {
+            $this->firDiContainer = new ProdFirDiContainer(
+                $this->getSystemDiContainer()->getLoggingService(),
+                $this->getPersistenceDiContainer()->getDbService(),
+                $this->getSystemDiContainer()->getHttpService()
+            );
+        }
+
+        return $this->firDiContainer;
     }
 
 
