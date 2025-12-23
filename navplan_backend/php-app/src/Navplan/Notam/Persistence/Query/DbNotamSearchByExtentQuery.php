@@ -21,7 +21,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbJoinType;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbColBuilder;
 
 
-class DbNotamSearchByExtentQuery implements INotamSearchByExtentQuery
+readonly class DbNotamSearchByExtentQuery implements INotamSearchByExtentQuery
 {
     private const int NOTAM_MAX_BOTTOM_FL = 195;
     private const int MIN_PIXEL_NOTAMAREA_DIAMETER = 30;
@@ -112,14 +112,9 @@ class DbNotamSearchByExtentQuery implements INotamSearchByExtentQuery
      */
     private function removeNonAreaNotams(array $notamList): array
     {
-        $areaNotamList = [];
-
-        foreach ($notamList as $notam) {
-            if ($notam->isAreaNotam()) {
-                $areaNotamList[] = $notam;
-            }
-        }
-
-        return $areaNotamList;
+        return array_filter(
+            $notamList,
+            fn (Notam $notam) => $notam->isAreaNotam()
+        );
     }
 }

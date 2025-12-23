@@ -22,7 +22,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbColBuilder;
 
 
-class DbNotamSearchByRouteQuery implements INotamSearchByRouteQuery
+readonly class DbNotamSearchByRouteQuery implements INotamSearchByRouteQuery
 {
     public function __construct(
         private IDbService $dbService

@@ -9,15 +9,15 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 
 class DbTableNotam extends DbTable
 {
-    public const TABLE_NAME = "icao_notam";
-    public const COL_ID = "id";
-    public const COL_NOTAM_ID = "notam_id";
-    public const COL_COUNTRY = "country";
-    public const COL_TYPE = "type";
-    public const COL_ICAO = "icao";
-    public const COL_STARTDATE = "startdate";
-    public const COL_ENDDATE = "enddate";
-    public const COL_NOTAM = "notam";
+    public const string TABLE_NAME = "icao_notam";
+    public const string COL_ID = "id";
+    public const string COL_NOTAM_ID = "notam_id";
+    public const string COL_COUNTRY = "country";
+    public const string COL_TYPE = "type";
+    public const string COL_ICAO = "icao";
+    public const string COL_STARTDATE = "startdate";
+    public const string COL_ENDDATE = "enddate";
+    public const string COL_NOTAM = "notam";
 
 
     public function __construct(?string $alias = null)
@@ -75,7 +75,7 @@ class DbTableNotam extends DbTable
         return self::getCol(self::COL_ENDDATE);
     }
 
-    
+
     public function colNotam(): DbCol
     {
         return self::getCol(self::COL_NOTAM);

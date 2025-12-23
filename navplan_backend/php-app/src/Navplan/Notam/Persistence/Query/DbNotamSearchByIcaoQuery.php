@@ -13,7 +13,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
 
-class DbNotamSearchByIcaoQuery implements INotamSearchByIcaoQuery
+readonly class DbNotamSearchByIcaoQuery implements INotamSearchByIcaoQuery
 {
     public function __construct(
         private IDbService $dbService

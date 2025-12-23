@@ -9,14 +9,14 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 
 class DbTableNotamGeometry extends DbTable
 {
-    public const TABLE_NAME = "icao_notam_geometry2";
-    public const COL_ID = "id";
-    public const COL_ICAO_NOTAM_ID = "icao_notam_id";
-    public const COL_GEOMETRY = "geometry";
-    public const COL_EXTENT = "extent";
-    public const COL_DIAMETER = "diameter";
-    public const COL_ZOOMMIN = "zoommin";
-    public const COL_ZOOMMAX = "zoommax";
+    public const string TABLE_NAME = "icao_notam_geometry2";
+    public const string COL_ID = "id";
+    public const string COL_ICAO_NOTAM_ID = "icao_notam_id";
+    public const string COL_GEOMETRY = "geometry";
+    public const string COL_EXTENT = "extent";
+    public const string COL_DIAMETER = "diameter";
+    public const string COL_ZOOMMIN = "zoommin";
+    public const string COL_ZOOMMAX = "zoommax";
 
 
     public function __construct(?string $alias = null)

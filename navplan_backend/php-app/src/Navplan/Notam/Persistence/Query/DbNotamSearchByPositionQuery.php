@@ -18,7 +18,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbJoinType;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
 
-class DbNotamSearchByPositionQuery implements INotamSearchByPositionQuery
+readonly class DbNotamSearchByPositionQuery implements INotamSearchByPositionQuery
 {
     public function __construct(
         private IDbService $dbService

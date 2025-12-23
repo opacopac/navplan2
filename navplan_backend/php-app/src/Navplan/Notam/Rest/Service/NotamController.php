@@ -23,7 +23,7 @@ class NotamController implements IRestController
     {
     }
 
-    public function processRequest()
+    public function processRequest(): void
     {
         $getArgs = $this->httpService->getGetArgs();
         switch ($this->httpService->getRequestMethod()) {
