@@ -44,7 +44,7 @@ readonly class DbNotamSearchByPositionQuery implements INotamSearchByPositionQue
                 $t,
                 $t->colId(),
                 $t->colNotam(),
-                "ad.name as ad_name",
+                "ad.name as ad_name", // TODO: add support for table aliases in query builder
                 "fir.name as fir_name"
             )
             ->join(DbJoinType::INNER, $tGeo, $tGeo->colIcaoNotamId(), $t->colId())
