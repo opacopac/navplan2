@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Fir\Persistence\Model;
+namespace Navplan\Airspace\Persistence\Model;
 
 use Navplan\System\DbQueryBuilder\Domain\Model\DbRow;
 

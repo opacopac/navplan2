@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Fir\Persistence\Query;
+namespace Navplan\Airspace\Persistence\Query;
 
-use Navplan\Fir\Domain\Model\Fir;
-use Navplan\Fir\Domain\Query\IFirReadByIcaoQuery;
-use Navplan\Fir\Persistence\Model\DbFirConverter;
-use Navplan\Fir\Persistence\Model\DbTableFir;
+use Navplan\Airspace\Domain\Model\Fir;
+use Navplan\Airspace\Domain\Query\IFirReadByIcaoQuery;
+use Navplan\Airspace\Persistence\Model\DbFirConverter;
+use Navplan\Airspace\Persistence\Model\DbTableFir;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 use Navplan\System\DbQueryBuilder\MySql\MySqlDbColBuilder;

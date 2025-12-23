@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Fir\Domain\Query;
+namespace Navplan\Airspace\Domain\Service;
 
-use Navplan\Fir\Domain\Model\Fir;
+use Navplan\Airspace\Domain\Model\Fir;
 
 
-interface IFirReadByIcaoQuery {
+interface IFirService {
     /**
      * @param string $icao
      * @return Fir|null

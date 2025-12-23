@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Fir\Domain\Model;
+namespace Navplan\Airspace\Domain\Model;
 
 use Navplan\Common\Domain\Model\MultiRing2d;
 use Navplan\Common\Domain\Model\Position2d;

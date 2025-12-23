@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Fir\Domain\Service;
+namespace Navplan\Airspace\Domain\Service;
 
-use Navplan\Fir\Domain\Model\Fir;
-use Navplan\Fir\Domain\Query\IFirReadByIcaoQuery;
+use Navplan\Airspace\Domain\Model\Fir;
+use Navplan\Airspace\Domain\Query\IFirReadByIcaoQuery;
 
 
 class FirService implements IFirService {

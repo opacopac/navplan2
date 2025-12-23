@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Fir\Persistence\Model;
+namespace Navplan\Airspace\Persistence\Model;
 
+use Navplan\Airspace\Domain\Model\Fir;
 use Navplan\Common\Domain\Model\MultiRing2d;
 use Navplan\Common\Domain\Model\Position2d;
-use Navplan\Fir\Domain\Model\Fir;
 use Navplan\System\Db\Domain\Model\DbEntityConverter;
 
 

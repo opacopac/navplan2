@@ -7,14 +7,19 @@ use Navplan\Airspace\Domain\Command\IAirspaceInsertAllCommand;
 use Navplan\Airspace\Domain\Query\IAirspaceSearchByExtentQuery;
 use Navplan\Airspace\Domain\Query\IAirspaceSearchByPositionQuery;
 use Navplan\Airspace\Domain\Query\IAirspaceSearchByRouteQuery;
+use Navplan\Airspace\Domain\Query\IFirReadByIcaoQuery;
 use Navplan\Airspace\Domain\Service\AirspaceService;
+use Navplan\Airspace\Domain\Service\FirService;
 use Navplan\Airspace\Domain\Service\IAirspaceService;
+use Navplan\Airspace\Domain\Service\IFirService;
 use Navplan\Airspace\Persistence\Command\DbAirspaceDeleteAllCommand;
 use Navplan\Airspace\Persistence\Command\DbAirspaceInsertAllCommand;
 use Navplan\Airspace\Persistence\Query\DbAirspaceSearchByExtentQuery;
 use Navplan\Airspace\Persistence\Query\DbAirspaceSearchByPositionQuery;
 use Navplan\Airspace\Persistence\Query\DbAirspaceSearchByRouteQuery;
+use Navplan\Airspace\Persistence\Query\DbFirReadByIcaoQuery;
 use Navplan\Airspace\Rest\Controller\AirspaceController;
+use Navplan\Airspace\Rest\Controller\FirController;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
@@ -24,12 +29,15 @@ use Navplan\System\Domain\Service\ILoggingService;
 class ProdAirspaceDiContainer implements IAirspaceDiContainer
 {
     private IRestController $airspaceController;
+    private IRestController $firController;
     private IAirspaceService $airspaceService;
+    private IFirService $firService;
     private IAirspaceSearchByExtentQuery $airspaceSearchByExtentQuery;
     private IAirspaceSearchByPositionQuery $airspaceSearchByPositionQuery;
     private IAirspaceSearchByRouteQuery $airspaceSearchByRouteQuery;
     private IAirspaceInsertAllCommand $airspaceInsertAllCommand;
     private IAirspaceDeleteAllCommand $airspaceDeleteAllCommand;
+    private IFirReadByIcaoQuery $firReadByIcaoQuery;
 
 
     public function __construct(
@@ -51,6 +59,31 @@ class ProdAirspaceDiContainer implements IAirspaceDiContainer
         }
 
         return $this->airspaceController;
+    }
+
+
+    public function getFirController(): IRestController
+    {
+        if (!isset($this->firController)) {
+            $this->firController = new FirController(
+                $this->getFirService(),
+                $this->httpService
+            );
+        }
+
+        return $this->firController;
+    }
+
+
+    public function getFirService(): IFirService
+    {
+        if (!isset($this->firService)) {
+            $this->firService = new FirService(
+                $this->getFirReadByIcaoQuery()
+            );
+        }
+
+        return $this->firService;
     }
 
 
@@ -129,5 +162,17 @@ class ProdAirspaceDiContainer implements IAirspaceDiContainer
         }
 
         return $this->airspaceDeleteAllCommand;
+    }
+
+
+    public function getFirReadByIcaoQuery(): IFirReadByIcaoQuery
+    {
+        if (!isset($this->firReadByIcaoQuery)) {
+            $this->firReadByIcaoQuery = new DbFirReadByIcaoQuery(
+                $this->dbService
+            );
+        }
+
+        return $this->firReadByIcaoQuery;
     }
 }

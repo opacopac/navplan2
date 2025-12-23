@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Fir\Rest\Controller;
+namespace Navplan\Airspace\Rest\Controller;
 
 use InvalidArgumentException;
+use Navplan\Airspace\Domain\Service\IFirService;
+use Navplan\Airspace\Rest\Converter\RestFirConverter;
 use Navplan\Common\Rest\Controller\IRestController;
-use Navplan\Fir\Domain\Service\IFirService;
-use Navplan\Fir\Rest\Converter\RestFirConverter;
 use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 

@@ -56,11 +56,8 @@ RewriteRule ^aircrafts/typedesignators$ %{ENV:BASEPATH}Aircraft/AircraftTypeDesi
 # Rewrite for /api/airspaces
 RewriteRule ^airspaces$ %{ENV:BASEPATH}Airspace/Airspace.php [L,QSA]
 
-
-### FIRs ###
-
 # Rewrite for /api/firs
-RewriteRule ^firs$ %{ENV:BASEPATH}Fir/Fir.php [L,QSA]
+RewriteRule ^firs$ %{ENV:BASEPATH}Airspace/Fir.php [L,QSA]
 
 
 ### exports ###

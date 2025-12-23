@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Fir\Rest\Converter;
+namespace Navplan\Airspace\Rest\Converter;
 
+use Navplan\Airspace\Domain\Model\Fir;
 use Navplan\Common\Rest\Converter\RestPosition2dConverter;
-use Navplan\Fir\Domain\Model\Fir;
 
 
 class RestFirConverter {
