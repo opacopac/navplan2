@@ -35,8 +35,13 @@ readonly class DbNotamSearchByIcaoQuery implements INotamSearchByIcaoQuery
         $minTimestampStr = DbHelper::getDbUtcTimeString($interval->start->toMs());
 
         $query = $this->dbService->getQueryBuilder()
-            ->selectFrom($t, $t->colId(), $t->colNotam())
-            ->join(DbJoinType::LEFT, $tAd, $tAd->colId(), $t->colIcao())
+            ->selectFrom($t,
+                $t->colId(),
+                $t->colNotam(),
+                "ad.name as ad_name", // TODO: add support for table aliases in query builder
+                "fir.name as fir_name"
+            )
+            ->join(DbJoinType::LEFT, $tAd, $tAd->colIcao(), $t->colIcao())
             ->join(DbJoinType::LEFT, $tFir, $tFir->colIcao(), $t->colIcao())
             ->where(DbCondMulti::all(
                 DbCondSimple::equals($t->colIcao(), $airportIcao),

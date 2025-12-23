@@ -66,10 +66,12 @@ readonly class DbNotamSearchByExtentQuery implements INotamSearchByExtentQuery
                 $t->colId(),
                 $t->colNotam(),
                 $tGeo->colGeometry(),
-                "ST_AsText(" . MySqlDbColBuilder::buildColName($tGeo->colExtent()) . ") AS extent"
+                "ST_AsText(" . MySqlDbColBuilder::buildColName($tGeo->colExtent()) . ") AS extent",
+                "ad.name as ad_name", // TODO: add support for table aliases in query builder
+                "fir.name as fir_name"
             )
             ->join(DbJoinType::INNER, $tGeo, $tGeo->colIcaoNotamId(), $t->colId())
-            ->join(DbJoinType::LEFT, $tAd, $tAd->colId(), $t->colIcao())
+            ->join(DbJoinType::LEFT, $tAd, $tAd->colIcao(), $t->colIcao())
             ->join(DbJoinType::LEFT, $tFir, $tFir->colIcao(), $t->colIcao())
             ->where(DbCondMulti::all(
                 DbCondIn::create($t->colIcao(), $icaoList),
