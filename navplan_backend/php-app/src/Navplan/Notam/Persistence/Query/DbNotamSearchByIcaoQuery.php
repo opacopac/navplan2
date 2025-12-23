@@ -2,6 +2,8 @@
 
 namespace Navplan\Notam\Persistence\Query;
 
+use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
+use Navplan\Airspace\Persistence\Model\DbTableFir;
 use Navplan\Common\Domain\Model\TimestampInterval;
 use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
 use Navplan\Notam\Persistence\Model\DbTableNotam;
@@ -10,6 +12,7 @@ use Navplan\System\Db\MySql\DbHelper;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondMulti;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
+use Navplan\System\DbQueryBuilder\Domain\Model\DbJoinType;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbSortOrder;
 
 
@@ -25,12 +28,16 @@ readonly class DbNotamSearchByIcaoQuery implements INotamSearchByIcaoQuery
     public function searchByIcao(string $airportIcao, TimestampInterval $interval): array
     {
         $t = new DbTableNotam('ntm');
+        $tAd = new DbTableAirport('ad');
+        $tFir = new DbTableFir('fir');
 
         $maxTimestampStr = DbHelper::getDbUtcTimeString($interval->end->toMs());
         $minTimestampStr = DbHelper::getDbUtcTimeString($interval->start->toMs());
 
         $query = $this->dbService->getQueryBuilder()
             ->selectFrom($t, $t->colId(), $t->colNotam())
+            ->join(DbJoinType::LEFT, $tAd, $tAd->colId(), $t->colIcao())
+            ->join(DbJoinType::LEFT, $tFir, $tFir->colIcao(), $t->colIcao())
             ->where(DbCondMulti::all(
                 DbCondSimple::equals($t->colIcao(), $airportIcao),
                 DbCondSimple::create($t->colStartDate(), DbCondOp::LT_OR_E, $maxTimestampStr),

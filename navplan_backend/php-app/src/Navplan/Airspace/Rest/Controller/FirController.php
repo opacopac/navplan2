@@ -10,7 +10,7 @@ use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 
 
-class FirController implements IRestController
+readonly class FirController implements IRestController
 {
     public function __construct(
         private IFirService $firService,
@@ -20,13 +20,13 @@ class FirController implements IRestController
     }
 
 
-    public function processRequest()
+    public function processRequest(): void
     {
         $args = $this->httpService->getGetArgs();
 
         switch ($this->httpService->getRequestMethod()) {
             case HttpRequestMethod::GET:
-                if (!isset($args["icao"])) {
+                if (!isset($args["icao"])) { // TODO: move into constant
                     throw new InvalidArgumentException("missing required parameter: icao");
                 }
 

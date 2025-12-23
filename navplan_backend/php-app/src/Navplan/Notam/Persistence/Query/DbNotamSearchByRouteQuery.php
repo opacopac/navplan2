@@ -2,6 +2,8 @@
 
 namespace Navplan\Notam\Persistence\Query;
 
+use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
+use Navplan\Airspace\Persistence\Model\DbTableFir;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\TimestampInterval;
 use Navplan\Common\GeoHelper;
@@ -49,6 +51,8 @@ readonly class DbNotamSearchByRouteQuery implements INotamSearchByRouteQuery
 
         $t = new DbTableNotam('ntm');
         $tGeo = new DbTableNotamGeometry('geo');
+        $tAd = new DbTableAirport('ad');
+        $tFir = new DbTableFir('fir');
 
         // Build lineboxes for each consecutive waypoint pair
         $lineBoxes = [];
@@ -80,6 +84,8 @@ readonly class DbNotamSearchByRouteQuery implements INotamSearchByRouteQuery
                 "ST_AsText(" . MySqlDbColBuilder::buildColName($tGeo->colExtent()) . ") AS extent"
             )
             ->join(DbJoinType::INNER, $tGeo, $tGeo->colIcaoNotamId(), $t->colId())
+            ->join(DbJoinType::LEFT, $tAd, $tAd->colId(), $t->colIcao())
+            ->join(DbJoinType::LEFT, $tFir, $tFir->colIcao(), $t->colIcao())
             ->where(DbCondMulti::all(
                 DbCondSimple::create($t->colStartDate(), DbCondOp::LT_OR_E, $maxTimestampStr),
                 DbCondSimple::create($t->colEndDate(), DbCondOp::GT_OR_E,  $minTimestampStr),

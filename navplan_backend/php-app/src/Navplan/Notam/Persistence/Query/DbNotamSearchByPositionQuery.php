@@ -2,6 +2,8 @@
 
 namespace Navplan\Notam\Persistence\Query;
 
+use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
+use Navplan\Airspace\Persistence\Model\DbTableFir;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\Model\TimestampInterval;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
@@ -31,13 +33,23 @@ readonly class DbNotamSearchByPositionQuery implements INotamSearchByPositionQue
     {
         $t = new DbTableNotam('ntm');
         $tGeo = new DbTableNotamGeometry('geo');
+        $tAd = new DbTableAirport('ad');
+        $tFir = new DbTableFir('fir');
 
         $maxTimestampStr = DbHelper::getDbUtcTimeString($interval->end->toMs());
         $minTimestampStr = DbHelper::getDbUtcTimeString($interval->start->toMs());
 
         $query = $this->dbService->getQueryBuilder()
-            ->selectFrom($t, $t->colId(), $t->colNotam())
+            ->selectFrom(
+                $t,
+                $t->colId(),
+                $t->colNotam(),
+                "ad.name as ad_name",
+                "fir.name as fir_name"
+            )
             ->join(DbJoinType::INNER, $tGeo, $tGeo->colIcaoNotamId(), $t->colId())
+            ->join(DbJoinType::LEFT, $tAd, $tAd->colId(), $t->colIcao())
+            ->join(DbJoinType::LEFT, $tFir, $tFir->colIcao(), $t->colIcao())
             ->where(DbCondMulti::all(
                 DbCondSimple::create($t->colStartDate(), DbCondOp::LT_OR_E, $maxTimestampStr),
                 DbCondSimple::create($t->colEndDate(), DbCondOp::GT_OR_E, $minTimestampStr),

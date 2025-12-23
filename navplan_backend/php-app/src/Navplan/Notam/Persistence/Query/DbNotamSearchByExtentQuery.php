@@ -2,6 +2,8 @@
 
 namespace Navplan\Notam\Persistence\Query;
 
+use Navplan\Aerodrome\Persistence\Model\DbTableAirport;
+use Navplan\Airspace\Persistence\Model\DbTableFir;
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Domain\Model\TimestampInterval;
 use Navplan\Common\GeoHelper;
@@ -52,6 +54,8 @@ readonly class DbNotamSearchByExtentQuery implements INotamSearchByExtentQuery
 
         $t = new DbTableNotam('ntm');
         $tGeo = new DbTableNotamGeometry('geo');
+        $tAd = new DbTableAirport('ad');
+        $tFir = new DbTableFir('fir');
 
         $maxTimestampStr = DbHelper::getDbUtcTimeString($interval->end->toMs());
         $minTimestampStr = DbHelper::getDbUtcTimeString($interval->start->toMs());
@@ -65,6 +69,8 @@ readonly class DbNotamSearchByExtentQuery implements INotamSearchByExtentQuery
                 "ST_AsText(" . MySqlDbColBuilder::buildColName($tGeo->colExtent()) . ") AS extent"
             )
             ->join(DbJoinType::INNER, $tGeo, $tGeo->colIcaoNotamId(), $t->colId())
+            ->join(DbJoinType::LEFT, $tAd, $tAd->colId(), $t->colIcao())
+            ->join(DbJoinType::LEFT, $tFir, $tFir->colIcao(), $t->colIcao())
             ->where(DbCondMulti::all(
                 DbCondIn::create($t->colIcao(), $icaoList),
                 DbCondSimple::create($t->colStartDate(), DbCondOp::LT_OR_E, $maxTimestampStr),

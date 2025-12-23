@@ -12,7 +12,7 @@ use Navplan\System\Domain\Model\HttpRequestMethod;
 use Navplan\System\Domain\Service\IHttpService;
 
 
-class AirspaceController implements IRestController
+readonly class AirspaceController implements IRestController
 {
     public function __construct(
         private IAirspaceService $airspaceService,
@@ -22,7 +22,7 @@ class AirspaceController implements IRestController
     }
 
 
-    public function processRequest()
+    public function processRequest(): void
     {
         $getArgs = $this->httpService->getGetArgs();
         switch ($this->httpService->getRequestMethod()) {
