@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\Rest\Model;
+namespace Navplan\Notam\Rest\Converter;
 
 use Navplan\Notam\Domain\Model\Notam;
 

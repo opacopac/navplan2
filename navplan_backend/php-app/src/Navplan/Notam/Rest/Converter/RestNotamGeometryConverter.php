@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\Rest\Model;
+namespace Navplan\Notam\Rest\Converter;
 
 use InvalidArgumentException;
 use Navplan\Common\Domain\Model\Circle2d;

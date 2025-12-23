@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\Rest\Model;
+namespace Navplan\Notam\Rest\Converter;
 
 use Navplan\Common\Rest\Converter\RestLengthConverter;
 use Navplan\Common\Rest\Converter\RestTimestampIntervalConverter;
@@ -8,7 +8,7 @@ use Navplan\Flightroute\Rest\Converter\RestFlightrouteConverter;
 use Navplan\Notam\Domain\Service\NotamRouteRequest;
 
 
-class ReadNotamByRouteRequest {
+class RestNotamByRouteRequestConverter {
     const ARG_FLIGHTROUTE = "flightroute";
     const ARG_MAX_DIST = "maxdist";
 

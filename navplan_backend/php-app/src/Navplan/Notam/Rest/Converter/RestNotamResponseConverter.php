@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\Rest\Model;
+namespace Navplan\Notam\Rest\Converter;
 
 
-class ReadNotamResponse {
+class RestNotamResponseConverter {
     public function __construct(public array $notams) {
     }
 

@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\Rest\Model;
+namespace Navplan\Notam\Rest\Converter;
 
 use Navplan\Common\Rest\Converter\RestTimestampIntervalConverter;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Notam\Domain\Service\NotamIcaoRequest;
 
 
-class ReadNotamByIcaoRequest {
+class RestNotamByIcaoRequestConverter {
     const ARG_ICAO = "icao";
 
 

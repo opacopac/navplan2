@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\Rest\Model;
+namespace Navplan\Notam\Rest\Converter;
 
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Rest\Converter\RestTimestampIntervalConverter;
@@ -8,7 +8,7 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\Notam\Domain\Service\NotamPositionRequest;
 
 
-class ReadNotamByPositionRequest {
+class RestNotamByPositionRequestConverter {
     const ARG_LON = "longitude";
     const ARG_LAT = "latitude";
 

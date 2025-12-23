@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Navplan\Notam\Rest\Model;
+namespace Navplan\Notam\Rest\Converter;
 
 use Navplan\Common\Domain\Model\Extent2d;
 use Navplan\Common\Rest\Converter\RestTimestampIntervalConverter;
@@ -8,7 +8,7 @@ use Navplan\Common\StringNumberHelper;
 use Navplan\Notam\Domain\Service\NotamExtentRequest;
 
 
-class ReadNotamByExtentRequest {
+class RestNotamByExtentRequestConverter {
     const ARG_MIN_LON = "minlon";
     const ARG_MIN_LAT = "minlat";
     const ARG_MAX_LON = "maxlon";

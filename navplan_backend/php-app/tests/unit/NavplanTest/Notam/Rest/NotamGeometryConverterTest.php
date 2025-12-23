@@ -12,7 +12,7 @@ use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\Common\Rest\Converter\RestAltitudeConverter;
 use Navplan\Common\Rest\Converter\RestCircle2dConverter;
 use Navplan\Notam\Domain\Model\NotamGeometry;
-use Navplan\Notam\Rest\Model\RestNotamGeometryConverter;
+use Navplan\Notam\Rest\Converter\RestNotamGeometryConverter;
 use NavplanTest\Notam\Mocks\DummyNotamGeometry1;
 use NavplanTest\Notam\Mocks\DummyNotamGeometry2;
 use PHPUnit\Framework\TestCase;
