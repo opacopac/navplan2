@@ -9,6 +9,8 @@ use Navplan\System\Db\Domain\Model\IDbResult;
 
 class DbNotamResultHelper
 {
+    private const string QCODE_IS_CHECKLIST_NOTAM = "KKKK";
+
     /**
      * @param IDbResult $result
      * @return Notam[]
@@ -20,7 +22,7 @@ class DbNotamResultHelper
             $notam = DbNotamConverter::fromDbRow($row);
 
             // filter by notam type (no KKKK)
-            if ($notam->qcode == "KKKK") {
+            if ($notam->qcode == self::QCODE_IS_CHECKLIST_NOTAM) {
                 continue;
             }
 
