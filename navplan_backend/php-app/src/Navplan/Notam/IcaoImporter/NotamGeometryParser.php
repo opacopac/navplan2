@@ -5,6 +5,7 @@ namespace Navplan\Notam\IcaoImporter;
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Notam\Domain\Query\IReadNotamChunkQuery;
+use Navplan\Notam\Domain\Query\IReadNotamsByKeyQuery;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
 use Navplan\System\Domain\Service\ILoggingService;
@@ -18,6 +19,7 @@ global $diContainer;
 $parser = new NotamGeometryParser(
     $diContainer->getSystemDiContainer()->getLoggingService(),
     $diContainer->getPersistenceDiContainer()->getDbService(),
+    $diContainer->getNotamDiContainer()->getReadNotamsByKeyQuery(),
     $diContainer->getNotamDiContainer()->getReadNotamChunkQuery(),
 );
 if (isset($_GET["testnotamid"])) {
@@ -42,6 +44,7 @@ class NotamGeometryParser
     function __construct(
         private readonly ILoggingService $logger,
         private readonly IDbService $dbService,
+        private readonly IReadNotamsByKeyQuery $readNotamsByKeyQuery,
         private readonly IReadNotamChunkQuery $readNotamChunkQuery,
     )
     {
@@ -52,7 +55,7 @@ class NotamGeometryParser
     {
         $testNotamId = StringNumberHelper::checkEscapeString($this->dbService, $testNotamId, 1, 20);
         $this->logger->info("loading test notam '" . $testNotamId . "'...");
-        $notamList = $this->loadNotamByKey($testNotamId);
+        $notamList = $this->readNotamsByKeyQuery->readNotamsByKey($testNotamId);
         if (count($notamList) == 0) {
             $this->logger->warning("notam not found, exiting.");
             return;
@@ -179,23 +182,6 @@ class NotamGeometryParser
     }
 
 
-    private function loadNotamByKey(string $notamKey): array
-    {
-        $query = "SELECT id, icao, notam FROM icao_notam";
-        $query .= " WHERE notam_id = '" . $notamKey . "'";
-        $result = $this->dbService->execMultiResultQuery($query, "error reading notams");
-
-        $notamList = array();
-        while ($rs = $result->fetch_assoc()) {
-            $notamList[] = array(
-                "id" => $rs["id"],
-                "icao" => $rs["icao"],
-                "notam" => $rs["notam"]
-            );
-        }
-
-        return $notamList;
-    }
 
 
     private function loadExtentList(array $notamList): array
@@ -733,7 +719,7 @@ class NotamGeometryParser
     }
 
 
-    private function tryFindMatchingAirspace(&$notamList)
+    private function tryFindMatchingAirspace(&$notamList): void
     {
         // load intersecting airspaces from db
         $typeCatDict = array("RP" => ["PROHIBITED"], "RR" => ["RESTRICTED"], "RT" => ["RESTRICTED"], "RD" => ["DANGER", "PROHIBITED"], "RM" => ["DANGER", "RESTRICTED", "PROHIBITED"]);
@@ -960,7 +946,7 @@ class NotamGeometryParser
     }
 
 
-    private static function convertDbPolygonToArray($polygonDbText)
+    private static function convertDbPolygonToArray($polygonDbText): array
     {
         // prepare coordinates
         $polygon = [];

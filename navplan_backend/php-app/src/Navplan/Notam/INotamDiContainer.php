@@ -8,6 +8,7 @@ use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByRouteQuery;
 use Navplan\Notam\Domain\Query\IReadNotamChunkQuery;
+use Navplan\Notam\Domain\Query\IReadNotamsByKeyQuery;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\Notam\Domain\Service\INotamService;
 
@@ -27,6 +28,8 @@ interface INotamDiContainer
     function getNotamSearchByPositionQuery(): INotamSearchByPositionQuery;
 
     function getNotamSearchByRouteQuery(): INotamSearchByRouteQuery;
+
+    function getReadNotamsByKeyQuery(): IReadNotamsByKeyQuery;
 
     function getReadNotamChunkQuery(): IReadNotamChunkQuery;
 }

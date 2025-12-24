@@ -9,6 +9,7 @@ use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByRouteQuery;
 use Navplan\Notam\Domain\Query\IReadNotamChunkQuery;
+use Navplan\Notam\Domain\Query\IReadNotamsByKeyQuery;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Notam\Domain\Service\NotamService;
@@ -17,6 +18,7 @@ use Navplan\Notam\Persistence\Query\DbNotamSearchByIcaoQuery;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByPositionQuery;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByRouteQuery;
 use Navplan\Notam\Persistence\Query\DbReadNotamChunkQuery;
+use Navplan\Notam\Persistence\Query\DbReadNotamsByKeyQuery;
 use Navplan\Notam\Rest\Service\NotamController;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
@@ -31,6 +33,7 @@ class ProdNotamDiContainer implements INotamDiContainer
     private INotamSearchByPositionQuery $searchByPositionQuery;
     private INotamSearchByIcaoQuery $searchByIcaoQuery;
     private INotamSearchByRouteQuery $searchByRouteQuery;
+    private IReadNotamsByKeyQuery $readNotamsByKeyQuery;
     private IReadNotamChunkQuery $readNotamChunkQuery;
 
 
@@ -117,6 +120,16 @@ class ProdNotamDiContainer implements INotamDiContainer
         }
 
         return $this->searchByRouteQuery;
+    }
+
+
+    public function getReadNotamsByKeyQuery(): IReadNotamsByKeyQuery
+    {
+        if (!isset($this->readNotamsByKeyQuery)) {
+            $this->readNotamsByKeyQuery = new DbReadNotamsByKeyQuery($this->dbService);
+        }
+
+        return $this->readNotamsByKeyQuery;
     }
 
 
