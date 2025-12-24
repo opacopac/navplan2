@@ -2,8 +2,6 @@
 
 namespace Navplan\Notam\IcaoImporter;
 
-require_once __DIR__ . "/../../RestServiceBootstrap.php";
-
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
 use Navplan\System\Db\Domain\Service\IDbService;
@@ -11,11 +9,14 @@ use Navplan\System\Db\MySql\DbHelper;
 use Navplan\System\Domain\Service\ILoggingService;
 
 
+require_once __DIR__ . "/../../ConsoleBootstrap.php";
+
+
 global $diContainer;
 
 $parser = new NotamGeometryParser(
     $diContainer->getSystemDiContainer()->getLoggingService(),
-    $diContainer->getDbService()
+    $diContainer->getPersistenceDiContainer()->getDbService()
 );
 if (isset($_GET["testnotamid"])) {
     $parser->test($_GET["testnotamid"]);
@@ -26,14 +27,14 @@ if (isset($_GET["testnotamid"])) {
 
 class NotamGeometryParser
 {
-    const REGEXP_PART_COORDPAIR = '(\d{2})\D?(\d{2})\D?(\d{2}|\d{2}\.\d+)\D?(N|S)\s?(\d{2,3})\D?(\d{2})\D?(\d{2}|\d{2}\.\d+)\D?(E|W)';
-    const REGEXP_PART_RADIUS = '(RADIUS|AROUND|CENTERED)';
-    const REGEXP_PART_RADVAL = '(\d+[\.\,]?\d*)\s?(NM|KM|M)(?=\W)';
-    const REGEXP_PART_NOBRACKETS_NUMS = '[^\(\)0-9]+?';
-    const PROCESS_CHUNK_SIZE = 1000;
-    const MIN_PIXEL_COORDINATE_RESOLUTION = 1.0;
-    const MIN_ZOOM = 0;
-    const MAX_ZOOM = 14;
+    const string REGEXP_PART_COORDPAIR = '(\d{2})\D?(\d{2})\D?(\d{2}|\d{2}\.\d+)\D?(N|S)\s?(\d{2,3})\D?(\d{2})\D?(\d{2}|\d{2}\.\d+)\D?(E|W)';
+    const string REGEXP_PART_RADIUS = '(RADIUS|AROUND|CENTERED)';
+    const string REGEXP_PART_RADVAL = '(\d+[\.\,]?\d*)\s?(NM|KM|M)(?=\W)';
+    const string REGEXP_PART_NOBRACKETS_NUMS = '[^\(\)0-9]+?';
+    const int PROCESS_CHUNK_SIZE = 1000;
+    const float MIN_PIXEL_COORDINATE_RESOLUTION = 1.0;
+    const int MIN_ZOOM = 0;
+    const int MAX_ZOOM = 14;
 
 
     function __construct(
