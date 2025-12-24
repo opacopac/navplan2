@@ -2,8 +2,9 @@
 
 namespace Navplan\Notam\Persistence\Query;
 
+use Navplan\Notam\Domain\Model\RawNotam;
 use Navplan\Notam\Domain\Query\IReadNotamsByKeyQuery;
-use Navplan\Notam\Persistence\Model\DbNotamConverter;
+use Navplan\Notam\Persistence\Model\DbRawNotamConverter;
 use Navplan\Notam\Persistence\Model\DbTableNotam;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
@@ -19,7 +20,7 @@ readonly class DbReadNotamsByKeyQuery implements IReadNotamsByKeyQuery
 
     /**
      * @param string $notamKey
-     * @return array
+     * @return RawNotam[]
      */
     public function readNotamsByKey(string $notamKey): array
     {
@@ -30,8 +31,8 @@ readonly class DbReadNotamsByKeyQuery implements IReadNotamsByKeyQuery
             ->where(DbCondSimple::create($t->colNotamId(), DbCondOp::EQ, $notamKey))
             ->build();
 
-        $result = $this->dbService->execMultiResultQuery($query, "error reading notams");
-        $converter = new DbNotamConverter($t);
+        $result = $this->dbService->execMultiResultQuery($query, "error reading raw notams by key");
+        $converter = new DbRawNotamConverter($t);
 
         return $converter->fromDbResult($result);
 

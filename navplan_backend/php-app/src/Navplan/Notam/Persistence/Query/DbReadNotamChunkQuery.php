@@ -2,9 +2,9 @@
 
 namespace Navplan\Notam\Persistence\Query;
 
-use Navplan\Notam\Domain\Model\Notam;
+use Navplan\Notam\Domain\Model\RawNotam;
 use Navplan\Notam\Domain\Query\IReadNotamChunkQuery;
-use Navplan\Notam\Persistence\Model\DbNotamConverter;
+use Navplan\Notam\Persistence\Model\DbRawNotamConverter;
 use Navplan\Notam\Persistence\Model\DbTableNotam;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOp;
@@ -24,7 +24,7 @@ readonly class DbReadNotamChunkQuery implements IReadNotamChunkQuery
     /**
      * @param int $lastNotamId
      * @param int $maxCount
-     * @return Notam[]
+     * @return RawNotam[]
      */
     public function readNotamChunk(int $lastNotamId, int $maxCount): array
     {
@@ -37,8 +37,8 @@ readonly class DbReadNotamChunkQuery implements IReadNotamChunkQuery
             ->limit($maxCount)
             ->build();
 
-        $result = $this->dbService->execMultiResultQuery($query, "error reading notam chunk from db");
-        $converter = new DbNotamConverter($t);
+        $result = $this->dbService->execMultiResultQuery($query, "error reading raw notam chunk from db");
+        $converter = new DbRawNotamConverter($t);
 
         return $converter->fromDbResult($result);
     }

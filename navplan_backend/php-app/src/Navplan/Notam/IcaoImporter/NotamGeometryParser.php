@@ -4,6 +4,7 @@ namespace Navplan\Notam\IcaoImporter;
 
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
+use Navplan\Notam\Domain\Model\RawNotam;
 use Navplan\Notam\Domain\Query\IReadNotamChunkQuery;
 use Navplan\Notam\Domain\Query\IReadNotamsByKeyQuery;
 use Navplan\System\Db\Domain\Service\IDbService;
@@ -51,7 +52,7 @@ class NotamGeometryParser
     }
 
 
-    public function test($testNotamId)
+    public function test(string $testNotamId): void
     {
         $testNotamId = StringNumberHelper::checkEscapeString($this->dbService, $testNotamId, 1, 20);
         $this->logger->info("loading test notam '" . $testNotamId . "'...");
@@ -64,9 +65,9 @@ class NotamGeometryParser
         $this->logger->debug(count($notamList) . " notams found");
 
         foreach ($notamList as $notam) {
-            $this->logger->debug("id: " . $notam["id"]);
-            $this->logger->debug("icao: " . $notam["icao"]);
-            $this->logger->debug("notam: " . $notam["notam"]);
+            $this->logger->debug("id: " . $notam->id);
+            $this->logger->debug("icao: " . $notam->icao);
+            $this->logger->debug("notam: " . $notam->notam);
             $this->logger->info("loading extent list...");
         }
 
@@ -75,10 +76,10 @@ class NotamGeometryParser
 
         $this->logger->info("parse geometry from notam texts...");
         foreach ($notamList as &$notam) {
-            $this->logger->debug("notam id:" . $notam["id"]);
-            $notamContent = json_decode($notam["notam"], true, JSON_NUMERIC_CHECK);
-            $notam["geometry"] = $this->parseNotamGeometry($notamContent);
-            $notam["dbExtent"] = $this->getNotamDbExtent($notam, $extentList[$notam["icao"]]);
+            $this->logger->debug("notam id:" . $notam->id);
+            $notamContent = json_decode($notam->notam, true, JSON_NUMERIC_CHECK);
+            $notam->geometry = $this->parseNotamGeometry($notamContent);
+            $notam->dbExtent = $this->getNotamDbExtent($notam, $notamContent, $extentList[$notam->icao]);
         }
 
         // try match with airspace name
@@ -88,48 +89,51 @@ class NotamGeometryParser
         $this->logger->info("calculate different zoom levels...");
         $this->calculateZoomLevelGeometries($notamList);
 
+        /**
+         * @var RawNotam $notam
+         */
         foreach ($notamList as $notam) {
             // print notam geometries
-            if ($notam["geometry"]["center"]) {
-                $this->logger->debug("geometry.center:" . implode(",", $notam["geometry"]["center"]));
+            if ($notam->geometry["center"]) {
+                $this->logger->debug("geometry.center:" . implode(",", $notam->geometry["center"]));
             }
 
-            if ($notam["geometry"]["radius"]) {
-                $this->logger->debug("geometry.radius:" . $notam["geometry"]["radius"]);
+            if ($notam->geometry["radius"]) {
+                $this->logger->debug("geometry.radius:" . $notam->geometry["radius"]);
             }
 
-            if ($notam["geometry"]["polygon"]) {
-                $this->logger->debug("geometry.polygon:" . StringNumberHelper::array_implode(",", " ", $notam["geometry"]["polygon"]));
+            if ($notam->geometry["polygon"]) {
+                $this->logger->debug("geometry.polygon:" . StringNumberHelper::array_implode(",", " ", $notam->geometry["polygon"]));
             }
 
-            if ($notam["geometry"]["multipolygon"]) {
+            if ($notam->geometry["multipolygon"]) {
                 $counter = 0;
-                foreach ($notam["geometry"]["multipolygon"] as $polygon) {
+                foreach ($notam->geometry["multipolygon"] as $polygon) {
                     $counter++;
                     $this->logger->debug("geometry.multipolygon(" . $counter . "):" . StringNumberHelper::array_implode(",", " ", $polygon));
                 }
             }
 
-            if ($notam["geometry"]["top"]) {
-                $this->logger->debug("geometry.top:" . $notam["geometry"]["top"]);
+            if ($notam->geometry["top"]) {
+                $this->logger->debug("geometry.top:" . $notam->geometry["top"]);
             }
 
-            if ($notam["geometry"]["bottom"]) {
-                $this->logger->debug("geometry.bottom:" . $notam["geometry"]["bottom"]);
+            if ($notam->geometry["bottom"]) {
+                $this->logger->debug("geometry.bottom:" . $notam->geometry["bottom"]);
             }
 
-            if ($notam["geometry"]["dbExtent"]) {
-                $this->logger->debug("dbExtent:" . $notam["dbExtent"]);
+            if ($notam->geometry["dbExtent"]) {
+                $this->logger->debug("dbExtent:" . $notam->dbExtent);
             }
 
-            if ($notam["polyzoomlevels"]) {
-                foreach ($notam["polyzoomlevels"] as $polyzoomlevel) {
+            if ($notam->polyzoomlevels) {
+                foreach ($notam->polyzoomlevels as $polyzoomlevel) {
                     $this->logger->debug("zoom:" . $polyzoomlevel["zoommin"] . "-" . $polyzoomlevel["zoommax"] . ", polygon: " . StringNumberHelper::array_implode(",", " ", $polyzoomlevel["polygon"]));
                 }
             }
 
-            if ($notam["multipolyzoomlevels"]) {
-                foreach ($notam["multipolyzoomlevels"] as $multipolyzoomlevel) {
+            if ($notam->multipolyzoomlevels) {
+                foreach ($notam->multipolyzoomlevels as $multipolyzoomlevel) {
                     $counter = 0;
                     foreach ($multipolyzoomlevel["multipolygon"] as $polygon) {
                         $counter++;
@@ -143,7 +147,7 @@ class NotamGeometryParser
     }
 
 
-    public function go()
+    public function go(): void
     {
         $this->clearNotamGeometries();
 
@@ -159,9 +163,9 @@ class NotamGeometryParser
             // parse geometry from notam text
             $this->logger->info("parse geometry from notam texts...");
             foreach ($notamChunk as &$notam) {
-                $notamContent = json_decode($notam["notam"], true, JSON_NUMERIC_CHECK);
-                $notam["geometry"] = $this->parseNotamGeometry($notamContent);
-                $notam["dbExtent"] = $this->getNotamDbExtent($notam, $extentList[$notam["icao"]] ?? null);
+                $notamContent = json_decode($notam->notam, true, JSON_NUMERIC_CHECK);
+                $notam->geometry = $this->parseNotamGeometry($notamContent);
+                $notam->dbExtent = $this->getNotamDbExtent($notam, $notamContent, $extentList[$notam->icao] ?? null);
             }
 
             $this->logger->info("try to find matching airspace...");
@@ -182,15 +186,17 @@ class NotamGeometryParser
     }
 
 
-
-
+    /**
+     * @param RawNotam[] $notamList
+     * @return array
+     */
     private function loadExtentList(array $notamList): array
     {
         // get distinct ICAOs
         $icaoList = [];
         foreach ($notamList as $notam) {
-            if (!in_array($notam["icao"], $icaoList))
-                $icaoList[] = $notam["icao"];
+            if (!in_array($notam->icao, $icaoList))
+                $icaoList[] = $notam->icao;
         }
 
         // load from db
@@ -222,64 +228,67 @@ class NotamGeometryParser
     }
 
 
-    private function saveNotamGeometries(array $notamList)
+    /**
+     * @param RawNotam[] $notamList
+     */
+    private function saveNotamGeometries(array $notamList): void
     {
         $queryParts = [];
         foreach ($notamList as $notam) {
-            if (!$notam["dbExtent"])
+            if (!$notam->dbExtent)
                 continue;
 
             $zoommin = "NULL";
             $zoommax = "NULL";
             $geometryString = "NULL";
-            $distanceString = "ST_Distance(ST_PointN(ST_ExteriorRing(ST_Envelope(" . $notam["dbExtent"] . ")), 1), ST_PointN(ST_ExteriorRing(ST_Envelope(" . $notam["dbExtent"] . ")), 3))";
+            $distanceString = "ST_Distance(ST_PointN(ST_ExteriorRing(ST_Envelope(" . $notam->dbExtent . ")), 1), ST_PointN(ST_ExteriorRing(ST_Envelope(" . $notam->dbExtent . ")), 3))";
 
-            if (isset($notam["geometry"]) && isset($notam["geometry"]["center"])) {
-                GeoHelper::reduceCoordinateAccuracy($notam["geometry"]["center"]);
-                $geometryString = "'" . StringNumberHelper::checkEscapeString($this->dbService, json_encode($notam["geometry"], JSON_NUMERIC_CHECK), 0, 999999999) . "'";
+            if (isset($notam->geometry) && isset($notam->geometry["center"])) {
+                GeoHelper::reduceCoordinateAccuracy($notam->geometry["center"]);
+                $geometryString = "'" . StringNumberHelper::checkEscapeString($this->dbService, json_encode($notam->geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
                 // circle: one entry matches all zoom levels
                 $zoommin = 0;
                 $zoommax = 255;
             }
 
-            if (isset($notam["polyzoomlevels"])) {
-                foreach ($notam["polyzoomlevels"] as $polyZoomLevel) {
-                    $geometry = $notam["geometry"];
+            if (isset($notam->polyzoomlevels)) {
+                foreach ($notam->polyzoomlevels as $polyZoomLevel) {
+                    $geometry = $notam->geometry;
                     $geometry["polygon"] = $polyZoomLevel["polygon"];
                     GeoHelper::reducePolygonAccuracy($geometry["polygon"]);
                     $geometryString = "'" . StringNumberHelper::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
 
                     $queryParts[] = "('"
-                        . self::checkNumeric($notam["id"]) . "',"
+                        . self::checkNumeric($notam->id) . "',"
                         . $polyZoomLevel["zoommin"] . ","
                         . $polyZoomLevel["zoommax"] . ","
                         . $geometryString . ","
                         . $distanceString . ","
-                        . $notam["dbExtent"] . ")";
+                        . $notam->dbExtent . ")";
                 }
-            } elseif (isset($notam["multipolyzoomlevels"])) {
-                foreach ($notam["multipolyzoomlevels"] as $multiPolyZoomLevel) {
-                    $geometry = $notam["geometry"];
+            } elseif (isset($notam->multipolyzoomlevels)) {
+                foreach ($notam->multipolyzoomlevels as $multiPolyZoomLevel) {
+                    $geometry = $notam->geometry;
                     $geometry["multipolygon"] = $multiPolyZoomLevel["multipolygon"];
                     GeoHelper::reduceMultiPolygonAccuracy($geometry["multipolygon"]);
                     $geometryString = "'" . StringNumberHelper::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
 
                     $queryParts[] = "('"
-                        . self::checkNumeric($notam["id"]) . "',"
+                        . self::checkNumeric($notam->id) . "',"
                         . $multiPolyZoomLevel["zoommin"] . ","
                         . $multiPolyZoomLevel["zoommax"] . ","
                         . $geometryString . ","
                         . $distanceString . ","
-                        . $notam["dbExtent"] . ")";
+                        . $notam->dbExtent . ")";
                 }
             } else {
                 $queryParts[] = "('"
-                    . self::checkNumeric($notam["id"]) . "',"
+                    . self::checkNumeric($notam->id) . "',"
                     . $zoommin . ","
                     . $zoommax . ","
                     . $geometryString . ","
                     . $distanceString . ","
-                    . $notam["dbExtent"] . ")";
+                    . $notam->dbExtent . ")";
             }
         }
 
@@ -291,12 +300,15 @@ class NotamGeometryParser
     }
 
 
-    private function calculateZoomLevelGeometries(&$notamList)
+    /**
+     * @param RawNotam[] $notamList
+     */
+    private function calculateZoomLevelGeometries(array &$notamList): void
     {
         foreach ($notamList as &$notam) {
-            if (isset($notam["geometry"]) && isset($notam["geometry"]["polygon"])) {
+            if (isset($notam->geometry) && isset($notam->geometry["polygon"])) {
                 $zoomLevels = [];
-                $polygonOrig = $notam["geometry"]["polygon"];
+                $polygonOrig = $notam->geometry["polygon"];
                 $lastPolygonSimple = null;
                 $lastPoints = null;
                 $lastZoom = 0;
@@ -328,11 +340,11 @@ class NotamGeometryParser
                     }
                     $lastPolygonSimple = $polygonSimple;
                 }
-                $notam["polyzoomlevels"] = $zoomLevels;
+                $notam->polyzoomlevels = $zoomLevels;
 
-            } elseif (isset($notam["geometry"]) && isset($notam["geometry"]["multipolygon"])) {
+            } elseif (isset($notam->geometry) && isset($notam->geometry["multipolygon"])) {
                 $zoomLevels = [];
-                $multiPolyOrig = $notam["geometry"]["multipolygon"];
+                $multiPolyOrig = $notam->geometry["multipolygon"];
                 $lastMultiPolySimple = null;
                 $lastPoints = null;
                 $lastZoom = 0;
@@ -368,20 +380,20 @@ class NotamGeometryParser
 
                     $lastMultiPolySimple = $multiPolySimple;
                 }
-                $notam["multipolyzoomlevels"] = $zoomLevels;
+                $notam->multipolyzoomlevels = $zoomLevels;
             }
         }
     }
 
 
-    private function parseNotamGeometry(array $notam): ?array
+    private function parseNotamGeometry(array $notamContent): ?array
     {
         $geometry = array();
 
-        if (!StringNumberHelper::isNullOrEmpty($notam, "isicao")) {
+        if (!StringNumberHelper::isNullOrEmpty($notamContent, "isicao")) {
             $this->logger->debug("notam format: icao");
 
-            $bottomTop = $this->tryParseQlineAlt($notam["all"]);
+            $bottomTop = $this->tryParseQlineAlt($notamContent["all"]);
             if ($bottomTop) {
                 $this->logger->debug("qline top/bottom found: " . $bottomTop[0] . ", " . $bottomTop[1]);
 
@@ -390,9 +402,9 @@ class NotamGeometryParser
             }
 
             $isMixedPolyCircle = false;
-            $polygon = $this->tryParsePolygon($notam["message"]);
+            $polygon = $this->tryParsePolygon($notamContent["message"]);
             if ($polygon) {
-                if (!str_contains($notam["message"], "CIRCLE")) {
+                if (!str_contains($notamContent["message"], "CIRCLE")) {
                     $this->logger->debug("pure polygon geometry in message found: " . StringNumberHelper::array_implode(",", " ", $polygon));
 
                     $geometry["polygon"] = $polygon;
@@ -405,7 +417,7 @@ class NotamGeometryParser
             }
 
             if (!$isMixedPolyCircle) {
-                $circle = $this->tryParseCircleVariant1($notam["message"]);
+                $circle = $this->tryParseCircleVariant1($notamContent["message"]);
                 if ($circle) {
                     $this->logger->debug("circle geometry v1 in message found: " . implode(",", $circle["center"]) . " radius: " . $circle["radius"]);
 
@@ -414,7 +426,7 @@ class NotamGeometryParser
                     return $geometry;
                 }
 
-                $circle = $this->tryParseCircleVariant2($notam["message"]);
+                $circle = $this->tryParseCircleVariant2($notamContent["message"]);
                 if ($circle) {
                     $this->logger->debug("circle geometry v2 in message found: " . implode(",", $circle["center"]) . " radius: " . $circle["radius"]);
 
@@ -423,7 +435,7 @@ class NotamGeometryParser
                     return $geometry;
                 }
 
-                $circle = $this->tryParseCircleVariant3($notam["message"]);
+                $circle = $this->tryParseCircleVariant3($notamContent["message"]);
                 if ($circle) {
                     $this->logger->debug("circle geometry v3 in message found: " . implode(",", $circle["center"]) . " radius: " . $circle["radius"]);
 
@@ -433,7 +445,7 @@ class NotamGeometryParser
                 }
             }
 
-            $circle = $this->tryParseQlineCircle($notam["all"]);
+            $circle = $this->tryParseQlineCircle($notamContent["all"]);
             if ($circle) {
                 $this->logger->debug("circle geometry in qline found: " . implode(",", $circle["center"]) . " radius: " . $circle["radius"]);
 
@@ -444,7 +456,7 @@ class NotamGeometryParser
         } else {
             $this->logger->debug("notam format: non-icao");
 
-            $polygon = $this->tryParsePolygon($notam["all"]);
+            $polygon = $this->tryParsePolygon($notamContent["all"]);
             if ($polygon) {
                 $this->logger->debug("pure polygon geometry in message found: " . implode(",", array_map(function ($poly) {
                         return $poly[0] . " " . $poly[1];
@@ -454,7 +466,7 @@ class NotamGeometryParser
                 return $geometry;
             }
 
-            $circle = $this->tryParseCircleVariant1($notam["all"]);
+            $circle = $this->tryParseCircleVariant1($notamContent["all"]);
             if ($circle) {
                 $this->logger->debug("circle geometry v1 in message found: " . implode(",", $circle["center"]) . " radius: " . $circle["radius"]);
 
@@ -463,7 +475,7 @@ class NotamGeometryParser
                 return $geometry;
             }
 
-            $circle = $this->tryParseCircleVariant2($notam["all"]);
+            $circle = $this->tryParseCircleVariant2($notamContent["all"]);
             if ($circle) {
                 $this->logger->debug("circle geometry v2 in message found: " . implode(",", $circle["center"]) . " radius: " . $circle["radius"]);
 
@@ -472,7 +484,7 @@ class NotamGeometryParser
                 return $geometry;
             }
 
-            $circle = $this->tryParseCircleVariant3($notam["all"]);
+            $circle = $this->tryParseCircleVariant3($notamContent["all"]);
             if ($circle) {
                 $this->logger->debug("circle geometry v3 in message found: " . implode(",", $circle["center"]) . " radius: " . $circle["radius"]);
 
@@ -487,21 +499,21 @@ class NotamGeometryParser
     }
 
 
-    private function getNotamDbExtent(array $notam, ?array $locationExtent): ?string
+    private function getNotamDbExtent(RawNotam $notam, array $notamContent, ?array $locationExtent): ?string
     {
         // polygon geometry
-        if (isset($notam["geometry"]) && isset($notam["geometry"]["polygon"])) {
+        if (isset($notam->geometry["polygon"])) {
             $this->logger->debug("using polygon geometry as db extent");
 
-            return DbHelper::getDbPolygonString($notam["geometry"]["polygon"]);
+            return DbHelper::getDbPolygonString($notam->geometry["polygon"]);
         }
 
 
         // circle geometry
-        if (isset($notam["geometry"]) && isset($notam["geometry"]["center"])) {
+        if (isset($notam->geometry["center"])) {
             $this->logger->debug("using circle geometry as db extent");
-            $center = $notam["geometry"]["center"];
-            $radius = $notam["geometry"]["radius"];
+            $center = $notam->geometry["center"];
+            $radius = $notam->geometry["radius"];
             $polygon = GeoHelper::getCircleExtent($center[1], $center[0], $radius);
 
             return DbHelper::getDbPolygonString($polygon);
@@ -509,8 +521,8 @@ class NotamGeometryParser
 
 
         // circle from qline
-        if (!StringNumberHelper::isNullOrEmpty($notam, "isicao")) {
-            $geometry = $this->tryParseQlineCircle($notam["all"]);
+        if (!StringNumberHelper::isNullOrEmpty($notamContent, "isicao")) {
+            $geometry = $this->tryParseQlineCircle($notamContent["all"]);
             if ($geometry) {
                 $this->logger->debug("using q-line circle geometry as db extent");
 
@@ -719,26 +731,29 @@ class NotamGeometryParser
     }
 
 
-    private function tryFindMatchingAirspace(&$notamList): void
+    /**
+     * @param RawNotam[] $notamList
+     */
+    private function tryFindMatchingAirspace(array &$notamList): void
     {
         // load intersecting airspaces from db
         $typeCatDict = array("RP" => ["PROHIBITED"], "RR" => ["RESTRICTED"], "RT" => ["RESTRICTED"], "RD" => ["DANGER", "PROHIBITED"], "RM" => ["DANGER", "RESTRICTED", "PROHIBITED"]);
 
         $queryParts = [];
         foreach ($notamList as $index => $notam) {
-            $notamContent = json_decode($notam["notam"], true, JSON_NUMERIC_CHECK);
+            $notamContent = json_decode($notam->notam, true, JSON_NUMERIC_CHECK);
             $notamType = isset($notamContent["Qcode"]) ? strtoupper(substr($notamContent["Qcode"], 0, 2)) : NULL;
 
-            if ($notamType != null && array_key_exists($notamType, $typeCatDict) && $notam["dbExtent"]) {
+            if ($notamType != null && array_key_exists($notamType, $typeCatDict) && $notam->dbExtent) {
                 $query = "SELECT '" . $index . "' AS notamindex, asp.name AS name, asp.polygon AS polygon FROM openaip_airspace AS asp"
-                    . " LEFT JOIN icao_fir AS fir ON fir.icao = '" . $notam["icao"] . "'"
-                    . " WHERE ST_INTERSECTS(" . $notam["dbExtent"] . ", asp.extent) AND asp.category IN('" . join("','", $typeCatDict[$notamType]) . "')"
+                    . " LEFT JOIN icao_fir AS fir ON fir.icao = '" . $notam->icao . "'"
+                    . " WHERE ST_INTERSECTS(" . $notam->dbExtent . ", asp.extent) AND asp.category IN('" . join("','", $typeCatDict[$notamType]) . "')"
                     . " AND (ST_INTERSECTS(asp.extent, fir.polygon) OR fir.icao IS NULL)";
 
                 $queryParts[] = $query;
             } else {
                 $this->logger->debug("no matching airspace type for notam type '" . $notamType . "'");
-                $this->logger->debug("or db extent is null: '" . $notam["dbExtent"] . "'");
+                $this->logger->debug("or db extent is null: '" . $notam->dbExtent . "'");
             }
         }
 
@@ -761,40 +776,40 @@ class NotamGeometryParser
         while ($rs = $result->fetch_assoc()) {
             $index = intval($rs["notamindex"]);
             $notam = &$notamList[$index];
-            $notamContent = json_decode($notam["notam"], true, JSON_NUMERIC_CHECK);
+            $notamContent = json_decode($notam->notam, true, JSON_NUMERIC_CHECK);
 
             if ($this->isAreaNameMatch($rs["name"], $notamContent["message"])) {
-                $top = isset($notam["geometry"]) && isset($notam["geometry"]["top"]) ? $notam["geometry"]["top"] : NULL;
-                $bottom = isset($notam["geometry"]) && isset($notam["geometry"]["bottom"]) ? $notam["geometry"]["bottom"] : NULL;
+                $top = $notam->geometry["top"] ?? NULL;
+                $bottom = $notam->geometry["bottom"] ?? NULL;
                 $polygon = self::convertDbPolygonToArray($rs["polygon"]);
 
-                if (!isset($notam["airspaceGeometry"]))
-                    $notam["airspaceGeometry"] = [];
+                if (!isset($notam->airspaceGeometry))
+                    $notam->airspaceGeometry = [];
 
-                $notam["airspaceGeometry"][] = array("polygon" => $polygon, "top" => $top, "bottom" => $bottom);
+                $notam->airspaceGeometry[] = array("polygon" => $polygon, "top" => $top, "bottom" => $bottom);
             }
         }
 
         foreach ($notamList as &$notam) {
-            if (isset($notam["airspaceGeometry"]) && count($notam["airspaceGeometry"]) > 0) {
-                if (count($notam["airspaceGeometry"]) == 1) {
-                    $notam["geometry"] = array(
-                        "polygon" => $notam["airspaceGeometry"][0]["polygon"],
-                        "bottom" => $notam["airspaceGeometry"][0]["bottom"],
-                        "top" => $notam["airspaceGeometry"][0]["top"]
+            if (isset($notam->airspaceGeometry) && count($notam->airspaceGeometry) > 0) {
+                if (count($notam->airspaceGeometry) == 1) {
+                    $notam->geometry = array(
+                        "polygon" => $notam->airspaceGeometry[0]["polygon"],
+                        "bottom" => $notam->airspaceGeometry[0]["bottom"],
+                        "top" => $notam->airspaceGeometry[0]["top"]
                     );
-                    $notam["dbExtent"] = DbHelper::getDbPolygonString($notam["airspaceGeometry"][0]["polygon"]);
+                    $notam->dbExtent = DbHelper::getDbPolygonString($notam->airspaceGeometry[0]["polygon"]);
                 } else {
                     $multipolygon = [];
-                    foreach ($notam["airspaceGeometry"] as $asGeom)
+                    foreach ($notam->airspaceGeometry as $asGeom)
                         $multipolygon[] = $asGeom["polygon"];
 
-                    $notam["geometry"] = array(
+                    $notam->geometry = array(
                         "multipolygon" => $multipolygon,
-                        "bottom" => $notam["airspaceGeometry"][0]["bottom"],
-                        "top" => $notam["airspaceGeometry"][0]["top"]
+                        "bottom" => $notam->airspaceGeometry[0]["bottom"],
+                        "top" => $notam->airspaceGeometry[0]["top"]
                     );
-                    $notam["dbExtent"] = DbHelper::getDbMultiPolygonString($multipolygon);
+                    $notam->dbExtent = DbHelper::getDbMultiPolygonString($multipolygon);
                 }
             }
         }
