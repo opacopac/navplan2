@@ -4,35 +4,51 @@ namespace Navplan\Notam\Persistence\Model;
 
 use Navplan\Common\StringNumberHelper;
 use Navplan\Notam\Domain\Model\Notam;
+use Navplan\System\Db\Domain\Model\DbEntityConverter;
 
 
-class DbNotamConverter {
-    public static function fromDbRow(array $row): Notam {
-        $notam = json_decode($row["notam"], true);
+/**
+ * @extends DbEntityConverter<Notam>
+ */
+class DbNotamConverter extends DbEntityConverter
+{
+    public function __construct(private readonly DbTableNotam $table)
+    {
+    }
+
+
+    /**
+     * @param array $row
+     * @return Notam
+     */
+    public function fromDbRow(array $row): Notam
+    {
+        $r = new DbRowNotam($this->table, $row);
+        $notamMsg = json_decode($r->getNotam(), true);
 
         return new Notam(
-            intval($row["id"]),
-            $notam["StateCode"],
-            $notam["StateName"],
-            $notam["id"],
-            StringNumberHelper::parseStringOrNull($notam, "entity"),
-            StringNumberHelper::parseStringOrNull($notam, "status"),
-            StringNumberHelper::parseStringOrNull($notam, "Qcode"),
-            StringNumberHelper::parseStringOrNull($notam, "Area"),
-            StringNumberHelper::parseStringOrNull($notam, "SubArea"),
-            StringNumberHelper::parseStringOrNull($notam, "Condition"),
-            StringNumberHelper::parseStringOrNull($notam, "Subject"),
-            StringNumberHelper::parseStringOrNull($notam, "Modifier"),
-            StringNumberHelper::parseStringOrNull($notam, "message"),
-            $notam["startdate"],
-            $notam["enddate"],
-            $notam["all"],
-            $notam["location"],
-            $row["ad_name"] ?? $row["fir_name"] ?? $notam["location"],
-            boolval($notam["isICAO"]),
-            $notam["Created"],
-            $notam["key"],
-            $notam["type"],
+            $r->getId(),
+            $notamMsg["StateCode"],
+            $notamMsg["StateName"],
+            $notamMsg["id"],
+            StringNumberHelper::parseStringOrNull($notamMsg, "entity"),
+            StringNumberHelper::parseStringOrNull($notamMsg, "status"),
+            StringNumberHelper::parseStringOrNull($notamMsg, "Qcode"),
+            StringNumberHelper::parseStringOrNull($notamMsg, "Area"),
+            StringNumberHelper::parseStringOrNull($notamMsg, "SubArea"),
+            StringNumberHelper::parseStringOrNull($notamMsg, "Condition"),
+            StringNumberHelper::parseStringOrNull($notamMsg, "Subject"),
+            StringNumberHelper::parseStringOrNull($notamMsg, "Modifier"),
+            StringNumberHelper::parseStringOrNull($notamMsg, "message"),
+            $notamMsg["startdate"],
+            $notamMsg["enddate"],
+            $notamMsg["all"],
+            $notamMsg["location"],
+            $row["ad_name"] ?? $row["fir_name"] ?? $notamMsg["location"],
+            boolval($notamMsg["isICAO"]),
+            $notamMsg["Created"],
+            $notamMsg["key"],
+            $notamMsg["type"],
             DbNotamGeometryConverter::fromDbRow($row)
         );
     }

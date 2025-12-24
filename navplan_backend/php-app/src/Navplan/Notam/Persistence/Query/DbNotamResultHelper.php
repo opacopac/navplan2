@@ -4,6 +4,7 @@ namespace Navplan\Notam\Persistence\Query;
 
 use Navplan\Notam\Domain\Model\Notam;
 use Navplan\Notam\Persistence\Model\DbNotamConverter;
+use Navplan\Notam\Persistence\Model\DbTableNotam;
 use Navplan\System\Db\Domain\Model\IDbResult;
 
 
@@ -17,18 +18,13 @@ class DbNotamResultHelper
      */
     public static function readNotamFromResultList(IDbResult $result): array
     {
-        $notams = [];
-        while ($row = $result->fetch_assoc()) {
-            $notam = DbNotamConverter::fromDbRow($row);
+        $t = new DbTableNotam();
+        $converter = new DbNotamConverter($t);
+        $notams = $converter->fromDbResult($result);
 
-            // filter by notam type (no KKKK)
-            if ($notam->qcode == self::QCODE_IS_CHECKLIST_NOTAM) {
-                continue;
-            }
-
-            $notams[] = $notam;
-        }
-
-        return $notams;
+        // filter by notam type (no KKKK)
+        return array_filter($notams, function(Notam $notam) {
+            return $notam->qcode !== self::QCODE_IS_CHECKLIST_NOTAM;
+        });
     }
 }

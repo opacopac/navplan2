@@ -8,6 +8,7 @@ use Navplan\Notam\Domain\Query\INotamSearchByExtentQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByRouteQuery;
+use Navplan\Notam\Domain\Query\IReadNotamChunkQuery;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Notam\Domain\Service\NotamService;
@@ -15,6 +16,7 @@ use Navplan\Notam\Persistence\Query\DbNotamSearchByExtentQuery;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByIcaoQuery;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByPositionQuery;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByRouteQuery;
+use Navplan\Notam\Persistence\Query\DbReadNotamChunkQuery;
 use Navplan\Notam\Rest\Service\NotamController;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
@@ -29,6 +31,7 @@ class ProdNotamDiContainer implements INotamDiContainer
     private INotamSearchByPositionQuery $searchByPositionQuery;
     private INotamSearchByIcaoQuery $searchByIcaoQuery;
     private INotamSearchByRouteQuery $searchByRouteQuery;
+    private IReadNotamChunkQuery $readNotamChunkQuery;
 
 
     public function __construct(
@@ -114,5 +117,15 @@ class ProdNotamDiContainer implements INotamDiContainer
         }
 
         return $this->searchByRouteQuery;
+    }
+
+
+    public function getReadNotamChunkQuery(): IReadNotamChunkQuery
+    {
+        if (!isset($this->readNotamChunkQuery)) {
+            $this->readNotamChunkQuery = new DbReadNotamChunkQuery($this->dbService);
+        }
+
+        return $this->readNotamChunkQuery;
     }
 }

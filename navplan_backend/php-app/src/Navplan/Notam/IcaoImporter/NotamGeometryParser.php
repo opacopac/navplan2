@@ -4,6 +4,7 @@ namespace Navplan\Notam\IcaoImporter;
 
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
+use Navplan\Notam\Domain\Query\IReadNotamChunkQuery;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Db\MySql\DbHelper;
 use Navplan\System\Domain\Service\ILoggingService;
@@ -16,7 +17,8 @@ global $diContainer;
 
 $parser = new NotamGeometryParser(
     $diContainer->getSystemDiContainer()->getLoggingService(),
-    $diContainer->getPersistenceDiContainer()->getDbService()
+    $diContainer->getPersistenceDiContainer()->getDbService(),
+    $diContainer->getNotamDiContainer()->getReadNotamChunkQuery(),
 );
 if (isset($_GET["testnotamid"])) {
     $parser->test($_GET["testnotamid"]);
@@ -38,8 +40,9 @@ class NotamGeometryParser
 
 
     function __construct(
-        private ILoggingService $logger,
-        private IDbService $dbService
+        private readonly ILoggingService $logger,
+        private readonly IDbService $dbService,
+        private readonly IReadNotamChunkQuery $readNotamChunkQuery,
     )
     {
     }
@@ -144,7 +147,7 @@ class NotamGeometryParser
         $lastNotamId = 0;
         do {
             $this->logger->info("loading notams starting after id " . $lastNotamId . "...");
-            $notamChunk = $this->loadNotams($lastNotamId, self::PROCESS_CHUNK_SIZE);
+            $notamChunk = $this->readNotamChunkQuery->readNotamChunk($lastNotamId, self::PROCESS_CHUNK_SIZE);
             $this->logger->info(count($notamChunk) . " notams found");
 
             $this->logger->info("loading extent list...");
@@ -173,27 +176,6 @@ class NotamGeometryParser
         } while (count($notamChunk) > 0);
 
         $this->logger->info("done.");
-    }
-
-
-    private function loadNotams($lastNotamId, $maxCount)
-    {
-        $query = "SELECT id, icao, notam FROM icao_notam";
-        $query .= " WHERE id > '" . $lastNotamId . "'";
-        $query .= " ORDER BY id ASC";
-        $query .= " LIMIT " . $maxCount;
-        $result = $this->dbService->execMultiResultQuery($query, "error reading notams");
-
-        $notamList = array();
-        while ($rs = $result->fetch_assoc()) {
-            $notamList[] = array(
-                "id" => $rs["id"],
-                "icao" => $rs["icao"],
-                "notam" => $rs["notam"]
-            );
-        }
-
-        return $notamList;
     }
 
 
