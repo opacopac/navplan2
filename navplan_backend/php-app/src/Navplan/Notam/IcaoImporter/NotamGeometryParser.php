@@ -89,9 +89,6 @@ class NotamGeometryParser
         $this->logger->info("calculate different zoom levels...");
         $this->calculateZoomLevelGeometries($notamList);
 
-        /**
-         * @var RawNotam $notam
-         */
         foreach ($notamList as $notam) {
             // print notam geometries
             if ($notam->geometry["center"]) {
@@ -219,7 +216,7 @@ class NotamGeometryParser
     }
 
 
-    private function clearNotamGeometries()
+    private function clearNotamGeometries(): void
     {
         $this->logger->info("clear geometry table...");
 
@@ -243,7 +240,7 @@ class NotamGeometryParser
             $geometryString = "NULL";
             $distanceString = "ST_Distance(ST_PointN(ST_ExteriorRing(ST_Envelope(" . $notam->dbExtent . ")), 1), ST_PointN(ST_ExteriorRing(ST_Envelope(" . $notam->dbExtent . ")), 3))";
 
-            if (isset($notam->geometry) && isset($notam->geometry["center"])) {
+            if (isset($notam->geometry["center"])) {
                 GeoHelper::reduceCoordinateAccuracy($notam->geometry["center"]);
                 $geometryString = "'" . StringNumberHelper::checkEscapeString($this->dbService, json_encode($notam->geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
                 // circle: one entry matches all zoom levels
@@ -306,7 +303,7 @@ class NotamGeometryParser
     private function calculateZoomLevelGeometries(array &$notamList): void
     {
         foreach ($notamList as &$notam) {
-            if (isset($notam->geometry) && isset($notam->geometry["polygon"])) {
+            if (isset($notam->geometry["polygon"])) {
                 $zoomLevels = [];
                 $polygonOrig = $notam->geometry["polygon"];
                 $lastPolygonSimple = null;
@@ -342,7 +339,7 @@ class NotamGeometryParser
                 }
                 $notam->polyzoomlevels = $zoomLevels;
 
-            } elseif (isset($notam->geometry) && isset($notam->geometry["multipolygon"])) {
+            } elseif (isset($notam->geometry["multipolygon"])) {
                 $zoomLevels = [];
                 $multiPolyOrig = $notam->geometry["multipolygon"];
                 $lastMultiPolySimple = null;
@@ -938,14 +935,14 @@ class NotamGeometryParser
         $latM = intval($latMin);
         $latS = floatval($latSec);
         $lat = $latG + $latM / 60 + $latS / 3600;
-        if (substr(strtoupper($latDir), 0, 1) == "S")
+        if (str_starts_with(strtoupper($latDir), "S"))
             $lat = -$lat;
 
         $lonG = intval($lonGrad);
         $lonM = intval($lonMin);
         $lonS = floatval($lonSec);
         $lon = $lonG + $lonM / 60 + $lonS / 3600;
-        if (substr(strtoupper($lonDir), 0, 1) == "W")
+        if (str_starts_with(strtoupper($lonDir), "W"))
             $lon = -$lon;
 
         return [$lon, $lat];
