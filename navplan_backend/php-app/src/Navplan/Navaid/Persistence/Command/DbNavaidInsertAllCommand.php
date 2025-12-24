@@ -12,11 +12,11 @@ use Navplan\System\Domain\Service\ILoggingService;
 use Throwable;
 
 
-class DbNavaidInsertAllCommand implements INavaidInsertAllCommand
+readonly class DbNavaidInsertAllCommand implements INavaidInsertAllCommand
 {
     public function __construct(
-        private readonly IDbService $dbService,
-        private readonly ILoggingService $loggingService
+        private IDbService $dbService,
+        private ILoggingService $loggingService
     )
     {
     }

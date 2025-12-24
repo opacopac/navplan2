@@ -3,6 +3,7 @@
 namespace Navplan\Notam;
 
 use Navplan\Common\Rest\Controller\IRestController;
+use Navplan\Notam\Domain\Command\INotamGeometryDeleteAllCommand;
 use Navplan\Notam\Domain\Query\INotamSearchByExtentQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
@@ -32,4 +33,6 @@ interface INotamDiContainer
     function getReadNotamsByKeyQuery(): IReadNotamsByKeyQuery;
 
     function getReadNotamChunkQuery(): IReadNotamChunkQuery;
+
+    function getNotamGeometryDeleteAllCommand(): INotamGeometryDeleteAllCommand;
 }

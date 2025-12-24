@@ -14,9 +14,9 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbCondOpGeo;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondSimple;
 
 
-class DbNavaidSearchByExtentQuery implements INavaidSearchByExtentQuery
+readonly class DbNavaidSearchByExtentQuery implements INavaidSearchByExtentQuery
 {
-    public function __construct(private readonly IDbService $dbService)
+    public function __construct(private IDbService $dbService)
     {
     }
 

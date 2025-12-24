@@ -10,7 +10,7 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\DbQueryBuilder\Domain\Model\DbCondGeo;
 
 
-class DbNavaidSearchByPositionQuery implements INavaidSearchByPositionQuery
+readonly class DbNavaidSearchByPositionQuery implements INavaidSearchByPositionQuery
 {
     public function __construct(
         private IDbService $dbService

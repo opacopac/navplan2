@@ -4,6 +4,7 @@ namespace Navplan\Notam;
 
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Config\ProdConfigDiContainer;
+use Navplan\Notam\Domain\Command\INotamGeometryDeleteAllCommand;
 use Navplan\Notam\Domain\Query\INotamSearchByExtentQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByIcaoQuery;
 use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
@@ -13,6 +14,7 @@ use Navplan\Notam\Domain\Query\IReadNotamsByKeyQuery;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Notam\Domain\Service\NotamService;
+use Navplan\Notam\Persistence\Command\DbNotamGeometryDeleteAllCommand;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByExtentQuery;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByIcaoQuery;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByPositionQuery;
@@ -35,6 +37,7 @@ class ProdNotamDiContainer implements INotamDiContainer
     private INotamSearchByRouteQuery $searchByRouteQuery;
     private IReadNotamsByKeyQuery $readNotamsByKeyQuery;
     private IReadNotamChunkQuery $readNotamChunkQuery;
+    private INotamGeometryDeleteAllCommand $notamGeometryDeleteAllCommand;
 
 
     public function __construct(
@@ -140,5 +143,15 @@ class ProdNotamDiContainer implements INotamDiContainer
         }
 
         return $this->readNotamChunkQuery;
+    }
+
+
+    public function getNotamGeometryDeleteAllCommand(): INotamGeometryDeleteAllCommand
+    {
+        if (!isset($this->notamGeometryDeleteAllCommand)) {
+            $this->notamGeometryDeleteAllCommand = new DbNotamGeometryDeleteAllCommand($this->dbService);
+        }
+
+        return $this->notamGeometryDeleteAllCommand;
     }
 }

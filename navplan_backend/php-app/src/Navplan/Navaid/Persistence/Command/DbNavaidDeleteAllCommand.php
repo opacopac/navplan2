@@ -7,10 +7,10 @@ use Navplan\Navaid\Persistence\Model\DbTableNavaid;
 use Navplan\System\Db\Domain\Service\IDbService;
 
 
-class DbNavaidDeleteAllCommand implements INavaidDeleteAllCommand
+readonly class DbNavaidDeleteAllCommand implements INavaidDeleteAllCommand
 {
     public function __construct(
-        private readonly IDbService $dbService
+        private IDbService $dbService
     )
     {
     }

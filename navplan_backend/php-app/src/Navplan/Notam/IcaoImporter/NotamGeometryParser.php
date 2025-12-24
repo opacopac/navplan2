@@ -4,6 +4,7 @@ namespace Navplan\Notam\IcaoImporter;
 
 use Navplan\Common\GeoHelper;
 use Navplan\Common\StringNumberHelper;
+use Navplan\Notam\Domain\Command\INotamGeometryDeleteAllCommand;
 use Navplan\Notam\Domain\Model\RawNotam;
 use Navplan\Notam\Domain\Query\IReadNotamChunkQuery;
 use Navplan\Notam\Domain\Query\IReadNotamsByKeyQuery;
@@ -22,6 +23,7 @@ $parser = new NotamGeometryParser(
     $diContainer->getPersistenceDiContainer()->getDbService(),
     $diContainer->getNotamDiContainer()->getReadNotamsByKeyQuery(),
     $diContainer->getNotamDiContainer()->getReadNotamChunkQuery(),
+    $diContainer->getNotamDiContainer()->getNotamGeometryDeleteAllCommand(),
 );
 if (isset($_GET["testnotamid"])) {
     $parser->test($_GET["testnotamid"]);
@@ -47,6 +49,7 @@ class NotamGeometryParser
         private readonly IDbService $dbService,
         private readonly IReadNotamsByKeyQuery $readNotamsByKeyQuery,
         private readonly IReadNotamChunkQuery $readNotamChunkQuery,
+        private readonly INotamGeometryDeleteAllCommand $notamGeometryDeleteAllCommand,
     )
     {
     }
@@ -146,7 +149,8 @@ class NotamGeometryParser
 
     public function go(): void
     {
-        $this->clearNotamGeometries();
+        $this->logger->info("clear geometry table...");
+        $this->notamGeometryDeleteAllCommand->deleteAll();
 
         $lastNotamId = 0;
         do {
@@ -216,13 +220,6 @@ class NotamGeometryParser
     }
 
 
-    private function clearNotamGeometries(): void
-    {
-        $this->logger->info("clear geometry table...");
-
-        $query = "TRUNCATE TABLE icao_notam_geometry2";
-        $this->dbService->execCUDQuery($query, "error truncating notam geometry table");
-    }
 
 
     /**
