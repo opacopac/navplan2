@@ -5,7 +5,7 @@ namespace Navplan\Notam\IcaoImporter;
 
 use Navplan\Common\StringNumberHelper;
 
-class NotamContent
+class IcaoApiNotam
 {
     private const string KEY_ID = "id";
     private const string KEY_ENTITY = "entity";
@@ -54,11 +54,11 @@ class NotamContent
     }
 
 
-    public static function fromJson(string $json): NotamContent
+    public static function fromJson(string $json): IcaoApiNotam
     {
         $content = json_decode($json, true, JSON_NUMERIC_CHECK);
 
-        return new NotamContent(
+        return new IcaoApiNotam(
             StringNumberHelper::parseIntOrError($content, self::KEY_ID),
             $content[self::KEY_ENTITY],
             $content[self::KEY_STATUS],
@@ -80,5 +80,11 @@ class NotamContent
             $content[self::KEY_STATE_CODE],
             $content[self::KEY_STATE_NAME],
         );
+    }
+
+
+    public function getQcodeType(): ?string
+    {
+        return $this->qcode ? strtoupper(substr($this->qcode, 0, 2)) : null;
     }
 }
