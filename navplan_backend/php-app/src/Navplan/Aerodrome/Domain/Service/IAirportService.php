@@ -14,6 +14,13 @@ interface IAirportService {
     function readByIcao(string $icao, ?string $token): Airport;
 
     /**
+     * @param string[] $icaos
+     * @param string|null $token
+     * @return Airport[]
+     */
+    function readByIcaos(array $icaos, ?string $token): array;
+
+    /**
      * @param Extent2d $extent
      * @param int $zoom
      * @return ShortAirport[]
