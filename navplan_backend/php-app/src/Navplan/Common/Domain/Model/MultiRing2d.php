@@ -5,20 +5,26 @@ namespace Navplan\Common\Domain\Model;
 use InvalidArgumentException;
 
 
-class MultiRing2d implements IGeometry2d {
-    public static function createFromArray(array $ringArrays): MultiRing2d {
+class MultiRing2d implements IGeometry2d
+{
+    public static function createFromArray(array $ringArrays): MultiRing2d
+    {
         return new MultiRing2d(
             array_map(
-                function (array $ringArray) { return Ring2d::fromArray($ringArray); },
+                function (array $ringArray) {
+                    return Ring2d::fromArray($ringArray);
+                },
                 $ringArrays
             )
         );
     }
 
 
-    public function __construct(
-        public array $ring2dList
-    ) {
+    /**
+     * @param Ring2d[] $ring2dList
+     */
+    public function __construct(public array $ring2dList)
+    {
         foreach ($ring2dList as $ring2d) {
             if (!$ring2d instanceof Ring2d) {
                 throw new InvalidArgumentException('argument is not of type Ring2d');
@@ -27,9 +33,12 @@ class MultiRing2d implements IGeometry2d {
     }
 
 
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return array_map(
-            function (Ring2d $ring2d) { return $ring2d->toArray(); },
+            function (Ring2d $ring2d) {
+                return $ring2d->toArray();
+            },
             $this->ring2dList
         );
     }

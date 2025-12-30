@@ -8,6 +8,7 @@ use Navplan\Airspace\Domain\Query\IAirspaceSearchByExtentQuery;
 use Navplan\Airspace\Domain\Query\IAirspaceSearchByPositionQuery;
 use Navplan\Airspace\Domain\Query\IAirspaceSearchByRouteQuery;
 use Navplan\Airspace\Domain\Query\IFirReadByIcaoQuery;
+use Navplan\Airspace\Domain\Query\IFirReadByIcaosQuery;
 use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Airspace\Domain\Service\IFirService;
 use Navplan\Common\Rest\Controller\IRestController;
@@ -30,6 +31,8 @@ interface IAirspaceDiContainer
     function getAirspaceDeleteAllCommand(): IAirspaceDeleteAllCommand;
 
     function getFirReadByIcaoQuery(): IFirReadByIcaoQuery;
+
+    function getFirReadByIcaosQuery(): IFirReadByIcaosQuery;
 
     function getFirService(): IFirService;
 

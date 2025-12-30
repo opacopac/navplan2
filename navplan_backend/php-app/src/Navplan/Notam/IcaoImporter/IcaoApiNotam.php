@@ -27,6 +27,7 @@ class IcaoApiNotam
     private const string KEY_TYPE = "type";
     private const string KEY_STATE_CODE = "StateCode";
     private const string KEY_STATE_NAME = "StateName";
+    private const string NOTAM_NEW_LINE = "\n";
 
 
     public function __construct(
@@ -50,6 +51,7 @@ class IcaoApiNotam
         public string $type,       // Location type, either airspace or airport
         public string $stateCode,  // ISO 3-Letter code of the State
         public string $stateName,  // Name of the State
+        public ?IcaoApiNotamQLine $qLine
     ) {
     }
 
@@ -79,6 +81,7 @@ class IcaoApiNotam
             $content[self::KEY_TYPE],
             $content[self::KEY_STATE_CODE],
             $content[self::KEY_STATE_NAME],
+            self::tryParseQlineFromFullNotamText($content[self::KEY_ALL])
         );
     }
 
@@ -86,5 +89,19 @@ class IcaoApiNotam
     public function getQcodeType(): ?string
     {
         return $this->qcode ? strtoupper(substr($this->qcode, 0, 2)) : null;
+    }
+
+
+    private static function tryParseQlineFromFullNotamText(string $notamText): ?IcaoApiNotamQLine {
+        $lines = explode(self::NOTAM_NEW_LINE, $notamText);
+
+        foreach ($lines as $line) {
+            if (str_starts_with($line, IcaoApiNotamQLine::Q_LINE_PREFIX)) {
+                $qLineText = trim(substr($line, strlen(IcaoApiNotamQLine::Q_LINE_PREFIX)));
+                return IcaoApiNotamQLine::tryParse($qLineText);
+            }
+        }
+
+        return null;
     }
 }

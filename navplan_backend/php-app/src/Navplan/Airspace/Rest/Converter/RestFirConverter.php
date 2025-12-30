@@ -19,4 +19,13 @@ class RestFirConverter {
             "polygon" => $fir->polygon->toArray()
         );
     }
+
+
+    /**
+     * @param Fir[] $firList
+     * @return array
+     */
+    public static function toRestList(array $firList): array {
+        return array_map(fn($fir) => self::toRest($fir), $firList);
+    }
 }

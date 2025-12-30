@@ -6,7 +6,7 @@ use InvalidArgumentException;
 
 
 class Altitude {
-    const FL_TO_FT_FACTOR = 100;
+    private const int FL_TO_FT_FACTOR = 100;
 
 
     public function __construct(
@@ -47,6 +47,15 @@ class Altitude {
     }
 
 
+    public static function fromMtAgl(float $mtAgl) : Altitude {
+        return new Altitude(
+            $mtAgl,
+            AltitudeUnit::M,
+            AltitudeReference::GND
+        );
+    }
+
+
     public static function fromFl(float $flightLevel) : Altitude {
         return new Altitude(
             $flightLevel,
@@ -73,5 +82,10 @@ class Altitude {
             AltitudeReference::STD => new Length($this->value * self::FL_TO_FT_FACTOR, $unit),
             default => throw new InvalidArgumentException('AltitudeReference ' . $this->reference->value . ' not supported!'),
         };
+    }
+
+
+    public function toString(string $unitSeparator = '', string $refSeparator = ' '): string {
+        return $this->value . $unitSeparator . $this->unit->name . $refSeparator . $this->reference->name;
     }
 }
