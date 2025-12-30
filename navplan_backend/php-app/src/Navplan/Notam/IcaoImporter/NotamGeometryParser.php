@@ -2,6 +2,8 @@
 
 namespace Navplan\Notam\IcaoImporter;
 
+use Navplan\Aerodrome\Domain\Service\IAirportService;
+use Navplan\Airspace\Domain\Service\IFirService;
 use Navplan\Common\Domain\Model\Circle2d;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Ring2d;
@@ -10,6 +12,7 @@ use Navplan\Common\InvalidFormatException;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Notam\Domain\Command\INotamGeometryDeleteAllCommand;
 use Navplan\Notam\Domain\Model\RawNotam;
+use Navplan\Notam\Domain\Model\RawNotamExtent;
 use Navplan\Notam\Domain\Model\RawNotamGeometry;
 use Navplan\Notam\Domain\Query\IReadNotamChunkQuery;
 use Navplan\Notam\Domain\Query\IReadNotamsByKeyQuery;
@@ -30,6 +33,8 @@ $parser = new NotamGeometryParser(
     $diContainer->getNotamDiContainer()->getReadNotamsByKeyQuery(),
     $diContainer->getNotamDiContainer()->getReadNotamChunkQuery(),
     $diContainer->getNotamDiContainer()->getNotamGeometryDeleteAllCommand(),
+    $diContainer->getAirspaceDiContainer()->getFirService(),
+    $diContainer->getAerodromeDiContainer()->getAirportService(),
 );
 if (isset($_GET["testnotamid"])) {
     $parser->test($_GET["testnotamid"]);
@@ -62,6 +67,8 @@ class NotamGeometryParser
         private readonly IReadNotamsByKeyQuery $readNotamsByKeyQuery,
         private readonly IReadNotamChunkQuery $readNotamChunkQuery,
         private readonly INotamGeometryDeleteAllCommand $notamGeometryDeleteAllCommand,
+        private readonly IFirService $firService,
+        private readonly IAirportService $airportService,
     )
     {
     }
@@ -203,7 +210,7 @@ class NotamGeometryParser
 
     /**
      * @param RawNotam[] $notamList
-     * @return array
+     * @return RawNotamExtent[]
      */
     private function loadExtentList(array $notamList): array
     {
@@ -215,18 +222,23 @@ class NotamGeometryParser
         }
 
         // load from db
-        $query = "SELECT 'fir' AS type, icao, ST_AsText(polygon) AS polygon, NULL AS lonlat FROM icao_fir WHERE icao IN ('" . join("','", $icaoList) . "')"
-            . " UNION "
-            . "SELECT 'ad' AS type, icao, NULL AS polygon, ST_AsText(lonlat) as lonlat FROM openaip_airports WHERE icao IN ('" . join("','", $icaoList) . "')";
-        $result = $this->dbService->execMultiResultQuery($query, "error reading firs/ads");
+        $firs = $this->firService->readByIcaos($icaoList);
+        $ads = $this->airportService->readByIcaos($icaoList);
 
         // build return list
-        $extentList = array();
-        while ($rs = $result->fetch_assoc()) {
-            $extentList[$rs["icao"]] = array(
-                "type" => $rs["type"],
-                "polygon" => $rs["polygon"],
-                "lonlat" => $rs["lonlat"]
+        $extentList = [];
+        foreach ($firs as $fir) {
+            $extentList[$fir->icao] = new RawNotamExtent(
+                "fir",
+                $fir->polygon,
+                null
+            );
+        }
+        foreach ($ads as $ad) {
+            $extentList[$ad->icao] = new RawNotamExtent(
+                "ad",
+                null,
+                $ad->position
             );
         }
 
@@ -476,11 +488,10 @@ class NotamGeometryParser
 
             $polygon = $this->tryParsePolygon($icaoApiNotam->all);
             if ($polygon) {
-                $this->logger->debug("pure polygon geometry in message found: " . implode(",", array_map(function ($poly) {
-                        return $poly[0] . " " . $poly[1];
-                    }, $polygon)));
+                $this->logger->debug("pure polygon geometry in message found: " . $polygon->toString());
 
-                $geometry[self::GEOM_KEY_POLYGON] = $polygon;
+                $geometry->polygon = $polygon;
+
                 return $geometry;
             }
 
@@ -517,7 +528,7 @@ class NotamGeometryParser
     }
 
 
-    private function getNotamDbExtent(RawNotam $notam, IcaoApiNotam $icaoApiNotam, ?array $locationExtent): ?string
+    private function getNotamDbExtent(RawNotam $notam, IcaoApiNotam $icaoApiNotam, ?RawNotamExtent $locationExtent): ?string
     {
         // polygon geometry
         if (isset($notam->geometry->polygon)) {
@@ -547,11 +558,10 @@ class NotamGeometryParser
 
 
         // ad notam
-        if ($locationExtent !== null && $locationExtent["type"] == "ad") {
+        if ($locationExtent !== null && $locationExtent->type == "ad") {
             $this->logger->debug("using ad coordinates + 5nm as db extent");
 
-            $pos = DbHelper::parseLonLatFromDbPoint($locationExtent["lonlat"]);
-            $circle = new Circle2d($pos, Length::fromNm(5));
+            $circle = new Circle2d($locationExtent->adPosition, Length::fromNm(5));
             $polygon = GeoHelper::getCircleExtent($circle);
 
             return DbHelper::getDbPolygonString($polygon);
@@ -559,10 +569,10 @@ class NotamGeometryParser
 
 
         // fir notam
-        if ($locationExtent !== null && $locationExtent["type"] == "fir") {
+        if ($locationExtent !== null && $locationExtent->type == "fir") {
             $this->logger->debug("using fir polygon geometry as db extent");
 
-            return "ST_GeomFromText('" . $locationExtent["polygon"] . "')";
+            return DbHelper::getDbMultiPolygonString($locationExtent->firPolygon->ring2dList);
         }
 
 

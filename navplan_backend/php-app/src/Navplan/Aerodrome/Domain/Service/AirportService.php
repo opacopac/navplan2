@@ -62,10 +62,9 @@ class AirportService implements IAirportService
 
     /**
      * @param string[] $icaos
-     * @param string|null $token
      * @return Airport[]
      */
-    public function readByIcaos(array $icaos, ?string $token): array
+    public function readByIcaos(array $icaos): array
     {
         return $this->airportByIcaosQuery->read($icaos);
     }

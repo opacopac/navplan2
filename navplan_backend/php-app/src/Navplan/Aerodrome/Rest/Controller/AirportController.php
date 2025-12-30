@@ -50,7 +50,7 @@ class AirportController implements IRestController
                         $icaos = array_map('strtoupper', $icaos);
                         $icaos = array_filter($icaos, fn($ic) => !empty($ic)); // Remove empty values
 
-                        $airports = $this->airportService->readByIcaos($icaos, $token);
+                        $airports = $this->airportService->readByIcaos($icaos);
                         $response = RestAirportConverter::toRestList($airports);
                     } else {
                         // get airport by single icao
