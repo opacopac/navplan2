@@ -2,6 +2,8 @@
 
 namespace Navplan\Notam;
 
+use Navplan\Aerodrome\Domain\Service\IAirportService;
+use Navplan\Airspace\Domain\Service\IFirService;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Config\ProdConfigDiContainer;
 use Navplan\Notam\Domain\Command\INotamGeometryDeleteAllCommand;
@@ -14,6 +16,14 @@ use Navplan\Notam\Domain\Query\IReadNotamsByKeyQuery;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Notam\Domain\Service\NotamService;
+use Navplan\Notam\IcaoImporter\INotamAltitudeLinesParser;
+use Navplan\Notam\IcaoImporter\INotamCircleGeometryParser;
+use Navplan\Notam\IcaoImporter\INotamCoordinateParser;
+use Navplan\Notam\IcaoImporter\INotamGeometryParser;
+use Navplan\Notam\IcaoImporter\NotamAltitudeLinesParser;
+use Navplan\Notam\IcaoImporter\NotamCircleGeometryParser;
+use Navplan\Notam\IcaoImporter\NotamCoordinateParser;
+use Navplan\Notam\IcaoImporter\NotamGeometryParser;
 use Navplan\Notam\Persistence\Command\DbNotamGeometryDeleteAllCommand;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByExtentQuery;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByIcaoQuery;
@@ -24,6 +34,7 @@ use Navplan\Notam\Persistence\Query\DbReadNotamsByKeyQuery;
 use Navplan\Notam\Rest\Service\NotamController;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
+use Navplan\System\Domain\Service\ILoggingService;
 
 
 class ProdNotamDiContainer implements INotamDiContainer
@@ -38,11 +49,18 @@ class ProdNotamDiContainer implements INotamDiContainer
     private IReadNotamsByKeyQuery $readNotamsByKeyQuery;
     private IReadNotamChunkQuery $readNotamChunkQuery;
     private INotamGeometryDeleteAllCommand $notamGeometryDeleteAllCommand;
+    private INotamCoordinateParser $notamCoordinateParser;
+    private INotamAltitudeLinesParser $notamAltitudeLinesParser;
+    private INotamCircleGeometryParser $notamCircleGeometryParser;
+    private INotamGeometryParser $notamGeometryParser;
 
 
     public function __construct(
         private readonly IDbService $dbService,
         private readonly IHttpService $httpService,
+        private readonly ILoggingService $loggingService,
+        private readonly IFirService $firService,
+        private readonly IAirportService $airportService,
     )
     {
     }
@@ -153,5 +171,59 @@ class ProdNotamDiContainer implements INotamDiContainer
         }
 
         return $this->notamGeometryDeleteAllCommand;
+    }
+
+
+    public function getNotamCoordinateParser(): INotamCoordinateParser
+    {
+        if (!isset($this->notamCoordinateParser)) {
+            $this->notamCoordinateParser = new NotamCoordinateParser($this->loggingService);
+        }
+
+        return $this->notamCoordinateParser;
+    }
+
+
+    public function getNotamAltitudeLinesParser(): INotamAltitudeLinesParser
+    {
+        if (!isset($this->notamAltitudeLinesParser)) {
+            $this->notamAltitudeLinesParser = new NotamAltitudeLinesParser($this->loggingService);
+        }
+
+        return $this->notamAltitudeLinesParser;
+    }
+
+
+    public function getNotamCircleGeometryParser(): INotamCircleGeometryParser
+    {
+        if (!isset($this->notamCircleGeometryParser)) {
+            $this->notamCircleGeometryParser = new NotamCircleGeometryParser(
+                $this->loggingService,
+                $this->getNotamCoordinateParser()
+            );
+        }
+
+        return $this->notamCircleGeometryParser;
+    }
+
+
+    public function getNotamGeometryParser(): INotamGeometryParser
+    {
+        if (!isset($this->notamGeometryParser)) {
+            $this->notamGeometryParser = new NotamGeometryParser(
+                $this->loggingService,
+                $this->dbService,
+                $this->getReadNotamsByKeyQuery(),
+                $this->getReadNotamChunkQuery(),
+                $this->getNotamGeometryDeleteAllCommand(),
+                $this->firService,
+                $this->airportService,
+                $this->getNotamCoordinateParser(),
+                $this->getNotamAltitudeLinesParser(),
+                $this->getNotamCircleGeometryParser()
+            );
+        }
+
+        return $this->notamGeometryParser;
     }
 }

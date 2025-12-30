@@ -5,13 +5,21 @@ namespace Navplan\Notam\IcaoImporter;
 
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\GeoHelper;
+use Navplan\System\Domain\Service\ILoggingService;
 
-class NotamCoordinateParser
+class NotamCoordinateParser implements INotamCoordinateParser
 {
     public const string REGEXP_PART_COORDPAIR = '(\d{2})\D?(\d{2})\D?(\d{2}|\d{2}\.\d+)\D?(N|S)\s?(\d{2,3})\D?(\d{2})\D?(\d{2}|\d{2}\.\d+)\D?(E|W)';
 
 
-    public static function getLonLatFromGradMinSecStrings(
+    public function __construct(
+        private readonly ILoggingService $logger
+    )
+    {
+    }
+
+
+    public function getLonLatFromGradMinSecStrings(
         string $latGrad,
         string $latMin,
         string $latSec,
@@ -30,7 +38,7 @@ class NotamCoordinateParser
 
 
     // TODO
-    public static function normalizeCoordinates($text)
+    public function normalizeCoordinates($text)
     {
         // switzerland, holland, sweden, finland, russia, turkey, greece, egypt, saudi arabia:
         // 465214N0090638E

@@ -3,17 +3,25 @@
 namespace Navplan\Notam\IcaoImporter;
 
 use Navplan\Common\Domain\Model\Altitude;
+use Navplan\System\Domain\Service\ILoggingService;
 
 
-class NotamAltitudeLinesParser
+class NotamAltitudeLinesParser implements INotamAltitudeLinesParser
 {
+    public function __construct(
+        private readonly ILoggingService $logger
+    )
+    {
+    }
+
+
     /**
      * detect bottom / top height in F) and G) line of message: ...F) SFC G) 500FT AGL...
      *
      * @param string $notamText
      * @return Altitude[]|null
      */
-    public static function tryParseAltitudesFromGAndFLines(string $notamText): ?array
+    public function tryParseAltitudesFromGAndFLines(string $notamText): ?array
     {
         $regExp = '/\s+F\)\s*(\S+.*)\s+G\)\s*(\S+.*)\s+/im';
         $result = preg_match($regExp, $notamText, $matches);
@@ -21,14 +29,14 @@ class NotamAltitudeLinesParser
         if (!$result || count($matches) != 3)
             return null;
 
-        $bottom = self::parseAltitude($matches[1]);
-        $top = self::parseAltitude($matches[2]);
+        $bottom = $this->parseAltitude($matches[1]);
+        $top = $this->parseAltitude($matches[2]);
 
         return [$bottom, $top];
     }
 
 
-    private static function parseAltitude(string $altText): Altitude
+    private function parseAltitude(string $altText): Altitude
     {
         $altText = preg_replace("/[^\w\d]/im", "", strtoupper(trim($altText)));
         $regExpAmsl = "/^(\d+)(FT|M)(AMSL|MSL)$/";

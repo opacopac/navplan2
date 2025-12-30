@@ -321,7 +321,10 @@ class ProdNavplanDiContainer
         if (!isset($this->notamDiContainer)) {
             $this->notamDiContainer = new ProdNotamDiContainer(
                 $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService()
+                $this->getSystemDiContainer()->getHttpService(),
+                $this->getSystemDiContainer()->getLoggingService(),
+                $this->getAirspaceDiContainer()->getFirService(),
+                $this->getAerodromeDiContainer()->getAirportService()
             );
         }
 

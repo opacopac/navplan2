@@ -6,17 +6,26 @@ use Navplan\Common\Domain\Model\Circle2d;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\GeoHelper;
+use Navplan\System\Domain\Service\ILoggingService;
 
 
-class NotamCircleGeometryParser
+class NotamCircleGeometryParser implements INotamCircleGeometryParser
 {
     private const string REGEXP_PART_RADIUS = '(RADIUS|AROUND|CENTERED)';
     private const string REGEXP_PART_RADVAL = '(\d+[\.\,]?\d*)\s?(NM|KM|M)(?=\W)';
     private const string REGEXP_PART_NOBRACKETS_NUMS = '[^\(\)0-9]+?';
 
 
+    public function __construct(
+        private readonly ILoggingService $logger,
+        private readonly NotamCoordinateParser $coordinateParser
+    )
+    {
+    }
+
+
     // detect circle in notam text: 462340N0070230E RADIUS 3.0 NM
-    public static function tryParseCircleFromMessageVariant1(string $message): ?Circle2d
+    public function tryParseCircleFromMessageVariant1(string $message): ?Circle2d
     {
         $regExp = "/" . NotamCoordinateParser::REGEXP_PART_COORDPAIR . self::REGEXP_PART_NOBRACKETS_NUMS . self::REGEXP_PART_RADIUS . self::REGEXP_PART_NOBRACKETS_NUMS . self::REGEXP_PART_RADVAL . "/im";
         $result = preg_match($regExp, $message, $matches);
@@ -26,8 +35,8 @@ class NotamCircleGeometryParser
                 GeoHelper::getDecFromDms($matches[8], intval($matches[5]), intval($matches[6]), floatval($matches[7])),
                 GeoHelper::getDecFromDms($matches[4], intval($matches[1]), intval($matches[2]), floatval($matches[3]))
             );
-            $center = NotamCoordinateParser::getLonLatFromGradMinSecStrings($matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6], $matches[7], $matches[8]);
-            $radius = self::getRadiusFromStrings($matches[10], $matches[11]);
+            $center = $this->coordinateParser->getLonLatFromGradMinSecStrings($matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6], $matches[7], $matches[8]);
+            $radius = $this->getRadiusFromStrings($matches[10], $matches[11]);
 
             return new Circle2d($center, $radius);
         }
@@ -38,14 +47,14 @@ class NotamCircleGeometryParser
 
 
     // detect circle in notam text: 3NM RADIUS OF 522140N 0023246W
-    public static function tryParseCircleFromMessageVariant2(string $message): ?Circle2d
+    public function tryParseCircleFromMessageVariant2(string $message): ?Circle2d
     {
         $regExp = "/" . self::REGEXP_PART_RADVAL . self::REGEXP_PART_NOBRACKETS_NUMS . self::REGEXP_PART_RADIUS . self::REGEXP_PART_NOBRACKETS_NUMS . NotamCoordinateParser::REGEXP_PART_COORDPAIR . "/im";
         $result = preg_match($regExp, $message, $matches);
 
         if ($result) {
-            $center = NotamCoordinateParser::getLonLatFromGradMinSecStrings($matches[4], $matches[5], $matches[6], $matches[7], $matches[8], $matches[9], $matches[10], $matches[11]);
-            $radius = self::getRadiusFromStrings($matches[1], $matches[2]);
+            $center = $this->coordinateParser->getLonLatFromGradMinSecStrings($matches[4], $matches[5], $matches[6], $matches[7], $matches[8], $matches[9], $matches[10], $matches[11]);
+            $radius = $this->getRadiusFromStrings($matches[1], $matches[2]);
 
             return new Circle2d($center, $radius);
         }
@@ -56,14 +65,14 @@ class NotamCircleGeometryParser
 
 
     // detect circle in notam text: RADIUS 2NM CENTERED ON 473814N 0101548E
-    public static function tryParseCircleFromMessageVariant3(string $message): ?Circle2d
+    public function tryParseCircleFromMessageVariant3(string $message): ?Circle2d
     {
         $regExp = "/" . self::REGEXP_PART_RADIUS . self::REGEXP_PART_NOBRACKETS_NUMS . self::REGEXP_PART_RADVAL . self::REGEXP_PART_NOBRACKETS_NUMS . NotamCoordinateParser::REGEXP_PART_COORDPAIR . "/im";
         $result = preg_match($regExp, $message, $matches);
 
         if ($result) {
-            $center = NotamCoordinateParser::getLonLatFromGradMinSecStrings($matches[4], $matches[5], $matches[6], $matches[7], $matches[8], $matches[9], $matches[10], $matches[11]);
-            $radius = self::getRadiusFromStrings($matches[2], $matches[3]);
+            $center = $this->coordinateParser->getLonLatFromGradMinSecStrings($matches[4], $matches[5], $matches[6], $matches[7], $matches[8], $matches[9], $matches[10], $matches[11]);
+            $radius = $this->getRadiusFromStrings($matches[2], $matches[3]);
 
             return new Circle2d($center, $radius);
         }
@@ -73,7 +82,7 @@ class NotamCircleGeometryParser
     }
 
 
-    private static function getRadiusFromStrings(string $valueStr, string $unitStr): ?Length
+    private function getRadiusFromStrings(string $valueStr, string $unitStr): ?Length
     {
         $value = floatval(str_replace(",", ".", $valueStr));
 

@@ -2,19 +2,31 @@
 
 namespace NavplanTest\Notam\IcaoImporter;
 
+use Navplan\Notam\IcaoImporter\INotamCircleGeometryParser;
 use Navplan\Notam\IcaoImporter\NotamCircleGeometryParser;
+use Navplan\Notam\IcaoImporter\NotamCoordinateParser;
+use Navplan\System\Domain\Service\ILoggingService;
 use PHPUnit\Framework\TestCase;
 
 
 class NotamCircleGeometryParserTest extends TestCase
 {
+    private INotamCircleGeometryParser $parser;
+
+    protected function setUp(): void
+    {
+        $logger = $this->createMock(ILoggingService::class);
+        $coordinateParser = new NotamCoordinateParser($logger);
+        $this->parser = new NotamCircleGeometryParser($logger, $coordinateParser);
+    }
+
     public function test_it_parses_the_circle_in_format1()
     {
         // given
         $notam_msg = "AIRSPACE RESTRICTION NXT COOR 040924.97N0745316.72W RADIUS 2 NM "; // TODO withdout space at the end
 
         // when
-        $result = NotamCircleGeometryParser::tryParseCircleFromMessageVariant1($notam_msg);
+        $result = $this->parser->tryParseCircleFromMessageVariant1($notam_msg);
 
         // then
         $this->assertNotNull($result);
@@ -30,7 +42,7 @@ class NotamCircleGeometryParserTest extends TestCase
         $notam_msg = "FIREWORKS DISPLAY WILL TAKE PLACE WI AREA 100M RADIUS OF\n452809N0084942E / BOFFALORA SOPRA TICINO - W MILANO / ELEV 328FT AGL";
 
         // when
-        $result = NotamCircleGeometryParser::tryParseCircleFromMessageVariant2($notam_msg);
+        $result = $this->parser->tryParseCircleFromMessageVariant2($notam_msg);
 
         // then
         $this->assertNotNull($result);
@@ -45,7 +57,7 @@ class NotamCircleGeometryParserTest extends TestCase
         $notam_msg = "TEMPO RESTRICTED AREA ACT AS FLW\nA CIRCLE RADIUS 3.5NM CENTERED ON 364844N1264748E";
 
         // when
-        $result = NotamCircleGeometryParser::tryParseCircleFromMessageVariant3($notam_msg);
+        $result = $this->parser->tryParseCircleFromMessageVariant3($notam_msg);
 
         // then
         $this->assertNotNull($result);

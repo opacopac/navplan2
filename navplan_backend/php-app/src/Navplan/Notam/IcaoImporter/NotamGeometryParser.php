@@ -27,15 +27,7 @@ require_once __DIR__ . "/../../ConsoleBootstrap.php";
 
 global $diContainer;
 
-$parser = new NotamGeometryParser(
-    $diContainer->getSystemDiContainer()->getLoggingService(),
-    $diContainer->getPersistenceDiContainer()->getDbService(),
-    $diContainer->getNotamDiContainer()->getReadNotamsByKeyQuery(),
-    $diContainer->getNotamDiContainer()->getReadNotamChunkQuery(),
-    $diContainer->getNotamDiContainer()->getNotamGeometryDeleteAllCommand(),
-    $diContainer->getAirspaceDiContainer()->getFirService(),
-    $diContainer->getAerodromeDiContainer()->getAirportService(),
-);
+$parser = $diContainer->getNotamDiContainer()->getNotamGeometryParser();
 if (isset($_GET["testnotamid"])) {
     $parser->test($_GET["testnotamid"]);
 } else {
@@ -43,7 +35,7 @@ if (isset($_GET["testnotamid"])) {
 }
 
 
-class NotamGeometryParser
+class NotamGeometryParser implements INotamGeometryParser
 {
     const int PROCESS_CHUNK_SIZE = 1000;
     const float MIN_PIXEL_COORDINATE_RESOLUTION = 1.0;
@@ -69,6 +61,9 @@ class NotamGeometryParser
         private readonly INotamGeometryDeleteAllCommand $notamGeometryDeleteAllCommand,
         private readonly IFirService $firService,
         private readonly IAirportService $airportService,
+        private readonly NotamCoordinateParser $coordinateParser,
+        private readonly NotamAltitudeLinesParser $altitudeLinesParser,
+        private readonly NotamCircleGeometryParser $circleGeometryParser,
     )
     {
     }
@@ -414,7 +409,7 @@ class NotamGeometryParser
 
             // Bottom/Top Altitude:
             // try to parse the notam altitude from F) and G) lines (=prio 1) or from the q-line otherwise (=prio 2)
-            $bottomTop = NotamAltitudeLinesParser::tryParseAltitudesFromGAndFLines($icaoApiNotam->all);
+            $bottomTop = $this->altitudeLinesParser->tryParseAltitudesFromGAndFLines($icaoApiNotam->all);
             if ($bottomTop) {
                 $this->logger->debug("message top/bottom found: " . $bottomTop[0]->toString() . ", " . $bottomTop[1]->toString());
 
@@ -447,7 +442,7 @@ class NotamGeometryParser
             }
 
             if (!$isMixedPolyCircle) {
-                $circle = NotamCircleGeometryParser::tryParseCircleFromMessageVariant1($icaoApiNotam->message);
+                $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant1($icaoApiNotam->message);
                 if ($circle) {
                     $this->logger->debug("circle geometry v1 in message found: " . $circle->toString());
 
@@ -456,7 +451,7 @@ class NotamGeometryParser
                     return $geometry;
                 }
 
-                $circle = NotamCircleGeometryParser::tryParseCircleFromMessageVariant2($icaoApiNotam->message);
+                $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant2($icaoApiNotam->message);
                 if ($circle) {
                     $this->logger->debug("circle geometry v2 in message found: " . $circle->toString());
 
@@ -465,7 +460,7 @@ class NotamGeometryParser
                     return $geometry;
                 }
 
-                $circle = NotamCircleGeometryParser::tryParseCircleFromMessageVariant3($icaoApiNotam->message);
+                $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant3($icaoApiNotam->message);
                 if ($circle) {
                     $this->logger->debug("circle geometry v3 in message found: " . $circle->toString());
 
@@ -495,7 +490,7 @@ class NotamGeometryParser
                 return $geometry;
             }
 
-            $circle = NotamCircleGeometryParser::tryParseCircleFromMessageVariant1($icaoApiNotam->all);
+            $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant1($icaoApiNotam->all);
             if ($circle) {
                 $this->logger->debug("circle geometry v1 in message found: " . $circle->center->toString(",") . " radius: " . $circle->radius->toString());
 
@@ -504,7 +499,7 @@ class NotamGeometryParser
                 return $geometry;
             }
 
-            $circle = NotamCircleGeometryParser::tryParseCircleFromMessageVariant2($icaoApiNotam->all);
+            $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant2($icaoApiNotam->all);
             if ($circle) {
                 $this->logger->debug("circle geometry v2 in message found: " . $circle->center->toString(",") . " radius: " . $circle->radius->toString());
 
@@ -513,7 +508,7 @@ class NotamGeometryParser
                 return $geometry;
             }
 
-            $circle = NotamCircleGeometryParser::tryParseCircleFromMessageVariant3($icaoApiNotam->all);
+            $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant3($icaoApiNotam->all);
             if ($circle) {
                 $this->logger->debug("circle geometry v3 in message found: " . $circle->center->toString(",") . " radius: " . $circle->radius->toString());
 
@@ -615,7 +610,7 @@ class NotamGeometryParser
     {
         $posList = [];
         foreach ($matches as $match) {
-            $posList[] = NotamCoordinateParser::getLonLatFromGradMinSecStrings($match[1], $match[2], $match[3], $match[4], $match[5], $match[6], $match[7], $match[8]);
+            $posList[] = $this->coordinateParser->getLonLatFromGradMinSecStrings($match[1], $match[2], $match[3], $match[4], $match[5], $match[6], $match[7], $match[8]);
         }
 
         return new Ring2d($posList);
