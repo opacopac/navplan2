@@ -9,7 +9,7 @@ use Navplan\System\DbQueryBuilder\Domain\Model\DbTable;
 
 class DbTableNotam extends DbTable
 {
-    public const string TABLE_NAME = "icao_notam";
+    public const string TABLE_NAME = "faa_notam";
     public const string COL_ID = "id";
     public const string COL_NOTAM_ID = "notam_id";
     public const string COL_COUNTRY = "country";
