@@ -6,7 +6,6 @@ use Navplan\Aerodrome\Domain\Service\IAirportService;
 use Navplan\Airspace\Domain\Service\IFirService;
 use Navplan\Common\Domain\Model\Circle2d;
 use Navplan\Common\Domain\Model\Length;
-use Navplan\Common\Domain\Model\Ring2d;
 use Navplan\Common\GeoHelper;
 use Navplan\Common\InvalidFormatException;
 use Navplan\Common\StringNumberHelper;
@@ -21,7 +20,6 @@ use Navplan\System\Db\MySql\DbHelper;
 use Navplan\System\Domain\Service\ILoggingService;
 
 
-require_once __DIR__ . "/IcaoApiNotam.php";
 require_once __DIR__ . "/../../ConsoleBootstrap.php";
 
 
@@ -62,103 +60,13 @@ class NotamGeometryParser implements INotamGeometryParser
         private readonly IFirService $firService,
         private readonly IAirportService $airportService,
         private readonly NotamCoordinateParser $coordinateParser,
-        private readonly NotamAltitudeLinesParser $altitudeLinesParser,
+        private readonly NotamAltitudeParser $altitudeParser,
         private readonly NotamCircleGeometryParser $circleGeometryParser,
         private readonly NotamPolygonGeometryParser $polygonGeometryParser,
     )
     {
     }
 
-
-    /**
-     * @throws InvalidFormatException
-     */
-    public function test(string $testNotamId): void
-    {
-        $testNotamId = StringNumberHelper::checkEscapeString($this->dbService, $testNotamId, 1, 20);
-        $this->logger->info("loading test notam '" . $testNotamId . "'...");
-        $notamList = $this->readNotamsByKeyQuery->readNotamsByKey($testNotamId);
-        if (count($notamList) == 0) {
-            $this->logger->warning("notam not found, exiting.");
-            return;
-        }
-
-        $this->logger->debug(count($notamList) . " notams found");
-
-        foreach ($notamList as $notam) {
-            $this->logger->debug("id: " . $notam->id);
-            $this->logger->debug("icao: " . $notam->icao);
-            $this->logger->debug("notam: " . $notam->notam);
-            $this->logger->info("loading extent list...");
-        }
-
-        $extentList = $this->loadExtentList($notamList);
-
-
-        $this->logger->info("parse geometry from notam texts...");
-        foreach ($notamList as &$notam) {
-            $this->logger->debug("notam id:" . $notam->id);
-            $icaoApiNotam = IcaoApiNotam::fromJson($notam->notam);
-            $notam->geometry = $this->parseNotamGeometry($icaoApiNotam);
-            $notam->dbExtent = $this->getNotamDbExtent($notam, $icaoApiNotam, $extentList[$notam->icao]);
-        }
-
-        // try match with airspace name
-        $this->logger->info("try to find matching airspace...");
-        $this->tryFindMatchingAirspace($notamList);
-
-        $this->logger->info("calculate different zoom levels...");
-        $this->calculateZoomLevelGeometries($notamList);
-
-        foreach ($notamList as $notam) {
-            // print notam geometries
-            if ($notam->geometry?->circle) {
-                $this->logger->debug("geometry.circle:" . $notam->geometry->circle->toString());
-            }
-
-            if ($notam->geometry->polygon) {
-                $this->logger->debug("geometry.polygon:" . $notam->geometry->polygon->toString());
-            }
-
-            if ($notam->geometry->multipolygon) {
-                $counter = 0;
-                foreach ($notam->geometry->multipolygon->ring2dList as $polygon) {
-                    $counter++;
-                    $this->logger->debug("geometry.multipolygon(" . $counter . "):" . $polygon->toString());
-                }
-            }
-
-            if ($notam->geometry?->top) {
-                $this->logger->debug("geometry.top:" . $notam->geometry->top->toString());
-            }
-
-            if ($notam->geometry?->bottom) {
-                $this->logger->debug("geometry.bottom:" . $notam->geometry->bottom->toString());
-            }
-
-            if ($notam->geometry["dbExtent"]) {
-                $this->logger->debug("dbExtent:" . $notam->dbExtent);
-            }
-
-            if ($notam->polyzoomlevels) {
-                foreach ($notam->polyzoomlevels as $polyzoomlevel) {
-                    $this->logger->debug("zoom:" . $polyzoomlevel[self::ZOOM_KEY_MIN] . "-" . $polyzoomlevel[self::ZOOM_KEY_MAX] . ", polygon: " . StringNumberHelper::array_implode(",", " ", $polyzoomlevel[self::GEOM_KEY_POLYGON]));
-                }
-            }
-
-            if ($notam->multipolyzoomlevels) {
-                foreach ($notam->multipolyzoomlevels as $multipolyzoomlevel) {
-                    $counter = 0;
-                    foreach ($multipolyzoomlevel[self::GEOM_KEY_MULTIPOLYGON] as $polygon) {
-                        $counter++;
-                        $this->logger->debug("zoom:" . $multipolyzoomlevel[self::ZOOM_KEY_MIN] . "-" . $multipolyzoomlevel[self::ZOOM_KEY_MAX] . ", multipolygon(" . $counter . "): " . StringNumberHelper::array_implode(",", " ", $polygon));
-                    }
-                }
-            }
-        }
-
-        $this->logger->info("done.");
-    }
 
 
     /**
@@ -410,18 +318,10 @@ class NotamGeometryParser implements INotamGeometryParser
 
             // Bottom/Top Altitude:
             // try to parse the notam altitude from F) and G) lines (=prio 1) or from the q-line otherwise (=prio 2)
-            $bottomTop = $this->altitudeLinesParser->tryParseAltitudesFromGAndFLines($icaoApiNotam->all);
+            $bottomTop = $this->altitudeParser->parseAltitudes($icaoApiNotam);
             if ($bottomTop) {
-                $this->logger->debug("message top/bottom found: " . $bottomTop[0]->toString() . ", " . $bottomTop[1]->toString());
-
                 $geometry->bottom = $bottomTop[0];
                 $geometry->top = $bottomTop[1];
-            } else if ($icaoApiNotam->qLine?->lowerLimit && $icaoApiNotam->qLine?->upperLimit) {
-                $this->logger->debug("qline top/bottom found: " . $icaoApiNotam->qLine->lowerLimit->toString()
-                    . ", " . $icaoApiNotam->qLine->upperLimit->toString());
-
-                $geometry->bottom = $icaoApiNotam->qLine->lowerLimit;
-                $geometry->top = $icaoApiNotam->qLine->upperLimit;
             }
 
             // Polygon / Circle:
@@ -430,14 +330,10 @@ class NotamGeometryParser implements INotamGeometryParser
             $polygon = $this->polygonGeometryParser->tryParsePolygon($icaoApiNotam->message);
             if ($polygon) {
                 if (!str_contains($icaoApiNotam->message, "CIRCLE")) {
-                    $this->logger->debug("pure polygon geometry in message found: " . $polygon->toString());
-
                     $geometry->polygon = $polygon;
 
                     return $geometry;
                 } else {
-                    $this->logger->debug("mixed polygon+circle geometry in message found");
-
                     $isMixedPolyCircle = true;
                 }
             }
@@ -445,8 +341,6 @@ class NotamGeometryParser implements INotamGeometryParser
             if (!$isMixedPolyCircle) {
                 $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant1($icaoApiNotam->message);
                 if ($circle) {
-                    $this->logger->debug("circle geometry v1 in message found: " . $circle->toString());
-
                     $geometry->circle = $circle;
 
                     return $geometry;
@@ -454,8 +348,6 @@ class NotamGeometryParser implements INotamGeometryParser
 
                 $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant2($icaoApiNotam->message);
                 if ($circle) {
-                    $this->logger->debug("circle geometry v2 in message found: " . $circle->toString());
-
                     $geometry->circle = $circle;
 
                     return $geometry;
@@ -463,8 +355,6 @@ class NotamGeometryParser implements INotamGeometryParser
 
                 $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant3($icaoApiNotam->message);
                 if ($circle) {
-                    $this->logger->debug("circle geometry v3 in message found: " . $circle->toString());
-
                     $geometry->circle = $circle;
 
                     return $geometry;
@@ -484,8 +374,6 @@ class NotamGeometryParser implements INotamGeometryParser
 
             $polygon = $this->polygonGeometryParser->tryParsePolygon($icaoApiNotam->all);
             if ($polygon) {
-                $this->logger->debug("pure polygon geometry in message found: " . $polygon->toString());
-
                 $geometry->polygon = $polygon;
 
                 return $geometry;
@@ -493,8 +381,6 @@ class NotamGeometryParser implements INotamGeometryParser
 
             $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant1($icaoApiNotam->all);
             if ($circle) {
-                $this->logger->debug("circle geometry v1 in message found: " . $circle->center->toString(",") . " radius: " . $circle->radius->toString());
-
                 $geometry->circle = $circle;
 
                 return $geometry;
@@ -502,8 +388,6 @@ class NotamGeometryParser implements INotamGeometryParser
 
             $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant2($icaoApiNotam->all);
             if ($circle) {
-                $this->logger->debug("circle geometry v2 in message found: " . $circle->center->toString(",") . " radius: " . $circle->radius->toString());
-
                 $geometry->circle = $circle;
 
                 return $geometry;
@@ -511,8 +395,6 @@ class NotamGeometryParser implements INotamGeometryParser
 
             $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant3($icaoApiNotam->all);
             if ($circle) {
-                $this->logger->debug("circle geometry v3 in message found: " . $circle->center->toString(",") . " radius: " . $circle->radius->toString());
-
                 $geometry->circle = $circle;
 
                 return $geometry;

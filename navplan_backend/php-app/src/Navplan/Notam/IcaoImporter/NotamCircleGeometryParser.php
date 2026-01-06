@@ -31,8 +31,11 @@ class NotamCircleGeometryParser implements INotamCircleGeometryParser
         if ($result) {
             $center = $this->coordinateParser->getLonLatFromGradMinSecStrings($matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6], $matches[7], $matches[8]);
             $radius = $this->getRadiusFromStrings($matches[10], $matches[11]);
+            $circle = new Circle2d($center, $radius);
 
-            return new Circle2d($center, $radius);
+            $this->logger->debug("circle geometry v1 in message found: " . $circle->toString());
+
+            return $circle;
         }
 
         // no match
@@ -49,8 +52,11 @@ class NotamCircleGeometryParser implements INotamCircleGeometryParser
         if ($result) {
             $center = $this->coordinateParser->getLonLatFromGradMinSecStrings($matches[4], $matches[5], $matches[6], $matches[7], $matches[8], $matches[9], $matches[10], $matches[11]);
             $radius = $this->getRadiusFromStrings($matches[1], $matches[2]);
+            $circle = new Circle2d($center, $radius);
 
-            return new Circle2d($center, $radius);
+            $this->logger->debug("circle geometry v2 in message found: " . $circle->toString());
+
+            return $circle;
         }
 
         // no match
@@ -67,8 +73,11 @@ class NotamCircleGeometryParser implements INotamCircleGeometryParser
         if ($result) {
             $center = $this->coordinateParser->getLonLatFromGradMinSecStrings($matches[4], $matches[5], $matches[6], $matches[7], $matches[8], $matches[9], $matches[10], $matches[11]);
             $radius = $this->getRadiusFromStrings($matches[2], $matches[3]);
+            $circle = new Circle2d($center, $radius);
 
-            return new Circle2d($center, $radius);
+            $this->logger->debug("circle geometry v3 in message found: " . $circle->toString());
+
+            return $circle;
         }
 
         // no match

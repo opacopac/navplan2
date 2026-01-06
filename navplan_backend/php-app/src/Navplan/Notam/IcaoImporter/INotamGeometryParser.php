@@ -5,8 +5,5 @@ namespace Navplan\Notam\IcaoImporter;
 
 interface INotamGeometryParser
 {
-    function test(string $testNotamId): void;
-
     function go(): void;
 }
-

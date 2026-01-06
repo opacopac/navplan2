@@ -30,13 +30,25 @@ class NotamPolygonGeometryParser implements INotamPolygonGeometryParser
         $result = preg_match_all($regExp, $textNoBrackets, $matches, PREG_SET_ORDER);
 
         if ($result && count($matches) >= 3) {
-            return $this->getRingFromPolygonMatches($matches);
+            $polygon = $this->getRingFromPolygonMatches($matches);
+            if (!str_contains($text, "CIRCLE")) {
+                $this->logger->debug("pure polygon geometry in message found: " . $polygon->toString());
+            } else {
+                $this->logger->debug("mixed polygon+circle geometry in message found");
+            }
+            return $polygon;
         }
 
         // try with text in brackets
         $result = preg_match_all($regExp, $text, $matches, PREG_SET_ORDER);
         if ($result && count($matches) >= 3) {
-            return $this->getRingFromPolygonMatches($matches);
+            $polygon = $this->getRingFromPolygonMatches($matches);
+            if (!str_contains($text, "CIRCLE")) {
+                $this->logger->debug("pure polygon geometry in message found: " . $polygon->toString());
+            } else {
+                $this->logger->debug("mixed polygon+circle geometry in message found");
+            }
+            return $polygon;
         }
 
         // no match

@@ -12,7 +12,7 @@ use Navplan\Notam\Domain\Query\IReadNotamChunkQuery;
 use Navplan\Notam\Domain\Query\IReadNotamsByKeyQuery;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\Notam\Domain\Service\INotamService;
-use Navplan\Notam\IcaoImporter\INotamAltitudeLinesParser;
+use Navplan\Notam\IcaoImporter\INotamAltitudeParser;
 use Navplan\Notam\IcaoImporter\INotamCircleGeometryParser;
 use Navplan\Notam\IcaoImporter\INotamCoordinateParser;
 use Navplan\Notam\IcaoImporter\INotamGeometryParser;
@@ -43,7 +43,7 @@ interface INotamDiContainer
 
     function getNotamCoordinateParser(): INotamCoordinateParser;
 
-    function getNotamAltitudeLinesParser(): INotamAltitudeLinesParser;
+    function getNotamAltitudeParser(): INotamAltitudeParser;
 
     function getNotamCircleGeometryParser(): INotamCircleGeometryParser;
 

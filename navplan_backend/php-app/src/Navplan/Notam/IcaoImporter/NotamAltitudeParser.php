@@ -6,33 +6,12 @@ use Navplan\Common\Domain\Model\Altitude;
 use Navplan\System\Domain\Service\ILoggingService;
 
 
-class NotamAltitudeLinesParser implements INotamAltitudeLinesParser
+class NotamAltitudeParser implements INotamAltitudeParser
 {
     public function __construct(
         private readonly ILoggingService $logger
     )
     {
-    }
-
-
-    /**
-     * detect bottom / top height in F) and G) line of message: ...F) SFC G) 500FT AGL...
-     *
-     * @param string $notamText
-     * @return Altitude[]|null
-     */
-    public function tryParseAltitudesFromGAndFLines(string $notamText): ?array
-    {
-        $regExp = '/\s+F\)\s*(\S+.*)\s+G\)\s*(\S+.*)\s+/im';
-        $result = preg_match($regExp, $notamText, $matches);
-
-        if (!$result || count($matches) != 3)
-            return null;
-
-        $bottom = $this->parseAltitude($matches[1]);
-        $top = $this->parseAltitude($matches[2]);
-
-        return [$bottom, $top];
     }
 
 
@@ -60,6 +39,27 @@ class NotamAltitudeLinesParser implements INotamAltitudeLinesParser
         }
 
         return null;
+    }
+
+
+    /**
+     * detect bottom / top height in F) and G) line of message: ...F) SFC G) 500FT AGL...
+     *
+     * @param string $notamText
+     * @return Altitude[]|null
+     */
+    private function tryParseAltitudesFromGAndFLines(string $notamText): ?array
+    {
+        $regExp = '/\s+F\)\s*(\S+.*)\s+G\)\s*(\S+.*)\s+/im';
+        $result = preg_match($regExp, $notamText, $matches);
+
+        if (!$result || count($matches) != 3)
+            return null;
+
+        $bottom = $this->parseAltitude($matches[1]);
+        $top = $this->parseAltitude($matches[2]);
+
+        return [$bottom, $top];
     }
 
 

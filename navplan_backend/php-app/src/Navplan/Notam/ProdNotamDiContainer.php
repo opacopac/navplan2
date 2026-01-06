@@ -16,12 +16,12 @@ use Navplan\Notam\Domain\Query\IReadNotamsByKeyQuery;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Notam\Domain\Service\NotamService;
-use Navplan\Notam\IcaoImporter\INotamAltitudeLinesParser;
+use Navplan\Notam\IcaoImporter\INotamAltitudeParser;
 use Navplan\Notam\IcaoImporter\INotamCircleGeometryParser;
 use Navplan\Notam\IcaoImporter\INotamCoordinateParser;
 use Navplan\Notam\IcaoImporter\INotamGeometryParser;
 use Navplan\Notam\IcaoImporter\INotamPolygonGeometryParser;
-use Navplan\Notam\IcaoImporter\NotamAltitudeLinesParser;
+use Navplan\Notam\IcaoImporter\NotamAltitudeParser;
 use Navplan\Notam\IcaoImporter\NotamCircleGeometryParser;
 use Navplan\Notam\IcaoImporter\NotamCoordinateParser;
 use Navplan\Notam\IcaoImporter\NotamGeometryParser;
@@ -52,7 +52,7 @@ class ProdNotamDiContainer implements INotamDiContainer
     private IReadNotamChunkQuery $readNotamChunkQuery;
     private INotamGeometryDeleteAllCommand $notamGeometryDeleteAllCommand;
     private INotamCoordinateParser $notamCoordinateParser;
-    private INotamAltitudeLinesParser $notamAltitudeLinesParser;
+    private INotamAltitudeParser $notamAltitudeParser;
     private INotamCircleGeometryParser $notamCircleGeometryParser;
     private INotamPolygonGeometryParser $notamPolygonGeometryParser;
     private INotamGeometryParser $notamGeometryParser;
@@ -187,13 +187,13 @@ class ProdNotamDiContainer implements INotamDiContainer
     }
 
 
-    public function getNotamAltitudeLinesParser(): INotamAltitudeLinesParser
+    public function getNotamAltitudeParser(): INotamAltitudeParser
     {
-        if (!isset($this->notamAltitudeLinesParser)) {
-            $this->notamAltitudeLinesParser = new NotamAltitudeLinesParser($this->loggingService);
+        if (!isset($this->notamAltitudeParser)) {
+            $this->notamAltitudeParser = new NotamAltitudeParser($this->loggingService);
         }
 
-        return $this->notamAltitudeLinesParser;
+        return $this->notamAltitudeParser;
     }
 
 
@@ -235,7 +235,7 @@ class ProdNotamDiContainer implements INotamDiContainer
                 $this->firService,
                 $this->airportService,
                 $this->getNotamCoordinateParser(),
-                $this->getNotamAltitudeLinesParser(),
+                $this->getNotamAltitudeParser(),
                 $this->getNotamCircleGeometryParser(),
                 $this->getNotamPolygonGeometryParser()
             );
