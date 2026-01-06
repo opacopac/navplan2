@@ -16,6 +16,7 @@ use Navplan\Notam\IcaoImporter\INotamAltitudeLinesParser;
 use Navplan\Notam\IcaoImporter\INotamCircleGeometryParser;
 use Navplan\Notam\IcaoImporter\INotamCoordinateParser;
 use Navplan\Notam\IcaoImporter\INotamGeometryParser;
+use Navplan\Notam\IcaoImporter\INotamPolygonGeometryParser;
 
 
 interface INotamDiContainer
@@ -45,6 +46,8 @@ interface INotamDiContainer
     function getNotamAltitudeLinesParser(): INotamAltitudeLinesParser;
 
     function getNotamCircleGeometryParser(): INotamCircleGeometryParser;
+
+    function getNotamPolygonGeometryParser(): INotamPolygonGeometryParser;
 
     function getNotamGeometryParser(): INotamGeometryParser;
 }

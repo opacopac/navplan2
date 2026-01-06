@@ -4,8 +4,6 @@ namespace Navplan\Notam\IcaoImporter;
 
 use Navplan\Common\Domain\Model\Circle2d;
 use Navplan\Common\Domain\Model\Length;
-use Navplan\Common\Domain\Model\Position2d;
-use Navplan\Common\GeoHelper;
 use Navplan\System\Domain\Service\ILoggingService;
 
 
@@ -31,10 +29,6 @@ class NotamCircleGeometryParser implements INotamCircleGeometryParser
         $result = preg_match($regExp, $message, $matches);
 
         if ($result) {
-            $center = new Position2d(
-                GeoHelper::getDecFromDms($matches[8], intval($matches[5]), intval($matches[6]), floatval($matches[7])),
-                GeoHelper::getDecFromDms($matches[4], intval($matches[1]), intval($matches[2]), floatval($matches[3]))
-            );
             $center = $this->coordinateParser->getLonLatFromGradMinSecStrings($matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6], $matches[7], $matches[8]);
             $radius = $this->getRadiusFromStrings($matches[10], $matches[11]);
 

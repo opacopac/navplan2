@@ -20,10 +20,12 @@ use Navplan\Notam\IcaoImporter\INotamAltitudeLinesParser;
 use Navplan\Notam\IcaoImporter\INotamCircleGeometryParser;
 use Navplan\Notam\IcaoImporter\INotamCoordinateParser;
 use Navplan\Notam\IcaoImporter\INotamGeometryParser;
+use Navplan\Notam\IcaoImporter\INotamPolygonGeometryParser;
 use Navplan\Notam\IcaoImporter\NotamAltitudeLinesParser;
 use Navplan\Notam\IcaoImporter\NotamCircleGeometryParser;
 use Navplan\Notam\IcaoImporter\NotamCoordinateParser;
 use Navplan\Notam\IcaoImporter\NotamGeometryParser;
+use Navplan\Notam\IcaoImporter\NotamPolygonGeometryParser;
 use Navplan\Notam\Persistence\Command\DbNotamGeometryDeleteAllCommand;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByExtentQuery;
 use Navplan\Notam\Persistence\Query\DbNotamSearchByIcaoQuery;
@@ -52,6 +54,7 @@ class ProdNotamDiContainer implements INotamDiContainer
     private INotamCoordinateParser $notamCoordinateParser;
     private INotamAltitudeLinesParser $notamAltitudeLinesParser;
     private INotamCircleGeometryParser $notamCircleGeometryParser;
+    private INotamPolygonGeometryParser $notamPolygonGeometryParser;
     private INotamGeometryParser $notamGeometryParser;
 
 
@@ -207,6 +210,19 @@ class ProdNotamDiContainer implements INotamDiContainer
     }
 
 
+    public function getNotamPolygonGeometryParser(): INotamPolygonGeometryParser
+    {
+        if (!isset($this->notamPolygonGeometryParser)) {
+            $this->notamPolygonGeometryParser = new NotamPolygonGeometryParser(
+                $this->loggingService,
+                $this->getNotamCoordinateParser()
+            );
+        }
+
+        return $this->notamPolygonGeometryParser;
+    }
+
+
     public function getNotamGeometryParser(): INotamGeometryParser
     {
         if (!isset($this->notamGeometryParser)) {
@@ -220,7 +236,8 @@ class ProdNotamDiContainer implements INotamDiContainer
                 $this->airportService,
                 $this->getNotamCoordinateParser(),
                 $this->getNotamAltitudeLinesParser(),
-                $this->getNotamCircleGeometryParser()
+                $this->getNotamCircleGeometryParser(),
+                $this->getNotamPolygonGeometryParser()
             );
         }
 

@@ -64,6 +64,7 @@ class NotamGeometryParser implements INotamGeometryParser
         private readonly NotamCoordinateParser $coordinateParser,
         private readonly NotamAltitudeLinesParser $altitudeLinesParser,
         private readonly NotamCircleGeometryParser $circleGeometryParser,
+        private readonly NotamPolygonGeometryParser $polygonGeometryParser,
     )
     {
     }
@@ -268,7 +269,7 @@ class NotamGeometryParser implements INotamGeometryParser
             if (isset($notam->polyzoomlevels)) {
                 foreach ($notam->polyzoomlevels as $polyZoomLevel) {
                     $geometry = $notam->geometry;
-                    $geometry[self::GEOM_KEY_POLYGON] = $polyZoomLevel[self::GEOM_KEY_POLYGON];
+                    $geometry->polygon = $polyZoomLevel[self::GEOM_KEY_POLYGON];
                     GeoHelper::reducePolygonAccuracy($geometry[self::GEOM_KEY_POLYGON]);
                     $geometryString = "'" . StringNumberHelper::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
 
@@ -426,7 +427,7 @@ class NotamGeometryParser implements INotamGeometryParser
             // Polygon / Circle:
             // try to parse polygon first (prio 1), then circle variants 1-3 (prio 2), then q-line circle (prio 3)
             $isMixedPolyCircle = false;
-            $polygon = $this->tryParsePolygon($icaoApiNotam->message);
+            $polygon = $this->polygonGeometryParser->tryParsePolygon($icaoApiNotam->message);
             if ($polygon) {
                 if (!str_contains($icaoApiNotam->message, "CIRCLE")) {
                     $this->logger->debug("pure polygon geometry in message found: " . $polygon->toString());
@@ -481,7 +482,7 @@ class NotamGeometryParser implements INotamGeometryParser
         } else {
             $this->logger->debug("notam format: non-icao");
 
-            $polygon = $this->tryParsePolygon($icaoApiNotam->all);
+            $polygon = $this->polygonGeometryParser->tryParsePolygon($icaoApiNotam->all);
             if ($polygon) {
                 $this->logger->debug("pure polygon geometry in message found: " . $polygon->toString());
 
@@ -575,45 +576,6 @@ class NotamGeometryParser implements INotamGeometryParser
         $this->logger->debug("no geometry found as db extent");
 
         return null;
-    }
-
-
-    // detect polygon in notam text: 463447N0062121E, 341640N0992240W, 1st: without coordinates in brackets, 2nd: including coordinates in brackets
-    // e.g. ... 472401N0083320E 472315N0082918E 471935N0083439E 472103N0083855E 472119N0083657E 472137N0083602E 472215N0083450E (CENTER POINT 472209N0083406E RADIUS 3.5 NM) ...
-    private function tryParsePolygon(string $text): ?Ring2d
-    {
-        $regExp = "/" . NotamCoordinateParser::REGEXP_PART_COORDPAIR . "/im";
-
-        // try without text in brackets
-        $textNoBrackets = $this->getNonBracketText($text);
-        $this->logger->debug("text: " . $text);
-        $this->logger->debug("non bracket text: " . $textNoBrackets);
-
-        $result = preg_match_all($regExp, $textNoBrackets, $matches, PREG_SET_ORDER);
-
-        if ($result && count($matches) >= 3) {
-            return self::getRingFromPolygonMatches($matches);
-        }
-
-        // try with text in brackets
-        $result = preg_match_all($regExp, $text, $matches, PREG_SET_ORDER);
-        if ($result && count($matches) >= 3) {
-            return self::getRingFromPolygonMatches($matches);
-        }
-
-        // no match
-        return null;
-    }
-
-
-    private function getRingFromPolygonMatches(array $matches): Ring2d
-    {
-        $posList = [];
-        foreach ($matches as $match) {
-            $posList[] = $this->coordinateParser->getLonLatFromGradMinSecStrings($match[1], $match[2], $match[3], $match[4], $match[5], $match[6], $match[7], $match[8]);
-        }
-
-        return new Ring2d($posList);
     }
 
 
@@ -755,14 +717,6 @@ class NotamGeometryParser implements INotamGeometryParser
     {
         $pattern = "/[^\w\d]/im";
         return strtoupper(preg_replace($pattern, "", $text));
-    }
-
-
-    private function getNonBracketText(string $text): string
-    {
-        $pattern = "/\(.+?\)/ims";
-        //$pattern = '/\(.*\)/im';
-        return preg_replace($pattern, "", $text);
     }
 
 
