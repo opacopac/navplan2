@@ -90,7 +90,13 @@ class NotamGeometryParser implements INotamGeometryParser
             $this->logger->info("parse geometry from notam texts...");
             foreach ($notamChunk as &$notam) {
                 $icaoApiNotam = IcaoApiNotam::fromJson($notam->notam);
-                $notam->geometry = $this->parseNotamGeometry($icaoApiNotam);
+
+                if ($icaoApiNotam->isICAO) {
+                    $notam->geometry = $this->parseIcaoNotamGeometry($icaoApiNotam);
+                } else {
+                    $notam->geometry = $this->parseNonIcaoNotamGeometry($icaoApiNotam);
+                }
+
                 $notam->dbExtent = $this->getNotamDbExtent($notam, $icaoApiNotam, $extentList[$notam->icao] ?? null);
             }
 
@@ -309,96 +315,103 @@ class NotamGeometryParser implements INotamGeometryParser
     }
 
 
-    private function parseNotamGeometry(IcaoApiNotam $icaoApiNotam): ?RawNotamGeometry
+    private function parseIcaoNotamGeometry(IcaoApiNotam $icaoApiNotam): ?RawNotamGeometry
     {
         $geometry = new RawNotamGeometry();
 
-        if ($icaoApiNotam->isICAO) {
-            $this->logger->debug("notam format: icao");
+        $this->logger->debug("notam format: icao");
 
-            // Bottom/Top Altitude:
-            // try to parse the notam altitude from F) and G) lines (=prio 1) or from the q-line otherwise (=prio 2)
-            $bottomTop = $this->altitudeParser->parseAltitudes($icaoApiNotam);
-            if ($bottomTop) {
-                $geometry->bottom = $bottomTop[0];
-                $geometry->top = $bottomTop[1];
-            }
+        // Bottom/Top Altitude:
+        // try to parse the notam altitude from F) and G) lines (=prio 1) or from the q-line otherwise (=prio 2)
+        $bottomTop = $this->altitudeParser->parseAltitudes($icaoApiNotam);
+        if ($bottomTop) {
+            $geometry->bottom = $bottomTop[0];
+            $geometry->top = $bottomTop[1];
+        }
 
-            // Polygon / Circle:
-            // try to parse polygon first (prio 1), then circle variants 1-3 (prio 2), then q-line circle (prio 3)
-            $isMixedPolyCircle = false;
-            $polygon = $this->polygonGeometryParser->tryParsePolygon($icaoApiNotam->message);
-            if ($polygon) {
-                if (!str_contains($icaoApiNotam->message, "CIRCLE")) {
-                    $geometry->polygon = $polygon;
-
-                    return $geometry;
-                } else {
-                    $isMixedPolyCircle = true;
-                }
-            }
-
-            if (!$isMixedPolyCircle) {
-                $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant1($icaoApiNotam->message);
-                if ($circle) {
-                    $geometry->circle = $circle;
-
-                    return $geometry;
-                }
-
-                $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant2($icaoApiNotam->message);
-                if ($circle) {
-                    $geometry->circle = $circle;
-
-                    return $geometry;
-                }
-
-                $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant3($icaoApiNotam->message);
-                if ($circle) {
-                    $geometry->circle = $circle;
-
-                    return $geometry;
-                }
-            }
-
-            if ($icaoApiNotam->qLine) {
-                $circle = $icaoApiNotam->qLine->getCircle();
-                $this->logger->debug("circle geometry in qline found: " . $circle->toString());
-
-                $geometry->circle = $circle;
-
-                return $geometry;
-            }
-        } else {
-            $this->logger->debug("notam format: non-icao");
-
-            $polygon = $this->polygonGeometryParser->tryParsePolygon($icaoApiNotam->all);
-            if ($polygon) {
+        // Polygon / Circle:
+        // try to parse polygon first (prio 1), then circle variants 1-3 (prio 2), then q-line circle (prio 3)
+        $isMixedPolyCircle = false;
+        $polygon = $this->polygonGeometryParser->tryParsePolygon($icaoApiNotam->message);
+        if ($polygon) {
+            if (!str_contains($icaoApiNotam->message, "CIRCLE")) {
                 $geometry->polygon = $polygon;
 
                 return $geometry;
+            } else {
+                $isMixedPolyCircle = true;
             }
+        }
 
-            $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant1($icaoApiNotam->all);
+        if (!$isMixedPolyCircle) {
+            $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant1($icaoApiNotam->message);
             if ($circle) {
                 $geometry->circle = $circle;
 
                 return $geometry;
             }
 
-            $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant2($icaoApiNotam->all);
+            $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant2($icaoApiNotam->message);
             if ($circle) {
                 $geometry->circle = $circle;
 
                 return $geometry;
             }
 
-            $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant3($icaoApiNotam->all);
+            $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant3($icaoApiNotam->message);
             if ($circle) {
                 $geometry->circle = $circle;
 
                 return $geometry;
             }
+        }
+
+        if ($icaoApiNotam->qLine) {
+            $circle = $icaoApiNotam->qLine->getCircle();
+            $this->logger->debug("circle geometry in qline found: " . $circle->toString());
+
+            $geometry->circle = $circle;
+
+            return $geometry;
+        }
+
+        // no match
+        return null;
+    }
+
+
+    private function parseNonIcaoNotamGeometry(IcaoApiNotam $icaoApiNotam): ?RawNotamGeometry
+    {
+        $geometry = new RawNotamGeometry();
+
+        $this->logger->debug("notam format: non-icao");
+
+        $polygon = $this->polygonGeometryParser->tryParsePolygon($icaoApiNotam->all);
+        if ($polygon) {
+            $geometry->polygon = $polygon;
+
+            return $geometry;
+        }
+
+        $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant1($icaoApiNotam->all);
+        if ($circle) {
+            $geometry->circle = $circle;
+
+            return $geometry;
+        }
+
+        $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant2($icaoApiNotam->all);
+        if ($circle) {
+            $geometry->circle = $circle;
+
+            return $geometry;
+        }
+
+        $circle = $this->circleGeometryParser->tryParseCircleFromMessageVariant3($icaoApiNotam->all);
+        if ($circle) {
+            $geometry->circle = $circle;
+
+            return $geometry;
         }
 
         // no match
