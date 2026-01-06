@@ -8,6 +8,7 @@ use Navplan\Airspace\Domain\Query\IAirspaceSearchByExtentQuery;
 use Navplan\Airspace\Domain\Query\IAirspaceSearchByPositionQuery;
 use Navplan\Airspace\Domain\Query\IAirspaceSearchByRouteQuery;
 use Navplan\Airspace\Domain\Query\IFirReadByIcaoQuery;
+use Navplan\Airspace\Domain\Query\IFirReadByIcaosQuery;
 use Navplan\Airspace\Domain\Service\AirspaceService;
 use Navplan\Airspace\Domain\Service\FirService;
 use Navplan\Airspace\Domain\Service\IAirspaceService;
@@ -18,6 +19,7 @@ use Navplan\Airspace\Persistence\Query\DbAirspaceSearchByExtentQuery;
 use Navplan\Airspace\Persistence\Query\DbAirspaceSearchByPositionQuery;
 use Navplan\Airspace\Persistence\Query\DbAirspaceSearchByRouteQuery;
 use Navplan\Airspace\Persistence\Query\DbFirReadByIcaoQuery;
+use Navplan\Airspace\Persistence\Query\DbFirReadByIcaosQuery;
 use Navplan\Airspace\Rest\Controller\AirspaceController;
 use Navplan\Airspace\Rest\Controller\FirController;
 use Navplan\Common\Rest\Controller\IRestController;
@@ -38,12 +40,13 @@ class ProdAirspaceDiContainer implements IAirspaceDiContainer
     private IAirspaceInsertAllCommand $airspaceInsertAllCommand;
     private IAirspaceDeleteAllCommand $airspaceDeleteAllCommand;
     private IFirReadByIcaoQuery $firReadByIcaoQuery;
+    private IFirReadByIcaosQuery $firReadByIcaosQuery;
 
 
     public function __construct(
-        private ILoggingService $loggingService,
-        private IDbService $dbService,
-        private IHttpService $httpService
+        private readonly ILoggingService $loggingService,
+        private readonly IDbService $dbService,
+        private readonly IHttpService $httpService
     )
     {
     }
@@ -79,7 +82,8 @@ class ProdAirspaceDiContainer implements IAirspaceDiContainer
     {
         if (!isset($this->firService)) {
             $this->firService = new FirService(
-                $this->getFirReadByIcaoQuery()
+                $this->getFirReadByIcaoQuery(),
+                $this->getFirReadByIcaosQuery()
             );
         }
 
@@ -174,5 +178,17 @@ class ProdAirspaceDiContainer implements IAirspaceDiContainer
         }
 
         return $this->firReadByIcaoQuery;
+    }
+
+
+    public function getFirReadByIcaosQuery(): IFirReadByIcaosQuery
+    {
+        if (!isset($this->firReadByIcaosQuery)) {
+            $this->firReadByIcaosQuery = new DbFirReadByIcaosQuery(
+                $this->dbService
+            );
+        }
+
+        return $this->firReadByIcaosQuery;
     }
 }

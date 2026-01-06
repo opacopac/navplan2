@@ -8,6 +8,7 @@ use Navplan\Aerodrome\Domain\Model\Airport;
 use Navplan\Aerodrome\Domain\Model\ShortAirport;
 use Navplan\Aerodrome\Domain\Query\IAirportByExtentQuery;
 use Navplan\Aerodrome\Domain\Query\IAirportByIcaoQuery;
+use Navplan\Aerodrome\Domain\Query\IAirportByIcaosQuery;
 use Navplan\Aerodrome\Domain\Query\IAirportByIdQuery;
 use Navplan\Aerodrome\Domain\Query\IAirportByPositionQuery;
 use Navplan\Aerodrome\Domain\Query\IAirportByTextQuery;
@@ -25,6 +26,7 @@ class AirportService implements IAirportService
     public function __construct(
         private readonly IAirportByIdQuery $airportByIdQuery,
         private readonly IAirportByIcaoQuery $airportByIcaoQuery,
+        private readonly IAirportByIcaosQuery $airportByIcaosQuery,
         private readonly IAirportByExtentQuery $airportByExtentQuery,
         private readonly IAirportByPositionQuery $airportByPositionQuery,
         private readonly IAirportByTextQuery $airportByTextQuery,
@@ -55,6 +57,16 @@ class AirportService implements IAirportService
         $this->loadAirportSubItems($airport, $token);
 
         return $airport;
+    }
+
+
+    /**
+     * @param string[] $icaos
+     * @return Airport[]
+     */
+    public function readByIcaos(array $icaos): array
+    {
+        return $this->airportByIcaosQuery->read($icaos);
     }
 
 

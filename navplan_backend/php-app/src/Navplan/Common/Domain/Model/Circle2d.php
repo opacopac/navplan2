@@ -14,4 +14,9 @@ class Circle2d implements IGeometry2d {
             throw new InvalidArgumentException("negative radius is not allowed: " . $radius->value);
         }
     }
+
+
+    public function toString(): string {
+        return $this->center->toString(", ") . ", r=" . $this->radius->toString();
+    }
 }

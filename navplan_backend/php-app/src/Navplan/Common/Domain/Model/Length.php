@@ -25,6 +25,15 @@ class Length {
     }
 
 
+    public static function fromKm(float|null $value): ?Length {
+        if ($value === null) {
+            return null;
+        }
+
+        return new Length($value, LengthUnit::KM);
+    }
+
+
     public static function fromFt(float|null $value): ?Length {
         if ($value === null) {
             return null;
@@ -151,5 +160,10 @@ class Length {
 
     public function isGtThan(Length $length): bool {
         return $this->value > $length->getValue($this->unit);
+    }
+
+
+    public function toString(string $separator = ''): string {
+        return $this->value . $separator . $this->unit->name;
     }
 }

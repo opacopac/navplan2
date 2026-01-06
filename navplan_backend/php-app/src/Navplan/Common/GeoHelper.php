@@ -2,6 +2,7 @@
 
 use Navplan\Common\Domain\Model\Angle;
 use Navplan\Common\Domain\Model\AngleUnit;
+use Navplan\Common\Domain\Model\Circle2d;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Domain\Model\LineInterval2d;
@@ -234,8 +235,10 @@ class GeoHelper
     }
 
 
-    public static function getCircleExtent(float $lat, float $lon, float $radiusM): array
-    {
+    public static function getCircleExtent(Circle2d $circle): array {
+        $lat = $circle->center->latitude;
+        $lon = $circle->center->longitude;
+        $radiusM = $circle->radius->getM();
         $dlat = (self::moveBearDist($lat, $lon, 0, $radiusM)[1] - $lat);
         $dlon = (self::moveBearDist($lat, $lon, 90, $radiusM)[0] - $lon);
 
@@ -335,7 +338,7 @@ class GeoHelper
         $phi1 = deg2rad($start->latitude);
         $lambda1 = deg2rad($start->longitude);
         $d_per_R = $distance->getValue(LengthUnit::M) / self::EARTH_RADIUS_M;
-        
+
         $phi2 = asin(sin($phi1) * cos($d_per_R) + cos($phi1) * sin($d_per_R) * cos(deg2rad($bearingDeg)));
         $lambda2 = $lambda1 + atan2(
             sin(deg2rad($bearingDeg)) * sin($d_per_R) * cos($phi1),
@@ -354,7 +357,7 @@ class GeoHelper
     {
         $bearing = self::calcBearing($pos1, $pos2)->getValue(AngleUnit::DEG);
         $backBearing = fmod(($bearing + 180), 360);
-        
+
         // Calculate perpendicular angles (left and right)
         $perpLeft = fmod(($bearing - 90 + 360), 360);
         $perpRight = fmod(($bearing + 90), 360);
@@ -390,7 +393,7 @@ class GeoHelper
         $posEast = self::calcDestination($pos, 90, $distance);
         $posSouth = self::calcDestination($pos, 180, $distance);
         $posWest = self::calcDestination($pos, 270, $distance);
-        
+
         // Return closed polygon (5 points: 4 corners + closing point)
         return new Ring2d([$posNorth, $posEast, $posSouth, $posWest, $posNorth]);
     }

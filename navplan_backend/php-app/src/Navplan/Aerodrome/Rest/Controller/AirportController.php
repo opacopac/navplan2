@@ -18,12 +18,12 @@ use Navplan\User\Rest\Model\RestTokenConverter;
 
 class AirportController implements IRestController
 {
-    const ARG_QUERY_ICAO = "icao";
+    private const string ARG_QUERY_ICAO = "icao";
 
 
     public function __construct(
-        private IHttpService $httpService,
-        private IAirportService $airportService
+        private readonly IHttpService $httpService,
+        private readonly IAirportService $airportService
     )
     {
     }
@@ -43,9 +43,20 @@ class AirportController implements IRestController
                     $airport = $this->airportService->readById($id, $token);
                     $response = RestAirportConverter::toRest($airport);
                 } else if ($icao) {
-                    // get airport by icao
-                    $airport = $this->airportService->readByIcao($icao, $token);
-                    $response = RestAirportConverter::toRest($airport);
+                    // Check if multiple ICAOs are provided (comma-separated)
+                    if (str_contains($icao, ',')) {
+                        // get airports by multiple icaos
+                        $icaos = array_map('trim', explode(',', $icao));
+                        $icaos = array_map('strtoupper', $icaos);
+                        $icaos = array_filter($icaos, fn($ic) => !empty($ic)); // Remove empty values
+
+                        $airports = $this->airportService->readByIcaos($icaos);
+                        $response = RestAirportConverter::toRestList($airports);
+                    } else {
+                        // get airport by single icao
+                        $airport = $this->airportService->readByIcao($icao, $token);
+                        $response = RestAirportConverter::toRest($airport);
+                    }
                 } else {
                     // search airports by extent
                     $extent = RestExtent2dConverter::fromArgs($getArgs);

@@ -6,6 +6,7 @@ use Navplan\Aerodrome\Domain\Command\IAirportCreateAllCommand;
 use Navplan\Aerodrome\Domain\Command\IAirportDeleteAllCommand;
 use Navplan\Aerodrome\Domain\Query\IAirportByExtentQuery;
 use Navplan\Aerodrome\Domain\Query\IAirportByIcaoQuery;
+use Navplan\Aerodrome\Domain\Query\IAirportByIcaosQuery;
 use Navplan\Aerodrome\Domain\Query\IAirportByIdQuery;
 use Navplan\Aerodrome\Domain\Query\IAirportByPositionQuery;
 use Navplan\Aerodrome\Domain\Query\IAirportByTextQuery;
@@ -18,6 +19,7 @@ use Navplan\Aerodrome\Persistence\Command\DbAirportCreateAllCommand;
 use Navplan\Aerodrome\Persistence\Command\DbAirportDeleteAllCommand;
 use Navplan\Aerodrome\Persistence\Query\DbAirportByExtentQuery;
 use Navplan\Aerodrome\Persistence\Query\DbAirportByIcaoQuery;
+use Navplan\Aerodrome\Persistence\Query\DbAirportByIcaosQuery;
 use Navplan\Aerodrome\Persistence\Query\DbAirportByIdQuery;
 use Navplan\Aerodrome\Persistence\Query\DbAirportByPositionQuery;
 use Navplan\Aerodrome\Persistence\Query\DbAirportByTextQuery;
@@ -39,6 +41,7 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
     private IAirportService $airportService;
     private IAirportByIdQuery $airportByIdQuery;
     private IAirportByIcaoQuery $airportByIcaoQuery;
+    private IAirportByIcaosQuery $airportByIcaosQuery;
     private IAirportByExtentQuery $airportByExtentQuery;
     private IAirportByPositionQuery $airportByPositionQuery;
     private IAirportByTextQuery $airportByTextQuery;
@@ -79,6 +82,7 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
             $this->airportService = new AirportService(
                 $this->getAirportByIdQuery(),
                 $this->getAirportByIcaoQuery(),
+                $this->getAirportByIcaosQuery(),
                 $this->getAirportByExtentQuery(),
                 $this->getAirportByPositionQuery(),
                 $this->getAirportByTextQuery(),
@@ -113,6 +117,16 @@ class ProdAerodromeDiContainer implements IAerodromeDiContainer
         }
 
         return $this->airportByIcaoQuery;
+    }
+
+
+    private function getAirportByIcaosQuery(): IAirportByIcaosQuery
+    {
+        if (!isset($this->airportByIcaosQuery)) {
+            $this->airportByIcaosQuery = new DbAirportByIcaosQuery($this->dbService);
+        }
+
+        return $this->airportByIcaosQuery;
     }
 
 

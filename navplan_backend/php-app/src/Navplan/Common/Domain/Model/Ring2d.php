@@ -45,6 +45,9 @@ class Ring2d implements IGeometry2d
     }
 
 
+    /**
+     * @param Position2d[] $position2dList
+     */
     public function __construct(public array $position2dList = [])
     {
         foreach ($position2dList as $pos2d) {
