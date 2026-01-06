@@ -16,11 +16,13 @@ use Navplan\Notam\Domain\Query\IReadNotamsByKeyQuery;
 use Navplan\Notam\Domain\Service\INotamConfig;
 use Navplan\Notam\Domain\Service\INotamService;
 use Navplan\Notam\Domain\Service\NotamService;
+use Navplan\Notam\IcaoImporter\INotamAirspaceParser;
 use Navplan\Notam\IcaoImporter\INotamAltitudeParser;
 use Navplan\Notam\IcaoImporter\INotamCircleGeometryParser;
 use Navplan\Notam\IcaoImporter\INotamCoordinateParser;
 use Navplan\Notam\IcaoImporter\INotamGeometryParser;
 use Navplan\Notam\IcaoImporter\INotamPolygonGeometryParser;
+use Navplan\Notam\IcaoImporter\NotamAirspaceParser;
 use Navplan\Notam\IcaoImporter\NotamAltitudeParser;
 use Navplan\Notam\IcaoImporter\NotamCircleGeometryParser;
 use Navplan\Notam\IcaoImporter\NotamCoordinateParser;
@@ -55,6 +57,7 @@ class ProdNotamDiContainer implements INotamDiContainer
     private INotamAltitudeParser $notamAltitudeParser;
     private INotamCircleGeometryParser $notamCircleGeometryParser;
     private INotamPolygonGeometryParser $notamPolygonGeometryParser;
+    private INotamAirspaceParser $notamAirspaceParser;
     private INotamGeometryParser $notamGeometryParser;
 
 
@@ -223,6 +226,19 @@ class ProdNotamDiContainer implements INotamDiContainer
     }
 
 
+    public function getNotamAirspaceParser(): INotamAirspaceParser
+    {
+        if (!isset($this->notamAirspaceParser)) {
+            $this->notamAirspaceParser = new NotamAirspaceParser(
+                $this->loggingService,
+                $this->dbService
+            );
+        }
+
+        return $this->notamAirspaceParser;
+    }
+
+
     public function getNotamGeometryParser(): INotamGeometryParser
     {
         if (!isset($this->notamGeometryParser)) {
@@ -237,7 +253,8 @@ class ProdNotamDiContainer implements INotamDiContainer
                 $this->getNotamCoordinateParser(),
                 $this->getNotamAltitudeParser(),
                 $this->getNotamCircleGeometryParser(),
-                $this->getNotamPolygonGeometryParser()
+                $this->getNotamPolygonGeometryParser(),
+                $this->getNotamAirspaceParser()
             );
         }
 

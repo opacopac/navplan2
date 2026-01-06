@@ -26,11 +26,7 @@ require_once __DIR__ . "/../../ConsoleBootstrap.php";
 global $diContainer;
 
 $parser = $diContainer->getNotamDiContainer()->getNotamGeometryParser();
-if (isset($_GET["testnotamid"])) {
-    $parser->test($_GET["testnotamid"]);
-} else {
-    $parser->go();
-}
+$parser->go();
 
 
 class NotamGeometryParser implements INotamGeometryParser
@@ -43,8 +39,6 @@ class NotamGeometryParser implements INotamGeometryParser
     // Geometry array keys
     const string GEOM_KEY_POLYGON = 'polygon';
     const string GEOM_KEY_MULTIPOLYGON = 'multipolygon';
-    const string GEOM_KEY_TOP = 'top';
-    const string GEOM_KEY_BOTTOM = 'bottom';
 
     // Zoom level array keys
     const string ZOOM_KEY_MIN = 'zoommin';
@@ -63,6 +57,7 @@ class NotamGeometryParser implements INotamGeometryParser
         private readonly NotamAltitudeParser $altitudeParser,
         private readonly NotamCircleGeometryParser $circleGeometryParser,
         private readonly NotamPolygonGeometryParser $polygonGeometryParser,
+        private readonly INotamAirspaceParser $airspaceParser,
     )
     {
     }
@@ -86,22 +81,19 @@ class NotamGeometryParser implements INotamGeometryParser
             $this->logger->info("loading extent list...");
             $extentList = $this->loadExtentList($notamChunk);
 
-            // parse geometry from notam text
             $this->logger->info("parse geometry from notam texts...");
             foreach ($notamChunk as &$notam) {
                 $icaoApiNotam = IcaoApiNotam::fromJson($notam->notam);
 
-                if ($icaoApiNotam->isICAO) {
-                    $notam->geometry = $this->parseIcaoNotamGeometry($icaoApiNotam);
-                } else {
-                    $notam->geometry = $this->parseNonIcaoNotamGeometry($icaoApiNotam);
-                }
+                $notam->geometry = $icaoApiNotam->isICAO 
+                    ? $this->parseIcaoNotamGeometry($icaoApiNotam)
+                    : $this->parseNonIcaoNotamGeometry($icaoApiNotam);
 
                 $notam->dbExtent = $this->getNotamDbExtent($notam, $icaoApiNotam, $extentList[$notam->icao] ?? null);
             }
 
             $this->logger->info("try to find matching airspace...");
-            $this->tryFindMatchingAirspace($notamChunk);
+            $this->airspaceParser->tryFindMatchingAirspace($notamChunk);
 
             $this->logger->info("calculate different zoom levels...");
             $this->calculateZoomLevelGeometries($notamChunk);
@@ -184,7 +176,7 @@ class NotamGeometryParser implements INotamGeometryParser
                 foreach ($notam->polyzoomlevels as $polyZoomLevel) {
                     $geometry = $notam->geometry;
                     $geometry->polygon = $polyZoomLevel[self::GEOM_KEY_POLYGON];
-                    GeoHelper::reducePolygonAccuracy($geometry[self::GEOM_KEY_POLYGON]);
+                    GeoHelper::reducePolygonAccuracy($geometry->polygon);
                     $geometryString = "'" . StringNumberHelper::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
 
                     $queryParts[] = "('"
@@ -198,8 +190,8 @@ class NotamGeometryParser implements INotamGeometryParser
             } elseif (isset($notam->multipolyzoomlevels)) {
                 foreach ($notam->multipolyzoomlevels as $multiPolyZoomLevel) {
                     $geometry = $notam->geometry;
-                    $geometry[self::GEOM_KEY_MULTIPOLYGON] = $multiPolyZoomLevel[self::GEOM_KEY_MULTIPOLYGON];
-                    GeoHelper::reduceMultiPolygonAccuracy($geometry[self::GEOM_KEY_MULTIPOLYGON]);
+                    $geometry->multipolygon = $multiPolyZoomLevel[self::GEOM_KEY_MULTIPOLYGON];
+                    GeoHelper::reduceMultiPolygonAccuracy($geometry->multipolygon);
                     $geometryString = "'" . StringNumberHelper::checkEscapeString($this->dbService, json_encode($geometry, JSON_NUMERIC_CHECK), 0, 999999999) . "'";
 
                     $queryParts[] = "('"
@@ -235,9 +227,9 @@ class NotamGeometryParser implements INotamGeometryParser
     private function calculateZoomLevelGeometries(array &$notamList): void
     {
         foreach ($notamList as &$notam) {
-            if (isset($notam->geometry[self::GEOM_KEY_POLYGON])) {
+            if (isset($notam->geometry->polygon)) {
                 $zoomLevels = [];
-                $polygonOrig = $notam->geometry[self::GEOM_KEY_POLYGON];
+                $polygonOrig = $notam->geometry->polygon;
                 $lastPolygonSimple = null;
                 $lastPoints = null;
                 $lastZoom = 0;
@@ -245,8 +237,8 @@ class NotamGeometryParser implements INotamGeometryParser
                 for ($zoom = self::MIN_ZOOM; $zoom <= self::MAX_ZOOM; $zoom++) {
                     $resolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom);
                     $pixelResolutionDeg = $resolutionDeg * self::MIN_PIXEL_COORDINATE_RESOLUTION;
-                    $polygonSimple = GeoHelper::simplifyPolygon($polygonOrig, $pixelResolutionDeg);
-                    $points = count($polygonSimple);
+                    $polygonSimple = GeoHelper::simplifyPolygon2($polygonOrig, $pixelResolutionDeg);
+                    $points = count($polygonSimple->position2dList);
 
                     if ($lastPoints !== $points) {
                         if ($lastPoints !== null) {
@@ -271,9 +263,9 @@ class NotamGeometryParser implements INotamGeometryParser
                 }
                 $notam->polyzoomlevels = $zoomLevels;
 
-            } elseif (isset($notam->geometry[self::GEOM_KEY_MULTIPOLYGON])) {
+            } elseif (isset($notam->geometry->multipolygon)) {
                 $zoomLevels = [];
-                $multiPolyOrig = $notam->geometry[self::GEOM_KEY_MULTIPOLYGON];
+                $multiPolyOrig = $notam->geometry->multipolygon;
                 $lastMultiPolySimple = null;
                 $lastPoints = null;
                 $lastZoom = 0;
@@ -281,10 +273,10 @@ class NotamGeometryParser implements INotamGeometryParser
                 for ($zoom = self::MIN_ZOOM; $zoom <= self::MAX_ZOOM; $zoom++) {
                     $resolutionDeg = GeoHelper::calcDegPerPixelByZoom($zoom);
                     $pixelResolutionDeg = $resolutionDeg * self::MIN_PIXEL_COORDINATE_RESOLUTION;
-                    $multiPolySimple = GeoHelper::simplifyMultipolygon($multiPolyOrig, $pixelResolutionDeg);
+                    $multiPolySimple = GeoHelper::simplifyMultipolygon2($multiPolyOrig, $pixelResolutionDeg);
                     $points = 0;
-                    foreach ($multiPolySimple as $polygonSimple) {
-                        $points += count($polygonSimple);
+                    foreach ($multiPolySimple->ring2dList as $ring2dSimple) {
+                        $points += count($ring2dSimple->position2dList);
                     }
 
                     if ($lastPoints !== $points) {
@@ -474,169 +466,11 @@ class NotamGeometryParser implements INotamGeometryParser
     }
 
 
-    /**
-     * @param RawNotam[] $notamList
-     */
-    private function tryFindMatchingAirspace(array &$notamList): void
-    {
-        // load intersecting airspaces from db
-        $typeCatDict = array("RP" => ["PROHIBITED"], "RR" => ["RESTRICTED"], "RT" => ["RESTRICTED"], "RD" => ["DANGER", "PROHIBITED"], "RM" => ["DANGER", "RESTRICTED", "PROHIBITED"]);
-
-        $queryParts = [];
-        foreach ($notamList as $index => $notam) {
-            $icaoApiNotam = IcaoApiNotam::fromJson($notam->notam);
-            $notamType = $icaoApiNotam->getQcodeType();
-
-            if ($notamType != null && array_key_exists($notamType, $typeCatDict) && $notam->dbExtent) {
-                $query = "SELECT '" . $index . "' AS notamindex, asp.name AS name, asp.polygon AS polygon FROM openaip_airspace AS asp"
-                    . " LEFT JOIN icao_fir AS fir ON fir.icao = '" . $notam->icao . "'"
-                    . " WHERE ST_INTERSECTS(" . $notam->dbExtent . ", asp.extent) AND asp.category IN('" . join("','", $typeCatDict[$notamType]) . "')"
-                    . " AND (ST_INTERSECTS(asp.extent, fir.polygon) OR fir.icao IS NULL)";
-
-                $queryParts[] = $query;
-            } else {
-                $this->logger->debug("no matching airspace type for notam type '" . $notamType . "'");
-                $this->logger->debug("or db extent is null: '" . $notam->dbExtent . "'");
-            }
-        }
-
-        if (count($queryParts) == 0) {
-            return;
-        }
-
-        $query = join(" UNION ", $queryParts);
-        $result = $this->dbService->execMultiResultQuery($query, "error searching airspace");
-
-        if ($result->getNumRows() == 0) {
-            $this->logger->debug("no intersecting airspaces found");
-            return;
-        } else {
-            $this->logger->debug($result->getNumRows() . " intersecting airspaces found");
-        }
-
-
-        // try to find name of airspace in notam text
-        while ($rs = $result->fetch_assoc()) {
-            $index = intval($rs["notamindex"]);
-            $notam = &$notamList[$index];
-            $icaoApiNotam = IcaoApiNotam::fromJson($notam->notam);
-
-            if ($this->isAreaNameMatch($rs["name"], $icaoApiNotam->message)) {
-                $top = $notam->geometry?->top ?? NULL;
-                $bottom = $notam->geometry?->bottom ?? NULL;
-                $polygon = self::convertDbPolygonToArray($rs["polygon"]);
-
-                if (!isset($notam->airspaceGeometry))
-                    $notam->airspaceGeometry = [];
-
-                $notam->airspaceGeometry[] = array(self::GEOM_KEY_POLYGON => $polygon, self::GEOM_KEY_TOP => $top, self::GEOM_KEY_BOTTOM => $bottom);
-            }
-        }
-
-        foreach ($notamList as &$notam) {
-            if (isset($notam->airspaceGeometry) && count($notam->airspaceGeometry) > 0) {
-                if (count($notam->airspaceGeometry) == 1) {
-                    $notam->geometry = new RawNotamGeometry(
-                        null,
-                        $notam->airspaceGeometry[0]->polygon,
-                        null,
-                        $notam->airspaceGeometry[0]->top,
-                        $notam->airspaceGeometry[0]->bottom
-                    );
-                    $notam->dbExtent = DbHelper::getDbPolygonString($notam->airspaceGeometry[0][self::GEOM_KEY_POLYGON]);
-                } else {
-                    $multipolygon = [];
-                    foreach ($notam->airspaceGeometry as $asGeom)
-                        $multipolygon[] = $asGeom[self::GEOM_KEY_POLYGON];
-
-                    $notam->geometry = new RawNotamGeometry(
-                        null,
-                        null,
-                        $multipolygon,
-                        $notam->airspaceGeometry[0]->top,
-                        $notam->airspaceGeometry[0]->bottom
-                    );
-                    $notam->dbExtent = DbHelper::getDbMultiPolygonString($multipolygon);
-                }
-            }
-        }
-    }
-
-
-    private function isAreaNameMatch(string $airspaceName, string $notamText): bool
-    {
-        // try formats like LS-D15 Rossboden - Chur  or  LI R108/B-Colico bis (approx confine stato)
-        $regExpAreaName = '/^([^\d]+\d+)[^\w\d]*([\w]{0,2}(?=)([^\w]|$))?/i';
-        $result = preg_match($regExpAreaName, $airspaceName, $matches);
-
-        if ($result && count($matches) > 0) {
-            $areaName = $this->simplifyText($matches[1] . ($matches[2] ?? ''));
-            $simpleNotamText = $this->simplifyText($notamText);
-
-            $this->logger->debug("numeric airspace id found, search for '" . $areaName . "' in simplifyed notam text...");
-
-            if (str_contains($simpleNotamText, $areaName)) {
-                $this->logger->debug("...found");
-                return true;
-            } else {
-                $this->logger->debug("...not found");
-            }
-        }
-
-
-        // TODO: plain text area names
-        // try format XXX YYY (124.245)
-        $regExpAreaName = '/^([^\(\)\:]{4,})/i';
-        $result = preg_match($regExpAreaName, $airspaceName, $matches);
-
-        if ($result && count($matches) > 0) {
-            $areaName = $this->simplifyText($matches[1]);
-            $simpleNotamText = $this->simplifyText($notamText);
-
-            $this->logger->debug("text airspace name found, search for '" . $areaName . "' in simplifyed notam text...");
-
-            if (str_contains($simpleNotamText, $areaName)) {
-                $this->logger->debug("...found");
-                return true;
-            } else {
-                $this->logger->debug("...not found");
-            }
-        }
-
-        return false;
-    }
-
-
-    // simplyfy text (remove all non-word and non-digits
-    private function simplifyText(string $text): string
-    {
-        $pattern = "/[^\w\d]/im";
-        return strtoupper(preg_replace($pattern, "", $text));
-    }
-
-
     private static function checkNumeric($num)
     {
         if (!is_numeric($num))
             die("format error: '" . $num . "' is not numeric");
 
         return $num;
-    }
-
-
-    private static function convertDbPolygonToArray($polygonDbText): array
-    {
-        // prepare coordinates
-        $polygon = [];
-        $coord_pairs = explode(",", $polygonDbText);
-
-        foreach ($coord_pairs as $latlon) {
-            $coords = explode(" ", trim($latlon));
-            $coords[0] = round(floatval($coords[0]), 4);
-            $coords[1] = round(floatval($coords[1]), 4);
-            $polygon[] = $coords;
-        }
-
-        return $polygon;
     }
 }

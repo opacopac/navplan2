@@ -6,6 +6,7 @@ use Navplan\Common\Domain\Model\Circle2d;
 use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\LengthUnit;
 use Navplan\Common\Domain\Model\LineInterval2d;
+use Navplan\Common\Domain\Model\MultiRing2d;
 use Navplan\Common\Domain\Model\Position2d;
 use Navplan\Common\Domain\Model\Ring2d;
 
@@ -13,6 +14,7 @@ use Navplan\Common\Domain\Model\Ring2d;
 class GeoHelper
 {
     private const EARTH_RADIUS_M = 6371000;
+    public const DEFAULT_POS2D_ACCURACY = 6;
 
     public static function getDecFromDms(string $nsew, int $deg, int $min, float $sec): float
     {
@@ -64,6 +66,14 @@ class GeoHelper
     }
 
 
+    public static function simplifyPolygon2(Ring2d $polygon, float $epsilon): Ring2d
+    {
+        $polygonPoints = $polygon->toArray();
+        $simplifiedPoints = self::simplifyPolygon($polygonPoints, $epsilon);
+        return new Ring2d($simplifiedPoints);
+    }
+
+
     public static function simplifyMultipolygon(array $polygonList, float $epsilon): array
     {
         $simplePolygonList = [];
@@ -71,6 +81,16 @@ class GeoHelper
             $simplePolygonList[] = self::simplifyPolygon($polygon, $epsilon);
         }
         return $simplePolygonList;
+    }
+
+
+    public static function simplifyMultipolygon2(MultiRing2d $multiPolygon, float $epsilon): MultiRing2d
+    {
+        $simplifiedRings = [];
+        foreach ($multiPolygon->ring2dList as $ring2d) {
+            $simplifiedRings[] = self::simplifyPolygon2($ring2d, $epsilon);
+        }
+        return new MultiRing2d($simplifiedRings);
     }
 
 
@@ -169,14 +189,15 @@ class GeoHelper
     }
 
 
-    public static function parsePolygonFromString(string $polygonString, int $roundToDigits = 6, string $pointDelimiter = ",", string $xyDelimiter = " "): array
+    public static function parsePolygonFromString(string $polygonString, int $roundToDigits = self::DEFAULT_POS2D_ACCURACY, string $pointDelimiter = ",", string $xyDelimiter = " "): array
     {
         $polygon = [];
         $coord_pairs = explode($pointDelimiter, $polygonString);
 
         foreach ($coord_pairs as $latlon) {
             $coords = explode($xyDelimiter, trim($latlon));
-            self::reduceCoordinateAccuracy($coords, $roundToDigits);
+            $coords[0] = round($coords[0], $roundToDigits);
+            $coords[1] = round($coords[1], $roundToDigits);
 
             $polygon[] = $coords;
         }
@@ -196,27 +217,37 @@ class GeoHelper
     }
 
 
-    public static function reduceCoordinateAccuracy(&$coordPair, int $roundToDigits = 6): void
+    public static function reduceCoordinateAccuracy(?Position2d $position, int $roundToDigits = self::DEFAULT_POS2D_ACCURACY): void
     {
-        $coordPair[0] = round($coordPair[0], $roundToDigits);
-        $coordPair[1] = round($coordPair[1], $roundToDigits);
+        if ($position === null) {
+            return;
+        }
+
+        $position->longitude = round($position->longitude, $roundToDigits);
+        $position->latitude = round($position->latitude, $roundToDigits);
     }
 
 
-    public static function reducePolygonAccuracy(&$polygon, int $roundToDigits = 6): void
+    public static function reducePolygonAccuracy(?Ring2d $polygon, int $roundToDigits = self::DEFAULT_POS2D_ACCURACY): void
     {
-        foreach ($polygon as &$coordPair) {
-            self::reduceCoordinateAccuracy($coordPair, $roundToDigits);
+        if ($polygon === null) {
+            return;
+        }
+
+        foreach ($polygon->position2dList as $position) {
+            self::reduceCoordinateAccuracy($position, $roundToDigits);
         }
     }
 
 
-    public static function reduceMultiPolygonAccuracy(&$multiPolygon, int $roundToDigits = 6): void
+    public static function reduceMultiPolygonAccuracy(?MultiRing2d $multiPolygon, int $roundToDigits = self::DEFAULT_POS2D_ACCURACY): void
     {
-        foreach ($multiPolygon as &$polygon) {
-            foreach ($polygon as &$coordPair) {
-                self::reduceCoordinateAccuracy($coordPair, $roundToDigits);
-            }
+        if ($multiPolygon === null) {
+            return;
+        }
+
+        foreach ($multiPolygon->ring2dList as $ring2d) {
+            self::reducePolygonAccuracy($ring2d, $roundToDigits);
         }
     }
 
