@@ -33,6 +33,7 @@ export class Aircraft {
             null,
             null,
             null,
+            null,
             [],
             []
         );
@@ -51,6 +52,7 @@ export class Aircraft {
         public bew: Weight,
         public rocSealevel: Speed,
         public serviceCeiling: Length,
+        public cruiseClimbSpeed: Speed,
         public perfTakeoffGroundRoll: DistancePerformanceTable,
         public perfTakeoffDist50ft: DistancePerformanceTable,
         public perfLandingGroundRoll: DistancePerformanceTable,
@@ -74,6 +76,7 @@ export class Aircraft {
             this.bew?.clone(),
             this.rocSealevel?.clone(),
             this.serviceCeiling?.clone(),
+            this.cruiseClimbSpeed?.clone(),
             this.perfTakeoffGroundRoll?.clone(),
             this.perfTakeoffDist50ft?.clone(),
             this.perfLandingGroundRoll?.clone(),

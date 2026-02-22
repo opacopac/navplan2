@@ -22,6 +22,7 @@ class Aircraft
      * @param Weight|null $bew
      * @param Speed|null $rocSealevel
      * @param Length|null $serviceCeiling
+     * @param Speed|null $cruiseClimbSpeed
      * @param DistancePerformanceTable|null $perfTakeoffGroundRoll
      * @param DistancePerformanceTable|null $perfTakeoffDist50ft
      * @param DistancePerformanceTable|null $perfLandingGroundRoll
@@ -41,6 +42,7 @@ class Aircraft
         public ?Weight $bew,
         public ?Speed $rocSealevel,
         public ?Length $serviceCeiling,
+        public ?Speed $cruiseClimbSpeed,
         public ?DistancePerformanceTable $perfTakeoffGroundRoll,
         public ?DistancePerformanceTable $perfTakeoffDist50ft,
         public ?DistancePerformanceTable $perfLandingGroundRoll,

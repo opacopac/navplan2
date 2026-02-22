@@ -41,6 +41,7 @@ class DbAircraftConverter extends DbEntityConverter
             Weight::fromValueAndUnitString($r->getBew(), $r->getWeightUnit()),
             Speed::fromValueAndUnitString($r->getRocSealevel(), $r->getVerticalSpeedUnit()),
             Length::fromValueAndUnitString($r->getServiceCeiling(), $r->getAltitudeUnit()),
+            Speed::fromValueAndUnitString($r->getCruiseClimbSpeed(), $r->getSpeedUnit()),
             null,
             null,
             null,
@@ -68,6 +69,7 @@ class DbAircraftConverter extends DbEntityConverter
             ->setColValue($this->table->colRocSealevel(), $aircraft->rocSealevel?->value)
             ->setColValue($this->table->colVerticalSpeedUnit(), $aircraft->rocSealevel?->unit->value)
             ->setColValue($this->table->colServiceCeiling(), $aircraft->serviceCeiling?->value)
-            ->setColValue($this->table->colAltitudeUnit(), $aircraft->serviceCeiling?->unit->value);
+            ->setColValue($this->table->colAltitudeUnit(), $aircraft->serviceCeiling?->unit->value)
+            ->setColValue($this->table->colCruiseClimbSpeed(), $aircraft->cruiseClimbSpeed?->value);
     }
 }

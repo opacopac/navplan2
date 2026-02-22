@@ -15,6 +15,7 @@ export class MockAircraftBr23 {
     public static BEW = Weight.ofKg(450);
     public static ROC_SEALEVEL = Speed.ofKt(688);
     public static SERVICE_CEILING = Length.ofFt(14000);
+    public static CRUISE_CLIMB_SPEED = Speed.ofKt(75);
 
 
     public static create() {
@@ -30,6 +31,7 @@ export class MockAircraftBr23 {
             this.BEW,
             this.ROC_SEALEVEL,
             this.SERVICE_CEILING,
+            this.CRUISE_CLIMB_SPEED,
             MockPerfDistTablesBr23.createTakeoffGroundRoll(),
             MockPerfDistTablesBr23.createTakeoffDistance15ft(),
             MockPerfDistTablesBr23.createLandingGroundRoll(),

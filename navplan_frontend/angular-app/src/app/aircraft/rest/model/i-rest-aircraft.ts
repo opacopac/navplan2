@@ -1,7 +1,10 @@
 import {IRestSpeed} from '../../../geo-physics/rest/model/i-rest-speed';
 import {IRestConsumption} from '../../../geo-physics/rest/model/i-rest-consumption';
 import {IRestWeight} from '../../../geo-physics/rest/model/i-rest-weight';
-import {IRestDistancePerformanceTable} from '../../../aircraft-performance/rest/model/i-rest-distance-performance-table';
+import {IRestLength} from '../../../geo-physics/rest/model/i-rest-length';
+import {
+    IRestDistancePerformanceTable
+} from '../../../aircraft-performance/rest/model/i-rest-distance-performance-table';
 import {IRestWeightItem} from '../../../aircraft-wnb/rest/model/i-rest-weight-item';
 import {IRestWnbEnvelope} from '../../../aircraft-wnb/rest/model/i-rest-wnb-envelope';
 
@@ -16,7 +19,8 @@ export interface IRestAircraft {
     mtow: IRestWeight;
     bew: IRestWeight;
     rocSealevel: IRestSpeed;
-    serviceCeiling: IRestWeight;
+    serviceCeiling: IRestLength;
+    cruiseClimbSpeed: IRestSpeed;
     perfTakeoffGroundRoll: IRestDistancePerformanceTable;
     perfTakeoffDist50ft: IRestDistancePerformanceTable;
     perfLandingGroundRoll: IRestDistancePerformanceTable;

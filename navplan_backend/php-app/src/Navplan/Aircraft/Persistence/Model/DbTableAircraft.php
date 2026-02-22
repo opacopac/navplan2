@@ -27,6 +27,7 @@ class DbTableAircraft extends DbTable
     public const COL_VERTICAL_SPEED_UNIT = "vertical_speed_unit";
     public const COL_SERVICE_CEILING = "service_ceiling";
     public const COL_ALTITUDE_UNIT = "altitude_unit";
+    public const COL_CRUISE_CLIMB_SPEED = "cruise_climb_speed";
 
 
     public function __construct(string $alias = null)
@@ -49,6 +50,7 @@ class DbTableAircraft extends DbTable
         $this->addCol(self::COL_VERTICAL_SPEED_UNIT, DbColType::STRING, true);
         $this->addCol(self::COL_SERVICE_CEILING, DbColType::DOUBLE, true);
         $this->addCol(self::COL_ALTITUDE_UNIT, DbColType::STRING, true);
+        $this->addCol(self::COL_CRUISE_CLIMB_SPEED, DbColType::DOUBLE, true);
     }
 
 
@@ -151,5 +153,11 @@ class DbTableAircraft extends DbTable
     public function colAltitudeUnit(): DbCol
     {
         return self::getCol(self::COL_ALTITUDE_UNIT);
+    }
+
+
+    public function colCruiseClimbSpeed(): DbCol
+    {
+        return self::getCol(self::COL_CRUISE_CLIMB_SPEED);
     }
 }

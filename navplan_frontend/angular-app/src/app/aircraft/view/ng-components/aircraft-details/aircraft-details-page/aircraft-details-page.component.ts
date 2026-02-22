@@ -7,6 +7,7 @@ import {getConsumptionUnit, getSpeedUnit} from '../../../../../geo-physics/state
 import {VehicleType} from '../../../../domain/model/vehicle-type';
 import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
 import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
+import {Length} from '../../../../../geo-physics/domain/model/quantities/length';
 import {AircraftDetailsActions} from '../../../../state/ngrx/aircraft-details.actions';
 import {FuelType} from '../../../../domain/model/fuel-type';
 import {AircraftCrudActions} from '../../../../state/ngrx/aircraft-crud.actions';
@@ -68,6 +69,21 @@ export class AircraftDetailsPageComponent implements OnInit {
 
     protected onFuelTypeChange(fuelType: FuelType) {
         this.appStore.dispatch(AircraftDetailsActions.changeFuelType({fuelType: fuelType}));
+    }
+
+
+    protected onRocSealevelChange(rocSealevel: Speed) {
+        this.appStore.dispatch(AircraftDetailsActions.changeRocSealevel({rocSealevel: rocSealevel}));
+    }
+
+
+    protected onServiceCeilingChange(serviceCeiling: Length) {
+        this.appStore.dispatch(AircraftDetailsActions.changeServiceCeiling({serviceCeiling: serviceCeiling}));
+    }
+
+
+    protected onCruiseClimbSpeedChange(cruiseClimbSpeed: Speed) {
+        this.appStore.dispatch(AircraftDetailsActions.changeCruiseClimbSpeed({cruiseClimbSpeed: cruiseClimbSpeed}));
     }
 
 

@@ -25,6 +25,7 @@ class RestAircraftConverter
     const KEY_BEW = "bew";
     const KEY_ROC_SEALEVEL = "rocSealevel";
     const KEY_SERVICE_CEILING = "serviceCeiling";
+    const KEY_CRUISE_CLIMB_SPEED = "cruiseClimbSpeed";
     const KEY_PERF_TAKEOFF_GROUND_ROLL = "perfTakeoffGroundRoll";
     const KEY_PERF_TAKEOFF_DIST_50FT = "perfTakeoffDist50ft";
     const KEY_PERF_LANDING_GROUND_ROLL = "perfLandingGroundRoll";
@@ -47,6 +48,7 @@ class RestAircraftConverter
             RestWeightConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_BEW)),
             RestSpeedConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_ROC_SEALEVEL)),
             RestLengthConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_SERVICE_CEILING)),
+            RestSpeedConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_CRUISE_CLIMB_SPEED)),
             RestDistancePerformanceTableConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_PERF_TAKEOFF_GROUND_ROLL)),
             RestDistancePerformanceTableConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_PERF_TAKEOFF_DIST_50FT)),
             RestDistancePerformanceTableConverter::fromRest(StringNumberHelper::parseArrayOrNull($args, self::KEY_PERF_LANDING_GROUND_ROLL)),
@@ -71,6 +73,7 @@ class RestAircraftConverter
             self::KEY_BEW => RestWeightConverter::toRest($aircraft->bew),
             self::KEY_ROC_SEALEVEL => RestSpeedConverter::toRest($aircraft->rocSealevel),
             self::KEY_SERVICE_CEILING => RestLengthConverter::toRest($aircraft->serviceCeiling),
+            self::KEY_CRUISE_CLIMB_SPEED => RestSpeedConverter::toRest($aircraft->cruiseClimbSpeed),
             self::KEY_PERF_TAKEOFF_GROUND_ROLL => RestDistancePerformanceTableConverter::toRest($aircraft->perfTakeoffGroundRoll),
             self::KEY_PERF_TAKEOFF_DIST_50FT => RestDistancePerformanceTableConverter::toRest($aircraft->perfTakeoffDist50ft),
             self::KEY_PERF_LANDING_GROUND_ROLL => RestDistancePerformanceTableConverter::toRest($aircraft->perfLandingGroundRoll),

@@ -5,6 +5,8 @@ import {Consumption} from '../../../../../geo-physics/domain/model/quantities/co
 import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
 import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../../../geo-physics/domain/model/quantities/consumption-unit';
+import {Length} from '../../../../../geo-physics/domain/model/quantities/length';
+import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
 import {VehicleType} from '../../../../domain/model/vehicle-type';
 import {FuelType} from '../../../../domain/model/fuel-type';
 import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
@@ -42,12 +44,18 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     @Output() cruiseSpeedChanged = new EventEmitter<Speed>();
     @Output() cruiseFuelChanged = new EventEmitter<Consumption>();
     @Output() fuelTypeChanged = new EventEmitter<FuelType>();
+    @Output() rocSealevelChanged = new EventEmitter<Speed>();
+    @Output() serviceCeilingChanged = new EventEmitter<Length>();
+    @Output() cruiseClimbSpeedChanged = new EventEmitter<Speed>();
     @Output() saveAircraftClicked = new EventEmitter<void>();
 
     protected readonly VehicleType = VehicleType;
     protected readonly FuelType = FuelType;
     protected readonly Speed = Speed;
+    protected readonly Length = Length;
     protected readonly Consumption = Consumption;
+    protected readonly SpeedUnit = SpeedUnit;
+    protected readonly LengthUnit = LengthUnit;
     protected aircraftDetailsForm: FormGroup;
     protected isIcaoTypeValid: boolean;
 
@@ -117,6 +125,30 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
+    protected onRocSealevelChanged() {
+        if (this.aircraftDetailsForm.controls['rocSealevel'].valid) {
+            const speed = new Speed(this.aircraftDetailsForm.value.rocSealevel, SpeedUnit.FPM);
+            this.rocSealevelChanged.emit(speed);
+        }
+    }
+
+
+    protected onServiceCeilingChanged() {
+        if (this.aircraftDetailsForm.controls['serviceCeiling'].valid) {
+            const length = new Length(this.aircraftDetailsForm.value.serviceCeiling, LengthUnit.FT);
+            this.serviceCeilingChanged.emit(length);
+        }
+    }
+
+
+    protected onCruiseClimbSpeedChanged() {
+        if (this.aircraftDetailsForm.controls['cruiseClimbSpeed'].valid) {
+            const speed = new Speed(this.aircraftDetailsForm.value.cruiseClimbSpeed, SpeedUnit.FPM);
+            this.cruiseClimbSpeedChanged.emit(speed);
+        }
+    }
+
+
     protected isFormValid(): boolean {
         return this.aircraftDetailsForm.valid && this.isIcaoTypeValid;
     }
@@ -161,7 +193,34 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
             ],
             'fuelType': [this.currentAircraft.fuelType ?? '', [
                 Validators.required
-            ]]
+            ]],
+            'rocSealevel': [this.currentAircraft.rocSealevel
+                ? StringnumberHelper.roundToDigits(this.currentAircraft.rocSealevel.getValue(SpeedUnit.FPM), 0).toString()
+                : '',
+                [
+                    Validators.required,
+                    Validators.min(1),
+                    Validators.max(9999)
+                ]
+            ],
+            'serviceCeiling': [this.currentAircraft.serviceCeiling
+                ? StringnumberHelper.roundToDigits(this.currentAircraft.serviceCeiling.getValue(LengthUnit.FT), 0).toString()
+                : '',
+                [
+                    Validators.required,
+                    Validators.min(1),
+                    Validators.max(99999)
+                ]
+            ],
+            'cruiseClimbSpeed': [this.currentAircraft.cruiseClimbSpeed
+                ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseClimbSpeed.getValue(SpeedUnit.FPM), 0).toString()
+                : '',
+                [
+                    Validators.required,
+                    Validators.min(1),
+                    Validators.max(9999)
+                ]
+            ],
         });
     }
 }

@@ -136,6 +136,33 @@ export const aircraftReducer = createReducer(
         };
     }),
 
+    on(AircraftDetailsActions.changeRocSealevel, (state, action) => {
+        const newAircraft = state.currentAircraft.clone();
+        newAircraft.rocSealevel = action.rocSealevel;
+        return {
+            ...state,
+            currentAircraft: newAircraft
+        };
+    }),
+
+    on(AircraftDetailsActions.changeServiceCeiling, (state, action) => {
+        const newAircraft = state.currentAircraft.clone();
+        newAircraft.serviceCeiling = action.serviceCeiling;
+        return {
+            ...state,
+            currentAircraft: newAircraft
+        };
+    }),
+
+    on(AircraftDetailsActions.changeCruiseClimbSpeed, (state, action) => {
+        const newAircraft = state.currentAircraft.clone();
+        newAircraft.cruiseClimbSpeed = action.cruiseClimbSpeed;
+        return {
+            ...state,
+            currentAircraft: newAircraft
+        };
+    }),
+
     // endregion
 
 

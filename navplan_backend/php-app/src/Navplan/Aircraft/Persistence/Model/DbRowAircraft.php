@@ -116,4 +116,10 @@ class DbRowAircraft extends DbRow
     {
         return $this->getValue($this->table->colAltitudeUnit());
     }
+
+
+    public function getCruiseClimbSpeed(): ?float
+    {
+        return $this->getValue($this->table->colCruiseClimbSpeed());
+    }
 }

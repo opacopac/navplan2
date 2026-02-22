@@ -123,7 +123,8 @@ CREATE TABLE `aircraft` (
                             `roc_sealevel` float UNSIGNED DEFAULT NULL,
                             `vertical_speed_unit` varchar(5) DEFAULT NULL,
                             `service_ceiling` float UNSIGNED DEFAULT NULL,
-                            `altitude_unit` varchar(5) DEFAULT NULL
+                            `altitude_unit` varchar(5) DEFAULT NULL,
+                            `cruise_climb_speed` float UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --

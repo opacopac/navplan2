@@ -3,6 +3,7 @@ import {VehicleType} from '../../domain/model/vehicle-type';
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {Consumption} from '../../../geo-physics/domain/model/quantities/consumption';
 import {FuelType} from '../../domain/model/fuel-type';
+import {Length} from '../../../geo-physics/domain/model/quantities/length';
 
 
 export class AircraftDetailsActions {
@@ -34,5 +35,20 @@ export class AircraftDetailsActions {
     public static readonly changeFuelType = createAction(
         '[Aircraft Details] Change fuel type',
         props<{ fuelType: FuelType }>()
+    );
+
+    public static readonly changeRocSealevel = createAction(
+        '[Aircraft Details] Change ROC at sealevel',
+        props<{ rocSealevel: Speed }>()
+    );
+
+    public static readonly changeServiceCeiling = createAction(
+        '[Aircraft Details] Change service ceiling',
+        props<{ serviceCeiling: Length }>()
+    );
+
+    public static readonly changeCruiseClimbSpeed = createAction(
+        '[Aircraft Details] Change cruise climb speed',
+        props<{ cruiseClimbSpeed: Speed }>()
     );
 }

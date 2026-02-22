@@ -45,7 +45,7 @@
             </mat-form-field>
             <!-- fuel consumption -->
             <mat-form-field>
-                <mat-label>Cruise Fuel Consumption</mat-label>
+                <mat-label>Fuel Consumption</mat-label>
                 <input
                     matInput
                     formControlName="cruiseFuel"
@@ -71,6 +71,51 @@
                     <mat-option [value]="FuelType.AVGAS">AVGAS</mat-option>
                     <mat-option [value]="FuelType.JET">JET</mat-option>
                 </mat-select>
+            </mat-form-field>
+            <!-- ROC at sealevel -->
+            <mat-form-field>
+                <mat-label>ROC at Sealevel</mat-label>
+                <input
+                    matInput
+                    formControlName="rocSealevel"
+                    type="number"
+                    required
+                    min="1"
+                    max="9999"
+                    (change)="this.onRocSealevelChanged()"
+                >
+                <span matTextSuffix>{{ Speed.getUnitString(SpeedUnit.FPM) }}</span>
+                <mat-error>Value must be a positive number between 1 and 9999!</mat-error>
+            </mat-form-field>
+            <!-- service ceiling -->
+            <mat-form-field>
+                <mat-label>Service Ceiling</mat-label>
+                <input
+                    matInput
+                    formControlName="serviceCeiling"
+                    type="number"
+                    required
+                    min="1"
+                    max="99999"
+                    (change)="this.onServiceCeilingChanged()"
+                >
+                <span matTextSuffix>{{ Length.getUnitString(LengthUnit.FT) }}</span>
+                <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
+            </mat-form-field>
+            <!-- cruise climb speed -->
+            <mat-form-field>
+                <mat-label>Cruise Climb Speed</mat-label>
+                <input
+                    matInput
+                    formControlName="cruiseClimbSpeed"
+                    type="number"
+                    required
+                    min="1"
+                    max="9999"
+                    (change)="this.onCruiseClimbSpeedChanged()"
+                >
+                <span matTextSuffix>{{ Speed.getUnitString(SpeedUnit.FPM) }}</span>
+                <mat-error>Value must be a positive number between 1 and 9999!</mat-error>
             </mat-form-field>
 
             <app-save-button

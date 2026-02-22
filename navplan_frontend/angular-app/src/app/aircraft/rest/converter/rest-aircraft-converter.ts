@@ -4,7 +4,9 @@ import {RestSpeedConverter} from '../../../geo-physics/rest/model/rest-speed-con
 import {RestConsumptionConverter} from '../../../geo-physics/rest/model/rest-consumption-converter';
 import {RestWeightConverter} from '../../../geo-physics/rest/model/rest-weight-converter';
 import {FuelType} from '../../domain/model/fuel-type';
-import {RestDistancePerformanceTableConverter} from '../../../aircraft-performance/rest/converter/rest-distance-performance-table-converter';
+import {
+    RestDistancePerformanceTableConverter
+} from '../../../aircraft-performance/rest/converter/rest-distance-performance-table-converter';
 import {RestWeightItemConverter} from '../../../aircraft-wnb/rest/converter/rest-weight-item-converter';
 import {RestWnbEnvelopeConverter} from '../../../aircraft-wnb/rest/converter/rest-wnb-envelope-converter';
 import {VehicleType} from '../../domain/model/vehicle-type';
@@ -25,6 +27,7 @@ export class RestAircraftConverter {
             RestWeightConverter.fromRest(restAircraft.bew),
             RestSpeedConverter.fromRest(restAircraft.rocSealevel),
             RestLengthConverter.fromRest(restAircraft.serviceCeiling),
+            RestSpeedConverter.fromRest(restAircraft.cruiseClimbSpeed),
             RestDistancePerformanceTableConverter.fromRest(restAircraft.perfTakeoffGroundRoll),
             RestDistancePerformanceTableConverter.fromRest(restAircraft.perfTakeoffDist50ft),
             RestDistancePerformanceTableConverter.fromRest(restAircraft.perfLandingGroundRoll),
@@ -48,6 +51,7 @@ export class RestAircraftConverter {
             bew: RestWeightConverter.toRest(aircraft.bew),
             rocSealevel: RestSpeedConverter.toRest(aircraft.rocSealevel),
             serviceCeiling: RestLengthConverter.toRest(aircraft.serviceCeiling),
+            cruiseClimbSpeed: RestSpeedConverter.toRest(aircraft.cruiseClimbSpeed),
             perfTakeoffGroundRoll: RestDistancePerformanceTableConverter.toRest(aircraft.perfTakeoffGroundRoll),
             perfTakeoffDist50ft: RestDistancePerformanceTableConverter.toRest(aircraft.perfTakeoffDist50ft),
             perfLandingGroundRoll: RestDistancePerformanceTableConverter.toRest(aircraft.perfLandingGroundRoll),
