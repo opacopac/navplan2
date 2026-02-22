@@ -1,32 +1,20 @@
-import {
-    AfterViewInit,
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnInit,
-    Output,
-    ViewChild
-} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {ConsumptionUnit} from '../../../../geo-physics/domain/model/quantities/consumption-unit';
+import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {FlightrouteListEntry} from '../../../../flightroute/domain/model/flightroute-list-entry';
 import {Flightroute} from '../../../../flightroute/domain/model/flightroute';
-import {
-    RouteCreateFormDialogComponent
-} from '../route-create-form-dialog/route-create-form-dialog.component';
+import {RouteCreateFormDialogComponent} from '../route-create-form-dialog/route-create-form-dialog.component';
 import {TextFilterState} from '../../../../common/state/model/text-filter-state';
 import {TableState} from '../../../../common/state/model/table-state';
 import {
     TableTextFilterAndCreateButtonComponent
 } from '../../../../common/view/ng-components/table-filter-and-create-button/table-text-filter-and-create-button.component';
-import {
-    IconButtonComponent
-} from '../../../../common/view/ng-components/icon-button/icon-button.component';
+import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
 import {CommonModule} from '@angular/common';
 import {
     ConfirmDeleteDialogComponent
@@ -56,6 +44,7 @@ export class RouteListTableComponent implements OnInit, OnChanges, AfterViewInit
     @Input() currentFlightroute: Flightroute;
     @Input() speedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
+    @Input() altitudeUnit: LengthUnit;
     @Input() tableState: TableState;
     @Output() flightrouteCreated = new EventEmitter<Flightroute>();
     @Output() selectFlightrouteClick = new EventEmitter<number>();
@@ -121,6 +110,7 @@ export class RouteListTableComponent implements OnInit, OnChanges, AfterViewInit
             data: {
                 speedUnit: this.speedUnit,
                 consumptionUnit: this.consumptionUnit,
+                altitudeUnit: this.altitudeUnit,
             }
         });
 

@@ -3,6 +3,7 @@
 namespace Navplan\Flightroute\Rest\Converter;
 
 use Navplan\Common\Rest\Converter\RestConsumptionConverter;
+use Navplan\Common\Rest\Converter\RestLengthConverter;
 use Navplan\Common\Rest\Converter\RestSpeedConverter;
 use Navplan\Common\StringNumberHelper;
 use Navplan\Flightroute\Domain\Model\Flightroute;
@@ -16,6 +17,7 @@ class RestFlightrouteConverter {
             RestSpeedConverter::fromRest($args["aircraft_speed"]),
             RestConsumptionConverter::fromRest($args["aircraft_consumption"]),
             StringNumberHelper::parseIntOrZero($args, "extra_fuel"),
+            isset($args["cruise_alt"]) ? RestLengthConverter::fromRest($args["cruise_alt"]) : NULL,
             StringNumberHelper::parseStringOrNull($args, "comments"),
             StringNumberHelper::parseIntOrNull($args, "shareid"),
             NULL,
@@ -36,6 +38,7 @@ class RestFlightrouteConverter {
             "aircraft_speed" => RestSpeedConverter::toRest($flightroute->aircraftSpeed),
             "aircraft_consumption" => RestConsumptionConverter::toRest($flightroute->aircraftConsumption),
             "extra_fuel" => $flightroute->extraFuelMin,
+            "cruise_alt" => RestLengthConverter::toRest($flightroute->cruiseAltitude),
             "comments" => $flightroute->comments,
             "waypoints" => array_map(
                 function ($wp) { return RestWaypointConverter::toRest($wp); },

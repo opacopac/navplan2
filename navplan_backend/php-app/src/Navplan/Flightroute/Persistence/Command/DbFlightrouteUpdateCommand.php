@@ -44,6 +44,7 @@ class DbFlightrouteUpdateCommand implements IFlightrouteUpdateCommand
             DbTableFlightroute::COL_AC_SPEED . "=" . DbHelper::getDbFloatValue($flightroute->aircraftSpeed->getKt()),
             DbTableFlightroute::COL_AC_CONSUMPTION . "=" . DbHelper::getDbFloatValue($flightroute->aircraftConsumption->getLph()),
             DbTableFlightroute::COL_EXTRA_FUEL . "=" . DbHelper::getDbIntValue($flightroute->extraFuelMin),
+            DbTableFlightroute::COL_CRUISE_ALT_FT . "=" . DbHelper::getDbFloatValue($flightroute->cruiseAltitude?->getFt()),
             DbTableFlightroute::COL_COMMENTS . "=" . DbHelper::getDbStringValue($this->dbService, $flightroute->comments),
             DbTableFlightroute::COL_SHARE_ID . "=" . DbHelper::getDbStringValue($this->dbService, $flightroute->shareId),
             DbTableFlightroute::COL_MD5_HASH . "=" . DbHelper::getDbStringValue($this->dbService, $flightroute->hash)

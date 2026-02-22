@@ -13,5 +13,6 @@ class DbTableFlightroute {
     public const COL_AC_SPEED = "aircraft_speed";
     public const COL_AC_CONSUMPTION = "aircraft_consumption";
     public const COL_EXTRA_FUEL = "extra_fuel";
+    public const COL_CRUISE_ALT_FT = "cruise_alt_ft";
     public const COL_COMMENTS = "comments";
 }

@@ -16,7 +16,7 @@
                 <input
                     matInput
                     formControlName="title"
-                    type="string"
+                    type="text"
                     required
                 />
             </mat-form-field>
@@ -49,6 +49,20 @@
                 >
                 <span matTextSuffix>{{ Consumption.getUnitString(this.data.consumptionUnit) }}</span>
                 <mat-error>Value must be a positive number between 1 and 999!</mat-error>
+            </mat-form-field>
+
+            <!-- cruise altitude -->
+            <mat-form-field>
+                <mat-label>Cruise Altitude</mat-label>
+                <input
+                    matInput
+                    formControlName="cruiseAlt"
+                    type="number"
+                    min="0"
+                    max="99999"
+                >
+                <span matTextSuffix>{{ Length.getUnitString(this.data.altitudeUnit) }}</span>
+                <mat-error>Value must be a whole non-negative number (max. 99999)!</mat-error>
             </mat-form-field>
 
         </div>

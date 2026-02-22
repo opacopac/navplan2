@@ -3,6 +3,7 @@ import {Flightroute} from '../../domain/model/flightroute';
 import {Time} from '../../../geo-physics/domain/model/quantities/time';
 import {Consumption} from '../../../geo-physics/domain/model/quantities/consumption';
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
+import {Length} from '../../../geo-physics/domain/model/quantities/length';
 
 
 export class FlightrouteActions {
@@ -44,6 +45,11 @@ export class FlightrouteActions {
     public static readonly updateComments = createAction(
         '[Flightroute Page] Update flight route comments',
         props<{ comments: string }>()
+    );
+
+    public static readonly updateCruiseAltitude = createAction(
+        '[Flightroute Page] Update cruise altitude',
+        props<{ cruiseAltitude: Length }>()
     );
 
     public static readonly clear = createAction(

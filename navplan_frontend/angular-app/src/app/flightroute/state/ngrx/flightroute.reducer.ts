@@ -80,6 +80,15 @@ export const flightRouteReducer = createReducer(
         };
     }),
 
+    on(FlightrouteActions.updateCruiseAltitude, (state, action) => {
+        const newFlightroute = state.flightroute.clone();
+        newFlightroute.cruiseAltitude = action.cruiseAltitude;
+        return {
+            ...state,
+            flightroute: newFlightroute
+        };
+    }),
+
 
     // AircraftActions
 

@@ -5,6 +5,11 @@
         [showRouteName]="true"
     />
 
+    <app-flightroute-name
+        [flightrouteName]="this.flightrouteName$ | async"
+        (flightrouteNameChange)="this.onFlightrouteNameChanged($event)"
+    />
+
     <div class="route-speed-row">
         <app-flightroute-aircraft-speed
             [speedUnit]="this.speedUnit$ | async"
@@ -23,11 +28,11 @@
         />
     </div>
 
-    <app-flightroute-name
-        [flightrouteName]="this.flightrouteName$ | async"
-        (flightrouteNameChange)="this.onFlightrouteNameChanged($event)"
+    <app-flightroute-cruising-altitude
+        [altitudeUnit]="this.altitudeUnit$ | async"
+        [cruiseAltitude]="this.cruiseAltitude$ | async"
+        (cruiseAltitudeChanged)="this.onCruiseAltitudeChanged($event)"
     />
-
     <app-waypoints-table
         [flightroute]="this.currentFlightroute$ | async"
         [altitudeUnit]="this.altitudeUnit$ | async"

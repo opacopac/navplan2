@@ -5,6 +5,7 @@ import {RestWaypointConverter} from './rest-waypoint-converter';
 import {RestSpeedConverter} from '../../../geo-physics/rest/model/rest-speed-converter';
 import {RestConsumptionConverter} from '../../../geo-physics/rest/model/rest-consumption-converter';
 import {RestTimeConverter} from '../../../geo-physics/rest/model/rest-time-converter';
+import {RestLengthConverter} from '../../../geo-physics/rest/model/rest-length-converter';
 
 
 export class RestFlightrouteConverter {
@@ -21,7 +22,8 @@ export class RestFlightrouteConverter {
             aircraft,
             RestWaypointConverter.fromRestList(restFlightroute.waypoints),
             RestWaypointConverter.fromRest(restFlightroute.alternate),
-            RestTimeConverter.fromRest(restFlightroute.extra_fuel)
+            RestTimeConverter.fromRest(restFlightroute.extra_fuel),
+            RestLengthConverter.fromRest(restFlightroute.cruise_alt)
         );
     }
 
@@ -36,6 +38,7 @@ export class RestFlightrouteConverter {
             waypoints: RestWaypointConverter.toRestList(flightroute.waypoints),
             alternate: RestWaypointConverter.toRest(flightroute.alternate),
             extra_fuel: RestTimeConverter.toRest(flightroute.extraTime),
+            cruise_alt: RestLengthConverter.toRest(flightroute.cruiseAltitude)
         };
     }
 }

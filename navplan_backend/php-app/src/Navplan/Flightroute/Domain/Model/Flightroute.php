@@ -3,6 +3,7 @@
 namespace Navplan\Flightroute\Domain\Model;
 
 use Navplan\Common\Domain\Model\Consumption;
+use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Speed;
 
 
@@ -13,6 +14,7 @@ class Flightroute {
         public Speed $aircraftSpeed,
         public Consumption $aircraftConsumption,
         public int $extraFuelMin,
+        public ?Length $cruiseAltitude,
         public ?string $comments,
         public ?string $shareId,
         public ?string $hash,

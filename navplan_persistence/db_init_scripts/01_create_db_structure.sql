@@ -697,6 +697,7 @@ CREATE TABLE IF NOT EXISTS `navplan` (
   `aircraft_speed` varchar(3) NOT NULL,
   `aircraft_consumption` varchar(3) NOT NULL,
   `extra_fuel` varchar(3) NOT NULL,
+  `cruise_alt_ft` float DEFAULT NULL,
   `comments` varchar(2048) DEFAULT NULL,
   `created_time` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),

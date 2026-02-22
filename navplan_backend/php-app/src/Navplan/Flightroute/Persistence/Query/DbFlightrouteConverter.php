@@ -4,6 +4,7 @@ namespace Navplan\Flightroute\Persistence\Query;
 
 use Navplan\Common\Domain\Model\Consumption;
 use Navplan\Common\Domain\Model\ConsumptionUnit;
+use Navplan\Common\Domain\Model\Length;
 use Navplan\Common\Domain\Model\Speed;
 use Navplan\Common\Domain\Model\SpeedUnit;
 use Navplan\Common\StringNumberHelper;
@@ -27,6 +28,9 @@ class DbFlightrouteConverter {
         $extraFuel = StringNumberHelper::isNullOrEmpty($row, DbTableFlightroute::COL_EXTRA_FUEL)
             ? self::$fallbackExtraFuelMin
             : StringNumberHelper::parseIntOrZero($row, DbTableFlightroute::COL_EXTRA_FUEL);
+        $cruiseAltitude = StringNumberHelper::isNullOrEmpty($row, DbTableFlightroute::COL_CRUISE_ALT_FT)
+            ? NULL
+            : Length::fromFt(StringNumberHelper::parseFloatOrZero($row, DbTableFlightroute::COL_CRUISE_ALT_FT));
 
         return new Flightroute(
             intval($row[DbTableFlightroute::COL_ID]),
@@ -34,6 +38,7 @@ class DbFlightrouteConverter {
             $acSpeed,
             $acConsumption,
             $extraFuel,
+            $cruiseAltitude,
             $row[DbTableFlightroute::COL_COMMENTS],
             StringNumberHelper::parseStringOrNull($row, DbTableFlightroute::COL_SHARE_ID),
             StringNumberHelper::parseStringOrNull($row, DbTableFlightroute::COL_MD5_HASH),

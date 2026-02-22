@@ -21,7 +21,8 @@ export class Flightroute implements Clonable<Flightroute> {
         public aircraftParams: AircraftParams,
         public waypoints: Waypoint[],
         public alternate: Waypoint,
-        public extraTime: Time
+        public extraTime: Time,
+        public cruiseAltitude?: Length
     ) {
     }
 
@@ -47,7 +48,8 @@ export class Flightroute implements Clonable<Flightroute> {
             this.aircraftParams ? this.aircraftParams.clone() : undefined,
             this.waypoints.map(wp => wp.clone()),
             this.alternate ? this.alternate.clone() : undefined,
-            this.extraTime ? this.extraTime.clone() : undefined
+            this.extraTime ? this.extraTime.clone() : undefined,
+            this.cruiseAltitude ? this.cruiseAltitude.clone() : undefined
         );
     }
 
