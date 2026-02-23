@@ -3,10 +3,12 @@ import {SpeedUnit} from './quantities/speed-unit';
 import {VolumeUnit} from './quantities/volume-unit';
 import {WeightUnit} from './quantities/weight-unit';
 import {TemperatureUnit} from './quantities/temperature-unit';
+import {ConsumptionUnit} from './quantities/consumption-unit';
 
 
 export class NavplanUnits {
     public static readonly altitudeUnits: LengthUnit[] = [LengthUnit.FT, LengthUnit.M];
+    public static readonly consumptionUnits: ConsumptionUnit[] = [ConsumptionUnit.L_PER_H, ConsumptionUnit.GAL_PER_H];
     public static readonly routeDistanceUnits: LengthUnit[] = [LengthUnit.NM, LengthUnit.KM];
     public static readonly horizontalSpeedUnits: SpeedUnit[] = [SpeedUnit.KT, SpeedUnit.KMH];
     public static readonly verticalSpeedUnits: SpeedUnit[] = [SpeedUnit.FPM, SpeedUnit.MPS];

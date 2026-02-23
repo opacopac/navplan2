@@ -9,7 +9,6 @@ import {Length} from '../../../../../geo-physics/domain/model/quantities/length'
 import {LengthUnit} from '../../../../../geo-physics/domain/model/quantities/length-unit';
 import {VehicleType} from '../../../../domain/model/vehicle-type';
 import {FuelType} from '../../../../domain/model/fuel-type';
-import {StringnumberHelper} from '../../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {
     AircraftTypeDesignatorAutocompleteComponent
 } from '../aircraft-type-designator-autocomplete/aircraft-type-designator-autocomplete.component';
@@ -21,6 +20,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {HorizontalSpeedInputComponent} from '../../../../../geo-physics/view/ng-components/horizontal-speed-input/horizontal-speed-input.component';
 import {VerticalSpeedInputComponent} from '../../../../../geo-physics/view/ng-components/vertical-speed-input/vertical-speed-input.component';
 import {AltitudeInputComponent} from '../../../../../geo-physics/view/ng-components/altitude-input/altitude-input.component';
+import {ConsumptionInputComponent} from '../../../../../geo-physics/view/ng-components/consumption-input/consumption-input.component';
 
 
 @Component({
@@ -36,6 +36,7 @@ import {AltitudeInputComponent} from '../../../../../geo-physics/view/ng-compone
         HorizontalSpeedInputComponent,
         VerticalSpeedInputComponent,
         AltitudeInputComponent,
+        ConsumptionInputComponent,
     ],
     templateUrl: './aircraft-details-form.component.html',
     styleUrls: ['./aircraft-details-form.component.scss']
@@ -111,11 +112,8 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
-    protected onCruiseFuelChanged() {
-        if (this.aircraftDetailsForm.controls['cruiseFuel'].valid) {
-            const fuel = new Consumption(this.aircraftDetailsForm.value.cruiseFuel, this.consumptionUnit);
-            this.cruiseFuelChanged.emit(fuel);
-        }
+    protected onCruiseFuelChanged(consumption: Consumption) {
+        this.cruiseFuelChanged.emit(consumption);
     }
 
 
@@ -169,15 +167,6 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
             'registration': [this.currentAircraft.registration, [
                 Validators.required
             ]],
-            'cruiseFuel': [this.currentAircraft.cruiseFuel
-                ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseFuel.getValue(this.consumptionUnit), 0).toString()
-                : '',
-                [
-                    Validators.required,
-                    Validators.min(1),
-                    Validators.max(999)
-                ]
-            ],
             'fuelType': [this.currentAircraft.fuelType ?? '', [
                 Validators.required
             ]],

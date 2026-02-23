@@ -35,20 +35,14 @@
                 (speedChanged)="this.onCruiseSpeedChanged($event)"
             >Cruise Speed</app-horizontal-speed-input>
             <!-- fuel consumption -->
-            <mat-form-field>
-                <mat-label>Fuel Consumption</mat-label>
-                <input
-                    matInput
-                    formControlName="cruiseFuel"
-                    type="number"
-                    required
-                    min="1"
-                    max="999"
-                    (change)="this.onCruiseFuelChanged()"
-                >
-                <span matTextSuffix>{{ Consumption.getUnitString(this.consumptionUnit) }}</span>
-                <mat-error>Value must be a positive number between 1 and 999!</mat-error>
-            </mat-form-field>
+            <app-consumption-input
+                [consumption]="this.currentAircraft.cruiseFuel"
+                [defaultConsumptionUnit]="this.consumptionUnit"
+                [isRequired]="true"
+                [minValue]="1"
+                [maxValue]="999"
+                (consumptionChanged)="this.onCruiseFuelChanged($event)"
+            >Fuel Consumption</app-consumption-input>
             <!-- fuel type -->
             <mat-form-field>
                 <mat-label>Fuel Type</mat-label>
