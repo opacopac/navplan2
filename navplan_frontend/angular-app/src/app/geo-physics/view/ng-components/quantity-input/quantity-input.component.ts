@@ -1,6 +1,6 @@
 import {Directive, Input, OnChanges, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
-import {AbstractQuantity} from '../../../../geo-physics/domain/model/quantities/abstract-quantity';
+import {AbstractQuantity} from '../../../domain/model/quantities/abstract-quantity';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 
 

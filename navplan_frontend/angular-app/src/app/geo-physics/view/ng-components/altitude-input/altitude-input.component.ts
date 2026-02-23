@@ -4,9 +4,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
-import {Length} from '../../../../geo-physics/domain/model/quantities/length';
-import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
-import {NavplanUnits} from '../../../../geo-physics/domain/model/navplan-units';
+import {Length} from '../../../domain/model/quantities/length';
+import {LengthUnit} from '../../../domain/model/quantities/length-unit';
+import {NavplanUnits} from '../../../domain/model/navplan-units';
 import {AbstractQuantityInputComponent} from '../quantity-input/quantity-input.component';
 
 

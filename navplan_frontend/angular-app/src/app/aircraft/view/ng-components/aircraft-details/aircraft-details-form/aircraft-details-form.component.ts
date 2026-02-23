@@ -18,9 +18,9 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatInputModule} from '@angular/material/input';
 import {SaveButtonComponent} from '../../../../../common/view/ng-components/save-button/save-button.component';
 import {MatSelectModule} from '@angular/material/select';
-import {HorizontalSpeedInputComponent} from '../../../../../common/view/ng-components/horizontal-speed-input/horizontal-speed-input.component';
-import {VerticalSpeedInputComponent} from '../../../../../common/view/ng-components/vertical-speed-input/vertical-speed-input.component';
-import {AltitudeInputComponent} from '../../../../../common/view/ng-components/altitude-input/altitude-input.component';
+import {HorizontalSpeedInputComponent} from '../../../../../geo-physics/view/ng-components/horizontal-speed-input/horizontal-speed-input.component';
+import {VerticalSpeedInputComponent} from '../../../../../geo-physics/view/ng-components/vertical-speed-input/vertical-speed-input.component';
+import {AltitudeInputComponent} from '../../../../../geo-physics/view/ng-components/altitude-input/altitude-input.component';
 
 
 @Component({
