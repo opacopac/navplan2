@@ -75,7 +75,7 @@ export class Speed extends AbstractQuantity<Speed, SpeedUnit> {
                 switch (convertToUnit) {
                     case SpeedUnit.KT: return value / (Length.FT_PER_NM / 60);
                     case SpeedUnit.KMH: return value / (Length.FT_PER_M / 60);
-                    case SpeedUnit.MPS: return value / (Length.FT_PER_M / 60);
+                    case SpeedUnit.MPS: return value / (Length.FT_PER_M * 60);
                     default: return undefined;
                 }
             default: return undefined;
