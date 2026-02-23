@@ -16,6 +16,7 @@ import {FormDialogComponent} from '../../../../common/view/ng-components/form-di
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import {WeightInputComponent} from '../../../../geo-physics/view/ng-components/weight-input/weight-input.component';
 
 
 @Component({
@@ -25,7 +26,8 @@ import {MatInputModule} from '@angular/material/input';
         ReactiveFormsModule,
         MatFormFieldModule,
         MatSelectModule,
-        MatInputModule
+        MatInputModule,
+        WeightInputComponent,
     ],
     templateUrl: './aircraft-wnb-edit-weight-item-form-dialog.component.html',
     styleUrls: ['./aircraft-wnb-edit-weight-item-form-dialog.component.scss']
@@ -38,6 +40,8 @@ export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnC
     protected readonly Weight = Weight;
     protected readonly Volume = Volume;
     protected readonly Length = Length;
+    protected maxWeight: Weight | undefined;
+    protected defaultWeight: Weight | undefined;
 
 
     constructor(
@@ -96,18 +100,16 @@ export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnC
 
     protected onSaveClicked() {
         if (this.editWeightItemForm.valid) {
-            const maxWeightValue = parseInt(this.editWeightItemForm.get('maxWeight').value, 10);
             const maxFuelValue = parseInt(this.editWeightItemForm.get('maxFuel').value, 10);
-            const defaultWeightValue = parseInt(this.editWeightItemForm.get('defaultWeight').value, 10);
             const defaultFuelValue = parseInt(this.editWeightItemForm.get('defaultFuel').value, 10);
             const newWeightItem = new WeightItem(
                 this.editWeightItemForm.get('type').value,
                 this.editWeightItemForm.get('name').value,
                 new Length(this.editWeightItemForm.get('armLong').value, this.data.wnbLengthUnit),
                 new Length(this.editWeightItemForm.get('armLat').value, this.data.wnbLengthUnit),
-                isNaN(maxWeightValue) ? null : new Weight(maxWeightValue, this.data.weightUnit),
+                this.maxWeight ?? null,
                 isNaN(maxFuelValue) ? null : new Volume(maxFuelValue, this.data.volumeUnit),
-                isNaN(defaultWeightValue) ? null : new Weight(defaultWeightValue, this.data.weightUnit),
+                this.defaultWeight ?? null,
                 isNaN(defaultFuelValue) ? null : new Volume(defaultFuelValue, this.data.volumeUnit),
                 null,
                 null
@@ -123,76 +125,51 @@ export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnC
     }
 
 
+    protected onMaxWeightChanged(weight: Weight) {
+        this.maxWeight = weight;
+    }
+
+
+    protected onDefaultWeightChanged(weight: Weight) {
+        this.defaultWeight = weight;
+    }
+
+
     private initForm(weightItem: WeightItem) {
+        this.maxWeight = weightItem?.maxWeight ?? undefined;
+        this.defaultWeight = weightItem?.defaultWeight ?? undefined;
         this.editWeightItemForm = this.formBuilder.group({
             'type': [
                 weightItem ? weightItem.type : null,
-                [
-                    Validators.required
-                ]
+                [Validators.required]
             ],
             'name': [
                 weightItem ? weightItem.name : '',
-                [
-                    Validators.required,
-                    Validators.maxLength(30)
-                ]
+                [Validators.required, Validators.maxLength(30)]
             ],
             'armLong': [
                 (weightItem && weightItem.armLong)
                     ? StringnumberHelper.roundToDigits(weightItem.armLong.getValue(this.data.wnbLengthUnit), 3)
                     : '',
-                [
-                    Validators.required,
-                    Validators.min(-99999),
-                    Validators.max(99999),
-                ]
+                [Validators.required, Validators.min(-99999), Validators.max(99999)]
             ],
             'armLat': [
                 (weightItem && weightItem.armLat)
                     ? StringnumberHelper.roundToDigits(weightItem.armLat.getValue(this.data.wnbLengthUnit), 3)
                     : 0,
-                [
-                    Validators.required,
-                    Validators.min(-99999),
-                    Validators.max(99999),
-                ]
-            ],
-            'maxWeight': [
-                (weightItem && weightItem.maxWeight)
-                    ? StringnumberHelper.roundToDigits(weightItem.maxWeight.getValue(this.data.weightUnit), 0)
-                    : '',
-                [
-                    Validators.min(1),
-                    Validators.max(99999),
-                ]
+                [Validators.required, Validators.min(-99999), Validators.max(99999)]
             ],
             'maxFuel': [
                 (weightItem && weightItem.maxFuel)
                     ? StringnumberHelper.roundToDigits(weightItem.maxFuel.getValue(this.data.volumeUnit), 0)
                     : '',
-                [
-                    Validators.min(1),
-                    Validators.max(99999),
-                ]
-            ],
-            'defaultWeight': [
-                (weightItem && weightItem.defaultWeight)
-                    ? StringnumberHelper.roundToDigits(weightItem.defaultWeight.getValue(this.data.weightUnit), 0)
-                    : '',
-                [
-                    Validators.min(0),
-                    Validators.max(99999),
-                ]
+                [Validators.min(1), Validators.max(99999)]
             ],
             'defaultFuel': [
                 (weightItem && weightItem.defaultFuel)
                     ? StringnumberHelper.roundToDigits(weightItem.defaultFuel.getValue(this.data.volumeUnit), 0)
                     : '',
-                [
-                    Validators.min(0),
-                    Validators.max(99999),
-                ]
+                [Validators.min(0), Validators.max(99999)]
             ]
         });
     }

@@ -77,18 +77,12 @@
 
             <!-- max weight -->
             @if (!this.isTypeFuel() && !this.isTypeAircraft()) {
-                <mat-form-field class="flex-row-100">
-                    <mat-label>Max. Weight</mat-label>
-                    <input
-                        matInput
-                        type="number"
-                        formControlName="maxWeight"
-                        min="1"
-                        max="99999"
-                    >
-                    <span matTextSuffix>{{ Weight.getUnitString(this.data.weightUnit) }}</span>
-                    <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
-                </mat-form-field>
+                <app-weight-input
+                    class="flex-row-100"
+                    [weight]="this.maxWeight"
+                    [defaultWeightUnit]="this.data.weightUnit"
+                    (weightChanged)="this.onMaxWeightChanged($event)"
+                >Max. Weight</app-weight-input>
             }
 
             <!-- max fuel -->
@@ -109,18 +103,12 @@
 
             <!-- default weight -->
             @if (!this.isTypeFuel() && !this.isTypeAircraft()) {
-                <mat-form-field class="flex-row-100">
-                    <mat-label>Default Weight</mat-label>
-                    <input
-                        matInput
-                        type="number"
-                        formControlName="defaultWeight"
-                        min="0"
-                        max="99999"
-                    >
-                    <span matTextSuffix>{{ Weight.getUnitString(this.data.weightUnit) }}</span>
-                    <mat-error>Value must be a number between 0 and 99999!</mat-error>
-                </mat-form-field>
+                <app-weight-input
+                    class="flex-row-100"
+                    [weight]="this.defaultWeight"
+                    [defaultWeightUnit]="this.data.weightUnit"
+                    (weightChanged)="this.onDefaultWeightChanged($event)"
+                >Default Weight</app-weight-input>
             }
 
             <!-- default fuel -->
