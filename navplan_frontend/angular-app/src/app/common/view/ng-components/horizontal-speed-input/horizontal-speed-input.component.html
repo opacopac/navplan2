@@ -6,6 +6,7 @@
         type="number"
         [min]="this.minValue"
         [max]="this.maxValue"
+        [required]="this.isRequired"
         (change)="this.onValueChanged()"
     />
     <button
@@ -26,6 +27,5 @@
         >{{ Speed.getUnitString(unit) }}</button>
     }
 </mat-menu>
-
 
 

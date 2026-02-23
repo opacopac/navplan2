@@ -18,7 +18,8 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatInputModule} from '@angular/material/input';
 import {SaveButtonComponent} from '../../../../../common/view/ng-components/save-button/save-button.component';
 import {MatSelectModule} from '@angular/material/select';
-import {SpeedInputComponent} from '../../../../../common/view/ng-components/speed-input/speed-input.component';
+import {HorizontalSpeedInputComponent} from '../../../../../common/view/ng-components/horizontal-speed-input/horizontal-speed-input.component';
+import {VerticalSpeedInputComponent} from '../../../../../common/view/ng-components/vertical-speed-input/vertical-speed-input.component';
 
 
 @Component({
@@ -31,7 +32,8 @@ import {SpeedInputComponent} from '../../../../../common/view/ng-components/spee
         MatSelectModule,
         SaveButtonComponent,
         AircraftTypeDesignatorAutocompleteComponent,
-        SpeedInputComponent,
+        HorizontalSpeedInputComponent,
+        VerticalSpeedInputComponent,
     ],
     templateUrl: './aircraft-details-form.component.html',
     styleUrls: ['./aircraft-details-form.component.scss']

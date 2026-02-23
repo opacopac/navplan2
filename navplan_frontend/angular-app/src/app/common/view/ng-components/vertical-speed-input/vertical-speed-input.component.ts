@@ -7,10 +7,11 @@ import {MatMenuModule} from '@angular/material/menu';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
+import {NavplanUnits} from '../../../../geo-physics/domain/model/navplan-units';
 
 
 @Component({
-    selector: 'app-speed-input',
+    selector: 'app-vertical-speed-input',
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,
@@ -18,22 +19,21 @@ import {StringnumberHelper} from '../../../../system/domain/service/stringnumber
         MatButtonModule,
         MatMenuModule,
     ],
-    templateUrl: './speed-input.component.html',
-    styleUrls: ['./speed-input.component.scss']
+    templateUrl: './vertical-speed-input.component.html',
+    styleUrls: ['./vertical-speed-input.component.scss']
 })
-export class SpeedInputComponent implements OnInit, OnChanges {
+export class VerticalSpeedInputComponent implements OnInit, OnChanges {
     @Input() public speed: Speed | undefined;
     @Input() public defaultSpeedUnit!: SpeedUnit;
+    @Input() public isRequired = false;
     @Input() public minValue = 1;
     @Input() public maxValue = 9999;
-    @Input() public restrictUnits: SpeedUnit[] = [];
     @Output() public speedChanged = new EventEmitter<Speed>();
 
     protected readonly Speed = Speed;
 
     protected get availableUnits(): SpeedUnit[] {
-        const all = Object.values(SpeedUnit).filter((v): v is SpeedUnit => typeof v === 'number');
-        return this.restrictUnits.length > 0 ? all.filter(u => this.restrictUnits.includes(u)) : all;
+        return NavplanUnits.verticalSpeedUnits;
     }
 
     protected selectedUnit: SpeedUnit;
@@ -82,15 +82,20 @@ export class SpeedInputComponent implements OnInit, OnChanges {
         const initialValue = this.speed
             ? StringnumberHelper.roundToDigits(this.speed.getValue(this.selectedUnit), 0).toString()
             : '';
+        const validators = [
+            ...(this.isRequired ? [Validators.required] : []),
+            Validators.min(this.minValue),
+            Validators.max(this.maxValue)
+        ];
 
         if (this.valueControl) {
             this.valueControl.setValue(initialValue, {emitEvent: false});
-            this.valueControl.setValidators([Validators.required, Validators.min(this.minValue), Validators.max(this.maxValue)]);
+            this.valueControl.setValidators(validators);
             this.valueControl.updateValueAndValidity({emitEvent: false});
         } else {
             this.valueControl = new FormControl<string>(initialValue, {
                 nonNullable: true,
-                validators: [Validators.required, Validators.min(this.minValue), Validators.max(this.maxValue)]
+                validators
             });
         }
     }
@@ -103,9 +108,6 @@ export class SpeedInputComponent implements OnInit, OnChanges {
         }
     }
 }
-
-
-
 
 
 

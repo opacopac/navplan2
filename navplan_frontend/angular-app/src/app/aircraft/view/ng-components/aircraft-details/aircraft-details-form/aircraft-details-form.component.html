@@ -29,11 +29,11 @@
                 (icaoTypeChange)="this.onIcaoTypeChanged($event)"
             />
             <!-- cruise speed -->
-            <app-speed-input
+            <app-horizontal-speed-input
                 [speed]="this.currentAircraft.cruiseSpeed"
                 [defaultSpeedUnit]="this.horizontalSpeedUnit"
                 (speedChanged)="this.onCruiseSpeedChanged($event)"
-            >Cruise Speed</app-speed-input>
+            >Cruise Speed</app-horizontal-speed-input>
             <!-- fuel consumption -->
             <mat-form-field>
                 <mat-label>Fuel Consumption</mat-label>
@@ -64,11 +64,11 @@
                 </mat-select>
             </mat-form-field>
             <!-- ROC at sealevel -->
-            <app-speed-input
+            <app-vertical-speed-input
                 [speed]="this.currentAircraft.rocSealevel"
                 [defaultSpeedUnit]="this.verticalSpeedUnit"
                 (speedChanged)="this.onRocSealevelChanged($event)"
-            >ROC at Sealevel</app-speed-input>
+            >ROC at Sealevel</app-vertical-speed-input>
             <!-- service ceiling -->
             <mat-form-field>
                 <mat-label>Service Ceiling</mat-label>
@@ -85,11 +85,11 @@
                 <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
             </mat-form-field>
             <!-- cruise climb speed -->
-            <app-speed-input
+            <app-horizontal-speed-input
                 [speed]="this.currentAircraft.cruiseClimbSpeed"
-                [defaultSpeedUnit]="SpeedUnit.FPM"
+                [defaultSpeedUnit]="this.horizontalSpeedUnit"
                 (speedChanged)="this.onCruiseClimbSpeedChanged($event)"
-            >Cruise Climb Speed</app-speed-input>
+            >Cruise Climb Speed</app-horizontal-speed-input>
 
             <app-save-button
                 [isEnabled]="this.isFormValid()"
