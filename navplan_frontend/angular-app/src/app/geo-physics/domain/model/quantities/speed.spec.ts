@@ -29,4 +29,31 @@ describe('Speed', () => {
         expect(speed_kt.getValue(SpeedUnit.MPS)).toBe(val_mps);
         expect(speed_kt.getValue(SpeedUnit.FPM)).toBe(val_fpm);
     });
+
+
+    it('converts FPM to MPS correctly (1 ft/min ≈ 0.00508 m/s)', () => {
+        // 1 ft = 0.3048 m, 1 min = 60 s → 1 ft/min = 0.3048/60 m/s ≈ 0.00508 m/s
+        const fpmToMps = Speed.convertSpeed(1, SpeedUnit.FPM, SpeedUnit.MPS);
+        expect(fpmToMps).toBeCloseTo(0.00508, 5);
+    });
+
+
+    it('converts MPS to FPM correctly (1 m/s ≈ 196.85 ft/min)', () => {
+        // 1 m/s = 60/0.3048 ft/min ≈ 196.85 ft/min
+        const mpsToFpm = Speed.convertSpeed(1, SpeedUnit.MPS, SpeedUnit.FPM);
+        expect(mpsToFpm).toBeCloseTo(196.85, 1);
+    });
+
+
+    it('converts KMH to MPS correctly (36 km/h = 10 m/s)', () => {
+        const kmhToMps = Speed.convertSpeed(36, SpeedUnit.KMH, SpeedUnit.MPS);
+        expect(kmhToMps).toBeCloseTo(10, 5);
+    });
+
+
+    it('converts KMH to FPM correctly (1 km/h ≈ 54.68 ft/min)', () => {
+        // 1 km/h = 1000/0.3048/60 ft/min ≈ 54.6807 ft/min
+        const kmhToFpm = Speed.convertSpeed(1, SpeedUnit.KMH, SpeedUnit.FPM);
+        expect(kmhToFpm).toBeCloseTo(54.6807, 2);
+    });
 });
