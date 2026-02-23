@@ -1,33 +1,16 @@
-<!-- mtow -->
 <div class="weight-fields">
-    <mat-form-field>
-        <mat-label>MTOW</mat-label>
-        <input matInput
-               type="number"
-               [formControl]="this.mtowInput"
-               required
-               size="5"
-               min="1"
-               max="99999"
-               (change)="this.onMtowChange()"
-        >
-        <span matTextSuffix>{{ Weight.getUnitString(this.weightUnit) }}</span>
-        <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
-    </mat-form-field>
-
+    <!-- mtow -->
+    <app-weight-input
+        [weight]="this.currentAircraft?.mtow"
+        [defaultWeightUnit]="this.weightUnit"
+        [isRequired]="true"
+        (weightChanged)="this.onMtowChanged($event)"
+    >MTOW</app-weight-input>
     <!-- empty aircraft weight -->
-    <mat-form-field>
-        <mat-label>Empty Aircraft Weight</mat-label>
-        <input matInput
-               type="number"
-               [formControl]="this.bewInput"
-               required
-               size="5"
-               min="1"
-               max="99999"
-               (change)="onBewChange()"
-        >
-        <span matTextSuffix>{{ Weight.getUnitString(this.weightUnit) }}</span>
-        <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
-    </mat-form-field>
+    <app-weight-input
+        [weight]="this.currentAircraft?.bew"
+        [defaultWeightUnit]="this.weightUnit"
+        [isRequired]="true"
+        (weightChanged)="this.onBewChanged($event)"
+    >Empty Aircraft Weight</app-weight-input>
 </div>
