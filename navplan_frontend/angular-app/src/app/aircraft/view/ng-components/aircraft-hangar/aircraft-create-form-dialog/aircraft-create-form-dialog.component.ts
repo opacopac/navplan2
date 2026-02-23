@@ -16,6 +16,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {
     AircraftTypeDesignatorAutocompleteComponent
 } from '../../aircraft-details/aircraft-type-designator-autocomplete/aircraft-type-designator-autocomplete.component';
+import {HorizontalSpeedInputComponent} from '../../../../../geo-physics/view/ng-components/horizontal-speed-input/horizontal-speed-input.component';
+import {ConsumptionInputComponent} from '../../../../../geo-physics/view/ng-components/consumption-input/consumption-input.component';
 
 
 @Component({
@@ -28,18 +30,20 @@ import {
         MatSelectModule,
         FormDialogComponent,
         AircraftTypeDesignatorAutocompleteComponent,
+        HorizontalSpeedInputComponent,
+        ConsumptionInputComponent,
     ],
     templateUrl: './aircraft-create-form-dialog.component.html',
     styleUrls: ['./aircraft-create-form-dialog.component.scss']
 })
 export class AircraftCreateFormDialogComponent implements OnInit, OnChanges {
     protected createForm: FormGroup;
-    protected readonly Speed = Speed;
-    protected readonly Consumption = Consumption;
     protected readonly VehicleType = VehicleType;
     protected readonly FuelType = FuelType;
     protected aircraftIcaoType: string;
     protected isAircraftIcaoTypeValid: boolean;
+    protected cruiseSpeed: Speed | undefined;
+    protected cruiseFuel: Consumption | undefined;
 
 
     constructor(
@@ -64,7 +68,18 @@ export class AircraftCreateFormDialogComponent implements OnInit, OnChanges {
 
 
     protected isFormValid(): boolean {
-        return this.createForm && this.createForm.valid && this.isAircraftIcaoTypeValid;
+        return this.createForm && this.createForm.valid && this.isAircraftIcaoTypeValid
+            && this.cruiseSpeed != null && this.cruiseFuel != null;
+    }
+
+
+    protected onCruiseSpeedChanged(speed: Speed) {
+        this.cruiseSpeed = speed;
+    }
+
+
+    protected onCruiseFuelChanged(consumption: Consumption) {
+        this.cruiseFuel = consumption;
     }
 
 
@@ -74,14 +89,8 @@ export class AircraftCreateFormDialogComponent implements OnInit, OnChanges {
                 this.createForm.controls['vehicleType'].value,
                 this.createForm.controls['registration'].value,
                 this.aircraftIcaoType,
-                new Speed(
-                    this.createForm.controls['cruiseSpeed'].value,
-                    this.data.speedUnit
-                ),
-                new Consumption(
-                    this.createForm.controls['cruiseFuel'].value,
-                    this.data.consumptionUnit
-                ),
+                this.cruiseSpeed,
+                this.cruiseFuel,
                 this.createForm.controls['fuelType'].value,
             );
 
@@ -99,20 +108,6 @@ export class AircraftCreateFormDialogComponent implements OnInit, OnChanges {
         this.createForm = this.formBuilder.group({
             'vehicleType': [VehicleType.AIRPLANE, [Validators.required]],
             'registration': ['', [Validators.required]],
-            'cruiseSpeed': ['',
-                [
-                    Validators.required,
-                    Validators.min(1),
-                    Validators.max(999)
-                ]
-            ],
-            'cruiseFuel': ['',
-                [
-                    Validators.required,
-                    Validators.min(1),
-                    Validators.max(999)
-                ]
-            ],
             'fuelType': [FuelType.MOGAS, [Validators.required]]
         });
     }

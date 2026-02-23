@@ -28,34 +28,38 @@ export class VerticalSpeedInputComponent extends AbstractQuantityInputComponent<
     @Input() public defaultSpeedUnit!: SpeedUnit;
     @Output() public speedChanged = new EventEmitter<Speed>();
 
+
     protected override get quantity(): Speed | undefined {
         return this.speed;
     }
+
 
     protected override get defaultUnit(): SpeedUnit {
         return this.defaultSpeedUnit;
     }
 
+
     protected override get availableUnits(): SpeedUnit[] {
         return NavplanUnits.verticalSpeedUnits;
     }
+
 
     protected override convertValue(value: number, fromUnit: SpeedUnit, toUnit: SpeedUnit): number {
         return Speed.convertSpeed(value, fromUnit, toUnit);
     }
 
+
     protected override getUnitString(unit: SpeedUnit): string {
         return Speed.getUnitString(unit);
     }
+
 
     protected override createQuantity(value: number, unit: SpeedUnit): Speed {
         return new Speed(value, unit);
     }
 
+
     protected override emitQuantity(quantity: Speed): void {
         this.speedChanged.emit(quantity);
     }
 }
-
-
-
