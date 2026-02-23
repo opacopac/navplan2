@@ -14,7 +14,7 @@
         mat-button
         [matMenuTriggerFor]="unitMenu"
         type="button"
-    >{{ Speed.getUnitString(this.selectedUnit) }}</button>
+    >{{ this.getUnitString(this.selectedUnit) }}</button>
     <mat-error>Value must be a positive integer between {{ this.minValue }} and {{ this.maxValue }}!</mat-error>
 </mat-form-field>
 
@@ -24,8 +24,7 @@
             mat-menu-item
             [class.active-unit]="unit === this.selectedUnit"
             (click)="this.onUnitSelected(unit)"
-        >{{ Speed.getUnitString(unit) }}</button>
+        >{{ this.getUnitString(unit) }}</button>
     }
 </mat-menu>
-
 
