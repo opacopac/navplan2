@@ -5,9 +5,9 @@ import {GeoPhysicsActions} from '../../../state/ngrx/geo-physics.actions';
 import {Observable} from 'rxjs';
 import {
     getAltitudeUnit,
+    getHorizontalSpeedUnit,
     getPerformanceDistanceUnit,
     getRouteDistanceUnit,
-    getHorizontalSpeedUnit,
     getTemperatureUnit,
     getVerticalSpeedUnit,
     getVolumeUnit,
@@ -24,6 +24,7 @@ import {Weight} from '../../../domain/model/quantities/weight';
 import {WeightUnit} from '../../../domain/model/quantities/weight-unit';
 import {Temperature} from '../../../domain/model/quantities/temperature';
 import {TemperatureUnit} from '../../../domain/model/quantities/temperature-unit';
+import {NavplanUnits} from '../../../../common/domain/model/navplan-units';
 import {CommonModule} from '@angular/common';
 
 
@@ -53,15 +54,15 @@ export class UnitSettingsComponent implements OnInit {
     protected readonly performanceDistanceUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getPerformanceDistanceUnit));
     protected readonly temperatureUnit$: Observable<TemperatureUnit> = this.appStore.pipe(select(getTemperatureUnit));
 
-    protected readonly altitudeUnits = [LengthUnit.FT, LengthUnit.M];
-    protected readonly routeDistanceUnits = [LengthUnit.NM, LengthUnit.KM];
-    protected readonly horizontalSpeedUnits = [SpeedUnit.KT, SpeedUnit.KMH];
-    protected readonly verticalSpeedUnits = [SpeedUnit.FPM, SpeedUnit.MPS];
-    protected readonly fuelUnits = [VolumeUnit.L, VolumeUnit.GAL];
-    protected readonly weightUnits = [WeightUnit.KG, WeightUnit.LBS];
-    protected readonly wnbLengthUnits = [LengthUnit.M, LengthUnit.IN, LengthUnit.FT];
-    protected readonly performanceDistanceUnits = [LengthUnit.M, LengthUnit.FT];
-    protected readonly temperatureUnits = [TemperatureUnit.C, TemperatureUnit.F];
+    protected readonly altitudeUnits = NavplanUnits.altitudeUnits;
+    protected readonly routeDistanceUnits = NavplanUnits.routeDistanceUnits;
+    protected readonly horizontalSpeedUnits = NavplanUnits.horizontalSpeedUnits;
+    protected readonly verticalSpeedUnits = NavplanUnits.verticalSpeedUnits;
+    protected readonly fuelUnits = NavplanUnits.fuelUnits;
+    protected readonly weightUnits = NavplanUnits.weightUnits;
+    protected readonly wnbLengthUnits = NavplanUnits.wnbLengthUnits;
+    protected readonly performanceDistanceUnits = NavplanUnits.performanceDistanceUnits;
+    protected readonly temperatureUnits = NavplanUnits.temperatureUnits;
 
     constructor(private appStore: Store<any>) {
     }
