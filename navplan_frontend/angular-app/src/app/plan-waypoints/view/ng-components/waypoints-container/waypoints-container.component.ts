@@ -21,13 +21,9 @@ import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selec
 import {
     RoutePickerContainerComponent
 } from '../../../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
-import {FlightrouteAircraftSpeedComponent} from '../flightroute-aircraft-speed/flightroute-aircraft-speed.component';
 import {FlightrouteNameComponent} from '../flightroute-name/flightroute-name.component';
 import {WaypointsTableComponent} from '../waypoints-table/waypoints-table.component';
 import {FlightrouteCommentsComponent} from '../flightroute-comment/flightroute-comments.component';
-import {
-    FlightrouteCruisingAltitudeComponent
-} from '../flightroute-cruising-altitude/flightroute-cruising-altitude.component';
 import {SaveButtonComponent} from '../../../../common/view/ng-components/save-button/save-button.component';
 import {CommonModule} from '@angular/common';
 import {
@@ -36,6 +32,8 @@ import {
 import {
     AircraftManualToggle
 } from '../../../../aircraft/view/ng-components/aircraft-manual-toggle/aircraft-manual-toggle.component';
+import {HorizontalSpeedInputComponent} from '../../../../geo-physics/view/ng-components/horizontal-speed-input/horizontal-speed-input.component';
+import {AltitudeInputComponent} from '../../../../geo-physics/view/ng-components/altitude-input/altitude-input.component';
 
 
 @Component({
@@ -44,11 +42,11 @@ import {
         CommonModule,
         ReactiveFormsModule,
         RoutePickerContainerComponent,
-        FlightrouteAircraftSpeedComponent,
+        HorizontalSpeedInputComponent,
+        AltitudeInputComponent,
         FlightrouteNameComponent,
         WaypointsTableComponent,
         FlightrouteCommentsComponent,
-        FlightrouteCruisingAltitudeComponent,
         SaveButtonComponent,
         AircraftPickerContainerComponent,
         AircraftManualToggle
