@@ -12,7 +12,7 @@
 
     <div class="route-speed-row">
         <app-flightroute-aircraft-speed
-            [speedUnit]="this.speedUnit$ | async"
+            [speedUnit]="this.horizontalSpeedUnit$ | async"
             [routeSpeed]="this.routeSpeed$ | async"
             [useAircraftValue]="this.useAircraftSpeedValue$ | async"
             (routeSpeedChanged)="this.onRouteSpeedChanged($event)"

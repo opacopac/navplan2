@@ -28,21 +28,12 @@
                 [(isValid)]="this.isIcaoTypeValid"
                 (icaoTypeChange)="this.onIcaoTypeChanged($event)"
             />
-            <!-- speed -->
-            <mat-form-field>
-                <mat-label>Cruise Speed</mat-label>
-                <input
-                    matInput
-                    formControlName="cruiseSpeed"
-                    type="number"
-                    required
-                    min="1"
-                    max="999"
-                    (change)="this.onCruiseSpeedChanged()"
-                >
-                <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
-                <mat-error>Value must be a positive number between 1 and 999!</mat-error>
-            </mat-form-field>
+            <!-- cruise speed -->
+            <app-speed-input
+                [speed]="this.currentAircraft.cruiseSpeed"
+                [defaultSpeedUnit]="this.horizontalSpeedUnit"
+                (speedChanged)="this.onCruiseSpeedChanged($event)"
+            >Cruise Speed</app-speed-input>
             <!-- fuel consumption -->
             <mat-form-field>
                 <mat-label>Fuel Consumption</mat-label>
@@ -73,20 +64,11 @@
                 </mat-select>
             </mat-form-field>
             <!-- ROC at sealevel -->
-            <mat-form-field>
-                <mat-label>ROC at Sealevel</mat-label>
-                <input
-                    matInput
-                    formControlName="rocSealevel"
-                    type="number"
-                    required
-                    min="1"
-                    max="9999"
-                    (change)="this.onRocSealevelChanged()"
-                >
-                <span matTextSuffix>{{ Speed.getUnitString(SpeedUnit.FPM) }}</span>
-                <mat-error>Value must be a positive number between 1 and 9999!</mat-error>
-            </mat-form-field>
+            <app-speed-input
+                [speed]="this.currentAircraft.rocSealevel"
+                [defaultSpeedUnit]="this.verticalSpeedUnit"
+                (speedChanged)="this.onRocSealevelChanged($event)"
+            >ROC at Sealevel</app-speed-input>
             <!-- service ceiling -->
             <mat-form-field>
                 <mat-label>Service Ceiling</mat-label>
@@ -103,20 +85,11 @@
                 <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
             </mat-form-field>
             <!-- cruise climb speed -->
-            <mat-form-field>
-                <mat-label>Cruise Climb Speed</mat-label>
-                <input
-                    matInput
-                    formControlName="cruiseClimbSpeed"
-                    type="number"
-                    required
-                    min="1"
-                    max="9999"
-                    (change)="this.onCruiseClimbSpeedChanged()"
-                >
-                <span matTextSuffix>{{ Speed.getUnitString(SpeedUnit.FPM) }}</span>
-                <mat-error>Value must be a positive number between 1 and 9999!</mat-error>
-            </mat-form-field>
+            <app-speed-input
+                [speed]="this.currentAircraft.cruiseClimbSpeed"
+                [defaultSpeedUnit]="SpeedUnit.FPM"
+                (speedChanged)="this.onCruiseClimbSpeedChanged($event)"
+            >Cruise Climb Speed</app-speed-input>
 
             <app-save-button
                 [isEnabled]="this.isFormValid()"

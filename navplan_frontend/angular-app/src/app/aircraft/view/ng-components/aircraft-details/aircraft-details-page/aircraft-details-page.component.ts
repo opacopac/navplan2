@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {getCurrentAircraft} from '../../../../state/ngrx/aircraft.selectors';
 import {Observable} from 'rxjs';
 import {SpeedUnit} from '../../../../../geo-physics/domain/model/quantities/speed-unit';
-import {getConsumptionUnit, getSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {getConsumptionUnit, getHorizontalSpeedUnit, getVerticalSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {VehicleType} from '../../../../domain/model/vehicle-type';
 import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
 import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
@@ -30,7 +30,8 @@ import {CommonModule} from '@angular/common';
 })
 export class AircraftDetailsPageComponent implements OnInit {
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
-    protected readonly speedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSpeedUnit));
+    protected readonly horizontalSpeedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getHorizontalSpeedUnit));
+    protected readonly verticalSpeedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getVerticalSpeedUnit));
     protected readonly consumptionUnit$ = this.appStore.pipe(select(getConsumptionUnit));
 
 

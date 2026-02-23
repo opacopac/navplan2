@@ -6,7 +6,7 @@ import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-u
 import {
     getAltitudeUnit,
     getPerformanceDistanceUnit,
-    getSpeedUnit,
+    getHorizontalSpeedUnit,
     getTemperatureUnit,
     getWeightUnit
 } from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
@@ -27,7 +27,7 @@ import {CommonModule} from '@angular/common';
 })
 export class AircraftPerformancePageComponent implements OnInit {
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
-    protected readonly speedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSpeedUnit));
+    protected readonly horizontalSpeedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getHorizontalSpeedUnit));
     protected readonly weightUnit$ = this.appStore.pipe(select(getWeightUnit));
     protected readonly temperatureUnit$ = this.appStore.pipe(select(getTemperatureUnit));
     protected readonly distanceUnit$ = this.appStore.pipe(select(getPerformanceDistanceUnit));

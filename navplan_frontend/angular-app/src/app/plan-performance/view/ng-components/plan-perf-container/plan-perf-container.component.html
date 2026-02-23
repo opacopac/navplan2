@@ -19,7 +19,7 @@
                     [temperatureUnit]="this.temperatureUnit$ | async"
                     [altitudeUnit]="this.altitudeUnit$ | async"
                     [performanceDistanceUnit]="this.performanceDistanceUnit$ | async"
-                    [speedUnit]="this.speedUnit$ | async"
+                    [speedUnit]="this.horizontalSpeedUnit$ | async"
                     (weatherFactorsChanged)="this.onWeatherFactorsChanged(idx, $event)"
                     (runwayFactorsChanged)="this.onRunwayFactorsChanged(idx, $event)"
                 />

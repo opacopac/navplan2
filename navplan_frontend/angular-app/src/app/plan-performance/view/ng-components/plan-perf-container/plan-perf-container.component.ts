@@ -5,7 +5,7 @@ import {
     getAltitudeUnit,
     getPerformanceDistanceUnit,
     getPressureUnit,
-    getSpeedUnit,
+    getHorizontalSpeedUnit,
     getTemperatureUnit
 } from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {getAirportPerfStates} from '../../../state/ngrx/plan-perf.selectors';
@@ -39,7 +39,7 @@ export class PlanPerfContainerComponent implements OnInit {
     protected readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
     protected readonly altitudeUnit$ = this.appStore.pipe(select(getAltitudeUnit));
     protected readonly performanceDistanceUnit$ = this.appStore.pipe(select(getPerformanceDistanceUnit));
-    protected readonly speedUnit$ = this.appStore.pipe(select(getSpeedUnit));
+    protected readonly horizontalSpeedUnit$ = this.appStore.pipe(select(getHorizontalSpeedUnit));
     protected readonly temperatureUnit$ = this.appStore.pipe(select(getTemperatureUnit));
     protected readonly pressureUnit$ = this.appStore.pipe(select(getPressureUnit));
 

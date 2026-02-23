@@ -10,7 +10,8 @@ import {PressureUnit} from '../../domain/model/quantities/pressure-unit';
 export interface GeoPhysicsState {
     altitudeUnit: LengthUnit;
     routeDistanceUnit: LengthUnit;
-    speedUnit: SpeedUnit;
+    horizontalSpeedUnit: SpeedUnit;
+    verticalSpeedUnit: SpeedUnit;
     volumeUnit: VolumeUnit;
     fuelConsumptionUnit: ConsumptionUnit;
     weightUnit: WeightUnit;

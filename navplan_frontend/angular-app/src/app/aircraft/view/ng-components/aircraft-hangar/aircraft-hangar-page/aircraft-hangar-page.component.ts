@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {AircraftCrudActions} from '../../../../state/ngrx/aircraft-crud.actions';
 import {getAcTableState, getAircraftList, getCurrentAircraft} from '../../../../state/ngrx/aircraft.selectors';
 import {AircraftListActions} from '../../../../state/ngrx/aircraft-list.actions';
-import {getConsumptionUnit, getSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
+import {getConsumptionUnit, getHorizontalSpeedUnit} from '../../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {Aircraft} from '../../../../domain/model/aircraft';
 import {TableState} from '../../../../../common/state/model/table-state';
 import {AircraftHangarTableComponent} from '../aircraft-hangar-table/aircraft-hangar-table.component';
@@ -22,7 +22,7 @@ import {CommonModule} from '@angular/common';
 export class AircraftHangarPageComponent implements OnInit {
     protected readonly aircraftList$ = this.appStore.pipe(select(getAircraftList));
     protected readonly currentAircraft$ = this.appStore.pipe(select(getCurrentAircraft));
-    protected readonly speedUnit$ = this.appStore.pipe(select(getSpeedUnit));
+    protected readonly horizontalSpeedUnit$ = this.appStore.pipe(select(getHorizontalSpeedUnit));
     protected readonly consumptionUnit$ = this.appStore.pipe(select(getConsumptionUnit));
     protected readonly tableState$ = this.appStore.pipe(select(getAcTableState));
 

@@ -11,7 +11,8 @@
     <!-- details form -->
     <app-aircraft-details-form
         [currentAircraft]="this.currentAircraft$ | async"
-        [speedUnit]="this.speedUnit$ | async"
+        [horizontalSpeedUnit]="this.horizontalSpeedUnit$ | async"
+        [verticalSpeedUnit]="this.verticalSpeedUnit$ | async"
         [consumptionUnit]="this.consumptionUnit$ | async"
         (vehicleTypeChanged)="this.onVehicleTypeChange($event)"
         (registrationChanged)="this.onRegistrationChange($event)"

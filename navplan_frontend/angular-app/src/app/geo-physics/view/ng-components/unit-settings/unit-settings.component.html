@@ -34,17 +34,34 @@
     }
   </mat-radio-group>
 
-  <!-- speed -->
-  <label id="speed-unit-group-label">Speed Units</label>
+  <!-- horizontal speed -->
+  <label id="speed-unit-group-label">Horizontal Speed Units</label>
   <mat-radio-group
     color="primary"
     aria-labelledby="speed-unit-group-label"
     (change)="this.onSpeedUnitSelected($event)"
     >
-    @for (entry of this.speedUnits; track entry) {
+    @for (entry of this.horizontalSpeedUnits; track entry) {
       <mat-radio-button
         [value]="entry"
-        [checked]="(this.speedUnit$ | async) === entry"
+        [checked]="(this.horizontalSpeedUnit$ | async) === entry"
+        >
+        {{ Speed.getUnitString(entry) }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
+
+  <!-- vertical speed -->
+  <label id="vertical-speed-unit-group-label">Vertical Speed Units</label>
+  <mat-radio-group
+    color="primary"
+    aria-labelledby="vertical-speed-unit-group-label"
+    (change)="this.onVerticalSpeedUnitSelected($event)"
+    >
+    @for (entry of this.verticalSpeedUnits; track entry) {
+      <mat-radio-button
+        [value]="entry"
+        [checked]="(this.verticalSpeedUnit$ | async) === entry"
         >
         {{ Speed.getUnitString(entry) }}
       </mat-radio-button>

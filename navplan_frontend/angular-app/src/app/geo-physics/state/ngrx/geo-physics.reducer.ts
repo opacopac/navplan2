@@ -13,7 +13,8 @@ import {PressureUnit} from '../../domain/model/quantities/pressure-unit';
 const initialState: GeoPhysicsState = {
     altitudeUnit: LengthUnit.FT,
     routeDistanceUnit: LengthUnit.NM,
-    speedUnit: SpeedUnit.KT,
+    horizontalSpeedUnit: SpeedUnit.KT,
+    verticalSpeedUnit: SpeedUnit.FPM,
     volumeUnit: VolumeUnit.L,
     fuelConsumptionUnit: ConsumptionUnit.L_PER_H,
     weightUnit: WeightUnit.KG,
@@ -38,7 +39,12 @@ export const geoPhysicsReducer = createReducer(
 
     on(GeoPhysicsActions.speedUnitSelected, (state, action) => ({
         ...state,
-        speedUnit: action.speedUnit
+        horizontalSpeedUnit: action.speedUnit
+    })),
+
+    on(GeoPhysicsActions.verticalSpeedUnitSelected, (state, action) => ({
+        ...state,
+        verticalSpeedUnit: action.speedUnit
     })),
 
     on(GeoPhysicsActions.volumeUnitSelected, (state, action) => ({

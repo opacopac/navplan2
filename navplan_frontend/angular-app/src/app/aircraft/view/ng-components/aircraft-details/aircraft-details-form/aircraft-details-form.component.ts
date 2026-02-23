@@ -18,6 +18,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatInputModule} from '@angular/material/input';
 import {SaveButtonComponent} from '../../../../../common/view/ng-components/save-button/save-button.component';
 import {MatSelectModule} from '@angular/material/select';
+import {SpeedInputComponent} from '../../../../../common/view/ng-components/speed-input/speed-input.component';
 
 
 @Component({
@@ -30,13 +31,15 @@ import {MatSelectModule} from '@angular/material/select';
         MatSelectModule,
         SaveButtonComponent,
         AircraftTypeDesignatorAutocompleteComponent,
+        SpeedInputComponent,
     ],
     templateUrl: './aircraft-details-form.component.html',
     styleUrls: ['./aircraft-details-form.component.scss']
 })
 export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     @Input() currentAircraft: Aircraft;
-    @Input() speedUnit: SpeedUnit;
+    @Input() horizontalSpeedUnit: SpeedUnit;
+    @Input() verticalSpeedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
     @Output() vehicleTypeChanged = new EventEmitter<VehicleType>();
     @Output() registrationChanged = new EventEmitter<string>();
@@ -98,11 +101,8 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
-    protected onCruiseSpeedChanged() {
-        if (this.aircraftDetailsForm.controls['cruiseSpeed'].valid) {
-            const speed = new Speed(this.aircraftDetailsForm.value.cruiseSpeed, this.speedUnit);
-            this.cruiseSpeedChanged.emit(speed);
-        }
+    protected onCruiseSpeedChanged(speed: Speed) {
+        this.cruiseSpeedChanged.emit(speed);
     }
 
 
@@ -125,11 +125,8 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
-    protected onRocSealevelChanged() {
-        if (this.aircraftDetailsForm.controls['rocSealevel'].valid) {
-            const speed = new Speed(this.aircraftDetailsForm.value.rocSealevel, SpeedUnit.FPM);
-            this.rocSealevelChanged.emit(speed);
-        }
+    protected onRocSealevelChanged(speed: Speed) {
+        this.rocSealevelChanged.emit(speed);
     }
 
 
@@ -141,11 +138,8 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
-    protected onCruiseClimbSpeedChanged() {
-        if (this.aircraftDetailsForm.controls['cruiseClimbSpeed'].valid) {
-            const speed = new Speed(this.aircraftDetailsForm.value.cruiseClimbSpeed, SpeedUnit.FPM);
-            this.cruiseClimbSpeedChanged.emit(speed);
-        }
+    protected onCruiseClimbSpeedChanged(speed: Speed) {
+        this.cruiseClimbSpeedChanged.emit(speed);
     }
 
 
@@ -173,15 +167,6 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
             'registration': [this.currentAircraft.registration, [
                 Validators.required
             ]],
-            'cruiseSpeed': [this.currentAircraft.cruiseSpeed
-                ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseSpeed.getValue(this.speedUnit), 0).toString()
-                : '',
-                [
-                    Validators.required,
-                    Validators.min(1),
-                    Validators.max(999)
-                ]
-            ],
             'cruiseFuel': [this.currentAircraft.cruiseFuel
                 ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseFuel.getValue(this.consumptionUnit), 0).toString()
                 : '',
@@ -194,15 +179,6 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
             'fuelType': [this.currentAircraft.fuelType ?? '', [
                 Validators.required
             ]],
-            'rocSealevel': [this.currentAircraft.rocSealevel
-                ? StringnumberHelper.roundToDigits(this.currentAircraft.rocSealevel.getValue(SpeedUnit.FPM), 0).toString()
-                : '',
-                [
-                    Validators.required,
-                    Validators.min(1),
-                    Validators.max(9999)
-                ]
-            ],
             'serviceCeiling': [this.currentAircraft.serviceCeiling
                 ? StringnumberHelper.roundToDigits(this.currentAircraft.serviceCeiling.getValue(LengthUnit.FT), 0).toString()
                 : '',
@@ -210,15 +186,6 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
                     Validators.required,
                     Validators.min(1),
                     Validators.max(99999)
-                ]
-            ],
-            'cruiseClimbSpeed': [this.currentAircraft.cruiseClimbSpeed
-                ? StringnumberHelper.roundToDigits(this.currentAircraft.cruiseClimbSpeed.getValue(SpeedUnit.FPM), 0).toString()
-                : '',
-                [
-                    Validators.required,
-                    Validators.min(1),
-                    Validators.max(9999)
                 ]
             ],
         });

@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {
     getAltitudeUnit,
     getConsumptionUnit,
-    getSpeedUnit
+    getHorizontalSpeedUnit
 } from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
 import {FlightrouteListActions} from '../../../state/ngrx/flightroute-list.actions';
 import {Flightroute} from '../../../../flightroute/domain/model/flightroute';
@@ -27,7 +27,7 @@ import {CommonModule} from '@angular/common';
 export class RouteListPageComponent implements OnInit {
     protected readonly flightrouteList$ = this.appStore.pipe(select(getFlightrouteList));
     protected readonly currentFlightroute$ = this.appStore.pipe(select(getFlightroute));
-    protected readonly speedUnit$ = this.appStore.pipe(select(getSpeedUnit));
+    protected readonly horizontalSpeedUnit$ = this.appStore.pipe(select(getHorizontalSpeedUnit));
     protected readonly consumptionUnit$ = this.appStore.pipe(select(getConsumptionUnit));
     protected readonly altitudeUnit$ = this.appStore.pipe(select(getAltitudeUnit));
     protected readonly tableState$ = this.appStore.pipe(select(getFlightrouteTableState));

@@ -7,8 +7,9 @@ import {
     getAltitudeUnit,
     getPerformanceDistanceUnit,
     getRouteDistanceUnit,
-    getSpeedUnit,
+    getHorizontalSpeedUnit,
     getTemperatureUnit,
+    getVerticalSpeedUnit,
     getVolumeUnit,
     getWeightUnit,
     getWnbLengthUnit
@@ -44,7 +45,8 @@ export class UnitSettingsComponent implements OnInit {
 
     protected readonly altitudeUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getAltitudeUnit));
     protected readonly routeDistanceUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getRouteDistanceUnit));
-    protected readonly speedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getSpeedUnit));
+    protected readonly horizontalSpeedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getHorizontalSpeedUnit));
+    protected readonly verticalSpeedUnit$: Observable<SpeedUnit> = this.appStore.pipe(select(getVerticalSpeedUnit));
     protected readonly volumeUnit$: Observable<VolumeUnit> = this.appStore.pipe(select(getVolumeUnit));
     protected readonly weightUnit$: Observable<WeightUnit> = this.appStore.pipe(select(getWeightUnit));
     protected readonly wnbLengthUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getWnbLengthUnit));
@@ -53,7 +55,8 @@ export class UnitSettingsComponent implements OnInit {
 
     protected readonly altitudeUnits = [LengthUnit.FT, LengthUnit.M];
     protected readonly routeDistanceUnits = [LengthUnit.NM, LengthUnit.KM];
-    protected readonly speedUnits = [SpeedUnit.KT, SpeedUnit.KMH];
+    protected readonly horizontalSpeedUnits = [SpeedUnit.KT, SpeedUnit.KMH];
+    protected readonly verticalSpeedUnits = [SpeedUnit.FPM, SpeedUnit.MPS];
     protected readonly fuelUnits = [VolumeUnit.L, VolumeUnit.GAL];
     protected readonly weightUnits = [WeightUnit.KG, WeightUnit.LBS];
     protected readonly wnbLengthUnits = [LengthUnit.M, LengthUnit.IN, LengthUnit.FT];
@@ -83,6 +86,12 @@ export class UnitSettingsComponent implements OnInit {
     protected onSpeedUnitSelected($event: MatRadioChange) {
         const value = parseInt($event.value, 10);
         this.appStore.dispatch(GeoPhysicsActions.speedUnitSelected({speedUnit: value}));
+    }
+
+
+    protected onVerticalSpeedUnitSelected($event: MatRadioChange) {
+        const value = parseInt($event.value, 10);
+        this.appStore.dispatch(GeoPhysicsActions.verticalSpeedUnitSelected({speedUnit: value}));
     }
 
 

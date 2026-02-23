@@ -56,7 +56,7 @@ export interface ListEntry {
 export class AircraftHangarTableComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() aircraftList: AircraftListEntry[];
     @Input() currentAircraft: Aircraft;
-    @Input() speedUnit: SpeedUnit;
+    @Input() horizontalSpeedUnit: SpeedUnit;
     @Input() consumptionUnit: ConsumptionUnit;
     @Input() tableState: TableState;
     @Output() aircraftCreated = new EventEmitter<Aircraft>();
@@ -132,7 +132,7 @@ export class AircraftHangarTableComponent implements OnInit, OnChanges, AfterVie
             // height: '800px',
             width: '600px',
             data: {
-                speedUnit: this.speedUnit,
+                speedUnit: this.horizontalSpeedUnit,
                 consumptionUnit: this.consumptionUnit,
             }
         });

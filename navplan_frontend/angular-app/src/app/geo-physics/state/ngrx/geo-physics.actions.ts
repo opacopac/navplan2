@@ -22,6 +22,11 @@ export class GeoPhysicsActions {
         props<{ speedUnit: SpeedUnit }>()
     );
 
+    public static readonly verticalSpeedUnitSelected = createAction(
+        '[UnitSettings] Select vertical speed unit',
+        props<{ speedUnit: SpeedUnit }>()
+    );
+
     public static readonly volumeUnitSelected = createAction(
         '[UnitSettings] Select volume unit',
         props<{ volumeUnit: VolumeUnit }>()
