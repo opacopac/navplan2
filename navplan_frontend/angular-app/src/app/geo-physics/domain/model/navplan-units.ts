@@ -1,8 +1,8 @@
-import {LengthUnit} from '../../../geo-physics/domain/model/quantities/length-unit';
-import {SpeedUnit} from '../../../geo-physics/domain/model/quantities/speed-unit';
-import {VolumeUnit} from '../../../geo-physics/domain/model/quantities/volume-unit';
-import {WeightUnit} from '../../../geo-physics/domain/model/quantities/weight-unit';
-import {TemperatureUnit} from '../../../geo-physics/domain/model/quantities/temperature-unit';
+import {LengthUnit} from './quantities/length-unit';
+import {SpeedUnit} from './quantities/speed-unit';
+import {VolumeUnit} from './quantities/volume-unit';
+import {WeightUnit} from './quantities/weight-unit';
+import {TemperatureUnit} from './quantities/temperature-unit';
 
 
 export class NavplanUnits {

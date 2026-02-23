@@ -24,7 +24,7 @@ import {Weight} from '../../../domain/model/quantities/weight';
 import {WeightUnit} from '../../../domain/model/quantities/weight-unit';
 import {Temperature} from '../../../domain/model/quantities/temperature';
 import {TemperatureUnit} from '../../../domain/model/quantities/temperature-unit';
-import {NavplanUnits} from '../../../../common/domain/model/navplan-units';
+import {NavplanUnits} from '../../../domain/model/navplan-units';
 import {CommonModule} from '@angular/common';
 
 
