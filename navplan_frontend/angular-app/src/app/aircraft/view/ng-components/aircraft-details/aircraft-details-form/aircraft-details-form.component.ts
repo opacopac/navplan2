@@ -20,6 +20,7 @@ import {SaveButtonComponent} from '../../../../../common/view/ng-components/save
 import {MatSelectModule} from '@angular/material/select';
 import {HorizontalSpeedInputComponent} from '../../../../../common/view/ng-components/horizontal-speed-input/horizontal-speed-input.component';
 import {VerticalSpeedInputComponent} from '../../../../../common/view/ng-components/vertical-speed-input/vertical-speed-input.component';
+import {AltitudeInputComponent} from '../../../../../common/view/ng-components/altitude-input/altitude-input.component';
 
 
 @Component({
@@ -34,6 +35,7 @@ import {VerticalSpeedInputComponent} from '../../../../../common/view/ng-compone
         AircraftTypeDesignatorAutocompleteComponent,
         HorizontalSpeedInputComponent,
         VerticalSpeedInputComponent,
+        AltitudeInputComponent,
     ],
     templateUrl: './aircraft-details-form.component.html',
     styleUrls: ['./aircraft-details-form.component.scss']
@@ -42,6 +44,7 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     @Input() currentAircraft: Aircraft;
     @Input() horizontalSpeedUnit: SpeedUnit;
     @Input() verticalSpeedUnit: SpeedUnit;
+    @Input() altitudeUnit: LengthUnit;
     @Input() consumptionUnit: ConsumptionUnit;
     @Output() vehicleTypeChanged = new EventEmitter<VehicleType>();
     @Output() registrationChanged = new EventEmitter<string>();
@@ -132,11 +135,8 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
     }
 
 
-    protected onServiceCeilingChanged() {
-        if (this.aircraftDetailsForm.controls['serviceCeiling'].valid) {
-            const length = new Length(this.aircraftDetailsForm.value.serviceCeiling, LengthUnit.FT);
-            this.serviceCeilingChanged.emit(length);
-        }
+    protected onServiceCeilingChanged(length: Length) {
+        this.serviceCeilingChanged.emit(length);
     }
 
 
@@ -181,15 +181,6 @@ export class AircraftDetailsFormComponent implements OnInit, OnChanges {
             'fuelType': [this.currentAircraft.fuelType ?? '', [
                 Validators.required
             ]],
-            'serviceCeiling': [this.currentAircraft.serviceCeiling
-                ? StringnumberHelper.roundToDigits(this.currentAircraft.serviceCeiling.getValue(LengthUnit.FT), 0).toString()
-                : '',
-                [
-                    Validators.required,
-                    Validators.min(1),
-                    Validators.max(99999)
-                ]
-            ],
         });
     }
 }

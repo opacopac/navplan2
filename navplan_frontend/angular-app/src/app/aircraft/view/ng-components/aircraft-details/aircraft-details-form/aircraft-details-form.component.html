@@ -70,20 +70,12 @@
                 (speedChanged)="this.onRocSealevelChanged($event)"
             >ROC at Sealevel</app-vertical-speed-input>
             <!-- service ceiling -->
-            <mat-form-field>
-                <mat-label>Service Ceiling</mat-label>
-                <input
-                    matInput
-                    formControlName="serviceCeiling"
-                    type="number"
-                    required
-                    min="1"
-                    max="99999"
-                    (change)="this.onServiceCeilingChanged()"
-                >
-                <span matTextSuffix>{{ Length.getUnitString(LengthUnit.FT) }}</span>
-                <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
-            </mat-form-field>
+            <app-altitude-input
+                [length]="this.currentAircraft.serviceCeiling"
+                [defaultLengthUnit]="this.altitudeUnit"
+                [isRequired]="true"
+                (lengthChanged)="this.onServiceCeilingChanged($event)"
+            >Service Ceiling</app-altitude-input>
             <!-- cruise climb speed -->
             <app-horizontal-speed-input
                 [speed]="this.currentAircraft.cruiseClimbSpeed"
