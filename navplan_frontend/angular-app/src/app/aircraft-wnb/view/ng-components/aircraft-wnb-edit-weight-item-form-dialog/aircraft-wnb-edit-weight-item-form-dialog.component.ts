@@ -9,7 +9,6 @@ import {WeightItemType} from '../../../domain/model/weight-item-type';
 import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
 import {Volume} from '../../../../geo-physics/domain/model/quantities/volume';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {FuelType} from '../../../../aircraft/domain/model/fuel-type';
 import {VehicleType} from '../../../../aircraft/domain/model/vehicle-type';
 import {FormDialogComponent} from '../../../../common/view/ng-components/form-dialog/form-dialog.component';
@@ -17,6 +16,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {WeightInputComponent} from '../../../../geo-physics/view/ng-components/weight-input/weight-input.component';
+import {WnbLengthInputComponent} from '../../../../geo-physics/view/ng-components/wnb-length-input/wnb-length-input.component';
+import {FuelInputComponent} from '../../../../geo-physics/view/ng-components/fuel-input/fuel-input.component';
 
 
 @Component({
@@ -28,6 +29,8 @@ import {WeightInputComponent} from '../../../../geo-physics/view/ng-components/w
         MatSelectModule,
         MatInputModule,
         WeightInputComponent,
+        WnbLengthInputComponent,
+        FuelInputComponent,
     ],
     templateUrl: './aircraft-wnb-edit-weight-item-form-dialog.component.html',
     styleUrls: ['./aircraft-wnb-edit-weight-item-form-dialog.component.scss']
@@ -38,10 +41,12 @@ export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnC
     protected readonly VehicleType = VehicleType;
     protected readonly FuelType = FuelType;
     protected readonly Weight = Weight;
-    protected readonly Volume = Volume;
-    protected readonly Length = Length;
     protected maxWeight: Weight | undefined;
     protected defaultWeight: Weight | undefined;
+    protected armLong: Length | undefined;
+    protected armLat: Length | undefined;
+    protected maxFuel: Volume | undefined;
+    protected defaultFuel: Volume | undefined;
 
 
     constructor(
@@ -99,18 +104,16 @@ export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnC
 
 
     protected onSaveClicked() {
-        if (this.editWeightItemForm.valid) {
-            const maxFuelValue = parseInt(this.editWeightItemForm.get('maxFuel').value, 10);
-            const defaultFuelValue = parseInt(this.editWeightItemForm.get('defaultFuel').value, 10);
+        if (this.editWeightItemForm.valid && this.armLong != null) {
             const newWeightItem = new WeightItem(
                 this.editWeightItemForm.get('type').value,
                 this.editWeightItemForm.get('name').value,
-                new Length(this.editWeightItemForm.get('armLong').value, this.data.wnbLengthUnit),
-                new Length(this.editWeightItemForm.get('armLat').value, this.data.wnbLengthUnit),
+                this.armLong,
+                this.armLat ?? null,
                 this.maxWeight ?? null,
-                isNaN(maxFuelValue) ? null : new Volume(maxFuelValue, this.data.volumeUnit),
+                this.maxFuel ?? null,
                 this.defaultWeight ?? null,
-                isNaN(defaultFuelValue) ? null : new Volume(defaultFuelValue, this.data.volumeUnit),
+                this.defaultFuel ?? null,
                 null,
                 null
             );
@@ -135,9 +138,33 @@ export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnC
     }
 
 
+    protected onArmLongChanged(length: Length) {
+        this.armLong = length;
+    }
+
+
+    protected onArmLatChanged(length: Length) {
+        this.armLat = length;
+    }
+
+
+    protected onMaxFuelChanged(volume: Volume) {
+        this.maxFuel = volume;
+    }
+
+
+    protected onDefaultFuelChanged(volume: Volume) {
+        this.defaultFuel = volume;
+    }
+
+
     private initForm(weightItem: WeightItem) {
         this.maxWeight = weightItem?.maxWeight ?? undefined;
         this.defaultWeight = weightItem?.defaultWeight ?? undefined;
+        this.armLong = weightItem?.armLong ?? undefined;
+        this.armLat = weightItem?.armLat ?? undefined;
+        this.maxFuel = weightItem?.maxFuel ?? undefined;
+        this.defaultFuel = weightItem?.defaultFuel ?? undefined;
         this.editWeightItemForm = this.formBuilder.group({
             'type': [
                 weightItem ? weightItem.type : null,
@@ -147,30 +174,6 @@ export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnC
                 weightItem ? weightItem.name : '',
                 [Validators.required, Validators.maxLength(30)]
             ],
-            'armLong': [
-                (weightItem && weightItem.armLong)
-                    ? StringnumberHelper.roundToDigits(weightItem.armLong.getValue(this.data.wnbLengthUnit), 3)
-                    : '',
-                [Validators.required, Validators.min(-99999), Validators.max(99999)]
-            ],
-            'armLat': [
-                (weightItem && weightItem.armLat)
-                    ? StringnumberHelper.roundToDigits(weightItem.armLat.getValue(this.data.wnbLengthUnit), 3)
-                    : 0,
-                [Validators.required, Validators.min(-99999), Validators.max(99999)]
-            ],
-            'maxFuel': [
-                (weightItem && weightItem.maxFuel)
-                    ? StringnumberHelper.roundToDigits(weightItem.maxFuel.getValue(this.data.volumeUnit), 0)
-                    : '',
-                [Validators.min(1), Validators.max(99999)]
-            ],
-            'defaultFuel': [
-                (weightItem && weightItem.defaultFuel)
-                    ? StringnumberHelper.roundToDigits(weightItem.defaultFuel.getValue(this.data.volumeUnit), 0)
-                    : '',
-                [Validators.min(0), Validators.max(99999)]
-            ]
         });
     }
 

@@ -39,16 +39,15 @@
                 />
                 <span matTextSuffix>%</span>
             </mat-form-field>
-            <mat-form-field class="second-button">
-                <mat-label>for each</mat-label>
-                <input
-                    matInput
-                    [formControl]="this.headwindPerSpeedInput"
-                    type="number"
-                    required
-                />
-                <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
-            </mat-form-field>
+            <app-horizontal-speed-input
+                class="second-button"
+                [speed]="this.headwindPerSpeed"
+                [defaultSpeedUnit]="this.speedUnit"
+                [isRequired]="true"
+                [minValue]="1"
+                [maxValue]="99"
+                (speedChanged)="this.onHeadwindPerSpeedChanged($event)"
+            >for each</app-horizontal-speed-input>
             <span class="of-wind-text">of headwind</span>
         </div>
         <div>
@@ -63,16 +62,15 @@
                 />
                 <span matTextSuffix>%</span>
             </mat-form-field>
-            <mat-form-field class="second-button">
-                <mat-label>for each</mat-label>
-                <input
-                    matInput
-                    [formControl]="this.tailwindPerSpeedInput"
-                    type="number"
-                    required
-                />
-                <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
-            </mat-form-field>
+            <app-horizontal-speed-input
+                class="second-button"
+                [speed]="this.tailwindPerSpeed"
+                [defaultSpeedUnit]="this.speedUnit"
+                [isRequired]="true"
+                [minValue]="1"
+                [maxValue]="99"
+                (speedChanged)="this.onTailwindPerSpeedChanged($event)"
+            >for each</app-horizontal-speed-input>
             <span class="of-wind-text">of tailwind</span>
         </div>
     </div>

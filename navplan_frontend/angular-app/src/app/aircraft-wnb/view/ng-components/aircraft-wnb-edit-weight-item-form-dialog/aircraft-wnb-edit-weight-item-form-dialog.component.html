@@ -43,36 +43,27 @@
             </mat-form-field>
 
             <!-- longitudinal arm -->
-            <mat-form-field class="flex-row-100">
-                <mat-label>Arm {{ this.data.vehicleType === VehicleType.HELICOPTER ? '(Longitudinal)' : '' }}
-                </mat-label>
-                <input
-                    matInput
-                    type="number"
-                    formControlName="armLong"
-                    required
-                    min="-99999"
-                    max="99999"
-                >
-                <span matTextSuffix>{{ Length.getUnitString(this.data.wnbLengthUnit) }}</span>
-                <mat-error>Value must be a positive or negative number!</mat-error>
-            </mat-form-field>
+            <app-wnb-length-input
+                class="flex-row-100"
+                [length]="this.armLong"
+                [defaultLengthUnit]="this.data.wnbLengthUnit"
+                [isRequired]="true"
+                [minValue]="-99999"
+                [maxValue]="99999"
+                (lengthChanged)="this.onArmLongChanged($event)"
+            >Arm {{ this.data.vehicleType === VehicleType.HELICOPTER ? '(Longitudinal)' : '' }}</app-wnb-length-input>
 
             <!-- lateral arm -->
             @if (this.data.vehicleType === VehicleType.HELICOPTER) {
-                <mat-form-field class="flex-row-100">
-                    <mat-label>Arm (Lateral)</mat-label>
-                    <input
-                        matInput
-                        type="number"
-                        formControlName="armLat"
-                        required
-                        min="-99999"
-                        max="99999"
-                    >
-                    <span matTextSuffix>{{ Length.getUnitString(this.data.wnbLengthUnit) }}</span>
-                    <mat-error>Value must be a positive or negative number!</mat-error>
-                </mat-form-field>
+                <app-wnb-length-input
+                    class="flex-row-100"
+                    [length]="this.armLat"
+                    [defaultLengthUnit]="this.data.wnbLengthUnit"
+                    [isRequired]="true"
+                    [minValue]="-99999"
+                    [maxValue]="99999"
+                    (lengthChanged)="this.onArmLatChanged($event)"
+                >Arm (Lateral)</app-wnb-length-input>
             }
 
             <!-- max weight -->
@@ -87,18 +78,15 @@
 
             <!-- max fuel -->
             @if (this.isTypeFuel()) {
-                <mat-form-field class="flex-row-100">
-                    <mat-label>Max. Fuel</mat-label>
-                    <input
-                        matInput
-                        type="number"
-                        formControlName="maxFuel"
-                        min="1"
-                        max="99999"
-                    >
-                    <span matTextSuffix>{{ Volume.getUnitString(this.data.volumeUnit) }}</span>
-                    <mat-error>Value must be a positive number between 1 and 99999!</mat-error>
-                </mat-form-field>
+                <app-fuel-input
+                    class="flex-row-100"
+                    [volume]="this.maxFuel"
+                    [defaultVolumeUnit]="this.data.volumeUnit"
+                    [isRequired]="true"
+                    [minValue]="1"
+                    [maxValue]="99999"
+                    (volumeChanged)="this.onMaxFuelChanged($event)"
+                >Max. Fuel</app-fuel-input>
             }
 
             <!-- default weight -->
@@ -113,18 +101,14 @@
 
             <!-- default fuel -->
             @if (this.isTypeFuel()) {
-                <mat-form-field class="flex-row-100">
-                    <mat-label>Default Fuel</mat-label>
-                    <input
-                        matInput
-                        type="number"
-                        formControlName="defaultFuel"
-                        min="0"
-                        max="99999"
-                    >
-                    <span matTextSuffix>{{ Volume.getUnitString(this.data.volumeUnit) }}</span>
-                    <mat-error>Value must be a number between 0 and 99999!</mat-error>
-                </mat-form-field>
+                <app-fuel-input
+                    class="flex-row-100"
+                    [volume]="this.defaultFuel"
+                    [defaultVolumeUnit]="this.data.volumeUnit"
+                    [minValue]="0"
+                    [maxValue]="99999"
+                    (volumeChanged)="this.onDefaultFuelChanged($event)"
+                >Default Fuel</app-fuel-input>
             }
 
         </div>
