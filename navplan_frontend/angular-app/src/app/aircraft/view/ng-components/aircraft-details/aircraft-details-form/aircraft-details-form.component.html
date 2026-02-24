@@ -32,14 +32,14 @@
             <app-horizontal-speed-input
                 [speed]="this.currentAircraft.cruiseSpeed"
                 [defaultSpeedUnit]="this.horizontalSpeedUnit"
-                (speedChanged)="this.onCruiseSpeedChanged($event)"
+                (valueChanged)="this.onCruiseSpeedChanged($event)"
             >Cruise Speed</app-horizontal-speed-input>
             <!-- fuel consumption -->
             <app-consumption-input
                 [consumption]="this.currentAircraft.cruiseFuel"
                 [defaultConsumptionUnit]="this.consumptionUnit"
                 [isRequired]="true"
-                (consumptionChanged)="this.onCruiseFuelChanged($event)"
+                (valueChanged)="this.onCruiseFuelChanged($event)"
             >Fuel Consumption</app-consumption-input>
             <!-- fuel type -->
             <mat-form-field>
@@ -59,20 +59,20 @@
             <app-vertical-speed-input
                 [speed]="this.currentAircraft.rocSealevel"
                 [defaultSpeedUnit]="this.verticalSpeedUnit"
-                (speedChanged)="this.onRocSealevelChanged($event)"
+                (valueChanged)="this.onRocSealevelChanged($event)"
             >ROC at Sealevel</app-vertical-speed-input>
             <!-- service ceiling -->
             <app-altitude-input
                 [length]="this.currentAircraft.serviceCeiling"
                 [defaultLengthUnit]="this.altitudeUnit"
                 [isRequired]="true"
-                (lengthChanged)="this.onServiceCeilingChanged($event)"
+                (valueChanged)="this.onServiceCeilingChanged($event)"
             >Service Ceiling</app-altitude-input>
             <!-- cruise climb speed -->
             <app-horizontal-speed-input
                 [speed]="this.currentAircraft.cruiseClimbSpeed"
                 [defaultSpeedUnit]="this.horizontalSpeedUnit"
-                (speedChanged)="this.onCruiseClimbSpeedChanged($event)"
+                (valueChanged)="this.onCruiseClimbSpeedChanged($event)"
             >Cruise Climb Speed</app-horizontal-speed-input>
 
             <app-save-button

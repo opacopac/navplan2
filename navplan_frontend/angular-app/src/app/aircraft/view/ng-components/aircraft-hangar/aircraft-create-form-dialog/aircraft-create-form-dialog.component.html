@@ -42,7 +42,7 @@
             <app-horizontal-speed-input
                 [speed]="this.cruiseSpeed"
                 [defaultSpeedUnit]="this.data.speedUnit"
-                (speedChanged)="this.onCruiseSpeedChanged($event)"
+                (valueChanged)="this.onCruiseSpeedChanged($event)"
             >Cruise Speed</app-horizontal-speed-input>
 
             <!-- fuel consumption -->
@@ -50,7 +50,7 @@
                 [consumption]="this.cruiseFuel"
                 [defaultConsumptionUnit]="this.data.consumptionUnit"
                 [isRequired]="true"
-                (consumptionChanged)="this.onCruiseFuelChanged($event)"
+                (valueChanged)="this.onCruiseFuelChanged($event)"
             >Cruise Fuel Consumption</app-consumption-input>
 
             <!-- fuel type -->

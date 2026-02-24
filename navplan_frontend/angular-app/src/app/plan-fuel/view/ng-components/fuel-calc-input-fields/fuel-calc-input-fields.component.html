@@ -6,7 +6,7 @@
             [defaultConsumptionUnit]="this.consumptionUnit"
             [isRequired]="true"
             [isDisabled]="this.useAircraftValue"
-            (consumptionChanged)="this.onFuelConsumptionChanged($event)"
+            (valueChanged)="this.onFuelConsumptionChanged($event)"
         >Fuel Consumption</app-consumption-input>
         <app-aircraft-manual-toggle
             class="manual-aircraft-toggle"

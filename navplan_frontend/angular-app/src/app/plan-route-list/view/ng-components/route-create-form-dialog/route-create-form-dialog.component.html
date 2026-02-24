@@ -26,7 +26,7 @@
                 [speed]="this.cruiseSpeed"
                 [defaultSpeedUnit]="this.data.speedUnit"
                 [isRequired]="true"
-                (speedChanged)="this.onCruiseSpeedChanged($event)"
+                (valueChanged)="this.onCruiseSpeedChanged($event)"
             >Cruise Speed</app-horizontal-speed-input>
 
             <!-- fuel consumption -->
@@ -34,7 +34,7 @@
                 [consumption]="this.cruiseConsumption"
                 [defaultConsumptionUnit]="this.data.consumptionUnit"
                 [isRequired]="true"
-                (consumptionChanged)="this.onCruiseConsumptionChanged($event)"
+                (valueChanged)="this.onCruiseConsumptionChanged($event)"
             >Cruise Fuel Consumption</app-consumption-input>
 
             <!-- cruise altitude -->
@@ -42,7 +42,7 @@
                 [length]="this.cruiseAltitude"
                 [defaultLengthUnit]="this.data.altitudeUnit"
                 [minValue]="0"
-                (lengthChanged)="this.onCruiseAltitudeChanged($event)"
+                (valueChanged)="this.onCruiseAltitudeChanged($event)"
             >Cruise Altitude</app-altitude-input>
 
         </div>

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -26,7 +26,6 @@ import {AbstractQuantityInputComponent} from '../quantity-input/quantity-input.c
 export class PerformanceDistanceInputComponent extends AbstractQuantityInputComponent<Length, LengthUnit> {
     @Input() public length: Length | undefined;
     @Input() public defaultLengthUnit!: LengthUnit;
-    @Output() public lengthChanged = new EventEmitter<Length>();
 
 
     protected override get quantity(): Length | undefined {
@@ -56,10 +55,5 @@ export class PerformanceDistanceInputComponent extends AbstractQuantityInputComp
 
     protected override createQuantity(value: number, unit: LengthUnit): Length {
         return new Length(value, unit);
-    }
-
-
-    protected override emitQuantity(quantity: Length): void {
-        this.lengthChanged.emit(quantity);
     }
 }

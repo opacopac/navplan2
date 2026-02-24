@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -26,7 +26,6 @@ import {AbstractQuantityInputComponent} from '../quantity-input/quantity-input.c
 export class AltitudeInputComponent extends AbstractQuantityInputComponent<Length, LengthUnit> {
     @Input() public length: Length | undefined;
     @Input() public defaultLengthUnit!: LengthUnit;
-    @Output() public lengthChanged = new EventEmitter<Length>();
 
     protected readonly Length = Length;
 
@@ -53,9 +52,4 @@ export class AltitudeInputComponent extends AbstractQuantityInputComponent<Lengt
     protected override createQuantity(value: number, unit: LengthUnit): Length {
         return new Length(value, unit);
     }
-
-    protected override emitQuantity(quantity: Length): void {
-        this.lengthChanged.emit(quantity);
-    }
 }
-

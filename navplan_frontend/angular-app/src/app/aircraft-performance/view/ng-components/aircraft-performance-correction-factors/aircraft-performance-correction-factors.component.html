@@ -46,7 +46,7 @@
                 [isRequired]="true"
                 [minValue]="1"
                 [maxValue]="99"
-                (speedChanged)="this.onHeadwindPerSpeedChanged($event)"
+                (valueChanged)="this.onHeadwindPerSpeedChanged($event)"
             >for each</app-horizontal-speed-input>
             <span class="of-wind-text">of headwind</span>
         </div>
@@ -69,7 +69,7 @@
                 [isRequired]="true"
                 [minValue]="1"
                 [maxValue]="99"
-                (speedChanged)="this.onTailwindPerSpeedChanged($event)"
+                (valueChanged)="this.onTailwindPerSpeedChanged($event)"
             >for each</app-horizontal-speed-input>
             <span class="of-wind-text">of tailwind</span>
         </div>

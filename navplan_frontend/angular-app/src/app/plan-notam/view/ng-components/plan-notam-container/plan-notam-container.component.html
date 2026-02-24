@@ -11,7 +11,7 @@
             [isRequired]="true"
             [minValue]="1"
             [maxValue]="150"
-            (lengthChanged)="this.onMaxRadiusChanged($event)"
+            (valueChanged)="this.onMaxRadiusChanged($event)"
             class="max-radius-field"
         >Max. distance from route</app-route-distance-input>
         <app-location-notams-list

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -27,7 +27,6 @@ export class ConsumptionInputComponent extends AbstractQuantityInputComponent<Co
     @Input() public consumption: Consumption | undefined;
     @Input() public defaultConsumptionUnit!: ConsumptionUnit;
     @Input() public override isDisabled = false;
-    @Output() public consumptionChanged = new EventEmitter<Consumption>();
 
     protected override get quantity(): Consumption | undefined {
         return this.consumption;
@@ -52,9 +51,4 @@ export class ConsumptionInputComponent extends AbstractQuantityInputComponent<Co
     protected override createQuantity(value: number, unit: ConsumptionUnit): Consumption {
         return new Consumption(value, unit);
     }
-
-    protected override emitQuantity(quantity: Consumption): void {
-        this.consumptionChanged.emit(quantity);
-    }
 }
-

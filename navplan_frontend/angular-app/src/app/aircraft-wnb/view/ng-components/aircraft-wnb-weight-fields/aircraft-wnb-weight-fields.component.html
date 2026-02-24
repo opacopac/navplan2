@@ -4,13 +4,13 @@
         [weight]="this.currentAircraft?.mtow"
         [defaultWeightUnit]="this.weightUnit"
         [isRequired]="true"
-        (weightChanged)="this.onMtowChanged($event)"
+        (valueChanged)="this.onMtowChanged($event)"
     >MTOW</app-weight-input>
     <!-- empty aircraft weight -->
     <app-weight-input
         [weight]="this.currentAircraft?.bew"
         [defaultWeightUnit]="this.weightUnit"
         [isRequired]="true"
-        (weightChanged)="this.onBewChanged($event)"
+        (valueChanged)="this.onBewChanged($event)"
     >Empty Aircraft Weight</app-weight-input>
 </div>

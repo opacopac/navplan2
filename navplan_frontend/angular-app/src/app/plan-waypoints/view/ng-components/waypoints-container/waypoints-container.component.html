@@ -14,7 +14,7 @@
         <app-horizontal-speed-input
             [speed]="this.routeSpeed$ | async"
             [defaultSpeedUnit]="this.horizontalSpeedUnit$ | async"
-            (speedChanged)="this.onRouteSpeedChanged($event)"
+            (valueChanged)="this.onRouteSpeedChanged($event)"
         >Ground Speed</app-horizontal-speed-input>
         <app-aircraft-manual-toggle
             class="manual-aircraft-toggle"
@@ -30,7 +30,7 @@
     <app-altitude-input
         [length]="this.cruiseAltitude$ | async"
         [defaultLengthUnit]="this.altitudeUnit$ | async"
-        (lengthChanged)="this.onCruiseAltitudeChanged($event)"
+        (valueChanged)="this.onCruiseAltitudeChanged($event)"
     >Cruise Altitude</app-altitude-input>
     <app-waypoints-table
         [flightroute]="this.currentFlightroute$ | async"

@@ -1,4 +1,4 @@
-import {Directive, Input, OnChanges, OnInit} from '@angular/core';
+import {Directive, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {AbstractQuantity} from '../../../domain/model/quantities/abstract-quantity';
 
@@ -14,8 +14,9 @@ export abstract class AbstractQuantityInputComponent<Q extends AbstractQuantity<
 
     @Input() public isRequired = false;
     @Input() public isDisabled = false;
-    @Input() public minValue = 1;
+    @Input() public minValue = 0;
     @Input() public maxValue = 99999;
+    @Output() public valueChanged = new EventEmitter<Q>();
 
     protected selectedUnit: U;
     protected valueControl: FormControl<string>;
@@ -26,7 +27,10 @@ export abstract class AbstractQuantityInputComponent<Q extends AbstractQuantity<
     protected abstract convertValue(value: number, fromUnit: U, toUnit: U): number;
     protected abstract getUnitString(unit: U): string;
     protected abstract createQuantity(value: number, unit: U): Q;
-    protected abstract emitQuantity(quantity: Q): void;
+
+    protected emitQuantity(quantity: Q): void {
+        this.valueChanged.emit(quantity);
+    }
 
 
     ngOnInit(): void {

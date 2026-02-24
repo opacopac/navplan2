@@ -49,7 +49,7 @@
                 [isRequired]="true"
                 [minValue]="-99999"
                 [maxValue]="99999"
-                (lengthChanged)="this.onArmLongChanged($event)"
+                (valueChanged)="this.onArmLongChanged($event)"
             >Arm {{ this.data.vehicleType === VehicleType.HELICOPTER ? '(Longitudinal)' : '' }}</app-wnb-length-input>
 
             <!-- lateral arm -->
@@ -61,7 +61,7 @@
                     [isRequired]="true"
                     [minValue]="-99999"
                     [maxValue]="99999"
-                    (lengthChanged)="this.onArmLatChanged($event)"
+                    (valueChanged)="this.onArmLatChanged($event)"
                 >Arm (Lateral)</app-wnb-length-input>
             }
 
@@ -71,7 +71,7 @@
                     class="flex-row-100"
                     [weight]="this.maxWeight"
                     [defaultWeightUnit]="this.data.weightUnit"
-                    (weightChanged)="this.onMaxWeightChanged($event)"
+                    (valueChanged)="this.onMaxWeightChanged($event)"
                 >Max. Weight</app-weight-input>
             }
 
@@ -84,7 +84,7 @@
                     [isRequired]="true"
                     [minValue]="1"
                     [maxValue]="99999"
-                    (volumeChanged)="this.onMaxFuelChanged($event)"
+                    (valueChanged)="this.onMaxFuelChanged($event)"
                 >Max. Fuel</app-fuel-input>
             }
 
@@ -94,7 +94,7 @@
                     class="flex-row-100"
                     [weight]="this.defaultWeight"
                     [defaultWeightUnit]="this.data.weightUnit"
-                    (weightChanged)="this.onDefaultWeightChanged($event)"
+                    (valueChanged)="this.onDefaultWeightChanged($event)"
                 >Default Weight</app-weight-input>
             }
 
@@ -106,7 +106,7 @@
                     [defaultVolumeUnit]="this.data.volumeUnit"
                     [minValue]="0"
                     [maxValue]="99999"
-                    (volumeChanged)="this.onDefaultFuelChanged($event)"
+                    (valueChanged)="this.onDefaultFuelChanged($event)"
                 >Default Fuel</app-fuel-input>
             }
 

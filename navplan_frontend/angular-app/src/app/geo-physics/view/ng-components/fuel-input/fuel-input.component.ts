@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -26,7 +26,6 @@ import {AbstractQuantityInputComponent} from '../quantity-input/quantity-input.c
 export class FuelInputComponent extends AbstractQuantityInputComponent<Volume, VolumeUnit> {
     @Input() public volume: Volume | undefined;
     @Input() public defaultVolumeUnit!: VolumeUnit;
-    @Output() public volumeChanged = new EventEmitter<Volume>();
 
 
     protected override get quantity(): Volume | undefined {
@@ -56,10 +55,5 @@ export class FuelInputComponent extends AbstractQuantityInputComponent<Volume, V
 
     protected override createQuantity(value: number, unit: VolumeUnit): Volume {
         return new Volume(value, unit);
-    }
-
-
-    protected override emitQuantity(quantity: Volume): void {
-        this.volumeChanged.emit(quantity);
     }
 }

@@ -8,7 +8,7 @@
                 [defaultLengthUnit]="this.altitudeUnit"
                 [isRequired]="true"
                 [minValue]="0"
-                (lengthChanged)="this.onElevationChanged($event)"
+                (valueChanged)="this.onElevationChanged($event)"
             >ELEV</app-altitude-input>
             &nbsp;
             <span class="calc-field">AMSL</span>
@@ -21,7 +21,7 @@
                 [defaultPressureUnit]="this.pressureUnit"
                 [isRequired]="true"
                 [minValue]="0"
-                (pressureChanged)="this.onQnhChanged($event)"
+                (valueChanged)="this.onQnhChanged($event)"
             >QNH</app-air-pressure-input>
 
             <!-- PA -->
@@ -37,7 +37,7 @@
                 [isRequired]="true"
                 [minValue]="-99"
                 [maxValue]="99"
-                (temperatureChanged)="this.onOatChanged($event)"
+                (valueChanged)="this.onOatChanged($event)"
             >OAT</app-temperature-input>
 
             <!-- DA -->

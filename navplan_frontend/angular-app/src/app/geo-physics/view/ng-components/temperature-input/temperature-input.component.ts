@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -26,7 +26,6 @@ import {AbstractQuantityInputComponent} from '../quantity-input/quantity-input.c
 export class TemperatureInputComponent extends AbstractQuantityInputComponent<Temperature, TemperatureUnit> {
     @Input() public temperature: Temperature | undefined;
     @Input() public defaultTemperatureUnit!: TemperatureUnit;
-    @Output() public temperatureChanged = new EventEmitter<Temperature>();
 
 
     protected override get quantity(): Temperature | undefined {
@@ -56,10 +55,5 @@ export class TemperatureInputComponent extends AbstractQuantityInputComponent<Te
 
     protected override createQuantity(value: number, unit: TemperatureUnit): Temperature {
         return new Temperature(value, unit);
-    }
-
-
-    protected override emitQuantity(quantity: Temperature): void {
-        this.temperatureChanged.emit(quantity);
     }
 }

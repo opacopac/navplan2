@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -26,7 +26,6 @@ import {AbstractQuantityInputComponent} from '../quantity-input/quantity-input.c
 export class HorizontalSpeedInputComponent extends AbstractQuantityInputComponent<Speed, SpeedUnit> {
     @Input() public speed: Speed | undefined;
     @Input() public defaultSpeedUnit!: SpeedUnit;
-    @Output() public speedChanged = new EventEmitter<Speed>();
 
 
     protected override get quantity(): Speed | undefined {
@@ -57,12 +56,4 @@ export class HorizontalSpeedInputComponent extends AbstractQuantityInputComponen
     protected override createQuantity(value: number, unit: SpeedUnit): Speed {
         return new Speed(value, unit);
     }
-
-
-    protected override emitQuantity(quantity: Speed): void {
-        this.speedChanged.emit(quantity);
-    }
 }
-
-
-

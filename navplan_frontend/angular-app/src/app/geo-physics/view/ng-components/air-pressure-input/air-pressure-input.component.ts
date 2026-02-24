@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -26,7 +26,6 @@ import {AbstractQuantityInputComponent} from '../quantity-input/quantity-input.c
 export class AirPressureInputComponent extends AbstractQuantityInputComponent<Pressure, PressureUnit> {
     @Input() public pressure: Pressure | undefined;
     @Input() public defaultPressureUnit!: PressureUnit;
-    @Output() public pressureChanged = new EventEmitter<Pressure>();
 
 
     protected override get quantity(): Pressure | undefined {
@@ -57,10 +56,4 @@ export class AirPressureInputComponent extends AbstractQuantityInputComponent<Pr
     protected override createQuantity(value: number, unit: PressureUnit): Pressure {
         return new Pressure(value, unit);
     }
-
-
-    protected override emitQuantity(quantity: Pressure): void {
-        this.pressureChanged.emit(quantity);
-    }
 }
-
