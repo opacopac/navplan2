@@ -1,7 +1,6 @@
 import {Directive, Input, OnChanges, OnInit} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {AbstractQuantity} from '../../../domain/model/quantities/abstract-quantity';
-import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 
 
 /**
@@ -60,8 +59,7 @@ export abstract class AbstractQuantityInputComponent<Q extends AbstractQuantity<
         const currentValue = parseFloat(this.valueControl.value);
         if (!isNaN(currentValue) && this.valueControl.valid) {
             const converted = this.convertValue(currentValue, this.selectedUnit, unit);
-            const rounded = StringnumberHelper.roundToDigits(converted, 0);
-            this.valueControl.setValue(rounded != null ? rounded.toString() : '');
+            this.valueControl.setValue(converted != null ? converted.toString() : '');
         }
 
         this.selectedUnit = unit;
@@ -75,7 +73,7 @@ export abstract class AbstractQuantityInputComponent<Q extends AbstractQuantity<
     private initControl(): void {
         this.selectedUnit = this.quantity?.unit ?? this.defaultUnit;
         const initialValue = this.quantity
-            ? StringnumberHelper.roundToDigits(this.quantity.getValue(this.selectedUnit), 0).toString()
+            ? this.quantity.getValue(this.selectedUnit).toString()
             : '';
         const validators = [
             ...(this.isRequired ? [Validators.required] : []),

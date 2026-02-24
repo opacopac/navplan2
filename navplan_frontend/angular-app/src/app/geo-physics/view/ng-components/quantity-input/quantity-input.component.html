@@ -16,7 +16,7 @@
         [disabled]="this.isDisabled"
         type="button"
     >{{ this.getUnitString(this.selectedUnit) }}</button>
-    <mat-error>Value must be a positive integer between {{ this.minValue }} and {{ this.maxValue }}!</mat-error>
+    <mat-error>Value must be between {{ this.minValue }} and {{ this.maxValue }}!</mat-error>
 </mat-form-field>
 
 <mat-menu #unitMenu="matMenu">
