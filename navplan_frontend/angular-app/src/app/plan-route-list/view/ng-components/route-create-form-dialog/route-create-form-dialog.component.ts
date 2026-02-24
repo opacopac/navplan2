@@ -12,6 +12,9 @@ import {AircraftParams} from '../../../../flightroute/domain/model/aircraftParam
 import {FormDialogComponent} from '../../../../common/view/ng-components/form-dialog/form-dialog.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {HorizontalSpeedInputComponent} from '../../../../geo-physics/view/ng-components/horizontal-speed-input/horizontal-speed-input.component';
+import {ConsumptionInputComponent} from '../../../../geo-physics/view/ng-components/consumption-input/consumption-input.component';
+import {AltitudeInputComponent} from '../../../../geo-physics/view/ng-components/altitude-input/altitude-input.component';
 
 
 @Component({
@@ -21,6 +24,9 @@ import {MatInputModule} from '@angular/material/input';
         MatFormFieldModule,
         MatInputModule,
         FormDialogComponent,
+        HorizontalSpeedInputComponent,
+        ConsumptionInputComponent,
+        AltitudeInputComponent,
     ],
     templateUrl: './route-create-form-dialog.component.html',
     styleUrls: ['./route-create-form-dialog.component.scss']
@@ -31,6 +37,9 @@ export class RouteCreateFormDialogComponent implements OnInit, OnChanges {
     protected readonly Consumption = Consumption;
     protected readonly Length = Length;
     protected title: string;
+    protected cruiseSpeed: Speed | undefined;
+    protected cruiseConsumption: Consumption | undefined;
+    protected cruiseAltitude: Length | undefined;
 
 
     constructor(
@@ -56,7 +65,24 @@ export class RouteCreateFormDialogComponent implements OnInit, OnChanges {
 
 
     protected isFormValid(): boolean {
-        return this.createForm && this.createForm.valid;
+        return this.createForm && this.createForm.valid
+            && this.cruiseSpeed != null
+            && this.cruiseConsumption != null;
+    }
+
+
+    protected onCruiseSpeedChanged(speed: Speed) {
+        this.cruiseSpeed = speed;
+    }
+
+
+    protected onCruiseConsumptionChanged(consumption: Consumption) {
+        this.cruiseConsumption = consumption;
+    }
+
+
+    protected onCruiseAltitudeChanged(length: Length) {
+        this.cruiseAltitude = length;
     }
 
 
@@ -65,19 +91,12 @@ export class RouteCreateFormDialogComponent implements OnInit, OnChanges {
             const newRoute = Flightroute.createEmpty(
                 this.createForm.controls['title'].value,
                 new AircraftParams(
-                    new Speed(
-                        this.createForm.controls['cruiseSpeed'].value,
-                        this.data.speedUnit
-                    ),
-                    new Consumption(
-                        this.createForm.controls['cruiseFuel'].value,
-                        this.data.consumptionUnit
-                    )
+                    this.cruiseSpeed,
+                    this.cruiseConsumption
                 )
             );
-            const cruiseAltValue = this.createForm.controls['cruiseAlt'].value;
-            if (cruiseAltValue !== null && cruiseAltValue !== '') {
-                newRoute.cruiseAltitude = new Length(parseFloat(cruiseAltValue), this.data.altitudeUnit);
+            if (this.cruiseAltitude != null) {
+                newRoute.cruiseAltitude = this.cruiseAltitude;
             }
 
             this.dialogRef.close({aircraft: newRoute});
@@ -93,27 +112,6 @@ export class RouteCreateFormDialogComponent implements OnInit, OnChanges {
     private initForm() {
         this.createForm = this.formBuilder.group({
             'title': ['', [Validators.required]],
-            'cruiseSpeed': ['',
-                [
-                    Validators.required,
-                    Validators.min(1),
-                    Validators.max(999)
-                ]
-            ],
-            'cruiseFuel': ['',
-                [
-                    Validators.required,
-                    Validators.min(1),
-                    Validators.max(999)
-                ]
-            ],
-            'cruiseAlt': ['',
-                [
-                    Validators.min(0),
-                    Validators.max(99999),
-                    Validators.pattern('^[0-9]*$')
-                ]
-            ]
         });
     }
 }

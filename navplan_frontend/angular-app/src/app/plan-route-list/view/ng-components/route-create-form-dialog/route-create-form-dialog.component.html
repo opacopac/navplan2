@@ -22,48 +22,28 @@
             </mat-form-field>
 
             <!-- speed -->
-            <mat-form-field>
-                <mat-label>Cruise Speed</mat-label>
-                <input
-                    matInput
-                    formControlName="cruiseSpeed"
-                    type="number"
-                    required
-                    min="1"
-                    max="999"
-                >
-                <span matTextSuffix>{{ Speed.getUnitString(this.data.speedUnit) }}</span>
-                <mat-error>Value must be a positive number between 1 and 999!</mat-error>
-            </mat-form-field>
+            <app-horizontal-speed-input
+                [speed]="this.cruiseSpeed"
+                [defaultSpeedUnit]="this.data.speedUnit"
+                [isRequired]="true"
+                (speedChanged)="this.onCruiseSpeedChanged($event)"
+            >Cruise Speed</app-horizontal-speed-input>
 
             <!-- fuel consumption -->
-            <mat-form-field>
-                <mat-label>Cruise Fuel Consumption</mat-label>
-                <input
-                    matInput
-                    formControlName="cruiseFuel"
-                    type="number"
-                    required
-                    min="1"
-                    max="999"
-                >
-                <span matTextSuffix>{{ Consumption.getUnitString(this.data.consumptionUnit) }}</span>
-                <mat-error>Value must be a positive number between 1 and 999!</mat-error>
-            </mat-form-field>
+            <app-consumption-input
+                [consumption]="this.cruiseConsumption"
+                [defaultConsumptionUnit]="this.data.consumptionUnit"
+                [isRequired]="true"
+                (consumptionChanged)="this.onCruiseConsumptionChanged($event)"
+            >Cruise Fuel Consumption</app-consumption-input>
 
             <!-- cruise altitude -->
-            <mat-form-field>
-                <mat-label>Cruise Altitude</mat-label>
-                <input
-                    matInput
-                    formControlName="cruiseAlt"
-                    type="number"
-                    min="0"
-                    max="99999"
-                >
-                <span matTextSuffix>{{ Length.getUnitString(this.data.altitudeUnit) }}</span>
-                <mat-error>Value must be a whole non-negative number (max. 99999)!</mat-error>
-            </mat-form-field>
+            <app-altitude-input
+                [length]="this.cruiseAltitude"
+                [defaultLengthUnit]="this.data.altitudeUnit"
+                [minValue]="0"
+                (lengthChanged)="this.onCruiseAltitudeChanged($event)"
+            >Cruise Altitude</app-altitude-input>
 
         </div>
     </form>
