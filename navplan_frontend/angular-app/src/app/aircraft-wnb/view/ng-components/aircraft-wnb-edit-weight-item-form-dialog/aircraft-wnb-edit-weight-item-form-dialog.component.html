@@ -18,8 +18,7 @@
                     (selectionChange)="this.onTypeChanged()"
                 >
                     <mat-option value="" selected>(select)</mat-option>
-                    <mat-option [value]="WeightItemType.AIRCRAFT" [disabled]="!this.data.allowAircraftType">AIRCRAFT
-                    </mat-option>
+                    <mat-option [value]="WeightItemType.AIRCRAFT" [disabled]="!this.data.allowAircraftType">AIRCRAFT</mat-option>
                     <mat-option [value]="WeightItemType.FUEL">FUEL</mat-option>
                     <mat-option [value]="WeightItemType.PERSON">PERSON</mat-option>
                     <mat-option [value]="WeightItemType.BAGGAGE">BAGGAGE</mat-option>

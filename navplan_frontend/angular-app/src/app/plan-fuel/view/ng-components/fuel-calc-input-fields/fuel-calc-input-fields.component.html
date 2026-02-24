@@ -1,23 +1,13 @@
 <form class="fuel-form">
     <!-- fuel consumption -->
     <div class="fuel-consumption-line">
-        <mat-form-field>
-            <mat-label>Fuel Consumption</mat-label>
-            <input
-                matInput
-                #consumption
-                type="number"
-                size="3"
-                required
-                min="1"
-                max="999"
-                [formControl]="this.consumptionInput"
-                (input)="this.consumptionInput.valid ? this.onFuelConsumptionChange(consumption.value) : {}"
-                [value]="this.getFuelConsumptionString()"
-            >
-            <span matTextSuffix>{{ Consumption.getUnitString(this.consumptionUnit) }}</span>
-            <mat-error>Value must be a positive number between 1 and 999!</mat-error>
-        </mat-form-field>
+        <app-consumption-input
+            [consumption]="this.fuelConsumption"
+            [defaultConsumptionUnit]="this.consumptionUnit"
+            [isRequired]="true"
+            [isDisabled]="this.useAircraftValue"
+            (consumptionChanged)="this.onFuelConsumptionChanged($event)"
+        >Fuel Consumption</app-consumption-input>
         <app-aircraft-manual-toggle
             class="manual-aircraft-toggle"
             [selectedAircraft]="this.selectedAircraft"

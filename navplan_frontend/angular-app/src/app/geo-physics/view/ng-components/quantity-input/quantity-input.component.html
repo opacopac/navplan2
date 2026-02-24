@@ -13,6 +13,7 @@
         matSuffix
         mat-button
         [matMenuTriggerFor]="unitMenu"
+        [disabled]="this.isDisabled"
         type="button"
     >{{ this.getUnitString(this.selectedUnit) }}</button>
     <mat-error>Value must be a positive integer between {{ this.minValue }} and {{ this.maxValue }}!</mat-error>

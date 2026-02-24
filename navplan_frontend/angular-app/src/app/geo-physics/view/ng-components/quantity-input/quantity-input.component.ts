@@ -14,6 +14,7 @@ export abstract class AbstractQuantityInputComponent<Q extends AbstractQuantity<
     implements OnInit, OnChanges {
 
     @Input() public isRequired = false;
+    @Input() public isDisabled = false;
     @Input() public minValue = 1;
     @Input() public maxValue = 99999;
 
@@ -36,6 +37,11 @@ export abstract class AbstractQuantityInputComponent<Q extends AbstractQuantity<
 
     ngOnChanges(): void {
         this.initControl();
+        if (this.isDisabled) {
+            this.valueControl?.disable({emitEvent: false});
+        } else {
+            this.valueControl?.enable({emitEvent: false});
+        }
     }
 
 

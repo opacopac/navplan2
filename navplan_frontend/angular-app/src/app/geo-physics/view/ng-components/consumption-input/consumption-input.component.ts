@@ -26,6 +26,7 @@ import {AbstractQuantityInputComponent} from '../quantity-input/quantity-input.c
 export class ConsumptionInputComponent extends AbstractQuantityInputComponent<Consumption, ConsumptionUnit> {
     @Input() public consumption: Consumption | undefined;
     @Input() public defaultConsumptionUnit!: ConsumptionUnit;
+    @Input() public override isDisabled = false;
     @Output() public consumptionChanged = new EventEmitter<Consumption>();
 
     protected override get quantity(): Consumption | undefined {
