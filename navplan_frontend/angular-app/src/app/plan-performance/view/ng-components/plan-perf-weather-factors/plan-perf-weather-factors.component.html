@@ -15,19 +15,14 @@
         </div>
         <div>
             <!-- QNH -->
-            <mat-form-field class="input-field">
-                <mat-label>QNH</mat-label>
-                <input
-                    matInput
-                    formControlName="qnh"
-                    type="number"
-                    required
-                    min="0"
-                    (change)="this.onQnhChanged()"
-                >
-                <span matTextSuffix>{{ Pressure.getUnitString(this.pressureUnit) }}</span>
-                <mat-error>Value must be a positive number!</mat-error>
-            </mat-form-field>
+            <app-air-pressure-input
+                class="input-field"
+                [pressure]="this.qnh"
+                [defaultPressureUnit]="this.pressureUnit"
+                [isRequired]="true"
+                [minValue]="0"
+                (pressureChanged)="this.onQnhChanged($event)"
+            >QNH</app-air-pressure-input>
 
             <!-- PA -->
             &nbsp;

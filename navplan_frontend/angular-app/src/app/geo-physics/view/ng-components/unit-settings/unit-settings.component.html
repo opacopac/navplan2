@@ -152,4 +152,21 @@
       </mat-radio-button>
     }
   </mat-radio-group>
+
+  <!-- pressure units -->
+  <label id="pressure-unit-group-label">Pressure Units</label>
+  <mat-radio-group
+    color="primary"
+    aria-labelledby="pressure-unit-group-label"
+    (change)="this.onPressureUnitSelected($event)"
+    >
+    @for (entry of this.pressureUnits; track entry) {
+      <mat-radio-button
+        [value]="entry"
+        [checked]="(this.pressureUnit$ | async) === entry"
+        >
+        {{ Pressure.getUnitString(entry) }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
 </div>

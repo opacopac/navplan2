@@ -71,5 +71,10 @@ export const geoPhysicsReducer = createReducer(
     on(GeoPhysicsActions.temperatureUnitSelected, (state, action) => ({
         ...state,
         temperatureUnit: action.temperatureUnit
+    })),
+
+    on(GeoPhysicsActions.pressureUnitSelected, (state, action) => ({
+        ...state,
+        pressureUnit: action.pressureUnit
     }))
 );

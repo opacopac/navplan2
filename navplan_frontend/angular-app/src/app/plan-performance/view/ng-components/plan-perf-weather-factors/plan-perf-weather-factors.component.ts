@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Pressure} from '../../../../geo-physics/domain/model/quantities/pressure';
 import {Temperature} from '../../../../geo-physics/domain/model/quantities/temperature';
 import {PressureUnit} from '../../../../geo-physics/domain/model/quantities/pressure-unit';
@@ -8,20 +8,17 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
 import {PlanPerfWeatherFactorsState} from '../../../state/state-model/plan-perf-weather-factors-state';
 import {PlanPerfWeatherCalculationState} from '../../../state/state-model/plan-perf-weather-calculation-state';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
-import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
 import {AltitudeInputComponent} from '../../../../geo-physics/view/ng-components/altitude-input/altitude-input.component';
 import {TemperatureInputComponent} from '../../../../geo-physics/view/ng-components/temperature-input/temperature-input.component';
+import {AirPressureInputComponent} from '../../../../geo-physics/view/ng-components/air-pressure-input/air-pressure-input.component';
 
 @Component({
     selector: 'app-plan-perf-weather-factors',
     imports: [
         ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
         AltitudeInputComponent,
         TemperatureInputComponent,
+        AirPressureInputComponent,
     ],
     templateUrl: './plan-perf-weather-factors.component.html',
     styleUrls: ['./plan-perf-weather-factors.component.scss']
@@ -35,8 +32,8 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
     @Output() weatherFactorsChanged = new EventEmitter<PlanPerfWeatherFactorsState>();
 
     protected weatherFactorsForm: FormGroup;
-    protected readonly Pressure = Pressure;
     protected elevation: Length | undefined;
+    protected qnh: Pressure | undefined;
     protected oat: Temperature | undefined;
 
 
@@ -82,13 +79,9 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
     }
 
 
-    protected onQnhChanged() {
-        if (this.weatherFactorsForm.controls['qnh'].valid) {
-            this.weatherFactorsChanged.emit({
-                ...this.weatherFactors,
-                qnh: new Pressure(this.weatherFactorsForm.value.qnh, this.pressureUnit)
-            });
-        }
+    protected onQnhChanged(qnh: Pressure) {
+        this.qnh = qnh;
+        this.weatherFactorsChanged.emit({...this.weatherFactors, qnh});
     }
 
 
@@ -100,12 +93,8 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
 
     private initForm() {
         this.elevation = this.weatherFactors.elevation;
+        this.qnh = this.weatherFactors.qnh;
         this.oat = this.weatherFactors.oat;
-        this.weatherFactorsForm = this.formBuilder.group({
-            'qnh': [StringnumberHelper.roundToDigits(this.weatherFactors.qnh.getValue(this.pressureUnit), 0), [
-                Validators.required,
-                Validators.min(0),
-            ]],
-        });
+        this.weatherFactorsForm = this.formBuilder.group({});
     }
 }

@@ -7,6 +7,7 @@ import {
     getAltitudeUnit,
     getHorizontalSpeedUnit,
     getPerformanceDistanceUnit,
+    getPressureUnit,
     getRouteDistanceUnit,
     getTemperatureUnit,
     getVerticalSpeedUnit,
@@ -24,6 +25,8 @@ import {Weight} from '../../../domain/model/quantities/weight';
 import {WeightUnit} from '../../../domain/model/quantities/weight-unit';
 import {Temperature} from '../../../domain/model/quantities/temperature';
 import {TemperatureUnit} from '../../../domain/model/quantities/temperature-unit';
+import {Pressure} from '../../../domain/model/quantities/pressure';
+import {PressureUnit} from '../../../domain/model/quantities/pressure-unit';
 import {NavplanUnits} from '../../../domain/model/navplan-units';
 import {CommonModule} from '@angular/common';
 
@@ -43,6 +46,7 @@ export class UnitSettingsComponent implements OnInit {
     protected readonly Length = Length;
     protected readonly Weight = Weight;
     protected readonly Temperature = Temperature;
+    protected readonly Pressure = Pressure;
 
     protected readonly altitudeUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getAltitudeUnit));
     protected readonly routeDistanceUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getRouteDistanceUnit));
@@ -53,6 +57,7 @@ export class UnitSettingsComponent implements OnInit {
     protected readonly wnbLengthUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getWnbLengthUnit));
     protected readonly performanceDistanceUnit$: Observable<LengthUnit> = this.appStore.pipe(select(getPerformanceDistanceUnit));
     protected readonly temperatureUnit$: Observable<TemperatureUnit> = this.appStore.pipe(select(getTemperatureUnit));
+    protected readonly pressureUnit$: Observable<PressureUnit> = this.appStore.pipe(select(getPressureUnit));
 
     protected readonly altitudeUnits = NavplanUnits.altitudeUnits;
     protected readonly routeDistanceUnits = NavplanUnits.routeDistanceUnits;
@@ -63,6 +68,7 @@ export class UnitSettingsComponent implements OnInit {
     protected readonly wnbLengthUnits = NavplanUnits.wnbLengthUnits;
     protected readonly performanceDistanceUnits = NavplanUnits.performanceDistanceUnits;
     protected readonly temperatureUnits = NavplanUnits.temperatureUnits;
+    protected readonly pressureUnits = NavplanUnits.pressureUnits;
 
     constructor(private appStore: Store<any>) {
     }
@@ -123,5 +129,10 @@ export class UnitSettingsComponent implements OnInit {
     protected onPerformanceDistanceUnitSelected($event: MatRadioChange) {
         const value = parseInt($event.value, 10);
         this.appStore.dispatch(GeoPhysicsActions.performanceDistanceUnitSelected({lengthUnit: value}));
+    }
+
+    protected onPressureUnitSelected($event: MatRadioChange) {
+        const value = parseInt($event.value, 10);
+        this.appStore.dispatch(GeoPhysicsActions.pressureUnitSelected({pressureUnit: value}));
     }
 }

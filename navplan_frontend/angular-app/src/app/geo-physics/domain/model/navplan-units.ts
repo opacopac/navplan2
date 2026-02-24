@@ -4,6 +4,7 @@ import {VolumeUnit} from './quantities/volume-unit';
 import {WeightUnit} from './quantities/weight-unit';
 import {TemperatureUnit} from './quantities/temperature-unit';
 import {ConsumptionUnit} from './quantities/consumption-unit';
+import {PressureUnit} from './quantities/pressure-unit';
 
 
 export class NavplanUnits {
@@ -17,6 +18,7 @@ export class NavplanUnits {
     public static readonly wnbLengthUnits: LengthUnit[] = [LengthUnit.M, LengthUnit.IN, LengthUnit.FT];
     public static readonly performanceDistanceUnits: LengthUnit[] = [LengthUnit.M, LengthUnit.FT];
     public static readonly temperatureUnits: TemperatureUnit[] = [TemperatureUnit.C, TemperatureUnit.F];
+    public static readonly pressureUnits: PressureUnit[] = [PressureUnit.HPA, PressureUnit.INHG];
 }
 
 

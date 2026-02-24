@@ -4,6 +4,7 @@ import {SpeedUnit} from '../../domain/model/quantities/speed-unit';
 import {VolumeUnit} from '../../domain/model/quantities/volume-unit';
 import {WeightUnit} from '../../domain/model/quantities/weight-unit';
 import {TemperatureUnit} from '../../domain/model/quantities/temperature-unit';
+import {PressureUnit} from '../../domain/model/quantities/pressure-unit';
 
 
 export class GeoPhysicsActions {
@@ -50,5 +51,10 @@ export class GeoPhysicsActions {
     public static readonly temperatureUnitSelected = createAction(
         '[UnitSettings] Select temperature unit',
         props<{ temperatureUnit: TemperatureUnit }>()
+    );
+
+    public static readonly pressureUnitSelected = createAction(
+        '[UnitSettings] Select pressure unit',
+        props<{ pressureUnit: PressureUnit }>()
     );
 }
