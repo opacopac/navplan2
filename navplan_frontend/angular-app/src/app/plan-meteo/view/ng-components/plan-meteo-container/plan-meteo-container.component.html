@@ -5,12 +5,15 @@
         [showRouteName]="true"
     />
     @if ((this.routeMetarTafs$ | async)?.length > 0) {
-        <app-plan-distance-from-route
-            [maxDistance]="this.maxRadius$ | async"
-            [distanceUnit]="this.distanceUnit$ | async"
-            (distanceChanged)="this.onMaxRadiusChanged($event)"
+        <app-route-distance-input
+            [length]="this.maxRadius$ | async"
+            [defaultLengthUnit]="this.distanceUnit$ | async"
+            [isRequired]="true"
+            [minValue]="1"
+            [maxValue]="150"
+            (lengthChanged)="this.onMaxRadiusChanged($event)"
             class="max-radius-field"
-        />
+        >Max. distance from route</app-route-distance-input>
         <app-plan-meteo-table
             [routeMetarTafList]="this.routeMetarTafs$ | async"
             [showDistance]="false"

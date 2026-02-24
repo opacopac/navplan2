@@ -10,7 +10,7 @@ import {CommonModule} from '@angular/common';
 import {
     RoutePickerContainerComponent
 } from '../../../../plan-route-list/view/ng-components/route-picker-container/route-picker-container.component';
-import {PlanDistanceFromRouteComponent} from '../../../../plan/view/ng-components/plan-distance-from-route/plan-distance-from-route.component';
+import {RouteDistanceInputComponent} from '../../../../geo-physics/view/ng-components/route-distance-input/route-distance-input.component';
 
 
 @Component({
@@ -19,7 +19,7 @@ import {PlanDistanceFromRouteComponent} from '../../../../plan/view/ng-component
         CommonModule,
         PlanMeteoTableComponent,
         RoutePickerContainerComponent,
-        PlanDistanceFromRouteComponent
+        RouteDistanceInputComponent
     ],
     templateUrl: './plan-meteo-container.component.html',
     styleUrls: ['./plan-meteo-container.component.scss']
