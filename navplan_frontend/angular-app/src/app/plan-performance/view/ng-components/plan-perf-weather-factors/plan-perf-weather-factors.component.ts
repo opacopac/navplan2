@@ -11,13 +11,17 @@ import {Length} from '../../../../geo-physics/domain/model/quantities/length';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {AltitudeInputComponent} from '../../../../geo-physics/view/ng-components/altitude-input/altitude-input.component';
+import {TemperatureInputComponent} from '../../../../geo-physics/view/ng-components/temperature-input/temperature-input.component';
 
 @Component({
     selector: 'app-plan-perf-weather-factors',
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,
-        MatInputModule
+        MatInputModule,
+        AltitudeInputComponent,
+        TemperatureInputComponent,
     ],
     templateUrl: './plan-perf-weather-factors.component.html',
     styleUrls: ['./plan-perf-weather-factors.component.scss']
@@ -32,8 +36,8 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
 
     protected weatherFactorsForm: FormGroup;
     protected readonly Pressure = Pressure;
-    protected readonly Temperature = Temperature;
-    protected readonly Length = Length;
+    protected elevation: Length | undefined;
+    protected oat: Temperature | undefined;
 
 
     constructor(private formBuilder: FormBuilder) {
@@ -72,13 +76,9 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
     }
 
 
-    protected onElevationChanged() {
-        if (this.weatherFactorsForm.controls['elevation'].valid) {
-            this.weatherFactorsChanged.emit({
-                ...this.weatherFactors,
-                elevation: new Length(this.weatherFactorsForm.value.elevation, this.altitudeUnit)
-            });
-        }
+    protected onElevationChanged(elevation: Length) {
+        this.elevation = elevation;
+        this.weatherFactorsChanged.emit({...this.weatherFactors, elevation});
     }
 
 
@@ -92,28 +92,19 @@ export class PlanPerfWeatherFactorsComponent implements OnInit {
     }
 
 
-    protected onOatChanged() {
-        if (this.weatherFactorsForm.controls['oat'].valid) {
-            this.weatherFactorsChanged.emit({
-                ...this.weatherFactors,
-                oat: new Temperature(this.weatherFactorsForm.value.oat, this.temperatureUnit)
-            });
-        }
+    protected onOatChanged(oat: Temperature) {
+        this.oat = oat;
+        this.weatherFactorsChanged.emit({...this.weatherFactors, oat});
     }
 
 
     private initForm() {
+        this.elevation = this.weatherFactors.elevation;
+        this.oat = this.weatherFactors.oat;
         this.weatherFactorsForm = this.formBuilder.group({
-            'elevation': [StringnumberHelper.roundToDigits(this.weatherFactors.elevation.getValue(this.altitudeUnit), 0), [
-                Validators.required,
-                Validators.min(0)
-            ]],
             'qnh': [StringnumberHelper.roundToDigits(this.weatherFactors.qnh.getValue(this.pressureUnit), 0), [
                 Validators.required,
                 Validators.min(0),
-            ]],
-            'oat': [StringnumberHelper.roundToDigits(this.weatherFactors.oat.getValue(this.temperatureUnit), 0), [
-                Validators.required,
             ]],
         });
     }

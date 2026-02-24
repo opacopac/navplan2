@@ -45,26 +45,21 @@
 
         <!-- RWY Wind -->
         <div>
-            <mat-form-field class="input-field">
-                <mat-label>RWY Wind</mat-label>
-                <input
-                    matInput
-                    formControlName="rwyWind"
-                    type="number"
-                    required
-                    min="0"
-                    max="999"
-                    (change)="this.onRwyWindChanged()"
-                >
-                <span matTextSuffix>{{ Speed.getUnitString(this.speedUnit) }}</span>
-                <mat-error>Value must be a number between 0 and 999!</mat-error>
-            </mat-form-field>
+            <app-horizontal-speed-input
+                class="input-field"
+                [speed]="this.rwyWindSpeed"
+                [defaultSpeedUnit]="this.speedUnit"
+                [isRequired]="true"
+                [minValue]="0"
+                [maxValue]="999"
+                (speedChanged)="this.onRwyWindSpeedChanged($event)"
+            >RWY Wind</app-horizontal-speed-input>
 
             &nbsp;
             <mat-radio-group
                 color="primary"
                 formControlName="rwyWindDir"
-                (change)="this.onRwyWindChanged()"
+                (change)="this.onRwyWindDirChanged()"
             >
                 <mat-radio-button [value]="true">headwind</mat-radio-button>
                 <mat-radio-button [value]="false">tailwind</mat-radio-button>

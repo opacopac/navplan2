@@ -13,6 +13,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatInputModule} from '@angular/material/input';
 import {MatOptionModule} from '@angular/material/core';
+import {HorizontalSpeedInputComponent} from '../../../../geo-physics/view/ng-components/horizontal-speed-input/horizontal-speed-input.component';
 
 @Component({
     selector: 'app-plan-perf-runway-factors',
@@ -23,7 +24,8 @@ import {MatOptionModule} from '@angular/material/core';
         MatCheckboxModule,
         MatRadioModule,
         MatInputModule,
-        MatOptionModule
+        MatOptionModule,
+        HorizontalSpeedInputComponent,
     ],
     templateUrl: './plan-perf-runway-factors.component.html',
     styleUrls: ['./plan-perf-runway-factors.component.scss']
@@ -38,8 +40,8 @@ export class PlanPerfRunwayFactorsComponent implements OnInit, OnChanges {
 
     protected correctionFactorsForm: FormGroup;
     protected readonly Pressure = Pressure;
-    protected readonly Speed = Speed;
     protected readonly Length = Length;
+    protected rwyWindSpeed: Speed | undefined;
 
 
     constructor(private formBuilder: FormBuilder) {
@@ -106,12 +108,24 @@ export class PlanPerfRunwayFactorsComponent implements OnInit, OnChanges {
     }
 
 
-    protected onRwyWindChanged() {
-        if (this.correctionFactorsForm.controls['rwyWind'].valid && this.correctionFactorsForm.controls['rwyWindDir'].valid) {
-            const rwyWindValue = this.correctionFactorsForm.value.rwyWind * (this.correctionFactorsForm.value.rwyWindDir ? 1 : -1);
+    protected onRwyWindSpeedChanged(speed: Speed) {
+        this.rwyWindSpeed = speed;
+        this.emitRwyWind();
+    }
+
+
+    protected onRwyWindDirChanged() {
+        this.emitRwyWind();
+    }
+
+
+    private emitRwyWind() {
+        if (this.rwyWindSpeed != null && this.correctionFactorsForm.controls['rwyWindDir'].valid) {
+            const isHeadwind: boolean = this.correctionFactorsForm.value.rwyWindDir;
+            const signedValue = this.rwyWindSpeed.getValue(this.rwyWindSpeed.unit) * (isHeadwind ? 1 : -1);
             this.runwayFactorChanged.emit({
                 ...this.runwayFactors,
-                rwyWind: new Speed(rwyWindValue, this.speedUnit)
+                rwyWind: new Speed(signedValue, this.rwyWindSpeed.unit)
             });
         }
     }
@@ -148,17 +162,13 @@ export class PlanPerfRunwayFactorsComponent implements OnInit, OnChanges {
 
 
     private initForm() {
+        this.rwyWindSpeed = new Speed(Math.abs(this.runwayFactors.rwyWind.getValue(this.speedUnit)), this.speedUnit);
         this.correctionFactorsForm = this.formBuilder.group({
             'runway': [this.runwayFactors.runway, [
                 Validators.required,
             ]],
             'grassRwy': [this.runwayFactors.isGrassRwy, []],
             'wetRwy': [this.runwayFactors.isWetRwy, []],
-            'rwyWind': [this.runwayFactors.rwyWind.getValue(this.speedUnit), [
-                Validators.required,
-                Validators.min(0),
-                Validators.max(999)
-            ]],
             'rwyWindDir': [this.runwayFactors.rwyWind.getValue(this.speedUnit) >= 0, [
                 Validators.required
             ]],

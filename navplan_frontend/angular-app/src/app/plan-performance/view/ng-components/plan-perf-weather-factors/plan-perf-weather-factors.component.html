@@ -2,19 +2,14 @@
     <div class="weather-factors-form-content">
         <div>
             <!-- Elevation -->
-            <mat-form-field class="input-field">
-                <mat-label>ELEV</mat-label>
-                <input
-                    matInput
-                    formControlName="elevation"
-                    type="number"
-                    required
-                    min="0"
-                    (change)="this.onElevationChanged()"
-                >
-                <span matTextSuffix>{{ Length.getUnitString(this.altitudeUnit) }}</span>
-                <mat-error>Value must be a positive number!</mat-error>
-            </mat-form-field>
+            <app-altitude-input
+                class="input-field"
+                [length]="this.elevation"
+                [defaultLengthUnit]="this.altitudeUnit"
+                [isRequired]="true"
+                [minValue]="0"
+                (lengthChanged)="this.onElevationChanged($event)"
+            >ELEV</app-altitude-input>
             &nbsp;
             <span class="calc-field">AMSL</span>
         </div>
@@ -40,18 +35,15 @@
         </div>
         <div>
             <!-- OAT -->
-            <mat-form-field class="input-field">
-                <mat-label>OAT</mat-label>
-                <input
-                    matInput
-                    formControlName="oat"
-                    type="number"
-                    required
-                    (change)="this.onOatChanged()"
-                >
-                <span matTextSuffix>{{ Temperature.getUnitString(this.temperatureUnit) }}</span>
-                <mat-error>Value is mandatory!</mat-error>
-            </mat-form-field>
+            <app-temperature-input
+                class="input-field"
+                [temperature]="this.oat"
+                [defaultTemperatureUnit]="this.temperatureUnit"
+                [isRequired]="true"
+                [minValue]="-99"
+                [maxValue]="99"
+                (temperatureChanged)="this.onOatChanged($event)"
+            >OAT</app-temperature-input>
 
             <!-- DA -->
             &nbsp;
