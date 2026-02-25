@@ -21,6 +21,8 @@ import {
 import {
     AircraftPickerContainerComponent
 } from '../../../../aircraft/view/ng-components/aircraft-common/aircraft-picker-container/aircraft-picker-container.component';
+import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
+
 
 @Component({
     selector: 'app-plan-perf-container',
@@ -37,6 +39,7 @@ import {
 export class PlanPerfContainerComponent implements OnInit {
     protected readonly getAirportPerfStates$ = this.appStore.pipe(select(getAirportPerfStates));
     protected readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
+    protected readonly aircraft$ = this.appStore.pipe(select(getCurrentAircraft));
     protected readonly altitudeUnit$ = this.appStore.pipe(select(getAltitudeUnit));
     protected readonly performanceDistanceUnit$ = this.appStore.pipe(select(getPerformanceDistanceUnit));
     protected readonly horizontalSpeedUnit$ = this.appStore.pipe(select(getHorizontalSpeedUnit));

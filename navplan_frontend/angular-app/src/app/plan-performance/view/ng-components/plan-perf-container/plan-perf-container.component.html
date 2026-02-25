@@ -9,7 +9,7 @@
         [showIcon]="true"
         [showRegistration]="true"
     />
-    @if ((this.getAirportPerfStates$ | async)?.length > 0) {
+    @if ((this.aircraft$ | async) && (this.flightroute$ | async) && (this.getAirportPerfStates$ | async)?.length > 0) {
         <!-- airport performance list -->
         <mat-accordion displayMode="flat" multi="false">
             @for (adPerfState of this.getAirportPerfStates$ | async; let idx = $index; track idx) {
