@@ -41,12 +41,15 @@ export class FlightRouteCrudEffects {
         ).pipe(
             mergeMap(route => [
                 FlightrouteActions.changed({flightroute: route}),
-                PlanActions.selectPlanTab({selectedPlanTab: 'route'}),
                 MessageActions.showMessage({
                     message: Message.success('Flight route ' + route.title + ' selected.')
                 })
             ]),
-            tap(() => this.router.navigate(['/plan', 'route'])), // TODO: move to effect?
+            tap(() => {
+                if (action.navigateToWaypointsPage) {
+                    this.router.navigate(['/plan', 'route']);
+                }
+            }),
             catchError(error => of(MessageActions.showMessage({
                 message: Message.error('Error reading flight route', error)
             })))

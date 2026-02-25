@@ -4,7 +4,7 @@ import {createAction, props} from '@ngrx/store';
 export class FlightrouteCrudActions {
     public static readonly read = createAction(
         '[Flightroute Page] Read flightroute',
-        props<{ flightrouteId: number }>()
+        props<{ flightrouteId: number, navigateToWaypointsPage?: boolean }>()
     );
     public static readonly save = createAction(
         '[Flightroute Page] Save flightroute',

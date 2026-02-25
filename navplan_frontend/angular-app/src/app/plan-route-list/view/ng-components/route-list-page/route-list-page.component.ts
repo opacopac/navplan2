@@ -47,7 +47,7 @@ export class RouteListPageComponent implements OnInit {
 
 
     protected onRouteSelected(routeId: number) {
-        this.appStore.dispatch(FlightrouteCrudActions.read({flightrouteId: routeId}));
+        this.appStore.dispatch(FlightrouteCrudActions.read({flightrouteId: routeId, navigateToWaypointsPage: true}));
     }
 
 
