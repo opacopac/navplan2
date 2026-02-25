@@ -16,6 +16,7 @@ export abstract class AbstractQuantityInputComponent<Q extends AbstractQuantity<
     @Input() public isDisabled = false;
     @Input() public minValue = 0;
     @Input() public maxValue = 99999;
+    @Input() public useFullWidth = false;
     @Output() public valueChanged = new EventEmitter<Q>();
 
     protected selectedUnit: U;

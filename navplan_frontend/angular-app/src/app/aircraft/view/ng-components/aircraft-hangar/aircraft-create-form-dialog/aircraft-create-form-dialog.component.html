@@ -42,6 +42,7 @@
             <app-horizontal-speed-input
                 [speed]="this.cruiseSpeed"
                 [defaultSpeedUnit]="this.data.speedUnit"
+                [useFullWidth]="true"
                 (valueChanged)="this.onCruiseSpeedChanged($event)"
             >Cruise Speed</app-horizontal-speed-input>
 
@@ -50,6 +51,7 @@
                 [consumption]="this.cruiseFuel"
                 [defaultConsumptionUnit]="this.data.consumptionUnit"
                 [isRequired]="true"
+                [useFullWidth]="true"
                 (valueChanged)="this.onCruiseFuelChanged($event)"
             >Cruise Fuel Consumption</app-consumption-input>
 

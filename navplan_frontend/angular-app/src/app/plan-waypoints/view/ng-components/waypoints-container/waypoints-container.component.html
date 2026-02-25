@@ -14,6 +14,7 @@
         <app-horizontal-speed-input
             [speed]="this.routeSpeed$ | async"
             [defaultSpeedUnit]="this.horizontalSpeedUnit$ | async"
+            [isDisabled]="this.useAircraftSpeedValue$ | async"
             (valueChanged)="this.onRouteSpeedChanged($event)"
         >Ground Speed</app-horizontal-speed-input>
         <app-aircraft-manual-toggle
