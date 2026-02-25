@@ -39,7 +39,7 @@ export class PlanTabsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private tabMap: { [key: number]: string } = {
         0: 'routelist',
-        1: 'route',
+        1: 'waypoints',
         2: 'fuel',
         3: 'wnb',
         4: 'perf',

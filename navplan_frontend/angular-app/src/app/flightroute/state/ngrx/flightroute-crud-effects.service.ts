@@ -47,7 +47,7 @@ export class FlightRouteCrudEffects {
             ]),
             tap(() => {
                 if (action.navigateToWaypointsPage) {
-                    this.router.navigate(['/plan', 'route']);
+                    this.router.navigate(['/plan', 'waypoints']);
                 }
             }),
             catchError(error => of(MessageActions.showMessage({

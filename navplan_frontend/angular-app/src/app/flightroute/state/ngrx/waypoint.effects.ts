@@ -44,7 +44,7 @@ export class WaypointEffects {
         ofType(WaypointActions.insert),
         withLatestFrom(this.flightroute$),
         filter(([_, flightroute]) => !flightroute?.waypoints || flightroute.waypoints.length === 0),
-        map(() => PlanActions.selectPlanTab({selectedPlanTab: 'route'}))
+        map(() => PlanActions.selectPlanTab({selectedPlanTab: 'waypoints'}))
     ));
 
 
