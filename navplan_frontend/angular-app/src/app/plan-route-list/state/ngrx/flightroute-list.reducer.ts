@@ -1,10 +1,12 @@
 import {createReducer, on} from '@ngrx/store';
 import {FlightrouteListActions} from './flightroute-list.actions';
 import {FlightrouteListState} from '../state-model/flightroute-list-state';
+import {initialTableState} from '../../../common/state/model/table-state';
 
 
 export const initialFlightrouteListState: FlightrouteListState = {
     flightrouteList: [],
+    flightrouteTableState: initialTableState,
 };
 
 

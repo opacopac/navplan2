@@ -8,9 +8,9 @@ import {
 import {FlightrouteListActions} from '../../../state/ngrx/flightroute-list.actions';
 import {Flightroute} from '../../../../flightroute/domain/model/flightroute';
 import {FlightrouteCrudActions} from '../../../../flightroute/state/ngrx/flightroute-crud.actions';
-import {getFlightroute, getFlightrouteTableState} from '../../../../flightroute/state/ngrx/flightroute.selectors';
+import {getFlightroute} from '../../../../flightroute/state/ngrx/flightroute.selectors';
 import {TableState} from '../../../../common/state/model/table-state';
-import {getFlightrouteList} from '../../../state/ngrx/flightroute-list.selectors';
+import {getFlightrouteList, getFlightrouteListTableState} from '../../../state/ngrx/flightroute-list.selectors';
 import {RouteListTableComponent} from '../route-list-table/route-list-table.component';
 import {CommonModule} from '@angular/common';
 
@@ -30,7 +30,7 @@ export class RouteListPageComponent implements OnInit {
     protected readonly horizontalSpeedUnit$ = this.appStore.pipe(select(getHorizontalSpeedUnit));
     protected readonly consumptionUnit$ = this.appStore.pipe(select(getConsumptionUnit));
     protected readonly altitudeUnit$ = this.appStore.pipe(select(getAltitudeUnit));
-    protected readonly tableState$ = this.appStore.pipe(select(getFlightrouteTableState));
+    protected readonly tableState$ = this.appStore.pipe(select(getFlightrouteListTableState));
 
     constructor(private appStore: Store<any>) {
     }
