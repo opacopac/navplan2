@@ -29,19 +29,14 @@
                 maxlength="10"
             />
         </mat-form-field>
-        <div class="flex-row-100">
-            <mat-form-field>
-                <mat-label>Altitude</mat-label>
-                <input
-                    matInput
-                    type="number"
-                    formControlName="alt"
-                    min="0"
-                    max="99999"
-                />
-                <span matTextSuffix>{{ this.getAltUnitText() }}</span>
-                <mat-error>Value must be a positive whole number between 0 and 99999!</mat-error>
-            </mat-form-field>
+        <div class="flex-row-100 flex-gap-20">
+            <app-altitude-input
+                [length]="this.selectedAltitude"
+                [defaultLengthUnit]="this.altitudeUnit"
+                [minValue]="0"
+                [maxValue]="99999"
+                (valueChanged)="this.onAltChanged($event)"
+            >Altitude</app-altitude-input>
             <div>
                 <mat-button-toggle-group [multiple]="true" formControlName="isminmaxalt">
                     <mat-button-toggle value="min">min</mat-button-toggle>

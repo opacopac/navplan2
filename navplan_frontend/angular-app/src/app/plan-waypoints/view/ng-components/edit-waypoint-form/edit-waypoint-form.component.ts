@@ -11,6 +11,7 @@ import {MatInputModule} from '@angular/material/input';
 import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatButtonModule} from '@angular/material/button';
+import {AltitudeInputComponent} from '../../../../geo-physics/view/ng-components/altitude-input/altitude-input.component';
 
 
 @Component({
@@ -22,6 +23,7 @@ import {MatButtonModule} from '@angular/material/button';
         MatButtonModule,
         MatButtonToggleModule,
         IconButtonComponent,
+        AltitudeInputComponent,
     ],
     templateUrl: './edit-waypoint-form.component.html',
     styleUrls: ['./edit-waypoint-form.component.scss']
@@ -33,6 +35,7 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
     @Output() onCancelClick: EventEmitter<null> = new EventEmitter<null>();
 
     protected editWpForm: FormGroup;
+    protected selectedAltitude: Length | undefined;
     protected readonly ButtonColor = ButtonColor;
 
 
@@ -49,8 +52,8 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
     }
 
 
-    protected getAltUnitText() {
-        return Length.getUnitString(this.altitudeUnit);
+    protected onAltChanged(length: Length): void {
+        this.selectedAltitude = length;
     }
 
 
@@ -66,8 +69,12 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
         newWp.checkpoint = this.editWpForm.get('checkpoint').value;
         newWp.remark = this.editWpForm.get('remark').value;
         newWp.supp_info = this.editWpForm.get('supp_info').value;
-        const altValue = parseInt(this.editWpForm.get('alt').value, 10);
-        newWp.wpAlt.alt = isNaN(altValue) ? undefined : Altitude.fromLengthUnit(altValue, this.altitudeUnit, AltitudeReference.MSL);
+        newWp.wpAlt.alt = this.selectedAltitude
+            ? Altitude.fromLengthUnit(
+                this.selectedAltitude.getValue(this.selectedAltitude.unit),
+                this.selectedAltitude.unit, AltitudeReference.MSL
+            )
+            : undefined;
         newWp.wpAlt.isminalt = this.editWpForm.get('isminmaxalt').value.includes('min');
         newWp.wpAlt.ismaxalt = this.editWpForm.get('isminmaxalt').value.includes('max');
         newWp.wpAlt.isaltatlegstart = this.editWpForm.get('isaltatlegstart').value === 'true';
@@ -82,6 +89,9 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
 
 
     private initForm(editWaypoint: Waypoint) {
+        this.selectedAltitude = (editWaypoint && editWaypoint.wpAlt.alt)
+            ? editWaypoint.wpAlt.alt.getHeightAmsl()
+            : undefined;
         this.editWpForm = this.formBuilder.group({
             'checkpoint': [
                 editWaypoint ? editWaypoint.checkpoint : '', [
@@ -96,14 +106,6 @@ export class EditWaypointFormComponent implements OnInit, OnChanges {
             'callsign': [
                 editWaypoint ? editWaypoint.callsign : '',
                 Validators.maxLength(10)
-            ],
-            'alt': [
-                (editWaypoint && editWaypoint.wpAlt.alt) ? Math.round(editWaypoint.wpAlt.alt.getHeightAmsl().getValue(this.altitudeUnit)) : '', [
-                    Validators.min(0),
-                    Validators.max(99999),
-                    Validators.maxLength(5),
-                    Validators.pattern('^[0-9]+$'),
-                ]
             ],
             'isminmaxalt': [
                 editWaypoint ? [editWaypoint.wpAlt.isminalt ? 'min' : '', editWaypoint.wpAlt.ismaxalt ? 'max' : ''] : []
