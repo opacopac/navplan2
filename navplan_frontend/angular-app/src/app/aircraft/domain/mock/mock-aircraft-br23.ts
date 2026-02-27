@@ -11,11 +11,13 @@ import {Length} from '../../../geo-physics/domain/model/quantities/length';
 
 
 export class MockAircraftBr23 {
+    public static CRUISE_SPEED = Speed.ofKt(100);
+    public static CRUISE_CLIMB_SPEED = Speed.ofKt(75);
     public static MTOW = Weight.ofKg(750);
     public static BEW = Weight.ofKg(450);
     public static ROC_SEALEVEL = Speed.ofKt(688);
     public static SERVICE_CEILING = Length.ofFt(14000);
-    public static CRUISE_CLIMB_SPEED = Speed.ofKt(75);
+    public static CONSUMPTION = Consumption.ofLPerH(25);
 
 
     public static create() {
@@ -24,8 +26,8 @@ export class MockAircraftBr23 {
             VehicleType.AIRPLANE,
             'HB-KGO',
             'BR23',
-            Speed.ofKt(100),
-            Consumption.ofLPerH(25),
+            this.CRUISE_SPEED,
+            this.CONSUMPTION,
             FuelType.MOGAS,
             this.MTOW,
             this.BEW,

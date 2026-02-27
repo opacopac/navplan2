@@ -188,6 +188,24 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
     }
 
 
+    public isGreaterThan(other: Length): boolean {
+        if (other === undefined) {
+            return false;
+        }
+
+        return this.getValue(this.unit) > other.getValue(this.unit);
+    }
+
+
+    public isLessThan(other: Length): boolean {
+        if (other === undefined) {
+            return false;
+        }
+
+        return this.getValue(this.unit) < other.getValue(this.unit);
+    }
+
+
     protected createInstance(value: number, unit: LengthUnit): Length {
         return new Length(value, unit);
     }

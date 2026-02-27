@@ -8,6 +8,7 @@ import {TimeUnit} from '../../../geo-physics/domain/model/quantities/time-unit';
 import {Time} from '../../../geo-physics/domain/model/quantities/time';
 import {DataItem, DataItemType} from '../../../common/domain/model/data-item';
 import {AngleUnit} from '../../../geo-physics/domain/model/quantities/angle-unit';
+import {Altitude} from '../../../geo-physics/domain/model/geometry/altitude';
 
 
 export class Waypoint extends DataItem implements Clonable<Waypoint> {
@@ -42,6 +43,20 @@ export class Waypoint extends DataItem implements Clonable<Waypoint> {
 
     public getPosition(): Position2d {
         return this.position;
+    }
+
+
+    public getMinAlt(): Altitude|undefined {
+        return this.wpAlt && (this.wpAlt.isminalt || (!this.wpAlt.isminalt && !this.wpAlt.ismaxalt))
+            ? this.wpAlt.alt
+            : undefined;
+    }
+
+
+    public getMaxAlt(): Altitude|undefined {
+        return this.wpAlt && (this.wpAlt.ismaxalt || (!this.wpAlt.isminalt && !this.wpAlt.ismaxalt))
+            ? this.wpAlt.alt
+            : undefined;
     }
 
 

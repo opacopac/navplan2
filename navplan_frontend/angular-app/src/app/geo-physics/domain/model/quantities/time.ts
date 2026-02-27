@@ -4,6 +4,21 @@ import {AbstractQuantity} from './abstract-quantity';
 
 
 export class Time extends AbstractQuantity<Time, TimeUnit> implements Clonable<Time> {
+    public static ofSec(timeSec: number): Time {
+        return new Time(timeSec, TimeUnit.S);
+    }
+
+
+    public static ofMin(timeMin: number): Time {
+        return new Time(timeMin, TimeUnit.M);
+    }
+
+
+    public static ofHour(timeHour: number): Time {
+        return new Time(timeHour, TimeUnit.H);
+    }
+
+
     public static getUnitString(unit: TimeUnit): string {
         switch (unit) {
             case TimeUnit.MS:

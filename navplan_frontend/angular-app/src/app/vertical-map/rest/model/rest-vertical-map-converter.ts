@@ -15,8 +15,8 @@ export class RestVerticalMapConverter {
     public static fromRest(
         verticalMap: IRestVerticalMap
     ): VerticalMap {
-        const heightUnit = LengthUnit.FT; // TODO: read from response
-        const widthUnit = LengthUnit.M; // TODO: read from response
+        const heightUnit = LengthUnit[verticalMap.heightUnit];
+        const widthUnit = LengthUnit[verticalMap.widthUnit];
         return new VerticalMap(
             RestLengthConverter.fromRest(verticalMap.mapHeight),
             RestLengthConverter.fromRest(verticalMap.mapWidth),
