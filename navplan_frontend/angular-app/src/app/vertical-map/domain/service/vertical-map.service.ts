@@ -60,7 +60,7 @@ export class VerticalMapService implements IVerticalMapService {
         this.getMinTerrainClearanceForLegs(legs);
         this.getUserAltitudesForLegs(legs);
         this.clampLegsToFromAirportToGround(legs, terrainSteps);
-        this.backPropagateAltitudesFromEndToStart(legs, aircraft);
+        this.calculateAltitudesBackwardsFromEndToStart(legs, aircraft);
 
         return legs;
     }
@@ -113,12 +113,17 @@ export class VerticalMapService implements IVerticalMapService {
     private getUserAltitudesForLegs(legs: LegAltitudeMetadata[]): void {
         for (let i = legs.length - 1; i >= 0; i--) {
             const leg = legs[i];
+            if (!leg.wpEnd.wpAlt) {
+                continue;
+            }
 
-            // TODO: consider is alt at leg start
-            leg.endAlt.maxUserAlt = leg.wpEnd.getMaxAlt().getHeightAmsl();
-            leg.endAlt.minUserAlt = leg.wpEnd.getMinAlt().getHeightAmsl();
-            leg.startAlt.maxUserAlt = leg.wpStart.getMaxAlt().getHeightAmsl();
-            leg.startAlt.minUserAlt = leg.wpStart.getMinAlt().getHeightAmsl();
+            if (leg.wpEnd.wpAlt.isaltatlegstart) {
+                leg.startAlt.maxUserAlt = leg.wpEnd.getMaxAlt().getHeightAmsl();
+                leg.startAlt.minUserAlt = leg.wpEnd.getMinAlt().getHeightAmsl();
+            } else {
+                leg.endAlt.maxUserAlt = leg.wpEnd.getMaxAlt().getHeightAmsl();
+                leg.endAlt.minUserAlt = leg.wpEnd.getMinAlt().getHeightAmsl();
+            }
         }
     }
 
@@ -140,7 +145,7 @@ export class VerticalMapService implements IVerticalMapService {
     }
 
 
-    private backPropagateAltitudesFromEndToStart(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
+    private calculateAltitudesBackwardsFromEndToStart(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
         for (let i = legs.length - 1; i >= 0; i--) {
             const leg = legs[i];
             const nextLeg = i < legs.length - 1 ? legs[i + 1] : null;
