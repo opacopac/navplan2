@@ -18,7 +18,6 @@ import {
 import {MockAircraftBr23} from '../../../aircraft/domain/mock/mock-aircraft-br23';
 import {Aircraft} from '../../../aircraft/domain/model/aircraft';
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
-import {Time} from "../../../geo-physics/domain/model/quantities/time";
 
 
 @Injectable()
