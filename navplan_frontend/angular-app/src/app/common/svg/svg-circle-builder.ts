@@ -26,6 +26,13 @@ export class SvgCircleBuilder {
     }
 
 
+    public setCxy(cxy: [number, number]): SvgCircleBuilder {
+        this.cx = cxy[0].toString();
+        this.cy = cxy[1].toString();
+        return this;
+    }
+
+
     public setR(r: string): SvgCircleBuilder {
         this.r = r;
         return this;

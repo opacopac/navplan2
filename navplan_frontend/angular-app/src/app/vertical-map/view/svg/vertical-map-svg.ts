@@ -42,7 +42,7 @@ export class VerticalMapSvg {
         svg.appendChild(VerticalCloudsSvg.create(verticalMap.verticalCloudColumns, imgDim));
         svg.appendChild(VerticalWindSvg.create(verticalMap.verticalWindColumns, imgDim));
         svg.appendChild(HeightGridSvg.create(verticalMap.mapHeight));
-        svg.appendChild(FlightRouteSvg.create(verticalMap.waypointSteps, imgDim, wpClickCallback));
+        svg.appendChild(FlightRouteSvg.create(verticalMap.legAltitudeMetadataList, imgDim, wpClickCallback));
 
         return svg;
     }

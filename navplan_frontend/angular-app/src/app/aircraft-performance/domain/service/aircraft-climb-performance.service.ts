@@ -1,5 +1,4 @@
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
-import {TimeUnit} from '../../../geo-physics/domain/model/quantities/time-unit';
 import {Time} from '../../../geo-physics/domain/model/quantities/time';
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 
@@ -19,7 +18,17 @@ export class AircraftClimbPerformanceService {
     public static calcFlightTime(distance: Length, speed: Speed, extraTime?: Time): Time {
         const timeMin = distance.nm / speed.kt * 60 + (extraTime ? extraTime.min : 0);
 
-        return new Time(timeMin, TimeUnit.M);
+        return Time.ofMin(timeMin);
+    }
+
+
+    public static calcClimbTargetAlt(startingAlt: Length, time: Time, rocSeaLevel: Speed, serviceCeiling: Length): Length {
+        const absoluteCeiling = AircraftClimbPerformanceService.calcAbsoluteCeiling(rocSeaLevel, serviceCeiling);
+
+        const targetAltFt = startingAlt.ft +
+            (absoluteCeiling.ft - startingAlt.ft) * (1 - Math.exp(-time.min * rocSeaLevel.fpm / absoluteCeiling.ft));
+
+        return Length.ofFt(targetAltFt);
     }
 
 
@@ -29,16 +38,16 @@ export class AircraftClimbPerformanceService {
             return absoluteCeiling; // Cannot climb above absolute ceiling
         }
 
-        const startingAlt = absoluteCeiling.ft -
+        const startingAltFt = absoluteCeiling.ft -
             (absoluteCeiling.ft - targetAlt.ft) * Math.exp(climbTime.min * rocSeaLevel.fpm / absoluteCeiling.ft);
 
-        return Length.ofFt(startingAlt);
+        return Length.ofFt(startingAltFt);
     }
 
 
     public static calcDescentStartingAlt(targetAlt: Length, descentTime: Time, rod: Speed): Length {
-        const startingAlt =  targetAlt.ft + descentTime.min * rod.fpm;
+        const startingAltFt =  targetAlt.ft + descentTime.min * rod.fpm;
 
-        return Length.ofFt(startingAlt);
+        return Length.ofFt(startingAltFt);
     }
 }

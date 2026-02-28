@@ -6,6 +6,7 @@ export class AltitudeMetadata {
     public maxAlt: Length;
     public minUserAlt: Length;
     public maxUserAlt: Length;
+    public displayAlt: Length;
 
 
     constructor() {

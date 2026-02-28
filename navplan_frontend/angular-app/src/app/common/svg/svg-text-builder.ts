@@ -76,6 +76,16 @@ export class SvgTextBuilder {
     }
 
 
+    public setXPercent(x: number): SvgTextBuilder {
+        return this.setX(x + '%');
+    }
+
+
+    public setYPercent(y: number): SvgTextBuilder {
+        return this.setY(y + '%');
+    }
+
+
     public setStyle(style: string): SvgTextBuilder {
         this.style = style;
         return this;

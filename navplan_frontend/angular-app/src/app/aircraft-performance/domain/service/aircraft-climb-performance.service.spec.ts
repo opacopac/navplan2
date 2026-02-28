@@ -36,6 +36,22 @@ describe('AircraftClimbPerformanceService', () => {
     });
 
 
+    it('calculates the correct climb target altitude', () => {
+        // given
+        const startingAlt = Length.ofFt(0);
+        const climbTime = Time.ofMin(8.5);
+        const rocSeaLevel = Speed.ofFpm(700);
+        const serviceCeiling = Length.ofFt(13000);
+
+        // when
+        const targetAlt = AircraftClimbPerformanceService.calcClimbTargetAlt(startingAlt, climbTime, rocSeaLevel, serviceCeiling);
+
+        // then
+        expect(targetAlt.ft).toBeGreaterThan(4900);
+        expect(targetAlt.ft).toBeLessThan(5100);
+    });
+
+
     it('should calculate the correct climb starting altitude', () => {
         // given
         const targetAlt = Length.ofFt(5000);
