@@ -112,16 +112,19 @@ export class VerticalMapService implements IVerticalMapService {
     private getUserAltitudesForLegs(legs: LegAltitudeMetadata[]): void {
         for (let i = legs.length - 1; i >= 0; i--) {
             const leg = legs[i];
-            if (!leg.wpEnd.wpAlt) {
+            if (!leg.wpEnd.wpAlt || !leg.wpEnd.wpAlt.alt) {
                 continue;
             }
 
+            const maxAlt = leg.wpEnd.getMaxAlt()?.getHeightAmsl();
+            const minAlt = leg.wpEnd.getMinAlt()?.getHeightAmsl();
+
             if (leg.wpEnd.wpAlt.isaltatlegstart) {
-                leg.startAlt.maxUserAlt = leg.wpEnd.getMaxAlt().getHeightAmsl();
-                leg.startAlt.minUserAlt = leg.wpEnd.getMinAlt().getHeightAmsl();
+                leg.startAlt.maxUserAlt = maxAlt;
+                leg.startAlt.minUserAlt = minAlt;
             } else {
-                leg.endAlt.maxUserAlt = leg.wpEnd.getMaxAlt().getHeightAmsl();
-                leg.endAlt.minUserAlt = leg.wpEnd.getMinAlt().getHeightAmsl();
+                leg.endAlt.maxUserAlt = maxAlt;
+                leg.endAlt.minUserAlt = minAlt;
             }
         }
     }
