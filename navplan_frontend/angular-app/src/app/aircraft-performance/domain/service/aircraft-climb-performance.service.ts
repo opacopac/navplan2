@@ -32,6 +32,13 @@ export class AircraftClimbPerformanceService {
     }
 
 
+    public static calcDescentTargetAlt(startingAlt: Length, time: Time, rod: Speed): Length {
+        const targetAltFt = startingAlt.ft - time.min * rod.fpm;
+
+        return Length.ofFt(targetAltFt);
+    }
+
+
     public static calcClimbStartingAlt(targetAlt: Length, climbTime: Time, rocSeaLevel: Speed, serviceCeiling: Length): Length {
         const absoluteCeiling = AircraftClimbPerformanceService.calcAbsoluteCeiling(rocSeaLevel, serviceCeiling);
         if (targetAlt.ft >= absoluteCeiling.ft) {
@@ -49,5 +56,12 @@ export class AircraftClimbPerformanceService {
         const startingAltFt =  targetAlt.ft + descentTime.min * rod.fpm;
 
         return Length.ofFt(startingAltFt);
+    }
+
+
+    public static calcDescendRate(startingAlt: Length, targetAlt: Length, descentTime: Time): Speed {
+        const rodFpm = (startingAlt.ft - targetAlt.ft) / descentTime.min;
+
+        return Speed.ofFpm(rodFpm);
     }
 }

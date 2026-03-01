@@ -15,6 +15,7 @@ export class FlightRouteSvg {
         wpClickCallback: (Waypoint) => void
     ): SVGElement {
         const svg = SvgGroupElement.create();
+        debugger;
 
         for (let i = 0; i < legs.length; i++) {
             const leg = legs[i];

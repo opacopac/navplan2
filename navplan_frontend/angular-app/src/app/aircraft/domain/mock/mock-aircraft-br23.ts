@@ -15,8 +15,8 @@ export class MockAircraftBr23 {
     public static CRUISE_CLIMB_SPEED = Speed.ofKt(75);
     public static MTOW = Weight.ofKg(750);
     public static BEW = Weight.ofKg(450);
-    public static ROC_SEALEVEL = Speed.ofKt(688);
-    public static SERVICE_CEILING = Length.ofFt(14000);
+    public static ROC_SEALEVEL = Speed.ofKt(700);
+    public static SERVICE_CEILING = Length.ofFt(13000);
     public static CONSUMPTION = Consumption.ofLPerH(25);
 
 

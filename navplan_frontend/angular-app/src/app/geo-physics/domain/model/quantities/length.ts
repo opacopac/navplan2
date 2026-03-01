@@ -188,6 +188,15 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
     }
 
 
+    public isEqual(other: Length): boolean {
+        if (other === undefined) {
+            return false;
+        }
+
+        return this.getValue(this.unit) === other.getValue(this.unit);
+    }
+
+
     public isGreaterThan(other: Length): boolean {
         if (other === undefined) {
             return false;
@@ -197,12 +206,30 @@ export class Length extends AbstractQuantity<Length, LengthUnit> implements Clon
     }
 
 
+    public isGreaterThanOrEqual(other: Length): boolean {
+        if (other === undefined) {
+            return false;
+        }
+
+        return this.getValue(this.unit) >= other.getValue(this.unit);
+    }
+
+
     public isLessThan(other: Length): boolean {
         if (other === undefined) {
             return false;
         }
 
         return this.getValue(this.unit) < other.getValue(this.unit);
+    }
+
+
+    public isLessThanOrEqual(other: Length): boolean {
+        if (other === undefined) {
+            return false;
+        }
+
+        return this.getValue(this.unit) <= other.getValue(this.unit);
     }
 
 
