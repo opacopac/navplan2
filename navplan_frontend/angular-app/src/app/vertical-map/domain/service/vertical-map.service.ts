@@ -44,8 +44,23 @@ export class VerticalMapService implements IVerticalMapService {
                 }
             }),
             tap(vm => {
-                vm.legAltitudeMetadataList = this.calcLegAltitudeMetadata(vm.waypointSteps, vm.terrainSteps, aircraft);
-                vm.stepAltitudeMetadataList = this.calcStepsAltitudeMetadata(vm.waypointSteps, vm.terrainSteps, aircraft);
+                vm.legAltitudeMetadataList = this.calcLegAltitudeMetadata(
+                    vm.waypointSteps,
+                    vm.terrainSteps,
+                    aircraft
+                );
+
+                const cruiseAlt = flightroute.cruiseAltitude
+                    ? flightroute.cruiseAltitude
+                    : vm.terrainSteps.reduce((maxElev, step) =>
+                        step.elevationAmsl.m > maxElev.m ? step.elevationAmsl : maxElev, vm.terrainSteps[0].elevationAmsl)
+                        .add(VerticalMapService.MIN_TERRAIN_CLEARANCE);
+                vm.stepAltitudeMetadataList = this.calcStepsAltitudeMetadata(
+                    vm.waypointSteps,
+                    vm.terrainSteps,
+                    cruiseAlt,
+                    aircraft
+                );
             })
         );
     }
@@ -360,6 +375,7 @@ export class VerticalMapService implements IVerticalMapService {
     public calcStepsAltitudeMetadata(
         waypointSteps: VerticalMapWaypointStep[],
         terrainSteps: VerticalMapTerrainStep[],
+        cruiseAltitude: Length,
         aircraft: Aircraft
     ): StepAltitudeMetadata[] {
         const steps = this.initStepAltitudeMetaData(terrainSteps);
@@ -367,7 +383,7 @@ export class VerticalMapService implements IVerticalMapService {
         this.calcMinTerrainClearanceForSteps(steps);
         this.calcStepFlightTimes(steps, aircraft);
         this.calcStepAltitudeEnvelopeFromEndToStart(steps, aircraft);
-        this.calcDisplayAltitudesAndWarningsForSteps(steps, aircraft);
+        this.calcDisplayAltitudesAndWarningsForSteps(steps, cruiseAltitude, aircraft);
 
         return steps;
     }
@@ -527,21 +543,23 @@ export class VerticalMapService implements IVerticalMapService {
     }
 
 
-    private calcDisplayAltitudesAndWarningsForSteps(steps: StepAltitudeMetadata[], aircraft: Aircraft): void {
+    private calcDisplayAltitudesAndWarningsForSteps(steps: StepAltitudeMetadata[], cruiseAltitude: Length, aircraft: Aircraft): void {
         steps[0].displayAlt = steps[0].minEnvelopeAlt; // start at first step min envelope altitude
         let prevAlt = steps[0].displayAlt;
         let nextAlt = prevAlt;
+        let isCruiseAltitudeReached = false;
 
         for (let i = 1; i < steps.length; i++) {
             const step = steps[i];
-            if (step.minEnvelopeAlt.isGreaterThan(prevAlt)) {
+            if (step.minEnvelopeAlt.isGreaterThan(prevAlt)
+                || (!isCruiseAltitudeReached && step.maxEnvelopeAlt.isGreaterThanOrEqual(prevAlt))) {
                 const climbAlt = AircraftClimbPerformanceService.calcClimbTargetAlt(
                     prevAlt,
                     step.climbTime,
                     aircraft.rocSealevel,
                     aircraft.serviceCeiling
                 );
-                nextAlt = step.minEnvelopeAlt.isLessThan(climbAlt) ? step.minEnvelopeAlt : climbAlt;
+                nextAlt = climbAlt.isLessThan(step.maxEnvelopeAlt) ? climbAlt : step.maxEnvelopeAlt;
                 if (climbAlt.isLessThan(step.minUserAlt) || climbAlt.isLessThan(step.minTerrainClearanceAlt)) {
                     step.warning = 'Climb performance may be insufficient to reach the altitude before the end of the leg! (update climb performance in ⚙️ Settings)';
                     nextAlt = step.minEnvelopeAlt;
@@ -572,6 +590,10 @@ export class VerticalMapService implements IVerticalMapService {
                     step.warning = terrainClearanceText;
                 }
             }*/
+
+            if (nextAlt.isGreaterThanOrEqual(cruiseAltitude)) {
+                isCruiseAltitudeReached = true;
+            }
 
             step.displayAlt = nextAlt;
             prevAlt = nextAlt;
