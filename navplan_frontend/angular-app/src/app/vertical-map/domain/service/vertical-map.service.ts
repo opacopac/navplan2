@@ -389,32 +389,25 @@ export class VerticalMapService implements IVerticalMapService {
         for (let i = 0; i < steps.length - 1; i++) {
             const step = steps[i];
             const nextStep = steps[i + 1];
-            const wp = waypointSteps[wpIndex];
+            const prevWp = wpIndex > 0 ? waypointSteps[wpIndex - 1] : null;
+            const nextWp = waypointSteps[wpIndex];
 
-            if (step.stepDist.isEqual(wp.horDist)) {
-                step.wp = wp.waypoint;
+            if (wpIndex === 0 && nextWp.waypoint.type === WaypointType.airport) {
+                step.isOnFirstLegFromAirport = true;
+            } else if (wpIndex === 1 && prevWp.waypoint.type === WaypointType.airport) {
+                step.isOnFirstLegFromAirport = true;
+            } else if (wpIndex === waypointSteps.length - 1 && nextWp?.waypoint.type === WaypointType.airport) {
+                step.isOnLastLegToAirport = true;
+            }
+
+            if (step.stepDist.isEqual(nextWp.horDist)) {
+                step.wp = nextWp.waypoint;
                 this.initUserAltforWpStep(step, waypointSteps);
                 wpIndex++;
-            } else if (nextStep.stepDist.isEqual(wp.horDist)) {
-                nextStep.wp = wp.waypoint;
+            } else if (nextStep.stepDist.isEqual(nextWp.horDist)) {
+                nextStep.wp = nextWp.waypoint;
                 this.initUserAltforWpStep(nextStep, waypointSteps);
                 wpIndex++;
-            } else if (step.stepDist.isLessThan(wp.horDist) && nextStep.stepDist.isGreaterThan(wp.horDist)) {
-                const newStep = this.createStepFromWp(wp, step.elevationAmsl, nextStep.elevationAmsl);
-                steps.splice(i + 1, 0, newStep);
-                this.initUserAltforWpStep(newStep, waypointSteps);
-                wpIndex++;
-            }
-        }
-
-        // add remaining waypoints at the end
-        if (wpIndex < waypointSteps.length) {
-            for (; wpIndex < waypointSteps.length; wpIndex++) {
-                const wp = waypointSteps[wpIndex];
-                const elevation = steps[steps.length - 1].elevationAmsl;
-                const newStep = this.createStepFromWp(wp, elevation, elevation);
-                this.initUserAltforWpStep(newStep, waypointSteps);
-                steps.push(newStep);
             }
         }
     }
@@ -451,8 +444,9 @@ export class VerticalMapService implements IVerticalMapService {
 
     private calcMinTerrainClearanceForSteps(steps: StepAltitudeMetadata[]): void {
         for (const step of steps) {
-            const maxElevation = step.elevationAmsl;
-            step.minTerrainClearanceAlt = maxElevation.add(VerticalMapService.MIN_TERRAIN_CLEARANCE);
+            step.minTerrainClearanceAlt = step.isOnFirstLegFromAirport || step.isOnLastLegToAirport
+                ? step.elevationAmsl
+                : step.elevationAmsl.clone().add(VerticalMapService.MIN_TERRAIN_CLEARANCE);
         }
     }
 
@@ -548,10 +542,10 @@ export class VerticalMapService implements IVerticalMapService {
                     aircraft.serviceCeiling
                 );
                 nextAlt = step.minEnvelopeAlt.isLessThan(climbAlt) ? step.minEnvelopeAlt : climbAlt;
-                /*if (maxClimbAlt.isLessThan(step.minUserAlt) || maxClimbAlt.isLessThan(step.minTerrainClearanceAlt)) {
+                if (climbAlt.isLessThan(step.minUserAlt) || climbAlt.isLessThan(step.minTerrainClearanceAlt)) {
                     step.warning = 'Climb performance may be insufficient to reach the altitude before the end of the leg! (update climb performance in ⚙️ Settings)';
                     nextAlt = step.minEnvelopeAlt;
-                }*/
+                }
             } else if (step.maxEnvelopeAlt.isLessThan(prevAlt)) {
                 const descentAlt = AircraftClimbPerformanceService.calcDescentTargetAlt(
                     prevAlt,

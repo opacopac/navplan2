@@ -1,4 +1,3 @@
-import {AltitudeMetadata} from './altitude-metadata';
 import {Waypoint} from '../../../flightroute/domain/model/waypoint';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {Time} from '../../../geo-physics/domain/model/quantities/time';
@@ -15,6 +14,8 @@ export class StepAltitudeMetadata {
     public flightTime: Time;
     public climbTime: Time;
     public warning: string;
+    public isOnFirstLegFromAirport = false;
+    public isOnLastLegToAirport = false;
 
 
     constructor(
