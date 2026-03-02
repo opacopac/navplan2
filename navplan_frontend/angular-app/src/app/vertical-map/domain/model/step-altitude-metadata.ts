@@ -10,9 +10,11 @@ export class StepAltitudeMetadata {
     public maxUserAlt: Length;
     public minEnvelopeAlt: Length;
     public maxEnvelopeAlt: Length;
+    public displayAlt: Length;
     public minTerrainClearanceAlt: Length;
     public flightTime: Time;
     public climbTime: Time;
+    public warning: string;
 
 
     constructor(

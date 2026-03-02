@@ -6,16 +6,57 @@ import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 import {SvgTitleElement} from '../../../common/svg/svg-title-element';
 import {LegAltitudeMetadata} from '../../domain/model/leg-altitude-metadata';
+import {StepAltitudeMetadata} from '../../domain/model/step-altitude-metadata';
 
 
 export class FlightRouteSvg {
+    public static create2(
+        steps: StepAltitudeMetadata[],
+        imgDim: ImageDimensionsSvg,
+        wpClickCallback: (Waypoint) => void
+    ): SVGElement {
+        const svg = SvgGroupElement.create();
+
+        for (let i = 0; i < steps.length - 1; i++) {
+            const step = steps[i];
+            const nextStep = steps[i + 1];
+            const legStartXy = imgDim.calcXy(step.stepDist, step.displayAlt);
+            const legEndXy = imgDim.calcXy(nextStep.stepDist, nextStep.displayAlt);
+
+            this.addLineSegment2(svg, legStartXy, legEndXy);
+
+            /*
+            // leg start dot
+            this.addRouteDot(svg, legStartXy, step.wpStart, wpClickCallback);
+            this.addRouteDotPlumline(svg, legStartXy, imgDim.imageHeightPx);
+            this.addWaypointLabel(svg, legStartXy, step.wpStart, (i === 0) ? 'start' : 'middle', wpClickCallback);
+
+            // leg end dot
+            if (i === steps.length - 1) {
+                this.addRouteDot(svg, legEndXy, step.wpEnd, wpClickCallback);
+                this.addRouteDotPlumline(svg, legEndXy, imgDim.imageHeightPx);
+                this.addWaypointLabel(svg, legEndXy, step.wpEnd, 'end', wpClickCallback);
+            }
+
+            // warning
+            if (step.warning) {
+                const legMiddleX = (legStartXy[0] + legEndXy[0]) / 2;
+                const legMiddleY = (legStartXy[1] + legEndXy[1]) / 2;
+                this.addRouteWarning(svg, [legMiddleX, legMiddleY], step.warning);
+            }*/
+        }
+
+        return svg;
+    }
+
+
+
     public static create(
         legs: LegAltitudeMetadata[],
         imgDim: ImageDimensionsSvg,
         wpClickCallback: (Waypoint) => void
     ): SVGElement {
         const svg = SvgGroupElement.create();
-        debugger;
 
         for (let i = 0; i < legs.length; i++) {
             const leg = legs[i];
@@ -57,6 +98,21 @@ export class FlightRouteSvg {
             .setStartXy(startXy)
             .setEndXy(endXy)
             .setStrokeStyle('rgba(255, 0, 255, 1.0)', 5)
+            .setShapeRenderingCrispEdges()
+            .build()
+        );
+    }
+
+
+    private static addLineSegment2(
+        svg: SVGElement,
+        startXy: [number, number],
+        endXy: [number, number]
+    ) {
+        svg.appendChild(SvgLineBuilder.builder()
+            .setStartXy(startXy)
+            .setEndXy(endXy)
+            .setStrokeStyle('rgba(0, 0, 255, 1.0)', 3)
             .setShapeRenderingCrispEdges()
             .build()
         );

@@ -362,12 +362,12 @@ export class VerticalMapService implements IVerticalMapService {
         terrainSteps: VerticalMapTerrainStep[],
         aircraft: Aircraft
     ): StepAltitudeMetadata[] {
-        debugger;
         const steps = this.initStepAltitudeMetaData(terrainSteps);
         this.insertWaypointSteps(waypointSteps, steps);
         this.calcMinTerrainClearanceForSteps(steps);
         this.calcStepFlightTimes(steps, aircraft);
         this.calcStepAltitudeEnvelopeFromEndToStart(steps, aircraft);
+        this.calcDisplayAltitudesAndWarningsForSteps(steps, aircraft);
 
         return steps;
     }
@@ -529,6 +529,53 @@ export class VerticalMapService implements IVerticalMapService {
         // prevent max < min
         if (step.maxUserAlt && step.maxUserAlt.isLessThan(step.minEnvelopeAlt)) {
             step.minEnvelopeAlt = step.maxUserAlt;
+        }
+    }
+
+
+    private calcDisplayAltitudesAndWarningsForSteps(steps: StepAltitudeMetadata[], aircraft: Aircraft): void {
+        let currentAlt = steps[0].minEnvelopeAlt; // start at first step min envelope altitude
+        let nextAlt = currentAlt;
+
+        for (let i = 0; i < steps.length; i++) {
+            const step = steps[i];
+            if (step.minEnvelopeAlt.isGreaterThan(currentAlt)) {
+                const maxClimbAlt = AircraftClimbPerformanceService.calcClimbTargetAlt(
+                    currentAlt,
+                    step.climbTime,
+                    aircraft.rocSealevel,
+                    aircraft.serviceCeiling
+                );
+                nextAlt = step.minEnvelopeAlt.isLessThan(maxClimbAlt) ? step.minEnvelopeAlt : maxClimbAlt;
+                if (maxClimbAlt.isLessThan(step.minUserAlt) || maxClimbAlt.isLessThan(step.minTerrainClearanceAlt)) {
+                    step.warning = 'Climb performance may be insufficient to reach the altitude before the end of the leg! (update climb performance in ⚙️ Settings)';
+                    nextAlt = step.minEnvelopeAlt;
+                }
+            } else if (step.maxEnvelopeAlt.isLessThan(currentAlt)) {
+                nextAlt = step.maxEnvelopeAlt;
+            }
+
+            if (!step.warning) {
+                const terrainClearanceText = 'Flight path may be below min. terrain clearance of leg!';
+                const minTerrainAltFtForWarning = step.minTerrainClearanceAlt
+                    .subtract(VerticalMapService.MIN_TERRAIN_CLEARANCE)
+                    .add(VerticalMapService.MIN_TERRAIN_CLEARANCE_FOR_WARNING);
+
+                const isFirstLegFromAirport = i === 0 && step.wp && step.wp.type === WaypointType.airport;
+                const isLastLegToAirport = i === steps.length - 1 && step.wp && step.wp.type === WaypointType.airport;
+
+                if (!isFirstLegFromAirport && isLastLegToAirport && (currentAlt.isLessThan(minTerrainAltFtForWarning))) {
+                    step.warning = terrainClearanceText;
+                } else if (isFirstLegFromAirport && nextAlt.isLessThan(minTerrainAltFtForWarning)) {
+                    step.warning = terrainClearanceText;
+                } else if (isLastLegToAirport && currentAlt.isLessThan(minTerrainAltFtForWarning)) {
+                    step.warning = terrainClearanceText;
+                }
+            }
+
+            step.displayAlt = currentAlt;
+
+            currentAlt = nextAlt;
         }
     }
 
