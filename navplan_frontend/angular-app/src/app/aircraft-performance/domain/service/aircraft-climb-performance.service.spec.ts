@@ -52,7 +52,21 @@ describe('AircraftClimbPerformanceService', () => {
     });
 
 
-    it('should calculate the correct climb starting altitude', () => {
+    it('calculates the correct descent target altitude', () => {
+        // given
+        const startingAlt = Length.ofFt(10000);
+        const descentTime = Time.ofMin(10);
+        const rod = Speed.ofFpm(500);
+
+        // when
+        const targetAlt = AircraftClimbPerformanceService.calcDescentTargetAlt(startingAlt, descentTime, rod);
+
+        // then
+        expect(targetAlt.ft).toBe(5000);
+    });
+
+
+    it('calculates the correct climb starting altitude', () => {
         // given
         const targetAlt = Length.ofFt(5000);
         const climbTime = Time.ofMin(8.5);
@@ -68,7 +82,7 @@ describe('AircraftClimbPerformanceService', () => {
     });
 
 
-    it('should calculate the correct climb starting altitude #2', () => {
+    it('calculates the correct climb starting altitude #2', () => {
         // given
         const targetAlt = Length.ofFt(12000);
         const climbTime = Time.ofMin(25.5);
@@ -84,7 +98,7 @@ describe('AircraftClimbPerformanceService', () => {
     });
 
 
-    it('should calculate the correct descent starting altitude', () => {
+    it('calculates the correct descent starting altitude', () => {
         // given
         const targetAlt = Length.ofFt(5000);
         const descentTime = Time.ofMin(10);
@@ -95,5 +109,19 @@ describe('AircraftClimbPerformanceService', () => {
 
         // then
         expect(startingAlt.ft).toBe(10000);
+    });
+
+
+    it('calculates the correct descent rate', () => {
+        // given
+        const startingAlt = Length.ofFt(10000);
+        const targetAlt = Length.ofFt(5000);
+        const descentTime = Time.ofMin(10);
+
+        // when
+        const rod = AircraftClimbPerformanceService.calcDescendRate(startingAlt, targetAlt, descentTime);
+
+        // then
+        expect(rod.fpm).toBe(500);
     });
 });
