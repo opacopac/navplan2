@@ -1,16 +1,18 @@
 import {AltitudeMetadata} from './altitude-metadata';
 import {Waypoint} from '../../../flightroute/domain/model/waypoint';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
+import {Time} from '../../../geo-physics/domain/model/quantities/time';
 
 
 export class StepAltitudeMetadata {
     public wp: Waypoint;
-    public alt = new AltitudeMetadata();
     public minUserAlt: Length;
     public maxUserAlt: Length;
     public minEnvelopeAlt: Length;
     public maxEnvelopeAlt: Length;
     public minTerrainClearanceAlt: Length;
+    public flightTime: Time;
+    public climbTime: Time;
 
 
     constructor(

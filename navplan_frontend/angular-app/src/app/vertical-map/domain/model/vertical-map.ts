@@ -5,10 +5,12 @@ import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {VerticalCloudColumn} from '../../../meteo-forecast/domain/model/vertical-cloud-column';
 import {VerticalWindColumn} from '../../../meteo-forecast/domain/model/vertical-wind-column';
 import {LegAltitudeMetadata} from './leg-altitude-metadata';
+import {StepAltitudeMetadata} from './step-altitude-metadata';
 
 
 export class VerticalMap {
     public legAltitudeMetadataList: LegAltitudeMetadata[];
+    public stepAltitudeMetadataList: StepAltitudeMetadata[];
 
     constructor(
         public mapHeight: Length,

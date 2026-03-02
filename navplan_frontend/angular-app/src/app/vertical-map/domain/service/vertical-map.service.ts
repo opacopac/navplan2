@@ -12,9 +12,7 @@ import {VerticalMapWaypointStep} from '../model/vertical-map-waypoint-step';
 import {WaypointType} from '../../../flightroute/domain/model/waypoint-type';
 import {AltitudeMetadata} from '../model/altitude-metadata';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
-import {
-    AircraftClimbPerformanceService
-} from '../../../aircraft-performance/domain/service/aircraft-climb-performance.service';
+import {AircraftClimbPerformanceService} from '../../../aircraft-performance/domain/service/aircraft-climb-performance.service';
 import {MockAircraftBr23} from '../../../aircraft/domain/mock/mock-aircraft-br23';
 import {Aircraft} from '../../../aircraft/domain/model/aircraft';
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
@@ -47,10 +45,13 @@ export class VerticalMapService implements IVerticalMapService {
             }),
             tap(vm => {
                 vm.legAltitudeMetadataList = this.calcLegAltitudeMetadata(vm.waypointSteps, vm.terrainSteps, aircraft);
+                vm.stepAltitudeMetadataList = this.calcStepsAltitudeMetadata(vm.waypointSteps, vm.terrainSteps, aircraft);
             })
         );
     }
 
+
+    // region legs metadata
 
     public calcLegAltitudeMetadata(
         waypointSteps: VerticalMapWaypointStep[],
@@ -65,68 +66,6 @@ export class VerticalMapService implements IVerticalMapService {
         this.calcDisplayAltitudesAndWarnings(legs, aircraft);
 
         return legs;
-    }
-
-
-    private initStepAltitudeMetaData(
-        terrainSteps: VerticalMapTerrainStep[],
-    ): StepAltitudeMetadata[] {
-        return terrainSteps.map(ts => new StepAltitudeMetadata(ts.horDist, ts.elevationAmsl));
-    }
-
-
-    private insertWaypointSteps(
-        waypointSteps: VerticalMapWaypointStep[],
-        stepAltMetaDataList: StepAltitudeMetadata[],
-    ): void {
-        // insert waypoints as steps & interpolate elevation
-        let wpIndex = 0;
-        for (let i = 0; i < stepAltMetaDataList.length - 1; i++) {
-            const step = stepAltMetaDataList[i];
-            const nextStep = stepAltMetaDataList[i + 1];
-            const wp = waypointSteps[wpIndex];
-
-            if (step.stepDist.isEqual(wp.horDist)) {
-                step.wp = wp.waypoint;
-                wpIndex++;
-            } else if (nextStep.stepDist.isEqual(wp.horDist)) {
-                nextStep.wp = wp.waypoint;
-                wpIndex++;
-            } else if (step.stepDist.isLessThan(wp.horDist) && nextStep.stepDist.isGreaterThan(wp.horDist)) {
-                const newStep = this.createStepFromWp(wp, step.elevationAmsl, nextStep.elevationAmsl);
-                stepAltMetaDataList.splice(i + 1, 0, newStep);
-                wpIndex++;
-            }
-        }
-
-        // add remaining waypoints at the end
-        if (wpIndex < waypointSteps.length) {
-            for (; wpIndex < waypointSteps.length; wpIndex++) {
-                const wp = waypointSteps[wpIndex];
-                const elevation = stepAltMetaDataList[stepAltMetaDataList.length - 1].elevationAmsl;
-                const newStep = this.createStepFromWp(wp, elevation, elevation);
-                stepAltMetaDataList.push(newStep);
-            }
-        }
-    }
-
-
-    private createStepFromWp(wp: VerticalMapWaypointStep, elevation: Length, nextStepElevation: Length): StepAltitudeMetadata {
-        const elevationFt = (elevation.ft + nextStepElevation.ft) / 2;
-        const newStep = new StepAltitudeMetadata(wp.horDist, Length.ofFt(elevationFt));
-        newStep.wp = wp.waypoint;
-        // TODO: set user alt
-
-
-        return newStep;
-    }
-
-
-    private calcMinTerrainClearanceForSteps(stepAltMetaDataList: StepAltitudeMetadata[]): void {
-        for (const step of stepAltMetaDataList) {
-            const maxElevation = step.elevationAmsl;
-            step.minTerrainClearanceAlt = maxElevation.add(VerticalMapService.MIN_TERRAIN_CLEARANCE);
-        }
     }
 
 
@@ -252,85 +191,6 @@ export class VerticalMapService implements IVerticalMapService {
     }
 
 
-    /*private calcRouteAltitudesAndWarnings(legs: LegAltitudeMetadata[], cruiseAltitude: Length, aircraft: Aircraft): void {
-        let currentDist = Length.ofZero();
-        let currentAlt = legs[0].terrainSteps[0].elevationAmsl; // start at first terrain elevation
-        let nextAlt = currentAlt;
-        let isCruiseAltitudeReached = !cruiseAltitude;
-
-        const routePoints: [Length, Length][] = [];
-        routePoints.push([currentDist, currentAlt]);
-
-        for (let i = 0; i < legs.length; i++) {
-            const leg = legs[i];
-
-            for (let j = 0; j < leg.terrainSteps.length; j++) {
-                const nextDist = leg.terrainSteps[j].horDist;
-                const stepDist = nextDist.subtract(currentDist);
-
-                if (leg.endAlt.minAlt.isGreaterThan(currentAlt)) {
-                    // climb if target min alt is higher
-                    const stepClimbTime = AircraftClimbPerformanceService.calcFlightTime(stepDist, aircraft.cruiseClimbSpeed);
-                    const stepClimbAlt = AircraftClimbPerformanceService.calcClimbTargetAlt(
-                        currentAlt,
-                        stepClimbTime,
-                        aircraft.rocSealevel,
-                        aircraft.serviceCeiling
-                    );
-
-                    nextAlt = leg.endAlt.minAlt.isLessThan(stepClimbAlt) ? leg.endAlt.minAlt : stepClimbAlt;
-
-                } else if (leg.endAlt.maxAlt.isLessThan(currentAlt)) {
-                    // descent if target max alt is lower
-                    const timeToEndOfLeg = AircraftClimbPerformanceService.calcFlightTime(
-                        leg.endLength.subtract(nextDist),
-                        aircraft.cruiseSpeed
-                    );
-                    const rod = AircraftClimbPerformanceService.calcDescendRate(currentAlt, leg.endAlt.maxAlt, timeToEndOfLeg);
-                    const stepDescentTime = AircraftClimbPerformanceService.calcFlightTime(stepDist, aircraft.cruiseSpeed);
-                    const stepDescendAlt = AircraftClimbPerformanceService.calcDescentTargetAlt(
-                        currentAlt,
-                        stepDescentTime,
-                        rod
-                    );
-
-                    nextAlt = leg.endAlt.maxAlt.isGreaterThan(stepDescendAlt) ? leg.endAlt.maxAlt : stepDescendAlt;
-
-                } else if (!isCruiseAltitudeReached && leg.endAlt.maxAlt.isLessThan(currentAlt)) {
-                    // climb to cruise altitude not yet reached
-                    const stepDescentTime = AircraftClimbPerformanceService.calcFlightTime(stepDist, aircraft.cruiseSpeed);
-                    const stepDescentTargetAlt = AircraftClimbPerformanceService.calcDescentStartingAlt(
-                        cruiseAltitude,
-                        stepDescentTime,
-                        VerticalMapService.DEFAULT_DESCENT_RATE
-                    );
-
-                    nextAlt = cruiseAltitude.isGreaterThan(stepDescentTargetAlt) ? cruiseAltitude : stepDescentTargetAlt;
-
-                } else {
-                    // maintain altitude
-                    nextAlt = currentAlt;
-                }
-
-                if (nextAlt.isGreaterThanOrEqual(cruiseAltitude)) {
-                    isCruiseAltitudeReached = true;
-                }
-
-                routePoints.push([nextDist, nextAlt]);
-                currentDist = nextDist;
-                currentAlt = nextAlt;
-            }
-
-            if (leg.endAlt.maxAlt.isLessThan(currentAlt)) {
-                nextAlt = leg.endAlt.maxAlt;
-            }
-
-            // add end WP
-            routePoints.push([leg.endLength, nextAlt]);
-        }
-    }*/
-
-
     private calcDisplayAltitudesAndWarnings(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
         let currentAlt = legs[0].terrainSteps[0].elevationAmsl; // start at first terrain elevation
         let nextAlt = currentAlt;
@@ -361,7 +221,7 @@ export class VerticalMapService implements IVerticalMapService {
 
                 if (!leg.isFirstLegFromAirport && leg.isLastLegToAirport && (currentAlt.isLessThan(minTerrainAltFtForWarning))) {
                     leg.warning = terrainClearanceText;
-                } else if (leg.isFirstLegFromAirport && nextAlt.isLessThan( minTerrainAltFtForWarning)) {
+                } else if (leg.isFirstLegFromAirport && nextAlt.isLessThan(minTerrainAltFtForWarning)) {
                     leg.warning = terrainClearanceText;
                 } else if (leg.isLastLegToAirport && currentAlt.isLessThan(minTerrainAltFtForWarning)) {
                     leg.warning = terrainClearanceText;
@@ -374,6 +234,85 @@ export class VerticalMapService implements IVerticalMapService {
             currentAlt = nextAlt;
         }
     }
+
+
+    /*private calcRouteAltitudesAndWarnings(legs: LegAltitudeMetadata[], cruiseAltitude: Length, aircraft: Aircraft): void {
+    let currentDist = Length.ofZero();
+    let currentAlt = legs[0].terrainSteps[0].elevationAmsl; // start at first terrain elevation
+    let nextAlt = currentAlt;
+    let isCruiseAltitudeReached = !cruiseAltitude;
+
+    const routePoints: [Length, Length][] = [];
+    routePoints.push([currentDist, currentAlt]);
+
+    for (let i = 0; i < legs.length; i++) {
+        const leg = legs[i];
+
+        for (let j = 0; j < leg.terrainSteps.length; j++) {
+            const nextDist = leg.terrainSteps[j].horDist;
+            const stepDist = nextDist.subtract(currentDist);
+
+            if (leg.endAlt.minAlt.isGreaterThan(currentAlt)) {
+                // climb if target min alt is higher
+                const stepClimbTime = AircraftClimbPerformanceService.calcFlightTime(stepDist, aircraft.cruiseClimbSpeed);
+                const stepClimbAlt = AircraftClimbPerformanceService.calcClimbTargetAlt(
+                    currentAlt,
+                    stepClimbTime,
+                    aircraft.rocSealevel,
+                    aircraft.serviceCeiling
+                );
+
+                nextAlt = leg.endAlt.minAlt.isLessThan(stepClimbAlt) ? leg.endAlt.minAlt : stepClimbAlt;
+
+            } else if (leg.endAlt.maxAlt.isLessThan(currentAlt)) {
+                // descent if target max alt is lower
+                const timeToEndOfLeg = AircraftClimbPerformanceService.calcFlightTime(
+                    leg.endLength.subtract(nextDist),
+                    aircraft.cruiseSpeed
+                );
+                const rod = AircraftClimbPerformanceService.calcDescendRate(currentAlt, leg.endAlt.maxAlt, timeToEndOfLeg);
+                const stepDescentTime = AircraftClimbPerformanceService.calcFlightTime(stepDist, aircraft.cruiseSpeed);
+                const stepDescendAlt = AircraftClimbPerformanceService.calcDescentTargetAlt(
+                    currentAlt,
+                    stepDescentTime,
+                    rod
+                );
+
+                nextAlt = leg.endAlt.maxAlt.isGreaterThan(stepDescendAlt) ? leg.endAlt.maxAlt : stepDescendAlt;
+
+            } else if (!isCruiseAltitudeReached && leg.endAlt.maxAlt.isLessThan(currentAlt)) {
+                // climb to cruise altitude not yet reached
+                const stepDescentTime = AircraftClimbPerformanceService.calcFlightTime(stepDist, aircraft.cruiseSpeed);
+                const stepDescentTargetAlt = AircraftClimbPerformanceService.calcDescentStartingAlt(
+                    cruiseAltitude,
+                    stepDescentTime,
+                    VerticalMapService.DEFAULT_DESCENT_RATE
+                );
+
+                nextAlt = cruiseAltitude.isGreaterThan(stepDescentTargetAlt) ? cruiseAltitude : stepDescentTargetAlt;
+
+            } else {
+                // maintain altitude
+                nextAlt = currentAlt;
+            }
+
+            if (nextAlt.isGreaterThanOrEqual(cruiseAltitude)) {
+                isCruiseAltitudeReached = true;
+            }
+
+            routePoints.push([nextDist, nextAlt]);
+            currentDist = nextDist;
+            currentAlt = nextAlt;
+        }
+
+        if (leg.endAlt.maxAlt.isLessThan(currentAlt)) {
+            nextAlt = leg.endAlt.maxAlt;
+        }
+
+        // add end WP
+        routePoints.push([leg.endLength, nextAlt]);
+    }
+}*/
 
 
     private determineAltByPrio(
@@ -412,4 +351,186 @@ export class VerticalMapService implements IVerticalMapService {
             legAlt.minAlt = legAlt.maxUserAlt;
         }
     }
+
+    // endregion
+
+
+    // region steps metadata
+
+    public calcStepsAltitudeMetadata(
+        waypointSteps: VerticalMapWaypointStep[],
+        terrainSteps: VerticalMapTerrainStep[],
+        aircraft: Aircraft
+    ): StepAltitudeMetadata[] {
+        debugger;
+        const steps = this.initStepAltitudeMetaData(terrainSteps);
+        this.insertWaypointSteps(waypointSteps, steps);
+        this.calcMinTerrainClearanceForSteps(steps);
+        this.calcStepFlightTimes(steps, aircraft);
+        this.calcStepAltitudeEnvelopeFromEndToStart(steps, aircraft);
+
+        return steps;
+    }
+
+
+    private initStepAltitudeMetaData(
+        terrainSteps: VerticalMapTerrainStep[],
+    ): StepAltitudeMetadata[] {
+        return terrainSteps.map(ts => new StepAltitudeMetadata(ts.horDist, ts.elevationAmsl));
+    }
+
+
+    private insertWaypointSteps(
+        waypointSteps: VerticalMapWaypointStep[],
+        steps: StepAltitudeMetadata[],
+    ): void {
+        // insert waypoints as steps & interpolate elevation
+        let wpIndex = 0;
+        for (let i = 0; i < steps.length - 1; i++) {
+            const step = steps[i];
+            const nextStep = steps[i + 1];
+            const wp = waypointSteps[wpIndex];
+
+            if (step.stepDist.isEqual(wp.horDist)) {
+                step.wp = wp.waypoint;
+                this.initUserAltforWpStep(step, waypointSteps);
+                wpIndex++;
+            } else if (nextStep.stepDist.isEqual(wp.horDist)) {
+                nextStep.wp = wp.waypoint;
+                this.initUserAltforWpStep(nextStep, waypointSteps);
+                wpIndex++;
+            } else if (step.stepDist.isLessThan(wp.horDist) && nextStep.stepDist.isGreaterThan(wp.horDist)) {
+                const newStep = this.createStepFromWp(wp, step.elevationAmsl, nextStep.elevationAmsl);
+                steps.splice(i + 1, 0, newStep);
+                this.initUserAltforWpStep(newStep, waypointSteps);
+                wpIndex++;
+            }
+        }
+
+        // add remaining waypoints at the end
+        if (wpIndex < waypointSteps.length) {
+            for (; wpIndex < waypointSteps.length; wpIndex++) {
+                const wp = waypointSteps[wpIndex];
+                const elevation = steps[steps.length - 1].elevationAmsl;
+                const newStep = this.createStepFromWp(wp, elevation, elevation);
+                this.initUserAltforWpStep(newStep, waypointSteps);
+                steps.push(newStep);
+            }
+        }
+    }
+
+
+    private createStepFromWp(wp: VerticalMapWaypointStep, elevation: Length, nextStepElevation: Length): StepAltitudeMetadata {
+        const elevationFt = (elevation.ft + nextStepElevation.ft) / 2;
+        const newStep = new StepAltitudeMetadata(wp.horDist, Length.ofFt(elevationFt));
+        newStep.wp = wp.waypoint;
+
+        return newStep;
+    }
+
+
+    private initUserAltforWpStep(step: StepAltitudeMetadata, allWaypointSteps: VerticalMapWaypointStep[]): void {
+        if (!step.wp) {
+            return;
+        }
+
+        step.maxUserAlt = step.wp.getMaxAlt()?.getHeightAmsl();
+        step.minUserAlt = step.wp.getMinAlt()?.getHeightAmsl();
+
+        // TODO: handle isAltAtLegStart
+
+        // clamp WPs to/from airport to ground
+        const wp = step.wp;
+        const isFirstOrLastWp = wp === allWaypointSteps[0].waypoint || wp === allWaypointSteps[allWaypointSteps.length - 1].waypoint;
+        if (wp.type === WaypointType.airport && isFirstOrLastWp) {
+            step.maxUserAlt = step.elevationAmsl;
+            step.minUserAlt = step.elevationAmsl;
+        }
+    }
+
+
+    private calcMinTerrainClearanceForSteps(steps: StepAltitudeMetadata[]): void {
+        for (const step of steps) {
+            const maxElevation = step.elevationAmsl;
+            step.minTerrainClearanceAlt = maxElevation.add(VerticalMapService.MIN_TERRAIN_CLEARANCE);
+        }
+    }
+
+
+    private calcStepFlightTimes(steps: StepAltitudeMetadata[], aircraft: Aircraft): void {
+        for (let i = 1; i < steps.length; i++) {
+            const prevStep = steps[i - 1];
+            const step = steps[i];
+            const stepDist = step.stepDist.subtract(prevStep.stepDist);
+            step.flightTime = AircraftClimbPerformanceService.calcFlightTime(stepDist, aircraft.cruiseSpeed);
+            step.climbTime = AircraftClimbPerformanceService.calcFlightTime(stepDist, aircraft.cruiseClimbSpeed);
+        }
+    }
+
+
+    private calcStepAltitudeEnvelopeFromEndToStart(steps: StepAltitudeMetadata[], aircraft: Aircraft): void {
+        for (let i = steps.length - 1; i >= 0; i--) {
+            const step = steps[i];
+            const nextStep = steps[i + 1];
+
+            if (i === 0) {
+                this.determineStepEnvelopeAltByPrio(step, nextStep.minEnvelopeAlt, nextStep.maxEnvelopeAlt);
+                continue;
+            }
+
+            // calculate climb/descent performance backwards from next step to current step
+            const stepMinClimbAltFt = AircraftClimbPerformanceService.calcClimbStartingAlt(
+                nextStep ? nextStep.minEnvelopeAlt : step.minTerrainClearanceAlt,
+                step.climbTime,
+                aircraft.rocSealevel,
+                aircraft.serviceCeiling
+            );
+            const stepMaxDecentAltFt = AircraftClimbPerformanceService.calcDescentStartingAlt(
+                nextStep ? nextStep.maxEnvelopeAlt : step.minTerrainClearanceAlt,
+                step.flightTime,
+                VerticalMapService.DEFAULT_DESCENT_RATE
+            );
+
+            this.determineStepEnvelopeAltByPrio(step, stepMinClimbAltFt, stepMaxDecentAltFt);
+        }
+    }
+
+
+    private determineStepEnvelopeAltByPrio(
+        step: StepAltitudeMetadata,
+        backPropMinAlt: Length,
+        backPropMaxAlt: Length
+    ) {
+        // prio 3: back-propagate from next leg
+        step.minEnvelopeAlt = backPropMinAlt;
+        step.maxEnvelopeAlt = backPropMaxAlt;
+
+        // prio 2: terrain clearance: override back-propagation if below terrain clearance
+        if (step.minTerrainClearanceAlt.isGreaterThan(step.minEnvelopeAlt)) {
+            step.minEnvelopeAlt = step.minTerrainClearanceAlt;
+        }
+        if (step.minTerrainClearanceAlt.isGreaterThan(step.maxEnvelopeAlt)) {
+            step.maxEnvelopeAlt = step.minTerrainClearanceAlt;
+        }
+
+        // prio 1: used defined altitudes: override values if above previous min / below previous max
+        if (step.minUserAlt && step.minUserAlt.isGreaterThan(step.minEnvelopeAlt)) {
+            step.minEnvelopeAlt = step.minUserAlt;
+        }
+        if (step.maxUserAlt && step.maxUserAlt.isLessThan(step.maxEnvelopeAlt)) {
+            step.maxEnvelopeAlt = step.maxUserAlt;
+        }
+
+        // prevent min > max
+        if (step.minUserAlt && step.minUserAlt.isGreaterThan(step.maxEnvelopeAlt)) {
+            step.maxEnvelopeAlt = step.minUserAlt;
+        }
+
+        // prevent max < min
+        if (step.maxUserAlt && step.maxUserAlt.isLessThan(step.minEnvelopeAlt)) {
+            step.minEnvelopeAlt = step.maxUserAlt;
+        }
+    }
+
+    // endregion
 }
