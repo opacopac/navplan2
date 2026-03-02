@@ -1,8 +1,8 @@
 import {AltitudeMetadata} from './altitude-metadata';
 import {Waypoint} from '../../../flightroute/domain/model/waypoint';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
-import {VerticalMapTerrainStep} from './vertical-map-terrain-step';
 import {Time} from '../../../geo-physics/domain/model/quantities/time';
+import {StepAltitudeMetadata2} from './step-altitude-metadata2';
 
 
 export class LegAltitudeMetadata {
@@ -22,7 +22,7 @@ export class LegAltitudeMetadata {
         public readonly distance: Length,
         public readonly flightTime: Time,
         public readonly climbTime: Time,
-        public readonly terrainSteps: VerticalMapTerrainStep[]
+        public readonly steps: StepAltitudeMetadata2[]
     ) {
     }
 }

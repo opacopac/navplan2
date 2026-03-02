@@ -12,11 +12,14 @@ import {VerticalMapWaypointStep} from '../model/vertical-map-waypoint-step';
 import {WaypointType} from '../../../flightroute/domain/model/waypoint-type';
 import {AltitudeMetadata} from '../model/altitude-metadata';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
-import {AircraftClimbPerformanceService} from '../../../aircraft-performance/domain/service/aircraft-climb-performance.service';
+import {
+    AircraftClimbPerformanceService
+} from '../../../aircraft-performance/domain/service/aircraft-climb-performance.service';
 import {MockAircraftBr23} from '../../../aircraft/domain/mock/mock-aircraft-br23';
 import {Aircraft} from '../../../aircraft/domain/model/aircraft';
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {StepAltitudeMetadata} from '../model/step-altitude-metadata';
+import {StepAltitudeMetadata2} from '../model/step-altitude-metadata2';
 
 
 @Injectable()
@@ -50,6 +53,7 @@ export class VerticalMapService implements IVerticalMapService {
                     aircraft
                 );
 
+                // TODO
                 const cruiseAlt = flightroute.cruiseAltitude
                     ? flightroute.cruiseAltitude
                     : vm.terrainSteps.reduce((maxElev, step) =>
@@ -78,7 +82,7 @@ export class VerticalMapService implements IVerticalMapService {
         this.getUserAltitudesForLegs(legs);
         this.clampLegsToFromAirportToGround(legs, terrainSteps);
         this.calculateLegAltitudeEnvelopeFromEndToStart(legs, aircraft);
-        this.calcDisplayAltitudesAndWarnings(legs, aircraft);
+        this.calcLegsDisplayAltitudesAndWarnings(legs, aircraft);
 
         return legs;
     }
@@ -102,7 +106,10 @@ export class VerticalMapService implements IVerticalMapService {
                 nextWpStep.waypoint.vacTime);
             const isFirstLegFromAirport = i === 0 && wpStep.waypoint.type === WaypointType.airport;
             const isLastLegToAirport = i === waypointSteps.length - 2 && nextWpStep.waypoint.type === WaypointType.airport;
-            legs.push(new LegAltitudeMetadata(
+            const legSteps = terrainSteps
+                .filter(step => step.horDist.m >= startLength.m && step.horDist.m <= endLength.m)
+                .map(step => new StepAltitudeMetadata2(step.horDist, step.elevationAmsl));
+            const legMetadata = new LegAltitudeMetadata(
                 wpStep.waypoint,
                 nextWpStep.waypoint,
                 isFirstLegFromAirport,
@@ -112,27 +119,31 @@ export class VerticalMapService implements IVerticalMapService {
                 legDist,
                 flightTime,
                 climbTime,
-                terrainSteps.filter(step => step.horDist.m >= startLength.m && step.horDist.m <= endLength.m)
-            ));
+                legSteps
+            );
+            legs.push(legMetadata);
         }
+
         return legs;
     }
 
 
     private getMinTerrainClearanceForLegs(legs: LegAltitudeMetadata[]): void {
         for (const leg of legs) {
-            if (leg.terrainSteps.length === 0) {
-                return;
-            }
+            let maxLegElevationM = 0;
 
-            const maxElevation = leg.terrainSteps.reduce(
-                (maxElev, step) => step.elevationAmsl.m > maxElev.m
+            for (const step of leg.steps) {
+                step.minTerrainClearanceAlt = leg.isFirstLegFromAirport || leg.isLastLegToAirport
                     ? step.elevationAmsl
-                    : maxElev,
-                leg.terrainSteps[0].elevationAmsl
-            );
+                    : step.elevationAmsl.clone().add(VerticalMapService.MIN_TERRAIN_CLEARANCE);
 
-            leg.minTerrainClearanceAlt = maxElevation.add(VerticalMapService.MIN_TERRAIN_CLEARANCE);
+                if (step.minTerrainClearanceAlt.m > maxLegElevationM) {
+                    maxLegElevationM = step.minTerrainClearanceAlt.m;
+                }
+            }
+            const maxLegElevation = Length.ofM(maxLegElevationM);
+
+            leg.minTerrainClearanceAlt = maxLegElevation.add(VerticalMapService.MIN_TERRAIN_CLEARANCE);
         }
     }
 
@@ -206,8 +217,8 @@ export class VerticalMapService implements IVerticalMapService {
     }
 
 
-    private calcDisplayAltitudesAndWarnings(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
-        let currentAlt = legs[0].terrainSteps[0].elevationAmsl; // start at first terrain elevation
+    private calcLegsDisplayAltitudesAndWarnings(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
+        let currentAlt = legs[0].steps[0].elevationAmsl; // start at first terrain elevation
         let nextAlt = currentAlt;
 
         for (let i = 0; i < legs.length; i++) {
@@ -247,6 +258,21 @@ export class VerticalMapService implements IVerticalMapService {
             leg.endAlt.displayAlt = nextAlt;
 
             currentAlt = nextAlt;
+        }
+    }
+
+
+    private calcStepDisplayAltitudesAndWarnings(legs: LegAltitudeMetadata[], cruiseAltitude: Length, aircraft: Aircraft): void {
+        for (const leg of legs) {
+            const startAlt = leg.startAlt.displayAlt;
+            const endAlt = leg.endAlt.displayAlt;
+            if (endAlt.isLessThan(startAlt)) {
+                // TODO
+            }
+
+            for (const step of leg.steps) {
+
+            }
         }
     }
 
@@ -426,15 +452,6 @@ export class VerticalMapService implements IVerticalMapService {
                 wpIndex++;
             }
         }
-    }
-
-
-    private createStepFromWp(wp: VerticalMapWaypointStep, elevation: Length, nextStepElevation: Length): StepAltitudeMetadata {
-        const elevationFt = (elevation.ft + nextStepElevation.ft) / 2;
-        const newStep = new StepAltitudeMetadata(wp.horDist, Length.ofFt(elevationFt));
-        newStep.wp = wp.waypoint;
-
-        return newStep;
     }
 
 
