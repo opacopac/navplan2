@@ -1,12 +1,8 @@
-import {Waypoint} from '../../../flightroute/domain/model/waypoint';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {Time} from '../../../geo-physics/domain/model/quantities/time';
 
 
 export class StepAltitudeMetadata {
-    public wp: Waypoint;
-    public minUserAlt: Length;
-    public maxUserAlt: Length;
     public minEnvelopeAlt: Length;
     public maxEnvelopeAlt: Length;
     public displayAlt: Length;
@@ -14,8 +10,6 @@ export class StepAltitudeMetadata {
     public flightTime: Time;
     public climbTime: Time;
     public warning: string;
-    public isOnFirstLegFromAirport = false;
-    public isOnLastLegToAirport = false;
 
 
     constructor(

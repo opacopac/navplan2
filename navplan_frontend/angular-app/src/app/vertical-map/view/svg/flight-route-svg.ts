@@ -6,7 +6,6 @@ import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 import {SvgTitleElement} from '../../../common/svg/svg-title-element';
 import {LegAltitudeMetadata} from '../../domain/model/leg-altitude-metadata';
-import {StepAltitudeMetadata} from '../../domain/model/step-altitude-metadata';
 
 
 export class FlightRouteSvg {
@@ -36,73 +35,6 @@ export class FlightRouteSvg {
 
         return svg;
     }
-
-
-    public static create3(
-        steps: StepAltitudeMetadata[],
-        imgDim: ImageDimensionsSvg,
-        wpClickCallback: (Waypoint) => void
-    ): SVGElement {
-        const svg = SvgGroupElement.create();
-
-        for (let i = 0; i < steps.length - 1; i++) {
-            const step = steps[i];
-            const nextStep = steps[i + 1];
-
-            const startXy = imgDim.calcXy(step.stepDist, step.minEnvelopeAlt);
-            const endXy = imgDim.calcXy(nextStep.stepDist, nextStep.minEnvelopeAlt);
-            svg.appendChild(SvgLineBuilder.builder()
-                .setStartXy(startXy)
-                .setEndXy(endXy)
-                .setStrokeStyle('rgba(0, 0, 255, 1.0)', 3)
-                .setShapeRenderingCrispEdges()
-                .build()
-            );
-
-            const startXy2 = imgDim.calcXy(step.stepDist, step.maxEnvelopeAlt);
-            const endXy2 = imgDim.calcXy(nextStep.stepDist, nextStep.maxEnvelopeAlt);
-            svg.appendChild(SvgLineBuilder.builder()
-                .setStartXy(startXy2)
-                .setEndXy(endXy2)
-                .setStrokeStyle('rgba(255, 0, 0, 1.0)', 3)
-                .setShapeRenderingCrispEdges()
-                .build()
-            );
-
-            const startXy3 = imgDim.calcXy(step.stepDist, step.displayAlt);
-            const endXy3 = imgDim.calcXy(nextStep.stepDist, nextStep.displayAlt);
-            svg.appendChild(SvgLineBuilder.builder()
-                .setStartXy(startXy3)
-                .setEndXy(endXy3)
-                .setStrokeStyle('rgba(0, 255, 255, 1.0)', 3)
-                .setShapeRenderingCrispEdges()
-                .build()
-            );
-
-            /*
-            // leg start dot
-            this.addRouteDot(svg, legStartXy, step.wpStart, wpClickCallback);
-            this.addRouteDotPlumline(svg, legStartXy, imgDim.imageHeightPx);
-            this.addWaypointLabel(svg, legStartXy, step.wpStart, (i === 0) ? 'start' : 'middle', wpClickCallback);
-
-            // leg end dot
-            if (i === steps.length - 1) {
-                this.addRouteDot(svg, legEndXy, step.wpEnd, wpClickCallback);
-                this.addRouteDotPlumline(svg, legEndXy, imgDim.imageHeightPx);
-                this.addWaypointLabel(svg, legEndXy, step.wpEnd, 'end', wpClickCallback);
-            }
-
-            // warning
-            if (step.warning) {
-                const legMiddleX = (legStartXy[0] + legEndXy[0]) / 2;
-                const legMiddleY = (legStartXy[1] + legEndXy[1]) / 2;
-                this.addRouteWarning(svg, [legMiddleX, legMiddleY], step.warning);
-            }*/
-        }
-
-        return svg;
-    }
-
 
 
     public static create(
