@@ -11,6 +11,34 @@ import {StepAltitudeMetadata} from '../../domain/model/step-altitude-metadata';
 
 export class FlightRouteSvg {
     public static create2(
+        legs: LegAltitudeMetadata[],
+        imgDim: ImageDimensionsSvg,
+        wpClickCallback: (Waypoint) => void
+    ): SVGElement {
+        const svg = SvgGroupElement.create();
+
+        for (const leg of legs) {
+            for (let i = 0; i < leg.steps.length - 1; i++) {
+                const step = leg.steps[i];
+                const nextStep = leg.steps[i + 1];
+
+                const startXy3 = imgDim.calcXy(step.stepDist, step.displayAlt);
+                const endXy3 = imgDim.calcXy(nextStep.stepDist, nextStep.displayAlt);
+                svg.appendChild(SvgLineBuilder.builder()
+                    .setStartXy(startXy3)
+                    .setEndXy(endXy3)
+                    .setStrokeStyle('rgba(0, 255, 255, 1.0)', 3)
+                    .setShapeRenderingCrispEdges()
+                    .build()
+                );
+            }
+        }
+
+        return svg;
+    }
+
+
+    public static create3(
         steps: StepAltitudeMetadata[],
         imgDim: ImageDimensionsSvg,
         wpClickCallback: (Waypoint) => void
