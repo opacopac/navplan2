@@ -7,6 +7,11 @@ import {WnbEnvelope} from '../../../aircraft-wnb/domain/model/wnb-envelope';
 import {VehicleType} from './vehicle-type';
 import {FuelType} from './fuel-type';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
+import {Time} from '../../../geo-physics/domain/model/quantities/time';
+import {
+    AircraftClimbPerformanceService
+} from '../../../aircraft-performance/domain/service/aircraft-climb-performance.service';
+
 
 export class Aircraft {
     public static createMinimal(
@@ -83,6 +88,43 @@ export class Aircraft {
             this.perfLandingDist50ft?.clone(),
             this.wnbWeightItems?.map(wi => wi.clone()),
             this.wnbEnvelopes?.map(we => we.clone())
+        );
+    }
+
+
+    public calcCruiseFlightTime(distance: Length, extraTime?: Time): Time {
+        if (this.cruiseSpeed == null) {
+            return null;
+        }
+
+        return AircraftClimbPerformanceService.calcFlightTime(distance, this.cruiseSpeed, extraTime);
+    }
+
+
+    public calcCruiseClimbFlightTime(distance: Length, extraTime?: Time): Time {
+        if (this.cruiseClimbSpeed == null) {
+            return null;
+        }
+
+        return AircraftClimbPerformanceService.calcFlightTime(distance, this.cruiseClimbSpeed, extraTime);
+    }
+
+
+    public calcClimbTargetAlt(startingAlt: Length, time: Time): Length {
+        if (this.rocSealevel == null || this.serviceCeiling == null) {
+            return null;
+        }
+
+        return AircraftClimbPerformanceService.calcClimbTargetAlt(startingAlt, time, this.rocSealevel, this.serviceCeiling);
+    }
+
+
+    public calcClimbStartingAlt(targetAlt: Length, climbTime: Time): Length {
+        return AircraftClimbPerformanceService.calcClimbStartingAlt(
+            targetAlt,
+            climbTime,
+            this.rocSealevel,
+            this.serviceCeiling
         );
     }
 }

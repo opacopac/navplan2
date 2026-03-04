@@ -3,8 +3,6 @@ import {Time} from '../../../geo-physics/domain/model/quantities/time';
 
 
 export class StepAltitudeMetadata {
-    public minEnvelopeAlt: Length;
-    public maxEnvelopeAlt: Length;
     public displayAlt: Length;
     public minTerrainClearanceAlt: Length;
     public flightTime: Time;
