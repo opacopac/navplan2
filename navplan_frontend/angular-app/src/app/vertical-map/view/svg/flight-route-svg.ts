@@ -54,13 +54,13 @@ export class FlightRouteSvg {
             // leg start dot
             this.addRouteDot(svg, legStartXy, leg.wpStart, wpClickCallback);
             this.addRouteDotPlumline(svg, legStartXy, imgDim.imageHeightPx);
-            this.addWaypointLabel(svg, legStartXy, leg.wpStart, (i === 0) ? 'start' : 'middle', wpClickCallback);
+            this.addWaypointLabel(svg, legStartXy, leg.wpStart, (i === 0) ? 'start' : 'middle', i % 2 === 1, wpClickCallback);
 
             // leg end dot
             if (i === legs.length - 1) {
                 this.addRouteDot(svg, legEndXy, leg.wpEnd, wpClickCallback);
                 this.addRouteDotPlumline(svg, legEndXy, imgDim.imageHeightPx);
-                this.addWaypointLabel(svg, legEndXy, leg.wpEnd, 'end', wpClickCallback);
+                this.addWaypointLabel(svg, legEndXy, leg.wpEnd, 'end', i % 2 === 1, wpClickCallback);
             }
 
             // warning
@@ -148,9 +148,10 @@ export class FlightRouteSvg {
         xy: [number, number],
         waypoint: Waypoint,
         textAnchor: string,
+        isOddWp: boolean,
         clickCallback: (Waypoint) => void
     ) {
-        let transformX: number;
+        let transformX, transformY: number;
 
         switch (textAnchor) {
             case 'start':
@@ -164,6 +165,12 @@ export class FlightRouteSvg {
                 break;
         }
 
+        if (isOddWp) {
+            transformY = 25;
+        } else {
+            transformY = -15;
+        }
+
         // glow around label
         svg.appendChild(SvgTextBuilder.builder()
             .setText(waypoint.checkpoint)
@@ -173,7 +180,7 @@ export class FlightRouteSvg {
             .setFontFamily('Calibri,sans-serif')
             .setFontSize('15px')
             .setFontWeight('bold')
-            .setTransform('translate(' + transformX + ', -15)')
+            .setTransform('translate(' + transformX + ', ' + transformY + ')')
             .build()
         );
 
@@ -186,7 +193,7 @@ export class FlightRouteSvg {
             .setFontFamily('Calibri,sans-serif')
             .setFontSize('15px')
             .setFontWeight('bold')
-            .setTransform('translate(' + transformX + ', -15)')
+            .setTransform('translate(' + transformX + ', ' + transformY + ')')
             .build();
 
         if (clickCallback) {
