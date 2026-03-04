@@ -139,20 +139,19 @@ export class VerticalMapService implements IVerticalMapService {
 
     private calcMinTerrainClearanceForLegsAndSteps(legs: LegAltitudeMetadata[]): void {
         for (const leg of legs) {
-            let maxLegElevationM = 0;
+            let maxLegElevation = Length.ofZero();
 
             for (const step of leg.steps) {
                 step.minTerrainClearanceAlt = leg.isFirstLegFromAirport || leg.isLastLegToAirport
                     ? step.elevationAmsl
                     : step.elevationAmsl.add(VerticalMapService.MIN_TERRAIN_CLEARANCE);
 
-                if (step.minTerrainClearanceAlt.m > maxLegElevationM) {
-                    maxLegElevationM = step.minTerrainClearanceAlt.m;
+                if (step.minTerrainClearanceAlt.isGreaterThan(maxLegElevation)) {
+                    maxLegElevation = step.minTerrainClearanceAlt;
                 }
             }
-            const maxLegElevation = Length.ofM(maxLegElevationM);
 
-            leg.minTerrainClearanceAlt = maxLegElevation.add(VerticalMapService.MIN_TERRAIN_CLEARANCE);
+            leg.minTerrainClearanceAlt = maxLegElevation;
         }
     }
 
