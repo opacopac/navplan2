@@ -17,6 +17,8 @@ import {ConsumptionUnit} from '../../../geo-physics/domain/model/quantities/cons
 
 
 export class FlightrouteCalcHelper {
+    public static VAC_TIME = new Time(5, TimeUnit.M);
+
     public static calcFlightRoute(flightroute: Flightroute, lengthUnit: LengthUnit = LengthUnit.NM): Flightroute {
         if (!flightroute) {
             return null;
@@ -34,16 +36,16 @@ export class FlightrouteCalcHelper {
     // region waypoints
 
     private static calcWaypointList(flightroute: Flightroute, lengthUnit: LengthUnit) {
-        let prevWp;
+        let prevWp: Waypoint;
 
         // waypoints
         const wps = flightroute.waypoints;
         for (let i = 0; i < wps.length; i++) {
             // vac time for start/end airport +5
             if ((i === 1 && wps[0].type === WaypointType.airport) || (i === wps.length - 1 && wps[i].type === WaypointType.airport)) {
-                // wps[i].vacTime = new Time(5, TimeUnit.M);
+                wps[i].vacTime = this.VAC_TIME;
             } else {
-                // wps[i].vacTime = new Time(0, TimeUnit.M);
+                wps[i].vacTime = this.VAC_TIME;
             }
 
             // recalc distance & bearing
