@@ -44,8 +44,6 @@ export class FlightrouteCalcHelper {
             // vac time for start/end airport +5
             if ((i === 1 && wps[0].type === WaypointType.airport) || (i === wps.length - 1 && wps[i].type === WaypointType.airport)) {
                 wps[i].vacTime = this.VAC_TIME;
-            } else {
-                wps[i].vacTime = this.VAC_TIME;
             }
 
             // recalc distance & bearing
