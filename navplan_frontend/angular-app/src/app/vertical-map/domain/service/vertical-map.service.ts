@@ -19,6 +19,7 @@ import {MockAircraftBr23} from '../../../aircraft/domain/mock/mock-aircraft-br23
 import {Aircraft} from '../../../aircraft/domain/model/aircraft';
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
 import {StepAltitudeMetadata} from '../model/step-altitude-metadata';
+import {Time} from "../../../geo-physics/domain/model/quantities/time";
 
 
 @Injectable()
@@ -75,9 +76,11 @@ export class VerticalMapService implements IVerticalMapService {
         this.calcMinTerrainClearanceForLegsAndSteps(legs);
         this.getUserAltitudesForLegs(legs);
         this.clampLegsToFromAirportToGround(legs, terrainSteps);
-        this.calculateLegAltitudeEnvelopeFromEndToStart(legs, aircraft);
-        this.calcLegsDisplayAltitudesAndWarnings(legs, cruiseAltitude, aircraft);
-        this.calcStepsDisplayAltitudesAndWarnings(legs, aircraft);
+        // this.calculateLegAltitudeEnvelopeFromEndToStart(legs, aircraft);
+        // this.calcLegsDisplayAltitudesAndWarnings(legs, cruiseAltitude, aircraft);
+        // this.calcStepsDisplayAltitudesAndWarnings(legs, aircraft);
+        this.calculateLegAndStepAltitudeEnvelopeFromEndToStart(legs, aircraft);
+        this.calcLegAndStepDisplayAltitudesAndWarnings(legs, cruiseAltitude, aircraft);
 
         return legs;
     }
@@ -125,6 +128,8 @@ export class VerticalMapService implements IVerticalMapService {
     private calcLegStepFlightTimes(legs: LegAltitudeMetadata[]): void {
         for (const leg of legs) {
             const legLength = leg.endLength.subtract(leg.startLength);
+            leg.steps[0].flightTime = Time.ofZero();
+                leg.steps[0].climbTime = Time.ofZero();
             for (let i = 1; i < leg.steps.length; i++) {
                 const step = leg.steps[i];
                 const prevStep = leg.steps[i - 1];
@@ -194,66 +199,122 @@ export class VerticalMapService implements IVerticalMapService {
     }
 
 
-    private calculateLegAltitudeEnvelopeFromEndToStart(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
+    private calculateLegAndStepAltitudeEnvelopeFromEndToStart(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
         for (let i = legs.length - 1; i >= 0; i--) {
             const leg = legs[i];
             const nextLeg = i < legs.length - 1 ? legs[i + 1] : null;
 
             // init values from previous leg (or terrain clearance for last leg)
-            const backPropMinAlt = nextLeg ? nextLeg.startAlt.minAlt : leg.minTerrainClearanceAlt;
-            const backPropMaxAlt = nextLeg ? nextLeg.startAlt.maxAlt : leg.minTerrainClearanceAlt;
+            const legBackPropMinAlt = nextLeg ? nextLeg.startAlt.minEnvelopeAlt : leg.minTerrainClearanceAlt;
+            const legBackPropMaxAlt = nextLeg ? nextLeg.startAlt.maxEnvelopeAlt : leg.minTerrainClearanceAlt;
 
             // determine leg end altitudes by prio
-            this.determineAltByPrio(leg.endAlt, leg.minTerrainClearanceAlt, backPropMinAlt, backPropMaxAlt);
+            this.determineEnvelopeAltByPrio(leg.endAlt, leg.minTerrainClearanceAlt, legBackPropMinAlt, legBackPropMaxAlt);
+
+            for (let j = leg.steps.length - 1; j >= 0; j--) {
+                const step = leg.steps[j];
+
+                // inherit user altitudes from leg
+                step.altMetaData.minUserAlt = leg.endAlt.minUserAlt;
+                step.altMetaData.maxUserAlt = leg.endAlt.maxUserAlt;
+
+                // get previous min/max alt
+                const nextStep = j < leg.steps.length - 1 ? leg.steps[j + 1] : null;
+                const nextStepMinAlt = nextStep ? nextStep.altMetaData.minEnvelopeAlt : legBackPropMinAlt;
+                const nextStepMaxAlt = nextStep ? nextStep.altMetaData.maxEnvelopeAlt : legBackPropMaxAlt;
+
+                // calculate climb/descent performance backwards from step end to start
+                const stepStartMinClimbAltFt = aircraft.calcClimbStartingAlt(nextStepMinAlt, step.climbTime);
+                const stepStartMaxDecentAltFt = AircraftClimbPerformanceService.calcDescentStartingAlt(
+                    nextStepMaxAlt,
+                    step.flightTime,
+                    VerticalMapService.DEFAULT_DESCENT_RATE
+                );
+
+                this.determineEnvelopeAltByPrio(
+                    step.altMetaData,
+                    step.minTerrainClearanceAlt,
+                    stepStartMinClimbAltFt,
+                    stepStartMaxDecentAltFt
+                );
+
+                if (j === 0) {
+                    leg.startAlt.minEnvelopeAlt = step.altMetaData.minEnvelopeAlt;
+                    leg.startAlt.maxEnvelopeAlt = step.altMetaData.maxEnvelopeAlt;
+                }
+            }
+
+            // determine leg start altitudes by prio
+            this.determineEnvelopeAltByPrio(
+                leg.startAlt,
+                leg.minTerrainClearanceAlt,
+                leg.startAlt.minEnvelopeAlt,
+                leg.startAlt.maxEnvelopeAlt
+            );
+        }
+    }
+
+
+    /*private calculateLegAltitudeEnvelopeFromEndToStart(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
+        for (let i = legs.length - 1; i >= 0; i--) {
+            const leg = legs[i];
+            const nextLeg = i < legs.length - 1 ? legs[i + 1] : null;
+
+            // init values from previous leg (or terrain clearance for last leg)
+            const backPropMinAlt = nextLeg ? nextLeg.startAlt.minEnvelopeAlt : leg.minTerrainClearanceAlt;
+            const backPropMaxAlt = nextLeg ? nextLeg.startAlt.maxEnvelopeAlt : leg.minTerrainClearanceAlt;
+
+            // determine leg end altitudes by prio
+            this.determineEnvelopeAltByPrio(leg.endAlt, leg.minTerrainClearanceAlt, backPropMinAlt, backPropMaxAlt);
 
             // calculate climb/descent performance backwards from leg end to start
-            const legStartMinClimbAltFt = aircraft.calcClimbStartingAlt(leg.endAlt.minAlt, leg.climbTime);
+            const legStartMinClimbAltFt = aircraft.calcClimbStartingAlt(leg.endAlt.minEnvelopeAlt, leg.climbTime);
             const legStartMaxDecentAltFt = AircraftClimbPerformanceService.calcDescentStartingAlt(
-                leg.endAlt.maxAlt,
+                leg.endAlt.maxEnvelopeAlt,
                 leg.flightTime,
                 VerticalMapService.DEFAULT_DESCENT_RATE
             );
 
             // determine leg start altitudes by prio
-            this.determineAltByPrio(leg.startAlt, leg.minTerrainClearanceAlt, legStartMinClimbAltFt, legStartMaxDecentAltFt);
+            this.determineEnvelopeAltByPrio(leg.startAlt, leg.minTerrainClearanceAlt, legStartMinClimbAltFt, legStartMaxDecentAltFt);
         }
-    }
+    }*/
 
 
-    private determineAltByPrio(
-        legAlt: AltitudeMetadata,
-        legMinTerrainAlt: Length,
+    private determineEnvelopeAltByPrio(
+        alt: AltitudeMetadata,
+        minTerrainAlt: Length,
         backPropMinAlt: Length,
         backPropMaxAlt: Length
     ) {
-        // prio 3: back-propagate from next leg
-        legAlt.minAlt = backPropMinAlt;
-        legAlt.maxAlt = backPropMaxAlt;
+        // prio 3: back-propagate previous values
+        alt.minEnvelopeAlt = backPropMinAlt;
+        alt.maxEnvelopeAlt = backPropMaxAlt;
 
         // prio 2: terrain clearance: override back-propagation if below terrain clearance
-        if (legMinTerrainAlt.isGreaterThan(legAlt.minAlt)) {
-            legAlt.minAlt = legMinTerrainAlt;
+        if (minTerrainAlt.isGreaterThan(alt.minEnvelopeAlt)) {
+            alt.minEnvelopeAlt = minTerrainAlt;
         }
-        if (legMinTerrainAlt.isGreaterThan(legAlt.maxAlt)) {
-            legAlt.maxAlt = legMinTerrainAlt;
+        if (minTerrainAlt.isGreaterThan(alt.maxEnvelopeAlt)) {
+            alt.maxEnvelopeAlt = minTerrainAlt;
         }
 
         // prio 1: used defined altitudes: override values if above previous min / below previous max
-        if (legAlt.minUserAlt && legAlt.minUserAlt.isGreaterThan(legAlt.minAlt)) {
-            legAlt.minAlt = legAlt.minUserAlt;
+        if (alt.minUserAlt && alt.minUserAlt.isGreaterThan(alt.minEnvelopeAlt)) {
+            alt.minEnvelopeAlt = alt.minUserAlt;
         }
-        if (legAlt.maxUserAlt && legAlt.maxUserAlt.isLessThan(legAlt.maxAlt)) {
-            legAlt.maxAlt = legAlt.maxUserAlt;
+        if (alt.maxUserAlt && alt.maxUserAlt.isLessThan(alt.maxEnvelopeAlt)) {
+            alt.maxEnvelopeAlt = alt.maxUserAlt;
         }
 
         // prevent min > max
-        if (legAlt.minUserAlt && legAlt.minUserAlt.isGreaterThan(legAlt.maxAlt)) {
-            legAlt.maxAlt = legAlt.minUserAlt;
+        if (alt.minUserAlt && alt.minUserAlt.isGreaterThan(alt.maxEnvelopeAlt)) {
+            alt.maxEnvelopeAlt = alt.minUserAlt;
         }
 
         // prevent max < min
-        if (legAlt.maxUserAlt && legAlt.maxUserAlt.isLessThan(legAlt.minAlt)) {
-            legAlt.minAlt = legAlt.maxUserAlt;
+        if (alt.maxUserAlt && alt.maxUserAlt.isLessThan(alt.minEnvelopeAlt)) {
+            alt.minEnvelopeAlt = alt.maxUserAlt;
         }
     }
 
@@ -265,24 +326,24 @@ export class VerticalMapService implements IVerticalMapService {
 
         for (let i = 0; i < legs.length; i++) {
             const leg = legs[i];
-            if (leg.endAlt.minAlt.isGreaterThan(currentAlt) || !hasCruiseAltitudeBeenReached) {
+            if (leg.endAlt.minEnvelopeAlt.isGreaterThan(currentAlt) || !hasCruiseAltitudeBeenReached) {
                 // climb
                 const maxClimbAlt = aircraft.calcClimbTargetAlt(currentAlt, leg.climbTime);
                 const targetAlt = hasCruiseAltitudeBeenReached
-                    ? leg.endAlt.minAlt
-                    : leg.endAlt.minAlt.isLessThan(cruiseAltitude)
-                        ? leg.endAlt.maxAlt.isGreaterThan(cruiseAltitude) ? cruiseAltitude : leg.endAlt.maxAlt
-                        : leg.endAlt.minAlt;
+                    ? leg.endAlt.minEnvelopeAlt
+                    : leg.endAlt.minEnvelopeAlt.isLessThan(cruiseAltitude)
+                        ? leg.endAlt.maxEnvelopeAlt.isGreaterThan(cruiseAltitude) ? cruiseAltitude : leg.endAlt.maxEnvelopeAlt
+                        : leg.endAlt.minEnvelopeAlt;
 
                 nextAlt = maxClimbAlt.isGreaterThan(targetAlt) ? targetAlt : maxClimbAlt;
 
                 if (maxClimbAlt.isLessThan(leg.endAlt.minUserAlt) || maxClimbAlt.isLessThan(leg.minTerrainClearanceAlt)) {
-                    leg.warning = 'Climb performance may be insufficient to reach the altitude before the end of the leg! (update climb performance in ⚙️ Settings)';
-                    nextAlt = leg.endAlt.minAlt;
+                    leg.warning = 'Climb performance may be insufficient to reach the altitude before the end of the leg!';
+                    nextAlt = leg.endAlt.minEnvelopeAlt;
                 }
-            } else if (leg.endAlt.maxAlt.isLessThan(currentAlt)) {
+            } else if (leg.endAlt.maxEnvelopeAlt.isLessThan(currentAlt)) {
                 // descent
-                nextAlt = leg.endAlt.maxAlt;
+                nextAlt = leg.endAlt.maxEnvelopeAlt;
             }
 
             if (!leg.warning) {
@@ -344,6 +405,70 @@ export class VerticalMapService implements IVerticalMapService {
                 step.displayAlt = nextAlt;
                 currentAlt = nextAlt;
             }
+        }
+    }
+
+
+    private calcLegAndStepDisplayAltitudesAndWarnings(legs: LegAltitudeMetadata[], cruiseAltitude: Length, aircraft: Aircraft): void {
+        let hasCruiseAltitudeBeenReached = cruiseAltitude ? !cruiseAltitude : true;
+        let currentAlt = legs[0].startAlt.minEnvelopeAlt;
+        let nextAlt: Length;
+
+        for (let i = 0; i < legs.length; i++) {
+            const leg = legs[i];
+            leg.startAlt.displayAlt = currentAlt;
+
+            for (let j = 0; j < leg.steps.length; j++) {
+                const step = leg.steps[j];
+
+                if (step.altMetaData.minEnvelopeAlt.isGreaterThan(currentAlt) || !hasCruiseAltitudeBeenReached) {
+                    // climb
+                    const maxClimbAlt = aircraft.calcClimbTargetAlt(currentAlt, step.climbTime);
+                    const targetAlt = hasCruiseAltitudeBeenReached
+                        ? step.altMetaData.minEnvelopeAlt
+                        : step.altMetaData.minEnvelopeAlt.isLessThan(cruiseAltitude)
+                            ? step.altMetaData.maxEnvelopeAlt.isGreaterThan(cruiseAltitude)
+                                ? cruiseAltitude
+                                : step.altMetaData.maxEnvelopeAlt
+                            : step.altMetaData.minEnvelopeAlt;
+
+                    nextAlt = maxClimbAlt.isGreaterThan(targetAlt) ? targetAlt : maxClimbAlt;
+
+                    /*if (maxClimbAlt.isLessThan(leg.endAlt.minUserAlt) || maxClimbAlt.isLessThan(leg.minTerrainClearanceAlt)) {
+                        leg.warning = 'Climb performance may be insufficient to reach the altitude before the end of the leg!';
+                        nextAlt = leg.endAlt.minEnvelopeAlt;
+                    }*/
+                } else if (step.altMetaData.maxEnvelopeAlt.isLessThan(currentAlt)) {
+                    // descent
+                    nextAlt = step.altMetaData.maxEnvelopeAlt;
+                } else {
+                    nextAlt = currentAlt;
+                }
+
+                /*if (!leg.warning) {
+                    const terrainClearanceText = 'Flight path may be below min. terrain clearance of leg!';
+                    const minTerrainAltFtForWarning = leg.minTerrainClearanceAlt
+                        .subtract(VerticalMapService.MIN_TERRAIN_CLEARANCE)
+                        .add(VerticalMapService.MIN_TERRAIN_CLEARANCE_FOR_WARNING);
+
+                    if (!leg.isFirstLegFromAirport && leg.isLastLegToAirport && (currentAlt.isLessThan(minTerrainAltFtForWarning))) {
+                        leg.warning = terrainClearanceText;
+                    } else if (leg.isFirstLegFromAirport && nextAlt.isLessThan(minTerrainAltFtForWarning)) {
+                        leg.warning = terrainClearanceText;
+                    } else if (leg.isLastLegToAirport && currentAlt.isLessThan(minTerrainAltFtForWarning)) {
+                        leg.warning = terrainClearanceText;
+                    }
+                }*/
+
+                if (nextAlt.isGreaterThanOrEqual(cruiseAltitude)) {
+                    hasCruiseAltitudeBeenReached = true;
+                }
+
+                step.altMetaData.displayAlt = currentAlt;
+                currentAlt = nextAlt;
+            }
+
+            leg.endAlt.displayAlt = currentAlt;
         }
     }
 }

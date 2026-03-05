@@ -2,8 +2,8 @@ import {Length} from '../../../geo-physics/domain/model/quantities/length';
 
 
 export class AltitudeMetadata {
-    public minAlt: Length;
-    public maxAlt: Length;
+    public minEnvelopeAlt: Length;
+    public maxEnvelopeAlt: Length;
     public minUserAlt: Length;
     public maxUserAlt: Length;
     public displayAlt: Length;
