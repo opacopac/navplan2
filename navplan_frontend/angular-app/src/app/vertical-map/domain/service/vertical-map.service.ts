@@ -12,9 +12,6 @@ import {VerticalMapWaypointStep} from '../model/vertical-map-waypoint-step';
 import {WaypointType} from '../../../flightroute/domain/model/waypoint-type';
 import {AltitudeMetadata} from '../model/altitude-metadata';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
-import {
-    AircraftClimbPerformanceService
-} from '../../../aircraft-performance/domain/service/aircraft-climb-performance.service';
 import {MockAircraftBr23} from '../../../aircraft/domain/mock/mock-aircraft-br23';
 import {Aircraft} from '../../../aircraft/domain/model/aircraft';
 import {Speed} from '../../../geo-physics/domain/model/quantities/speed';
@@ -129,7 +126,7 @@ export class VerticalMapService implements IVerticalMapService {
         for (const leg of legs) {
             const legLength = leg.endLength.subtract(leg.startLength);
             leg.steps[0].flightTime = Time.ofZero();
-                leg.steps[0].climbTime = Time.ofZero();
+            leg.steps[0].climbTime = Time.ofZero();
             for (let i = 1; i < leg.steps.length; i++) {
                 const step = leg.steps[i];
                 const prevStep = leg.steps[i - 1];
@@ -420,13 +417,14 @@ export class VerticalMapService implements IVerticalMapService {
             const leg = legs[i];
 
             // determine leg start display alt
-            const legStartAlt = this.getLegDisplayAlt(currentAlt, leg.startAlt);
+            const legStartAlt = this.getLegDisplayAlt(currentAlt, leg.startAlt, leg.minTerrainClearanceAlt);
             leg.startAlt.displayAlt = legStartAlt;
             leg.steps[0].altMetaData.displayAlt = legStartAlt;
             currentAlt = legStartAlt;
 
             for (let j = 0; j < leg.steps.length; j++) {
                 const step = leg.steps[j];
+                const isLastStep = j === leg.steps.length - 1;
 
                 if (currentAlt.isLessThan(leg.endAlt.minEnvelopeAlt) || !hasCruiseAltitudeBeenReached) {
                     // climb
@@ -441,10 +439,12 @@ export class VerticalMapService implements IVerticalMapService {
 
                     nextAlt = maxClimbAlt.isGreaterThan(targetAlt) ? targetAlt : maxClimbAlt;
 
-                    /*if (maxClimbAlt.isLessThan(leg.endAlt.minUserAlt) || maxClimbAlt.isLessThan(leg.minTerrainClearanceAlt)) {
+                    if (isLastStep && (
+                        nextAlt.isLessThan(leg.endAlt.minUserAlt) || nextAlt.isLessThan(leg.minTerrainClearanceAlt)
+                    )) {
                         leg.warning = 'Climb performance may be insufficient to reach the altitude before the end of the leg!';
                         nextAlt = leg.endAlt.minEnvelopeAlt;
-                    }*/
+                    }
                 } else if (currentAlt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)) {
                     // descent
                     nextAlt = step.altMetaData.maxEnvelopeAlt;
@@ -475,15 +475,19 @@ export class VerticalMapService implements IVerticalMapService {
                 currentAlt = nextAlt;
             }
 
-            const legEndAlt = this.getLegDisplayAlt(currentAlt, leg.endAlt);
+            const legEndAlt = this.getLegDisplayAlt(currentAlt, leg.endAlt, leg.minTerrainClearanceAlt);
             leg.endAlt.displayAlt = legEndAlt;
             currentAlt = legEndAlt;
         }
     }
 
 
-    private getLegDisplayAlt(currentAlt: Length, altMetaData: AltitudeMetadata): Length {
+    private getLegDisplayAlt(currentAlt: Length, altMetaData: AltitudeMetadata, minTerrainClearanceAlt: Length): Length {
         let resultingAlt = currentAlt;
+
+        if (resultingAlt.isLessThan(minTerrainClearanceAlt)) {
+            resultingAlt = minTerrainClearanceAlt;
+        }
 
         if (resultingAlt.isGreaterThan(altMetaData.maxUserAlt)) {
             resultingAlt = altMetaData.maxUserAlt;
