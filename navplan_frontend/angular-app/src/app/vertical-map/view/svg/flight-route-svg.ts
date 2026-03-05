@@ -26,7 +26,7 @@ export class FlightRouteSvg {
                 svg.appendChild(SvgLineBuilder.builder()
                     .setStartXy(startXy1)
                     .setEndXy(endXy1)
-                    .setStrokeStyle('rgba(0, 0, 255, 1.0)', 3)
+                    .setStrokeStyle('rgba(0, 0, 255, 1.0)', 4)
                     .setShapeRenderingCrispEdges()
                     .build()
                 );
@@ -36,7 +36,7 @@ export class FlightRouteSvg {
                 svg.appendChild(SvgLineBuilder.builder()
                     .setStartXy(startXy2)
                     .setEndXy(endXy2)
-                    .setStrokeStyle('rgba(255, 0, 0, 1.0)', 3)
+                    .setStrokeStyle('rgba(255, 0, 0, 1.0)', 4)
                     .setShapeRenderingCrispEdges()
                     .build()
                 );
@@ -46,7 +46,7 @@ export class FlightRouteSvg {
                 svg.appendChild(SvgLineBuilder.builder()
                     .setStartXy(startXy3)
                     .setEndXy(endXy3)
-                    .setStrokeStyle('rgba(0, 255, 255, 1.0)', 3)
+                    .setStrokeStyle('rgba(0, 255, 255, 1.0)', 2)
                     .setShapeRenderingCrispEdges()
                     .build()
                 );
@@ -69,7 +69,7 @@ export class FlightRouteSvg {
             const legStartXy = imgDim.calcXy(leg.startLength, leg.startAlt.displayAlt);
             const legEndXy = imgDim.calcXy(leg.endLength, leg.endAlt.displayAlt);
 
-            this.addLineSegment(svg, legStartXy, legEndXy);
+            // this.addLineSegment(svg, legStartXy, legEndXy);
 
             // leg start dot
             this.addRouteDot(svg, legStartXy, leg.wpStart, wpClickCallback);

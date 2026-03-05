@@ -127,4 +127,16 @@ export class Aircraft {
             this.serviceCeiling
         );
     }
+
+
+    public calcDescentStartingAlt(targetAlt: Length, descentTime: Time, rod: Speed): Length {
+        const maxAlt = AircraftClimbPerformanceService.calcAbsoluteCeiling(this.rocSealevel, this.serviceCeiling);
+        const descendFromAlt = AircraftClimbPerformanceService.calcDescentStartingAlt(
+            targetAlt,
+            descentTime,
+            rod
+        );
+
+        return descendFromAlt.isLessThan(maxAlt) ? descendFromAlt : maxAlt;
+    }
 }
