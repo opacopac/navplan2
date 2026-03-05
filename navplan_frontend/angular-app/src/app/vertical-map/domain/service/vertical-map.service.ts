@@ -418,12 +418,17 @@ export class VerticalMapService implements IVerticalMapService {
 
         for (let i = 0; i < legs.length; i++) {
             const leg = legs[i];
-            leg.startAlt.displayAlt = currentAlt;
+
+            // determine leg start display alt
+            const legStartAlt = this.getLegDisplayAlt(currentAlt, leg.startAlt);
+            leg.startAlt.displayAlt = legStartAlt;
+            leg.steps[0].altMetaData.displayAlt = legStartAlt;
+            currentAlt = legStartAlt;
 
             for (let j = 0; j < leg.steps.length; j++) {
                 const step = leg.steps[j];
 
-                if (leg.endAlt.minEnvelopeAlt.isGreaterThan(currentAlt) || !hasCruiseAltitudeBeenReached) {
+                if (currentAlt.isLessThan(leg.endAlt.minEnvelopeAlt) || !hasCruiseAltitudeBeenReached) {
                     // climb
                     const maxClimbAlt = aircraft.calcClimbTargetAlt(currentAlt, step.climbTime);
                     const targetAlt = hasCruiseAltitudeBeenReached
@@ -440,7 +445,7 @@ export class VerticalMapService implements IVerticalMapService {
                         leg.warning = 'Climb performance may be insufficient to reach the altitude before the end of the leg!';
                         nextAlt = leg.endAlt.minEnvelopeAlt;
                     }*/
-                } else if (leg.endAlt.maxEnvelopeAlt.isLessThan(currentAlt)) {
+                } else if (currentAlt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)) {
                     // descent
                     nextAlt = step.altMetaData.maxEnvelopeAlt;
                 } else {
@@ -470,7 +475,24 @@ export class VerticalMapService implements IVerticalMapService {
                 currentAlt = nextAlt;
             }
 
-            leg.endAlt.displayAlt = currentAlt;
+            const legEndAlt = this.getLegDisplayAlt(currentAlt, leg.endAlt);
+            leg.endAlt.displayAlt = legEndAlt;
+            currentAlt = legEndAlt;
         }
+    }
+
+
+    private getLegDisplayAlt(currentAlt: Length, altMetaData: AltitudeMetadata): Length {
+        let resultingAlt = currentAlt;
+
+        if (resultingAlt.isGreaterThan(altMetaData.maxUserAlt)) {
+            resultingAlt = altMetaData.maxUserAlt;
+        }
+
+        if (resultingAlt.isLessThan(altMetaData.minUserAlt)) {
+            resultingAlt = altMetaData.minUserAlt;
+        }
+
+        return resultingAlt;
     }
 }
