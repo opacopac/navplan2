@@ -14,6 +14,9 @@ import {
 
 
 export class Aircraft {
+    public static DEFAULT_DESCENT_RATE = Speed.ofFpm(500);
+
+
     public static createMinimal(
         vehicleType: VehicleType,
         registration: string,
@@ -116,6 +119,11 @@ export class Aircraft {
         }
 
         return AircraftClimbPerformanceService.calcClimbTargetAlt(startingAlt, time, this.rocSealevel, this.serviceCeiling);
+    }
+
+
+    public calcDescentTargetAlt(startingAlt: Length, time: Time, rod: Speed): Length {
+        return AircraftClimbPerformanceService.calcDescentTargetAlt(startingAlt, time, rod);
     }
 
 

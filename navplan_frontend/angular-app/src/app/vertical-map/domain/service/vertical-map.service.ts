@@ -23,7 +23,6 @@ import {Time} from '../../../geo-physics/domain/model/quantities/time';
 export class VerticalMapService implements IVerticalMapService {
     public static MIN_TERRAIN_CLEARANCE = Length.ofFt(1000);
     public static MIN_TERRAIN_CLEARANCE_FOR_WARNING = Length.ofFt(500);
-    public static DEFAULT_DESCENT_RATE = Speed.ofFpm(500);
 
 
     constructor(private restService: IVerticalMapRepoService) {
@@ -73,8 +72,12 @@ export class VerticalMapService implements IVerticalMapService {
         this.calcMinTerrainClearanceForLegsAndSteps(legs);
         this.getUserAltitudesForLegs(legs);
         this.clampLegsToFromAirportToGround(legs, terrainSteps);
-        this.calculateLegAndStepAltitudeEnvelopeFromEndToStart(legs, aircraft);
-        this.calcLegAndStepDisplayAltitudesAndWarnings(legs, cruiseAltitude, aircraft);
+        this.initStepsWithUserAltitudes(legs);
+        this.calcStepsEnvelopeForwards(legs, aircraft);
+        this.calcStepsEnvelopeBackwards(legs, aircraft);
+        this.calcStepDisplayAlts(legs, cruiseAltitude, aircraft);
+        // this.calculateLegAndStepAltitudeEnvelopeFromEndToStart(legs, aircraft);
+        // this.calcLegAndStepDisplayAltitudesAndWarnings(legs, cruiseAltitude, aircraft);
 
         return legs;
     }
@@ -193,6 +196,188 @@ export class VerticalMapService implements IVerticalMapService {
     }
 
 
+    private initStepsWithUserAltitudes(legs: LegAltitudeMetadata[]): void {
+        for (const leg of legs) {
+            const firstStep = leg.steps[0];
+            const lastStep = leg.steps[leg.steps.length - 1];
+
+            firstStep.altMetaData.minUserAlt = leg.startAlt.minUserAlt;
+            firstStep.altMetaData.maxUserAlt = leg.startAlt.maxUserAlt;
+            lastStep.altMetaData.minUserAlt = leg.endAlt.minUserAlt;
+            lastStep.altMetaData.maxUserAlt = leg.endAlt.maxUserAlt;
+        }
+    }
+
+
+    private calcStepsEnvelopeForwards(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
+        for (let i = 0; i < legs.length; i++) {
+            const leg = legs[i];
+            const step0 = leg.steps[0];
+
+            // init leg start envelope altitudes
+            if (i === 0) {
+                this.determineEnvelopeAltByPrio(
+                    leg.startAlt,
+                    step0.minTerrainClearanceAlt,
+                    step0.minTerrainClearanceAlt,
+                    aircraft.serviceCeiling
+                );
+            } else {
+                const prevLeg = legs[i - 1];
+                this.determineEnvelopeAltByPrio(
+                    leg.startAlt,
+                    step0.minTerrainClearanceAlt,
+                    prevLeg.endAlt.minEnvelopeAlt,
+                    prevLeg.endAlt.maxEnvelopeAlt
+                );
+            }
+
+            for (let j = 0; j < leg.steps.length; j++) {
+                const step = leg.steps[j];
+
+                if (j === 0) {
+                    // use altitudes from leg start
+                    this.determineEnvelopeAltByPrio(
+                        step.altMetaData,
+                        step.minTerrainClearanceAlt,
+                        leg.startAlt.minEnvelopeAlt,
+                        leg.startAlt.maxEnvelopeAlt
+                    );
+                } else {
+                    // calculate climb/descent performance from previous step
+                    const prevStep = leg.steps[j - 1];
+                    const stepMinClimbAltFt = aircraft.calcClimbTargetAlt(prevStep.altMetaData.minEnvelopeAlt, step.climbTime);
+                    const stepMaxDecentAltFt = aircraft.calcDescentTargetAlt(
+                        prevStep.altMetaData.maxEnvelopeAlt,
+                        step.flightTime,
+                        Aircraft.DEFAULT_DESCENT_RATE
+                    );
+
+                    this.determineEnvelopeAltByPrio(
+                        step.altMetaData,
+                        step.minTerrainClearanceAlt,
+                        stepMinClimbAltFt,
+                        stepMaxDecentAltFt
+                    );
+                }
+
+                if (j === leg.steps.length - 1) {
+                    // set leg end altitudes from last step
+                    leg.endAlt.minEnvelopeAlt = step.altMetaData.minEnvelopeAlt;
+                    leg.endAlt.maxEnvelopeAlt = step.altMetaData.maxEnvelopeAlt;
+                }
+            }
+        }
+    }
+
+
+    private calcStepsEnvelopeBackwards(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
+        for (let i = legs.length - 1; i >= 0; i--) {
+            const leg = legs[i];
+            const lastStep = leg.steps[leg.steps.length - 1];
+
+            // init leg end envelope altitudes
+            if (i === legs.length - 1) {
+                this.determineEnvelopeAltByPrio(
+                    leg.endAlt,
+                    lastStep.minTerrainClearanceAlt,
+                    lastStep.minTerrainClearanceAlt,
+                    aircraft.serviceCeiling
+                );
+            } else {
+                const nextLeg = legs[i + 1];
+                this.determineEnvelopeAltByPrio(
+                    leg.endAlt,
+                    lastStep.minTerrainClearanceAlt,
+                    nextLeg.startAlt.minEnvelopeAlt,
+                    nextLeg.startAlt.maxEnvelopeAlt
+                );
+            }
+
+
+            for (let j = leg.steps.length - 1; j >= 0; j--) {
+                const step = leg.steps[j];
+
+                if (j === leg.steps.length - 1) {
+                    // use altitudes from leg end
+                    this.determineEnvelopeAltByPrio(
+                        step.altMetaData,
+                        step.minTerrainClearanceAlt,
+                        leg.endAlt.minEnvelopeAlt,
+                        leg.endAlt.maxEnvelopeAlt
+                    );
+                } else {
+                    const nextStep = j < leg.steps.length - 1 ? leg.steps[j + 1] : null;
+
+                    // calculate climb/descent performance backwards from step end to start
+                    const stepMinClimbAlt = aircraft.calcClimbStartingAlt(nextStep.altMetaData.minEnvelopeAlt, nextStep.climbTime);
+                    const stepMaxDecentAlt = aircraft.calcDescentStartingAlt(
+                        nextStep.altMetaData.maxEnvelopeAlt,
+                        nextStep.flightTime,
+                        Aircraft.DEFAULT_DESCENT_RATE
+                    );
+                    const stepMinEnvAlt = stepMinClimbAlt.isLessThan(step.altMetaData.minEnvelopeAlt)
+                        ? step.altMetaData.minEnvelopeAlt
+                        : stepMinClimbAlt;
+                    const stepMaxEnvAlt = stepMaxDecentAlt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)
+                        ? step.altMetaData.maxEnvelopeAlt
+                        : stepMaxDecentAlt;
+
+                    this.determineEnvelopeAltByPrio(
+                        step.altMetaData,
+                        step.minTerrainClearanceAlt,
+                        stepMinEnvAlt,
+                        stepMaxEnvAlt
+                    );
+                }
+
+                if (j === 0) {
+                    // set leg start altitudes from first step
+                    leg.startAlt.minEnvelopeAlt = step.altMetaData.minEnvelopeAlt;
+                    leg.startAlt.maxEnvelopeAlt = step.altMetaData.maxEnvelopeAlt;
+                }
+            }
+        }
+    }
+
+
+    private calcStepDisplayAlts(legs: LegAltitudeMetadata[], cruiseAltitude: Length, aircraft: Aircraft): void {
+        let hasCruiseAltitudeBeenReached = cruiseAltitude ? !cruiseAltitude : true;
+        let currentAlt = legs[0].startAlt.minEnvelopeAlt;
+        let nextAlt: Length;
+
+        for (let i = 0; i < legs.length; i++) {
+            const leg = legs[i];
+
+            for (let j = 0; j < leg.steps.length; j++) {
+                const step = leg.steps[j];
+
+                if (currentAlt.isLessThan(step.altMetaData.minEnvelopeAlt) || !hasCruiseAltitudeBeenReached) {
+                    nextAlt = step.altMetaData.minEnvelopeAlt;
+                } else if (currentAlt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)) {
+                    nextAlt = step.altMetaData.maxEnvelopeAlt;
+                } else {
+                    nextAlt = currentAlt;
+                }
+
+                if (nextAlt.isGreaterThanOrEqual(cruiseAltitude)) {
+                    hasCruiseAltitudeBeenReached = true;
+                }
+
+                step.altMetaData.displayAlt = nextAlt;
+
+                if (j === 0) {
+                    leg.startAlt.displayAlt = nextAlt;
+                } else if (j === leg.steps.length - 1) {
+                    leg.endAlt.displayAlt = nextAlt;
+                }
+
+                currentAlt = nextAlt;
+            }
+        }
+    }
+
+
     private calculateLegAndStepAltitudeEnvelopeFromEndToStart(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
         for (let i = legs.length - 1; i >= 0; i--) {
             const leg = legs[i];
@@ -224,7 +409,7 @@ export class VerticalMapService implements IVerticalMapService {
                 const stepStartMaxDecentAltFt = aircraft.calcDescentStartingAlt(
                     nextStepMaxAlt,
                     step.flightTime,
-                    VerticalMapService.DEFAULT_DESCENT_RATE
+                    Aircraft.DEFAULT_DESCENT_RATE
                 );
 
                 this.determineEnvelopeAltByPrio(
@@ -254,12 +439,12 @@ export class VerticalMapService implements IVerticalMapService {
     private determineEnvelopeAltByPrio(
         alt: AltitudeMetadata,
         minTerrainAlt: Length,
-        backPropMinAlt: Length,
-        backPropMaxAlt: Length
+        propagatedMinAlt: Length,
+        propagatedMaxAlt: Length
     ) {
-        // prio 3: back-propagate previous values
-        alt.minEnvelopeAlt = backPropMinAlt;
-        alt.maxEnvelopeAlt = backPropMaxAlt;
+        // prio 3: propagate previous values
+        alt.minEnvelopeAlt = propagatedMinAlt;
+        alt.maxEnvelopeAlt = propagatedMaxAlt;
 
         // prio 2: terrain clearance: override back-propagation if below terrain clearance
         if (minTerrainAlt.isGreaterThan(alt.minEnvelopeAlt)) {
