@@ -122,7 +122,7 @@ export class Aircraft {
     }
 
 
-    public calcDescentTargetAlt(startingAlt: Length, time: Time, rod: Speed): Length {
+    public calcDescentTargetAlt(startingAlt: Length, time: Time, rod: Speed = Aircraft.DEFAULT_DESCENT_RATE): Length {
         return AircraftClimbPerformanceService.calcDescentTargetAlt(startingAlt, time, rod);
     }
 
@@ -137,7 +137,7 @@ export class Aircraft {
     }
 
 
-    public calcDescentStartingAlt(targetAlt: Length, descentTime: Time, rod: Speed): Length {
+    public calcDescentStartingAlt(targetAlt: Length, descentTime: Time, rod: Speed = Aircraft.DEFAULT_DESCENT_RATE): Length {
         const maxAlt = AircraftClimbPerformanceService.calcAbsoluteCeiling(this.rocSealevel, this.serviceCeiling);
         const descendFromAlt = AircraftClimbPerformanceService.calcDescentStartingAlt(
             targetAlt,

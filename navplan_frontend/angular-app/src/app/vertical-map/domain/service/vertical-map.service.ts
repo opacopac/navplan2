@@ -246,18 +246,14 @@ export class VerticalMapService implements IVerticalMapService {
                 } else {
                     // calculate climb/descent performance from previous step
                     const prevStep = leg.steps[j - 1];
-                    const stepMinClimbAltFt = aircraft.calcClimbTargetAlt(prevStep.altMetaData.minEnvelopeAlt, step.climbTime);
-                    const stepMaxDecentAltFt = aircraft.calcDescentTargetAlt(
-                        prevStep.altMetaData.maxEnvelopeAlt,
-                        step.flightTime,
-                        Aircraft.DEFAULT_DESCENT_RATE
-                    );
+                    const stepDecentAltFt = aircraft.calcDescentTargetAlt(prevStep.altMetaData.minEnvelopeAlt, step.flightTime);
+                    const stepClimbAltFt = aircraft.calcClimbTargetAlt(prevStep.altMetaData.maxEnvelopeAlt, step.climbTime);
 
                     this.determineEnvelopeAltByPrio(
                         step.altMetaData,
                         step.minTerrainClearanceAlt,
-                        stepMinClimbAltFt,
-                        stepMaxDecentAltFt
+                        stepDecentAltFt,
+                        stepClimbAltFt
                     );
                 }
 
@@ -311,11 +307,7 @@ export class VerticalMapService implements IVerticalMapService {
 
                     // calculate climb/descent performance backwards from step end to start
                     const stepMinClimbAlt = aircraft.calcClimbStartingAlt(nextStep.altMetaData.minEnvelopeAlt, nextStep.climbTime);
-                    const stepMaxDecentAlt = aircraft.calcDescentStartingAlt(
-                        nextStep.altMetaData.maxEnvelopeAlt,
-                        nextStep.flightTime,
-                        Aircraft.DEFAULT_DESCENT_RATE
-                    );
+                    const stepMaxDecentAlt = aircraft.calcDescentStartingAlt(nextStep.altMetaData.maxEnvelopeAlt, nextStep.flightTime);
                     const stepMinEnvAlt = stepMinClimbAlt.isLessThan(step.altMetaData.minEnvelopeAlt)
                         ? step.altMetaData.minEnvelopeAlt
                         : stepMinClimbAlt;
@@ -406,11 +398,7 @@ export class VerticalMapService implements IVerticalMapService {
 
                 // calculate climb/descent performance backwards from step end to start
                 const stepStartMinClimbAltFt = aircraft.calcClimbStartingAlt(nextStepMinAlt, step.climbTime);
-                const stepStartMaxDecentAltFt = aircraft.calcDescentStartingAlt(
-                    nextStepMaxAlt,
-                    step.flightTime,
-                    Aircraft.DEFAULT_DESCENT_RATE
-                );
+                const stepStartMaxDecentAltFt = aircraft.calcDescentStartingAlt(nextStepMaxAlt, step.flightTime);
 
                 this.determineEnvelopeAltByPrio(
                     step.altMetaData,
