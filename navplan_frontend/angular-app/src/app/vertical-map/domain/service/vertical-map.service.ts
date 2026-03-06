@@ -433,6 +433,9 @@ export class VerticalMapService implements IVerticalMapService {
         propagatedMaxAlt: Length
     ) {
         // prio 3: propagate previous values
+        if (propagatedMaxAlt.isLessThan(propagatedMinAlt)) {
+            propagatedMinAlt = propagatedMaxAlt;
+        }
         alt.minEnvelopeAlt = propagatedMinAlt;
         alt.maxEnvelopeAlt = propagatedMaxAlt;
 
