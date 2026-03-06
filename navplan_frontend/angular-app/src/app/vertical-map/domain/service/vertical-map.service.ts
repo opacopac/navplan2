@@ -344,12 +344,14 @@ export class VerticalMapService implements IVerticalMapService {
             for (let j = 0; j < leg.steps.length; j++) {
                 const step = leg.steps[j];
 
-                if (currentAlt.isLessThan(step.altMetaData.minEnvelopeAlt) || !hasCruiseAltitudeBeenReached) {
-                    nextAlt = step.altMetaData.minEnvelopeAlt;
-                } else if (currentAlt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)) {
+                nextAlt = currentAlt;
+
+                if (currentAlt.isGreaterThan(step.altMetaData.maxEnvelopeAlt) || !hasCruiseAltitudeBeenReached) {
                     nextAlt = step.altMetaData.maxEnvelopeAlt;
-                } else {
-                    nextAlt = currentAlt;
+                }
+
+                if (currentAlt.isLessThan(step.altMetaData.minEnvelopeAlt)) {
+                    nextAlt = step.altMetaData.minEnvelopeAlt;
                 }
 
                 if (nextAlt.isGreaterThanOrEqual(cruiseAltitude)) {
