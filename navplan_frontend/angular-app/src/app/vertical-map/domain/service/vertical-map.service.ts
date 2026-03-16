@@ -413,7 +413,6 @@ export class VerticalMapService implements IVerticalMapService {
 
 
     private calcStepDisplayAlts2(legs: LegAltitudeMetadata[], cruiseAltitude: Length, aircraft: Aircraft): void {
-        debugger;
         const midLegStep = this.findCruiseAltReachedLegAndStep(legs, cruiseAltitude);
         let currentAlt = legs[midLegStep.legIdx].steps[midLegStep.stepIdx].altMetaData.maxEnvelopeAlt;
         let nextAlt: Length;
@@ -422,6 +421,10 @@ export class VerticalMapService implements IVerticalMapService {
         for (let i = midLegStep.legIdx; i >= 0; i--) {
             const leg = legs[i];
             const startStepIdx = i === midLegStep.legIdx ? midLegStep.stepIdx : leg.steps.length - 1;
+
+            if (i < midLegStep.legIdx) {
+                leg.endAlt.displayAlt = currentAlt;
+            }
 
             for (let j = startStepIdx; j >= 0; j--) {
                 const step = leg.steps[j];
@@ -438,12 +441,10 @@ export class VerticalMapService implements IVerticalMapService {
 
                 step.altMetaData.displayAlt = nextAlt;
 
-                if (j === 0) {
-                    leg.startAlt.displayAlt = nextAlt;
-                }
-
                 currentAlt = nextAlt;
             }
+
+            leg.startAlt.displayAlt = currentAlt;
         }
 
         // forwards from cruise altitude
@@ -451,6 +452,10 @@ export class VerticalMapService implements IVerticalMapService {
         for (let i = midLegStep.legIdx; i < legs.length; i++) {
             const leg = legs[i];
             const startStepIdx = i === midLegStep.legIdx ? midLegStep.stepIdx : 0;
+
+            if (i > midLegStep.legIdx) {
+                leg.startAlt.displayAlt = currentAlt;
+            }
 
             for (let j = startStepIdx; j < leg.steps.length; j++) {
                 const step = leg.steps[j];
@@ -467,12 +472,10 @@ export class VerticalMapService implements IVerticalMapService {
 
                 step.altMetaData.displayAlt = nextAlt;
 
-                if (j === leg.steps.length - 1) {
-                    leg.endAlt.displayAlt = nextAlt;
-                }
-
                 currentAlt = nextAlt;
             }
+
+            leg.endAlt.displayAlt = currentAlt;
         }
     }
 
