@@ -42,6 +42,7 @@ export class VerticalMapService implements IVerticalMapService {
                 }
             }),
             tap(vm => {
+                vm.mapHeight = Length.ofFt(15000);
                 // TODO
                 const cruiseAlt = flightroute.cruiseAltitude
                     ? flightroute.cruiseAltitude
@@ -72,8 +73,8 @@ export class VerticalMapService implements IVerticalMapService {
         this.getUserAltitudesForLegs(legs);
         this.clampLegsToFromAirportToGround(legs, terrainSteps);
         this.initStepsWithUserAltitudes(legs);
-        this.calcLegsEnvelopeForwards(legs, aircraft);
         this.calcLegsEnvelopeBackwards(legs, aircraft);
+        this.calcLegsEnvelopeForwards(legs, aircraft);
         this.calcStepDisplayAlts(legs, cruiseAltitude, aircraft);
 
         return legs;
@@ -253,11 +254,23 @@ export class VerticalMapService implements IVerticalMapService {
             const stepDecentAltFt = aircraft.calcDescentTargetAlt(prevStep.altMetaData.minEnvelopeAlt, step.flightTime);
             const stepClimbAltFt = aircraft.calcClimbTargetAlt(prevStep.altMetaData.maxEnvelopeAlt, step.climbTime);
 
+            const stepMaxEnvAlt = stepClimbAltFt.isLessThan(step.altMetaData.maxEnvelopeAlt)
+                ? stepClimbAltFt
+                : stepDecentAltFt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)
+                    ? stepDecentAltFt
+                    : step.altMetaData.maxEnvelopeAlt;
+
+            const stepMinEnvAlt = stepDecentAltFt.isGreaterThan(step.altMetaData.minEnvelopeAlt)
+                ? stepDecentAltFt
+                : stepClimbAltFt.isLessThan(step.altMetaData.minEnvelopeAlt)
+                    ? stepClimbAltFt
+                    : step.altMetaData.minEnvelopeAlt;
+
             this.determineEnvelopeAltByPrio(
                 step.altMetaData,
                 step.minTerrainClearanceAlt,
-                stepDecentAltFt,
-                stepClimbAltFt
+                stepMinEnvAlt,
+                stepMaxEnvAlt
             );
         }
     }
@@ -309,18 +322,12 @@ export class VerticalMapService implements IVerticalMapService {
             // calculate climb/descent performance backwards from next step
             const stepMinClimbAlt = aircraft.calcClimbStartingAlt(nextStep.altMetaData.minEnvelopeAlt, nextStep.climbTime);
             const stepMaxDecentAlt = aircraft.calcDescentStartingAlt(nextStep.altMetaData.maxEnvelopeAlt, nextStep.flightTime);
-            const stepMinEnvAlt = stepMinClimbAlt.isLessThan(step.altMetaData.minEnvelopeAlt)
-                ? step.altMetaData.minEnvelopeAlt
-                : stepMinClimbAlt;
-            const stepMaxEnvAlt = stepMaxDecentAlt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)
-                ? step.altMetaData.maxEnvelopeAlt
-                : stepMaxDecentAlt;
 
             this.determineEnvelopeAltByPrio(
                 step.altMetaData,
                 step.minTerrainClearanceAlt,
-                stepMinEnvAlt,
-                stepMaxEnvAlt
+                stepMinClimbAlt,
+                stepMaxDecentAlt
             );
         }
     }
