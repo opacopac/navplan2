@@ -75,7 +75,7 @@ export class VerticalMapService implements IVerticalMapService {
         this.initStepsWithUserAltitudes(legs);
         this.calcLegsEnvelopeBackwards(legs, aircraft);
         this.calcLegsEnvelopeForwards(legs, aircraft);
-        this.calcStepDisplayAlts(legs, cruiseAltitude, aircraft);
+        this.calcStepDisplayAlts2(legs, cruiseAltitude, aircraft);
 
         return legs;
     }
@@ -333,6 +333,46 @@ export class VerticalMapService implements IVerticalMapService {
     }
 
 
+    private determineEnvelopeAltByPrio(
+        alt: AltitudeMetadata,
+        minTerrainAlt: Length,
+        propagatedMinAlt: Length,
+        propagatedMaxAlt: Length
+    ) {
+        // prio 3: propagate previous values
+        if (propagatedMaxAlt.isLessThan(propagatedMinAlt)) {
+            propagatedMinAlt = propagatedMaxAlt;
+        }
+        alt.minEnvelopeAlt = propagatedMinAlt;
+        alt.maxEnvelopeAlt = propagatedMaxAlt;
+
+        // prio 2: terrain clearance: override back-propagation if below terrain clearance
+        if (minTerrainAlt.isGreaterThan(alt.minEnvelopeAlt)) {
+            alt.minEnvelopeAlt = minTerrainAlt;
+        }
+        if (minTerrainAlt.isGreaterThan(alt.maxEnvelopeAlt)) {
+            alt.maxEnvelopeAlt = minTerrainAlt;
+        }
+
+        // prio 1: used defined altitudes: override values if above previous min / below previous max
+        if (alt.minUserAlt && alt.minUserAlt.isGreaterThan(alt.minEnvelopeAlt)) {
+            alt.minEnvelopeAlt = alt.minUserAlt;
+        }
+        if (alt.maxUserAlt && alt.maxUserAlt.isLessThan(alt.maxEnvelopeAlt)) {
+            alt.maxEnvelopeAlt = alt.maxUserAlt;
+        }
+
+        // prevent min > max
+        if (alt.minUserAlt && alt.minUserAlt.isGreaterThan(alt.maxEnvelopeAlt)) {
+            alt.maxEnvelopeAlt = alt.minUserAlt;
+        }
+
+        // prevent max < min
+        if (alt.maxUserAlt && alt.maxUserAlt.isLessThan(alt.minEnvelopeAlt)) {
+            alt.minEnvelopeAlt = alt.maxUserAlt;
+        }
+    }
+
     private calcStepDisplayAlts(legs: LegAltitudeMetadata[], cruiseAltitude: Length, aircraft: Aircraft): void {
         let hasCruiseAltitudeBeenReached = cruiseAltitude ? !cruiseAltitude : true;
         let currentAlt = legs[0].startAlt.minEnvelopeAlt;
@@ -372,43 +412,86 @@ export class VerticalMapService implements IVerticalMapService {
     }
 
 
-    private determineEnvelopeAltByPrio(
-        alt: AltitudeMetadata,
-        minTerrainAlt: Length,
-        propagatedMinAlt: Length,
-        propagatedMaxAlt: Length
-    ) {
-        // prio 3: propagate previous values
-        if (propagatedMaxAlt.isLessThan(propagatedMinAlt)) {
-            propagatedMinAlt = propagatedMaxAlt;
-        }
-        alt.minEnvelopeAlt = propagatedMinAlt;
-        alt.maxEnvelopeAlt = propagatedMaxAlt;
+    private calcStepDisplayAlts2(legs: LegAltitudeMetadata[], cruiseAltitude: Length, aircraft: Aircraft): void {
+        debugger;
+        const midLegStep = this.findCruiseAltReachedLegAndStep(legs, cruiseAltitude);
+        let currentAlt = legs[midLegStep.legIdx].steps[midLegStep.stepIdx].altMetaData.maxEnvelopeAlt;
+        let nextAlt: Length;
 
-        // prio 2: terrain clearance: override back-propagation if below terrain clearance
-        if (minTerrainAlt.isGreaterThan(alt.minEnvelopeAlt)) {
-            alt.minEnvelopeAlt = minTerrainAlt;
-        }
-        if (minTerrainAlt.isGreaterThan(alt.maxEnvelopeAlt)) {
-            alt.maxEnvelopeAlt = minTerrainAlt;
+        // backwards from cruise altitude
+        for (let i = midLegStep.legIdx; i >= 0; i--) {
+            const leg = legs[i];
+            const startStepIdx = i === midLegStep.legIdx ? midLegStep.stepIdx : leg.steps.length - 1;
+
+            for (let j = startStepIdx; j >= 0; j--) {
+                const step = leg.steps[j];
+
+                nextAlt = currentAlt;
+
+                if (currentAlt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)) {
+                    nextAlt = step.altMetaData.maxEnvelopeAlt;
+                }
+
+                if (currentAlt.isLessThan(step.altMetaData.minEnvelopeAlt)) {
+                    nextAlt = step.altMetaData.minEnvelopeAlt;
+                }
+
+                step.altMetaData.displayAlt = nextAlt;
+
+                if (j === 0) {
+                    leg.startAlt.displayAlt = nextAlt;
+                }
+
+                currentAlt = nextAlt;
+            }
         }
 
-        // prio 1: used defined altitudes: override values if above previous min / below previous max
-        if (alt.minUserAlt && alt.minUserAlt.isGreaterThan(alt.minEnvelopeAlt)) {
-            alt.minEnvelopeAlt = alt.minUserAlt;
-        }
-        if (alt.maxUserAlt && alt.maxUserAlt.isLessThan(alt.maxEnvelopeAlt)) {
-            alt.maxEnvelopeAlt = alt.maxUserAlt;
-        }
+        // forwards from cruise altitude
+        currentAlt = legs[midLegStep.legIdx].steps[midLegStep.stepIdx].altMetaData.maxEnvelopeAlt;
+        for (let i = midLegStep.legIdx; i < legs.length; i++) {
+            const leg = legs[i];
+            const startStepIdx = i === midLegStep.legIdx ? midLegStep.stepIdx : 0;
 
-        // prevent min > max
-        if (alt.minUserAlt && alt.minUserAlt.isGreaterThan(alt.maxEnvelopeAlt)) {
-            alt.maxEnvelopeAlt = alt.minUserAlt;
-        }
+            for (let j = startStepIdx; j < leg.steps.length; j++) {
+                const step = leg.steps[j];
 
-        // prevent max < min
-        if (alt.maxUserAlt && alt.maxUserAlt.isLessThan(alt.minEnvelopeAlt)) {
-            alt.minEnvelopeAlt = alt.maxUserAlt;
+                nextAlt = currentAlt;
+
+                if (currentAlt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)) {
+                    nextAlt = step.altMetaData.maxEnvelopeAlt;
+                }
+
+                if (currentAlt.isLessThan(step.altMetaData.minEnvelopeAlt)) {
+                    nextAlt = step.altMetaData.minEnvelopeAlt;
+                }
+
+                step.altMetaData.displayAlt = nextAlt;
+
+                if (j === leg.steps.length - 1) {
+                    leg.endAlt.displayAlt = nextAlt;
+                }
+
+                currentAlt = nextAlt;
+            }
+        }
+    }
+
+
+    private findCruiseAltReachedLegAndStep(legs: LegAltitudeMetadata[], cruiseAltitude: Length): {
+        legIdx: number,
+        stepIdx: number
+    } {
+        for (let i = 0; i < legs.length; i++) {
+            const leg = legs[i];
+            for (let j = 0; j < leg.steps.length; j++) {
+                const step = leg.steps[j];
+                if (step.altMetaData.maxEnvelopeAlt.isGreaterThanOrEqual(cruiseAltitude)) {
+                    return {
+                        legIdx: i,
+                        stepIdx: j
+                    };
+                }
+            }
         }
     }
 }
