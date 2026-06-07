@@ -45,6 +45,9 @@ class OpenAipAirspaceTypeConverter
             31 => AirspaceType::TFR,
             32 => AirspaceType::VFR_SECTOR,
             33 => AirspaceType::FIS_SECTOR,
+            34 => AirspaceType::LTA,
+            35 => AirspaceType::UTA,
+            36 => AirspaceType::MCTR,
             default => throw new InvalidArgumentException("unknown airspace type '" . $restAirspaceType . "'"),
         };
     }

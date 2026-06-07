@@ -40,4 +40,7 @@ enum AirspaceType: string
     case VFR_SECTOR = "VFR_SECTOR";
     case FIS_SECTOR = "FIS_SECTOR";
     case FIZ = "FIZ"; // own
+    case LTA = "LTA"; // Lower Traffic Area (LTA)
+    case UTA = "UTA"; // Upper Traffic Area (UTA)
+    case MCTR = "MCTR"; // Military Controlled Tower Region (MCTR)
 }
