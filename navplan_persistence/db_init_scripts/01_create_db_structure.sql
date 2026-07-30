@@ -494,6 +494,26 @@ CREATE TABLE IF NOT EXISTS `icao_fir` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `faa_notam`
+--
+
+CREATE TABLE IF NOT EXISTS `faa_notam` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `notam_id` varchar(20) NOT NULL,
+  `country` varchar(3) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `icao` varchar(4) NOT NULL,
+  `startdate` datetime NOT NULL,
+  `enddate` datetime NOT NULL,
+  `notam` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `icao` (`icao`),
+  KEY `country` (`country`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `icao_notam`
 --
 

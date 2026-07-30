@@ -34,7 +34,7 @@ class DbTableAirport extends DbTable
         $this->addCol(self::COL_ICAO, DbColType::STRING, true);
         $this->addCol(self::COL_LATITUDE, DbColType::DOUBLE);
         $this->addCol(self::COL_LONGITUDE, DbColType::DOUBLE);
-        $this->addCol(self::COL_ELEVATION, DbColType::INT);
+        $this->addCol(self::COL_ELEVATION, DbColType::DOUBLE);
         $this->addCol(self::COL_ZOOMMIN, DbColType::INT, true);
         $this->addCol(self::COL_GEOHASH, DbColType::STRING);
         $this->addCol(self::COL_LONLAT, DbColType::GEO_POINT);
