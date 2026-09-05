@@ -35,6 +35,11 @@ export class MeteoButtonComponent implements OnInit {
     }
 
 
+    public onPrecipRadarSelected() {
+        this.appStore.dispatch(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.PrecipRadarLayer}));
+    }
+
+
     public onStationsSelected() {
         this.appStore.dispatch(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.SmaStationsLayer}));
     }

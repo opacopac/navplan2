@@ -1,5 +1,6 @@
 export enum MeteoLayer {
     SmaStationsLayer,
     ForecastWeatherLayer,
-    ForecastWindLayer
+    ForecastWindLayer,
+    PrecipRadarLayer
 }

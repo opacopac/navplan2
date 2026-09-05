@@ -83,6 +83,9 @@ export class FlightMapEffects {
                     case MeteoLayer.ForecastWindLayer:
                         returnActions.push(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.ForecastWindLayer}));
                         break;
+                    case MeteoLayer.PrecipRadarLayer:
+                        returnActions.push(FlightMapActions.selectMeteoLayer({meteoLayer: MeteoLayer.PrecipRadarLayer}));
+                        break;
                 }
             } else {
                 returnActions.push(MeteoSmaActions.close());

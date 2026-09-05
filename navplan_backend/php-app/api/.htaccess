@@ -102,6 +102,9 @@ RewriteRule ^meteo/forecasts/([^/]+)/([^/]+)/(\d+)/([^/]+)$ %{ENV:BASEPATH}Meteo
 # Rewrite for /api/meteo/measurements
 RewriteRule ^meteo/measurements$ %{ENV:BASEPATH}MeteoSma/MeteoSma.php [L,QSA]
 
+# Rewrite for /api/meteo/radar
+RewriteRule ^meteo/radar$ %{ENV:BASEPATH}MeteoRadar/MeteoRadarImages.php [L,QSA]
+
 
 ### navaids ###
 

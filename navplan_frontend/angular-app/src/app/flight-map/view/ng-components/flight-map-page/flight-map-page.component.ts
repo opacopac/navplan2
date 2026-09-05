@@ -28,9 +28,7 @@ import {
 import {
     MapPopupTrafficComponent
 } from '../../../../traffic/view/ng-components/map-popup-traffic/map-popup-traffic.component';
-import {
-    MapPopupNotamComponent
-} from '../../../../notam/view/ng-components/map-popup-notam/map-popup-notam.component';
+import {MapPopupNotamComponent} from '../../../../notam/view/ng-components/map-popup-notam/map-popup-notam.component';
 import {Observable} from 'rxjs/internal/Observable';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {
@@ -81,9 +79,9 @@ import {OlMeteoForecastContainer} from '../../../../meteo-forecast/view/ol-compo
 import {
     getMeteoForecastLayer,
     getMeteoForecastMapTilesUrl,
+    getMeteoForecastMaxZoomLevel,
     getMeteoForecastWeatherValues,
-    getMeteoForecastWindValues,
-    getMeteoForecastMaxZoomLevel
+    getMeteoForecastWindValues
 } from '../../../../meteo-forecast/state/ngrx/meteo-forecast.selectors';
 import {
     OlMeteoForecastMapTileLayer
@@ -123,6 +121,13 @@ import {
 import {SidebarMode} from '../../../state/ngrx/sidebar-mode';
 import {OlCrosshairContainer} from '../../../../aerodrome-charts/view/ol-components/ol-crosshair-container';
 import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
+import {OlMeteoRadarContainer} from '../../../../meteo-radar/view/ol-components/ol-meteo-radar-container';
+import {
+    getMeteoRadarMapTilesUrl,
+    getMeteoRadarMaxZoomLevel,
+    getShowMeteoRadarLayer
+} from '../../../../meteo-radar/state/model/meteo-radar.selectors';
+import {OlMeteoRadarMapTileLayer} from '../../../../meteo-radar/view/ol-components/ol-meteo-radar-map-tile-layer';
 
 
 @Component({
@@ -183,6 +188,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
     private olOwnPlane: OlOwnPlaneContainer;
     private olSmaMeasurementsContainer: OlSmaMeasurementContainer;
     private olMeteoForecastContainer: OlMeteoForecastContainer;
+    private olMeteoRadarContainer: OlMeteoRadarContainer;
     private readonly flightroute$ = this.appStore.pipe(select(getFlightroute));
     private readonly showOverlay$: Observable<OverlayState> = this.appStore.pipe(select(getFlightMapShowOverlay));
     private readonly verticalMapState$ = this.appStore.pipe(select(getVerticalMapState));
@@ -282,6 +288,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         this.olOwnPlane.destroy();
         this.olSmaMeasurementsContainer.destroy();
         this.olMeteoForecastContainer.destroy();
+        this.olMeteoRadarContainer.destroy();
 
         this.showOverlaySubscription.unsubscribe();
         this.showNotamPopupSubscription.unsubscribe();
@@ -319,6 +326,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
         const smaMeasurementsBgLayer = new OlVectorLayer();
         const smaMeasurementsLayer = new OlVectorLayer();
         const meteoForecastBgLayer = new OlMeteoForecastMapTileLayer();
+        const meteoRadarBgLayer = new OlMeteoRadarMapTileLayer();
         const meteoForecastWeatherIconLayer = new OlVectorLayer(true);
         const meteoForecastWindIconLayer = new OlVectorLayer(true);
         const crosshairIconLayer = new OlVectorLayer(true);
@@ -339,6 +347,7 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
                 meteoForecastBgLayer,
                 meteoForecastWeatherIconLayer,
                 meteoForecastWindIconLayer,
+                meteoRadarBgLayer,
                 smaMeasurementsBgLayer,
                 smaMeasurementsLayer,
                 flightrouteLayer,
@@ -451,6 +460,12 @@ export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy 
             this.appStore.pipe(select(getMeteoForecastWindValues)),
             this.appStore.pipe(select(getMeteoForecastMapTilesUrl)),
             this.appStore.pipe(select(getMeteoForecastMaxZoomLevel)),
+        );
+        this.olMeteoRadarContainer = new OlMeteoRadarContainer(
+            meteoRadarBgLayer,
+            this.appStore.pipe(select(getShowMeteoRadarLayer)),
+            this.appStore.pipe(select(getMeteoRadarMapTilesUrl)),
+            this.appStore.pipe(select(getMeteoRadarMaxZoomLevel))
         );
     }
 

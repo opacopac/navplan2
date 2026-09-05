@@ -26,6 +26,8 @@ export const environment = {
     meteoForecastApiBaseUrl: WEBSITE_BASE_URL + 'api/meteo/forecasts',
     meteoForecastMapTilesUrl: WEBSITE_BASE_URL + 'meteo_forecast/',
     meteogramApiBaseUrl: WEBSITE_BASE_URL + 'api/meteograms',
+    meteoRadarApiBaseUrl: WEBSITE_BASE_URL + 'api/meteo/radar',
+    meteoRadarMapTilesUrl: WEBSITE_BASE_URL + 'meteo_radar/',
     meteoSmaApiBaseUrl: WEBSITE_BASE_URL + 'api/meteo/measurements',
     notamRestApiBaseUrl: WEBSITE_BASE_URL + 'api/notams',
     searchTextApiBaseUrl: WEBSITE_BASE_URL + 'api/search/text',

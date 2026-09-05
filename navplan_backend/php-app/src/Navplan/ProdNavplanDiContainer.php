@@ -30,6 +30,8 @@ use Navplan\MeteoForecast\IMeteoForecastDiContainer;
 use Navplan\MeteoForecast\ProdMeteoForecastDiContainer;
 use Navplan\MeteoGram\IMeteoGramDiContainer;
 use Navplan\MeteoGram\ProdMeteoGramDiContainer;
+use Navplan\MeteoRadar\IMeteoRadarImagesDiContainer;
+use Navplan\MeteoRadar\ProdMeteoRadarImagesDiContainer;
 use Navplan\MeteoSma\IMeteoSmaDiContainer;
 use Navplan\MeteoSma\ProdMeteoSmaDiContainer;
 use Navplan\Navaid\INavaidDiContainer;
@@ -72,6 +74,7 @@ class ProdNavplanDiContainer
     private IFlightrouteDiContainer $flightrouteDiContainer;
     private IGeonameDiContainer $geonameDiContainer;
     private IMeteoForecastDiContainer $meteoForecastDiContainer;
+    private IMeteoRadarImagesDiContainer $meteoRadarImagesDiContainer;
     private IMeteoGramDiContainer $meteoGramDiContainer;
     private IMeteoSmaDiContainer $meteoSmaDiContainer;
     private IMetarTafDiContainer $metarTafDiContainer;
@@ -271,6 +274,19 @@ class ProdNavplanDiContainer
         }
 
         return $this->meteoForecastDiContainer;
+    }
+
+
+    public function getMeteoRadarImagesDiContainer(): IMeteoRadarImagesDiContainer
+    {
+        if (!isset($this->meteoRadarImagesDiContainer)) {
+            $this->meteoRadarImagesDiContainer = new ProdMeteoRadarImagesDiContainer(
+                $this->getSystemDiContainer()->getFileService(),
+                $this->getSystemDiContainer()->getHttpService()
+            );
+        }
+
+        return $this->meteoRadarImagesDiContainer;
     }
 
 
