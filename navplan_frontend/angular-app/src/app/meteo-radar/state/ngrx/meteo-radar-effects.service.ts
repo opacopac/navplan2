@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {BaseMapState} from '../../../base-map/state/state-model/base-map-state';
 import {getMapState} from '../../../base-map/state/ngrx/base-map.selectors';
-import {MeteoRadarState} from './meteo-radar-state';
+import {MeteoRadarState} from '../model/meteo-radar-state';
 import {getMeteoRadarState} from './meteo-radar.selectors';
 import {IMeteoRadarImageService} from '../../domain/service/i-meteo-radar-image.service';
 import {MeteoRadarActions} from './meteo-radar.actions';

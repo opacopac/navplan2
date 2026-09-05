@@ -126,7 +126,7 @@ import {
     getMeteoRadarMapTilesUrl,
     getMeteoRadarMaxZoomLevel,
     getShowMeteoRadarLayer
-} from '../../../../meteo-radar/state/model/meteo-radar.selectors';
+} from '../../../../meteo-radar/state/ngrx/meteo-radar.selectors';
 import {OlMeteoRadarMapTileLayer} from '../../../../meteo-radar/view/ol-components/ol-meteo-radar-map-tile-layer';
 
 

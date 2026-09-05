@@ -1,7 +1,7 @@
 import {createReducer, on} from '@ngrx/store';
 import {MeteoRadarActions} from './meteo-radar.actions';
 import {MeteoRadarStatus} from '../../domain/model/meteo-radar-status';
-import {MeteoRadarState} from './meteo-radar-state';
+import {MeteoRadarState} from '../model/meteo-radar-state';
 
 
 const initialState: MeteoRadarState = {
@@ -48,13 +48,13 @@ export const meteoRadarReducer = createReducer(
 
         return {
             ...state,
-            selectedStep: selectedImage
+            selectedRadarImage: selectedImage
         };
     }),
 
     on(MeteoRadarActions.selectStep, (state, action) => ({
         ...state,
-        selectedStep: action.image,
+        selectedRadarImage: action.image,
     })),
 
     on(MeteoRadarActions.readAvailableRadarImagesSuccess, (state, action) => ({

@@ -4,6 +4,7 @@ namespace Navplan\MeteoRadar\FileSystem\Service;
 
 use DateInterval;
 use DateTime;
+use DateTimeZone;
 use Navplan\MeteoRadar\Domain\Model\RadarImage;
 use Navplan\MeteoRadar\Domain\Service\IMeteoRadarImagesConfig;
 use Navplan\MeteoRadar\Domain\Service\IMeteoRadarImagesRepo;
@@ -35,7 +36,7 @@ readonly class FileSystemRadarImagesRepo implements IMeteoRadarImagesRepo
         $radarImages = [];
         foreach ($subDirs as $subDir) {
             $dirName = basename($subDir);
-            $endTime = DateTime::createFromFormat('YmdHi', $dirName);
+            $endTime = DateTime::createFromFormat('YmdHi', $dirName, new DateTimeZone('UTC'));
             if (!$endTime || $endTime->format('YmdHi') !== $dirName) {
                 continue;
             }

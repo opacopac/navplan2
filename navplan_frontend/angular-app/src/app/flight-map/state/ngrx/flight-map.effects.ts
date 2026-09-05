@@ -28,6 +28,7 @@ import {SidebarMode} from './sidebar-mode';
 import {Traffic} from '../../../traffic/domain/model/traffic';
 import {NotamState} from '../../../notam/state/state-model/notam-state';
 import {getNotamState} from '../../../notam/state/ngrx/notam.selectors';
+import {MeteoRadarActions} from "../../../meteo-radar/state/ngrx/meteo-radar.actions";
 
 
 @Injectable()
@@ -105,16 +106,24 @@ export class FlightMapEffects {
 
             switch (action.meteoLayer) {
                 case MeteoLayer.SmaStationsLayer:
+                    returnActions.push(MeteoRadarActions.close());
                     returnActions.push(MeteoForecastActions.close());
                     returnActions.push(MeteoSmaActions.open());
                     break;
+                case MeteoLayer.PrecipRadarLayer:
+                    returnActions.push(MeteoSmaActions.close());
+                    returnActions.push(MeteoForecastActions.close());
+                    returnActions.push(MeteoRadarActions.open());
+                    break;
                 case MeteoLayer.ForecastWeatherLayer:
                     returnActions.push(MeteoSmaActions.close());
+                    returnActions.push(MeteoRadarActions.close());
                     returnActions.push(MeteoForecastActions.open());
                     returnActions.push(MeteoForecastActions.selectWeatherForecast());
                     break;
                 case MeteoLayer.ForecastWindLayer:
                     returnActions.push(MeteoSmaActions.close());
+                    returnActions.push(MeteoRadarActions.close());
                     returnActions.push(MeteoForecastActions.open());
                     returnActions.push(MeteoForecastActions.selectWindForecast());
                     break;

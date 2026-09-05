@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import {meteoRadarReducer} from './model/meteo-radar.reducer';
-import {MeteoRadarEffects} from './model/meteo-radar-effects.service';
+import {meteoRadarReducer} from './ngrx/meteo-radar.reducer';
+import {MeteoRadarEffects} from './ngrx/meteo-radar-effects.service';
 import {MeteoRadarDomainModule} from '../domain/meteo-radar-domain.module';
 import {MeteoRadarRestModule} from '../rest/meteo-radar-rest.module';
 
