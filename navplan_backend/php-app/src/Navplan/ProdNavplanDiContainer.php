@@ -282,7 +282,8 @@ class ProdNavplanDiContainer
         if (!isset($this->meteoRadarImagesDiContainer)) {
             $this->meteoRadarImagesDiContainer = new ProdMeteoRadarImagesDiContainer(
                 $this->getSystemDiContainer()->getFileService(),
-                $this->getSystemDiContainer()->getHttpService()
+                $this->getSystemDiContainer()->getHttpService(),
+                $this->getConfigDiContainer()
             );
         }
 

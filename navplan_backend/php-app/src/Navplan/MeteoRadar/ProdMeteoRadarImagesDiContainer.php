@@ -3,6 +3,7 @@
 namespace Navplan\MeteoRadar;
 
 use Navplan\Common\Rest\Controller\IRestController;
+use Navplan\MeteoRadar\Domain\Service\IMeteoRadarImagesConfig;
 use Navplan\MeteoRadar\Domain\Service\IMeteoRadarImagesRepo;
 use Navplan\MeteoRadar\FileSystem\Service\FileSystemRadarImagesRepo;
 use Navplan\MeteoRadar\Rest\Service\MeteoRadarImageController;
@@ -18,7 +19,8 @@ class ProdMeteoRadarImagesDiContainer implements IMeteoRadarImagesDiContainer
 
     public function __construct(
         private readonly IFileService $fileService,
-        private readonly IHttpService $httpService
+        private readonly IHttpService $httpService,
+        private readonly IMeteoRadarImagesConfig $meteoRadarImagesConfig
     )
     {
     }
@@ -41,7 +43,8 @@ class ProdMeteoRadarImagesDiContainer implements IMeteoRadarImagesDiContainer
     {
         if (!isset($this->radarImagesRepo)) {
             $this->radarImagesRepo = new FileSystemRadarImagesRepo(
-                $this->fileService
+                $this->fileService,
+                $this->meteoRadarImagesConfig
             );
         }
 

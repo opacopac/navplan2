@@ -2,7 +2,10 @@
 
 namespace Navplan\MeteoRadar\FileSystem\Service;
 
+use DateInterval;
+use DateTime;
 use Navplan\MeteoRadar\Domain\Model\RadarImage;
+use Navplan\MeteoRadar\Domain\Service\IMeteoRadarImagesConfig;
 use Navplan\MeteoRadar\Domain\Service\IMeteoRadarImagesRepo;
 use Navplan\System\Domain\Service\IFileService;
 
@@ -10,7 +13,8 @@ use Navplan\System\Domain\Service\IFileService;
 readonly class FileSystemRadarImagesRepo implements IMeteoRadarImagesRepo
 {
     public function __construct(
-        private IFileService $fileService
+        private IFileService $fileService,
+        private IMeteoRadarImagesConfig $meteoRadarImagesConfig
     )
     {
     }
@@ -21,7 +25,25 @@ readonly class FileSystemRadarImagesRepo implements IMeteoRadarImagesRepo
      */
     function readAvailableRadarImages(): array
     {
-        // TODO: implement
-        return [];
+        $baseDir = $this->meteoRadarImagesConfig->getMeteoRadarImagesBaseDir();
+
+        $subDirs = $this->fileService->glob(rtrim($baseDir, '/') . '/*', GLOB_ONLYDIR);
+        if ($subDirs === false) {
+            return [];
+        }
+
+        $radarImages = [];
+        foreach ($subDirs as $subDir) {
+            $dirName = basename($subDir);
+            $endTime = DateTime::createFromFormat('YmdHi', $dirName);
+            if (!$endTime || $endTime->format('YmdHi') !== $dirName) {
+                continue;
+            }
+
+            $startTime = (clone $endTime)->sub(new DateInterval('PT5M'));
+            $radarImages[] = new RadarImage($startTime, $endTime);
+        }
+
+        return $radarImages;
     }
 }

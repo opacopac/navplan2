@@ -55,6 +55,12 @@ class ProdConfigDiContainer implements IConfigDiContainer
     }
 
 
+    function getMeteoRadarImagesBaseDir(): string
+    {
+        return $this->getiniFileConfig()->getMeteoRadarImagesBaseDir();
+    }
+
+
     public function getTerrainTilesBaseDir(): string
     {
         return $this->getIniFileConfig()->getTerrainTilesBaseDir();
