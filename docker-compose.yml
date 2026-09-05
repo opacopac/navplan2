@@ -38,6 +38,7 @@ services:
             - navplan_logs:/var/log/navplan
             - navplan_charts:/var/www/html/charts
             - navplan_meteo_forecast:/var/www/html/meteo_forecast
+            - navplan_meteo_radar_images:/var/www/html/meteoswiss_radar_tiles
 
     navplan_frontend:
         build:
@@ -52,6 +53,7 @@ volumes:
     navplan_logs:
     navplan_charts:
     navplan_meteo_forecast:
+    navplan_meteo_radar_images:
 
 secrets:
     db_root_pw:
