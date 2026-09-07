@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
 import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {FlightrouteListEntry} from '../../domain/model/flightroute-list-entry';
@@ -12,14 +11,25 @@ import {RestFlightrouteResponseConverter} from '../converter/rest-flightroute-re
 import {RestFlightrouteListConverter} from '../converter/rest-flightroute-list-converter';
 import {IFlightrouteRepoService} from '../../domain/service/i-flightroute-repo.service';
 import {RestFlightrouteConverter} from '../converter/rest-flightroute-converter';
-import {IRestSuccessResponse} from '../model/i-rest-success-response';
 import {HttpHelper} from '../../../system/domain/service/http/http-helper';
+import {catchError, map} from 'rxjs/operators';
+import {RestCrudService} from '../../../common/rest/service/rest-crud.service';
 
 
 @Injectable()
-export class RestFlightrouteRepoService implements IFlightrouteRepoService {
-    constructor(
-        private http: HttpClient) {
+export class RestFlightrouteRepoService extends RestCrudService<Flightroute, IRestFlightrouteResponse> implements IFlightrouteRepoService {
+    constructor(http: HttpClient) {
+        super(http, environment.flightrouteApiBaseUrl, 'flight route');
+    }
+
+
+    protected convertFromRest(restItem: IRestFlightrouteResponse): Flightroute {
+        return RestFlightrouteResponseConverter.fromRest(restItem);
+    }
+
+
+    protected convertToRest(flightroute: Flightroute): {navplan: unknown} {
+        return {navplan: RestFlightrouteConverter.toRest(flightroute)};
     }
 
 
@@ -45,73 +55,22 @@ export class RestFlightrouteRepoService implements IFlightrouteRepoService {
     // region flightroute CRUD
 
     public readFlightroute(flightrouteId: number): Observable<Flightroute> {
-        const url = environment.flightrouteApiBaseUrl + '/' + flightrouteId;
-
-        return this.http
-            .get<IRestFlightrouteResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
-            .pipe(
-                map((response) => RestFlightrouteResponseConverter.fromRest(response)),
-                catchError(err => {
-                    LoggingService.logResponseError('ERROR reading flight route', err);
-                    return throwError(err);
-                })
-            );
+        return this.read(flightrouteId);
     }
 
 
     public saveFlightroute(flightroute: Flightroute): Observable<Flightroute> {
-        const requestBody = {
-            navplan: RestFlightrouteConverter.toRest(flightroute)
-        };
-
-        if (flightroute.id > 0) {
-            return this.http
-                .put<IRestFlightrouteResponse>(
-                    environment.flightrouteApiBaseUrl + '/' + flightroute.id,
-                    requestBody,
-                    HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
-                ).pipe(
-                    map(response => RestFlightrouteConverter.fromRest(response.navplan))
-                );
-        } else {
-            return this.http
-                .post<IRestFlightrouteResponse>(
-                    environment.flightrouteApiBaseUrl,
-                    requestBody,
-                    HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
-                ).pipe(
-                    map(response => RestFlightrouteConverter.fromRest(response.navplan))
-                );
-        }
+        return this.save(flightroute, flightroute.id);
     }
 
 
     public duplicateFlightroute(flightrouteId: number): Observable<Flightroute> {
-        const url = environment.flightrouteApiBaseUrl + '/' + flightrouteId + '/duplicate';
-
-        return this.http
-            .post<IRestFlightrouteResponse>(
-                url,
-                HttpHelper.HTTP_EMPTY_BODY,
-                HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS
-            ).pipe(
-                map(response => RestFlightrouteConverter.fromRest(response.navplan))
-            );
+        return this.duplicate(flightrouteId);
     }
 
 
     public deleteFlightroute(flightrouteId: number): Observable<boolean> {
-        const url = environment.flightrouteApiBaseUrl + '/' + flightrouteId;
-
-        return this.http
-            .delete<IRestSuccessResponse>(url, HttpHelper.HTTP_OPTIONS_WITH_CREDENTIALS)
-            .pipe(
-                map((response) => response.success),
-                catchError(err => {
-                    LoggingService.logResponseError('ERROR reading flight route', err);
-                    return throwError(err);
-                })
-            );
+        return this.delete(flightrouteId);
     }
 
     // endregion
