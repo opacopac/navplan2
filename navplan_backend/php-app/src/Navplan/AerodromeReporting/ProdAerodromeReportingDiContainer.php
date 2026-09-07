@@ -2,6 +2,8 @@
 
 namespace Navplan\AerodromeReporting;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByExtentQuery;
 use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByIcaoQuery;
 use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByPositionQuery;
@@ -14,75 +16,65 @@ use Navplan\AerodromeReporting\Rest\Controller\AdReportingPointController;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
+use function DI\autowire;
 
 
 class ProdAerodromeReportingDiContainer implements IAerodromeReportingDiContainer
 {
-    private IRestController $reportingPointController;
-    private IAerodromeReportingByExtentQuery $aerodromeReportingByExtentQuery;
-    private IAerodromeReportingByPositionQuery $aerodromeReportingByPositionQuery;
-    private IAerodromeReportingByTextQuery $aerodromeReportingByTextQuery;
-    private IAerodromeReportingByIcaoQuery $aerodromeReportingByIcaoQuery;
+    private Container $container;
 
 
     public function __construct(
-        private readonly IDbService   $dbService,
-        private readonly IHttpService $httpService
+        IDbService $dbService,
+        IHttpService $httpService
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons (shared across all domains)
+            IDbService::class => $dbService,
+            IHttpService::class => $httpService,
+
+            // interface -> implementation bindings (only mapping needed per class)
+            IAerodromeReportingByExtentQuery::class => autowire(DbAerodromeReportingByExtentQuery::class),
+            IAerodromeReportingByPositionQuery::class => autowire(DbAerodromeReportingByPositionQuery::class),
+            IAerodromeReportingByTextQuery::class => autowire(DbAerodromeReportingByTextQuery::class),
+            IAerodromeReportingByIcaoQuery::class => autowire(DbAerodromeReportingByIcaoQuery::class),
+            IRestController::class => autowire(AdReportingPointController::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     public function getReportingPointController(): IRestController
     {
-        if (!isset($this->reportingPointController)) {
-            $this->reportingPointController = new AdReportingPointController(
-                $this->httpService,
-                $this->getAerodromeReportingByExtentQuery(),
-                $this->getAerodromeReportingByIcaoQuery()
-            );
-        }
-
-        return $this->reportingPointController;
+        return $this->container->get(IRestController::class);
     }
 
 
     public function getAerodromeReportingByExtentQuery(): IAerodromeReportingByExtentQuery
     {
-        if (!isset($this->aerodromeReportingByExtentQuery)) {
-            $this->aerodromeReportingByExtentQuery = new DbAerodromeReportingByExtentQuery($this->dbService);
-        }
-
-        return $this->aerodromeReportingByExtentQuery;
+        return $this->container->get(IAerodromeReportingByExtentQuery::class);
     }
 
 
     public function getAerodromeReportingByPositionQuery(): IAerodromeReportingByPositionQuery
     {
-        if (!isset($this->aerodromeReportingByPositionQuery)) {
-            $this->aerodromeReportingByPositionQuery = new DbAerodromeReportingByPositionQuery($this->dbService);
-        }
-
-        return $this->aerodromeReportingByPositionQuery;
+        return $this->container->get(IAerodromeReportingByPositionQuery::class);
     }
 
 
     public function getAerodromeReportingByTextQuery(): IAerodromeReportingByTextQuery
     {
-        if (!isset($this->aerodromeReportingByTextQuery)) {
-            $this->aerodromeReportingByTextQuery = new DbAerodromeReportingByTextQuery($this->dbService);
-        }
-
-        return $this->aerodromeReportingByTextQuery;
+        return $this->container->get(IAerodromeReportingByTextQuery::class);
     }
 
 
     public function getAerodromeReportingByIcaoQuery(): IAerodromeReportingByIcaoQuery
     {
-        if (!isset($this->aerodromeReportingByIcaoQuery)) {
-            $this->aerodromeReportingByIcaoQuery = new DbAerodromeReportingByIcaoQuery($this->dbService);
-        }
-
-        return $this->aerodromeReportingByIcaoQuery;
+        return $this->container->get(IAerodromeReportingByIcaoQuery::class);
     }
 }
+

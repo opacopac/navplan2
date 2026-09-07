@@ -2,6 +2,8 @@
 
 namespace Navplan\Aerodrome;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Aerodrome\Domain\Command\IAirportCreateAllCommand;
 use Navplan\Aerodrome\Domain\Command\IAirportDeleteAllCommand;
 use Navplan\Aerodrome\Domain\Query\IAirportByExtentQuery;
@@ -33,185 +35,60 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\Webcam\Domain\Query\IWebcamByIcaoQuery;
+use function DI\autowire;
 
 
 class ProdAerodromeDiContainer implements IAerodromeDiContainer
 {
-    private IRestController $airportController;
-    private IAirportService $airportService;
-    private IAirportByIdQuery $airportByIdQuery;
-    private IAirportByIcaoQuery $airportByIcaoQuery;
-    private IAirportByIcaosQuery $airportByIcaosQuery;
-    private IAirportByExtentQuery $airportByExtentQuery;
-    private IAirportByPositionQuery $airportByPositionQuery;
-    private IAirportByTextQuery $airportByTextQuery;
-    private IAirportRunwayQuery $airportRunwayQuery;
-    private IAirportRadioQuery $airportRadioQuery;
-    private IAirportFeatureQuery $airportFeatureQuery;
-    private IAirportCreateAllCommand $airportCreateAllCommand;
-    private IAirportDeleteAllCommand $airportDeleteAllCommand;
+    private Container $container;
 
 
     public function __construct(
-        private IDbService $dbService,
-        private ILoggingService $loggingService,
-        private IHttpService $httpService,
-        private IAirportChartService $airportChartService,
-        private IWebcamByIcaoQuery $webcamByIcaoQuery,
+        IDbService $dbService,
+        ILoggingService $loggingService,
+        IHttpService $httpService,
+        IAirportChartService $airportChartService,
+        IWebcamByIcaoQuery $webcamByIcaoQuery
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons (shared across all domains)
+            IDbService::class => $dbService,
+            ILoggingService::class => $loggingService,
+            IHttpService::class => $httpService,
+            IAirportChartService::class => $airportChartService,
+            IWebcamByIcaoQuery::class => $webcamByIcaoQuery,
+
+            // interface -> implementation bindings (only mapping needed per class)
+            IAirportByIdQuery::class => autowire(DbAirportByIdQuery::class),
+            IAirportByIcaoQuery::class => autowire(DbAirportByIcaoQuery::class),
+            IAirportByIcaosQuery::class => autowire(DbAirportByIcaosQuery::class),
+            IAirportByExtentQuery::class => autowire(DbAirportByExtentQuery::class),
+            IAirportByPositionQuery::class => autowire(DbAirportByPositionQuery::class),
+            IAirportByTextQuery::class => autowire(DbAirportByTextQuery::class),
+            IAirportRunwayQuery::class => autowire(DbAirportRunwayQuery::class),
+            IAirportRadioQuery::class => autowire(DbAirportRadioQuery::class),
+            IAirportFeatureQuery::class => autowire(DbAirportFeatureQuery::class),
+            IAirportCreateAllCommand::class => autowire(DbAirportCreateAllCommand::class),
+            IAirportDeleteAllCommand::class => autowire(DbAirportDeleteAllCommand::class),
+            IAirportService::class => autowire(AirportService::class),
+            IRestController::class => autowire(AirportController::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     public function getAirportController(): IRestController
     {
-        if (!isset($this->airportController)) {
-            $this->airportController = new AirportController(
-                $this->httpService,
-                $this->getAirportService()
-            );
-        }
-
-        return $this->airportController;
+        return $this->container->get(IRestController::class);
     }
 
 
     public function getAirportService(): IAirportService
     {
-        if (!isset($this->airportService)) {
-            $this->airportService = new AirportService(
-                $this->getAirportByIdQuery(),
-                $this->getAirportByIcaoQuery(),
-                $this->getAirportByIcaosQuery(),
-                $this->getAirportByExtentQuery(),
-                $this->getAirportByPositionQuery(),
-                $this->getAirportByTextQuery(),
-                $this->getAirportRunwayQuery(),
-                $this->getAirportRadioQuery(),
-                $this->getairportFeatureQuery(),
-                $this->getAirportCreateAllCommand(),
-                $this->getAirportDeleteAllCommand(),
-                $this->airportChartService,
-                $this->webcamByIcaoQuery,
-            );
-        }
-
-        return $this->airportService;
-    }
-
-
-    private function getAirportByIdQuery(): IAirportByIdQuery
-    {
-        if (!isset($this->airportByIdQuery)) {
-            $this->airportByIdQuery = new DbAirportByIdQuery($this->dbService);
-        }
-
-        return $this->airportByIdQuery;
-    }
-
-
-    private function getAirportByIcaoQuery(): IAirportByIcaoQuery
-    {
-        if (!isset($this->airportByIcaoQuery)) {
-            $this->airportByIcaoQuery = new DbAirportByIcaoQuery($this->dbService);
-        }
-
-        return $this->airportByIcaoQuery;
-    }
-
-
-    private function getAirportByIcaosQuery(): IAirportByIcaosQuery
-    {
-        if (!isset($this->airportByIcaosQuery)) {
-            $this->airportByIcaosQuery = new DbAirportByIcaosQuery($this->dbService);
-        }
-
-        return $this->airportByIcaosQuery;
-    }
-
-
-    private function getAirportByExtentQuery(): IAirportByExtentQuery
-    {
-        if (!isset($this->airportByExtentQuery)) {
-            $this->airportByExtentQuery = new DbAirportByExtentQuery($this->dbService);
-        }
-
-        return $this->airportByExtentQuery;
-    }
-
-
-    private function getAirportByPositionQuery(): IAirportByPositionQuery
-    {
-        if (!isset($this->airportByPositionQuery)) {
-            $this->airportByPositionQuery = new DbAirportByPositionQuery($this->dbService);
-        }
-
-        return $this->airportByPositionQuery;
-    }
-
-
-    private function getAirportByTextQuery(): IAirportByTextQuery
-    {
-        if (!isset($this->airportByTextQuery)) {
-            $this->airportByTextQuery = new DbAirportByTextQuery($this->dbService);
-        }
-
-        return $this->airportByTextQuery;
-    }
-
-
-    private function getAirportRunwayQuery(): IAirportRunwayQuery
-    {
-        if (!isset($this->airportRunwayQuery)) {
-            $this->airportRunwayQuery = new DbAirportRunwayQuery($this->dbService);
-        }
-
-        return $this->airportRunwayQuery;
-    }
-
-
-    private function getAirportRadioQuery(): IAirportRadioQuery
-    {
-        if (!isset($this->airportRadioQuery)) {
-            $this->airportRadioQuery = new DbAirportRadioQuery($this->dbService);
-        }
-
-        return $this->airportRadioQuery;
-    }
-
-
-    private function getAirportFeatureQuery(): IAirportFeatureQuery
-    {
-        if (!isset($this->airportFeatureQuery)) {
-            $this->airportFeatureQuery = new DbAirportFeatureQuery($this->dbService);
-        }
-
-        return $this->airportFeatureQuery;
-    }
-
-
-    public function getAirportCreateAllCommand(): IAirportCreateAllCommand
-    {
-        if (!isset($this->airportCreateAllCommand)) {
-            $this->airportCreateAllCommand = new DbAirportCreateAllCommand(
-                $this->dbService,
-                $this->loggingService
-            );
-        }
-
-        return $this->airportCreateAllCommand;
-    }
-
-
-    public function getAirportDeleteAllCommand(): IAirportDeleteAllCommand
-    {
-        if (!isset($this->airportDeleteAllCommand)) {
-            $this->airportDeleteAllCommand = new DbAirportDeleteAllCommand(
-                $this->dbService,
-                $this->loggingService
-            );
-        }
-
-        return $this->airportDeleteAllCommand;
+        return $this->container->get(IAirportService::class);
     }
 }

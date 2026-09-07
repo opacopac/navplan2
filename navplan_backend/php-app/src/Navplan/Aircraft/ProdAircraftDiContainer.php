@@ -2,6 +2,8 @@
 
 namespace Navplan\Aircraft;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Aircraft\Domain\Command\IAircraftCreateCommand;
 use Navplan\Aircraft\Domain\Command\IAircraftDeleteCommand;
 use Navplan\Aircraft\Domain\Command\IAircraftTypeDesignatorCreateCommand;
@@ -43,285 +45,142 @@ use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\User\Domain\Service\IUserService;
+use function DI\autowire;
 
 
 class ProdAircraftDiContainer implements IAircraftDiContainer
 {
-    private IRestController $aircraftController;
-    private IAircraftService $aircraftService;
-    private IAircraftListQuery $aircraftListQuery;
-    private IAircraftByIdQuery $aircraftByIdQuery;
-    private IAircraftCreateCommand $aircraftCreateCommand;
-    private IAircraftUpdateCommand $aircraftUpdateCommand;
-    private IAircraftDeleteCommand $aircraftDeleteCommand;
-    private IWeightItemCreateCommand $weightItemCreateCommand;
-    private IWeightItemDeleteCommand $weightItemDeleteCommand;
-    private IWnbEnvelopeCreateCommand $wnbEnvelopeCreateCommand;
-    private IWnbEnvelopeDeleteCommand $wnbEnvelopeDeleteCommand;
-    private IDistancePerformanceTableCreateCommand $distancePerformanceTableCreateCommand;
-    private IDistancePerformanceTableDeleteCommand $distancePerformanceTableDeleteCommand;
-    private IRestController $aircraftTypeDesignatorController;
-    private IAircraftTypeDesignatorService $acTypeDesignatorService;
-    private IAircraftTypeDesignatorCreateCommand $acTypeDesignatorCreateCommand;
-    private IAircraftTypeDesignatorDeleteAllCommand $acTypeDesignatorDeleteAllCommand;
-    private IAircraftTypeDesignatorImporter $acTypeDesignationImporter;
-    private IAircraftTypeDesignatorSearchQuery $acTypeDesignatorSearchQuery;
+    private Container $container;
 
 
     public function __construct(
-        private IUserService $userService,
-        private IDbService $dbService,
-        private IHttpService $httpService,
-        private ILoggingService $loggingService
+        IUserService $userService,
+        IDbService $dbService,
+        IHttpService $httpService,
+        ILoggingService $loggingService
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons (shared across all domains)
+            IUserService::class => $userService,
+            IDbService::class => $dbService,
+            IHttpService::class => $httpService,
+            ILoggingService::class => $loggingService,
+
+            // interface -> implementation bindings (only mapping needed per class)
+            IAircraftListQuery::class => autowire(DbAircraftListQuery::class),
+            IAircraftByIdQuery::class => autowire(DbAircraftByIdQuery::class),
+            IWeightItemCreateCommand::class => autowire(DbWeightItemCreateCommand::class),
+            IWeightItemDeleteCommand::class => autowire(DbWeightItemDeleteCommand::class),
+            IWnbEnvelopeCreateCommand::class => autowire(DbWnbEnvelopeCreateCommand::class),
+            IWnbEnvelopeDeleteCommand::class => autowire(DbWnbEnvelopeDeleteCommand::class),
+            IDistancePerformanceTableCreateCommand::class => autowire(DbDistancePerformanceTableCreateCommand::class),
+            IDistancePerformanceTableDeleteCommand::class => autowire(DbDistancePerformanceTableDeleteCommand::class),
+            IAircraftCreateCommand::class => autowire(DbAircraftCreateCommand::class),
+            IAircraftUpdateCommand::class => autowire(DbAircraftUpdateCommand::class),
+            IAircraftDeleteCommand::class => autowire(DbAircraftDeleteCommand::class),
+            IAircraftService::class => autowire(AircraftService::class),
+            AircraftController::class => autowire(AircraftController::class),
+            IAircraftTypeDesignatorCreateCommand::class => autowire(DbAircraftTypeDesignatorCreateCommand::class),
+            IAircraftTypeDesignatorDeleteAllCommand::class => autowire(DbAircraftTypeDesignatorDeleteAllCommand::class),
+            IAircraftTypeDesignatorSearchQuery::class => autowire(DbAircraftTypeDesignatorSearchQuery::class),
+            IAircraftTypeDesignatorService::class => autowire(AircraftTypeDesignatorService::class),
+            AircraftTypeDesignatorController::class => autowire(AircraftTypeDesignatorController::class),
+            IAircraftTypeDesignatorImporter::class => autowire(AircraftTypeDesignatorImporter::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     public function getAircraftController(): IRestController
     {
-        if (!isset($this->aircraftController)) {
-            $this->aircraftController = new AircraftController(
-                $this->getAircraftService(),
-                $this->httpService
-            );
-        }
-
-        return $this->aircraftController;
+        return $this->container->get(AircraftController::class);
     }
 
 
     public function getAircraftService(): IAircraftService
     {
-        if (!isset($this->aircraftService)) {
-            $this->aircraftService = new AircraftService(
-                $this->userService,
-                $this->getAircraftListQuery(),
-                $this->getAircraftByIdQuery(),
-                $this->getAircraftCreateCommand(),
-                $this->getAircraftUpdateCommand(),
-                $this->getAircraftDeleteCommand()
-            );
-        }
-
-        return $this->aircraftService;
+        return $this->container->get(IAircraftService::class);
     }
 
 
     public function getAircraftListQuery(): IAircraftListQuery
     {
-        if (!isset($this->aircraftListQuery)) {
-            $this->aircraftListQuery = new DbAircraftListQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->aircraftListQuery;
+        return $this->container->get(IAircraftListQuery::class);
     }
 
 
     public function getAircraftByIdQuery(): IAircraftByIdQuery
     {
-        if (!isset($this->aircraftByIdQuery)) {
-            $this->aircraftByIdQuery = new DbAircraftByIdQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->aircraftByIdQuery;
+        return $this->container->get(IAircraftByIdQuery::class);
     }
 
 
     public function getAircraftCreateCommand(): IAircraftCreateCommand
     {
-        if (!isset($this->aircraftCreateCommand)) {
-            $this->aircraftCreateCommand = new DbAircraftCreateCommand(
-                $this->dbService,
-                $this->getWeightItemCreateCommand(),
-                $this->getWnbEnvelopeCreateCommand(),
-                $this->getDistancePerformanceTableCreateCommand(),
-            );
-        }
-
-        return $this->aircraftCreateCommand;
+        return $this->container->get(IAircraftCreateCommand::class);
     }
 
 
     public function getAircraftUpdateCommand(): IAircraftUpdateCommand
     {
-        if (!isset($this->aircraftUpdateCommand)) {
-            $this->aircraftUpdateCommand = new DbAircraftUpdateCommand(
-                $this->dbService,
-                $this->getWeightItemCreateCommand(),
-                $this->getWeightItemDeleteCommand(),
-                $this->getWnbEnvelopeCreateCommand(),
-                $this->getWnbEnvelopeDeleteCommand(),
-                $this->getDistancePerformanceTableCreateCommand(),
-                $this->getDistancePerformanceTableDeleteCommand()
-            );
-        }
-
-        return $this->aircraftUpdateCommand;
+        return $this->container->get(IAircraftUpdateCommand::class);
     }
 
 
     public function getAircraftDeleteCommand(): IAircraftDeleteCommand
     {
-        if (!isset($this->aircraftDeleteCommand)) {
-            $this->aircraftDeleteCommand = new DbAircraftDeleteCommand(
-                $this->dbService,
-                $this->getWeightItemDeleteCommand(),
-                $this->getWnbEnvelopeDeleteCommand(),
-                $this->getDistancePerformanceTableDeleteCommand()
-            );
-        }
-
-        return $this->aircraftDeleteCommand;
-    }
-
-
-    public function getWeightItemCreateCommand(): IWeightItemCreateCommand
-    {
-        if (!isset($this->weightItemCreateCommand)) {
-            $this->weightItemCreateCommand = new DbWeightItemCreateCommand(
-                $this->dbService
-            );
-        }
-
-        return $this->weightItemCreateCommand;
-    }
-
-
-    public function getWeightItemDeleteCommand(): IWeightItemDeleteCommand
-    {
-        if (!isset($this->weightItemDeleteCommand)) {
-            $this->weightItemDeleteCommand = new DbWeightItemDeleteCommand(
-                $this->dbService
-            );
-        }
-
-        return $this->weightItemDeleteCommand;
-    }
-
-
-    public function getWnbEnvelopeCreateCommand(): IWnbEnvelopeCreateCommand
-    {
-        if (!isset($this->wnbEnvelopeCreateCommand)) {
-            $this->wnbEnvelopeCreateCommand = new DbWnbEnvelopeCreateCommand(
-                $this->dbService
-            );
-        }
-
-        return $this->wnbEnvelopeCreateCommand;
-    }
-
-
-    public function getWnbEnvelopeDeleteCommand(): IWnbEnvelopeDeleteCommand
-    {
-        if (!isset($this->wnbEnvelopeDeleteCommand)) {
-            $this->wnbEnvelopeDeleteCommand = new DbWnbEnvelopeDeleteCommand(
-                $this->dbService
-            );
-        }
-
-        return $this->wnbEnvelopeDeleteCommand;
+        return $this->container->get(IAircraftDeleteCommand::class);
     }
 
 
     public function getDistancePerformanceTableCreateCommand(): IDistancePerformanceTableCreateCommand
     {
-        if (!isset($this->distancePerformanceTableCreateCommand)) {
-            $this->distancePerformanceTableCreateCommand = new DbDistancePerformanceTableCreateCommand(
-                $this->dbService
-            );
-        }
-
-        return $this->distancePerformanceTableCreateCommand;
+        return $this->container->get(IDistancePerformanceTableCreateCommand::class);
     }
 
 
     public function getDistancePerformanceTableDeleteCommand(): IDistancePerformanceTableDeleteCommand
     {
-        if (!isset($this->distancePerformanceTableDeleteCommand)) {
-            $this->distancePerformanceTableDeleteCommand = new DbDistancePerformanceTableDeleteCommand(
-                $this->dbService
-            );
-        }
-
-        return $this->distancePerformanceTableDeleteCommand;
+        return $this->container->get(IDistancePerformanceTableDeleteCommand::class);
     }
 
 
     public function getAircraftTypeDesignatorController(): IRestController
     {
-        if (!isset($this->aircraftTypeDesignatorController)) {
-            $this->aircraftTypeDesignatorController = new AircraftTypeDesignatorController(
-                $this->getAircraftTypeDesignatorService(),
-                $this->httpService
-            );
-        }
-
-        return $this->aircraftTypeDesignatorController;
+        return $this->container->get(AircraftTypeDesignatorController::class);
     }
 
 
     public function getAircraftTypeDesignatorService(): IAircraftTypeDesignatorService
     {
-        if (!isset($this->acTypeDesignatorService)) {
-            $this->acTypeDesignatorService = new AircraftTypeDesignatorService(
-                $this->getAircraftTypeDesignatorCreateCommand(),
-                $this->getAircraftTypeDesignatorDeleteAllCommand(),
-                $this->getAircraftTypeDesignatorSearchQuery()
-            );
-        }
-
-        return $this->acTypeDesignatorService;
+        return $this->container->get(IAircraftTypeDesignatorService::class);
     }
+
 
     public function getAircraftTypeDesignatorCreateCommand(): IAircraftTypeDesignatorCreateCommand
     {
-        if (!isset($this->acTypeDesignatorCreateCommand)) {
-            $this->acTypeDesignatorCreateCommand = new DbAircraftTypeDesignatorCreateCommand(
-                $this->dbService
-            );
-        }
-
-        return $this->acTypeDesignatorCreateCommand;
+        return $this->container->get(IAircraftTypeDesignatorCreateCommand::class);
     }
+
 
     public function getAircraftTypeDesignatorDeleteAllCommand(): IAircraftTypeDesignatorDeleteAllCommand
     {
-        if (!isset($this->acTypeDesignatorDeleteAllCommand)) {
-            $this->acTypeDesignatorDeleteAllCommand = new DbAircraftTypeDesignatorDeleteAllCommand(
-                $this->dbService
-            );
-        }
-
-        return $this->acTypeDesignatorDeleteAllCommand;
+        return $this->container->get(IAircraftTypeDesignatorDeleteAllCommand::class);
     }
 
 
     public function getAircraftTypeDesignatorImporter(): IAircraftTypeDesignatorImporter
     {
-        if (!isset($this->acTypeDesignationImporter)) {
-            $this->acTypeDesignationImporter = new AircraftTypeDesignatorImporter(
-                $this->getAircraftTypeDesignatorService(),
-                $this->loggingService
-            );
-        }
-
-        return $this->acTypeDesignationImporter;
+        return $this->container->get(IAircraftTypeDesignatorImporter::class);
     }
 
 
     public function getAircraftTypeDesignatorSearchQuery(): IAircraftTypeDesignatorSearchQuery
     {
-        if (!isset($this->acTypeDesignatorSearchQuery)) {
-            $this->acTypeDesignatorSearchQuery = new DbAircraftTypeDesignatorSearchQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->acTypeDesignatorSearchQuery;
+        return $this->container->get(IAircraftTypeDesignatorSearchQuery::class);
     }
 }

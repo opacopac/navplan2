@@ -2,6 +2,8 @@
 
 namespace Navplan\Airspace;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Airspace\Domain\Command\IAirspaceDeleteAllCommand;
 use Navplan\Airspace\Domain\Command\IAirspaceInsertAllCommand;
 use Navplan\Airspace\Domain\Query\IAirspaceSearchByExtentQuery;
@@ -26,169 +28,109 @@ use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
+use function DI\autowire;
 
 
 class ProdAirspaceDiContainer implements IAirspaceDiContainer
 {
-    private IRestController $airspaceController;
-    private IRestController $firController;
-    private IAirspaceService $airspaceService;
-    private IFirService $firService;
-    private IAirspaceSearchByExtentQuery $airspaceSearchByExtentQuery;
-    private IAirspaceSearchByPositionQuery $airspaceSearchByPositionQuery;
-    private IAirspaceSearchByRouteQuery $airspaceSearchByRouteQuery;
-    private IAirspaceInsertAllCommand $airspaceInsertAllCommand;
-    private IAirspaceDeleteAllCommand $airspaceDeleteAllCommand;
-    private IFirReadByIcaoQuery $firReadByIcaoQuery;
-    private IFirReadByIcaosQuery $firReadByIcaosQuery;
+    private Container $container;
 
 
     public function __construct(
-        private readonly ILoggingService $loggingService,
-        private readonly IDbService $dbService,
-        private readonly IHttpService $httpService
+        ILoggingService $loggingService,
+        IDbService $dbService,
+        IHttpService $httpService
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons (shared across all domains)
+            ILoggingService::class => $loggingService,
+            IDbService::class => $dbService,
+            IHttpService::class => $httpService,
+
+            // interface -> implementation bindings (only mapping needed per class)
+            IAirspaceSearchByExtentQuery::class => autowire(DbAirspaceSearchByExtentQuery::class),
+            IAirspaceSearchByPositionQuery::class => autowire(DbAirspaceSearchByPositionQuery::class),
+            IAirspaceSearchByRouteQuery::class => autowire(DbAirspaceSearchByRouteQuery::class),
+            IAirspaceInsertAllCommand::class => autowire(DbAirspaceInsertAllCommand::class),
+            IAirspaceDeleteAllCommand::class => autowire(DbAirspaceDeleteAllCommand::class),
+            IFirReadByIcaoQuery::class => autowire(DbFirReadByIcaoQuery::class),
+            IFirReadByIcaosQuery::class => autowire(DbFirReadByIcaosQuery::class),
+            IAirspaceService::class => autowire(AirspaceService::class),
+            IFirService::class => autowire(FirService::class),
+            AirspaceController::class => autowire(AirspaceController::class),
+            FirController::class => autowire(FirController::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     public function getAirspaceController(): IRestController
     {
-        if (!isset($this->airspaceController)) {
-            $this->airspaceController = new AirspaceController(
-                $this->getAirspaceService(),
-                $this->httpService
-            );
-        }
-
-        return $this->airspaceController;
+        return $this->container->get(AirspaceController::class);
     }
 
 
     public function getFirController(): IRestController
     {
-        if (!isset($this->firController)) {
-            $this->firController = new FirController(
-                $this->getFirService(),
-                $this->httpService
-            );
-        }
-
-        return $this->firController;
+        return $this->container->get(FirController::class);
     }
 
 
     public function getFirService(): IFirService
     {
-        if (!isset($this->firService)) {
-            $this->firService = new FirService(
-                $this->getFirReadByIcaoQuery(),
-                $this->getFirReadByIcaosQuery()
-            );
-        }
-
-        return $this->firService;
+        return $this->container->get(IFirService::class);
     }
 
 
     public function getAirspaceService(): IAirspaceService
     {
-        if (!isset($this->airspaceService)) {
-            $this->airspaceService = new AirspaceService(
-                $this->getAirspaceSearchByExtentQuery(),
-                $this->getAirspaceSearchByRouteQuery(),
-                $this->getAirspaceSearchByPositionQuery(),
-                $this->getAirspaceInsertAllCommand(),
-                $this->getAirspaceDeleteAllCommand()
-            );
-        }
-
-        return $this->airspaceService;
+        return $this->container->get(IAirspaceService::class);
     }
 
 
     public function getAirspaceSearchByExtentQuery(): IAirspaceSearchByExtentQuery
     {
-        if (!isset($this->airspaceSearchByExtentQuery)) {
-            $this->airspaceSearchByExtentQuery = new DbAirspaceSearchByExtentQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->airspaceSearchByExtentQuery;
+        return $this->container->get(IAirspaceSearchByExtentQuery::class);
     }
 
 
     public function getAirspaceSearchByPositionQuery(): IAirspaceSearchByPositionQuery
     {
-        if (!isset($this->airspaceSearchByPositionQuery)) {
-            $this->airspaceSearchByPositionQuery = new DbAirspaceSearchByPositionQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->airspaceSearchByPositionQuery;
+        return $this->container->get(IAirspaceSearchByPositionQuery::class);
     }
 
 
     public function getAirspaceSearchByRouteQuery(): IAirspaceSearchByRouteQuery
     {
-        if (!isset($this->airspaceSearchByRouteQuery)) {
-            $this->airspaceSearchByRouteQuery = new DbAirspaceSearchByRouteQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->airspaceSearchByRouteQuery;
+        return $this->container->get(IAirspaceSearchByRouteQuery::class);
     }
 
 
     public function getAirspaceInsertAllCommand(): IAirspaceInsertAllCommand
     {
-        if (!isset($this->airspaceInsertAllCommand)) {
-            $this->airspaceInsertAllCommand = new DbAirspaceInsertAllCommand(
-                $this->dbService,
-                $this->loggingService
-            );
-        }
-
-        return $this->airspaceInsertAllCommand;
+        return $this->container->get(IAirspaceInsertAllCommand::class);
     }
 
 
     public function getAirspaceDeleteAllCommand(): IAirspaceDeleteAllCommand
     {
-        if (!isset($this->airspaceDeleteAllCommand)) {
-            $this->airspaceDeleteAllCommand = new DbAirspaceDeleteAllCommand(
-                $this->dbService,
-                $this->loggingService
-            );
-        }
-
-        return $this->airspaceDeleteAllCommand;
+        return $this->container->get(IAirspaceDeleteAllCommand::class);
     }
 
 
     public function getFirReadByIcaoQuery(): IFirReadByIcaoQuery
     {
-        if (!isset($this->firReadByIcaoQuery)) {
-            $this->firReadByIcaoQuery = new DbFirReadByIcaoQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->firReadByIcaoQuery;
+        return $this->container->get(IFirReadByIcaoQuery::class);
     }
 
 
     public function getFirReadByIcaosQuery(): IFirReadByIcaosQuery
     {
-        if (!isset($this->firReadByIcaosQuery)) {
-            $this->firReadByIcaosQuery = new DbFirReadByIcaosQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->firReadByIcaosQuery;
+        return $this->container->get(IFirReadByIcaosQuery::class);
     }
 }
+

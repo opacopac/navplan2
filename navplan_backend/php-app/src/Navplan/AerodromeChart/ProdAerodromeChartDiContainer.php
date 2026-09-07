@@ -2,6 +2,8 @@
 
 namespace Navplan\AerodromeChart;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\AerodromeChart\Domain\Command\IAirportChartCreateCommand;
 use Navplan\AerodromeChart\Domain\Command\IAirportChartDeleteCommand;
 use Navplan\AerodromeChart\Domain\Query\IAirportChartByAirportQuery;
@@ -24,124 +26,60 @@ use Navplan\System\Domain\Service\IImageService;
 use Navplan\System\Domain\Service\ILoggingService;
 use Navplan\System\Domain\Service\IProcService;
 use Navplan\User\Domain\Service\IUserService;
+use function DI\autowire;
 
 
 class ProdAerodromeChartDiContainer implements IAerodromeChartDiContainer
 {
-    private IRestController $airportChartController;
-    private IAirportChartService $airportChartService;
-    private ISwissGridChartTransformerService $swissGridChartTransformerService;
-    private IAirportChartByIdQuery $airportChartByIdQuery;
-    private IAirportChartByAirportQuery $airportChartByAirportQuery;
-    private IAirportChartCreateCommand $airportChartCreateCommand;
-    private IAirportChartDeleteCommand $airportChartDeleteCommand;
+    private Container $container;
 
 
     public function __construct(
-        private IAerodromeChartConfig $aerodromeChartConfig,
-        private IDbService $dbService,
-        private IFileService $fileService,
-        private IImageService $imageService,
-        private IUserService $userService,
-        private IHttpService $httpService,
-        private IProcService $procService,
-        private ILoggingService $loggingService
+        IAerodromeChartConfig $aerodromeChartConfig,
+        IDbService $dbService,
+        IFileService $fileService,
+        IImageService $imageService,
+        IUserService $userService,
+        IHttpService $httpService,
+        IProcService $procService,
+        ILoggingService $loggingService
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons (shared across all domains)
+            IAerodromeChartConfig::class => $aerodromeChartConfig,
+            IDbService::class => $dbService,
+            IFileService::class => $fileService,
+            IImageService::class => $imageService,
+            IUserService::class => $userService,
+            IHttpService::class => $httpService,
+            IProcService::class => $procService,
+            ILoggingService::class => $loggingService,
+
+            // interface -> implementation bindings (only mapping needed per class)
+            IAirportChartByIdQuery::class => autowire(DbAirportChartByIdQuery::class),
+            IAirportChartByAirportQuery::class => autowire(DbAirportChartByAirportQuery::class),
+            IAirportChartCreateCommand::class => autowire(DbAirportChartCreateCommand::class),
+            IAirportChartDeleteCommand::class => autowire(DbAirportChartDeleteCommand::class),
+            ISwissGridChartTransformerService::class => autowire(SwissGridChartTransformerService::class),
+            IAirportChartService::class => autowire(AirportChartService::class),
+            IRestController::class => autowire(AdChartController::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     public function getAirportChartController(): IRestController
     {
-        if (!isset($this->airportChartController)) {
-            $this->airportChartController = new AdChartController(
-                $this->httpService,
-                $this->getAirportChartService()
-            );
-        }
-
-        return $this->airportChartController;
+        return $this->container->get(IRestController::class);
     }
 
 
-    function getAirportChartService(): IAirportChartService
+    public function getAirportChartService(): IAirportChartService
     {
-        if (!isset($this->airportChartService)) {
-            $this->airportChartService = new AirportChartService(
-                $this->aerodromeChartConfig,
-                $this->fileService,
-                $this->imageService,
-                $this->userService,
-                $this->getSwissGridChartTransformerService(),
-                $this->getAirportChartByIdQuery(),
-                $this->getAirportChartByAirportQuery(),
-                $this->getAirportChartCreateCommand(),
-                $this->getAirportChartDeleteCommand()
-            );
-        }
-
-        return $this->airportChartService;
-    }
-
-
-    function getSwissGridChartTransformerService(): ISwissGridChartTransformerService
-    {
-        if (!isset($this->swissGridChartTransformerService)) {
-            $this->swissGridChartTransformerService = new SwissGridChartTransformerService(
-                $this->fileService,
-                $this->procService,
-                $this->loggingService
-            );
-        }
-
-        return $this->swissGridChartTransformerService;
-    }
-
-
-    function getAirportChartByIdQuery(): IAirportChartByIdQuery
-    {
-        if (!isset($this->airportChartByIdQuery)) {
-            $this->airportChartByIdQuery = new DbAirportChartByIdQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->airportChartByIdQuery;
-    }
-
-
-    function getAirportChartByAirportQuery(): IAirportChartByAirportQuery
-    {
-        if (!isset($this->airportChartByAirportQuery)) {
-            $this->airportChartByAirportQuery = new DbAirportChartByAirportQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->airportChartByAirportQuery;
-    }
-
-
-    function getAirportChartCreateCommand(): IAirportChartCreateCommand
-    {
-        if (!isset($this->airportChartCreateCommand)) {
-            $this->airportChartCreateCommand = new DbAirportChartCreateCommand(
-                $this->dbService
-            );
-        }
-
-        return $this->airportChartCreateCommand;
-    }
-
-
-    function getAirportChartDeleteCommand(): IAirportChartDeleteCommand
-    {
-        if (!isset($this->airportChartDeleteCommand)) {
-            $this->airportChartDeleteCommand = new DbAirportChartDeleteCommand(
-                $this->dbService
-            );
-        }
-
-        return $this->airportChartDeleteCommand;
+        return $this->container->get(IAirportChartService::class);
     }
 }
