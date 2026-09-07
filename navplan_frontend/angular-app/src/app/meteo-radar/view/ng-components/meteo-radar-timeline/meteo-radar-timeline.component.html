@@ -1,0 +1,30 @@
+<div class="meteo-radar-timeline flex-row-100">
+    <button mat-button (click)="this.onPreviousStepClicked(); $event.preventDefault()"><i
+        class="fa-solid fa-angle-left meteo-radar-buttons"></i>
+    </button>
+    <button mat-button (click)="this.onNextStepClicked(); $event.preventDefault()"><i
+        class="fa-solid fa-angle-right meteo-radar-buttons"></i>
+    </button>
+    <div class="meteo-radar-timeline-slider-wrapper flex-col">
+        <form [formGroup]="this.meteoRadarTimelineForm">
+            <!-- slider -->
+            <mat-slider
+                [min]="this.getMinIndex()"
+                [max]="this.getMaxIndex()"
+                [step]="1"
+                [discrete]="true"
+                [showTickMarks]="true"
+                [displayWith]="formatLabel"
+                aria-label="units"
+                class="meteo-radar-timeline-slider"
+            >
+                <input
+                    matSliderThumb
+                    formControlName="step"
+                    (valueChange)="this.onIndexSelected($event)"
+                />
+            </mat-slider>
+        </form>
+    </div>
+</div>
+

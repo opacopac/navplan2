@@ -22,6 +22,15 @@ import {MatDialog} from '@angular/material/dialog';
 import {
     MeteoForecastPickerDialogComponent
 } from '../../../../meteo-forecast/view/ng-components/meteo-forecast-picker-dialog/meteo-forecast-picker-dialog.component';
+import {RadarImage} from '../../../../meteo-radar/domain/model/radar-image';
+import {
+    getMeteoRadarAvailableImages,
+    getMeteoRadarSelectedImage
+} from '../../../../meteo-radar/state/ngrx/meteo-radar.selectors';
+import {MeteoRadarActions} from '../../../../meteo-radar/state/ngrx/meteo-radar.actions';
+import {
+    MeteoRadarTimelineComponent
+} from '../../../../meteo-radar/view/ng-components/meteo-radar-timeline/meteo-radar-timeline.component';
 
 
 @Component({
@@ -29,7 +38,8 @@ import {
     imports: [
         CommonModule,
         MeteoForecastTimelineComponent,
-        MeteoForecastModelInfoComponent
+        MeteoForecastModelInfoComponent,
+        MeteoRadarTimelineComponent
     ],
     templateUrl: './meteo-container.component.html',
     styleUrls: ['./meteo-container.component.scss']
@@ -39,6 +49,11 @@ export class MeteoContainerComponent implements OnInit, OnDestroy, AfterViewInit
     protected readonly availableFcRuns$: Observable<ForecastRun[]> = this.appStore.pipe(select(getMeteoForecastAvailableForecastRuns));
     protected readonly selectedFcRun$: Observable<ForecastRun> = this.appStore.pipe(select(getMeteoForecastForecastRun));
     protected readonly selectedStep$: Observable<number> = this.appStore.pipe(select(getMeteoForecastSelectedStep));
+    protected readonly availableRadarImages$: Observable<RadarImage[]> = this.appStore.pipe(select(getMeteoRadarAvailableImages));
+    protected readonly selectedRadarImage$: Observable<RadarImage> = this.appStore.pipe(select(getMeteoRadarSelectedImage));
+    protected readonly isRadarLayer$: Observable<boolean> = this.meteoLayer$.pipe(
+        map(layer => layer === MeteoLayer.PrecipRadarLayer)
+    );
 
 
     constructor(
@@ -79,6 +94,21 @@ export class MeteoContainerComponent implements OnInit, OnDestroy, AfterViewInit
 
     protected onStepSelected(step: number) {
         this.appStore.dispatch(MeteoForecastActions.selectStep({step: step}));
+    }
+
+
+    protected onRadarPreviousStepClicked() {
+        this.appStore.dispatch(MeteoRadarActions.previousStep());
+    }
+
+
+    protected onRadarNextStepClicked() {
+        this.appStore.dispatch(MeteoRadarActions.nextStep());
+    }
+
+
+    protected onRadarStepSelected(image: RadarImage) {
+        this.appStore.dispatch(MeteoRadarActions.selectStep({image: image}));
     }
 
 

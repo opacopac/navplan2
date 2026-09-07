@@ -1,0 +1,29 @@
+.meteo-radar-timeline {
+    height: 50px;
+    background: rgba(224, 224, 224, 0.9);
+    align-items: center;
+}
+
+.meteo-radar-buttons {
+}
+
+.meteo-radar-timeline-slider-wrapper {
+    position: relative;
+    align-self: baseline;
+    align-items: stretch;
+    flex-grow: 1;
+}
+
+.meteo-radar-timeline-slider {
+    position: relative;
+    left: 0;
+    right: -10px;
+    width: 100%;
+}
+
+::ng-deep .mdc-slider .mdc-slider__value-indicator {
+    transform: none !important;
+    opacity: 0.6 !important;
+    width: 90px !important;
+}
+
