@@ -2,6 +2,8 @@
 
 namespace Navplan\Navaid;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Navaid\Domain\Command\INavaidDeleteAllCommand;
 use Navplan\Navaid\Domain\Command\INavaidInsertAllCommand;
@@ -19,114 +21,92 @@ use Navplan\Navaid\Rest\Controller\NavaidController;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
+use function DI\autowire;
 
 
+/**
+ * Replaces the previous manual, hand-written lazy-init getters (formerly
+ * ProdNavaidDiContainer, 133 lines) with a PHP-DI autowiring container (~45 lines).
+ *
+ * - No manual "new X(...)" calls: constructor arguments are resolved via reflection.
+ * - No manual "isset($this->x)" caching: PHP-DI caches resolved instances (singletons) itself.
+ * - Adding a new constructor dependency to e.g. NavaidService no longer requires
+ *   touching this container at all, as long as the dependency type is bound/autowirable.
+ * - Only the mapping "interface -> concrete implementation" needs to be declared once,
+ *   since PHP cannot autowire interfaces without knowing which implementation to pick.
+ */
 class ProdNavaidDiContainer implements INavaidDiContainer
 {
-    private IRestController $navaidController;
-    private INavaidService $navaidService;
-    private INavaidSearchByExtentQuery $navaidSearchByExtentQuery;
-    private INavaidSearchByPositionQuery $navaidSearchByPositionQuery;
-    private INavaidSearchByTextQuery $navaidSearchByTextQuery;
-    private INavaidInsertAllCommand $navaidInsertAllCommand;
-    private INavaidDeleteAllCommand $navaidDeleteAllCommand;
+    private Container $container;
 
 
     public function __construct(
-        private ILoggingService $loggingService,
-        private IDbService $dbService,
-        private IHttpService $httpService
+        ILoggingService $loggingService,
+        IDbService $dbService,
+        IHttpService $httpService
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons (shared across all domains)
+            ILoggingService::class => $loggingService,
+            IDbService::class => $dbService,
+            IHttpService::class => $httpService,
+
+            // interface -> implementation bindings (only mapping needed per class)
+            INavaidSearchByExtentQuery::class => autowire(DbNavaidSearchByExtentQuery::class),
+            INavaidSearchByPositionQuery::class => autowire(DbNavaidSearchByPositionQuery::class),
+            INavaidSearchByTextQuery::class => autowire(DbNavaidSearchByTextQuery::class),
+            INavaidInsertAllCommand::class => autowire(DbNavaidInsertAllCommand::class),
+            INavaidDeleteAllCommand::class => autowire(DbNavaidDeleteAllCommand::class),
+            INavaidService::class => autowire(NavaidService::class),
+            IRestController::class => autowire(NavaidController::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     public function getNavaidController(): IRestController
     {
-        if (!isset($this->navaidController)) {
-            $this->navaidController = new NavaidController(
-                $this->getNavaidService(),
-                $this->httpService
-            );
-        }
-
-        return $this->navaidController;
+        return $this->container->get(IRestController::class);
     }
 
 
     public function getNavaidService(): INavaidService
     {
-        if (!isset($this->navaidService)) {
-            $this->navaidService = new NavaidService(
-                $this->getNavaidSearchByExtentQuery(),
-                $this->getNavaidSearchByPositionQuery(),
-                $this->getNavaidSearchByTextQuery(),
-                $this->getNavaidInsertAllCommand(),
-                $this->getNavaidDeleteAllCommand()
-            );
-        }
-
-        return $this->navaidService;
+        return $this->container->get(INavaidService::class);
     }
 
 
     public function getNavaidSearchByExtentQuery(): INavaidSearchByExtentQuery
     {
-        if (!isset($this->navaidSearchByExtentQuery)) {
-            $this->navaidSearchByExtentQuery = new DbNavaidSearchByExtentQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->navaidSearchByExtentQuery;
+        return $this->container->get(INavaidSearchByExtentQuery::class);
     }
 
 
     public function getNavaidSearchByPositionQuery(): INavaidSearchByPositionQuery
     {
-        if (!isset($this->navaidSearchByPositionQuery)) {
-            $this->navaidSearchByPositionQuery = new DbNavaidSearchByPositionQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->navaidSearchByPositionQuery;
+        return $this->container->get(INavaidSearchByPositionQuery::class);
     }
 
 
     public function getNavaidSearchByTextQuery(): INavaidSearchByTextQuery
     {
-        if (!isset($this->navaidSearchByTextQuery)) {
-            $this->navaidSearchByTextQuery = new DbNavaidSearchByTextQuery(
-                $this->dbService
-            );
-        }
-
-        return $this->navaidSearchByTextQuery;
+        return $this->container->get(INavaidSearchByTextQuery::class);
     }
 
 
     public function getNavaidInsertAllCommand(): INavaidInsertAllCommand
     {
-        if (!isset($this->navaidInsertAllCommand)) {
-            $this->navaidInsertAllCommand = new DbNavaidInsertAllCommand(
-                $this->dbService,
-                $this->loggingService
-            );
-        }
-
-        return $this->navaidInsertAllCommand;
+        return $this->container->get(INavaidInsertAllCommand::class);
     }
 
 
     public function getNavaidDeleteAllCommand(): INavaidDeleteAllCommand
     {
-        if (!isset($this->navaidDeleteAllCommand)) {
-            $this->navaidDeleteAllCommand = new DbNavaidDeleteAllCommand(
-                $this->dbService
-            );
-        }
-
-        return $this->navaidDeleteAllCommand;
+        return $this->container->get(INavaidDeleteAllCommand::class);
     }
 }
+

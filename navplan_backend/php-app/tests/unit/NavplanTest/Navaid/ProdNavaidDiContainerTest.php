@@ -2,8 +2,8 @@
 
 namespace NavplanTest\Navaid;
 
-use Navplan\Navaid\AutowiredNavaidDiContainer;
 use Navplan\Navaid\Domain\Service\NavaidService;
+use Navplan\Navaid\ProdNavaidDiContainer;
 use Navplan\Navaid\Rest\Controller\NavaidController;
 use Navplan\System\Domain\Service\ILoggingService;
 use NavplanTest\System\Db\Mock\MockDbService;
@@ -12,14 +12,13 @@ use PHPUnit\Framework\TestCase;
 
 
 /**
- * POC test for the SOLID-refactoring proposal "autowiring DI container" (see
- * plan-backendRefactoringTopFindings.prompt.md, finding #1): verifies that
- * AutowiredNavaidDiContainer resolves the same object graph as the manually
- * wired ProdNavaidDiContainer would, without any hand-written "new X(...)" calls.
+ * Verifies that AutowiredNavaidDiContainer resolves the same object graph as the
+ * previously manually wired ProdNavaidDiContainer did, without any hand-written
+ * "new X(...)" calls (see plan-backendRefactoringTopFindings.prompt.md, finding #1).
  */
-class AutowiredNavaidDiContainerTest extends TestCase
+class ProdNavaidDiContainerTest extends TestCase
 {
-    private function createContainer(): AutowiredNavaidDiContainer
+    private function createContainer(): ProdNavaidDiContainer
     {
         $loggingService = new class implements ILoggingService {
             public function log(int $logLevel, string $message) {}
@@ -29,7 +28,7 @@ class AutowiredNavaidDiContainerTest extends TestCase
             public function debug(string $message) {}
         };
 
-        return new AutowiredNavaidDiContainer(
+        return new ProdNavaidDiContainer(
             $loggingService,
             new MockDbService(),
             new MockHttpService()

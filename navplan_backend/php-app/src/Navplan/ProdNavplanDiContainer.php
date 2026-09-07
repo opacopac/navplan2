@@ -34,8 +34,8 @@ use Navplan\MeteoRadar\IMeteoRadarImagesDiContainer;
 use Navplan\MeteoRadar\ProdMeteoRadarImagesDiContainer;
 use Navplan\MeteoSma\IMeteoSmaDiContainer;
 use Navplan\MeteoSma\ProdMeteoSmaDiContainer;
-use Navplan\Navaid\AutowiredNavaidDiContainer;
 use Navplan\Navaid\INavaidDiContainer;
+use Navplan\Navaid\ProdNavaidDiContainer;
 use Navplan\Notam\INotamDiContainer;
 use Navplan\Notam\ProdNotamDiContainer;
 use Navplan\OpenAip\IOpenAipDiContainer;
@@ -211,9 +211,8 @@ class ProdNavplanDiContainer
 
     public function getNavaidDiContainer(): INavaidDiContainer
     {
-        // POC: autowired replacement for the manually wired ProdNavaidDiContainer
         if (!isset($this->navaidDiContainer)) {
-            $this->navaidDiContainer = new AutowiredNavaidDiContainer(
+            $this->navaidDiContainer = new ProdNavaidDiContainer(
                 $this->getSystemDiContainer()->getLoggingService(),
                 $this->getPersistenceDiContainer()->getDbService(),
                 $this->getSystemDiContainer()->getHttpService()
