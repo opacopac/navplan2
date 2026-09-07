@@ -10,6 +10,7 @@ class RadarImage
     public function __construct(
         public DateTime $startTime,
         public DateTime $endTime,
+        public string $subDirName,
     )
     {
     }

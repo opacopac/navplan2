@@ -20,6 +20,6 @@ export class MockRestRadarImageService implements IMeteoRadarImageService {
 
 
     public getRadarImageMapTilesUrl(radarImage: RadarImage): string {
-        return environment.meteoRadarMapTilesUrl + '202608280900/{z}/{x}/{y}.png';
+        return environment.meteoRadarMapTilesUrl + radarImage.subDirName + '/{z}/{x}/{y}.png';
     }
 }

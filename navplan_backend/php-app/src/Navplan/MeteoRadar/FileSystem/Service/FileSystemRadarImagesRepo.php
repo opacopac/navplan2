@@ -42,7 +42,7 @@ readonly class FileSystemRadarImagesRepo implements IMeteoRadarImagesRepo
             }
 
             $startTime = (clone $endTime)->sub(new DateInterval('PT5M'));
-            $radarImages[] = new RadarImage($startTime, $endTime);
+            $radarImages[] = new RadarImage($startTime, $endTime, $dirName);
         }
 
         return $radarImages;

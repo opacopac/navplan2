@@ -13,7 +13,8 @@ export class RestRadarImageConverter {
     public static fromRest(restRadarImage: IRestRadarImage): RadarImage {
         return new RadarImage(
             RestDatetimeConverter.fromRest(restRadarImage.starttime),
-            RestDatetimeConverter.fromRest(restRadarImage.endtime)
+            RestDatetimeConverter.fromRest(restRadarImage.endtime),
+            restRadarImage.subdirname
         );
     }
 
@@ -25,7 +26,8 @@ export class RestRadarImageConverter {
 
         return {
             starttime: RestDatetimeConverter.toRest(radarImage.startTime),
-            endtime: RestDatetimeConverter.toRest(radarImage.endTime)
+            endtime: RestDatetimeConverter.toRest(radarImage.endTime),
+            subdirname: radarImage.subDirName
         };
     }
 }

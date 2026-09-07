@@ -39,14 +39,6 @@ export class RestRadarImageService implements IMeteoRadarImageService {
     }
 
     public getRadarImageMapTilesUrl(radarImage: RadarImage): string {
-        const date = radarImage.endTime;
-        const timestampStr =
-            date.getUTCFullYear().toString() +
-            String(date.getUTCMonth() + 1).padStart(2, '0') +
-            String(date.getUTCDate()).padStart(2, '0') +
-            String(date.getUTCHours()).padStart(2, '0') +
-            String(date.getUTCMinutes()).padStart(2, '0');
-
-        return environment.meteoRadarMapTilesUrl + timestampStr + '/{z}/{x}/{y}.png';
+        return environment.meteoRadarMapTilesUrl + radarImage.subDirName + '/{z}/{x}/{y}.png';
     }
 }
