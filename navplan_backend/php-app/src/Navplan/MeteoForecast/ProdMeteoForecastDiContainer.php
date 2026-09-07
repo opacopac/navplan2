@@ -2,6 +2,8 @@
 
 namespace Navplan\MeteoForecast;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastConfig;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastPrecipRepo;
@@ -21,122 +23,87 @@ use Navplan\MeteoForecast\MeteoBin\Service\MeteoBinWindRepo;
 use Navplan\MeteoForecast\Rest\Service\MeteoForecastController;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
+use function DI\autowire;
 
 
-class ProdMeteoForecastDiContainer implements IMeteoForecastDiContainer {
-    private IRestController $meteoForecastRestController;
-    private IMeteoForecastRepo $forecastRepo;
-    private IMeteoForecastWeatherRepo $weatherRepo;
-    private IMeteoForecastWindRepo $windRepo;
-    private IMeteoForecastPrecipRepo $precipRepo;
-    private IMeteoForecastTempRepo $tempRepo;
-    private IMeteoForecastVerticalCloudRepo $verticalCloudRepo;
-    private IMeteoForecastVerticalWindRepo $verticalWindRepo;
+class ProdMeteoForecastDiContainer implements IMeteoForecastDiContainer
+{
+    private Container $container;
 
 
     public function __construct(
-        private readonly IFileService $fileService,
-        private readonly IHttpService $httpService,
-        private readonly IMeteoForecastConfig $meteoForecastConfig
-    ) {
+        IFileService $fileService,
+        IHttpService $httpService,
+        IMeteoForecastConfig $meteoForecastConfig
+    )
+    {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons (shared across all domains)
+            IFileService::class => $fileService,
+            IHttpService::class => $httpService,
+            IMeteoForecastConfig::class => $meteoForecastConfig,
+
+            // interface -> implementation bindings (only mapping needed per class)
+            IMeteoForecastRepo::class => autowire(MeteoBinForecastRepo::class),
+            IMeteoForecastWeatherRepo::class => autowire(MeteoBinWeatherRepo::class),
+            IMeteoForecastWindRepo::class => autowire(MeteoBinWindRepo::class),
+            IMeteoForecastPrecipRepo::class => autowire(MeteoBinPrecipRepo::class),
+            IMeteoForecastTempRepo::class => autowire(MeteoBinTempRepo::class),
+            IMeteoForecastVerticalCloudRepo::class => autowire(MeteoBinVerticalCloudRepo::class),
+            IMeteoForecastVerticalWindRepo::class => autowire(MeteoBinVerticalWindRepo::class),
+            IRestController::class => autowire(MeteoForecastController::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
-    public function getMeteoForecastController(): IRestController {
-        if (!isset($this->meteoForecastRestController)) {
-            $this->meteoForecastRestController = new MeteoForecastController(
-                $this->getMeteoForecastRepo(),
-                $this->getMeteoForecastWeatherRepo(),
-                $this->getMeteoForecastWindRepo(),
-                $this->httpService
-            );
-        }
-
-        return $this->meteoForecastRestController;
+    public function getMeteoForecastController(): IRestController
+    {
+        return $this->container->get(IRestController::class);
     }
 
 
-    public function getMeteoForecastRepo(): IMeteoForecastRepo {
-        if (!isset($this->forecastRepo)) {
-            $this->forecastRepo = new MeteoBinForecastRepo(
-                $this->fileService,
-                $this->meteoForecastConfig
-            );
-        }
-
-        return $this->forecastRepo;
+    public function getMeteoForecastRepo(): IMeteoForecastRepo
+    {
+        return $this->container->get(IMeteoForecastRepo::class);
     }
 
 
-    public function getMeteoForecastWeatherRepo(): IMeteoForecastWeatherRepo {
-        if (!isset($this->weatherRepo)) {
-            $this->weatherRepo = new MeteoBinWeatherRepo(
-                $this->fileService,
-                $this->meteoForecastConfig
-            );
-        }
-
-        return $this->weatherRepo;
+    public function getMeteoForecastWeatherRepo(): IMeteoForecastWeatherRepo
+    {
+        return $this->container->get(IMeteoForecastWeatherRepo::class);
     }
 
 
-    public function getMeteoForecastWindRepo(): IMeteoForecastWindRepo {
-        if (!isset($this->windRepo)) {
-            $this->windRepo = new MeteoBinWindRepo(
-                $this->fileService,
-                $this->meteoForecastConfig
-            );
-        }
-
-        return $this->windRepo;
+    public function getMeteoForecastWindRepo(): IMeteoForecastWindRepo
+    {
+        return $this->container->get(IMeteoForecastWindRepo::class);
     }
 
 
-
-    public function getMeteoForecastPrecipRepo(): IMeteoForecastPrecipRepo {
-        if (!isset($this->precipRepo)) {
-            $this->precipRepo = new MeteoBinPrecipRepo(
-                $this->fileService,
-                $this->meteoForecastConfig
-            );
-        }
-
-        return $this->precipRepo;
+    public function getMeteoForecastPrecipRepo(): IMeteoForecastPrecipRepo
+    {
+        return $this->container->get(IMeteoForecastPrecipRepo::class);
     }
 
 
-    public function getMeteoForecastTempRepo(): IMeteoForecastTempRepo {
-        if (!isset($this->tempRepo)) {
-            $this->tempRepo = new MeteoBinTempRepo(
-                $this->fileService,
-                $this->meteoForecastConfig
-            );
-        }
-
-        return $this->tempRepo;
+    public function getMeteoForecastTempRepo(): IMeteoForecastTempRepo
+    {
+        return $this->container->get(IMeteoForecastTempRepo::class);
     }
 
 
-    public function getMeteoForecastVerticalCloudRepo(): IMeteoForecastVerticalCloudRepo {
-        if (!isset($this->verticalCloudRepo)) {
-            $this->verticalCloudRepo = new MeteoBinVerticalCloudRepo(
-                $this->fileService,
-                $this->meteoForecastConfig
-            );
-        }
-
-        return $this->verticalCloudRepo;
+    public function getMeteoForecastVerticalCloudRepo(): IMeteoForecastVerticalCloudRepo
+    {
+        return $this->container->get(IMeteoForecastVerticalCloudRepo::class);
     }
 
 
-    public function getMeteoForecastVerticalWindRepo(): IMeteoForecastVerticalWindRepo {
-        if (!isset($this->verticalWindRepo)) {
-            $this->verticalWindRepo = new MeteoBinVerticalWindRepo(
-                $this->fileService,
-                $this->meteoForecastConfig
-            );
-        }
-
-        return $this->verticalWindRepo;
+    public function getMeteoForecastVerticalWindRepo(): IMeteoForecastVerticalWindRepo
+    {
+        return $this->container->get(IMeteoForecastVerticalWindRepo::class);
     }
 }

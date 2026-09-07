@@ -2,6 +2,8 @@
 
 namespace Navplan\OpenAip;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Aerodrome\Domain\Service\IAirportService;
 use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Config\ProdConfigDiContainer;
@@ -14,63 +16,58 @@ use Navplan\OpenAip\Importer\Service\OpenAipImporter;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\ICurlService;
 use Navplan\System\Domain\Service\ILoggingService;
+use function DI\autowire;
 
 
 class ProdOpenAipDiContainer implements IOpenAipDiContainer
 {
-    private IOpenAipConfig $openAipConfig;
-    private IOpenAipImporter $openAipImporter;
-    private IOpenAipService $openAipApiService;
+    private Container $container;
 
 
     public function __construct(
-        private IAirportService $airportService,
-        private IAirspaceService $airspaceService,
-        private INavaidService $navaidService,
-        private ILoggingService $loggingService,
-        private IDbService $dbService,
-        private ICurlService $curlService,
+        IAirportService $airportService,
+        IAirspaceService $airspaceService,
+        INavaidService $navaidService,
+        ILoggingService $loggingService,
+        IDbService $dbService,
+        ICurlService $curlService,
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons
+            IAirportService::class => $airportService,
+            IAirspaceService::class => $airspaceService,
+            INavaidService::class => $navaidService,
+            ILoggingService::class => $loggingService,
+            IDbService::class => $dbService,
+            ICurlService::class => $curlService,
+
+            // interface -> implementation bindings
+            IOpenAipConfig::class => autowire(ProdConfigDiContainer::class),
+            IOpenAipService::class => autowire(OpenAipService::class),
+            IOpenAipImporter::class => autowire(OpenAipImporter::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     function getOpenAipConfig(): IOpenAipConfig
     {
-        if (!isset($this->openAipConfig)) {
-            $this->openAipConfig = new ProdConfigDiContainer();
-        }
-
-        return $this->openAipConfig;
+        return $this->container->get(IOpenAipConfig::class);
     }
 
 
     public function getOpenAipImporter(): IOpenAipImporter
     {
-        if (!isset($this->openAipImporter)) {
-            $this->openAipImporter = new OpenAipImporter(
-                $this->getOpenAipApiService(),
-                $this->airportService,
-                $this->airspaceService,
-                $this->navaidService,
-                $this->loggingService,
-                $this->dbService
-            );
-        }
-
-        return $this->openAipImporter;
+        return $this->container->get(IOpenAipImporter::class);
     }
 
 
     public function getOpenAipApiService(): IOpenAipService
     {
-        if (!isset($this->openAipApiService)) {
-            $this->openAipApiService = new OpenAipService(
-                $this->getOpenAipConfig(),
-                $this->curlService
-            );
-        }
-
-        return $this->openAipApiService;
+        return $this->container->get(IOpenAipService::class);
     }
 }

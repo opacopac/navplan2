@@ -2,6 +2,8 @@
 
 namespace Navplan\User;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
@@ -33,189 +35,135 @@ use Navplan\User\UseCase\SendRegisterEmail\ISendRegisterEmailUc;
 use Navplan\User\UseCase\SendRegisterEmail\SendRegisterEmailUc;
 use Navplan\User\UseCase\UpdatePw\IUpdatePwUc;
 use Navplan\User\UseCase\UpdatePw\UpdatePwUc;
+use function DI\autowire;
+use function DI\factory;
 
 
-class ProdUserDiContainer implements IUserDiContainer {
-    private IRestController $userController;
-    private IUserRepo $userRepo;
-    private IUserPointRepo $userPointRepo;
-    private ITokenService $tokenService;
-    private IUserService $userService;
-    private ILoginUc $loginUc;
-    private IAutoLoginUc $autologinUc;
-    private ISendRegisterEmailUc $sendRegisterEmailUc;
-    private IRegisterUc $registerUc;
-    private ISendLostPwUc $sendLostPwUc;
-    private IResetPwUc $resetPwUc;
-    private IUpdatePwUc $updatePwUc;
-    private ISearchUserPointUc $searchUserPointUc;
+class ProdUserDiContainer implements IUserDiContainer
+{
+    private Container $container;
 
 
     public function __construct(
-        private readonly IHttpService $httpService,
-        private readonly IDbService $dbService,
-        private readonly IMailService $mailService,
-        private readonly ITokenConfig $tokenCredentials,
-        private readonly ILoggingService $loggingService
-    ) {
+        IHttpService $httpService,
+        IDbService $dbService,
+        IMailService $mailService,
+        ITokenConfig $tokenCredentials,
+        ILoggingService $loggingService
+    )
+    {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons
+            IHttpService::class => $httpService,
+            IDbService::class => $dbService,
+            IMailService::class => $mailService,
+            ITokenConfig::class => $tokenCredentials,
+            ILoggingService::class => $loggingService,
+
+            // interface -> implementation bindings
+            IUserRepo::class => autowire(DbUserRepo::class),
+            IUserPointRepo::class => autowire(DbUserPointRepo::class),
+            IUserService::class => autowire(UserService::class),
+            ILoginUc::class => autowire(LoginUc::class),
+            IAutoLoginUc::class => autowire(AutoLoginUc::class),
+            ISendRegisterEmailUc::class => autowire(SendRegisterEmailUc::class),
+            IRegisterUc::class => autowire(RegisterUc::class),
+            ISendLostPwUc::class => autowire(SendLostPwUc::class),
+            IResetPwUc::class => autowire(ResetPwUc::class),
+            IUpdatePwUc::class => autowire(UpdatePwUc::class),
+            ISearchUserPointUc::class => autowire(SearchUserPointUc::class),
+            IRestController::class => autowire(UserController::class),
+
+            // TokenService takes the raw token credentials value (not a class/interface),
+            // so it can't be wired via plain autowiring alone. Bound to the concrete
+            // class too, since UserService type-hints TokenService directly instead
+            // of the ITokenService interface.
+            TokenService::class => factory(function (ITokenConfig $tokenCredentials) {
+                return new TokenService($tokenCredentials->getTokenCredentials());
+            }),
+            ITokenService::class => \DI\get(TokenService::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
-    public function getUserController(): IRestController {
-        if (!isset($this->userController)) {
-            $this->userController = new UserController(
-                $this->httpService,
-                $this->getLoginUc(),
-                $this->getAutoLoginUc(),
-                $this->getSendRegisterEmailUc(),
-                $this->getRegisterUc(),
-                $this->getSendLostPwUc(),
-                $this->getResetPwUc(),
-                $this->getUpdatePwUc()
-            );
-        }
-
-        return $this->userController;
+    public function getUserController(): IRestController
+    {
+        return $this->container->get(IRestController::class);
     }
 
 
-    public function getUserRepo(): IUserRepo {
-        if (!isset($this->userRepo)) {
-            $this->userRepo = new DbUserRepo($this->dbService);
-        }
-
-        return $this->userRepo;
+    public function getUserRepo(): IUserRepo
+    {
+        return $this->container->get(IUserRepo::class);
     }
 
 
-    public function getUserPointRepo(): IUserPointRepo {
-        if (!isset($this->userPointRepo)) {
-            $this->userPointRepo = new DbUserPointRepo($this->dbService);
-        }
-
-        return $this->userPointRepo;
+    public function getUserPointRepo(): IUserPointRepo
+    {
+        return $this->container->get(IUserPointRepo::class);
     }
 
 
-    public function getTokenService(): ITokenService {
-        if (!isset($this->tokenService)) {
-            $this->tokenService = new TokenService(
-                $this->tokenCredentials->getTokenCredentials()
-            );
-        }
-
-        return $this->tokenService;
+    public function getTokenService(): ITokenService
+    {
+        return $this->container->get(ITokenService::class);
     }
 
 
-    public function getUserService(): IUserService {
-        if (!isset($this->userService)) {
-            $this->userService = new UserService(
-                $this->getTokenService(),
-                $this->getUserRepo()
-            );
-        }
-
-        return $this->userService;
+    public function getUserService(): IUserService
+    {
+        return $this->container->get(IUserService::class);
     }
 
 
-    public function getLoginUc(): ILoginUc {
-        if (!isset($this->loginUc)) {
-            $this->loginUc = new LoginUc(
-                $this->getUserRepo(),
-                $this->getTokenService()
-            );
-        }
-
-        return $this->loginUc;
+    public function getLoginUc(): ILoginUc
+    {
+        return $this->container->get(ILoginUc::class);
     }
 
 
-    public function getAutoLoginUc(): IAutoLoginUc {
-        if (!isset($this->autologinUc)) {
-            $this->autologinUc = new AutoLoginUc(
-                $this->getUserRepo(),
-                $this->getTokenService()
-            );
-        }
-
-        return $this->autologinUc;
+    public function getAutoLoginUc(): IAutoLoginUc
+    {
+        return $this->container->get(IAutoLoginUc::class);
     }
 
 
-    function getSendRegisterEmailUc(): ISendRegisterEmailUc {
-        if (!isset($this->sendRegisterEmailUc)) {
-            $this->sendRegisterEmailUc = new SendRegisterEmailUc(
-                $this->getUserRepo(),
-                $this->getTokenService(),
-                $this->mailService,
-                $this->loggingService
-            );
-        }
-
-        return $this->sendRegisterEmailUc;
+    function getSendRegisterEmailUc(): ISendRegisterEmailUc
+    {
+        return $this->container->get(ISendRegisterEmailUc::class);
     }
 
 
-    public function getRegisterUc(): IRegisterUc {
-        if (!isset($this->registerUc)) {
-            $this->registerUc = new RegisterUc(
-                $this->getUserRepo(),
-                $this->getTokenService()
-            );
-        }
-
-        return $this->registerUc;
+    public function getRegisterUc(): IRegisterUc
+    {
+        return $this->container->get(IRegisterUc::class);
     }
 
 
-    public function getSendLostPwUc(): ISendLostPwUc {
-        if (!isset($this->sendLostPwUc)) {
-            $this->sendLostPwUc = new SendLostPwUc(
-                $this->getUserRepo(),
-                $this->getTokenService(),
-                $this->mailService
-            );
-        }
-
-        return $this->sendLostPwUc;
+    public function getSendLostPwUc(): ISendLostPwUc
+    {
+        return $this->container->get(ISendLostPwUc::class);
     }
 
 
-    public function getResetPwUc(): IResetPwUc {
-        if (!isset($this->resetPwUc)) {
-            $this->resetPwUc = new ResetPwUc(
-                $this->getUserRepo(),
-                $this->getTokenService()
-            );
-        }
-
-        return $this->resetPwUc;
+    public function getResetPwUc(): IResetPwUc
+    {
+        return $this->container->get(IResetPwUc::class);
     }
 
 
-    public function getUpdatePwUc(): IUpdatePwUc {
-        if (!isset($this->updatePwUc)) {
-            $this->updatePwUc = new UpdatePwUc(
-                $this->getUserRepo(),
-                $this->getTokenService()
-            );
-        }
-
-        return $this->updatePwUc;
+    public function getUpdatePwUc(): IUpdatePwUc
+    {
+        return $this->container->get(IUpdatePwUc::class);
     }
 
 
-    function getSearchUserPointUc(): ISearchUserPointUc {
-        if (!isset($this->searchUserPointUc)) {
-            $this->searchUserPointUc = new SearchUserPointUc(
-                $this->getUserPointRepo(),
-                $this->getTokenService()
-            );
-        }
-
-        return $this->searchUserPointUc;
+    function getSearchUserPointUc(): ISearchUserPointUc
+    {
+        return $this->container->get(ISearchUserPointUc::class);
     }
-
 }

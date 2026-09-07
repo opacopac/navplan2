@@ -2,6 +2,8 @@
 
 namespace Navplan\System;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\System\Domain\Service\ICurlService;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
@@ -19,115 +21,95 @@ use Navplan\System\Posix\LoggingService;
 use Navplan\System\Posix\MailService;
 use Navplan\System\Posix\ProcService;
 use Navplan\System\Posix\TimeService;
+use function DI\autowire;
+use function DI\factory;
 
 
 class ProdSystemDiContainer implements ISystemDiContainer
 {
-    private IHttpService $httpService;
-    private IFileService $fileService;
-    private IMailService $mailService;
-    private ITimeService $timeService;
-    private IProcService $procService;
-    private ILoggingService $fileLogger;
-    private IImageService $imageService;
-    private ICurlService $curlService;
+    private Container $container;
 
 
     public function __construct(
-        private readonly ISystemConfig $systemConfig,
+        ISystemConfig $systemConfig,
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons
+            ISystemConfig::class => $systemConfig,
+
+            // interface -> implementation bindings
+            IHttpService::class => autowire(HttpService::class),
+            IFileService::class => autowire(FileService::class),
+            IMailService::class => autowire(MailService::class),
+            ITimeService::class => autowire(TimeService::class),
+            IProcService::class => autowire(ProcService::class),
+            IImageService::class => autowire(ImagickService::class),
+            ICurlService::class => autowire(CurlService::class),
+
+            // LoggingService needs the scalar log level/file resolved from the config,
+            // so it can't be wired via plain autowiring alone.
+            ILoggingService::class => factory(function (ISystemConfig $systemConfig, ITimeService $timeService) {
+                $logFile = $systemConfig->getLogDir() . $systemConfig->getLogFile();
+
+                return new LoggingService(
+                    $timeService,
+                    $systemConfig->getLogLevel(),
+                    $logFile
+                );
+            }),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     public function getHttpService(): IHttpService
     {
-        if (!isset($this->httpService)) {
-            $this->httpService = new HttpService();
-        }
-
-        return $this->httpService;
+        return $this->container->get(IHttpService::class);
     }
 
 
     public function getFileService(): IFileService
     {
-        if (!isset($this->fileService)) {
-            $this->fileService = new FileService(
-                $this->systemConfig,
-                $this->getLoggingService()
-            );
-        }
-
-        return $this->fileService;
+        return $this->container->get(IFileService::class);
     }
 
 
     public function getMailService(): IMailService
     {
-        if (!isset($this->mailService)) {
-            $this->mailService = new MailService(
-                $this->getLoggingService()
-            );
-        }
-
-        return $this->mailService;
+        return $this->container->get(IMailService::class);
     }
 
 
     public function getTimeService(): ITimeService
     {
-        if (!isset($this->timeService)) {
-            $this->timeService = new TimeService();
-        }
-
-        return $this->timeService;
+        return $this->container->get(ITimeService::class);
     }
 
 
     public function getProcService(): IProcService
     {
-        if (!isset($this->procService)) {
-            $this->procService = new ProcService();
-        }
-
-        return $this->procService;
+        return $this->container->get(IProcService::class);
     }
 
 
     public function getLoggingService(): ILoggingService
     {
-        if (!isset($this->fileLogger)) {
-            $logFile = $this->systemConfig->getLogDir() . $this->systemConfig->getLogFile();
-            $this->fileLogger = new LoggingService(
-                $this->getTimeService(),
-                $this->systemConfig->getLogLevel(),
-                $logFile
-            );
-        }
-
-        return $this->fileLogger;
+        return $this->container->get(ILoggingService::class);
     }
 
 
     public function getImageService(): IImageService
     {
-        if (!isset($this->imageService)) {
-            $this->imageService = new ImagickService();
-        }
-
-        return $this->imageService;
+        return $this->container->get(IImageService::class);
     }
 
 
     public function getCurlService(): ICurlService
     {
-        if (!isset($this->curlService)) {
-            $this->curlService = new CurlService(
-                $this->getLoggingService()
-            );
-        }
-
-        return $this->curlService;
+        return $this->container->get(ICurlService::class);
     }
 }

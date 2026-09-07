@@ -2,6 +2,8 @@
 
 namespace Navplan\Search;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Aerodrome\Domain\Service\IAirportService;
 use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByPositionQuery;
 use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByTextQuery;
@@ -15,58 +17,57 @@ use Navplan\Search\Domain\Service\SearchService;
 use Navplan\Search\Rest\Service\SearchController;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\User\UseCase\SearchUserPoint\ISearchUserPointUc;
+use function DI\autowire;
 
 
 class ProdSearchDiContainer implements ISearchDiContainer
 {
-    private IRestController $searchController;
-    private ISearchService $searchService;
+    private Container $container;
 
 
     public function __construct(
-        private readonly IHttpService                       $httpService,
-        private readonly ISearchUserPointUc                 $searchUserPointUc,
-        private readonly IAirspaceService                   $airspaceService,
-        private readonly INotamSearchByPositionQuery        $notamSearchByPositionQuery,
-        private readonly IAirportService                    $airportService,
-        private readonly IAerodromeReportingByPositionQuery $aerodromeReportingByPositionQuery,
-        private readonly IAerodromeReportingByTextQuery     $aerodromeReportingByTextQuery,
-        private readonly INavaidService                     $navaidService,
-        private readonly IGeonameService                    $geonameService
+        IHttpService                       $httpService,
+        ISearchUserPointUc                 $searchUserPointUc,
+        IAirspaceService                   $airspaceService,
+        INotamSearchByPositionQuery        $notamSearchByPositionQuery,
+        IAirportService                    $airportService,
+        IAerodromeReportingByPositionQuery $aerodromeReportingByPositionQuery,
+        IAerodromeReportingByTextQuery     $aerodromeReportingByTextQuery,
+        INavaidService                     $navaidService,
+        IGeonameService                    $geonameService
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons
+            IHttpService::class => $httpService,
+            ISearchUserPointUc::class => $searchUserPointUc,
+            IAirspaceService::class => $airspaceService,
+            INotamSearchByPositionQuery::class => $notamSearchByPositionQuery,
+            IAirportService::class => $airportService,
+            IAerodromeReportingByPositionQuery::class => $aerodromeReportingByPositionQuery,
+            IAerodromeReportingByTextQuery::class => $aerodromeReportingByTextQuery,
+            INavaidService::class => $navaidService,
+            IGeonameService::class => $geonameService,
+
+            // interface -> implementation bindings
+            ISearchService::class => autowire(SearchService::class),
+            IRestController::class => autowire(SearchController::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     public function getSearchController(): IRestController
     {
-        if (!isset($this->searchController)) {
-            $this->searchController = new SearchController(
-                $this->getSearchService(),
-                $this->httpService
-            );
-        }
-
-        return $this->searchController;
+        return $this->container->get(IRestController::class);
     }
 
 
     function getSearchService(): ISearchService
     {
-        if (!isset($this->searchService)) {
-            $this->searchService = new SearchService(
-                $this->searchUserPointUc,
-                $this->airspaceService,
-
-                $this->notamSearchByPositionQuery,
-                $this->airportService,
-                $this->aerodromeReportingByPositionQuery,
-                $this->aerodromeReportingByTextQuery,
-                $this->navaidService,
-                $this->geonameService,
-            );
-        }
-
-        return $this->searchService;
+        return $this->container->get(ISearchService::class);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Navplan\Track;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Exporter\Domain\Service\IExportService;
 use Navplan\System\Db\Domain\Service\IDbService;
@@ -20,106 +22,52 @@ use Navplan\Track\Persistence\Query\DbTrackByIdQuery;
 use Navplan\Track\Persistence\Query\DbTrackListQuery;
 use Navplan\Track\Rest\Service\TrackController;
 use Navplan\User\Domain\Service\IUserService;
+use function DI\autowire;
 
 
 class ProdTrackDiContainer implements ITrackDiContainer
 {
-    private IRestController $trackController;
-    private ITrackService $trackService;
-    private ITrackListQuery $trackListQuery;
-    private ITrackByIdQuery $trackByIdQuery;
-    private ITrackCreateCommand $trackCreateCommand;
-    private ITrackUpdateCommand $trackUpdateCommand;
-    private ITrackDeleteCommand $trackDeleteCommand;
+    private Container $container;
 
 
     public function __construct(
-        private IDbService     $dbService,
-        private IHttpService   $httpService,
-        private IUserService   $userService,
-        private IExportService $exportService,
+        IDbService     $dbService,
+        IHttpService   $httpService,
+        IUserService   $userService,
+        IExportService $exportService,
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons
+            IDbService::class => $dbService,
+            IHttpService::class => $httpService,
+            IUserService::class => $userService,
+            IExportService::class => $exportService,
+
+            // interface -> implementation bindings
+            ITrackListQuery::class => autowire(DbTrackListQuery::class),
+            ITrackByIdQuery::class => autowire(DbTrackByIdQuery::class),
+            ITrackCreateCommand::class => autowire(DbTrackCreateCommand::class),
+            ITrackUpdateCommand::class => autowire(DbTrackUpdateCommand::class),
+            ITrackDeleteCommand::class => autowire(DbTrackDeleteCommand::class),
+            ITrackService::class => autowire(TrackService::class),
+            IRestController::class => autowire(TrackController::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     function getTrackController(): IRestController
     {
-        if (!isset($this->trackController)) {
-            $this->trackController = new TrackController(
-                $this->httpService,
-                $this->getTrackService(),
-                $this->exportService
-            );
-        }
-
-        return $this->trackController;
+        return $this->container->get(IRestController::class);
     }
 
 
     function getTrackService(): ITrackService
     {
-        if (!isset($this->trackService)) {
-            $this->trackService = new TrackService(
-                $this->userService,
-                $this->getTrackListQuery(),
-                $this->getTrackByIdQuery(),
-                $this->getTrackCreateCommand(),
-                $this->getTrackUpdateCommand(),
-                $this->getTrackDeleteCommand()
-            );
-        }
-
-        return $this->trackService;
-    }
-
-
-    function getTrackListQuery(): ITrackListQuery
-    {
-        if (!isset($this->trackListQuery)) {
-            $this->trackListQuery = new DbTrackListQuery($this->dbService);
-        }
-
-        return $this->trackListQuery;
-    }
-
-
-    function getTrackByIdQuery(): ITrackByIdQuery
-    {
-        if (!isset($this->trackByIdQuery)) {
-            $this->trackByIdQuery = new DbTrackByIdQuery($this->dbService);
-        }
-
-        return $this->trackByIdQuery;
-    }
-
-
-    function getTrackCreateCommand(): ITrackCreateCommand
-    {
-        if (!isset($this->trackCreateCommand)) {
-            $this->trackCreateCommand = new DbTrackCreateCommand($this->dbService);
-        }
-
-        return $this->trackCreateCommand;
-    }
-
-
-    function getTrackUpdateCommand(): ITrackUpdateCommand
-    {
-        if (!isset($this->trackUpdateCommand)) {
-            $this->trackUpdateCommand = new DbTrackUpdateCommand($this->dbService);
-        }
-
-        return $this->trackUpdateCommand;
-    }
-
-
-    function getTrackDeleteCommand(): ITrackDeleteCommand
-    {
-        if (!isset($this->trackDeleteCommand)) {
-            $this->trackDeleteCommand = new DbTrackDeleteCommand($this->dbService);
-        }
-
-        return $this->trackDeleteCommand;
+        return $this->container->get(ITrackService::class);
     }
 }

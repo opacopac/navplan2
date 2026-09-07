@@ -2,6 +2,8 @@
 
 namespace Navplan\Traffic;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Config\ProdConfigDiContainer;
 use Navplan\System\Db\Domain\Service\IDbService;
@@ -28,6 +30,8 @@ use Navplan\Traffic\UseCase\ReadOgnTraffic\IReadOgnTrafficUc;
 use Navplan\Traffic\UseCase\ReadOgnTraffic\ReadOgnTrafficUc;
 use Navplan\Traffic\UseCase\ReadTrafficDetails\IReadTrafficDetailsUc;
 use Navplan\Traffic\UseCase\ReadTrafficDetails\ReadTrafficDetailsUc;
+use function DI\autowire;
+use function DI\factory;
 
 
 class ProdTrafficDiContainer implements ITrafficDiContainer
@@ -35,148 +39,117 @@ class ProdTrafficDiContainer implements ITrafficDiContainer
     private const OGN_LISTENER_STARTER_PATH = __DIR__; // TODO: config
     private const OGN_LISTENER_STARTER_FILE = "OgnListenerStarter.php"; // TODO: config
 
-    private IRestController $trafficController;
-    private IAdsbexConfig $adsbexConfig;
-    private IAdsbexService $adsbexRepo;
-    private IOgnService $ognRepo;
-    private IOgnListenerRepo $ognListenerRepo;
-    private ITrafficDetailRepo $trafficDetailsRepo;
-    private IReadAdsbexTrafficUc $readAdsbexTrafficUc;
-    private IReadAdsbexTrafficWithDetailsUc $readAdsbexTrafficWithDetailsUc;
-    private IReadOgnTrafficUc $readOgnTrafficUc;
-    private IReadTrafficDetailsUc $readTrafficDetailsUc;
+    private Container $container;
 
 
     public function __construct(
-        private readonly IFileService $fileService,
-        private readonly ITimeService $timeService,
-        private readonly IProcService $procService,
-        private readonly ILoggingService $loggingService,
-        private readonly IDbService $dbService,
-        private readonly IHttpService $httpService,
+        IFileService $fileService,
+        ITimeService $timeService,
+        IProcService $procService,
+        ILoggingService $loggingService,
+        IDbService $dbService,
+        IHttpService $httpService,
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons
+            IFileService::class => $fileService,
+            ITimeService::class => $timeService,
+            IProcService::class => $procService,
+            ILoggingService::class => $loggingService,
+            IDbService::class => $dbService,
+            IHttpService::class => $httpService,
+
+            // interface -> implementation bindings
+            IAdsbexConfig::class => autowire(ProdConfigDiContainer::class),
+            IAdsbexService::class => autowire(AdsbexService::class),
+            IOgnListenerRepo::class => autowire(OgnListenerRepo::class),
+            ITrafficDetailRepo::class => autowire(DbTrafficDetailRepo::class),
+            IReadAdsbexTrafficUc::class => autowire(ReadAdsbexTrafficUc::class),
+            IReadAdsbexTrafficWithDetailsUc::class => autowire(ReadAdsbexTrafficWithDetailsUc::class),
+            IReadOgnTrafficUc::class => autowire(ReadOgnTrafficUc::class),
+            IReadTrafficDetailsUc::class => autowire(ReadTrafficDetailsUc::class),
+            IRestController::class => autowire(TrafficController::class),
+
+            // OgnService needs the listener starter path/file consts, so it can't be
+            // wired via plain autowiring alone.
+            IOgnService::class => factory(function (
+                IOgnListenerRepo $ognListenerRepo,
+                IProcService $procService,
+                ILoggingService $loggingService
+            ) {
+                return new OgnService(
+                    $ognListenerRepo,
+                    $procService,
+                    $loggingService,
+                    self::OGN_LISTENER_STARTER_PATH,
+                    self::OGN_LISTENER_STARTER_FILE
+                );
+            }),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     public function getTrafficController(): IRestController
     {
-        if (!isset($this->trafficController)) {
-            $this->trafficController = new TrafficController(
-                $this->httpService,
-                $this->getReadOgnTrafficUc(),
-                $this->getReadAdsbexTrafficUc(),
-                $this->getReadAdsbexTrafficWithDetailsUc(),
-                $this->getReadTrafficDetailsUc()
-            );
-        }
-
-        return $this->trafficController;
+        return $this->container->get(IRestController::class);
     }
 
 
     public function getAdsbexConfig(): IAdsbexConfig
     {
-        if (!isset($this->adsbexConfig)) {
-            $this->adsbexConfig = new ProdConfigDiContainer();
-        }
-
-        return $this->adsbexConfig;
+        return $this->container->get(IAdsbexConfig::class);
     }
 
 
     public function getAdsbexRepo(): IAdsbexService
     {
-        if (!isset($this->adsbexRepo)) {
-            $this->adsbexRepo = new AdsbexService(
-                $this->fileService,
-                $this->timeService,
-                $this->getAdsbexConfig()
-            );
-        }
-
-        return $this->adsbexRepo;
+        return $this->container->get(IAdsbexService::class);
     }
 
 
     public function getOgnRepo(): IOgnService
     {
-        if (!isset($this->ognRepo)) {
-            $this->ognRepo = new OgnService(
-                $this->getOgnListenerRepo(),
-                $this->procService,
-                $this->loggingService,
-                self::OGN_LISTENER_STARTER_PATH,
-                self::OGN_LISTENER_STARTER_FILE
-            );
-        }
-
-        return $this->ognRepo;
+        return $this->container->get(IOgnService::class);
     }
 
 
     public function getOgnListenerRepo(): IOgnListenerRepo
     {
-        if (!isset($this->ognListenerRepo)) {
-            $this->ognListenerRepo = new OgnListenerRepo(
-                $this->dbService,
-                $this->timeService
-            );
-        }
-
-        return $this->ognListenerRepo;
+        return $this->container->get(IOgnListenerRepo::class);
     }
 
 
     public function getTrafficDetailRepo(): ITrafficDetailRepo
     {
-        if (!isset($this->trafficDetailsRepo)) {
-            $this->trafficDetailsRepo = new DbTrafficDetailRepo($this->dbService);
-        }
-
-        return $this->trafficDetailsRepo;
+        return $this->container->get(ITrafficDetailRepo::class);
     }
 
 
     public function getReadAdsbexTrafficUc(): IReadAdsbexTrafficUc
     {
-        if (!isset($this->readAdsbexTrafficUc)) {
-            $this->readAdsbexTrafficUc = new ReadAdsbexTrafficUc($this->getAdsbexRepo());
-        }
-
-        return $this->readAdsbexTrafficUc;
+        return $this->container->get(IReadAdsbexTrafficUc::class);
     }
 
 
     public function getReadAdsbexTrafficWithDetailsUc(): IReadAdsbexTrafficWithDetailsUc
     {
-        if (!isset($this->readAdsbexTrafficWithDetailsUc)) {
-            $this->readAdsbexTrafficWithDetailsUc = new ReadAdsbexTrafficWithDetailsUc(
-                $this->getReadAdsbexTrafficUc(),
-                $this->getReadTrafficDetailsUc()
-            );
-        }
-
-        return $this->readAdsbexTrafficWithDetailsUc;
+        return $this->container->get(IReadAdsbexTrafficWithDetailsUc::class);
     }
 
 
     public function getReadOgnTrafficUc(): IReadOgnTrafficUc
     {
-        if (!isset($this->readOgnTrafficUc)) {
-            $this->readOgnTrafficUc = new ReadOgnTrafficUc($this->getOgnRepo());
-        }
-
-        return $this->readOgnTrafficUc;
+        return $this->container->get(IReadOgnTrafficUc::class);
     }
 
 
     public function getReadTrafficDetailsUc(): IReadTrafficDetailsUc
     {
-        if (!isset($this->readTrafficDetailsUc)) {
-            $this->readTrafficDetailsUc = new ReadTrafficDetailsUc($this->getTrafficDetailRepo());
-        }
-
-        return $this->readTrafficDetailsUc;
+        return $this->container->get(IReadTrafficDetailsUc::class);
     }
 }

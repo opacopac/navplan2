@@ -2,6 +2,8 @@
 
 namespace Navplan\MeteoRadar;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\MeteoRadar\Domain\Service\IMeteoRadarImagesConfig;
 use Navplan\MeteoRadar\Domain\Service\IMeteoRadarImagesRepo;
@@ -9,45 +11,46 @@ use Navplan\MeteoRadar\FileSystem\Service\FileSystemRadarImagesRepo;
 use Navplan\MeteoRadar\Rest\Service\MeteoRadarImageController;
 use Navplan\System\Domain\Service\IFileService;
 use Navplan\System\Domain\Service\IHttpService;
+use function DI\autowire;
 
 
 class ProdMeteoRadarImagesDiContainer implements IMeteoRadarImagesDiContainer
 {
-    private IRestController $meteoRadarImagesRestController;
-    private IMeteoRadarImagesRepo $radarImagesRepo;
+    private Container $container;
 
 
     public function __construct(
-        private readonly IFileService $fileService,
-        private readonly IHttpService $httpService,
-        private readonly IMeteoRadarImagesConfig $meteoRadarImagesConfig
+        IFileService $fileService,
+        IHttpService $httpService,
+        IMeteoRadarImagesConfig $meteoRadarImagesConfig
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons (shared across all domains)
+            IFileService::class => $fileService,
+            IHttpService::class => $httpService,
+            IMeteoRadarImagesConfig::class => $meteoRadarImagesConfig,
+
+            // interface -> implementation bindings (only mapping needed per class)
+            IMeteoRadarImagesRepo::class => autowire(FileSystemRadarImagesRepo::class),
+            IRestController::class => autowire(MeteoRadarImageController::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     public function getMeteoRadarImagesController(): IRestController
     {
-        if (!isset($this->meteoRadarImagesRestController)) {
-            $this->meteoRadarImagesRestController = new MeteoRadarImageController(
-                $this->getMeteoRadarImagesRepo(),
-                $this->httpService
-            );
-        }
-
-        return $this->meteoRadarImagesRestController;
+        return $this->container->get(IRestController::class);
     }
 
 
     public function getMeteoRadarImagesRepo(): IMeteoRadarImagesRepo
     {
-        if (!isset($this->radarImagesRepo)) {
-            $this->radarImagesRepo = new FileSystemRadarImagesRepo(
-                $this->fileService,
-                $this->meteoRadarImagesConfig
-            );
-        }
-
-        return $this->radarImagesRepo;
+        return $this->container->get(IMeteoRadarImagesRepo::class);
     }
 }
+

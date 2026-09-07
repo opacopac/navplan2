@@ -2,6 +2,8 @@
 
 namespace Navplan\MeteoGram;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastPrecipRepo;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastTempRepo;
@@ -11,45 +13,50 @@ use Navplan\MeteoGram\Domain\Service\ICloudMeteoGramService;
 use Navplan\MeteoGram\Rest\Service\ReadCloudMeteogramController;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\Terrain\Domain\Service\ITerrainService;
+use function DI\autowire;
 
 
-class ProdMeteoGramDiContainer implements IMeteoGramDiContainer {
-    private IRestController $readCloudMeteoGramController;
-    private ICloudMeteoGramService $cloudMeteoGramService;
+class ProdMeteoGramDiContainer implements IMeteoGramDiContainer
+{
+    private Container $container;
 
 
     public function __construct(
-        private readonly IHttpService $httpService,
-        private readonly IMeteoForecastVerticalCloudRepo $verticalCloudRepo,
-        private readonly IMeteoForecastPrecipRepo $precipRepo,
-        private readonly IMeteoForecastTempRepo $tempRepo,
-        private readonly ITerrainService $terrainService
-    ) {
+        IHttpService $httpService,
+        IMeteoForecastVerticalCloudRepo $verticalCloudRepo,
+        IMeteoForecastPrecipRepo $precipRepo,
+        IMeteoForecastTempRepo $tempRepo,
+        ITerrainService $terrainService
+    )
+    {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons (shared across all domains)
+            IHttpService::class => $httpService,
+            IMeteoForecastVerticalCloudRepo::class => $verticalCloudRepo,
+            IMeteoForecastPrecipRepo::class => $precipRepo,
+            IMeteoForecastTempRepo::class => $tempRepo,
+            ITerrainService::class => $terrainService,
+
+            // interface -> implementation bindings (only mapping needed per class)
+            ICloudMeteoGramService::class => autowire(CloudMeteoGramService::class),
+            IRestController::class => autowire(ReadCloudMeteogramController::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
-    public function getReadCloudMeteoGramController(): IRestController {
-        if (!isset($this->readCloudMeteoGramController)) {
-            $this->readCloudMeteoGramController = new ReadCloudMeteogramController(
-                $this->httpService,
-                $this->getCloudMeteoGramService()
-            );
-        }
-
-        return $this->readCloudMeteoGramController;
+    public function getReadCloudMeteoGramController(): IRestController
+    {
+        return $this->container->get(IRestController::class);
     }
 
 
-    public function getCloudMeteoGramService(): ICloudMeteoGramService {
-        if (!isset($this->cloudMeteoGramService)) {
-            $this->cloudMeteoGramService = new CloudMeteoGramService(
-                $this->verticalCloudRepo,
-                $this->precipRepo,
-                $this->tempRepo,
-                $this->terrainService
-            );
-        }
-
-        return $this->cloudMeteoGramService;
+    public function getCloudMeteoGramService(): ICloudMeteoGramService
+    {
+        return $this->container->get(ICloudMeteoGramService::class);
     }
 }
+

@@ -2,6 +2,8 @@
 
 namespace Navplan\VerticalMap;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Airspace\Domain\Service\IAirspaceService;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastVerticalCloudRepo;
@@ -11,45 +13,49 @@ use Navplan\Terrain\Domain\Service\ITerrainService;
 use Navplan\VerticalMap\Domain\Service\IVerticalMapService;
 use Navplan\VerticalMap\Domain\Service\VerticalMapService;
 use Navplan\VerticalMap\Rest\Service\VerticalMapController;
+use function DI\autowire;
 
 
-class ProdVerticalMapDiContainer implements IVerticalMapDiContainer {
-    private IVerticalMapService $verticalMapService;
-    private IRestController $restController;
+class ProdVerticalMapDiContainer implements IVerticalMapDiContainer
+{
+    private Container $container;
 
 
     public function __construct(
-        private ITerrainService $terrainService,
-        private IAirspaceService $airspaceService,
-        private IMeteoForecastVerticalCloudRepo $verticalCloudRepo,
-        private IMeteoForecastVerticalWindRepo $verticalWindRepo,
-        private IHttpService $httpService
-    ) {
+        ITerrainService $terrainService,
+        IAirspaceService $airspaceService,
+        IMeteoForecastVerticalCloudRepo $verticalCloudRepo,
+        IMeteoForecastVerticalWindRepo $verticalWindRepo,
+        IHttpService $httpService
+    )
+    {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons
+            ITerrainService::class => $terrainService,
+            IAirspaceService::class => $airspaceService,
+            IMeteoForecastVerticalCloudRepo::class => $verticalCloudRepo,
+            IMeteoForecastVerticalWindRepo::class => $verticalWindRepo,
+            IHttpService::class => $httpService,
+
+            // interface -> implementation bindings
+            IVerticalMapService::class => autowire(VerticalMapService::class),
+            IRestController::class => autowire(VerticalMapController::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
-    function getVerticalMapController(): IRestController {
-        if (!isset($this->restController)) {
-            $this->restController = new VerticalMapController(
-                $this->getVerticalMapService(),
-                $this->httpService
-            );
-        }
-
-        return $this->restController;
+    function getVerticalMapController(): IRestController
+    {
+        return $this->container->get(IRestController::class);
     }
 
 
-    function getVerticalMapService(): IVerticalMapService {
-        if (!isset($this->verticalMapService)) {
-            $this->verticalMapService = new VerticalMapService(
-                $this->terrainService,
-                $this->airspaceService,
-                $this->verticalCloudRepo,
-                $this->verticalWindRepo
-            );
-        }
-
-        return $this->verticalMapService;
+    function getVerticalMapService(): IVerticalMapService
+    {
+        return $this->container->get(IVerticalMapService::class);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Navplan\Notam;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use Navplan\Aerodrome\Domain\Service\IAirportService;
 use Navplan\Airspace\Domain\Service\IFirService;
 use Navplan\Common\Rest\Controller\IRestController;
@@ -39,225 +41,147 @@ use Navplan\Notam\Rest\Service\NotamController;
 use Navplan\System\Db\Domain\Service\IDbService;
 use Navplan\System\Domain\Service\IHttpService;
 use Navplan\System\Domain\Service\ILoggingService;
+use function DI\autowire;
 
 
 class ProdNotamDiContainer implements INotamDiContainer
 {
-    private INotamConfig $notamConfig;
-    private IRestController $notamController;
-    private INotamService $notamService;
-    private INotamSearchByExtentQuery $searchByExtentQuery;
-    private INotamSearchByPositionQuery $searchByPositionQuery;
-    private INotamSearchByIcaoQuery $searchByIcaoQuery;
-    private INotamSearchByRouteQuery $searchByRouteQuery;
-    private IReadNotamsByKeyQuery $readNotamsByKeyQuery;
-    private IReadNotamChunkQuery $readNotamChunkQuery;
-    private INotamGeometryDeleteAllCommand $notamGeometryDeleteAllCommand;
-    private INotamCoordinateParser $notamCoordinateParser;
-    private INotamAltitudeParser $notamAltitudeParser;
-    private INotamCircleGeometryParser $notamCircleGeometryParser;
-    private INotamPolygonGeometryParser $notamPolygonGeometryParser;
-    private INotamAirspaceParser $notamAirspaceParser;
-    private INotamGeometryParser $notamGeometryParser;
+    private Container $container;
 
 
     public function __construct(
-        private readonly IDbService $dbService,
-        private readonly IHttpService $httpService,
-        private readonly ILoggingService $loggingService,
-        private readonly IFirService $firService,
-        private readonly IAirportService $airportService,
+        IDbService $dbService,
+        IHttpService $httpService,
+        ILoggingService $loggingService,
+        IFirService $firService,
+        IAirportService $airportService,
     )
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            // externally supplied singletons
+            IDbService::class => $dbService,
+            IHttpService::class => $httpService,
+            ILoggingService::class => $loggingService,
+            IFirService::class => $firService,
+            IAirportService::class => $airportService,
+
+            // interface -> implementation bindings
+            INotamConfig::class => autowire(ProdConfigDiContainer::class),
+            INotamSearchByExtentQuery::class => autowire(DbNotamSearchByExtentQuery::class),
+            INotamSearchByPositionQuery::class => autowire(DbNotamSearchByPositionQuery::class),
+            INotamSearchByIcaoQuery::class => autowire(DbNotamSearchByIcaoQuery::class),
+            INotamSearchByRouteQuery::class => autowire(DbNotamSearchByRouteQuery::class),
+            IReadNotamsByKeyQuery::class => autowire(DbReadNotamsByKeyQuery::class),
+            IReadNotamChunkQuery::class => autowire(DbReadNotamChunkQuery::class),
+            INotamGeometryDeleteAllCommand::class => autowire(DbNotamGeometryDeleteAllCommand::class),
+            INotamCoordinateParser::class => autowire(NotamCoordinateParser::class),
+            INotamAltitudeParser::class => autowire(NotamAltitudeParser::class),
+            INotamCircleGeometryParser::class => autowire(NotamCircleGeometryParser::class),
+            INotamPolygonGeometryParser::class => autowire(NotamPolygonGeometryParser::class),
+            INotamAirspaceParser::class => autowire(NotamAirspaceParser::class),
+            INotamGeometryParser::class => autowire(NotamGeometryParser::class),
+            INotamService::class => autowire(NotamService::class),
+            IRestController::class => autowire(NotamController::class),
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     function getNotamConfig(): INotamConfig
     {
-        if (!isset($this->notamConfig)) {
-            $this->notamConfig = new ProdConfigDiContainer();
-        }
-
-        return $this->notamConfig;
+        return $this->container->get(INotamConfig::class);
     }
 
 
     function getNotamController(): IRestController
     {
-        if (!isset($this->notamController)) {
-            $this->notamController = new NotamController(
-                $this->getNotamService(),
-                $this->httpService
-            );
-        }
-
-        return $this->notamController;
+        return $this->container->get(IRestController::class);
     }
 
 
     function getNotamService(): INotamService
     {
-        if (!isset($this->notamService)) {
-            $this->notamService = new NotamService(
-                $this->getNotamSearchByExtentQuery(),
-                $this->getNotamSearchByIcaoQuery(),
-                $this->getNotamSearchByPositionQuery(),
-                $this->getNotamSearchByRouteQuery()
-            );
-        }
-
-        return $this->notamService;
+        return $this->container->get(INotamService::class);
     }
 
 
     public function getNotamSearchByExtentQuery(): INotamSearchByExtentQuery
     {
-        if (!isset($this->searchByExtentQuery)) {
-            $this->searchByExtentQuery = new DbNotamSearchByExtentQuery($this->dbService);
-        }
-
-        return $this->searchByExtentQuery;
+        return $this->container->get(INotamSearchByExtentQuery::class);
     }
 
 
     public function getNotamSearchByPositionQuery(): INotamSearchByPositionQuery
     {
-        if (!isset($this->searchByPositionQuery)) {
-            $this->searchByPositionQuery = new DbNotamSearchByPositionQuery($this->dbService);
-        }
-
-        return $this->searchByPositionQuery;
+        return $this->container->get(INotamSearchByPositionQuery::class);
     }
 
 
     public function getNotamSearchByIcaoQuery(): INotamSearchByIcaoQuery
     {
-        if (!isset($this->searchByIcaoQuery)) {
-            $this->searchByIcaoQuery = new DbNotamSearchByIcaoQuery($this->dbService);
-        }
-
-        return $this->searchByIcaoQuery;
+        return $this->container->get(INotamSearchByIcaoQuery::class);
     }
 
 
     public function getNotamSearchByRouteQuery(): INotamSearchByRouteQuery
     {
-        if (!isset($this->searchByRouteQuery)) {
-            $this->searchByRouteQuery = new DbNotamSearchByRouteQuery($this->dbService);
-        }
-
-        return $this->searchByRouteQuery;
+        return $this->container->get(INotamSearchByRouteQuery::class);
     }
 
 
     public function getReadNotamsByKeyQuery(): IReadNotamsByKeyQuery
     {
-        if (!isset($this->readNotamsByKeyQuery)) {
-            $this->readNotamsByKeyQuery = new DbReadNotamsByKeyQuery($this->dbService);
-        }
-
-        return $this->readNotamsByKeyQuery;
+        return $this->container->get(IReadNotamsByKeyQuery::class);
     }
 
 
     public function getReadNotamChunkQuery(): IReadNotamChunkQuery
     {
-        if (!isset($this->readNotamChunkQuery)) {
-            $this->readNotamChunkQuery = new DbReadNotamChunkQuery($this->dbService);
-        }
-
-        return $this->readNotamChunkQuery;
+        return $this->container->get(IReadNotamChunkQuery::class);
     }
 
 
     public function getNotamGeometryDeleteAllCommand(): INotamGeometryDeleteAllCommand
     {
-        if (!isset($this->notamGeometryDeleteAllCommand)) {
-            $this->notamGeometryDeleteAllCommand = new DbNotamGeometryDeleteAllCommand($this->dbService);
-        }
-
-        return $this->notamGeometryDeleteAllCommand;
+        return $this->container->get(INotamGeometryDeleteAllCommand::class);
     }
 
 
     public function getNotamCoordinateParser(): INotamCoordinateParser
     {
-        if (!isset($this->notamCoordinateParser)) {
-            $this->notamCoordinateParser = new NotamCoordinateParser($this->loggingService);
-        }
-
-        return $this->notamCoordinateParser;
+        return $this->container->get(INotamCoordinateParser::class);
     }
 
 
     public function getNotamAltitudeParser(): INotamAltitudeParser
     {
-        if (!isset($this->notamAltitudeParser)) {
-            $this->notamAltitudeParser = new NotamAltitudeParser($this->loggingService);
-        }
-
-        return $this->notamAltitudeParser;
+        return $this->container->get(INotamAltitudeParser::class);
     }
 
 
     public function getNotamCircleGeometryParser(): INotamCircleGeometryParser
     {
-        if (!isset($this->notamCircleGeometryParser)) {
-            $this->notamCircleGeometryParser = new NotamCircleGeometryParser(
-                $this->loggingService,
-                $this->getNotamCoordinateParser()
-            );
-        }
-
-        return $this->notamCircleGeometryParser;
+        return $this->container->get(INotamCircleGeometryParser::class);
     }
 
 
     public function getNotamPolygonGeometryParser(): INotamPolygonGeometryParser
     {
-        if (!isset($this->notamPolygonGeometryParser)) {
-            $this->notamPolygonGeometryParser = new NotamPolygonGeometryParser(
-                $this->loggingService,
-                $this->getNotamCoordinateParser()
-            );
-        }
-
-        return $this->notamPolygonGeometryParser;
+        return $this->container->get(INotamPolygonGeometryParser::class);
     }
 
 
     public function getNotamAirspaceParser(): INotamAirspaceParser
     {
-        if (!isset($this->notamAirspaceParser)) {
-            $this->notamAirspaceParser = new NotamAirspaceParser(
-                $this->loggingService,
-                $this->dbService
-            );
-        }
-
-        return $this->notamAirspaceParser;
+        return $this->container->get(INotamAirspaceParser::class);
     }
 
 
     public function getNotamGeometryParser(): INotamGeometryParser
     {
-        if (!isset($this->notamGeometryParser)) {
-            $this->notamGeometryParser = new NotamGeometryParser(
-                $this->loggingService,
-                $this->dbService,
-                $this->getReadNotamsByKeyQuery(),
-                $this->getReadNotamChunkQuery(),
-                $this->getNotamGeometryDeleteAllCommand(),
-                $this->firService,
-                $this->airportService,
-                $this->getNotamCoordinateParser(),
-                $this->getNotamAltitudeParser(),
-                $this->getNotamCircleGeometryParser(),
-                $this->getNotamPolygonGeometryParser(),
-                $this->getNotamAirspaceParser()
-            );
-        }
-
-        return $this->notamGeometryParser;
+        return $this->container->get(INotamGeometryParser::class);
     }
 }
