@@ -1,40 +1,28 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
-import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {Navaid} from '../../domain/model/navaid';
 import {IRestNavaid} from '../model/i-rest-navaid';
 import {RestNavaidConverter} from '../model/rest-navaid-converter';
 import {INavaidRepo} from '../../domain/service/i-navaid-repo';
-import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
-import {RestZoomConverter} from '../../../geo-physics/rest/model/rest-zoom-converter';
-import {HttpHelper} from '../../../system/domain/service/http/http-helper';
+import {RestReadByExtentService} from '../../../common/rest/service/rest-read-by-extent.service';
 
 
 @Injectable()
-export class RestNavaidService implements INavaidRepo {
-    constructor(private http: HttpClient) {
+export class RestNavaidService extends RestReadByExtentService<Navaid, IRestNavaid> implements INavaidRepo {
+    constructor(http: HttpClient) {
+        super(http, environment.navaidApiBaseUrl, 'ERROR reading navaid list by extent');
     }
 
 
     public readNavaidsByExtent(extent: Extent2d, zoom: number): Observable<Navaid[]> {
-        const params = HttpHelper.mergeParameters([
-            RestExtent2dConverter.getUrlParams(extent),
-            RestZoomConverter.getUrlParam(zoom)
-        ]);
-        const url: string = environment.navaidApiBaseUrl;
+        return this.readByExtent(extent, zoom);
+    }
 
-        return this.http
-            .get<IRestNavaid[]>(url, {params})
-            .pipe(
-                map((response) => RestNavaidConverter.fromRestList(response)),
-                catchError(err => {
-                    LoggingService.logResponseError('ERROR reading navaid list by extent', err);
-                    return throwError(err);
-                })
-            );
+
+    protected convertList(restItems: IRestNavaid[]): Navaid[] {
+        return RestNavaidConverter.fromRestList(restItems);
     }
 }
