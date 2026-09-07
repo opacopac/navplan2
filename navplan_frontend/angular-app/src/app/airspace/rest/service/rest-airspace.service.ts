@@ -1,40 +1,28 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 import {environment} from '../../../../environments/environment';
-import {LoggingService} from '../../../system/domain/service/logging/logging.service';
 import {Extent2d} from '../../../geo-physics/domain/model/geometry/extent2d';
 import {Airspace} from '../../domain/model/airspace';
 import {IRestAirspace} from '../model/i-rest-airspace';
 import {RestAirspaceConverter} from '../model/rest-airspace-converter';
 import {IAirspaceRepo} from '../../domain/service/i-airspace-repo';
-import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
-import {RestZoomConverter} from '../../../geo-physics/rest/model/rest-zoom-converter';
-import {HttpHelper} from '../../../system/domain/service/http/http-helper';
+import {RestReadByExtentService} from '../../../common/rest/service/rest-read-by-extent.service';
 
 
 @Injectable()
-export class RestAirspaceService implements IAirspaceRepo {
-    constructor(private http: HttpClient) {
+export class RestAirspaceService extends RestReadByExtentService<Airspace, IRestAirspace> implements IAirspaceRepo {
+    constructor(http: HttpClient) {
+        super(http, environment.airspaceApiBaseUrl, 'ERROR reading airspace list by extent');
     }
 
 
     public readAirspacesByExtent(extent: Extent2d, zoom: number): Observable<Airspace[]> {
-        const params = HttpHelper.mergeParameters([
-            RestExtent2dConverter.getUrlParams(extent),
-            RestZoomConverter.getUrlParam(zoom)
-        ]);
-        const url: string = environment.airspaceApiBaseUrl;
+        return this.readByExtent(extent, zoom);
+    }
 
-        return this.http
-            .get<IRestAirspace[]>(url, {params})
-            .pipe(
-                map((response) => RestAirspaceConverter.fromRestList(response)),
-                catchError(err => {
-                    LoggingService.logResponseError('ERROR reading airspace list by extent', err);
-                    return throwError(err);
-                })
-            );
+
+    protected convertList(restItems: IRestAirspace[]): Airspace[] {
+        return RestAirspaceConverter.fromRestList(restItems);
     }
 }

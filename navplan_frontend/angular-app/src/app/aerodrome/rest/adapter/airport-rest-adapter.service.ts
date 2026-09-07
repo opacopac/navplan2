@@ -12,33 +12,24 @@ import {Airport} from '../../domain/model/airport';
 import {IRestAirport} from '../model/i-rest-airport';
 import {RestAirportConverter} from '../converter/rest-airport-converter';
 import {IAirportRepoService} from '../../domain/service/i-airport-repo.service';
-import {RestExtent2dConverter} from '../../../geo-physics/rest/model/rest-extent2d-converter';
-import {RestZoomConverter} from '../../../geo-physics/rest/model/rest-zoom-converter';
 import {HttpHelper} from '../../../system/domain/service/http/http-helper';
+import {RestReadByExtentService} from '../../../common/rest/service/rest-read-by-extent.service';
 
 
 @Injectable()
-export class AirportRestAdapterService implements IAirportRepoService {
-    constructor(private http: HttpClient) {
+export class AirportRestAdapterService extends RestReadByExtentService<ShortAirport, IRestShortAirport> implements IAirportRepoService {
+    constructor(http: HttpClient) {
+        super(http, environment.airportApiBaseUrl, 'ERROR reading airport list by extent');
     }
 
 
     public readAirportsByExtent(extent: Extent2d, zoom: number): Observable<ShortAirport[]> {
-        const params = HttpHelper.mergeParameters([
-            RestExtent2dConverter.getUrlParams(extent),
-            RestZoomConverter.getUrlParam(zoom)
-        ]);
-        const url: string = environment.airportApiBaseUrl;
+        return this.readByExtent(extent, zoom);
+    }
 
-        return this.http
-            .get<IRestShortAirport[]>(url, {params})
-            .pipe(
-                map((response) => RestShortAirportConverter.fromRestList(response)),
-                catchError(err => {
-                    LoggingService.logResponseError('ERROR reading airport list by extent', err);
-                    return throwError(err);
-                })
-            );
+
+    protected convertList(restItems: IRestShortAirport[]): ShortAirport[] {
+        return RestShortAirportConverter.fromRestList(restItems);
     }
 
 
