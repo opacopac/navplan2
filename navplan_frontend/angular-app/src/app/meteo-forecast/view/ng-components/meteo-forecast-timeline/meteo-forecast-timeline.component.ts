@@ -42,7 +42,15 @@ export class MeteoForecastTimelineComponent implements OnInit, OnChanges {
 
 
     ngOnChanges(): void {
-        this.initForm();
+        if (!this.meteoFcTimelineForm) {
+            this.initForm();
+        } else {
+            const step = this.selectedStep;
+            // defer: let Angular first push the updated [min]/[max] bindings to the
+            // mat-slider before we set the form control value, otherwise the slider
+            // clamps/positions the thumb based on the still stale min/max range.
+            setTimeout(() => this.meteoFcTimelineForm.get('step').setValue(step));
+        }
     }
 
 
