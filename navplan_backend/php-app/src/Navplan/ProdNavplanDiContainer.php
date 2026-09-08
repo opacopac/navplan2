@@ -4,7 +4,6 @@ namespace Navplan;
 
 use DI\Container;
 use DI\ContainerBuilder;
-use Psr\Container\ContainerInterface;
 use Navplan\Admin\IAdminDiContainer;
 use Navplan\Admin\Domain\Service\IAdminService;
 use Navplan\Aerodrome\IAerodromeDiContainer;
@@ -80,11 +79,9 @@ use Navplan\Traffic\ITrafficDiContainer;
 use Navplan\Traffic\Ogn\Service\IOgnListenerRepo;
 use Navplan\Traffic\Rest\Service\TrafficController;
 use Navplan\User\IUserDiContainer;
-use Navplan\User\Domain\Service\IUserService;
-use Navplan\User\ProdUserDiContainer;
-use Navplan\User\UseCase\SearchUserPoint\ISearchUserPointUc;
+use Navplan\User\Rest\Service\UserController;
 use Navplan\VerticalMap\IVerticalMapDiContainer;
-use Navplan\VerticalMap\ProdVerticalMapDiContainer;
+use Navplan\VerticalMap\Rest\Service\VerticalMapController;
 use Navplan\Webcam\IWebcamDiContainer;
 use Navplan\Webcam\Domain\Query\IWebcamByIcaoQuery;
 use Navplan\Webcam\Rest\Service\WebcamController;
@@ -94,15 +91,14 @@ use Navplan\Webcam\Rest\Service\WebcamController;
  * Hybrid DI approach: keeps the per-module I<Feature>DiContainer interfaces as
  * explicit module boundaries, but no longer has a separate Prod<Feature>DiContainer
  * class (with its own private PHP-DI Container) per module. Instead:
- *  - each converted module ships a "<feature>.definitions.php" file (pure data:
+ *  - each module ships a "<feature>.definitions.php" file (pure data:
  *    interface -> implementation bindings),
  *  - this class loads ALL of them into ONE application-wide container,
- *  - this class itself implements the converted modules' DiContainer interfaces
+ *  - this class itself implements ALL modules' DiContainer interfaces
  *    directly, with each method being a trivial one-line delegate to the container.
  *
- * Modules not yet converted (most of them) keep working unchanged via their
- * existing Prod<Feature>DiContainer class, wired via a factory closure below -
- * both styles can coexist in the same container. See docs/di-approach.md.
+ * All modules are migrated to this pattern (see docs/di-approach.md) - there
+ * is no more Prod<Feature>DiContainer class anywhere in the codebase.
  *
  * NOTE on IConfigDiContainer: deliberately NOT flattened onto this class.
  * It extends ~10 narrow config interfaces with ~13 getters in total; turning
@@ -113,7 +109,7 @@ use Navplan\Webcam\Rest\Service\WebcamController;
  * NOTE on controllers: every module binds its controller to the shared
  * IRestController interface within ITS OWN (now removed) container. Since all
  * definitions are merged into one container here, that key would collide
- * across modules - so converted modules bind their CONCRETE controller class
+ * across modules - so each module binds its CONCRETE controller class
  * instead (see e.g. navaid.definitions.php / webcam.definitions.php).
  */
 class ProdNavplanDiContainer implements
@@ -141,7 +137,9 @@ class ProdNavplanDiContainer implements
     ISearchDiContainer,
     ITerrainDiContainer,
     ITrackDiContainer,
-    ITrafficDiContainer
+    ITrafficDiContainer,
+    IUserDiContainer,
+    IVerticalMapDiContainer
 {
     private Container $container;
 
@@ -176,6 +174,8 @@ class ProdNavplanDiContainer implements
         $builder->addDefinitions(__DIR__ . '/Terrain/terrain.definitions.php');
         $builder->addDefinitions(__DIR__ . '/Track/track.definitions.php');
         $builder->addDefinitions(__DIR__ . '/Traffic/traffic.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/User/user.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/VerticalMap/verticalMap.definitions.php');
         $builder->addDefinitions([
             // Self-registration: this class implements these DiContainer
             // interfaces directly, so not-yet-converted modules' factory
@@ -208,39 +208,8 @@ class ProdNavplanDiContainer implements
             ITerrainDiContainer::class => $this,
             ITrackDiContainer::class => $this,
             ITrafficDiContainer::class => $this,
-
-            // Bridges to not-yet-migrated modules: some migrated modules'
-            // classes are autowired and need these interfaces injected
-            // directly, but the owning module isn't merged into this
-            // container yet - only reachable via its old DiContainer facade.
-            // Delete the bridge once the owning module gets migrated too.
-            IUserService::class => function (ContainerInterface $c) {
-                return $c->get(IUserDiContainer::class)->getUserService();
-            },
-            ISearchUserPointUc::class => function (ContainerInterface $c) {
-                return $c->get(IUserDiContainer::class)->getSearchUserPointUc();
-            },
-
-            IUserDiContainer::class => function (ContainerInterface $c) {
-                return new ProdUserDiContainer(
-                    $c->get(ISystemDiContainer::class)->getHttpService(),
-                    $c->get(IPersistenceDiContainer::class)->getDbService(),
-                    $c->get(ISystemDiContainer::class)->getMailService(),
-                    $c->get(IConfigDiContainer::class),
-                    $c->get(ISystemDiContainer::class)->getLoggingService()
-                );
-            },
-
-            IVerticalMapDiContainer::class => function (ContainerInterface $c) {
-                return new ProdVerticalMapDiContainer(
-                    $c->get(ITerrainDiContainer::class)->getTerrainService(),
-                    $c->get(IAirspaceDiContainer::class)->getAirspaceService(),
-                    $c->get(IMeteoForecastDiContainer::class)->getMeteoForecastVerticalCloudRepo(),
-                    $c->get(IMeteoForecastDiContainer::class)->getMeteoForecastVerticalWindRepo(),
-                    $c->get(ISystemDiContainer::class)->getHttpService(),
-                );
-            },
-
+            IUserDiContainer::class => $this,
+            IVerticalMapDiContainer::class => $this,
         ]);
 
         $this->container = $builder->build();
@@ -399,13 +368,13 @@ class ProdNavplanDiContainer implements
 
     public function getUserDiContainer(): IUserDiContainer
     {
-        return $this->container->get(IUserDiContainer::class);
+        return $this;
     }
 
 
     public function getVerticalMapDiContainer(): IVerticalMapDiContainer
     {
-        return $this->container->get(IVerticalMapDiContainer::class);
+        return $this;
     }
 
 
@@ -767,5 +736,21 @@ class ProdNavplanDiContainer implements
     public function getOgnListenerRepo(): IOgnListenerRepo
     {
         return $this->container->get(IOgnListenerRepo::class);
+    }
+
+
+    // --- IUserDiContainer -----------------------------------------------------
+
+    public function getUserController(): IRestController
+    {
+        return $this->container->get(UserController::class);
+    }
+
+
+    // --- IVerticalMapDiContainer ------------------------------------------------
+
+    public function getVerticalMapController(): IRestController
+    {
+        return $this->container->get(VerticalMapController::class);
     }
 }

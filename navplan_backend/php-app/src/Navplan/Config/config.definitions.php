@@ -17,6 +17,7 @@ use Navplan\System\Db\Domain\Model\IDbConfig;
 use Navplan\System\Domain\Service\ISystemConfig;
 use Navplan\Terrain\Domain\Service\ITerrainConfig;
 use Navplan\Traffic\Adsbex\Service\IAdsbexConfig;
+use Navplan\User\Domain\Service\ITokenConfig;
 use function DI\autowire;
 use function DI\get;
 
@@ -34,5 +35,6 @@ return [
     IOpenAipConfig::class => get(IConfigDiContainer::class),
     ITerrainConfig::class => get(IConfigDiContainer::class),
     IAdsbexConfig::class => get(IConfigDiContainer::class),
+    ITokenConfig::class => get(IConfigDiContainer::class),
 ];
 
