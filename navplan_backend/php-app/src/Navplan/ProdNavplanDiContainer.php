@@ -38,20 +38,25 @@ use Navplan\Flightroute\Rest\Controller\FlightrouteController;
 use Navplan\Geoname\IGeonameDiContainer;
 use Navplan\Geoname\Domain\Service\IGeonameService;
 use Navplan\MetarTaf\IMetarTafDiContainer;
-use Navplan\MetarTaf\ProdMetarTafDiContainer;
+use Navplan\MetarTaf\Rest\Service\ReadMetarTafController;
 use Navplan\MeteoForecast\IMeteoForecastDiContainer;
-use Navplan\MeteoForecast\ProdMeteoForecastDiContainer;
+use Navplan\MeteoForecast\Domain\Service\IMeteoForecastVerticalCloudRepo;
+use Navplan\MeteoForecast\Domain\Service\IMeteoForecastVerticalWindRepo;
+use Navplan\MeteoForecast\Rest\Service\MeteoForecastController;
 use Navplan\MeteoGram\IMeteoGramDiContainer;
-use Navplan\MeteoGram\ProdMeteoGramDiContainer;
+use Navplan\MeteoGram\Rest\Service\ReadCloudMeteogramController;
 use Navplan\MeteoRadar\IMeteoRadarImagesDiContainer;
-use Navplan\MeteoRadar\ProdMeteoRadarImagesDiContainer;
+use Navplan\MeteoRadar\Rest\Service\MeteoRadarImageController;
 use Navplan\MeteoSma\IMeteoSmaDiContainer;
-use Navplan\MeteoSma\ProdMeteoSmaDiContainer;
+use Navplan\MeteoSma\Domain\Service\IMeteoSmaService;
+use Navplan\MeteoSma\Rest\Service\MeteoSmaController;
 use Navplan\Navaid\INavaidDiContainer;
 use Navplan\Navaid\Domain\Service\INavaidService;
 use Navplan\Navaid\Rest\Controller\NavaidController;
 use Navplan\Notam\INotamDiContainer;
-use Navplan\Notam\ProdNotamDiContainer;
+use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
+use Navplan\Notam\IcaoImporter\INotamGeometryParser;
+use Navplan\Notam\Rest\Service\NotamController;
 use Navplan\OpenAip\IOpenAipDiContainer;
 use Navplan\OpenAip\Importer\Service\IOpenAipImporter;
 use Navplan\OpenAip\ProdOpenAipDiContainer;
@@ -125,7 +130,13 @@ class ProdNavplanDiContainer implements
     IAirspaceDiContainer,
     IExporterDiContainer,
     IFlightrouteDiContainer,
-    IGeonameDiContainer
+    IGeonameDiContainer,
+    IMetarTafDiContainer,
+    IMeteoForecastDiContainer,
+    IMeteoGramDiContainer,
+    IMeteoRadarImagesDiContainer,
+    IMeteoSmaDiContainer,
+    INotamDiContainer
 {
     private Container $container;
 
@@ -149,6 +160,12 @@ class ProdNavplanDiContainer implements
         $builder->addDefinitions(__DIR__ . '/Exporter/exporter.definitions.php');
         $builder->addDefinitions(__DIR__ . '/Flightroute/flightroute.definitions.php');
         $builder->addDefinitions(__DIR__ . '/Geoname/geoname.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/MetarTaf/metarTaf.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/MeteoForecast/meteoForecast.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/MeteoGram/meteoGram.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/MeteoRadar/meteoRadar.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/MeteoSma/meteoSma.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/Notam/notam.definitions.php');
         $builder->addDefinitions([
             // Self-registration: this class implements these DiContainer
             // interfaces directly, so not-yet-converted modules' factory
@@ -170,6 +187,12 @@ class ProdNavplanDiContainer implements
             IExporterDiContainer::class => $this,
             IFlightrouteDiContainer::class => $this,
             IGeonameDiContainer::class => $this,
+            IMetarTafDiContainer::class => $this,
+            IMeteoForecastDiContainer::class => $this,
+            IMeteoGramDiContainer::class => $this,
+            IMeteoRadarImagesDiContainer::class => $this,
+            IMeteoSmaDiContainer::class => $this,
+            INotamDiContainer::class => $this,
 
             // Bridges to not-yet-migrated modules: some migrated modules'
             // classes are autowired and need these interfaces injected
@@ -186,55 +209,7 @@ class ProdNavplanDiContainer implements
                 return $c->get(ITerrainDiContainer::class)->getTerrainService();
             },
 
-            IMeteoForecastDiContainer::class => function (ContainerInterface $c) {
-                return new ProdMeteoForecastDiContainer(
-                    $c->get(ISystemDiContainer::class)->getFileService(),
-                    $c->get(ISystemDiContainer::class)->getHttpService(),
-                    $c->get(IConfigDiContainer::class)
-                );
-            },
 
-            IMeteoRadarImagesDiContainer::class => function (ContainerInterface $c) {
-                return new ProdMeteoRadarImagesDiContainer(
-                    $c->get(ISystemDiContainer::class)->getFileService(),
-                    $c->get(ISystemDiContainer::class)->getHttpService(),
-                    $c->get(IConfigDiContainer::class)
-                );
-            },
-
-            IMeteoGramDiContainer::class => function (ContainerInterface $c) {
-                return new ProdMeteoGramDiContainer(
-                    $c->get(ISystemDiContainer::class)->getHttpService(),
-                    $c->get(IMeteoForecastDiContainer::class)->getMeteoForecastVerticalCloudRepo(),
-                    $c->get(IMeteoForecastDiContainer::class)->getMeteoForecastPrecipRepo(),
-                    $c->get(IMeteoForecastDiContainer::class)->getMeteoForecastTempRepo(),
-                    $c->get(ITerrainDiContainer::class)->getTerrainService()
-                );
-            },
-
-            IMetarTafDiContainer::class => function (ContainerInterface $c) {
-                return new ProdMetarTafDiContainer(
-                    $c->get(ISystemDiContainer::class)->getHttpService()
-                );
-            },
-
-            IMeteoSmaDiContainer::class => function (ContainerInterface $c) {
-                return new ProdMeteoSmaDiContainer(
-                    $c->get(IPersistenceDiContainer::class)->getDbService(),
-                    $c->get(ISystemDiContainer::class)->getTimeService(),
-                    $c->get(ISystemDiContainer::class)->getHttpService()
-                );
-            },
-
-            INotamDiContainer::class => function (ContainerInterface $c) {
-                return new ProdNotamDiContainer(
-                    $c->get(IPersistenceDiContainer::class)->getDbService(),
-                    $c->get(ISystemDiContainer::class)->getHttpService(),
-                    $c->get(ISystemDiContainer::class)->getLoggingService(),
-                    $c->get(IAirspaceDiContainer::class)->getFirService(),
-                    $c->get(IAerodromeDiContainer::class)->getAirportService()
-                );
-            },
 
             IOpenAipDiContainer::class => function (ContainerInterface $c) {
                 return new ProdOpenAipDiContainer(
@@ -388,37 +363,37 @@ class ProdNavplanDiContainer implements
 
     public function getMeteoForecastDiContainer(): IMeteoForecastDiContainer
     {
-        return $this->container->get(IMeteoForecastDiContainer::class);
+        return $this;
     }
 
 
     public function getMeteoRadarImagesDiContainer(): IMeteoRadarImagesDiContainer
     {
-        return $this->container->get(IMeteoRadarImagesDiContainer::class);
+        return $this;
     }
 
 
     public function getMeteoGramDiContainer(): IMeteoGramDiContainer
     {
-        return $this->container->get(IMeteoGramDiContainer::class);
+        return $this;
     }
 
 
     public function getMetarTafDiContainer(): IMetarTafDiContainer
     {
-        return $this->container->get(IMetarTafDiContainer::class);
+        return $this;
     }
 
 
     public function getMeteoSmaDiContainer(): IMeteoSmaDiContainer
     {
-        return $this->container->get(IMeteoSmaDiContainer::class);
+        return $this;
     }
 
 
     public function getNotamDiContainer(): INotamDiContainer
     {
-        return $this->container->get(INotamDiContainer::class);
+        return $this;
     }
 
 
@@ -709,5 +684,84 @@ class ProdNavplanDiContainer implements
     public function getGeonameService(): IGeonameService
     {
         return $this->container->get(IGeonameService::class);
+    }
+
+
+    // --- IMetarTafDiContainer --------------------------------------------------
+
+    public function getReadMetarTafController(): IRestController
+    {
+        return $this->container->get(ReadMetarTafController::class);
+    }
+
+
+    // --- IMeteoForecastDiContainer -----------------------------------------
+
+    public function getMeteoForecastController(): IRestController
+    {
+        return $this->container->get(MeteoForecastController::class);
+    }
+
+
+
+    public function getMeteoForecastVerticalCloudRepo(): IMeteoForecastVerticalCloudRepo
+    {
+        return $this->container->get(IMeteoForecastVerticalCloudRepo::class);
+    }
+
+
+    public function getMeteoForecastVerticalWindRepo(): IMeteoForecastVerticalWindRepo
+    {
+        return $this->container->get(IMeteoForecastVerticalWindRepo::class);
+    }
+
+
+    // --- IMeteoGramDiContainer ----------------------------------------------
+
+    public function getReadCloudMeteoGramController(): IRestController
+    {
+        return $this->container->get(ReadCloudMeteogramController::class);
+    }
+
+
+    // --- IMeteoRadarImagesDiContainer -----------------------------------------
+
+    public function getMeteoRadarImagesController(): IRestController
+    {
+        return $this->container->get(MeteoRadarImageController::class);
+    }
+
+
+    // --- IMeteoSmaDiContainer -------------------------------------------------
+
+    public function getMeteoSmaController(): IRestController
+    {
+        return $this->container->get(MeteoSmaController::class);
+    }
+
+
+    public function getMeteoSmaService(): IMeteoSmaService
+    {
+        return $this->container->get(IMeteoSmaService::class);
+    }
+
+
+    // --- INotamDiContainer ----------------------------------------------------
+
+    public function getNotamController(): IRestController
+    {
+        return $this->container->get(NotamController::class);
+    }
+
+
+    public function getNotamSearchByPositionQuery(): INotamSearchByPositionQuery
+    {
+        return $this->container->get(INotamSearchByPositionQuery::class);
+    }
+
+
+    public function getNotamGeometryParser(): INotamGeometryParser
+    {
+        return $this->container->get(INotamGeometryParser::class);
     }
 }

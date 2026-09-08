@@ -59,13 +59,13 @@ Migriert (definitions.php + auf `ProdNavplanDiContainer` geflacht): `Config`
 (nur Definitionsdatei, kein Flatten – s.o.), `System`, `Persistence`, `Webcam`,
 `Navaid`, `Admin`, `Aerodrome`, `AerodromeChart`, `AerodromeCircuit`,
 `AerodromeReporting`, `Aircraft`, `Airspace`, `Exporter`, `Flightroute`,
-`Geoname`.
+`Geoname`, `MetarTaf`, `MeteoForecast`, `MeteoGram`, `MeteoRadar`, `MeteoSma`,
+`Notam`.
 
 Noch im alten Muster (eigene `Prod<Feature>DiContainer`-Klasse mit privatem
-Container, per Factory-Closure verdrahtet): `MetarTaf`, `MeteoForecast`,
-`MeteoGram`, `MeteoRadar`, `MeteoSma`, `Notam`, `OpenAip`, `Search`, `Terrain`,
-`Track`, `Traffic`, `User`, `VerticalMap`. Migration ist rein mechanisch (siehe
-Muster oben) und kann modulweise nachgezogen werden.
+Container, per Factory-Closure verdrahtet): `OpenAip`, `Search`,
+`Terrain`, `Track`, `Traffic`, `User`, `VerticalMap`. Migration ist rein
+mechanisch (siehe Muster oben) und kann modulweise nachgezogen werden.
 
 Temporäre "Bridge"-Definitionen in `ProdNavplanDiContainer` (für migrierte
 Module, die noch eine Abhängigkeit auf ein NICHT migriertes Modul autowiren
