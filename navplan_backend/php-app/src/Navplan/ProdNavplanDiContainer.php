@@ -4,75 +4,55 @@ namespace Navplan;
 
 use DI\Container;
 use DI\ContainerBuilder;
-use Navplan\Admin\IAdminDiContainer;
 use Navplan\Admin\Domain\Service\IAdminService;
+use Navplan\Admin\IAdminDiContainer;
 use Navplan\Aerodrome\IAerodromeDiContainer;
-use Navplan\Aerodrome\Domain\Service\IAirportService;
 use Navplan\Aerodrome\Rest\Controller\AirportController;
 use Navplan\AerodromeChart\IAerodromeChartDiContainer;
 use Navplan\AerodromeChart\Rest\Controller\AdChartController;
-use Navplan\AerodromeCircuit\IAerodromeCircuitDiContainer;
 use Navplan\AerodromeCircuit\Domain\Service\IAirportCircuitService;
+use Navplan\AerodromeCircuit\IAerodromeCircuitDiContainer;
 use Navplan\AerodromeCircuit\Rest\Controller\AdCircuitController;
 use Navplan\AerodromeReporting\IAerodromeReportingDiContainer;
-use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByPositionQuery;
-use Navplan\AerodromeReporting\Domain\Query\IAerodromeReportingByTextQuery;
 use Navplan\AerodromeReporting\Rest\Controller\AdReportingPointController;
 use Navplan\Aircraft\IAircraftDiContainer;
 use Navplan\Aircraft\Importer\Service\IAircraftTypeDesignatorImporter;
 use Navplan\Aircraft\Rest\Controller\AircraftController;
 use Navplan\Aircraft\Rest\Controller\AircraftTypeDesignatorController;
 use Navplan\Airspace\IAirspaceDiContainer;
-use Navplan\Airspace\Domain\Service\IAirspaceService;
-use Navplan\Airspace\Domain\Service\IFirService;
 use Navplan\Airspace\Rest\Controller\AirspaceController;
 use Navplan\Airspace\Rest\Controller\FirController;
-use Navplan\Config\IConfigDiContainer;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Exporter\IExporterDiContainer;
-use Navplan\Exporter\Domain\Service\IExportService;
 use Navplan\Exporter\Rest\Controller\ExporterController;
 use Navplan\Flightroute\IFlightrouteDiContainer;
 use Navplan\Flightroute\Rest\Controller\FlightrouteController;
-use Navplan\Geoname\IGeonameDiContainer;
-use Navplan\Geoname\Domain\Service\IGeonameService;
 use Navplan\MetarTaf\IMetarTafDiContainer;
 use Navplan\MetarTaf\Rest\Service\ReadMetarTafController;
 use Navplan\MeteoForecast\IMeteoForecastDiContainer;
-use Navplan\MeteoForecast\Domain\Service\IMeteoForecastVerticalCloudRepo;
-use Navplan\MeteoForecast\Domain\Service\IMeteoForecastVerticalWindRepo;
 use Navplan\MeteoForecast\Rest\Service\MeteoForecastController;
 use Navplan\MeteoGram\IMeteoGramDiContainer;
 use Navplan\MeteoGram\Rest\Service\ReadCloudMeteogramController;
 use Navplan\MeteoRadar\IMeteoRadarImagesDiContainer;
 use Navplan\MeteoRadar\Rest\Service\MeteoRadarImageController;
-use Navplan\MeteoSma\IMeteoSmaDiContainer;
 use Navplan\MeteoSma\Domain\Service\IMeteoSmaService;
+use Navplan\MeteoSma\IMeteoSmaDiContainer;
 use Navplan\MeteoSma\Rest\Service\MeteoSmaController;
 use Navplan\Navaid\INavaidDiContainer;
-use Navplan\Navaid\Domain\Service\INavaidService;
 use Navplan\Navaid\Rest\Controller\NavaidController;
-use Navplan\Notam\INotamDiContainer;
-use Navplan\Notam\Domain\Query\INotamSearchByPositionQuery;
 use Navplan\Notam\IcaoImporter\INotamGeometryParser;
+use Navplan\Notam\INotamDiContainer;
 use Navplan\Notam\Rest\Service\NotamController;
-use Navplan\OpenAip\IOpenAipDiContainer;
 use Navplan\OpenAip\Importer\Service\IOpenAipImporter;
+use Navplan\OpenAip\IOpenAipDiContainer;
 use Navplan\Search\ISearchDiContainer;
 use Navplan\Search\Rest\Service\SearchController;
+use Navplan\System\Db\Domain\Service\IDbService;
+use Navplan\System\Domain\Service\IFileService;
+use Navplan\System\Domain\Service\ILoggingService;
+use Navplan\System\Domain\Service\ITimeService;
 use Navplan\System\IPersistenceDiContainer;
 use Navplan\System\ISystemDiContainer;
-use Navplan\System\Db\Domain\Service\IDbService;
-use Navplan\System\Domain\Service\ICurlService;
-use Navplan\System\Domain\Service\IFileService;
-use Navplan\System\Domain\Service\IHttpService;
-use Navplan\System\Domain\Service\IImageService;
-use Navplan\System\Domain\Service\ILoggingService;
-use Navplan\System\Domain\Service\IMailService;
-use Navplan\System\Domain\Service\IProcService;
-use Navplan\System\Domain\Service\ITimeService;
-use Navplan\Terrain\ITerrainDiContainer;
-use Navplan\Terrain\Domain\Service\ITerrainService;
 use Navplan\Track\ITrackDiContainer;
 use Navplan\Track\Rest\Service\TrackController;
 use Navplan\Traffic\ITrafficDiContainer;
@@ -83,46 +63,32 @@ use Navplan\User\Rest\Service\UserController;
 use Navplan\VerticalMap\IVerticalMapDiContainer;
 use Navplan\VerticalMap\Rest\Service\VerticalMapController;
 use Navplan\Webcam\IWebcamDiContainer;
-use Navplan\Webcam\Domain\Query\IWebcamByIcaoQuery;
 use Navplan\Webcam\Rest\Service\WebcamController;
 
 
 /**
- * Hybrid DI approach: keeps the per-module I<Feature>DiContainer interfaces as
- * explicit module boundaries, but no longer has a separate Prod<Feature>DiContainer
- * class (with its own private PHP-DI Container) per module. Instead:
- *  - each module ships a "<feature>.definitions.php" file (pure data:
- *    interface -> implementation bindings),
- *  - this class loads ALL of them into ONE application-wide container,
- *  - this class itself implements ALL modules' DiContainer interfaces
- *    directly, with each method being a trivial one-line delegate to the container.
+ * Wires the entire backend into ONE application-wide PHP-DI Container.
  *
- * All modules are migrated to this pattern (see docs/di-approach.md) - there
- * is no more Prod<Feature>DiContainer class anywhere in the codebase.
+ * Each module ships a "<feature>.definitions.php" file with its interface ->
+ * implementation bindings; this class loads all of them and implements
+ * every module's I<Feature>DiContainer interface, with each method being a
+ * trivial one-line delegate to the shared container. The per-module
+ * interfaces stay as explicit module boundaries.
  *
- * NOTE on facade methods: earlier revisions also exposed one
- * getXxxDiContainer(): IXxxDiContainer per module (all trivially "return
- * $this;", since this class implements every module's interface directly)
- * for call sites like $diContainer->getNavaidDiContainer()->getNavaidController().
- * That indirection added no value once every module was flattened onto this
- * single class, so it was removed - call sites now call
- * $diContainer->getNavaidController() directly. getConfigDiContainer() is
- * the sole survivor, since IConfigDiContainer is NOT implemented by this
- * class (see next note) and therefore needs an actual container lookup.
+ * IConfigDiContainer is not implemented here: it extends ~10 narrow config
+ * interfaces that are consumed via direct autowiring elsewhere, and
+ * IniFileConfig (bound in config.definitions.php) already implements them
+ * all directly, so no facade is needed.
  *
- * NOTE on IConfigDiContainer: deliberately NOT flattened onto this class.
- * It extends ~10 narrow config interfaces with ~13 getters in total; turning
- * those into proxy methods here would be pure boilerplate with no benefit,
- * since IniFileConfig (bound directly as IConfigDiContainer in
- * config.definitions.php) is already a plain implementation with no
- * separate Prod-wrapper class. getConfigDiContainer() keeps returning the
- * real instance.
+ * Every module binds its controller to the shared IRestController interface
+ * within its own definitions file. Since all definitions are merged into
+ * one container, each module's concrete controller class (not
+ * IRestController) is used as the lookup key here to avoid collisions
+ * between modules.
  *
- * NOTE on controllers: every module binds its controller to the shared
- * IRestController interface within ITS OWN (now removed) container. Since all
- * definitions are merged into one container here, that key would collide
- * across modules - so each module binds its CONCRETE controller class
- * instead (see e.g. navaid.definitions.php / webcam.definitions.php).
+ * Only getters that are actually called somewhere in the codebase are kept
+ * here; remove unused ones from both the owning I<Feature>DiContainer
+ * interface and this class (and, if an interface ends up empty, delete it).
  */
 class ProdNavplanDiContainer implements
     ISystemDiContainer,
@@ -138,7 +104,6 @@ class ProdNavplanDiContainer implements
     IAirspaceDiContainer,
     IExporterDiContainer,
     IFlightrouteDiContainer,
-    IGeonameDiContainer,
     IMetarTafDiContainer,
     IMeteoForecastDiContainer,
     IMeteoGramDiContainer,
@@ -147,7 +112,6 @@ class ProdNavplanDiContainer implements
     INotamDiContainer,
     IOpenAipDiContainer,
     ISearchDiContainer,
-    ITerrainDiContainer,
     ITrackDiContainer,
     ITrafficDiContainer,
     IUserDiContainer,
@@ -193,31 +157,12 @@ class ProdNavplanDiContainer implements
     }
 
 
-    public function getConfigDiContainer(): IConfigDiContainer
-    {
-        return $this->container->get(IConfigDiContainer::class);
-    }
-
-
-
-
     // --- ISystemDiContainer -------------------------------------------------
-
-    public function getHttpService(): IHttpService
-    {
-        return $this->container->get(IHttpService::class);
-    }
 
 
     public function getFileService(): IFileService
     {
         return $this->container->get(IFileService::class);
-    }
-
-
-    public function getMailService(): IMailService
-    {
-        return $this->container->get(IMailService::class);
     }
 
 
@@ -227,27 +172,9 @@ class ProdNavplanDiContainer implements
     }
 
 
-    public function getProcService(): IProcService
-    {
-        return $this->container->get(IProcService::class);
-    }
-
-
     public function getLoggingService(): ILoggingService
     {
         return $this->container->get(ILoggingService::class);
-    }
-
-
-    public function getImageService(): IImageService
-    {
-        return $this->container->get(IImageService::class);
-    }
-
-
-    public function getCurlService(): ICurlService
-    {
-        return $this->container->get(ICurlService::class);
     }
 
 
@@ -267,23 +194,11 @@ class ProdNavplanDiContainer implements
     }
 
 
-    public function getWebcamByIcaoQuery(): IWebcamByIcaoQuery
-    {
-        return $this->container->get(IWebcamByIcaoQuery::class);
-    }
-
-
     // --- INavaidDiContainer -----------------------------------------------
 
     public function getNavaidController(): IRestController
     {
         return $this->container->get(NavaidController::class);
-    }
-
-
-    public function getNavaidService(): INavaidService
-    {
-        return $this->container->get(INavaidService::class);
     }
 
 
@@ -300,12 +215,6 @@ class ProdNavplanDiContainer implements
     public function getAirportController(): IRestController
     {
         return $this->container->get(AirportController::class);
-    }
-
-
-    public function getAirportService(): IAirportService
-    {
-        return $this->container->get(IAirportService::class);
     }
 
 
@@ -339,19 +248,6 @@ class ProdNavplanDiContainer implements
     }
 
 
-    public function getAerodromeReportingByPositionQuery(): IAerodromeReportingByPositionQuery
-    {
-        return $this->container->get(IAerodromeReportingByPositionQuery::class);
-    }
-
-
-    public function getAerodromeReportingByTextQuery(): IAerodromeReportingByTextQuery
-    {
-        return $this->container->get(IAerodromeReportingByTextQuery::class);
-    }
-
-
-
     // --- IAircraftDiContainer --------------------------------------------------
 
     public function getAircraftController(): IRestController
@@ -364,8 +260,6 @@ class ProdNavplanDiContainer implements
     {
         return $this->container->get(AircraftTypeDesignatorController::class);
     }
-
-
 
 
     public function getAircraftTypeDesignatorImporter(): IAircraftTypeDesignatorImporter
@@ -388,18 +282,6 @@ class ProdNavplanDiContainer implements
     }
 
 
-    public function getAirspaceService(): IAirspaceService
-    {
-        return $this->container->get(IAirspaceService::class);
-    }
-
-
-    public function getFirService(): IFirService
-    {
-        return $this->container->get(IFirService::class);
-    }
-
-
     // --- IExporterDiContainer -----------------------------------------------
 
     public function getExportController(): IRestController
@@ -408,26 +290,11 @@ class ProdNavplanDiContainer implements
     }
 
 
-    public function getExportService(): IExportService
-    {
-        return $this->container->get(IExportService::class);
-    }
-
-
     // --- IFlightrouteDiContainer ---------------------------------------------
 
     public function getFlightrouteController(): IRestController
     {
         return $this->container->get(FlightrouteController::class);
-    }
-
-
-
-    // --- IGeonameDiContainer --------------------------------------------------
-
-    public function getGeonameService(): IGeonameService
-    {
-        return $this->container->get(IGeonameService::class);
     }
 
 
@@ -444,19 +311,6 @@ class ProdNavplanDiContainer implements
     public function getMeteoForecastController(): IRestController
     {
         return $this->container->get(MeteoForecastController::class);
-    }
-
-
-
-    public function getMeteoForecastVerticalCloudRepo(): IMeteoForecastVerticalCloudRepo
-    {
-        return $this->container->get(IMeteoForecastVerticalCloudRepo::class);
-    }
-
-
-    public function getMeteoForecastVerticalWindRepo(): IMeteoForecastVerticalWindRepo
-    {
-        return $this->container->get(IMeteoForecastVerticalWindRepo::class);
     }
 
 
@@ -498,12 +352,6 @@ class ProdNavplanDiContainer implements
     }
 
 
-    public function getNotamSearchByPositionQuery(): INotamSearchByPositionQuery
-    {
-        return $this->container->get(INotamSearchByPositionQuery::class);
-    }
-
-
     public function getNotamGeometryParser(): INotamGeometryParser
     {
         return $this->container->get(INotamGeometryParser::class);
@@ -523,14 +371,6 @@ class ProdNavplanDiContainer implements
     public function getSearchController(): IRestController
     {
         return $this->container->get(SearchController::class);
-    }
-
-
-    // --- ITerrainDiContainer ------------------------------------------------
-
-    public function getTerrainService(): ITerrainService
-    {
-        return $this->container->get(ITerrainService::class);
     }
 
 
