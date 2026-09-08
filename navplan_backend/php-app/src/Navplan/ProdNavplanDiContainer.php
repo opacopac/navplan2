@@ -59,9 +59,8 @@ use Navplan\Notam\IcaoImporter\INotamGeometryParser;
 use Navplan\Notam\Rest\Service\NotamController;
 use Navplan\OpenAip\IOpenAipDiContainer;
 use Navplan\OpenAip\Importer\Service\IOpenAipImporter;
-use Navplan\OpenAip\ProdOpenAipDiContainer;
 use Navplan\Search\ISearchDiContainer;
-use Navplan\Search\ProdSearchDiContainer;
+use Navplan\Search\Rest\Service\SearchController;
 use Navplan\System\IPersistenceDiContainer;
 use Navplan\System\ISystemDiContainer;
 use Navplan\System\Db\Domain\Service\IDbService;
@@ -83,6 +82,7 @@ use Navplan\Traffic\ProdTrafficDiContainer;
 use Navplan\User\IUserDiContainer;
 use Navplan\User\Domain\Service\IUserService;
 use Navplan\User\ProdUserDiContainer;
+use Navplan\User\UseCase\SearchUserPoint\ISearchUserPointUc;
 use Navplan\VerticalMap\IVerticalMapDiContainer;
 use Navplan\VerticalMap\ProdVerticalMapDiContainer;
 use Navplan\Webcam\IWebcamDiContainer;
@@ -136,7 +136,9 @@ class ProdNavplanDiContainer implements
     IMeteoGramDiContainer,
     IMeteoRadarImagesDiContainer,
     IMeteoSmaDiContainer,
-    INotamDiContainer
+    INotamDiContainer,
+    IOpenAipDiContainer,
+    ISearchDiContainer
 {
     private Container $container;
 
@@ -166,6 +168,8 @@ class ProdNavplanDiContainer implements
         $builder->addDefinitions(__DIR__ . '/MeteoRadar/meteoRadar.definitions.php');
         $builder->addDefinitions(__DIR__ . '/MeteoSma/meteoSma.definitions.php');
         $builder->addDefinitions(__DIR__ . '/Notam/notam.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/OpenAip/openAip.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/Search/search.definitions.php');
         $builder->addDefinitions([
             // Self-registration: this class implements these DiContainer
             // interfaces directly, so not-yet-converted modules' factory
@@ -193,6 +197,8 @@ class ProdNavplanDiContainer implements
             IMeteoRadarImagesDiContainer::class => $this,
             IMeteoSmaDiContainer::class => $this,
             INotamDiContainer::class => $this,
+            IOpenAipDiContainer::class => $this,
+            ISearchDiContainer::class => $this,
 
             // Bridges to not-yet-migrated modules: some migrated modules'
             // classes are autowired and need these interfaces injected
@@ -202,39 +208,14 @@ class ProdNavplanDiContainer implements
             IUserService::class => function (ContainerInterface $c) {
                 return $c->get(IUserDiContainer::class)->getUserService();
             },
-            IOpenAipImporter::class => function (ContainerInterface $c) {
-                return $c->get(IOpenAipDiContainer::class)->getOpenAipImporter();
+            ISearchUserPointUc::class => function (ContainerInterface $c) {
+                return $c->get(IUserDiContainer::class)->getSearchUserPointUc();
             },
             ITerrainService::class => function (ContainerInterface $c) {
                 return $c->get(ITerrainDiContainer::class)->getTerrainService();
             },
 
 
-
-            IOpenAipDiContainer::class => function (ContainerInterface $c) {
-                return new ProdOpenAipDiContainer(
-                    $c->get(IAerodromeDiContainer::class)->getAirportService(),
-                    $c->get(IAirspaceDiContainer::class)->getAirspaceService(),
-                    $c->get(INavaidDiContainer::class)->getNavaidService(),
-                    $c->get(ISystemDiContainer::class)->getLoggingService(),
-                    $c->get(IPersistenceDiContainer::class)->getDbService(),
-                    $c->get(ISystemDiContainer::class)->getCurlService(),
-                );
-            },
-
-            ISearchDiContainer::class => function (ContainerInterface $c) {
-                return new ProdSearchDiContainer(
-                    $c->get(ISystemDiContainer::class)->getHttpService(),
-                    $c->get(IUserDiContainer::class)->getSearchUserPointUc(),
-                    $c->get(IAirspaceDiContainer::class)->getAirspaceService(),
-                    $c->get(INotamDiContainer::class)->getNotamSearchByPositionQuery(),
-                    $c->get(IAerodromeDiContainer::class)->getAirportService(),
-                    $c->get(IAerodromeReportingDiContainer::class)->getAerodromeReportingByPositionQuery(),
-                    $c->get(IAerodromeReportingDiContainer::class)->getAerodromeReportingByTextQuery(),
-                    $c->get(INavaidDiContainer::class)->getNavaidService(),
-                    $c->get(IGeonameDiContainer::class)->getGeonameService(),
-                );
-            },
 
             ITerrainDiContainer::class => function (ContainerInterface $c) {
                 return new ProdTerrainDiContainer(
@@ -399,13 +380,13 @@ class ProdNavplanDiContainer implements
 
     public function getOpenAipDiContainer(): IOpenAipDiContainer
     {
-        return $this->container->get(IOpenAipDiContainer::class);
+        return $this;
     }
 
 
     public function getSearchDiContainer(): ISearchDiContainer
     {
-        return $this->container->get(ISearchDiContainer::class);
+        return $this;
     }
 
 
@@ -763,5 +744,21 @@ class ProdNavplanDiContainer implements
     public function getNotamGeometryParser(): INotamGeometryParser
     {
         return $this->container->get(INotamGeometryParser::class);
+    }
+
+
+    // --- IOpenAipDiContainer ----------------------------------------------------
+
+    public function getOpenAipImporter(): IOpenAipImporter
+    {
+        return $this->container->get(IOpenAipImporter::class);
+    }
+
+
+    // --- ISearchDiContainer -----------------------------------------------
+
+    public function getSearchController(): IRestController
+    {
+        return $this->container->get(SearchController::class);
     }
 }

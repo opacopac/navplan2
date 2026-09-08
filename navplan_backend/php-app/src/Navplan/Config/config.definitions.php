@@ -12,6 +12,7 @@ use Navplan\Config\ProdConfigDiContainer;
 use Navplan\AerodromeChart\Domain\Service\IAerodromeChartConfig;
 use Navplan\MeteoForecast\Domain\Service\IMeteoForecastConfig;
 use Navplan\MeteoRadar\Domain\Service\IMeteoRadarImagesConfig;
+use Navplan\OpenAip\Config\IOpenAipConfig;
 use Navplan\System\Db\Domain\Model\IDbConfig;
 use Navplan\System\Domain\Service\ISystemConfig;
 use function DI\autowire;
@@ -28,5 +29,6 @@ return [
     IAerodromeChartConfig::class => get(IConfigDiContainer::class),
     IMeteoForecastConfig::class => get(IConfigDiContainer::class),
     IMeteoRadarImagesConfig::class => get(IConfigDiContainer::class),
+    IOpenAipConfig::class => get(IConfigDiContainer::class),
 ];
 
