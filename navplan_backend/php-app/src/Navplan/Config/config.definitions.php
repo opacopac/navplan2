@@ -15,6 +15,8 @@ use Navplan\MeteoRadar\Domain\Service\IMeteoRadarImagesConfig;
 use Navplan\OpenAip\Config\IOpenAipConfig;
 use Navplan\System\Db\Domain\Model\IDbConfig;
 use Navplan\System\Domain\Service\ISystemConfig;
+use Navplan\Terrain\Domain\Service\ITerrainConfig;
+use Navplan\Traffic\Adsbex\Service\IAdsbexConfig;
 use function DI\autowire;
 use function DI\get;
 
@@ -30,5 +32,7 @@ return [
     IMeteoForecastConfig::class => get(IConfigDiContainer::class),
     IMeteoRadarImagesConfig::class => get(IConfigDiContainer::class),
     IOpenAipConfig::class => get(IConfigDiContainer::class),
+    ITerrainConfig::class => get(IConfigDiContainer::class),
+    IAdsbexConfig::class => get(IConfigDiContainer::class),
 ];
 

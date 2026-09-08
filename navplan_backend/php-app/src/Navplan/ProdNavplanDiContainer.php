@@ -73,12 +73,12 @@ use Navplan\System\Domain\Service\IMailService;
 use Navplan\System\Domain\Service\IProcService;
 use Navplan\System\Domain\Service\ITimeService;
 use Navplan\Terrain\ITerrainDiContainer;
-use Navplan\Terrain\ProdTerrainDiContainer;
 use Navplan\Terrain\Domain\Service\ITerrainService;
 use Navplan\Track\ITrackDiContainer;
-use Navplan\Track\ProdTrackDiContainer;
+use Navplan\Track\Rest\Service\TrackController;
 use Navplan\Traffic\ITrafficDiContainer;
-use Navplan\Traffic\ProdTrafficDiContainer;
+use Navplan\Traffic\Ogn\Service\IOgnListenerRepo;
+use Navplan\Traffic\Rest\Service\TrafficController;
 use Navplan\User\IUserDiContainer;
 use Navplan\User\Domain\Service\IUserService;
 use Navplan\User\ProdUserDiContainer;
@@ -138,7 +138,10 @@ class ProdNavplanDiContainer implements
     IMeteoSmaDiContainer,
     INotamDiContainer,
     IOpenAipDiContainer,
-    ISearchDiContainer
+    ISearchDiContainer,
+    ITerrainDiContainer,
+    ITrackDiContainer,
+    ITrafficDiContainer
 {
     private Container $container;
 
@@ -170,6 +173,9 @@ class ProdNavplanDiContainer implements
         $builder->addDefinitions(__DIR__ . '/Notam/notam.definitions.php');
         $builder->addDefinitions(__DIR__ . '/OpenAip/openAip.definitions.php');
         $builder->addDefinitions(__DIR__ . '/Search/search.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/Terrain/terrain.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/Track/track.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/Traffic/traffic.definitions.php');
         $builder->addDefinitions([
             // Self-registration: this class implements these DiContainer
             // interfaces directly, so not-yet-converted modules' factory
@@ -199,6 +205,9 @@ class ProdNavplanDiContainer implements
             INotamDiContainer::class => $this,
             IOpenAipDiContainer::class => $this,
             ISearchDiContainer::class => $this,
+            ITerrainDiContainer::class => $this,
+            ITrackDiContainer::class => $this,
+            ITrafficDiContainer::class => $this,
 
             // Bridges to not-yet-migrated modules: some migrated modules'
             // classes are autowired and need these interfaces injected
@@ -210,38 +219,6 @@ class ProdNavplanDiContainer implements
             },
             ISearchUserPointUc::class => function (ContainerInterface $c) {
                 return $c->get(IUserDiContainer::class)->getSearchUserPointUc();
-            },
-            ITerrainService::class => function (ContainerInterface $c) {
-                return $c->get(ITerrainDiContainer::class)->getTerrainService();
-            },
-
-
-
-            ITerrainDiContainer::class => function (ContainerInterface $c) {
-                return new ProdTerrainDiContainer(
-                    $c->get(ISystemDiContainer::class)->getFileService(),
-                    $c->get(IConfigDiContainer::class)
-                );
-            },
-
-            ITrackDiContainer::class => function (ContainerInterface $c) {
-                return new ProdTrackDiContainer(
-                    $c->get(IPersistenceDiContainer::class)->getDbService(),
-                    $c->get(ISystemDiContainer::class)->getHttpService(),
-                    $c->get(IUserDiContainer::class)->getUserService(),
-                    $c->get(IExporterDiContainer::class)->getExportService()
-                );
-            },
-
-            ITrafficDiContainer::class => function (ContainerInterface $c) {
-                return new ProdTrafficDiContainer(
-                    $c->get(ISystemDiContainer::class)->getFileService(),
-                    $c->get(ISystemDiContainer::class)->getTimeService(),
-                    $c->get(ISystemDiContainer::class)->getProcService(),
-                    $c->get(ISystemDiContainer::class)->getLoggingService(),
-                    $c->get(IPersistenceDiContainer::class)->getDbService(),
-                    $c->get(ISystemDiContainer::class)->getHttpService()
-                );
             },
 
             IUserDiContainer::class => function (ContainerInterface $c) {
@@ -404,19 +381,19 @@ class ProdNavplanDiContainer implements
 
     public function getTerrainDiContainer(): ITerrainDiContainer
     {
-        return $this->container->get(ITerrainDiContainer::class);
+        return $this;
     }
 
 
     public function getTrackDiContainer(): ITrackDiContainer
     {
-        return $this->container->get(ITrackDiContainer::class);
+        return $this;
     }
 
 
     public function getTrafficDiContainer(): ITrafficDiContainer
     {
-        return $this->container->get(ITrafficDiContainer::class);
+        return $this;
     }
 
 
@@ -760,5 +737,35 @@ class ProdNavplanDiContainer implements
     public function getSearchController(): IRestController
     {
         return $this->container->get(SearchController::class);
+    }
+
+
+    // --- ITerrainDiContainer ------------------------------------------------
+
+    public function getTerrainService(): ITerrainService
+    {
+        return $this->container->get(ITerrainService::class);
+    }
+
+
+    // --- ITrackDiContainer ----------------------------------------------------
+
+    public function getTrackController(): IRestController
+    {
+        return $this->container->get(TrackController::class);
+    }
+
+
+    // --- ITrafficDiContainer ----------------------------------------------------
+
+    public function getTrafficController(): IRestController
+    {
+        return $this->container->get(TrafficController::class);
+    }
+
+
+    public function getOgnListenerRepo(): IOgnListenerRepo
+    {
+        return $this->container->get(IOgnListenerRepo::class);
     }
 }

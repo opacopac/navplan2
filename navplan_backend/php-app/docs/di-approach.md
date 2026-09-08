@@ -60,20 +60,20 @@ Migriert (definitions.php + auf `ProdNavplanDiContainer` geflacht): `Config`
 `Navaid`, `Admin`, `Aerodrome`, `AerodromeChart`, `AerodromeCircuit`,
 `AerodromeReporting`, `Aircraft`, `Airspace`, `Exporter`, `Flightroute`,
 `Geoname`, `MetarTaf`, `MeteoForecast`, `MeteoGram`, `MeteoRadar`, `MeteoSma`,
-`Notam`, `OpenAip`, `Search`.
+`Notam`, `OpenAip`, `Search`, `Terrain`, `Track`, `Traffic`.
 
 Noch im alten Muster (eigene `Prod<Feature>DiContainer`-Klasse mit privatem
-Container, per Factory-Closure verdrahtet): `Terrain`, `Track`, `Traffic`,
-`User`, `VerticalMap`. Migration ist rein mechanisch (siehe Muster oben) und
-kann modulweise nachgezogen werden.
+Container, per Factory-Closure verdrahtet): `User`, `VerticalMap`. Migration
+ist rein mechanisch (siehe Muster oben) und kann modulweise nachgezogen werden.
 
 Temporäre "Bridge"-Definitionen in `ProdNavplanDiContainer` (für migrierte
 Module, die noch eine Abhängigkeit auf ein NICHT migriertes Modul autowiren
 müssen): `IUserService` (→ `User`), `ISearchUserPointUc` (→ `User`, gebraucht
-von `Search`), `ITerrainService` (→ `Terrain`, gebraucht von `Geoname`).
-Sobald das jeweilige Modul migriert ist, kann die Bridge gelöscht werden (das
-migrierte Modul liefert die Bindung dann selbst über seine eigene
-`*.definitions.php`).
+von `Search`). Sobald das jeweilige Modul migriert ist, kann die Bridge
+gelöscht werden (das migrierte Modul liefert die Bindung dann selbst über
+seine eigene `*.definitions.php`). Die frühere `ITerrainService`-Bridge (für
+`Geoname`) wurde bei der `Terrain`-Migration gelöscht, da `terrain.definitions.php`
+`ITerrainService` jetzt selbst bindet.
 
 ### Nach jeder Migrationsrunde: unbenutzte Facade-Getter prüfen
 
