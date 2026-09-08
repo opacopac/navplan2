@@ -103,8 +103,10 @@ use Navplan\Webcam\Rest\Service\WebcamController;
  * NOTE on IConfigDiContainer: deliberately NOT flattened onto this class.
  * It extends ~10 narrow config interfaces with ~13 getters in total; turning
  * those into proxy methods here would be pure boilerplate with no benefit,
- * since ProdConfigDiContainer is already a plain (non-Container-wrapping)
- * implementation. getConfigDiContainer() keeps returning the real instance.
+ * since IniFileConfig (bound directly as IConfigDiContainer in
+ * config.definitions.php) is already a plain implementation with no
+ * separate Prod-wrapper class. getConfigDiContainer() keeps returning the
+ * real instance.
  *
  * NOTE on controllers: every module binds its controller to the shared
  * IRestController interface within ITS OWN (now removed) container. Since all

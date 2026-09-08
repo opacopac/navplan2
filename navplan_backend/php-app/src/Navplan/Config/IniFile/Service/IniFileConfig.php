@@ -3,23 +3,19 @@
 namespace Navplan\Config\IniFile\Service;
 
 use InvalidArgumentException;
-use Navplan\AerodromeChart\Domain\Service\IAerodromeChartConfig;
-use Navplan\MeteoForecast\Domain\Service\IMeteoForecastConfig;
-use Navplan\MeteoRadar\Domain\Service\IMeteoRadarImagesConfig;
-use Navplan\Notam\Domain\Service\INotamConfig;
-use Navplan\OpenAip\Config\IOpenAipConfig;
-use Navplan\System\Db\Domain\Model\IDbConfig;
+use Navplan\Config\IConfigDiContainer;
 use Navplan\System\Db\MySql\DbCredentials;
 use Navplan\System\Domain\Model\LogLevel;
-use Navplan\System\Domain\Service\ISystemConfig;
-use Navplan\Terrain\Domain\Service\ITerrainConfig;
-use Navplan\Traffic\Adsbex\Service\IAdsbexConfig;
 use Navplan\User\Domain\Model\TokenCredentials;
-use Navplan\User\Domain\Service\ITokenConfig;
 
 
-class IniFileConfig implements IDbConfig, ITokenConfig, IOpenAipConfig, IAdsbexConfig,
-    INotamConfig, IMeteoForecastConfig, IMeteoRadarImagesConfig, ITerrainConfig, IAerodromeChartConfig, ISystemConfig {
+/**
+ * Implements every narrow config interface that IConfigDiContainer extends,
+ * so it can be bound directly as the IConfigDiContainer implementation
+ * (see config.definitions.php) - no separate ProdConfigDiContainer
+ * pass-through wrapper needed.
+ */
+class IniFileConfig implements IConfigDiContainer {
     private readonly DbCredentials $credentials;
     private readonly TokenCredentials $tokenCredentials;
     private readonly string $icaoApiKey;

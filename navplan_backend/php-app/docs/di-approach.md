@@ -48,10 +48,15 @@ gleichzeitig explizite Modulgrenzen zu behalten:
 3. **Nicht jedes Interface lohnt sich zum Flatten:** `IConfigDiContainer` erweitert
    ~10 schmale Config-Interfaces mit insgesamt ~13 Gettern. Diese 1:1 auf
    `ProdNavplanDiContainer` zu duplizieren wäre reines Boilerplate ohne Nutzen,
-   da `ProdConfigDiContainer` schon eine einfache Implementierung ganz ohne
-   eigenen PHP-DI-Container ist. Hier bleibt `getConfigDiContainer()` einfach bei
+   da `IniFileConfig` (direkt als `IConfigDiContainer` in `config.definitions.php`
+   gebunden) schon eine einfache Implementierung ganz ohne eigenen
+   PHP-DI-Container bzw. Wrapper-Klasse ist - es implementiert bereits alle
+   Teil-Interfaces, die `IConfigDiContainer` zusammenfasst, direkt. Hier bleibt
+   `getConfigDiContainer()` einfach bei
    `return $this->container->get(IConfigDiContainer::class);` (liefert die echte
-   `ProdConfigDiContainer`-Instanz, kein Flatten nötig).
+   `IniFileConfig`-Instanz, kein Flatten nötig). Die frühere `ProdConfigDiContainer`-
+   Wrapper-Klasse (reines Pass-Through auf `IniFileConfig`, ohne Mehrwert) wurde
+   deshalb gelöscht.
 
 ### Migrationsstatus
 
