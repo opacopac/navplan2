@@ -2,6 +2,9 @@
 
 namespace Navplan;
 
+use DI\Container;
+use DI\ContainerBuilder;
+use Psr\Container\ContainerInterface;
 use Navplan\Admin\IAdminDiContainer;
 use Navplan\Admin\ProdAdminDiContainer;
 use Navplan\Aerodrome\IAerodromeDiContainer;
@@ -62,441 +65,419 @@ use Navplan\Webcam\ProdWebcamDiContainer;
 
 class ProdNavplanDiContainer
 {
-    private IConfigDiContainer $configDiContainer;
-    private IAdminDiContainer $adminDiContainer;
-    private IAerodromeDiContainer $aerodromeDiContainer;
-    private IAerodromeCircuitDiContainer $aerodromeCircuitDiContainer;
-    private IAerodromeChartDiContainer $aerodromeChartDiContainer;
-    private IAerodromeReportingDiContainer $aerodromeReportingDiContainer;
-    private IAircraftDiContainer $aircraftDiContainer;
-    private IAirspaceDiContainer $airspaceDiContainer;
-    private INavaidDiContainer $navaidDiContainer;
-    private IFlightrouteDiContainer $flightrouteDiContainer;
-    private IGeonameDiContainer $geonameDiContainer;
-    private IMeteoForecastDiContainer $meteoForecastDiContainer;
-    private IMeteoRadarImagesDiContainer $meteoRadarImagesDiContainer;
-    private IMeteoGramDiContainer $meteoGramDiContainer;
-    private IMeteoSmaDiContainer $meteoSmaDiContainer;
-    private IMetarTafDiContainer $metarTafDiContainer;
-    private INotamDiContainer $notamDiContainer;
-    private IOpenAipDiContainer $openAipDiContainer;
-    private ISearchDiContainer $searchDiContainer;
-    private ISystemDiContainer $systemDiContainer;
-    private IPersistenceDiContainer $persistenceDiContainer;
-    private ITerrainDiContainer $terrainDiContainer;
-    private ITrackDiContainer $trackDiContainer;
-    private ITrafficDiContainer $trafficDiContainer;
-    private IUserDiContainer $userDiContainer;
-    private IVerticalMapDiContainer $verticalMapDiContainer;
-    private IWebcamDiContainer $webcamDiContainer;
-    private IExporterDiContainer $exporterDiContainer;
+    private Container $container;
 
 
     public function __construct()
     {
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions([
+            IConfigDiContainer::class => function () {
+                return new ProdConfigDiContainer();
+            },
+
+            ISystemDiContainer::class => function (ContainerInterface $c) {
+                return new ProdSystemDiContainer(
+                    $c->get(IConfigDiContainer::class)
+                );
+            },
+
+            IPersistenceDiContainer::class => function (ContainerInterface $c) {
+                return new ProdPersistenceDiContainer(
+                    $c->get(ISystemDiContainer::class),
+                    $c->get(IConfigDiContainer::class)
+                );
+            },
+
+            IAdminDiContainer::class => function (ContainerInterface $c) {
+                return new ProdAdminDiContainer(
+                    $c->get(IOpenAipDiContainer::class)->getOpenAipImporter()
+                );
+            },
+
+            IAerodromeDiContainer::class => function (ContainerInterface $c) {
+                return new ProdAerodromeDiContainer(
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getLoggingService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService(),
+                    $c->get(IAerodromeChartDiContainer::class)->getAirportChartService(),
+                    $c->get(IWebcamDiContainer::class)->getWebcamByIcaoQuery()
+                );
+            },
+
+            IAerodromeChartDiContainer::class => function (ContainerInterface $c) {
+                return new ProdAerodromeChartDiContainer(
+                    $c->get(IConfigDiContainer::class),
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getFileService(),
+                    $c->get(ISystemDiContainer::class)->getImageService(),
+                    $c->get(IUserDiContainer::class)->getUserService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService(),
+                    $c->get(ISystemDiContainer::class)->getProcService(),
+                    $c->get(ISystemDiContainer::class)->getLoggingService(),
+                );
+            },
+
+            IAerodromeCircuitDiContainer::class => function (ContainerInterface $c) {
+                return new ProdAerodromeCircuitsDiContainer(
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService()
+                );
+            },
+
+            IAerodromeReportingDiContainer::class => function (ContainerInterface $c) {
+                return new ProdAerodromeReportingDiContainer(
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService()
+                );
+            },
+
+            IAircraftDiContainer::class => function (ContainerInterface $c) {
+                return new ProdAircraftDiContainer(
+                    $c->get(IUserDiContainer::class)->getUserService(),
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService(),
+                    $c->get(ISystemDiContainer::class)->getLoggingService()
+                );
+            },
+
+            IAirspaceDiContainer::class => function (ContainerInterface $c) {
+                return new ProdAirspaceDiContainer(
+                    $c->get(ISystemDiContainer::class)->getLoggingService(),
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService()
+                );
+            },
+
+            INavaidDiContainer::class => function (ContainerInterface $c) {
+                return new ProdNavaidDiContainer(
+                    $c->get(ISystemDiContainer::class)->getLoggingService(),
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService()
+                );
+            },
+
+            IExporterDiContainer::class => function (ContainerInterface $c) {
+                return new ProdExportDiContainer(
+                    $c->get(ISystemDiContainer::class)->getFileService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService()
+                );
+            },
+
+            IFlightrouteDiContainer::class => function (ContainerInterface $c) {
+                return new ProdFlightrouteDiContainer(
+                    $c->get(IUserDiContainer::class)->getUserService(),
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService()
+                );
+            },
+
+            IGeonameDiContainer::class => function (ContainerInterface $c) {
+                return new ProdGeonameDiContainer(
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ITerrainDiContainer::class)->getTerrainService(),
+                );
+            },
+
+            IMeteoForecastDiContainer::class => function (ContainerInterface $c) {
+                return new ProdMeteoForecastDiContainer(
+                    $c->get(ISystemDiContainer::class)->getFileService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService(),
+                    $c->get(IConfigDiContainer::class)
+                );
+            },
+
+            IMeteoRadarImagesDiContainer::class => function (ContainerInterface $c) {
+                return new ProdMeteoRadarImagesDiContainer(
+                    $c->get(ISystemDiContainer::class)->getFileService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService(),
+                    $c->get(IConfigDiContainer::class)
+                );
+            },
+
+            IMeteoGramDiContainer::class => function (ContainerInterface $c) {
+                return new ProdMeteoGramDiContainer(
+                    $c->get(ISystemDiContainer::class)->getHttpService(),
+                    $c->get(IMeteoForecastDiContainer::class)->getMeteoForecastVerticalCloudRepo(),
+                    $c->get(IMeteoForecastDiContainer::class)->getMeteoForecastPrecipRepo(),
+                    $c->get(IMeteoForecastDiContainer::class)->getMeteoForecastTempRepo(),
+                    $c->get(ITerrainDiContainer::class)->getTerrainService()
+                );
+            },
+
+            IMetarTafDiContainer::class => function (ContainerInterface $c) {
+                return new ProdMetarTafDiContainer(
+                    $c->get(ISystemDiContainer::class)->getHttpService()
+                );
+            },
+
+            IMeteoSmaDiContainer::class => function (ContainerInterface $c) {
+                return new ProdMeteoSmaDiContainer(
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getTimeService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService()
+                );
+            },
+
+            INotamDiContainer::class => function (ContainerInterface $c) {
+                return new ProdNotamDiContainer(
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService(),
+                    $c->get(ISystemDiContainer::class)->getLoggingService(),
+                    $c->get(IAirspaceDiContainer::class)->getFirService(),
+                    $c->get(IAerodromeDiContainer::class)->getAirportService()
+                );
+            },
+
+            IOpenAipDiContainer::class => function (ContainerInterface $c) {
+                return new ProdOpenAipDiContainer(
+                    $c->get(IAerodromeDiContainer::class)->getAirportService(),
+                    $c->get(IAirspaceDiContainer::class)->getAirspaceService(),
+                    $c->get(INavaidDiContainer::class)->getNavaidService(),
+                    $c->get(ISystemDiContainer::class)->getLoggingService(),
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getCurlService(),
+                );
+            },
+
+            ISearchDiContainer::class => function (ContainerInterface $c) {
+                return new ProdSearchDiContainer(
+                    $c->get(ISystemDiContainer::class)->getHttpService(),
+                    $c->get(IUserDiContainer::class)->getSearchUserPointUc(),
+                    $c->get(IAirspaceDiContainer::class)->getAirspaceService(),
+                    $c->get(INotamDiContainer::class)->getNotamSearchByPositionQuery(),
+                    $c->get(IAerodromeDiContainer::class)->getAirportService(),
+                    $c->get(IAerodromeReportingDiContainer::class)->getAerodromeReportingByPositionQuery(),
+                    $c->get(IAerodromeReportingDiContainer::class)->getAerodromeReportingByTextQuery(),
+                    $c->get(INavaidDiContainer::class)->getNavaidService(),
+                    $c->get(IGeonameDiContainer::class)->getGeonameService(),
+                );
+            },
+
+            ITerrainDiContainer::class => function (ContainerInterface $c) {
+                return new ProdTerrainDiContainer(
+                    $c->get(ISystemDiContainer::class)->getFileService(),
+                    $c->get(IConfigDiContainer::class)
+                );
+            },
+
+            ITrackDiContainer::class => function (ContainerInterface $c) {
+                return new ProdTrackDiContainer(
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService(),
+                    $c->get(IUserDiContainer::class)->getUserService(),
+                    $c->get(IExporterDiContainer::class)->getExportService()
+                );
+            },
+
+            ITrafficDiContainer::class => function (ContainerInterface $c) {
+                return new ProdTrafficDiContainer(
+                    $c->get(ISystemDiContainer::class)->getFileService(),
+                    $c->get(ISystemDiContainer::class)->getTimeService(),
+                    $c->get(ISystemDiContainer::class)->getProcService(),
+                    $c->get(ISystemDiContainer::class)->getLoggingService(),
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService()
+                );
+            },
+
+            IUserDiContainer::class => function (ContainerInterface $c) {
+                return new ProdUserDiContainer(
+                    $c->get(ISystemDiContainer::class)->getHttpService(),
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getMailService(),
+                    $c->get(IConfigDiContainer::class),
+                    $c->get(ISystemDiContainer::class)->getLoggingService()
+                );
+            },
+
+            IVerticalMapDiContainer::class => function (ContainerInterface $c) {
+                return new ProdVerticalMapDiContainer(
+                    $c->get(ITerrainDiContainer::class)->getTerrainService(),
+                    $c->get(IAirspaceDiContainer::class)->getAirspaceService(),
+                    $c->get(IMeteoForecastDiContainer::class)->getMeteoForecastVerticalCloudRepo(),
+                    $c->get(IMeteoForecastDiContainer::class)->getMeteoForecastVerticalWindRepo(),
+                    $c->get(ISystemDiContainer::class)->getHttpService(),
+                );
+            },
+
+            IWebcamDiContainer::class => function (ContainerInterface $c) {
+                return new ProdWebcamDiContainer(
+                    $c->get(IPersistenceDiContainer::class)->getDbService(),
+                    $c->get(ISystemDiContainer::class)->getHttpService()
+                );
+            },
+        ]);
+
+        $this->container = $builder->build();
     }
 
 
     public function getConfigDiContainer(): IConfigDiContainer
     {
-        if (!isset($this->configDiContainer)) {
-            $this->configDiContainer = new ProdConfigDiContainer();
-        }
-
-        return $this->configDiContainer;
+        return $this->container->get(IConfigDiContainer::class);
     }
 
 
     public function getAdminDiContainer(): IAdminDiContainer
     {
-        if (!isset($this->adminDiContainer)) {
-            $this->adminDiContainer = new ProdAdminDiContainer(
-                $this->getOpenAipDiContainer()->getOpenAipImporter()
-            );
-        }
-
-        return $this->adminDiContainer;
+        return $this->container->get(IAdminDiContainer::class);
     }
 
 
     public function getAerodromeDiContainer(): IAerodromeDiContainer
     {
-        if (!isset($this->aerodromeDiContainer)) {
-            $this->aerodromeDiContainer = new ProdAerodromeDiContainer(
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getLoggingService(),
-                $this->getSystemDiContainer()->getHttpService(),
-                $this->getAerodromeChartDiContainer()->getAirportChartService(),
-                $this->getWebcamDiContainer()->getWebcamByIcaoQuery()
-            );
-        }
-
-        return $this->aerodromeDiContainer;
+        return $this->container->get(IAerodromeDiContainer::class);
     }
 
 
     public function getAerodromeChartDiContainer(): IAerodromeChartDiContainer
     {
-        if (!isset($this->aerodromeChartDiContainer)) {
-            $this->aerodromeChartDiContainer = new ProdAerodromeChartDiContainer(
-                $this->getConfigDiContainer(),
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getFileService(),
-                $this->getSystemDiContainer()->getImageService(),
-                $this->getUserDiContainer()->getUserService(),
-                $this->getSystemDiContainer()->getHttpService(),
-                $this->getSystemDiContainer()->getProcService(),
-                $this->getSystemDiContainer()->getLoggingService(),
-            );
-        }
-
-        return $this->aerodromeChartDiContainer;
+        return $this->container->get(IAerodromeChartDiContainer::class);
     }
 
 
     public function getAerodromeCircuitDiContainer(): IAerodromeCircuitDiContainer
     {
-        if (!isset($this->aerodromeCircuitDiContainer)) {
-            $this->aerodromeCircuitDiContainer = new ProdAerodromeCircuitsDiContainer(
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService()
-            );
-        }
-
-        return $this->aerodromeCircuitDiContainer;
+        return $this->container->get(IAerodromeCircuitDiContainer::class);
     }
 
 
     public function getAerodromeReportingDiContainer(): IAerodromeReportingDiContainer
     {
-        if (!isset($this->aerodromeReportingDiContainer)) {
-            $this->aerodromeReportingDiContainer = new ProdAerodromeReportingDiContainer(
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService()
-            );
-        }
-
-        return $this->aerodromeReportingDiContainer;
+        return $this->container->get(IAerodromeReportingDiContainer::class);
     }
 
 
     public function getAircraftDiContainer(): IAircraftDiContainer
     {
-        if (!isset($this->aircraftDiContainer)) {
-            $this->aircraftDiContainer = new ProdAircraftDiContainer(
-                $this->getUserDiContainer()->getUserService(),
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService(),
-                $this->getSystemDiContainer()->getLoggingService()
-            );
-        }
-
-        return $this->aircraftDiContainer;
+        return $this->container->get(IAircraftDiContainer::class);
     }
 
 
     public function getAirspaceDiContainer(): IAirspaceDiContainer
     {
-        if (!isset($this->airspaceDiContainer)) {
-            $this->airspaceDiContainer = new ProdAirspaceDiContainer(
-                $this->getSystemDiContainer()->getLoggingService(),
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService()
-            );
-        }
-
-        return $this->airspaceDiContainer;
+        return $this->container->get(IAirspaceDiContainer::class);
     }
 
 
     public function getNavaidDiContainer(): INavaidDiContainer
     {
-        if (!isset($this->navaidDiContainer)) {
-            $this->navaidDiContainer = new ProdNavaidDiContainer(
-                $this->getSystemDiContainer()->getLoggingService(),
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService()
-            );
-        }
-
-        return $this->navaidDiContainer;
+        return $this->container->get(INavaidDiContainer::class);
     }
 
 
     public function getExportDiContainer(): IExporterDiContainer
     {
-        if (!isset($this->exporterDiContainer)) {
-            $this->exporterDiContainer = new ProdExportDiContainer(
-                $this->getSystemDiContainer()->getFileService(),
-                $this->getSystemDiContainer()->getHttpService()
-            );
-        }
-
-        return $this->exporterDiContainer;
+        return $this->container->get(IExporterDiContainer::class);
     }
 
 
     public function getFlightrouteDiContainer(): IFlightrouteDiContainer
     {
-        if (!isset($this->flightrouteDiContainer)) {
-            $this->flightrouteDiContainer = new ProdFlightrouteDiContainer(
-                $this->getUserDiContainer()->getUserService(),
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService()
-            );
-        }
-
-        return $this->flightrouteDiContainer;
+        return $this->container->get(IFlightrouteDiContainer::class);
     }
 
 
     public function getGeonameDiContainer(): IGeonameDiContainer
     {
-        if (!isset($this->geonameDiContainer)) {
-            $this->geonameDiContainer = new ProdGeonameDiContainer(
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getTerrainDiContainer()->getTerrainService(),
-            );
-        }
-
-        return $this->geonameDiContainer;
+        return $this->container->get(IGeonameDiContainer::class);
     }
 
 
     public function getMeteoForecastDiContainer(): IMeteoForecastDiContainer
     {
-        if (!isset($this->meteoForecastDiContainer)) {
-            $this->meteoForecastDiContainer = new ProdMeteoForecastDiContainer(
-                $this->getSystemDiContainer()->getFileService(),
-                $this->getSystemDiContainer()->getHttpService(),
-                $this->getConfigDiContainer()
-            );
-        }
-
-        return $this->meteoForecastDiContainer;
+        return $this->container->get(IMeteoForecastDiContainer::class);
     }
 
 
     public function getMeteoRadarImagesDiContainer(): IMeteoRadarImagesDiContainer
     {
-        if (!isset($this->meteoRadarImagesDiContainer)) {
-            $this->meteoRadarImagesDiContainer = new ProdMeteoRadarImagesDiContainer(
-                $this->getSystemDiContainer()->getFileService(),
-                $this->getSystemDiContainer()->getHttpService(),
-                $this->getConfigDiContainer()
-            );
-        }
-
-        return $this->meteoRadarImagesDiContainer;
+        return $this->container->get(IMeteoRadarImagesDiContainer::class);
     }
 
 
     public function getMeteoGramDiContainer(): IMeteoGramDiContainer
     {
-        if (!isset($this->meteoGramDiContainer)) {
-            $this->meteoGramDiContainer = new ProdMeteoGramDiContainer(
-                $this->getSystemDiContainer()->getHttpService(),
-                $this->getMeteoForecastDiContainer()->getMeteoForecastVerticalCloudRepo(),
-                $this->getMeteoForecastDiContainer()->getMeteoForecastPrecipRepo(),
-                $this->getMeteoForecastDiContainer()->getMeteoForecastTempRepo(),
-                $this->getTerrainDiContainer()->getTerrainService()
-            );
-        }
-
-        return $this->meteoGramDiContainer;
+        return $this->container->get(IMeteoGramDiContainer::class);
     }
 
 
     public function getMetarTafDiContainer(): IMetarTafDiContainer
     {
-        if (!isset($this->metarTafDiContainer)) {
-            $this->metarTafDiContainer = new ProdMetarTafDiContainer(
-                $this->getSystemDiContainer()->getHttpService()
-            );
-        }
-
-        return $this->metarTafDiContainer;
+        return $this->container->get(IMetarTafDiContainer::class);
     }
 
 
     public function getMeteoSmaDiContainer(): IMeteoSmaDiContainer
     {
-        if (!isset($this->meteoSmaDiContainer)) {
-            $this->meteoSmaDiContainer = new ProdMeteoSmaDiContainer(
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getTimeService(),
-                $this->getSystemDiContainer()->getHttpService()
-            );
-        }
-
-        return $this->meteoSmaDiContainer;
+        return $this->container->get(IMeteoSmaDiContainer::class);
     }
 
 
     public function getNotamDiContainer(): INotamDiContainer
     {
-        if (!isset($this->notamDiContainer)) {
-            $this->notamDiContainer = new ProdNotamDiContainer(
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService(),
-                $this->getSystemDiContainer()->getLoggingService(),
-                $this->getAirspaceDiContainer()->getFirService(),
-                $this->getAerodromeDiContainer()->getAirportService()
-            );
-        }
-
-        return $this->notamDiContainer;
+        return $this->container->get(INotamDiContainer::class);
     }
 
 
     public function getOpenAipDiContainer(): IOpenAipDiContainer
     {
-        if (!isset($this->openAipDiContainer)) {
-            $this->openAipDiContainer = new ProdOpenAipDiContainer(
-                $this->getAerodromeDiContainer()->getAirportService(),
-                $this->getAirspaceDiContainer()->getAirspaceService(),
-                $this->getNavaidDiContainer()->getNavaidService(),
-                $this->getSystemDiContainer()->getLoggingService(),
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getCurlService(),
-            );
-        }
-
-        return $this->openAipDiContainer;
+        return $this->container->get(IOpenAipDiContainer::class);
     }
 
 
     public function getSearchDiContainer(): ISearchDiContainer
     {
-        if (!isset($this->searchDiContainer)) {
-            $this->searchDiContainer = new ProdSearchDiContainer(
-                $this->getSystemDiContainer()->getHttpService(),
-                $this->getUserDiContainer()->getSearchUserPointUc(),
-                $this->getAirspaceDiContainer()->getAirspaceService(),
-                $this->getNotamDiContainer()->getNotamSearchByPositionQuery(),
-                $this->getAerodromeDiContainer()->getAirportService(),
-                $this->getAerodromeReportingDiContainer()->getAerodromeReportingByPositionQuery(),
-                $this->getAerodromeReportingDiContainer()->getAerodromeReportingByTextQuery(),
-                $this->getNavaidDiContainer()->getNavaidService(),
-                $this->getGeonameDiContainer()->getGeonameService(),
-            );
-        }
-
-        return $this->searchDiContainer;
+        return $this->container->get(ISearchDiContainer::class);
     }
 
 
     public function getSystemDiContainer(): ISystemDiContainer
     {
-        if (!isset($this->systemDiContainer)) {
-            $this->systemDiContainer = new ProdSystemDiContainer(
-                $this->getConfigDiContainer()
-            );
-        }
-
-        return $this->systemDiContainer;
+        return $this->container->get(ISystemDiContainer::class);
     }
 
 
     public function getPersistenceDiContainer(): IPersistenceDiContainer
     {
-        if (!isset($this->persistenceDiContainer)) {
-            $this->persistenceDiContainer = new ProdPersistenceDiContainer(
-                $this->getSystemDiContainer(),
-                $this->getConfigDiContainer()
-            );
-        }
-
-        return $this->persistenceDiContainer;
+        return $this->container->get(IPersistenceDiContainer::class);
     }
 
 
     public function getTerrainDiContainer(): ITerrainDiContainer
     {
-        if (!isset($this->terrainDiContainer)) {
-            $this->terrainDiContainer = new ProdTerrainDiContainer(
-                $this->getSystemDiContainer()->getFileService(),
-                $this->getConfigDiContainer()
-            );
-        }
-
-        return $this->terrainDiContainer;
+        return $this->container->get(ITerrainDiContainer::class);
     }
 
 
     public function getTrackDiContainer(): ITrackDiContainer
     {
-        if (!isset($this->trackDiContainer)) {
-            $this->trackDiContainer = new ProdTrackDiContainer(
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService(),
-                $this->getUserDiContainer()->getUserService(),
-                $this->getExportDiContainer()->getExportService()
-            );
-        }
-
-        return $this->trackDiContainer;
+        return $this->container->get(ITrackDiContainer::class);
     }
 
 
     public function getTrafficDiContainer(): ITrafficDiContainer
     {
-        if (!isset($this->trafficDiContainer)) {
-            $this->trafficDiContainer = new ProdTrafficDiContainer(
-                $this->getSystemDiContainer()->getFileService(),
-                $this->getSystemDiContainer()->getTimeService(),
-                $this->getSystemDiContainer()->getProcService(),
-                $this->getSystemDiContainer()->getLoggingService(),
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService()
-            );
-        }
-
-        return $this->trafficDiContainer;
+        return $this->container->get(ITrafficDiContainer::class);
     }
 
 
     public function getUserDiContainer(): IUserDiContainer
     {
-        if (!isset($this->userDiContainer)) {
-            $this->userDiContainer = new ProdUserDiContainer(
-                $this->getSystemDiContainer()->getHttpService(),
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getMailService(),
-                $this->getConfigDiContainer(),
-                $this->getSystemDiContainer()->getLoggingService()
-            );
-        }
-
-        return $this->userDiContainer;
+        return $this->container->get(IUserDiContainer::class);
     }
 
 
     public function getVerticalMapDiContainer(): IVerticalMapDiContainer
     {
-        if (!isset($this->verticalMapDiContainer)) {
-            $this->verticalMapDiContainer = new ProdVerticalMapDiContainer(
-                $this->getTerrainDiContainer()->getTerrainService(),
-                $this->getAirspaceDiContainer()->getAirspaceService(),
-                $this->getMeteoForecastDiContainer()->getMeteoForecastVerticalCloudRepo(),
-                $this->getMeteoForecastDiContainer()->getMeteoForecastVerticalWindRepo(),
-                $this->getSystemDiContainer()->getHttpService(),
-            );
-        }
-
-        return $this->verticalMapDiContainer;
+        return $this->container->get(IVerticalMapDiContainer::class);
     }
 
 
     public function getWebcamDiContainer(): IWebcamDiContainer
     {
-        if (!isset($this->webcamDiContainer)) {
-            $this->webcamDiContainer = new ProdWebcamDiContainer(
-                $this->getPersistenceDiContainer()->getDbService(),
-                $this->getSystemDiContainer()->getHttpService()
-            );
-        }
-
-        return $this->webcamDiContainer;
+        return $this->container->get(IWebcamDiContainer::class);
     }
 }
