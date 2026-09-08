@@ -9,7 +9,7 @@ global $diContainer;
 
 $circuitImporter = new SectorFileImporter(
     $diContainer->getAirportCircuitService(),
-    $diContainer->getSystemDiContainer()->getLoggingService()
+    $diContainer->getLoggingService()
 );
 
 $circuitImporter->import("Switzerland.sct");

@@ -10,7 +10,7 @@ require_once __DIR__ . "/../ConsoleBootstrap.php";
 global $diContainer;
 
 $importFilter = new OpenAipImportFilter("CH");
-$importer = $diContainer->getOpenAipDiContainer()->getOpenAipImporter();
+$importer = $diContainer->getOpenAipImporter();
 $importer->setImportFilter($importFilter);
 $importer->importNavaids();
 $importer->importAirports();

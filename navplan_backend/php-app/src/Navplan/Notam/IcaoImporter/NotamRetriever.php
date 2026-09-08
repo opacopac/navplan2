@@ -13,7 +13,7 @@ use Navplan\System\Domain\Service\ILoggingService;
 global $diContainer;
 
 $retriever = new NotamRetriever(
-    $diContainer->getSystemDiContainer()->getLoggingService(),
+    $diContainer->getLoggingService(),
     $diContainer->getDbService()
 );
 $retriever->go();

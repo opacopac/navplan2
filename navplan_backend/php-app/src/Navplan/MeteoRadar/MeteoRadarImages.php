@@ -7,5 +7,5 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 global $diContainer;
 
-$controller = $diContainer->getMeteoRadarImagesDiContainer()->getMeteoRadarImagesController();
+$controller = $diContainer->getMeteoRadarImagesController();
 $controller->processRequest();

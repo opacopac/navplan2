@@ -25,7 +25,7 @@ require_once __DIR__ . "/../../ConsoleBootstrap.php";
 
 global $diContainer;
 
-$parser = $diContainer->getNotamDiContainer()->getNotamGeometryParser();
+$parser = $diContainer->getNotamGeometryParser();
 $parser->go();
 
 
@@ -85,7 +85,7 @@ class NotamGeometryParser implements INotamGeometryParser
             foreach ($notamChunk as &$notam) {
                 $icaoApiNotam = IcaoApiNotam::fromJson($notam->notam);
 
-                $notam->geometry = $icaoApiNotam->isICAO 
+                $notam->geometry = $icaoApiNotam->isICAO
                     ? $this->parseIcaoNotamGeometry($icaoApiNotam)
                     : $this->parseNonIcaoNotamGeometry($icaoApiNotam);
 

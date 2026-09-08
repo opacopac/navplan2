@@ -21,9 +21,16 @@ gleichzeitig explizite Modulgrenzen zu behalten:
   die `I<Feature>DiContainer`-Interfaces der migrierten Module direkt** – jede
   Methode ist ein Einzeiler-Delegat auf `$this->container->get(...)`.
 - Für Rückwärtskompatibilität (`$diContainer->getXxxDiContainer()->getYyy()`)
-  bleiben die `getXxxDiContainer()`-Fassadenmethoden bestehen, geben aber nur noch
-  `return $this;` zurück (da `ProdNavplanDiContainer` das Interface jetzt selbst
-  implementiert).
+  gab es früher `getXxxDiContainer()`-Fassadenmethoden, die nur `return $this;`
+  zurückgaben (da `ProdNavplanDiContainer` das Interface selbst implementiert).
+  Diese Indirektion wurde entfernt, nachdem ALLE Module migriert waren - alle
+  Aufrufstellen (REST-Entrypoints `<Feature>.php`, Konsolen-Skripte) rufen die
+  Getter jetzt direkt auf `$diContainer` auf, z.B.
+  `$diContainer->getNavaidController()` statt
+  `$diContainer->getNavaidDiContainer()->getNavaidController()`. Einzige
+  Ausnahme: `getConfigDiContainer()` bleibt bestehen, da `IConfigDiContainer`
+  bewusst NICHT von `ProdNavplanDiContainer` implementiert wird (s.u.) und
+  daher einen echten Container-Lookup braucht.
 - Noch nicht migrierte Module funktionieren unverändert über ihre bisherige
   `Prod<Feature>DiContainer`-Klasse (per Factory-Closure im selben Container
   registriert) – beide Stile koexistieren problemlos im selben Container.

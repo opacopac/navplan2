@@ -7,5 +7,5 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 global $diContainer;
 
-$controller = $diContainer->getAirspaceDiContainer()->getFirController();
+$controller = $diContainer->getFirController();
 $controller->processRequest();

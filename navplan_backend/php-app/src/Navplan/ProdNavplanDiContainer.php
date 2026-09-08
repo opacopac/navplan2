@@ -100,6 +100,16 @@ use Navplan\Webcam\Rest\Service\WebcamController;
  * All modules are migrated to this pattern (see docs/di-approach.md) - there
  * is no more Prod<Feature>DiContainer class anywhere in the codebase.
  *
+ * NOTE on facade methods: earlier revisions also exposed one
+ * getXxxDiContainer(): IXxxDiContainer per module (all trivially "return
+ * $this;", since this class implements every module's interface directly)
+ * for call sites like $diContainer->getNavaidDiContainer()->getNavaidController().
+ * That indirection added no value once every module was flattened onto this
+ * single class, so it was removed - call sites now call
+ * $diContainer->getNavaidController() directly. getConfigDiContainer() is
+ * the sole survivor, since IConfigDiContainer is NOT implemented by this
+ * class (see next note) and therefore needs an actual container lookup.
+ *
  * NOTE on IConfigDiContainer: deliberately NOT flattened onto this class.
  * It extends ~10 narrow config interfaces with ~13 getters in total; turning
  * those into proxy methods here would be pure boilerplate with no benefit,
@@ -189,166 +199,6 @@ class ProdNavplanDiContainer implements
     }
 
 
-    public function getAdminDiContainer(): IAdminDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getAerodromeDiContainer(): IAerodromeDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getAerodromeChartDiContainer(): IAerodromeChartDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getAerodromeCircuitDiContainer(): IAerodromeCircuitDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getAerodromeReportingDiContainer(): IAerodromeReportingDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getAircraftDiContainer(): IAircraftDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getAirspaceDiContainer(): IAirspaceDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getNavaidDiContainer(): INavaidDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getExportDiContainer(): IExporterDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getFlightrouteDiContainer(): IFlightrouteDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getGeonameDiContainer(): IGeonameDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getMeteoForecastDiContainer(): IMeteoForecastDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getMeteoRadarImagesDiContainer(): IMeteoRadarImagesDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getMeteoGramDiContainer(): IMeteoGramDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getMetarTafDiContainer(): IMetarTafDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getMeteoSmaDiContainer(): IMeteoSmaDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getNotamDiContainer(): INotamDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getOpenAipDiContainer(): IOpenAipDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getSearchDiContainer(): ISearchDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getSystemDiContainer(): ISystemDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getPersistenceDiContainer(): IPersistenceDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getTerrainDiContainer(): ITerrainDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getTrackDiContainer(): ITrackDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getTrafficDiContainer(): ITrafficDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getUserDiContainer(): IUserDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getVerticalMapDiContainer(): IVerticalMapDiContainer
-    {
-        return $this;
-    }
-
-
-    public function getWebcamDiContainer(): IWebcamDiContainer
-    {
-        return $this;
-    }
 
 
     // --- ISystemDiContainer -------------------------------------------------

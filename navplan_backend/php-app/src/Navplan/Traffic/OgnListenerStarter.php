@@ -12,9 +12,9 @@ global $diContainer;
 $sessionId = intval($argv[1]);
 $maxAgeSec = intval($argv[2]);
 $ognListenerService = new OgnListener(
-    $diContainer->getTrafficDiContainer()->getOgnListenerRepo(),
-    $diContainer->getSystemDiContainer()->getTimeService(),
-    $diContainer->getSystemDiContainer()->getLoggingService()
+    $diContainer->getOgnListenerRepo(),
+    $diContainer->getTimeService(),
+    $diContainer->getLoggingService()
 );
 
 $ognListenerService->start($sessionId, $maxAgeSec);

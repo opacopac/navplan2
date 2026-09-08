@@ -7,5 +7,5 @@ require_once __DIR__ . "/../RestServiceBootstrap.php";
 
 global $diContainer;
 
-$controller = $diContainer->getAerodromeReportingDiContainer()->getReportingPointController();
+$controller = $diContainer->getReportingPointController();
 $controller->processRequest();

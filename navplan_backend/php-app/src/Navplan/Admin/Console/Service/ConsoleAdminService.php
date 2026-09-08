@@ -10,7 +10,7 @@ require_once __DIR__ . "/../../../ConsoleBootstrap.php";
 
 global $diContainer;
 
-ConsoleAdminService::processRequest($diContainer->getAdminDiContainer(), $argv);
+ConsoleAdminService::processRequest($diContainer, $argv);
 
 
 class ConsoleAdminService
