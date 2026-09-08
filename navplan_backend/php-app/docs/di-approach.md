@@ -38,13 +38,21 @@ gleichzeitig explizite Modulgrenzen zu behalten:
    `WebcamController::class`, ...) statt an `IRestController::class`. Die
    `getXxxController(): IRestController`-Fassadenmethode löst dann gezielt über
    die konkrete Klasse auf.
-2. **Selbstregistrierung ohne Rekursion:** Damit noch nicht migrierte Module
-   (deren Factory-Closures z.B. `$c->get(ISystemDiContainer::class)->getHttpService()`
-   aufrufen) weiter funktionieren, wird `ISystemDiContainer::class => $this` (usw.)
-   im Container registriert. Das ist unkritisch, solange die implementierten
+2. **Selbstregistrierung ohne Rekursion (historisch, während der Migration):**
+   Solange noch nicht alle Module migriert waren, mussten deren Factory-
+   Closures (z.B. `$c->get(ISystemDiContainer::class)->getHttpService()`)
+   weiter funktionieren - dazu wurde `ISystemDiContainer::class => $this`
+   (usw.) im Container registriert. Unkritisch, solange die implementierten
    Methoden auf **andere** Container-Keys delegieren (z.B. `IHttpService::class`),
    nie wieder auf den eigenen `I<Feature>DiContainer::class`-Key – sonst
-   Endlosrekursion.
+   Endlosrekursion. Jetzt, wo ALLE Module migriert sind, gibt es keine
+   Factory-Closures mehr, die das bräuchten - die komplette
+   Selbstregistrierungs-Liste wurde deshalb aus dem Konstruktor entfernt
+   (kein Code irgendwo tut `$c->get(I<Feature>DiContainer::class)` mehr;
+   die `getXxxDiContainer()`-Fassadenmethoden geben direkt `return $this;`
+   zurück, ohne über den Container zu gehen). Falls in Zukunft wieder ein
+   nicht-migriertes Modul hinzukommt, muss dieses Muster erneut eingeführt
+   werden.
 3. **Nicht jedes Interface lohnt sich zum Flatten:** `IConfigDiContainer` erweitert
    ~10 schmale Config-Interfaces mit insgesamt ~13 Gettern. Diese 1:1 auf
    `ProdNavplanDiContainer` zu duplizieren wäre reines Boilerplate ohne Nutzen,

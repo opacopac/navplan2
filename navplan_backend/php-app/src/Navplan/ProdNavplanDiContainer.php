@@ -178,41 +178,6 @@ class ProdNavplanDiContainer implements
         $builder->addDefinitions(__DIR__ . '/Traffic/traffic.definitions.php');
         $builder->addDefinitions(__DIR__ . '/User/user.definitions.php');
         $builder->addDefinitions(__DIR__ . '/VerticalMap/verticalMap.definitions.php');
-        $builder->addDefinitions([
-            // Self-registration: this class implements these DiContainer
-            // interfaces directly, so not-yet-converted modules' factory
-            // closures below can keep calling $c->get(IXxxDiContainer::class)
-            // ->getYyy() unchanged. No recursion risk: getYyy() delegates to a
-            // DIFFERENT container key (e.g. IHttpService::class), never back
-            // to ISystemDiContainer::class itself.
-            ISystemDiContainer::class => $this,
-            IPersistenceDiContainer::class => $this,
-            IWebcamDiContainer::class => $this,
-            INavaidDiContainer::class => $this,
-            IAdminDiContainer::class => $this,
-            IAerodromeDiContainer::class => $this,
-            IAerodromeChartDiContainer::class => $this,
-            IAerodromeCircuitDiContainer::class => $this,
-            IAerodromeReportingDiContainer::class => $this,
-            IAircraftDiContainer::class => $this,
-            IAirspaceDiContainer::class => $this,
-            IExporterDiContainer::class => $this,
-            IFlightrouteDiContainer::class => $this,
-            IGeonameDiContainer::class => $this,
-            IMetarTafDiContainer::class => $this,
-            IMeteoForecastDiContainer::class => $this,
-            IMeteoGramDiContainer::class => $this,
-            IMeteoRadarImagesDiContainer::class => $this,
-            IMeteoSmaDiContainer::class => $this,
-            INotamDiContainer::class => $this,
-            IOpenAipDiContainer::class => $this,
-            ISearchDiContainer::class => $this,
-            ITerrainDiContainer::class => $this,
-            ITrackDiContainer::class => $this,
-            ITrafficDiContainer::class => $this,
-            IUserDiContainer::class => $this,
-            IVerticalMapDiContainer::class => $this,
-        ]);
 
         $this->container = $builder->build();
     }
