@@ -31,11 +31,12 @@ use Navplan\Airspace\Rest\Controller\FirController;
 use Navplan\Config\IConfigDiContainer;
 use Navplan\Common\Rest\Controller\IRestController;
 use Navplan\Exporter\IExporterDiContainer;
-use Navplan\Exporter\ProdExportDiContainer;
+use Navplan\Exporter\Domain\Service\IExportService;
+use Navplan\Exporter\Rest\Controller\ExporterController;
 use Navplan\Flightroute\IFlightrouteDiContainer;
-use Navplan\Flightroute\ProdFlightrouteDiContainer;
+use Navplan\Flightroute\Rest\Controller\FlightrouteController;
 use Navplan\Geoname\IGeonameDiContainer;
-use Navplan\Geoname\ProdGeonameDiContainer;
+use Navplan\Geoname\Domain\Service\IGeonameService;
 use Navplan\MetarTaf\IMetarTafDiContainer;
 use Navplan\MetarTaf\ProdMetarTafDiContainer;
 use Navplan\MeteoForecast\IMeteoForecastDiContainer;
@@ -69,6 +70,7 @@ use Navplan\System\Domain\Service\IProcService;
 use Navplan\System\Domain\Service\ITimeService;
 use Navplan\Terrain\ITerrainDiContainer;
 use Navplan\Terrain\ProdTerrainDiContainer;
+use Navplan\Terrain\Domain\Service\ITerrainService;
 use Navplan\Track\ITrackDiContainer;
 use Navplan\Track\ProdTrackDiContainer;
 use Navplan\Traffic\ITrafficDiContainer;
@@ -120,7 +122,10 @@ class ProdNavplanDiContainer implements
     IAerodromeCircuitDiContainer,
     IAerodromeReportingDiContainer,
     IAircraftDiContainer,
-    IAirspaceDiContainer
+    IAirspaceDiContainer,
+    IExporterDiContainer,
+    IFlightrouteDiContainer,
+    IGeonameDiContainer
 {
     private Container $container;
 
@@ -141,6 +146,9 @@ class ProdNavplanDiContainer implements
         $builder->addDefinitions(__DIR__ . '/AerodromeReporting/aerodromeReporting.definitions.php');
         $builder->addDefinitions(__DIR__ . '/Aircraft/aircraft.definitions.php');
         $builder->addDefinitions(__DIR__ . '/Airspace/airspace.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/Exporter/exporter.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/Flightroute/flightroute.definitions.php');
+        $builder->addDefinitions(__DIR__ . '/Geoname/geoname.definitions.php');
         $builder->addDefinitions([
             // Self-registration: this class implements these DiContainer
             // interfaces directly, so not-yet-converted modules' factory
@@ -159,6 +167,9 @@ class ProdNavplanDiContainer implements
             IAerodromeReportingDiContainer::class => $this,
             IAircraftDiContainer::class => $this,
             IAirspaceDiContainer::class => $this,
+            IExporterDiContainer::class => $this,
+            IFlightrouteDiContainer::class => $this,
+            IGeonameDiContainer::class => $this,
 
             // Bridges to not-yet-migrated modules: some migrated modules'
             // classes are autowired and need these interfaces injected
@@ -171,27 +182,8 @@ class ProdNavplanDiContainer implements
             IOpenAipImporter::class => function (ContainerInterface $c) {
                 return $c->get(IOpenAipDiContainer::class)->getOpenAipImporter();
             },
-
-            IExporterDiContainer::class => function (ContainerInterface $c) {
-                return new ProdExportDiContainer(
-                    $c->get(ISystemDiContainer::class)->getFileService(),
-                    $c->get(ISystemDiContainer::class)->getHttpService()
-                );
-            },
-
-            IFlightrouteDiContainer::class => function (ContainerInterface $c) {
-                return new ProdFlightrouteDiContainer(
-                    $c->get(IUserDiContainer::class)->getUserService(),
-                    $c->get(IPersistenceDiContainer::class)->getDbService(),
-                    $c->get(ISystemDiContainer::class)->getHttpService()
-                );
-            },
-
-            IGeonameDiContainer::class => function (ContainerInterface $c) {
-                return new ProdGeonameDiContainer(
-                    $c->get(IPersistenceDiContainer::class)->getDbService(),
-                    $c->get(ITerrainDiContainer::class)->getTerrainService(),
-                );
+            ITerrainService::class => function (ContainerInterface $c) {
+                return $c->get(ITerrainDiContainer::class)->getTerrainService();
             },
 
             IMeteoForecastDiContainer::class => function (ContainerInterface $c) {
@@ -378,19 +370,19 @@ class ProdNavplanDiContainer implements
 
     public function getExportDiContainer(): IExporterDiContainer
     {
-        return $this->container->get(IExporterDiContainer::class);
+        return $this;
     }
 
 
     public function getFlightrouteDiContainer(): IFlightrouteDiContainer
     {
-        return $this->container->get(IFlightrouteDiContainer::class);
+        return $this;
     }
 
 
     public function getGeonameDiContainer(): IGeonameDiContainer
     {
-        return $this->container->get(IGeonameDiContainer::class);
+        return $this;
     }
 
 
@@ -686,5 +678,36 @@ class ProdNavplanDiContainer implements
     public function getFirService(): IFirService
     {
         return $this->container->get(IFirService::class);
+    }
+
+
+    // --- IExporterDiContainer -----------------------------------------------
+
+    public function getExportController(): IRestController
+    {
+        return $this->container->get(ExporterController::class);
+    }
+
+
+    public function getExportService(): IExportService
+    {
+        return $this->container->get(IExportService::class);
+    }
+
+
+    // --- IFlightrouteDiContainer ---------------------------------------------
+
+    public function getFlightrouteController(): IRestController
+    {
+        return $this->container->get(FlightrouteController::class);
+    }
+
+
+
+    // --- IGeonameDiContainer --------------------------------------------------
+
+    public function getGeonameService(): IGeonameService
+    {
+        return $this->container->get(IGeonameService::class);
     }
 }

@@ -57,15 +57,34 @@ gleichzeitig explizite Modulgrenzen zu behalten:
 
 Migriert (definitions.php + auf `ProdNavplanDiContainer` geflacht): `Config`
 (nur Definitionsdatei, kein Flatten – s.o.), `System`, `Persistence`, `Webcam`,
-`Navaid`.
+`Navaid`, `Admin`, `Aerodrome`, `AerodromeChart`, `AerodromeCircuit`,
+`AerodromeReporting`, `Aircraft`, `Airspace`, `Exporter`, `Flightroute`,
+`Geoname`.
 
 Noch im alten Muster (eigene `Prod<Feature>DiContainer`-Klasse mit privatem
-Container, per Factory-Closure verdrahtet): alle übrigen Module (`Admin`,
-`Aerodrome`, `AerodromeChart`, `AerodromeCircuit`, `AerodromeReporting`,
-`Aircraft`, `Airspace`, `Exporter`, `Flightroute`, `Geoname`, `MetarTaf`,
-`MeteoForecast`, `MeteoGram`, `MeteoRadar`, `MeteoSma`, `Notam`, `OpenAip`,
-`Search`, `Terrain`, `Track`, `Traffic`, `User`, `VerticalMap`). Migration ist
-rein mechanisch (siehe Muster oben) und kann modulweise nachgezogen werden.
+Container, per Factory-Closure verdrahtet): `MetarTaf`, `MeteoForecast`,
+`MeteoGram`, `MeteoRadar`, `MeteoSma`, `Notam`, `OpenAip`, `Search`, `Terrain`,
+`Track`, `Traffic`, `User`, `VerticalMap`. Migration ist rein mechanisch (siehe
+Muster oben) und kann modulweise nachgezogen werden.
+
+Temporäre "Bridge"-Definitionen in `ProdNavplanDiContainer` (für migrierte
+Module, die noch eine Abhängigkeit auf ein NICHT migriertes Modul autowiren
+müssen): `IUserService` (→ `User`), `IOpenAipImporter` (→ `OpenAip`),
+`ITerrainService` (→ `Terrain`, gebraucht von `Geoname`). Sobald das jeweilige
+Modul migriert ist, kann die Bridge gelöscht werden (das migrierte Modul liefert
+die Bindung dann selbst über seine eigene `*.definitions.php`).
+
+### Nach jeder Migrationsrunde: unbenutzte Facade-Getter prüfen
+
+Nach dem Flatten eines Moduls lohnt es sich, `grep` über den produktiven Code
+(REST-Entrypoints, Konsolen-Skripte, Konstruktoren anderer Module) laufen zu
+lassen, um zu prüfen, welche `I<Feature>DiContainer`-Methoden wirklich von
+außen aufgerufen werden. Nicht benutzte Getter (nur intern für Autowiring
+gebraucht, z.B. weil eine Klasse die Abhängigkeit direkt per Constructor-
+Injection bekommt) können aus dem Interface **und** aus
+`ProdNavplanDiContainer` entfernt werden – die zugrunde liegende Bindung in der
+`*.definitions.php` bleibt bestehen, falls intern noch gebraucht.
+
 
 ## Frühere Zwischenstufe: reine Container-Kapselung pro Domäne (überholt)
 
