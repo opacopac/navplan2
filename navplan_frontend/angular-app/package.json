@@ -29,16 +29,15 @@
     "@ngrx/schematics": "^22.0.0",
     "@ngrx/store": "^22.0.0",
     "@ngrx/store-devtools": "^22.0.0",
-    "core-js": "^3.47.0",
-    "kalman-filter": "^2.3.0",
+    "core-js": "^3.50.0",
     "ml-matrix": "^6.12.1",
-    "ol": "^10.7.0",
-    "ol-mapbox-style": "^13.1.1",
-    "postcss": "^8.5.6",
+    "ol": "^10.10.0",
+    "ol-mapbox-style": "^13.4.3",
+    "postcss": "^8.5.28",
     "rxjs": "^7.8.2",
     "tslib": "^2.8.1",
     "typescript": "~6.0.3",
-    "zone.js": "~0.15.1"
+    "zone.js": "~0.16.3"
   },
   "devDependencies": {
     "@types/jasmine": "~5.1.13",
