@@ -8,7 +8,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {FlightMapActions} from '../../../../flight-map/state/ngrx/flight-map.actions';
 import {MatTooltip} from '@angular/material/tooltip';
-import {CommonModule} from '@angular/common';
+
 import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
@@ -21,13 +21,12 @@ import {User} from '../../../../user/domain/model/user';
 @Component({
     selector: 'app-map-popup-airport-chart-tab',
     imports: [
-        CommonModule,
-        MatTableModule,
-        MatIconModule,
-        MatButtonModule,
-        MatTooltip,
-        IconButtonComponent
-    ],
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltip,
+    IconButtonComponent
+],
     templateUrl: './map-popup-airport-chart-tab.component.html',
     styleUrls: ['./map-popup-airport-chart-tab.component.scss']
 })

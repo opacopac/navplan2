@@ -1,14 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {MatButtonModule} from '@angular/material/button';
 
 
 @Component({
     selector: 'app-top-dialog',
     imports: [
-        CommonModule,
-        MatButtonModule
-    ],
+    MatButtonModule
+],
     templateUrl: './top-dialog.component.html',
     styleUrls: ['./top-dialog.component.scss']
 })

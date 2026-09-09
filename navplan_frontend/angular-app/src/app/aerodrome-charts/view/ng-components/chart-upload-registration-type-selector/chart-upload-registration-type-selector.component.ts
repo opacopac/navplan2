@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -21,15 +21,14 @@ import {MatSelectModule} from '@angular/material/select';
     selector: 'app-chart-upload-registration-type-selector',
     standalone: true,
     imports: [
-        CommonModule,
-        MatIconModule,
-        MatButtonModule,
-        MatProgressSpinnerModule,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatSelectModule
-    ],
+    MatIconModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatSelectModule
+],
     templateUrl: './chart-upload-registration-type-selector.component.html',
     styleUrls: ['./chart-upload-registration-type-selector.component.scss']
 })

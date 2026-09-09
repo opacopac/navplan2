@@ -1,25 +1,24 @@
 <div class="{{ getTimeLineClass() | async }}">
-    <ng-container *ngIf="(this.isRadarLayer$ | async); else forecastTimeline">
-        <app-meteo-radar-timeline
-            [availableRadarImages]="this.availableRadarImages$ | async"
-            [selectedRadarImage]="this.selectedRadarImage$ | async"
-            (previousStepClicked)="this.onRadarPreviousStepClicked()"
-            (nextStepClicked)="this.onRadarNextStepClicked()"
-            (stepSelected)="this.onRadarStepSelected($event)"
-        />
-    </ng-container>
-    <ng-template #forecastTimeline>
-        <app-meteo-forecast-timeline
-            [currentForecastRun]="this.selectedFcRun$ | async"
-            [selectedStep]="this.selectedStep$ | async"
-            (previousStepClicked)="this.onPreviousStepClicked()"
-            (nextStepClicked)="this.onNextStepClicked()"
-            (stepSelected)="this.onStepSelected($event)"
+  @if ((this.isRadarLayer$ | async)) {
+    <app-meteo-radar-timeline
+      [availableRadarImages]="this.availableRadarImages$ | async"
+      [selectedRadarImage]="this.selectedRadarImage$ | async"
+      (previousStepClicked)="this.onRadarPreviousStepClicked()"
+      (nextStepClicked)="this.onRadarNextStepClicked()"
+      (stepSelected)="this.onRadarStepSelected($event)"
+      />
+    } @else {
+      <app-meteo-forecast-timeline
+        [currentForecastRun]="this.selectedFcRun$ | async"
+        [selectedStep]="this.selectedStep$ | async"
+        (previousStepClicked)="this.onPreviousStepClicked()"
+        (nextStepClicked)="this.onNextStepClicked()"
+        (stepSelected)="this.onStepSelected($event)"
         />
         <app-meteo-forecast-model-info
-            class="model-info"
-            [currentForecastRun]="this.selectedFcRun$ | async"
-            (changeModelClicked)="this.onChangeModelClick()"
-        />
-    </ng-template>
-</div>
+          class="model-info"
+          [currentForecastRun]="this.selectedFcRun$ | async"
+          (changeModelClicked)="this.onChangeModelClick()"
+          />
+        }
+      </div>

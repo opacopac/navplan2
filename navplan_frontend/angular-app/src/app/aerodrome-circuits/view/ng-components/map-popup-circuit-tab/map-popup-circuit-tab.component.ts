@@ -5,7 +5,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {CommonModule} from '@angular/common';
+
 import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {MatDialog} from '@angular/material/dialog';
@@ -19,13 +19,12 @@ import {AirportCircuit} from '../../../domain/model/airport-circuit';
 @Component({
     selector: 'app-map-popup-circuits-tab',
     imports: [
-        CommonModule,
-        MatTableModule,
-        MatIconModule,
-        MatButtonModule,
-        MatTooltipModule,
-        IconButtonComponent
-    ],
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
+    IconButtonComponent
+],
     templateUrl: './map-popup-circuit-tab.component.html',
     styleUrls: ['./map-popup-circuit-tab.component.scss']
 })

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {UploadedChartInfo} from '../../../../aerodrome-charts/domain/model/uploaded-chart-info';
@@ -9,11 +9,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 @Component({
     selector: 'app-file-upload',
     imports: [
-        CommonModule,
-        MatIconModule,
-        MatButtonModule,
-        MatProgressSpinnerModule
-    ],
+    MatIconModule,
+    MatButtonModule,
+    MatProgressSpinnerModule
+],
     templateUrl: './file-upload.component.html',
     standalone: true,
     styleUrls: ['./file-upload.component.scss']

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {UploadedChartInfo} from '../../../domain/model/uploaded-chart-info';
@@ -36,19 +36,18 @@ import {
     selector: 'app-chart-upload-step2',
     standalone: true,
     imports: [
-        CommonModule,
-        MatIconModule,
-        MatButtonModule,
-        MatProgressSpinnerModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MiniImageViewerComponent,
-        ReactiveFormsModule,
-        MatRadioModule,
-        ChartUploadRegistrationTypeSelectorComponent,
-        IconButtonComponent,
-        ChartUploadPixelSelector
-    ],
+    MatIconModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MiniImageViewerComponent,
+    ReactiveFormsModule,
+    MatRadioModule,
+    ChartUploadRegistrationTypeSelectorComponent,
+    IconButtonComponent,
+    ChartUploadPixelSelector
+],
     templateUrl: './chart-upload-step2.component.html',
     styleUrls: ['./chart-upload-step2.component.scss']
 })
