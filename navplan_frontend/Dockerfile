@@ -4,14 +4,14 @@ FROM node:latest AS build
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the package.json file
-COPY angular-app/package.json ./
+# Copy the package.json and package-lock.json files
+COPY angular-app/package.json angular-app/package-lock.json ./
 
 # Install Angular CLI globally
 RUN npm install -g @angular/cli
 
-# Install app dependencies
-RUN npm install
+# Install app dependencies (npm ci uses the lock file for reproducible, conflict-free installs)
+RUN npm ci
 
 # Copy the rest of the application source code
 COPY angular-app/*.json ./

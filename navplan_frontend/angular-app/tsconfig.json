@@ -2,6 +2,8 @@
   "compileOnSave": false,
   "compilerOptions": {
     "skipLibCheck": true,
+    "strict": false,
+    "ignoreDeprecations": "6.0",
     "module": "es2020",
     "outDir": "./dist/out-tsc",
     "esModuleInterop": true,

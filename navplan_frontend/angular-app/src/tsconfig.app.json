@@ -2,7 +2,6 @@
     "extends": "../tsconfig.json",
     "compilerOptions": {
         "outDir": "../../../out-tsc/app",
-        "baseUrl": "./",
         "types": []
     },
     "exclude": [
@@ -10,12 +9,6 @@
         "**/*.spec.ts"
     ],
     "angularCompilerOptions": {
-      "extendedDiagnostics": {
-        "checks": {
-          "nullishCoalescingNotNullable": "suppress",
-          "optionalChainNotNullable": "suppress"
-        }
-      },
       "strictTemplates": false
     }
 }
