@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Notam} from '../../../domain/model/notam';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {MatTableModule} from '@angular/material/table';
@@ -14,6 +14,7 @@ import {CommonModule} from '@angular/common';
         MatIconModule
     ],
     templateUrl: './map-popup-notam-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-notam-list.component.scss']
 })
 export class MapPopupNotamListComponent implements OnInit {

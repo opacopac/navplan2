@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {ButtonStatus} from '../../model/button-status';
 import {MatTooltipModule, TooltipPosition} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
@@ -12,6 +12,7 @@ import {CommonModule} from '@angular/common';
         MatTooltipModule
     ],
     templateUrl: './status-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./status-button.component.scss']
 })
 export class StatusButtonComponent implements OnInit {

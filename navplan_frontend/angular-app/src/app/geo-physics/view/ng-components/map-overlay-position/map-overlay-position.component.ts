@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {Position2d} from '../../../domain/model/geometry/position2d';
 
@@ -7,6 +7,7 @@ import {Position2d} from '../../../domain/model/geometry/position2d';
     selector: 'app-map-overlay-position',
     imports: [],
     templateUrl: './map-overlay-position.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-overlay-position.component.scss']
 })
 export class MapOverlayPositionComponent implements OnInit {

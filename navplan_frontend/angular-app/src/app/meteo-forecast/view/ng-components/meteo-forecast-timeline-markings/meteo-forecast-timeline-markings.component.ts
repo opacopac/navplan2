@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {ForecastRun} from '../../../domain/model/forecast-run';
 import {MeteoForecastTimelineMarkingsSvg} from '../../svg/meteo-forecast-timeline-markings-svg';
 
@@ -7,6 +7,7 @@ import {MeteoForecastTimelineMarkingsSvg} from '../../svg/meteo-forecast-timelin
     selector: 'app-meteo-forecast-timeline-markings',
     imports: [],
     templateUrl: './meteo-forecast-timeline-markings.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./meteo-forecast-timeline-markings.component.scss']
 })
 export class MeteoForecastTimelineMarkingsComponent implements OnInit, AfterViewInit, OnChanges {

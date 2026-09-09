@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {ReportingSector} from '../../../domain/model/reporting-sector';
 import {MatCardModule} from '@angular/material/card';
 
@@ -9,6 +9,7 @@ import {MatCardModule} from '@angular/material/card';
         MatCardModule
     ],
     templateUrl: './map-popup-reportingsector-header.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-reportingsector-header.component.scss']
 })
 export class MapPopupReportingsectorHeaderComponent implements OnInit {

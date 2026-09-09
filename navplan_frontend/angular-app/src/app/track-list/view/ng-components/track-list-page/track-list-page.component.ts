@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Track} from '../../../../track/domain/model/track';
 import {getSelectedTrack, getTrackList, getTrackTableState} from '../../../../track/state/ngrx/track.selectors';
@@ -15,6 +15,7 @@ import {CommonModule} from '@angular/common';
         TrackListTableComponent
     ],
     templateUrl: './track-list-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./track-list-page.component.scss']
 })
 export class TrackListPageComponent implements OnInit {

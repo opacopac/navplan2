@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
 import {getFlightroute} from '../../../../flightroute/state/ngrx/flightroute.selectors';
@@ -36,6 +36,7 @@ import {
         AircraftWnbEnvelopeChartComponent
     ],
     templateUrl: './plan-wnb-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./plan-wnb-container.component.scss']
 })
 export class PlanWnbContainerComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {LengthUnit} from '../../../domain/model/quantities/length-unit';
 import {Altitude} from '../../../domain/model/geometry/altitude';
@@ -8,6 +8,7 @@ import {Altitude} from '../../../domain/model/geometry/altitude';
     selector: 'app-map-overlay-elevation',
     standalone: true,
     templateUrl: './map-overlay-elevation.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-overlay-elevation.component.scss']
 })
 export class MapOverlayElevationComponent implements OnInit {

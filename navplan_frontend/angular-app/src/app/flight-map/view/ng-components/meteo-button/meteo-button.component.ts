@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getFlightMapMeteoLayer, getFlightMapShowMeteoLayer} from '../../../state/ngrx/flight-map.selectors';
 import {FlightMapActions} from '../../../state/ngrx/flight-map.actions';
@@ -14,6 +14,7 @@ import {CommonModule} from '@angular/common';
         StatusButtonComponent
     ],
     templateUrl: './meteo-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./meteo-button.component.scss']
 })
 export class MeteoButtonComponent implements OnInit {

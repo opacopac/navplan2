@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {TrackProfile} from '../../../../track/domain/model/track-profile';
 import {TrackProfileGraphSvg} from '../../svg/track-profile-graph-svg';
 
@@ -7,6 +7,7 @@ import {TrackProfileGraphSvg} from '../../svg/track-profile-graph-svg';
     selector: 'app-track-profile-graph',
     imports: [],
     templateUrl: './track-profile-graph.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./track-profile-graph.component.scss']
 })
 export class TrackProfileGraphComponent implements OnInit, OnChanges, AfterViewInit {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Time} from '../../../../geo-physics/domain/model/quantities/time';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {TrackProfile} from '../../../../track/domain/model/track-profile';
@@ -8,6 +8,7 @@ import {TrackProfile} from '../../../../track/domain/model/track-profile';
     selector: 'app-track-profile-times',
     imports: [],
     templateUrl: './track-profile-times.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./track-profile-times.component.scss']
 })
 export class TrackProfileTimesComponent implements OnInit {

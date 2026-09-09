@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {FormBuilder} from '@angular/forms';
@@ -10,6 +10,7 @@ import {FormBuilder} from '@angular/forms';
         MatButtonModule
     ],
     templateUrl: './confirm-delete-dialog-component.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./confirm-delete-dialog-component.component.scss']
 })
 export class ConfirmDeleteDialogComponent implements OnInit {

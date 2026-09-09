@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -54,6 +54,7 @@ import {
     IconButtonComponent
 ],
     templateUrl: './chart-upload-step3.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./chart-upload-step3.component.scss']
 })
 export class ChartUploadStep3Component implements OnInit, OnChanges {

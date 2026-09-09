@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {Airspace} from '../../../domain/model/airspace';
 import {OlOverlayBaseComponent} from '../../../../base-map/view/ng-components/ol-overlay-base.component';
 import {Store} from '@ngrx/store';
@@ -14,6 +14,7 @@ import {MapOverlayAirspaceComponent} from '../map-overlay-airspace/map-overlay-a
         MapOverlayAirspaceComponent
     ],
     templateUrl: './map-overlay-airspace-structure.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-overlay-airspace-structure.component.scss']
 })
 export class MapOverlayAirspaceStructureComponent extends OlOverlayBaseComponent implements OnInit, AfterViewInit, OnDestroy {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Airspace} from '../../../domain/model/airspace';
 import {AltitudeReference} from '../../../../geo-physics/domain/model/geometry/altitude-reference';
 
@@ -7,6 +7,7 @@ import {AltitudeReference} from '../../../../geo-physics/domain/model/geometry/a
     selector: 'app-map-overlay-airspace',
     imports: [],
     templateUrl: './map-overlay-airspace.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-overlay-airspace.component.scss']
 })
 export class MapOverlayAirspaceComponent implements OnInit {

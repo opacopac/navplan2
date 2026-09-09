@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FlightrouteActions} from '../../../../flightroute/state/ngrx/flightroute.actions';
 import {TrackActions} from '../../../../track/state/ngrx/track.actions';
 import {Store} from '@ngrx/store';
@@ -15,6 +15,7 @@ import {AircraftListActions} from '../../../../aircraft/state/ngrx/aircraft-list
         MatButtonModule
     ],
     templateUrl: './clear-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./clear-dialog.component.scss']
 })
 export class ClearDialogComponent implements OnInit {

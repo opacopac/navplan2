@@ -1,4 +1,4 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
 import {MatButtonModule} from '@angular/material/button';
@@ -16,6 +16,7 @@ import {ForecastRun} from '../../../domain/model/forecast-run';
         MeteoForecastPickerListComponent,
     ],
     templateUrl: './meteo-forecast-picker-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./meteo-forecast-picker-dialog.component.scss']
 })
 export class MeteoForecastPickerDialogComponent implements OnInit, OnDestroy {

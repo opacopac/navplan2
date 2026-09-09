@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -29,6 +29,7 @@ import {XyCoord} from '../../../../geo-physics/domain/model/geometry/xyCoord';
     MatSelectModule
 ],
     templateUrl: './chart-upload-pixel-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./chart-upload-pixel-selector.component.scss']
 })
 export class ChartUploadPixelSelector implements OnInit, OnChanges {

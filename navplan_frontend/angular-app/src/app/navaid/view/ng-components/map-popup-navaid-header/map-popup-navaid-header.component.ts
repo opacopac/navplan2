@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Navaid} from '../../../domain/model/navaid';
 import {OlNavaidIcon} from '../../ol-components/ol-navaid-icon';
 import {MatCardModule} from '@angular/material/card';
@@ -10,6 +10,7 @@ import {MatCardModule} from '@angular/material/card';
         MatCardModule
     ],
     templateUrl: './map-popup-navaid-header.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-navaid-header.component.scss']
 })
 export class MapPopupNavaidHeaderComponent implements OnInit {

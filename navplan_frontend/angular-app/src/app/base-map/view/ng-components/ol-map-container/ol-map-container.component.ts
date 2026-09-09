@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {DataItem} from '../../../../common/domain/model/data-item';
@@ -26,6 +26,7 @@ import {CursorMode} from '../../../state/state-model/cursor-mode';
     selector: 'app-ol-map-container',
     imports: [],
     templateUrl: './ol-map-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./ol-map-container.component.scss']
 })
 export class OlMapContainerComponent implements OnInit, OnDestroy {

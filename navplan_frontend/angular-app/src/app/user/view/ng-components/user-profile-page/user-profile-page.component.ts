@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getCurrentUser} from '../../../state/ngrx/user.selectors';
@@ -15,6 +15,7 @@ import {CommonModule} from '@angular/common';
         UserProfileFormComponent
     ],
     templateUrl: './user-profile-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./user-profile-page.component.scss']
 })
 export class UserProfilePageComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Observable} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {getLostPwEmailSentTo} from '../../../state/ngrx/user.selectors';
@@ -13,6 +13,7 @@ import {CommonModule} from '@angular/common';
         ForgotPwStep1FormComponent
     ],
     templateUrl: './forgot-pw-step1-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./forgot-pw-step1-page.component.scss']
 })
 export class ForgotPwStep1PageComponent implements OnInit {

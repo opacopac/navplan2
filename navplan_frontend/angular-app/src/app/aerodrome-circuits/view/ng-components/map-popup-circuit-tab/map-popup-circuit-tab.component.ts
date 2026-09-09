@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Airport} from '../../../../aerodrome/domain/model/airport';
 import {Store} from '@ngrx/store';
 import {MatTableModule} from '@angular/material/table';
@@ -26,6 +26,7 @@ import {AirportCircuit} from '../../../domain/model/airport-circuit';
     IconButtonComponent
 ],
     templateUrl: './map-popup-circuit-tab.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-circuit-tab.component.scss']
 })
 export class MapPopupCircuitTabComponent implements OnInit {

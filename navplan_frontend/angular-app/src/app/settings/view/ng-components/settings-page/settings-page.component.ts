@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {MapBaseLayerType} from '../../../../base-map/domain/model/map-base-layer-type';
 import {Store} from '@ngrx/store';
@@ -13,6 +13,7 @@ import {UnitSettingsComponent} from '../../../../geo-physics/view/ng-components/
         UnitSettingsComponent
     ],
     templateUrl: './settings-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./settings-page.component.scss']
 })
 export class SettingsPageComponent implements OnInit {

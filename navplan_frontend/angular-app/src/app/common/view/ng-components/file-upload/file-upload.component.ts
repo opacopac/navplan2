@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -15,6 +15,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 ],
     templateUrl: './file-upload.component.html',
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent implements OnInit {

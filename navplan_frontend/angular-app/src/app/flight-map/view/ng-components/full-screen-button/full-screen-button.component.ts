@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {FlightMapActions} from '../../../state/ngrx/flight-map.actions';
 import {getFlightMapShowFullScreen} from '../../../state/ngrx/flight-map.selectors';
@@ -14,6 +14,7 @@ import {CommonModule} from '@angular/common';
         StatusButtonComponent
     ],
     templateUrl: './full-screen-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./full-screen-button.component.scss']
 })
 export class FullScreenButtonComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {TemperatureUnit} from '../../../../geo-physics/domain/model/quantities/temperature-unit';
@@ -23,6 +23,7 @@ import {PlanPerfCalculationComponent} from '../plan-perf-calculation/plan-perf-c
         PlanPerfCalculationComponent
     ],
     templateUrl: './plan-perf-airpport.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./plan-perf-airpport.component.scss']
 })
 export class PlanPerfAirpportComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {MatButtonModule} from '@angular/material/button';
 import {MatStepperModule} from '@angular/material/stepper';
@@ -43,6 +43,7 @@ import {GeoCoordinate} from '../../../../geo-physics/domain/model/geometry/geo-c
         ChartUploadStep3Component,
     ],
     templateUrl: './chart-upload-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./chart-upload-container.component.scss']
 })
 export class ChartUploadContainerComponent implements OnInit {

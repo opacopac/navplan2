@@ -1,4 +1,4 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {Aircraft} from '../../../../domain/model/aircraft';
 import {AircraftListEntry} from '../../../../domain/model/aircraft-list-entry';
@@ -17,6 +17,7 @@ import {CommonModule} from '@angular/common';
         AircraftPickerListComponent,
     ],
     templateUrl: './aircraft-picker-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-picker-dialog.component.scss']
 })
 export class AircraftPickerDialogComponent implements OnInit, OnDestroy {

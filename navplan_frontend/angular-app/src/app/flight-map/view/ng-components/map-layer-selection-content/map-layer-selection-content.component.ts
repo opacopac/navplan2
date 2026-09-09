@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getSelectedMapBaseLayerType} from '../../../../base-map/state/ngrx/base-map.selectors';
@@ -17,6 +17,7 @@ import {CommonModule} from '@angular/common';
         MatCheckboxModule,
     ],
     templateUrl: './map-layer-selection-content.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-layer-selection-content.component.scss']
 })
 export class MapLayerSelectionContentComponent implements OnInit {

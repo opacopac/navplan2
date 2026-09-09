@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {Flightroute} from '../../../../flightroute/domain/model/flightroute';
 import {IconButtonComponent} from '../../../../common/view/ng-components/icon-button/icon-button.component';
@@ -10,6 +10,7 @@ import {IconButtonComponent} from '../../../../common/view/ng-components/icon-bu
         IconButtonComponent
     ],
     templateUrl: './route-picker.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./route-picker.component.scss']
 })
 export class RoutePickerComponent implements OnInit {

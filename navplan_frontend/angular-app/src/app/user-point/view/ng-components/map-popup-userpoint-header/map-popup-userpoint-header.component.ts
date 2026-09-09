@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {UserPoint} from '../../../domain/model/user-point';
 import {OlUserpointIcon} from '../../ol-components/ol-userpoint-icon';
 import {MatCardModule} from '@angular/material/card';
@@ -10,6 +10,7 @@ import {MatCardModule} from '@angular/material/card';
         MatCardModule
     ],
     templateUrl: './map-popup-userpoint-header.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-userpoint-header.component.scss']
 })
 export class MapPopupUserpointHeaderComponent implements OnInit {

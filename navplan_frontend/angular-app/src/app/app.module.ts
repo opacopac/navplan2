@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {provideHttpClient, withInterceptorsFromDi, withJsonpSupport} from '@angular/common/http';
+import {provideHttpClient, withInterceptorsFromDi, withJsonpSupport, withXhr} from '@angular/common/http';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
@@ -61,7 +61,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         NavbarContainerComponent
     ],
     providers: [
-        provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi(), withJsonpSupport()),
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
     ]
 })

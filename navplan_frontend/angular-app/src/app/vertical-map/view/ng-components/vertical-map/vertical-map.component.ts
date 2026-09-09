@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import {VerticalMapState} from '../../../state/state-model/vertical-map-state';
@@ -11,6 +11,7 @@ import {VerticalMapSvg} from '../../svg/vertical-map-svg';
     selector: 'app-vertical-map',
     imports: [],
     templateUrl: './vertical-map.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./vertical-map.component.scss']
 })
 export class VerticalMapComponent implements OnInit, OnDestroy, AfterViewInit {

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {RouteFuel} from '../../../../flightroute/domain/model/routefuel';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {Time} from '../../../../geo-physics/domain/model/quantities/time';
@@ -28,6 +28,7 @@ interface FuelDataSourceRow {
         MatInputModule,
     ],
     templateUrl: './fuel-calc-table.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./fuel-calc-table.component.scss']
 })
 export class FuelCalcTableComponent implements OnInit {

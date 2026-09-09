@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {ButtonColor} from '../../../../common/view/model/button-color';
@@ -37,6 +37,7 @@ export interface ListEntry {
         TableTextFilterAndCreateButtonComponent,
     ],
     templateUrl: './route-list-table.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./route-list-table.component.scss']
 })
 export class RouteListTableComponent implements OnInit, OnChanges, AfterViewInit {

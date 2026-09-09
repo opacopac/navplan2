@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {AircraftCrudActions} from '../../../../state/ngrx/aircraft-crud.actions';
 import {getAcTableState, getAircraftList, getCurrentAircraft} from '../../../../state/ngrx/aircraft.selectors';
@@ -17,6 +17,7 @@ import {CommonModule} from '@angular/common';
         AircraftHangarTableComponent
     ],
     templateUrl: './aircraft-hangar-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-hangar-page.component.scss']
 })
 export class AircraftHangarPageComponent implements OnInit {

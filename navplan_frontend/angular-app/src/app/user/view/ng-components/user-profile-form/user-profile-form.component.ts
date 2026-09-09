@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {User} from '../../../domain/model/user';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -23,6 +23,7 @@ export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): Valid
         MatButtonModule
     ],
     templateUrl: './user-profile-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./user-profile-form.component.scss']
 })
 export class UserProfileFormComponent implements OnInit, OnChanges {

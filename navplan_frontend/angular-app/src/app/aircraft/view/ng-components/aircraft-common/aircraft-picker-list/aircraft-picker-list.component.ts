@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {ButtonColor} from '../../../../../common/view/model/button-color';
@@ -27,6 +27,7 @@ export interface ListEntry {
         MatPaginatorModule,
     ],
     templateUrl: './aircraft-picker-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-picker-list.component.scss']
 })
 export class AircraftPickerListComponent implements OnInit, OnChanges {

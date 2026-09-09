@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {
     MapOverlayPositionComponent
@@ -15,6 +15,7 @@ import {
         MapOverlayVariationComponent
     ],
     templateUrl: './map-popup-waypoint-info-tab.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-waypoint-info-tab.component.scss']
 })
 export class MapPopupWaypointInfoTabComponent implements OnInit {

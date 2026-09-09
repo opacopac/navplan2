@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {select, Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
@@ -13,6 +13,7 @@ const AUTO_DISMISS_TIME_MS = 4000;
     selector: 'app-message-container',
     imports: [],
     templateUrl: './message-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./message-container.component.scss']
 })
 export class MessageContainerComponent implements OnInit, OnDestroy {

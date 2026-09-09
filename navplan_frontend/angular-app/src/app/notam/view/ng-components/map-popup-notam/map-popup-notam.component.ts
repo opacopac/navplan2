@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {Notam} from '../../../domain/model/notam';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {OlOverlayBaseComponent} from '../../../../base-map/view/ng-components/ol-overlay-base.component';
@@ -13,6 +13,7 @@ import {MapPopupNotamListComponent} from '../map-popup-notam-list/map-popup-nota
         MapPopupNotamListComponent
     ],
     templateUrl: './map-popup-notam.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-notam.component.scss']
 })
 export class MapPopupNotamComponent extends OlOverlayBaseComponent implements OnInit {

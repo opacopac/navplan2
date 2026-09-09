@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -33,6 +33,7 @@ export interface ListEntry {
         MatPaginatorModule,
     ],
     templateUrl: './meteo-forecast-picker-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./meteo-forecast-picker-list.component.scss']
 })
 export class MeteoForecastPickerListComponent implements OnInit, OnChanges {

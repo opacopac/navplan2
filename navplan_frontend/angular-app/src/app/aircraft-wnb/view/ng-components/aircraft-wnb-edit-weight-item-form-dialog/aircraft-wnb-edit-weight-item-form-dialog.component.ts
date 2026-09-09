@@ -1,4 +1,4 @@
-import {Component, Inject, OnChanges, OnInit} from '@angular/core';
+import {Component, Inject, OnChanges, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {WeightItem} from '../../../domain/model/weight-item';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
@@ -33,6 +33,7 @@ import {FuelInputComponent} from '../../../../geo-physics/view/ng-components/fue
         FuelInputComponent,
     ],
     templateUrl: './aircraft-wnb-edit-weight-item-form-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-wnb-edit-weight-item-form-dialog.component.scss']
 })
 export class AircraftWnbEditWeightItemFormDialogComponent implements OnInit, OnChanges {

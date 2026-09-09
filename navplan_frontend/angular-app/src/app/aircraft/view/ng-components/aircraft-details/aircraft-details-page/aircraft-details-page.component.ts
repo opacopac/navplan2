@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getCurrentAircraft} from '../../../../state/ngrx/aircraft.selectors';
 import {Observable} from 'rxjs';
@@ -26,6 +26,7 @@ import {CommonModule} from '@angular/common';
         AircraftDetailsFormComponent
     ],
     templateUrl: './aircraft-details-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-details-page.component.scss']
 })
 export class AircraftDetailsPageComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {UserPoint} from '../../../domain/model/user-point';
 import {IWmmService} from '../../../../geo-physics/domain/service/wmm/i-wmm.service';
 import {
@@ -16,6 +16,7 @@ import {
         MapOverlayVariationComponent
     ],
     templateUrl: './map-popup-userpoint-info-tab.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-userpoint-info-tab.component.scss']
 })
 export class MapPopupUserpointInfoTabComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {PlanPerfTakeoffCalculationState} from '../../../state/state-model/plan-perf-takeoff-calculation-state';
 import {PlanPerfLandingCalculationState} from '../../../state/state-model/plan-perf-landing-calculation-state';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
@@ -10,6 +10,7 @@ import {PlanPerfTkofLdgChartComponent} from '../plan-perf-tkof-ldg-chart/plan-pe
         PlanPerfTkofLdgChartComponent
     ],
     templateUrl: './plan-perf-calculation.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./plan-perf-calculation.component.scss']
 })
 export class PlanPerfCalculationComponent implements OnInit {

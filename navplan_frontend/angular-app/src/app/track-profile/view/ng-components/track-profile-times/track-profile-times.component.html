@@ -1,11 +1,11 @@
 <div>
     TODO<br>
-    Off-Block Time: {{ this.getDateHhMmString(this.trackProfile?.offBlockTime) }}<br>
-    On-Block Time: {{ this.getDateHhMmString(this.trackProfile?.onBlockTime) }}<br>
-    Block Time: {{ this.getDurationString(this.trackProfile?.blockTime) }}<br>
+    Off-Block Time: {{ this.getDateHhMmString($safeNavigationMigration(this.trackProfile?.offBlockTime)) }}<br>
+    On-Block Time: {{ this.getDateHhMmString($safeNavigationMigration(this.trackProfile?.onBlockTime)) }}<br>
+    Block Time: {{ this.getDurationString($safeNavigationMigration(this.trackProfile?.blockTime)) }}<br>
     <br>
-    Takeoff Time: {{ this.getDateHhMmString(this.trackProfile?.takeoffTime) }}<br>
-    Landing Time: {{ this.getDateHhMmString(this.trackProfile?.landingTime) }}<br>
-    Flight Time: {{ this.getDurationString(this.trackProfile?.flightTime) }}<br>
+    Takeoff Time: {{ this.getDateHhMmString($safeNavigationMigration(this.trackProfile?.takeoffTime)) }}<br>
+    Landing Time: {{ this.getDateHhMmString($safeNavigationMigration(this.trackProfile?.landingTime)) }}<br>
+    Flight Time: {{ this.getDurationString($safeNavigationMigration(this.trackProfile?.flightTime)) }}<br>
     <br>
 </div>

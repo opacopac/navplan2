@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {WeightItemType} from '../../../domain/model/weight-item-type';
 import {VehicleType} from '../../../../aircraft/domain/model/vehicle-type';
 
@@ -7,6 +7,7 @@ import {VehicleType} from '../../../../aircraft/domain/model/vehicle-type';
     selector: 'app-aircraft-weight-item-type-icon',
     imports: [],
     templateUrl: './aircraft-weight-item-type-icon.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-weight-item-type-icon.component.scss']
 })
 export class AircraftWeightItemTypeIconComponent implements OnInit {

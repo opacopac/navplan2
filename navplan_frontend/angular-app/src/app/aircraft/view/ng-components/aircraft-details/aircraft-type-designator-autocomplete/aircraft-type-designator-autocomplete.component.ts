@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {AircraftTypeDesignator} from '../../../../domain/model/aircraft-type-designator';
 import {AutoCompleteResultItem} from '../../../../../common/view/model/auto-complete-result-item';
 import {select, Store} from '@ngrx/store';
@@ -16,6 +16,7 @@ import {CommonModule} from '@angular/common';
         AutoCompleteComponent
     ],
     templateUrl: './aircraft-type-designator-autocomplete.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-type-designator-autocomplete.component.scss']
 })
 export class AircraftTypeDesignatorAutocompleteComponent implements OnInit, OnChanges {

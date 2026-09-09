@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {map} from 'rxjs/operators';
 import {Observable, Subscription} from 'rxjs';
@@ -21,6 +21,7 @@ import {
         TrackProfilePageComponent
     ],
     templateUrl: './track-tabs.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./track-tabs.component.scss']
 })
 export class TrackTabsComponent implements OnInit, AfterViewInit, OnDestroy {

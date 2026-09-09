@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {ActivatedRoute} from '@angular/router';
@@ -15,6 +15,7 @@ import {CommonModule} from '@angular/common';
         ForgotPwStep2FormComponent
     ],
     templateUrl: './forgot-pw-step2-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./forgot-pw-step2-page.component.scss']
 })
 export class ForgotPwStep2PageComponent implements OnInit {

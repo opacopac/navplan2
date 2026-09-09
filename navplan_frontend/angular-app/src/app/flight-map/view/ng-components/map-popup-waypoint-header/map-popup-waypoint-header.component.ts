@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {MatCardModule} from '@angular/material/card';
 
@@ -9,6 +9,7 @@ import {MatCardModule} from '@angular/material/card';
         MatCardModule
     ],
     templateUrl: './map-popup-waypoint-header.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-waypoint-header.component.scss']
 })
 export class MapPopupWaypointHeaderComponent implements OnInit {

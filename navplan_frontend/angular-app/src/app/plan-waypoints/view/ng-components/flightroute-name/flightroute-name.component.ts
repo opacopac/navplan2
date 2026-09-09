@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -13,6 +13,7 @@ import {MatInputModule} from '@angular/material/input';
         MatInputModule
     ],
     templateUrl: './flightroute-name.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./flightroute-name.component.scss']
 })
 export class FlightrouteNameComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {DistancePerformanceCorrectionFactors} from '../../../domain/model/distance-performance-correction-factors';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -17,6 +17,7 @@ import {HorizontalSpeedInputComponent} from '../../../../geo-physics/view/ng-com
         HorizontalSpeedInputComponent,
     ],
     templateUrl: './aircraft-performance-correction-factors.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-performance-correction-factors.component.scss']
 })
 export class AircraftPerformanceCorrectionFactorsComponent implements OnInit {

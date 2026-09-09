@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -34,6 +34,7 @@ import {
     MatSelectModule
 ],
     templateUrl: './chart-upload-coordinate-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./chart-upload-coordinate-selector.component.scss']
 })
 export class ChartUploadCoordinateSelector implements OnInit, OnChanges {

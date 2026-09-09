@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {select, Store} from '@ngrx/store';
 import {getMeteoForecastForecastRun} from '../../../../meteo-forecast/state/ngrx/meteo-forecast.selectors';
@@ -15,6 +15,7 @@ import {PrecipTempGraphSvg} from '../../svg/precip-temp-graph-svg';
     selector: 'app-map-popup-precip-temp-graph',
     imports: [],
     templateUrl: './map-popup-precip-temp-graph.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-precip-temp-graph.component.scss']
 })
 export class MapPopupPrecipTempGraphComponent implements OnInit {

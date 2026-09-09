@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {ForecastRun} from '../../../domain/model/forecast-run';
 
 
@@ -6,6 +6,7 @@ import {ForecastRun} from '../../../domain/model/forecast-run';
     selector: 'app-meteo-forecast-model-info',
     imports: [],
     templateUrl: './meteo-forecast-model-info.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./meteo-forecast-model-info.component.scss']
 })
 export class MeteoForecastModelInfoComponent implements OnInit {

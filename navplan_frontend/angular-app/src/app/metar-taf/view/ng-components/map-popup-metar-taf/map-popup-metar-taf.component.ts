@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MetarTaf} from '../../../domain/model/metar-taf';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
@@ -8,6 +8,7 @@ import {StringnumberHelper} from '../../../../system/domain/service/stringnumber
     selector: 'app-map-popup-metar-taf',
     imports: [],
     templateUrl: './map-popup-metar-taf.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-metar-taf.component.scss']
 })
 export class MapPopupMetarTafComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {
     getAltitudeUnit,
@@ -22,6 +22,7 @@ import {CommonModule} from '@angular/common';
         RouteListTableComponent
     ],
     templateUrl: './route-list-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./route-list-page.component.scss']
 })
 export class RouteListPageComponent implements OnInit {

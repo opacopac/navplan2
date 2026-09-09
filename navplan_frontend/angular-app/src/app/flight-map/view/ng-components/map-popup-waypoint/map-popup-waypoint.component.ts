@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {OlOverlayBaseComponent} from '../../../../base-map/view/ng-components/ol-overlay-base.component';
@@ -23,6 +23,7 @@ import {
         MapPopupWaypointButtonContainerComponent
     ],
     templateUrl: './map-popup-waypoint.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-waypoint.component.scss']
 })
 export class MapPopupWaypointComponent extends OlOverlayBaseComponent implements OnInit {

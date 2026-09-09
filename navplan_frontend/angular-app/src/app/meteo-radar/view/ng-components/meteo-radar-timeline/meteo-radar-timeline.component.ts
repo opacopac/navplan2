@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSliderModule} from '@angular/material/slider';
@@ -15,6 +15,7 @@ import {RadarImage} from '../../../domain/model/radar-image';
         MatSliderModule
     ],
     templateUrl: './meteo-radar-timeline.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./meteo-radar-timeline.component.scss']
 })
 export class MeteoRadarTimelineComponent implements OnInit, OnChanges {

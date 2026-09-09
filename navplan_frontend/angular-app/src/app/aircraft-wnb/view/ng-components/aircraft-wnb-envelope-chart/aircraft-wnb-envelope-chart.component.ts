@@ -1,13 +1,14 @@
 import {
-    AfterViewInit,
-    Component,
-    ElementRef,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnInit,
-    Output,
-    ViewChild
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
 import {WnbEnvelopeSvg} from '../../svg/wnb-envelope-svg';
@@ -20,6 +21,7 @@ import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length
     selector: 'app-aircraft-wnb-envelope-chart',
     imports: [],
     templateUrl: './aircraft-wnb-envelope-chart.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-wnb-envelope-chart.component.scss']
 })
 export class AircraftWnbEnvelopeChartComponent implements OnInit, AfterViewInit, OnChanges {

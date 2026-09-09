@@ -1,4 +1,4 @@
-import {Component, Inject, OnChanges, OnInit} from '@angular/core';
+import {Component, Inject, OnChanges, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Track} from '../../../../track/domain/model/track';
@@ -16,6 +16,7 @@ import {MatInputModule} from '@angular/material/input';
         FormDialogComponent,
     ],
     templateUrl: './track-edit-form-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./track-edit-form-dialog.component.scss']
 })
 export class TrackEditFormDialogComponent implements OnInit, OnChanges {

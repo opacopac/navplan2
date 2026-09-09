@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {Altitude} from '../../../../geo-physics/domain/model/geometry/altitude';
@@ -26,6 +26,7 @@ import {AltitudeInputComponent} from '../../../../geo-physics/view/ng-components
         AltitudeInputComponent,
     ],
     templateUrl: './edit-waypoint-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./edit-waypoint-form.component.scss']
 })
 export class EditWaypointFormComponent implements OnInit, OnChanges {

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {SearchItem} from '../../../domain/model/search-item';
 import {SearchItemList} from '../../../domain/model/search-item-list';
 import {ButtonColor} from '../../../../common/view/model/button-color';
@@ -20,6 +20,7 @@ import {MatOptionModule} from '@angular/material/core';
         MatOptionModule
     ],
     templateUrl: './search-box.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./search-box.component.scss']
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getCurrentUser} from '../../../../user/state/ngrx/user.selectors';
 import {ExporterActions} from '../../../../exporter/state/ngrx/exporter.actions';
@@ -19,6 +19,7 @@ import {CommonModule} from '@angular/common';
         NavbarComponent
     ],
     templateUrl: './navbar-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./navbar-container.component.scss']
 })
 export class NavbarContainerComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {MatTooltipModule, TooltipPosition} from '@angular/material/tooltip';
 import {ButtonColor} from '../../model/button-color';
 import {MatButtonModule} from '@angular/material/button';
@@ -11,6 +11,7 @@ import {MatButtonModule} from '@angular/material/button';
         MatTooltipModule
     ],
     templateUrl: './icon-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./icon-button.component.scss']
 })
 export class IconButtonComponent implements OnInit {

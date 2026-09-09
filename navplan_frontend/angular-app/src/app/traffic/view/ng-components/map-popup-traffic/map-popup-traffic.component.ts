@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {Traffic} from '../../../domain/model/traffic';
 import {TrafficAircraftType} from '../../../domain/model/traffic-aircraft-type';
 import {TrafficAddressType} from '../../../domain/model/traffic-address-type';
@@ -35,6 +35,7 @@ const TRAFFIC_TYPE_DESCRIPTION = {
         MatButtonModule
     ],
     templateUrl: './map-popup-traffic.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-traffic.component.scss']
 })
 export class MapPopupTrafficComponent extends OlOverlayBaseComponent implements OnInit {

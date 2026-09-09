@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Airport} from '../../../domain/model/airport';
 import {MatIconModule} from '@angular/material/icon';
 import {
@@ -31,6 +31,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 
     ],
     templateUrl: './map-popup-airport-info-tab.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-airport-info-tab.component.scss']
 })
 export class MapPopupAirportInfoTabComponent implements OnInit {

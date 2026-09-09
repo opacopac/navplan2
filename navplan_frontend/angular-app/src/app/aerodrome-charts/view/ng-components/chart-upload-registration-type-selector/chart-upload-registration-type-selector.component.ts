@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -30,6 +30,7 @@ import {MatSelectModule} from '@angular/material/select';
     MatSelectModule
 ],
     templateUrl: './chart-upload-registration-type-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./chart-upload-registration-type-selector.component.scss']
 })
 export class ChartUploadRegistrationTypeSelectorComponent implements OnInit, OnChanges {

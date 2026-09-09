@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ChangeDetectionStrategy} from '@angular/core';
 import Overlay from 'ol/Overlay';
 import {Position2d} from '../../../geo-physics/domain/model/geometry/position2d';
 import {OlGeometry} from '../ol-model/ol-geometry';
@@ -6,6 +6,7 @@ import {OlGeometry} from '../ol-model/ol-geometry';
 
 @Component({
     template: '',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export abstract class OlOverlayBaseComponent implements AfterViewInit {

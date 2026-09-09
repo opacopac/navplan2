@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {Speed} from '../../../../geo-physics/domain/model/quantities/speed';
@@ -28,6 +28,7 @@ import {HorizontalSpeedInputComponent} from '../../../../geo-physics/view/ng-com
         HorizontalSpeedInputComponent,
     ],
     templateUrl: './plan-perf-runway-factors.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./plan-perf-runway-factors.component.scss']
 })
 export class PlanPerfRunwayFactorsComponent implements OnInit, OnChanges {

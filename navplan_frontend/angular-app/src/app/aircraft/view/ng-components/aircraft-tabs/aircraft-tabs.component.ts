@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {MatTabChangeEvent, MatTabGroup, MatTabsModule} from '@angular/material/tabs';
@@ -25,6 +25,7 @@ import {
         AircraftPerformancePageComponent,
     ],
     templateUrl: './aircraft-tabs.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-tabs.component.scss']
 })
 export class AircraftTabsComponent implements OnInit, AfterViewInit, OnDestroy {

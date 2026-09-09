@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Airport} from '../../../../aerodrome/domain/model/airport';
 import {Store} from '@ngrx/store';
 import {AirportChart} from '../../../domain/model/airport-chart';
@@ -28,6 +28,7 @@ import {User} from '../../../../user/domain/model/user';
     IconButtonComponent
 ],
     templateUrl: './map-popup-airport-chart-tab.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-airport-chart-tab.component.scss']
 })
 export class MapPopupAirportChartTabComponent implements OnInit {

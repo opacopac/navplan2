@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {User} from '../../../domain/model/user';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -19,6 +19,7 @@ import {RouterLink} from '@angular/router';
         RouterLink
     ],
     templateUrl: './login-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit {

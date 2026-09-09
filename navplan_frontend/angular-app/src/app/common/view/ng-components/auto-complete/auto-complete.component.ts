@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {AutoCompleteResultItem} from '../../model/auto-complete-result-item';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -17,6 +17,7 @@ import {MatInputModule} from '@angular/material/input';
         MatInputModule
     ],
     templateUrl: './auto-complete.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./auto-complete.component.scss']
 })
 export class AutoCompleteComponent<T> implements OnInit, OnChanges {

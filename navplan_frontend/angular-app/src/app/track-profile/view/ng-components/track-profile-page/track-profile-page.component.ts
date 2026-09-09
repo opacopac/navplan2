@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getSelectedTrack, getSelectedTrackProfile} from '../../../../track/state/ngrx/track.selectors';
 import {Time} from '../../../../geo-physics/domain/model/quantities/time';
@@ -16,6 +16,7 @@ import {CommonModule} from '@angular/common';
         TrackProfileGraphComponent
     ],
     templateUrl: './track-profile-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./track-profile-page.component.scss']
 })
 export class TrackProfilePageComponent implements OnInit {

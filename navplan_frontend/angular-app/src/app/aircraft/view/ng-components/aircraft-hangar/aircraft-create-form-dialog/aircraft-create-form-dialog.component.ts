@@ -1,4 +1,4 @@
-import {Component, Inject, OnChanges, OnInit} from '@angular/core';
+import {Component, Inject, OnChanges, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Speed} from '../../../../../geo-physics/domain/model/quantities/speed';
@@ -34,6 +34,7 @@ import {ConsumptionInputComponent} from '../../../../../geo-physics/view/ng-comp
         ConsumptionInputComponent,
     ],
     templateUrl: './aircraft-create-form-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-create-form-dialog.component.scss']
 })
 export class AircraftCreateFormDialogComponent implements OnInit, OnChanges {

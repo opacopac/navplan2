@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {select, Store} from '@ngrx/store';
 import {LocationActions} from '../../../location-state/ngrx/location.actions';
@@ -15,6 +15,7 @@ import {StatusButtonComponent} from '../../../../common/view/ng-components/statu
         StatusButtonComponent,
     ],
     templateUrl: './location-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./location-button.component.scss']
 })
 export class LocationButtonComponent implements OnInit {

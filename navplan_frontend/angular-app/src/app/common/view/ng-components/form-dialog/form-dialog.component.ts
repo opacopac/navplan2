@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 
@@ -9,6 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
         MatButtonModule
     ],
     templateUrl: './form-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./form-dialog.component.scss']
 })
 export class FormDialogComponent implements OnInit {

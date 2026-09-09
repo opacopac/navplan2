@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -15,6 +15,7 @@ import {AbstractQuantityInputComponent} from '../quantity-input/quantity-input.c
     standalone: true,
     templateUrl: '../quantity-input/quantity-input.component.html',
     styleUrls: ['../quantity-input/quantity-input.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         ReactiveFormsModule,
         MatFormFieldModule,

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -12,6 +12,7 @@ import {MatInputModule} from '@angular/material/input';
         MatInputModule
     ],
     templateUrl: './flightroute-comments.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./flightroute-comments.component.scss']
 })
 export class FlightrouteCommentsComponent implements OnInit {

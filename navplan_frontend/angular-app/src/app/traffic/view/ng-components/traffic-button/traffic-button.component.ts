@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {TrafficActions} from '../../../state/ngrx/traffic.actions';
 import {getTrafficStatus} from '../../../state/ngrx/traffic.selectors';
@@ -15,6 +15,7 @@ import {CommonModule} from '@angular/common';
         StatusButtonComponent
     ],
     templateUrl: './traffic-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./traffic-button.component.scss']
 })
 export class TrafficButtonComponent implements OnInit {

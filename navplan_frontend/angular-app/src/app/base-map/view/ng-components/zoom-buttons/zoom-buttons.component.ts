@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {BaseMapActions} from '../../../state/ngrx/base-map.actions';
 import {Store} from '@ngrx/store';
 import {MatButtonModule} from '@angular/material/button';
@@ -10,6 +10,7 @@ import {MatButtonModule} from '@angular/material/button';
         MatButtonModule
     ],
     templateUrl: './zoom-buttons.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./zoom-buttons.component.scss']
 })
 export class ZoomButtonsComponent implements OnInit {

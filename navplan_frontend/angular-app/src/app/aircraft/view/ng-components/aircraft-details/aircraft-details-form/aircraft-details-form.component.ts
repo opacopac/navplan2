@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {Aircraft} from '../../../../domain/model/aircraft';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Consumption} from '../../../../../geo-physics/domain/model/quantities/consumption';
@@ -39,6 +39,7 @@ import {ConsumptionInputComponent} from '../../../../../geo-physics/view/ng-comp
         ConsumptionInputComponent,
     ],
     templateUrl: './aircraft-details-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-details-form.component.scss']
 })
 export class AircraftDetailsFormComponent implements OnInit, OnChanges {

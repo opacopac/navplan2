@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
 import {ReportingPointsAndSectors} from '../../../domain/model/reporting-points-and-sectors';
 import {MatButtonModule} from '@angular/material/button';
@@ -15,6 +15,7 @@ import {ReportingType} from '../../../domain/model/reporting-type';
         MatTooltipModule,
     ],
     templateUrl: './map-popup-reporting-tab.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-reporting-tab.component.scss']
 })
 export class MapPopupReportingTabComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
@@ -52,6 +52,7 @@ import {AltitudeInputComponent} from '../../../../geo-physics/view/ng-components
         AircraftManualToggle
     ],
     templateUrl: './waypoints-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./waypoints-container.component.scss']
 })
 export class WaypointsContainerComponent implements OnInit {

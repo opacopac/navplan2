@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {select, Store} from '@ngrx/store';
 import {getMeteoForecastForecastRun} from '../../../../meteo-forecast/state/ngrx/meteo-forecast.selectors';
@@ -15,6 +15,7 @@ import {getCloudMeteogram} from '../../../state/ngrx/meteo-gram.selectors';
     selector: 'app-map-popup-meteogram',
     imports: [],
     templateUrl: './map-popup-meteogram.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-meteogram.component.scss']
 })
 export class MapPopupMeteogramComponent implements OnInit {

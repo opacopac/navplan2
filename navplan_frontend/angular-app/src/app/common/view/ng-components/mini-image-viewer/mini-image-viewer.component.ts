@@ -1,13 +1,14 @@
 import {
-    AfterViewInit,
-    Component,
-    ElementRef,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnInit,
-    Output,
-    ViewChild
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
@@ -25,6 +26,7 @@ import {SvgCrosshairSvg} from '../../../svg/svg-crosshair-svg';
     ],
     templateUrl: './mini-image-viewer.component.html',
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./mini-image-viewer.component.scss']
 })
 export class MiniImageViewerComponent implements OnInit, OnChanges, AfterViewInit {

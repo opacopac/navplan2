@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {RouteMetarTaf} from '../../../domain/model/route-metar-taf';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {Length} from '../../../../geo-physics/domain/model/quantities/length';
@@ -15,6 +15,7 @@ import {CommonModule} from '@angular/common';
         MapPopupMetarTafComponent
     ],
     templateUrl: './plan-meteo-table.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./plan-meteo-table.component.scss']
 })
 export class PlanMeteoTableComponent implements OnInit {

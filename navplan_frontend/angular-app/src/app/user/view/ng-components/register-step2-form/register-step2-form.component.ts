@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 import {TokenService} from '../../../domain/service/token.service';
@@ -28,6 +28,7 @@ export const identicalPasswordsValidator: ValidatorFn = (form: FormGroup): Valid
         MatCheckboxModule
     ],
     templateUrl: './register-step2-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./register-step2-form.component.scss']
 })
 export class RegisterStep2FormComponent implements OnInit, OnChanges {

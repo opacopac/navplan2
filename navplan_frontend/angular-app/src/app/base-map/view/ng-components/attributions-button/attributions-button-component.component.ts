@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getShowAttributions} from '../../../state/ngrx/base-map.selectors';
 import {BaseMapActions} from '../../../state/ngrx/base-map.actions';
@@ -14,6 +14,7 @@ import {StatusButtonComponent} from '../../../../common/view/ng-components/statu
         StatusButtonComponent
     ],
     templateUrl: './attributions-button-component.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./attributions-button-component.component.scss']
 })
 export class AttributionsButtonComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/operators';
 import {getFlightroute, getUseAircraftConsumptionValue} from '../../../../flightroute/state/ngrx/flightroute.selectors';
@@ -33,6 +33,7 @@ import {
         AircraftPickerContainerComponent
     ],
     templateUrl: './fuel-calc-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./fuel-calc-container.component.scss']
 })
 export class FuelCalcContainerComponent implements OnInit {

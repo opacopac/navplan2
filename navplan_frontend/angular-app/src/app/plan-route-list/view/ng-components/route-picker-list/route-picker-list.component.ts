@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {FlightrouteListEntry} from '../../../../flightroute/domain/model/flightroute-list-entry';
@@ -24,6 +24,7 @@ export interface ListEntry {
         MatPaginatorModule
     ],
     templateUrl: './route-picker-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./route-picker-list.component.scss']
 })
 export class RoutePickerListComponent implements OnInit, OnChanges {

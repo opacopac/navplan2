@@ -1,12 +1,13 @@
 import {
-    AfterViewInit,
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnInit,
-    Output,
-    ViewChild
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -51,6 +52,7 @@ export interface ListEntry {
         NgClass
     ],
     templateUrl: './aircraft-hangar-table.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-hangar-table.component.scss']
 })
 export class AircraftHangarTableComponent implements OnInit, OnChanges, AfterViewInit {

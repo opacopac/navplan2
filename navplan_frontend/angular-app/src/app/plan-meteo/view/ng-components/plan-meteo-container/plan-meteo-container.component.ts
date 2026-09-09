@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {RouteMeteoActions} from '../../../state/ngrx/route-meteo.actions';
 import {getRouteMeteoState} from '../../../state/ngrx/route-meteo.selectors';
@@ -22,6 +22,7 @@ import {RouteDistanceInputComponent} from '../../../../geo-physics/view/ng-compo
         RouteDistanceInputComponent
     ],
     templateUrl: './plan-meteo-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./plan-meteo-container.component.scss']
 })
 export class PlanMeteoContainerComponent implements OnInit {

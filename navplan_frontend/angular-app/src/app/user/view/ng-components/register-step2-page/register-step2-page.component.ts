@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
@@ -15,6 +15,7 @@ import {CommonModule} from '@angular/common';
         RegisterStep2FormComponent
     ],
     templateUrl: './register-step2-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./register-step2-page.component.scss']
 })
 export class RegisterStep2PageComponent implements OnInit {

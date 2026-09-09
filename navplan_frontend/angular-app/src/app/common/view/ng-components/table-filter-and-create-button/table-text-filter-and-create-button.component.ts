@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {TextFilterState} from '../../../state/model/text-filter-state';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -18,6 +18,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatButtonModule
 ],
     templateUrl: './table-text-filter-and-create-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./table-text-filter-and-create-button.component.scss']
 })
 export class TableTextFilterAndCreateButtonComponent implements OnInit, OnChanges {

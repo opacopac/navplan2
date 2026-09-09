@@ -1,14 +1,14 @@
 <div class="weight-fields">
     <!-- mtow -->
     <app-weight-input
-        [weight]="this.currentAircraft?.mtow"
+        [weight]="$safeNavigationMigration(this.currentAircraft?.mtow)"
         [defaultWeightUnit]="this.weightUnit"
         [isRequired]="true"
         (valueChanged)="this.onMtowChanged($event)"
     >MTOW</app-weight-input>
     <!-- empty aircraft weight -->
     <app-weight-input
-        [weight]="this.currentAircraft?.bew"
+        [weight]="$safeNavigationMigration(this.currentAircraft?.bew)"
         [defaultWeightUnit]="this.weightUnit"
         [isRequired]="true"
         (valueChanged)="this.onBewChanged($event)"

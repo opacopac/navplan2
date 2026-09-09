@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Pressure} from '../../../../geo-physics/domain/model/quantities/pressure';
 import {Temperature} from '../../../../geo-physics/domain/model/quantities/temperature';
@@ -21,6 +21,7 @@ import {AirPressureInputComponent} from '../../../../geo-physics/view/ng-compone
         AirPressureInputComponent,
     ],
     templateUrl: './plan-perf-weather-factors.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./plan-perf-weather-factors.component.scss']
 })
 export class PlanPerfWeatherFactorsComponent implements OnInit {

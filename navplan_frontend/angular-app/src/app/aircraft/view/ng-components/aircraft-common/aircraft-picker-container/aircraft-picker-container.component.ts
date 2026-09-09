@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getAircraftList, getCurrentAircraft} from '../../../../state/ngrx/aircraft.selectors';
 import {MatDialog} from '@angular/material/dialog';
@@ -15,6 +15,7 @@ import {CommonModule} from '@angular/common';
         AircraftPickerComponent
     ],
     templateUrl: './aircraft-picker-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-picker-container.component.scss']
 })
 export class AircraftPickerContainerComponent implements OnInit {

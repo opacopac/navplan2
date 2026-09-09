@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {RouteNotamActions} from '../../../state/ngrx/route-notam.actions';
 import {getRouteNotamState} from '../../../state/ngrx/route-notam.selectors';
@@ -22,6 +22,7 @@ import {RouteDistanceInputComponent} from '../../../../geo-physics/view/ng-compo
         RouteDistanceInputComponent
     ],
     templateUrl: './plan-notam-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./plan-notam-container.component.scss']
 })
 export class PlanNotamContainerComponent implements OnInit {

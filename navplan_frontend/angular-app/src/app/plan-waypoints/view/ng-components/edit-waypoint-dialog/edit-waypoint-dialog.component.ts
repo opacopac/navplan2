@@ -1,4 +1,4 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
@@ -15,6 +15,7 @@ import {CommonModule} from '@angular/common';
         EditWaypointFormComponent
     ],
     templateUrl: './edit-waypoint-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./edit-waypoint-dialog.component.scss']
 })
 export class EditWaypointDialogComponent implements OnInit, OnDestroy {

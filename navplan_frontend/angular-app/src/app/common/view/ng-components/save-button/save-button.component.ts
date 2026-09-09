@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {ButtonColor} from '../../model/button-color';
 import {MatButtonModule} from '@angular/material/button';
 
@@ -9,6 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
         MatButtonModule
     ],
     templateUrl: './save-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./save-button.component.scss']
 })
 export class SaveButtonComponent implements OnInit {

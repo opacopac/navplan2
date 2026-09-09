@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {WnbEnvelope} from '../../../domain/model/wnb-envelope';
@@ -15,6 +15,7 @@ import {AircraftWnbEnvelopeChartComponent} from '../aircraft-wnb-envelope-chart/
         AircraftWnbEnvelopeChartComponent
     ],
     templateUrl: './aircraft-wnb-edit-envelope.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-wnb-edit-envelope.component.scss']
 })
 export class AircraftWnbEditEnvelopeComponent implements OnInit {

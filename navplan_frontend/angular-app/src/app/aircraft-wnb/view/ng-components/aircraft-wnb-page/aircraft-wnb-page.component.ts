@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
 import {getVolumeUnit, getWeightUnit, getWnbLengthUnit} from '../../../../geo-physics/state/ngrx/geo-physics.selectors';
@@ -31,6 +31,7 @@ import {CommonModule} from '@angular/common';
         AircraftWnbEnvelopeListComponent,
     ],
     templateUrl: './aircraft-wnb-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-wnb-page.component.scss']
 })
 export class AircraftWnbPageComponent implements OnInit {

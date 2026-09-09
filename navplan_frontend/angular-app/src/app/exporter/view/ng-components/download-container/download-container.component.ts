@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 import {getExporterState} from '../../../state/ngrx/exporter.selectors';
@@ -11,6 +11,7 @@ import {ExporterState} from '../../../state/state-model/exporter-state';
     selector: 'app-download-container',
     imports: [],
     templateUrl: './download-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./download-container.component.scss']
 })
 export class DownloadContainerComponent implements OnInit, OnDestroy {

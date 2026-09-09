@@ -1,6 +1,6 @@
 <app-form-dialog
     [title]="this.getDialogTitle()"
-    [isFormValid]="this.editCoordinateForm?.valid"
+    [isFormValid]="$safeNavigationMigration(this.editCoordinateForm?.valid)"
     [saveButtonText]="this.getSaveButtonText()"
     cancelButtonText="Cancel"
     deleteButtonText="Delete"

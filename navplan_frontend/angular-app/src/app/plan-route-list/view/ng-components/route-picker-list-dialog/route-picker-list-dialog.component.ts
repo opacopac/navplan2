@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {MatDialogRef} from '@angular/material/dialog';
 import {FlightrouteListActions} from '../../../state/ngrx/flightroute-list.actions';
@@ -17,6 +17,7 @@ import {CommonModule} from '@angular/common';
         RoutePickerListComponent,
     ],
     templateUrl: './route-picker-list-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./route-picker-list-dialog.component.scss']
 })
 export class RoutePickerListDialogComponent implements OnInit, OnDestroy {

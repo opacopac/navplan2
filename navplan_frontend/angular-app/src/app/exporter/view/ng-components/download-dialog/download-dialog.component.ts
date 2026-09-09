@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import {environment} from '../../../../../environments/environment';
 import {ExporterState} from '../../../state/state-model/exporter-state';
@@ -12,6 +12,7 @@ import {MatButtonModule} from '@angular/material/button';
         MatButtonModule
     ],
     templateUrl: './download-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./download-dialog.component.scss']
 })
 export class DownloadDialogComponent implements OnInit {

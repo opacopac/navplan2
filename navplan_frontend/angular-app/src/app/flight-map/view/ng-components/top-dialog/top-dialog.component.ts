@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 
 import {MatButtonModule} from '@angular/material/button';
 
@@ -9,6 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatButtonModule
 ],
     templateUrl: './top-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./top-dialog.component.scss']
 })
 export class TopDialogComponent implements OnInit {

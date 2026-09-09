@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {Position2d} from '../../../domain/model/geometry/position2d';
 import {IWmmService} from '../../../domain/service/wmm/i-wmm.service';
@@ -8,6 +8,7 @@ import {IWmmService} from '../../../domain/service/wmm/i-wmm.service';
     selector: 'app-map-overlay-variation',
     imports: [],
     templateUrl: './map-overlay-variation.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-overlay-variation.component.scss']
 })
 export class MapOverlayVariationComponent implements OnInit {

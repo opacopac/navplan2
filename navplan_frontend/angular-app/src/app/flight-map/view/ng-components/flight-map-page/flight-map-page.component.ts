@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, ofType} from '@ngrx/effects';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
@@ -157,6 +157,7 @@ import {OlMeteoRadarMapTileLayer} from '../../../../meteo-radar/view/ol-componen
         ChartUploadContainerComponent,
     ],
     templateUrl: './flight-map-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./flight-map-page.component.scss']
 })
 export class FlightMapPageComponent implements OnInit, AfterViewInit, OnDestroy {

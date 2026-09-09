@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
@@ -14,6 +14,7 @@ import {MatInputModule} from '@angular/material/input';
         MatInputModule
     ],
     templateUrl: './register-step1-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./register-step1-form.component.scss']
 })
 export class RegisterStep1FormComponent implements OnInit {

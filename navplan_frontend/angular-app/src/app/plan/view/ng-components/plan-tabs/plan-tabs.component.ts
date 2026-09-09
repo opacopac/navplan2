@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {map} from 'rxjs/operators';
 import {Observable, Subscription} from 'rxjs';
@@ -29,6 +29,7 @@ import {PlanNotamContainerComponent} from '../../../../plan-notam/view/ng-compon
         PlanNotamContainerComponent
     ],
     templateUrl: './plan-tabs.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./plan-tabs.component.scss']
 })
 export class PlanTabsComponent implements OnInit, AfterViewInit, OnDestroy {

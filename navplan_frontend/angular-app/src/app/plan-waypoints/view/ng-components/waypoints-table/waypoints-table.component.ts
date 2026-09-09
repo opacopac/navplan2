@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {Flightroute} from '../../../../flightroute/domain/model/flightroute';
 import {WaypointType} from '../../../../flightroute/domain/model/waypoint-type';
@@ -31,6 +31,7 @@ interface WaypointListDataSourceRow {
         IconButtonComponent
     ],
     templateUrl: './waypoints-table.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./waypoints-table.component.scss']
 })
 export class WaypointsTableComponent implements OnInit, OnDestroy {

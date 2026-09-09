@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Observable} from 'rxjs';
 import {User} from '../../../domain/model/user';
 import {select, Store} from '@ngrx/store';
@@ -19,6 +19,7 @@ import {CommonModule} from '@angular/common';
         MatExpansionModule
     ],
     templateUrl: './login-register-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./login-register-page.component.scss']
 })
 export class LoginRegisterPageComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {Flightroute} from '../../../../flightroute/domain/model/flightroute';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {ButtonColor} from '../../../../common/view/model/button-color';
@@ -15,6 +15,7 @@ import {MatSelectModule} from '@angular/material/select';
         MatSelectModule
     ],
     templateUrl: './map-popup-waypoint-button-add-to-route.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-waypoint-button-add-to-route.component.scss']
 })
 export class MapPopupWaypointButtonAddToRouteComponent implements OnInit, OnChanges {

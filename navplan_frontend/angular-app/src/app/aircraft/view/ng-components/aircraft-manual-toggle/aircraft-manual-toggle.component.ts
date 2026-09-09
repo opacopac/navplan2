@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {Aircraft} from '../../../domain/model/aircraft';
 import {MatSlideToggle, MatSlideToggleChange} from '@angular/material/slide-toggle';
 
@@ -9,6 +9,7 @@ import {MatSlideToggle, MatSlideToggleChange} from '@angular/material/slide-togg
         MatSlideToggle
     ],
     templateUrl: './aircraft-manual-toggle.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-manual-toggle.component.scss']
 })
 export class AircraftManualToggle implements OnInit {

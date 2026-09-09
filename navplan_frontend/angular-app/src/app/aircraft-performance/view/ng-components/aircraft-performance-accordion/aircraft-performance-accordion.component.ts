@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Aircraft} from '../../../../aircraft/domain/model/aircraft';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
@@ -19,6 +19,7 @@ import {
         AircraftPickerContainerComponent,
     ],
     templateUrl: './aircraft-performance-accordion.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-performance-accordion.component.scss']
 })
 export class AircraftPerformanceAccordionComponent implements OnInit {

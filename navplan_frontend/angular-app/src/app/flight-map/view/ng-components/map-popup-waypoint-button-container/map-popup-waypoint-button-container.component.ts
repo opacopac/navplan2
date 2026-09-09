@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {combineLatest} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -40,6 +40,7 @@ import {CommonModule} from '@angular/common';
         MapPopupWaypointButtonRemoveAlternateComponent
     ],
     templateUrl: './map-popup-waypoint-button-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-waypoint-button-container.component.scss']
 })
 export class MapPopupWaypointButtonContainerComponent implements OnInit {

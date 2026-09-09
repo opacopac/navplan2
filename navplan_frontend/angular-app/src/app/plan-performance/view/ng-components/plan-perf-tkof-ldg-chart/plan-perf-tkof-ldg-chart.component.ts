@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {PlanPerfTakeoffCalculationState} from '../../../state/state-model/plan-perf-takeoff-calculation-state';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {PlanPerfChartSvg} from '../../svg/plan-perf-chart-svg';
@@ -9,6 +9,7 @@ import {PlanPerfLandingCalculationState} from '../../../state/state-model/plan-p
     selector: 'app-plan-perf-tkof-ldg-chart',
     imports: [],
     templateUrl: './plan-perf-tkof-ldg-chart.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./plan-perf-tkof-ldg-chart.component.scss']
 })
 export class PlanPerfTkofLdgChartComponent implements OnInit, AfterViewInit, OnChanges {

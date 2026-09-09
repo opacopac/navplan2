@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Airport} from '../../../domain/model/airport';
 import {AirportRunway} from '../../../domain/model/airport-runway';
 import {MatTableModule} from '@angular/material/table';
@@ -10,6 +10,7 @@ import {MatTableModule} from '@angular/material/table';
         MatTableModule
     ],
     templateUrl: './map-popup-airport-runway-tab.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-airport-runway-tab.component.scss']
 })
 export class MapPopupAirportRunwayTabComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import {Airport} from '../../../domain/model/airport';
 import {AirportType} from '../../../domain/model/airport-type';
 import {OlAirportIcon} from '../../ol-components/ol-airport-icon';
@@ -15,6 +15,7 @@ import {CommonModule} from '@angular/common';
         MatCardModule,
     ],
     templateUrl: './map-popup-airport-header.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-airport-header.component.scss']
 })
 export class MapPopupAirportHeaderComponent {

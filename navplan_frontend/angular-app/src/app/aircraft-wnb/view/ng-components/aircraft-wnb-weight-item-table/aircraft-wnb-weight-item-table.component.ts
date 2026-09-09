@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {WeightItem} from '../../../domain/model/weight-item';
@@ -30,6 +30,7 @@ import {CommonModule} from '@angular/common';
         AircraftWeightItemTypeIconComponent,
     ],
     templateUrl: './aircraft-wnb-weight-item-table.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-wnb-weight-item-table.component.scss']
 })
 export class AircraftWnbWeightItemTableComponent implements OnInit {

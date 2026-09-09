@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -42,6 +42,7 @@ import {
         MeteoRadarTimelineComponent
     ],
     templateUrl: './meteo-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./meteo-container.component.scss']
 })
 export class MeteoContainerComponent implements OnInit, OnDestroy, AfterViewInit {

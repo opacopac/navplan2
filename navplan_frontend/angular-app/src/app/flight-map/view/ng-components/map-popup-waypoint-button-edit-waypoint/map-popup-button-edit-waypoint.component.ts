@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {Waypoint} from '../../../../flightroute/domain/model/waypoint';
 import {ButtonColor} from '../../../../common/view/model/button-color';
 import {MiniFabButtonComponent} from '../../../../common/view/ng-components/mini-fab-button/mini-fab-button.component';
@@ -10,6 +10,7 @@ import {MiniFabButtonComponent} from '../../../../common/view/ng-components/mini
         MiniFabButtonComponent
     ],
     templateUrl: './map-popup-button-edit-waypoint.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-button-edit-waypoint.component.scss']
 })
 export class MapPopupButtonEditWaypointComponent implements OnInit {

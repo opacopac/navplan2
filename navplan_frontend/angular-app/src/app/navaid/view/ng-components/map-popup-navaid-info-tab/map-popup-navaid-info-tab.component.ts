@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {Navaid} from '../../../domain/model/navaid';
 import {
@@ -20,6 +20,7 @@ import {
         MapOverlayVariationComponent
     ],
     templateUrl: './map-popup-navaid-info-tab.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-navaid-info-tab.component.scss']
 })
 export class MapPopupNavaidInfoTabComponent implements OnInit {

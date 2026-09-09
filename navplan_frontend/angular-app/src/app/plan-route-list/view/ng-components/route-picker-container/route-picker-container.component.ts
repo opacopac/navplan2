@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {MatDialog} from '@angular/material/dialog';
 import {getFlightroute} from '../../../../flightroute/state/ngrx/flightroute.selectors';
@@ -17,6 +17,7 @@ import {CommonModule} from '@angular/common';
         RoutePickerComponent
     ],
     templateUrl: './route-picker-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./route-picker-container.component.scss']
 })
 export class RoutePickerContainerComponent implements OnInit {

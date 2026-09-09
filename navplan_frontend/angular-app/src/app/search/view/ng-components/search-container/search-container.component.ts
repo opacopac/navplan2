@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {getTextSearchResults} from '../../../state/ngrx/search.selectors';
 import {select, Store} from '@ngrx/store';
 import {SearchItem} from '../../../domain/model/search-item';
@@ -15,6 +15,7 @@ import {CommonModule} from '@angular/common';
         SearchBoxComponent
     ],
     templateUrl: './search-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./search-container.component.scss']
 })
 export class SearchContainerComponent implements OnInit {

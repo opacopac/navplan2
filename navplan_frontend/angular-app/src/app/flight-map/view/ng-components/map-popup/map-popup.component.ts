@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {Position2d} from '../../../../geo-physics/domain/model/geometry/position2d';
 import {MetarTaf} from '../../../../metar-taf/domain/model/metar-taf';
 import {DataItem} from '../../../../common/domain/model/data-item';
@@ -119,6 +119,7 @@ import {
         MapPopupCircuitTabComponent
     ],
     templateUrl: './map-popup.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup.component.scss']
 })
 export class MapPopupComponent implements AfterViewInit {

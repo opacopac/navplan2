@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {TimerService} from '../../../../system/domain/service/timer/timer.service';
 import {getLocationIsWatching} from '../../../../location/location-state/ngrx/location.selectors';
 import {select, Store} from '@ngrx/store';
@@ -11,6 +11,7 @@ import {CommonModule} from '@angular/common';
         CommonModule
     ],
     templateUrl: './flighttimer.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./flighttimer.component.scss']
 })
 export class FlighttimerComponent implements OnInit {

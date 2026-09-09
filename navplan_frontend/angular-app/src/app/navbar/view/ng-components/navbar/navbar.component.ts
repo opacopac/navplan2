@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {User} from '../../../../user/domain/model/user';
 import {Aircraft} from '../../../../aircraft/domain/model/aircraft';
 import {environment} from '../../../../../environments/environment';
@@ -17,6 +17,7 @@ import {MatMenuModule} from '@angular/material/menu';
         MatMenuModule,
     ],
     templateUrl: './navbar.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit, OnChanges {

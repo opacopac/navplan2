@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy} from '@angular/core';
 import {Aircraft} from '../../../../aircraft/domain/model/aircraft';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
 import {Weight} from '../../../../geo-physics/domain/model/quantities/weight';
@@ -11,6 +11,7 @@ import {WeightInputComponent} from '../../../../geo-physics/view/ng-components/w
         WeightInputComponent
     ],
     templateUrl: './aircraft-wnb-weight-fields.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-wnb-weight-fields.component.scss']
 })
 export class AircraftWnbWeightFieldsComponent {

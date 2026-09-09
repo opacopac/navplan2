@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getFlightroute} from '../../../../flightroute/state/ngrx/flightroute.selectors';
 import {
@@ -34,6 +34,7 @@ import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selec
         AircraftPickerContainerComponent
     ],
     templateUrl: './plan-perf-container.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./plan-perf-container.component.scss']
 })
 export class PlanPerfContainerComponent implements OnInit {

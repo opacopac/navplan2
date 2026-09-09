@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {SpeedUnit} from '../../../../geo-physics/domain/model/quantities/speed-unit';
 import {DistancePerformanceTable} from '../../../domain/model/distance-performance-table';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
@@ -20,6 +20,7 @@ import {NgClass} from '@angular/common';
         NgClass
     ],
     templateUrl: './aircraft-performance-table.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-performance-table.component.scss']
 })
 export class AircraftPerformanceTableComponent implements OnInit {

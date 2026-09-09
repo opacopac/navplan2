@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MatRadioChange, MatRadioModule} from '@angular/material/radio';
 import {select, Store} from '@ngrx/store';
 import {GeoPhysicsActions} from '../../../state/ngrx/geo-physics.actions';
@@ -38,6 +38,7 @@ import {CommonModule} from '@angular/common';
         MatRadioModule,
     ],
     templateUrl: './unit-settings.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./unit-settings.component.scss']
 })
 export class UnitSettingsComponent implements OnInit {

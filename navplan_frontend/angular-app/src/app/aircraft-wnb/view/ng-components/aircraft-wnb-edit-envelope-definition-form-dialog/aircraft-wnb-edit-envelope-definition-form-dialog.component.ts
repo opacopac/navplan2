@@ -1,4 +1,4 @@
-import {Component, Inject, OnChanges, OnInit} from '@angular/core';
+import {Component, Inject, OnChanges, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {LengthUnit} from '../../../../geo-physics/domain/model/quantities/length-unit';
 import {WeightUnit} from '../../../../geo-physics/domain/model/quantities/weight-unit';
@@ -22,6 +22,7 @@ import {MatSelectModule} from '@angular/material/select';
         MatSelectModule
     ],
     templateUrl: './aircraft-wnb-edit-envelope-definition-form-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-wnb-edit-envelope-definition-form-dialog.component.scss']
 })
 export class AircraftWnbEditEnvelopeDefinitionFormDialogComponent implements OnInit, OnChanges {

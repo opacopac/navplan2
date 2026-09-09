@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {ButtonColor} from '../../model/button-color';
 import {MatTooltipModule, TooltipPosition} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
@@ -10,6 +10,7 @@ import {MatButtonModule} from '@angular/material/button';
         MatTooltipModule
     ],
     templateUrl: './mini-fab-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./mini-fab-button.component.scss']
 })
 export class MiniFabButtonComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {getCurrentAircraft} from '../../../../aircraft/state/ngrx/aircraft.selectors';
 import {Observable} from 'rxjs';
@@ -23,6 +23,7 @@ import {CommonModule} from '@angular/common';
         AircraftPerformanceAccordionComponent,
     ],
     templateUrl: './aircraft-performance-page.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./aircraft-performance-page.component.scss']
 })
 export class AircraftPerformancePageComponent implements OnInit {

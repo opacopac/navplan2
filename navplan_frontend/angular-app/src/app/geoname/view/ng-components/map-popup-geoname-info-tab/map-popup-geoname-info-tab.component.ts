@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Geoname} from '../../../domain/model/geoname';
 import {
     MapOverlayPositionComponent
@@ -19,6 +19,7 @@ import {
         MapOverlayVariationComponent
     ],
     templateUrl: './map-popup-geoname-info-tab.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./map-popup-geoname-info-tab.component.scss']
 })
 export class MapPopupGeonameInfoTabComponent implements OnInit {

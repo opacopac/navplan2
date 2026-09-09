@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {StringnumberHelper} from '../../../../system/domain/service/stringnumber/stringnumber-helper';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
 import {ForecastRun} from '../../../domain/model/forecast-run';
@@ -19,6 +19,7 @@ import {
         MeteoForecastTimelineMarkingsComponent
     ],
     templateUrl: './meteo-forecast-timeline.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./meteo-forecast-timeline.component.scss']
 })
 export class MeteoForecastTimelineComponent implements OnInit, OnChanges {

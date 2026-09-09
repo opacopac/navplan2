@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {VerticalMapActions} from '../../../state/ngrx/vertical-map.actions';
 import {VerticalMapButtonStatus} from '../../../domain/model/vertical-map-button-status';
 import {select, Store} from '@ngrx/store';
@@ -16,6 +16,7 @@ import {CommonModule} from '@angular/common';
         StatusButtonComponent
     ],
     templateUrl: './vertical-map-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./vertical-map-button.component.scss']
 })
 export class VerticalMapButtonComponent implements OnInit {

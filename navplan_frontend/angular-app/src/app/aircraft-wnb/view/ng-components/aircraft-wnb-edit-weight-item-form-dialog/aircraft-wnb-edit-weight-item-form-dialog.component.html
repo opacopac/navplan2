@@ -1,6 +1,6 @@
 <app-form-dialog
     [title]="this.getDialogTitle()"
-    [isFormValid]="this.editWeightItemForm?.valid"
+    [isFormValid]="$safeNavigationMigration(this.editWeightItemForm?.valid)"
     [saveButtonText]="this.getSaveButtonText()"
     cancelButtonText="Cancel"
     [showDeleteButton]="false"

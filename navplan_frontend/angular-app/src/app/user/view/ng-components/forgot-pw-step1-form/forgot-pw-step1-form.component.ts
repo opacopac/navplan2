@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -13,6 +13,7 @@ import {MatButtonModule} from '@angular/material/button';
         MatButtonModule
     ],
     templateUrl: './forgot-pw-step1-form.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./forgot-pw-step1-form.component.scss']
 })
 export class ForgotPwStep1FormComponent implements OnInit {

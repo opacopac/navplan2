@@ -1,12 +1,13 @@
 import {
-    AfterViewInit,
-    Component,
-    EventEmitter,
-    Input,
-    OnChanges,
-    OnInit,
-    Output,
-    ViewChild
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {Track} from '../../../../track/domain/model/track';
 import {DatetimeHelper} from '../../../../system/domain/service/datetime/datetime-helper';
@@ -49,6 +50,7 @@ export interface ListEntry {
         TableTextFilterAndCreateButtonComponent,
     ],
     templateUrl: './track-list-table.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./track-list-table.component.scss']
 })
 export class TrackListTableComponent implements OnInit, OnChanges, AfterViewInit {

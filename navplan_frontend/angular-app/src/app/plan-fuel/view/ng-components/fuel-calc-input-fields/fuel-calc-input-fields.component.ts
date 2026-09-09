@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy} from '@angular/core';
 import {Consumption} from '../../../../geo-physics/domain/model/quantities/consumption';
 import {ConsumptionUnit} from '../../../../geo-physics/domain/model/quantities/consumption-unit';
 import {Aircraft} from '../../../../aircraft/domain/model/aircraft';
@@ -12,6 +12,7 @@ import {ConsumptionInputComponent} from '../../../../geo-physics/view/ng-compone
         ConsumptionInputComponent,
     ],
     templateUrl: './fuel-calc-input-fields.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrls: ['./fuel-calc-input-fields.component.scss']
 })
 export class FuelCalcInputFieldsComponent {
