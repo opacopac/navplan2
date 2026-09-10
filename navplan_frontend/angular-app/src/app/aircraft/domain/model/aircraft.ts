@@ -14,7 +14,9 @@ import {
 
 
 export class Aircraft {
+    // TODO: make these values configurable in the aircraft model
     public static DEFAULT_DESCENT_RATE = Speed.ofFpm(500);
+    public static MAX_DESCENT_RATE_WITHOUT_WARNING = Speed.ofFpm(1000);
 
 
     public static createMinimal(
