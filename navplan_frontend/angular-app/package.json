@@ -42,13 +42,11 @@
   "devDependencies": {
     "@types/jasmine": "~5.1.13",
     "@types/jasminewd2": "~2.0.13",
-    "@types/jest": "^29.5.14",
     "@types/node": "~22.15.30",
     "istanbul-lib-instrument": "^6.0.3",
     "jasmine-core": "^5.13.0",
     "jasmine-marbles": "^0.9.2",
     "jasmine-spec-reporter": "^7.0.0",
-    "jest": "^30.5.1",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",
     "karma-cli": "~2.0.0",
@@ -56,7 +54,6 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
     "protractor": "~7.0.0",
-    "ts-jest": "^29.4.12",
     "ts-node": "~10.9.2"
   }
 }
