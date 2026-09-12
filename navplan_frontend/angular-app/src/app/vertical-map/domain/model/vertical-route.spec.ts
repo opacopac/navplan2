@@ -50,7 +50,7 @@ describe('VerticalRoute', () => {
     });
 
 
-    it('calculates the correct step flight times for each leg', () => {
+    it('calculates the correct step flight and climb times for each leg', () => {
         // given
 
         // when
@@ -60,20 +60,29 @@ describe('VerticalRoute', () => {
         // leg 1
         const leg1 = route1.legs[0];
         expect(leg1.steps[0].flightTime.min).toBe(0);
+        expect(leg1.steps[0].climbTime.min).toBe(0);
         expect(leg1.steps[1].flightTime.min).toBe(5.5);
+        expect(leg1.steps[1].climbTime.min).toBe(6.5);
         expect(leg1.steps[2].flightTime.min).toBe(5.5);
+        expect(leg1.steps[2].climbTime.min).toBe(6.5);
 
         // leg 2
         const leg2 = route1.legs[1];
         expect(leg2.steps[0].flightTime.min).toBe(0);
+        expect(leg2.steps[0].climbTime.min).toBe(0);
         expect(leg2.steps[1].flightTime.min).toBe(3);
+        expect(leg2.steps[1].climbTime.min).toBe(4);
         expect(leg2.steps[2].flightTime.min).toBe(3);
+        expect(leg2.steps[2].climbTime.min).toBe(4);
 
         // leg 3
         const leg3 = route1.legs[2];
         expect(leg3.steps[0].flightTime.min).toBe(0);
+        expect(leg3.steps[0].climbTime.min).toBe(0);
         expect(leg3.steps[1].flightTime.min).toBe(5.5);
+        expect(leg3.steps[1].climbTime.min).toBe(6.5);
         expect(leg3.steps[2].flightTime.min).toBe(5.5);
+        expect(leg3.steps[2].climbTime.min).toBe(6.5);
     })
 
 
@@ -173,7 +182,7 @@ describe('VerticalRoute', () => {
         expect(leg1.steps[0].altMetaData.perfEnv.minAlt.ft).toBe(1000); // gnd
         expect(leg1.steps[0].altMetaData.perfEnv.maxAlt.ft).toBe(1000); // gnd
         expect(leg1.steps[1].altMetaData.perfEnv.minAlt.ft).toBe(1100); // gnd
-        expect(leg1.steps[1].altMetaData.perfEnv.maxAlt.ft).toBeCloseTo(4672, 0);
+        expect(leg1.steps[1].altMetaData.perfEnv.maxAlt.ft).toBeCloseTo(4672, 0); // max climb from 1000
         expect(leg1.steps[2].altMetaData.perfEnv.minAlt.ft).toBe(2200); // gnd + 1000
         expect(leg1.steps[2].altMetaData.perfEnv.maxAlt.ft).toBe(5500); // wp2 max alt
 
@@ -182,16 +191,16 @@ describe('VerticalRoute', () => {
         expect(leg2.steps[0].altMetaData.perfEnv.minAlt.ft).toBe(2200); // gnd + 1000
         expect(leg2.steps[0].altMetaData.perfEnv.maxAlt.ft).toBe(5500); // wp2 max alt
         expect(leg2.steps[1].altMetaData.perfEnv.minAlt.ft).toBe(2300); // gnd + 1000
-        expect(leg2.steps[1].altMetaData.perfEnv.maxAlt.ft).toBeCloseTo(7130, 0);
+        expect(leg2.steps[1].altMetaData.perfEnv.maxAlt.ft).toBeCloseTo(7130, 0); // max climb from 5500
         expect(leg2.steps[2].altMetaData.perfEnv.minAlt.ft).toBe(3000); // wp3 min alt
-        expect(leg2.steps[2].altMetaData.perfEnv.maxAlt.ft).toBe(6600); // 500fpm descent to 1100 (bwd)
+        expect(leg2.steps[2].altMetaData.perfEnv.maxAlt.ft).toBe(6600); // 500fpm descent to 3850
 
         // leg 3
         const leg3 = route1.legs[2];
         expect(leg3.steps[0].altMetaData.perfEnv.minAlt.ft).toBe(3000); // wp3 min alt
-        expect(leg3.steps[0].altMetaData.perfEnv.maxAlt.ft).toBe(6600); // 500fpm descent to 1100 (bwd)
+        expect(leg3.steps[0].altMetaData.perfEnv.maxAlt.ft).toBe(6600); // 500fpm descent to 3850
         expect(leg3.steps[1].altMetaData.perfEnv.minAlt.ft).toBe(1200); // gnd
-        expect(leg3.steps[1].altMetaData.perfEnv.maxAlt.ft).toBe(3850);
+        expect(leg3.steps[1].altMetaData.perfEnv.maxAlt.ft).toBe(3850); // 500fpm descent to 1100
         expect(leg3.steps[2].altMetaData.perfEnv.minAlt.ft).toBe(1100); // gnd
         expect(leg3.steps[2].altMetaData.perfEnv.maxAlt.ft).toBe(1100); // gnd
     })
