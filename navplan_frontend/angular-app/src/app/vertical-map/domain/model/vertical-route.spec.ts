@@ -184,13 +184,13 @@ describe('VerticalRoute', () => {
         expect(leg2.steps[1].altMetaData.minEnvelopeAlt.ft).toBe(2300); // gnd + 1000
         expect(leg2.steps[1].altMetaData.maxEnvelopeAlt.ft).toBeCloseTo(7130, 0);
         expect(leg2.steps[2].altMetaData.minEnvelopeAlt.ft).toBe(3000); // wp3 min alt
-        expect(leg2.steps[2].altMetaData.maxEnvelopeAlt.ft).toBe(6600);
+        expect(leg2.steps[2].altMetaData.maxEnvelopeAlt.ft).toBe(6600); // 500fpm descent to 1100 (bwd)
 
         // leg 3
         const leg3 = route1.legs[2];
         expect(leg3.steps[0].altMetaData.minEnvelopeAlt.ft).toBe(3000); // wp3 min alt
-        expect(leg3.steps[0].altMetaData.maxEnvelopeAlt.ft).toBe(6600);
-        expect(leg3.steps[1].altMetaData.minEnvelopeAlt.ft).toBe(1200);
+        expect(leg3.steps[0].altMetaData.maxEnvelopeAlt.ft).toBe(6600); // 500fpm descent to 1100 (bwd)
+        expect(leg3.steps[1].altMetaData.minEnvelopeAlt.ft).toBe(1200); // gnd
         expect(leg3.steps[1].altMetaData.maxEnvelopeAlt.ft).toBe(3850);
         expect(leg3.steps[2].altMetaData.minEnvelopeAlt.ft).toBe(1100); // gnd
         expect(leg3.steps[2].altMetaData.maxEnvelopeAlt.ft).toBe(1100); // gnd
