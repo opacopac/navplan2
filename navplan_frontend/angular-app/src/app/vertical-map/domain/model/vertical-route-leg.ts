@@ -3,9 +3,9 @@ import {Waypoint} from '../../../flightroute/domain/model/waypoint';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {Time} from '../../../geo-physics/domain/model/quantities/time';
 import {VerticalRouteLegStep} from './vertical-route-leg-step';
-import {VerticalRouteService} from "../service/vertical-route.service";
 import {Aircraft} from "../../../aircraft/domain/model/aircraft";
 import {EnvelopeAltTriage} from "./envelope-alt-triage";
+import {VerticalRoute} from "./vertical-route";
 
 
 export class VerticalRouteLeg {
@@ -53,7 +53,7 @@ export class VerticalRouteLeg {
         for (const step of this.steps) {
             step.minTerrainClearanceAlt = this.isFirstLegFromAirport || this.isLastLegToAirport
                 ? step.elevationAmsl
-                : step.elevationAmsl.add(VerticalRouteService.MIN_TERRAIN_CLEARANCE); // TODO
+                : step.elevationAmsl.add(VerticalRoute.MIN_TERRAIN_CLEARANCE);
 
             if (step.minTerrainClearanceAlt.isGreaterThan(maxLegElevation)) {
                 maxLegElevation = step.minTerrainClearanceAlt;

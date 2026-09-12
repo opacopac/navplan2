@@ -8,17 +8,13 @@ import {IVerticalMapRepoService} from './i-vertical-map-repo.service';
 import {ForecastSelection} from '../../../meteo-forecast/domain/model/forecast-selection';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {MockAircraftBr23} from '../../../aircraft/domain/mock/mock-aircraft-br23';
-import {IVerticalRouteService} from "./i-vertical-route.service";
+import {VerticalRoute} from "../model/vertical-route";
 
 
 @Injectable()
 export class VerticalMapService implements IVerticalMapService {
-    public static MIN_TERRAIN_CLEARANCE = Length.ofFt(1000); // TODO: duplicate in vertical route service
-
-
     constructor(
-        private restService: IVerticalMapRepoService,
-        private verticalRouteService: IVerticalRouteService
+        private restService: IVerticalMapRepoService
     ) {
     }
 
@@ -43,14 +39,16 @@ export class VerticalMapService implements IVerticalMapService {
                     ? flightroute.cruiseAltitude
                     : vm.terrainSteps.reduce((maxElev, step) =>
                         step.elevationAmsl.m > maxElev.m ? step.elevationAmsl : maxElev, vm.terrainSteps[0].elevationAmsl)
-                        .add(VerticalMapService.MIN_TERRAIN_CLEARANCE);
+                        .add(VerticalRoute.MIN_TERRAIN_CLEARANCE);
 
-                vm.legAltitudeMetadataList = this.verticalRouteService.calcLegAltitudeMetadata(
+                const verticalRoute = new VerticalRoute(
                     vm.waypointSteps,
                     vm.terrainSteps,
                     cruiseAlt,
                     aircraft
-                );
+                )
+
+                vm.legAltitudeMetadataList = verticalRoute.legs;
             })
         );
     }

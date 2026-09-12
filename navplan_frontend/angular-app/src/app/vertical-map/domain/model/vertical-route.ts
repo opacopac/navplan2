@@ -8,6 +8,9 @@ import {VerticalRouteLegStep} from "./vertical-route-leg-step";
 import {EnvelopeAltTriage} from "./envelope-alt-triage";
 
 export class VerticalRoute {
+    public static MIN_TERRAIN_CLEARANCE = Length.ofFt(1000);
+    public static MIN_TERRAIN_CLEARANCE_FOR_WARNING = Length.ofFt(500);
+
     public legs: VerticalRouteLeg[] = [];
 
 
@@ -23,6 +26,7 @@ export class VerticalRoute {
         this.initStepsWithUserAltitudes();
         this.calcLegsEnvelopeBackwards();
         this.calcLegsEnvelopeForwards();
+        this.calcStepDisplayAlts();
     }
 
 
@@ -181,6 +185,93 @@ export class VerticalRoute {
             const lastStep = leg.steps[leg.steps.length - 1];
             leg.endAlt.perfEnv.minAlt = lastStep.altMetaData.perfEnv.minAlt;
             leg.endAlt.perfEnv.maxAlt = lastStep.altMetaData.perfEnv.maxAlt;
+        }
+    }
+
+
+    private calcStepDisplayAlts(): void {
+        const midLegStep = this.findCruiseAltReachedLegAndStep();
+        let currentAlt = this.legs[midLegStep.legIdx].steps[midLegStep.stepIdx].altMetaData.perfEnv.maxAlt;
+        let nextAlt: Length;
+
+        // backwards from cruise altitude
+        for (let i = midLegStep.legIdx; i >= 0; i--) {
+            const leg = this.legs[i];
+            const startStepIdx = i === midLegStep.legIdx ? midLegStep.stepIdx : leg.steps.length - 1;
+
+            if (i < midLegStep.legIdx) {
+                leg.endAlt.displayAlt = currentAlt;
+            }
+
+            for (let j = startStepIdx; j >= 0; j--) {
+                const step = leg.steps[j];
+
+                nextAlt = currentAlt;
+
+                if (currentAlt.isGreaterThan(step.altMetaData.perfEnv.maxAlt)) {
+                    nextAlt = step.altMetaData.perfEnv.maxAlt;
+                }
+
+                if (currentAlt.isLessThan(step.altMetaData.perfEnv.minAlt)) {
+                    nextAlt = step.altMetaData.perfEnv.minAlt;
+                }
+
+                step.altMetaData.displayAlt = nextAlt;
+
+                currentAlt = nextAlt;
+            }
+
+            leg.startAlt.displayAlt = currentAlt;
+        }
+
+        // forwards from cruise altitude
+        currentAlt = this.legs[midLegStep.legIdx].steps[midLegStep.stepIdx].altMetaData.perfEnv.maxAlt;
+        for (let i = midLegStep.legIdx; i < this.legs.length; i++) {
+            const leg = this.legs[i];
+            const startStepIdx = i === midLegStep.legIdx ? midLegStep.stepIdx : 0;
+
+            if (i > midLegStep.legIdx) {
+                leg.startAlt.displayAlt = currentAlt;
+            }
+
+            for (let j = startStepIdx; j < leg.steps.length; j++) {
+                const step = leg.steps[j];
+
+                nextAlt = currentAlt;
+
+                if (currentAlt.isGreaterThan(step.altMetaData.perfEnv.maxAlt)) {
+                    nextAlt = step.altMetaData.perfEnv.maxAlt;
+                }
+
+                if (currentAlt.isLessThan(step.altMetaData.perfEnv.minAlt)) {
+                    nextAlt = step.altMetaData.perfEnv.minAlt;
+                }
+
+                step.altMetaData.displayAlt = nextAlt;
+
+                currentAlt = nextAlt;
+            }
+
+            leg.endAlt.displayAlt = currentAlt;
+        }
+    }
+
+
+    private findCruiseAltReachedLegAndStep(): {
+        legIdx: number,
+        stepIdx: number
+    } {
+        for (let i = 0; i < this.legs.length; i++) {
+            const leg = this.legs[i];
+            for (let j = 0; j < leg.steps.length; j++) {
+                const step = leg.steps[j];
+                if (step.altMetaData.perfEnv.maxAlt.isGreaterThanOrEqual(this.cruiseAltitude)) {
+                    return {
+                        legIdx: i,
+                        stepIdx: j
+                    };
+                }
+            }
         }
     }
 }

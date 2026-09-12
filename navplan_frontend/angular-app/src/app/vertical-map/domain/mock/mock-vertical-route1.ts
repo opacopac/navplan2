@@ -22,7 +22,7 @@ export class MockVerticalRoute1 {
     public static TS5 = MockTerrStepBuilder.aStepElevDist(1400, 20).build();
     public static TS6 = MockTerrStepBuilder.aStepElevDist(1200, 25).build();
     public static TS7 = MockTerrStepBuilder.aStepElevDist(1100, 30).build();
-    public static CRUISE_ALT = Length.ofFt(5500);
+    public static CRUISE_ALT = Length.ofFt(4500);
     public static AIRCRAFT = MockAircraftBr23.create();
 
 

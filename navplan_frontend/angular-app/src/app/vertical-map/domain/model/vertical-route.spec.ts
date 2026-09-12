@@ -195,4 +195,31 @@ describe('VerticalRoute', () => {
         expect(leg3.steps[2].altMetaData.perfEnv.minAlt.ft).toBe(1100); // gnd
         expect(leg3.steps[2].altMetaData.perfEnv.maxAlt.ft).toBe(1100); // gnd
     })
+
+
+    it('calculates the correct display altitudes for each leg and step', () => {
+        // given
+
+        // when
+        const route1 = MockVerticalRoute1.create();
+
+        // then
+        // leg 1
+        const leg1 = route1.legs[0];
+        expect(leg1.steps[0].altMetaData.displayAlt.ft).toBe(1000);
+        expect(leg1.steps[1].altMetaData.displayAlt.ft).toBe(4500);
+        expect(leg1.steps[2].altMetaData.displayAlt.ft).toBe(4500);
+
+        // leg 2
+        const leg2 = route1.legs[1];
+        expect(leg2.steps[0].altMetaData.displayAlt.ft).toBe(4500);
+        expect(leg2.steps[1].altMetaData.displayAlt.ft).toBe(4500);
+        expect(leg2.steps[2].altMetaData.displayAlt.ft).toBe(4500);
+
+        // leg 3
+        const leg3 = route1.legs[2];
+        expect(leg3.steps[0].altMetaData.displayAlt.ft).toBe(4500);
+        expect(leg3.steps[1].altMetaData.displayAlt.ft).toBe(3850);
+        expect(leg3.steps[2].altMetaData.displayAlt.ft).toBe(1100);
+    })
 });
