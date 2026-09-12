@@ -12,4 +12,9 @@ export class AltitudeSpan {
     public static empty(): AltitudeSpan {
         return new AltitudeSpan(undefined, undefined);
     }
+
+
+    public clone(): AltitudeSpan {
+        return new AltitudeSpan(this.minAlt, this.maxAlt);
+    }
 }

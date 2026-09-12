@@ -21,8 +21,8 @@ export class FlightRouteSvg {
                 const step = leg.steps[i];
                 const nextStep = leg.steps[i + 1];
 
-                const startXy1 = imgDim.calcXy(step.stepDist, step.altMetaData.minEnvelopeAlt);
-                const endXy1 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.minEnvelopeAlt);
+                const startXy1 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnv.minAlt);
+                const endXy1 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnv.minAlt);
                 svg.appendChild(SvgLineBuilder.builder()
                     .setStartXy(startXy1)
                     .setEndXy(endXy1)
@@ -31,8 +31,8 @@ export class FlightRouteSvg {
                     .build()
                 );
 
-                const startXy2 = imgDim.calcXy(step.stepDist, step.altMetaData.maxEnvelopeAlt);
-                const endXy2 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.maxEnvelopeAlt);
+                const startXy2 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnv.maxAlt);
+                const endXy2 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnv.maxAlt);
                 svg.appendChild(SvgLineBuilder.builder()
                     .setStartXy(startXy2)
                     .setEndXy(endXy2)

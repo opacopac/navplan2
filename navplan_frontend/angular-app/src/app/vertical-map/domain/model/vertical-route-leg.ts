@@ -70,8 +70,8 @@ export class VerticalRouteLeg {
             const nextStep = this.steps[j + 1];
 
             // calculate climb/descent performance backwards from next step
-            const stepMinClimbAlt = aircraft.calcClimbStartingAlt(nextStep.altMetaData.minEnvelopeAlt, nextStep.climbTime);
-            const stepMaxDecentAlt = aircraft.calcDescentStartingAlt(nextStep.altMetaData.maxEnvelopeAlt, nextStep.flightTime);
+            const stepMinClimbAlt = aircraft.calcClimbStartingAlt(nextStep.altMetaData.perfEnv.minAlt, nextStep.climbTime);
+            const stepMaxDecentAlt = aircraft.calcDescentStartingAlt(nextStep.altMetaData.perfEnv.maxAlt, nextStep.flightTime);
 
             EnvelopeAltTriage.determineEnvelopeAltByPrio(
                 step.altMetaData,
@@ -89,20 +89,20 @@ export class VerticalRouteLeg {
 
             // calculate climb/descent performance from previous step
             const prevStep = this.steps[i - 1];
-            const stepDecentAltFt = aircraft.calcDescentTargetAlt(prevStep.altMetaData.minEnvelopeAlt, step.flightTime);
-            const stepClimbAltFt = aircraft.calcClimbTargetAlt(prevStep.altMetaData.maxEnvelopeAlt, step.climbTime);
+            const stepDecentAltFt = aircraft.calcDescentTargetAlt(prevStep.altMetaData.perfEnv.minAlt, step.flightTime);
+            const stepClimbAltFt = aircraft.calcClimbTargetAlt(prevStep.altMetaData.perfEnv.maxAlt, step.climbTime);
 
-            const stepMaxEnvAlt = stepClimbAltFt.isLessThan(step.altMetaData.maxEnvelopeAlt)
+            const stepMaxEnvAlt = stepClimbAltFt.isLessThan(step.altMetaData.perfEnv.maxAlt)
                 ? stepClimbAltFt
-                : stepDecentAltFt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)
+                : stepDecentAltFt.isGreaterThan(step.altMetaData.perfEnv.maxAlt)
                     ? stepDecentAltFt
-                    : step.altMetaData.maxEnvelopeAlt;
+                    : step.altMetaData.perfEnv.maxAlt;
 
-            const stepMinEnvAlt = stepDecentAltFt.isGreaterThan(step.altMetaData.minEnvelopeAlt)
+            const stepMinEnvAlt = stepDecentAltFt.isGreaterThan(step.altMetaData.perfEnv.minAlt)
                 ? stepDecentAltFt
-                : stepClimbAltFt.isLessThan(step.altMetaData.minEnvelopeAlt)
+                : stepClimbAltFt.isLessThan(step.altMetaData.perfEnv.minAlt)
                     ? stepClimbAltFt
-                    : step.altMetaData.minEnvelopeAlt;
+                    : step.altMetaData.perfEnv.minAlt;
 
             EnvelopeAltTriage.determineEnvelopeAltByPrio(
                 step.altMetaData,

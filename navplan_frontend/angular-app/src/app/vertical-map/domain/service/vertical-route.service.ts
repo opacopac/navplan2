@@ -127,11 +127,11 @@ export class VerticalRouteService implements IVerticalRouteService {
             const minAlt = leg.wpEnd.getMinAlt()?.getHeightAmsl();
 
             if (leg.wpEnd.wpAlt.isaltatlegstart) {
-                leg.startAlt.maxUserAlt = maxAlt;
-                leg.startAlt.minUserAlt = minAlt;
+                leg.startAlt.user.maxAlt = maxAlt;
+                leg.startAlt.user.minAlt = minAlt;
             } else {
-                leg.endAlt.maxUserAlt = maxAlt;
-                leg.endAlt.minUserAlt = minAlt;
+                leg.endAlt.user.maxAlt = maxAlt;
+                leg.endAlt.user.minAlt = minAlt;
             }
         }
     }
@@ -141,15 +141,15 @@ export class VerticalRouteService implements IVerticalRouteService {
         const firstLeg = legs[0];
         if (firstLeg.isFirstLegFromAirport) {
             const firstElevation = terrainSteps[0].elevationAmsl;
-            firstLeg.startAlt.maxUserAlt = firstElevation;
-            firstLeg.startAlt.minUserAlt = firstElevation;
+            firstLeg.startAlt.user.maxAlt = firstElevation;
+            firstLeg.startAlt.user.minAlt = firstElevation;
         }
 
         const lastLeg = legs[legs.length - 1];
         if (lastLeg.isLastLegToAirport) {
             const lastElevation = terrainSteps[terrainSteps.length - 1].elevationAmsl;
-            lastLeg.endAlt.maxUserAlt = lastElevation;
-            lastLeg.endAlt.minUserAlt = lastElevation;
+            lastLeg.endAlt.user.maxAlt = lastElevation;
+            lastLeg.endAlt.user.minAlt = lastElevation;
         }
     }
 
@@ -159,10 +159,10 @@ export class VerticalRouteService implements IVerticalRouteService {
             const firstStep = leg.steps[0];
             const lastStep = leg.steps[leg.steps.length - 1];
 
-            firstStep.altMetaData.minUserAlt = leg.startAlt.minUserAlt;
-            firstStep.altMetaData.maxUserAlt = leg.startAlt.maxUserAlt;
-            lastStep.altMetaData.minUserAlt = leg.endAlt.minUserAlt;
-            lastStep.altMetaData.maxUserAlt = leg.endAlt.maxUserAlt;
+            firstStep.altMetaData.user.minAlt = leg.startAlt.user.minAlt;
+            firstStep.altMetaData.user.maxAlt = leg.startAlt.user.maxAlt;
+            lastStep.altMetaData.user.minAlt = leg.endAlt.user.minAlt;
+            lastStep.altMetaData.user.maxAlt = leg.endAlt.user.maxAlt;
         }
     }
 
@@ -185,22 +185,22 @@ export class VerticalRouteService implements IVerticalRouteService {
                 this.determineEnvelopeAltByPrio(
                     leg.startAlt,
                     firstStep.minTerrainClearanceAlt,
-                    prevLeg.endAlt.minEnvelopeAlt,
-                    prevLeg.endAlt.maxEnvelopeAlt
+                    prevLeg.endAlt.perfEnv.minAlt,
+                    prevLeg.endAlt.perfEnv.maxAlt
                 );
             }
 
             // copy leg start altitudes to first step
-            firstStep.altMetaData.minEnvelopeAlt = leg.startAlt.minEnvelopeAlt;
-            firstStep.altMetaData.maxEnvelopeAlt = leg.startAlt.maxEnvelopeAlt;
+            firstStep.altMetaData.perfEnv.minAlt = leg.startAlt.perfEnv.minAlt;
+            firstStep.altMetaData.perfEnv.maxAlt = leg.startAlt.perfEnv.maxAlt;
 
             // calc envelope altitudes
             this.calcLegStepsEnvelopeForwards(leg, aircraft);
 
             // copy leg end altitudes from last step
             const lastStep = leg.steps[leg.steps.length - 1];
-            leg.endAlt.minEnvelopeAlt = lastStep.altMetaData.minEnvelopeAlt;
-            leg.endAlt.maxEnvelopeAlt = lastStep.altMetaData.maxEnvelopeAlt;
+            leg.endAlt.perfEnv.minAlt = lastStep.altMetaData.perfEnv.minAlt;
+            leg.endAlt.perfEnv.maxAlt = lastStep.altMetaData.perfEnv.maxAlt;
         }
     }
 
@@ -211,20 +211,20 @@ export class VerticalRouteService implements IVerticalRouteService {
 
             // calculate climb/descent performance from previous step
             const prevStep = leg.steps[i - 1];
-            const stepDecentAltFt = aircraft.calcDescentTargetAlt(prevStep.altMetaData.minEnvelopeAlt, step.flightTime);
-            const stepClimbAltFt = aircraft.calcClimbTargetAlt(prevStep.altMetaData.maxEnvelopeAlt, step.climbTime);
+            const stepDecentAltFt = aircraft.calcDescentTargetAlt(prevStep.altMetaData.perfEnv.minAlt, step.flightTime);
+            const stepClimbAltFt = aircraft.calcClimbTargetAlt(prevStep.altMetaData.perfEnv.maxAlt, step.climbTime);
 
-            const stepMaxEnvAlt = stepClimbAltFt.isLessThan(step.altMetaData.maxEnvelopeAlt)
+            const stepMaxEnvAlt = stepClimbAltFt.isLessThan(step.altMetaData.perfEnv.maxAlt)
                 ? stepClimbAltFt
-                : stepDecentAltFt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)
+                : stepDecentAltFt.isGreaterThan(step.altMetaData.perfEnv.maxAlt)
                     ? stepDecentAltFt
-                    : step.altMetaData.maxEnvelopeAlt;
+                    : step.altMetaData.perfEnv.maxAlt;
 
-            const stepMinEnvAlt = stepDecentAltFt.isGreaterThan(step.altMetaData.minEnvelopeAlt)
+            const stepMinEnvAlt = stepDecentAltFt.isGreaterThan(step.altMetaData.perfEnv.minAlt)
                 ? stepDecentAltFt
-                : stepClimbAltFt.isLessThan(step.altMetaData.minEnvelopeAlt)
+                : stepClimbAltFt.isLessThan(step.altMetaData.perfEnv.minAlt)
                     ? stepClimbAltFt
-                    : step.altMetaData.minEnvelopeAlt;
+                    : step.altMetaData.perfEnv.minAlt;
 
             this.determineEnvelopeAltByPrio(
                 step.altMetaData,
@@ -254,22 +254,22 @@ export class VerticalRouteService implements IVerticalRouteService {
                 this.determineEnvelopeAltByPrio(
                     leg.endAlt,
                     lastStep.minTerrainClearanceAlt,
-                    nextLeg.startAlt.minEnvelopeAlt,
-                    nextLeg.startAlt.maxEnvelopeAlt
+                    nextLeg.startAlt.perfEnv.minAlt,
+                    nextLeg.startAlt.perfEnv.maxAlt
                 );
             }
 
             // copy leg end altitudes to last step
-            lastStep.altMetaData.minEnvelopeAlt = leg.endAlt.minEnvelopeAlt;
-            lastStep.altMetaData.maxEnvelopeAlt = leg.endAlt.maxEnvelopeAlt;
+            lastStep.altMetaData.perfEnv.minAlt = leg.endAlt.perfEnv.minAlt;
+            lastStep.altMetaData.perfEnv.maxAlt = leg.endAlt.perfEnv.maxAlt;
 
             // calc envelope altitudes
             this.calcLegStepsEnvelopeBackwards(leg, aircraft);
 
             // set leg start altitudes from first step
             const firstStep = leg.steps[0];
-            leg.startAlt.minEnvelopeAlt = firstStep.altMetaData.minEnvelopeAlt;
-            leg.startAlt.maxEnvelopeAlt = firstStep.altMetaData.maxEnvelopeAlt;
+            leg.startAlt.perfEnv.minAlt = firstStep.altMetaData.perfEnv.minAlt;
+            leg.startAlt.perfEnv.maxAlt = firstStep.altMetaData.perfEnv.maxAlt;
         }
     }
 
@@ -280,8 +280,8 @@ export class VerticalRouteService implements IVerticalRouteService {
             const nextStep = leg.steps[j + 1];
 
             // calculate climb/descent performance backwards from next step
-            const stepMinClimbAlt = aircraft.calcClimbStartingAlt(nextStep.altMetaData.minEnvelopeAlt, nextStep.climbTime);
-            const stepMaxDecentAlt = aircraft.calcDescentStartingAlt(nextStep.altMetaData.maxEnvelopeAlt, nextStep.flightTime);
+            const stepMinClimbAlt = aircraft.calcClimbStartingAlt(nextStep.altMetaData.perfEnv.minAlt, nextStep.climbTime);
+            const stepMaxDecentAlt = aircraft.calcDescentStartingAlt(nextStep.altMetaData.perfEnv.maxAlt, nextStep.flightTime);
 
             this.determineEnvelopeAltByPrio(
                 step.altMetaData,
@@ -303,39 +303,39 @@ export class VerticalRouteService implements IVerticalRouteService {
         if (propagatedMaxAlt.isLessThan(propagatedMinAlt)) {
             propagatedMinAlt = propagatedMaxAlt;
         }
-        alt.minEnvelopeAlt = propagatedMinAlt;
-        alt.maxEnvelopeAlt = propagatedMaxAlt;
+        alt.perfEnv.minAlt = propagatedMinAlt;
+        alt.perfEnv.maxAlt = propagatedMaxAlt;
 
         // prio 2: terrain clearance: override back-propagation if below terrain clearance
-        if (minTerrainAlt.isGreaterThan(alt.minEnvelopeAlt)) {
-            alt.minEnvelopeAlt = minTerrainAlt;
+        if (minTerrainAlt.isGreaterThan(alt.perfEnv.minAlt)) {
+            alt.perfEnv.minAlt = minTerrainAlt;
         }
-        if (minTerrainAlt.isGreaterThan(alt.maxEnvelopeAlt)) {
-            alt.maxEnvelopeAlt = minTerrainAlt;
+        if (minTerrainAlt.isGreaterThan(alt.perfEnv.maxAlt)) {
+            alt.perfEnv.maxAlt = minTerrainAlt;
         }
 
         // prio 1: used defined altitudes: override values if above previous min / below previous max
-        if (alt.minUserAlt && alt.minUserAlt.isGreaterThan(alt.minEnvelopeAlt)) {
-            alt.minEnvelopeAlt = alt.minUserAlt;
+        if (alt.user.minAlt && alt.user.minAlt.isGreaterThan(alt.perfEnv.minAlt)) {
+            alt.perfEnv.minAlt = alt.user.minAlt;
         }
-        if (alt.maxUserAlt && alt.maxUserAlt.isLessThan(alt.maxEnvelopeAlt)) {
-            alt.maxEnvelopeAlt = alt.maxUserAlt;
+        if (alt.user.maxAlt && alt.user.maxAlt.isLessThan(alt.perfEnv.maxAlt)) {
+            alt.perfEnv.maxAlt = alt.user.maxAlt;
         }
 
         // prevent min > max
-        if (alt.minUserAlt && alt.minUserAlt.isGreaterThan(alt.maxEnvelopeAlt)) {
-            alt.maxEnvelopeAlt = alt.minUserAlt;
+        if (alt.user.minAlt && alt.user.minAlt.isGreaterThan(alt.perfEnv.maxAlt)) {
+            alt.perfEnv.maxAlt = alt.user.minAlt;
         }
 
         // prevent max < min
-        if (alt.maxUserAlt && alt.maxUserAlt.isLessThan(alt.minEnvelopeAlt)) {
-            alt.minEnvelopeAlt = alt.maxUserAlt;
+        if (alt.user.maxAlt && alt.user.maxAlt.isLessThan(alt.perfEnv.minAlt)) {
+            alt.perfEnv.minAlt = alt.user.maxAlt;
         }
     }
 
     private calcStepDisplayAlts(legs: VerticalRouteLeg[], cruiseAltitude: Length, aircraft: Aircraft): void {
         let hasCruiseAltitudeBeenReached = cruiseAltitude ? !cruiseAltitude : true;
-        let currentAlt = legs[0].startAlt.minEnvelopeAlt;
+        let currentAlt = legs[0].startAlt.perfEnv.minAlt;
         let nextAlt: Length;
 
         for (let i = 0; i < legs.length; i++) {
@@ -346,12 +346,12 @@ export class VerticalRouteService implements IVerticalRouteService {
 
                 nextAlt = currentAlt;
 
-                if (currentAlt.isGreaterThan(step.altMetaData.maxEnvelopeAlt) || !hasCruiseAltitudeBeenReached) {
-                    nextAlt = step.altMetaData.maxEnvelopeAlt;
+                if (currentAlt.isGreaterThan(step.altMetaData.perfEnv.maxAlt) || !hasCruiseAltitudeBeenReached) {
+                    nextAlt = step.altMetaData.perfEnv.maxAlt;
                 }
 
-                if (currentAlt.isLessThan(step.altMetaData.minEnvelopeAlt)) {
-                    nextAlt = step.altMetaData.minEnvelopeAlt;
+                if (currentAlt.isLessThan(step.altMetaData.perfEnv.minAlt)) {
+                    nextAlt = step.altMetaData.perfEnv.minAlt;
                 }
 
                 if (nextAlt.isGreaterThanOrEqual(cruiseAltitude)) {
@@ -374,7 +374,7 @@ export class VerticalRouteService implements IVerticalRouteService {
 
     private calcStepDisplayAlts2(legs: VerticalRouteLeg[], cruiseAltitude: Length, aircraft: Aircraft): void {
         const midLegStep = this.findCruiseAltReachedLegAndStep(legs, cruiseAltitude);
-        let currentAlt = legs[midLegStep.legIdx].steps[midLegStep.stepIdx].altMetaData.maxEnvelopeAlt;
+        let currentAlt = legs[midLegStep.legIdx].steps[midLegStep.stepIdx].altMetaData.perfEnv.maxAlt;
         let nextAlt: Length;
 
         // backwards from cruise altitude
@@ -391,12 +391,12 @@ export class VerticalRouteService implements IVerticalRouteService {
 
                 nextAlt = currentAlt;
 
-                if (currentAlt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)) {
-                    nextAlt = step.altMetaData.maxEnvelopeAlt;
+                if (currentAlt.isGreaterThan(step.altMetaData.perfEnv.maxAlt)) {
+                    nextAlt = step.altMetaData.perfEnv.maxAlt;
                 }
 
-                if (currentAlt.isLessThan(step.altMetaData.minEnvelopeAlt)) {
-                    nextAlt = step.altMetaData.minEnvelopeAlt;
+                if (currentAlt.isLessThan(step.altMetaData.perfEnv.minAlt)) {
+                    nextAlt = step.altMetaData.perfEnv.minAlt;
                 }
 
                 step.altMetaData.displayAlt = nextAlt;
@@ -408,7 +408,7 @@ export class VerticalRouteService implements IVerticalRouteService {
         }
 
         // forwards from cruise altitude
-        currentAlt = legs[midLegStep.legIdx].steps[midLegStep.stepIdx].altMetaData.maxEnvelopeAlt;
+        currentAlt = legs[midLegStep.legIdx].steps[midLegStep.stepIdx].altMetaData.perfEnv.maxAlt;
         for (let i = midLegStep.legIdx; i < legs.length; i++) {
             const leg = legs[i];
             const startStepIdx = i === midLegStep.legIdx ? midLegStep.stepIdx : 0;
@@ -422,12 +422,12 @@ export class VerticalRouteService implements IVerticalRouteService {
 
                 nextAlt = currentAlt;
 
-                if (currentAlt.isGreaterThan(step.altMetaData.maxEnvelopeAlt)) {
-                    nextAlt = step.altMetaData.maxEnvelopeAlt;
+                if (currentAlt.isGreaterThan(step.altMetaData.perfEnv.maxAlt)) {
+                    nextAlt = step.altMetaData.perfEnv.maxAlt;
                 }
 
-                if (currentAlt.isLessThan(step.altMetaData.minEnvelopeAlt)) {
-                    nextAlt = step.altMetaData.minEnvelopeAlt;
+                if (currentAlt.isLessThan(step.altMetaData.perfEnv.minAlt)) {
+                    nextAlt = step.altMetaData.perfEnv.minAlt;
                 }
 
                 step.altMetaData.displayAlt = nextAlt;
@@ -448,7 +448,7 @@ export class VerticalRouteService implements IVerticalRouteService {
             const leg = legs[i];
             for (let j = 0; j < leg.steps.length; j++) {
                 const step = leg.steps[j];
-                if (step.altMetaData.maxEnvelopeAlt.isGreaterThanOrEqual(cruiseAltitude)) {
+                if (step.altMetaData.perfEnv.maxAlt.isGreaterThanOrEqual(cruiseAltitude)) {
                     return {
                         legIdx: i,
                         stepIdx: j

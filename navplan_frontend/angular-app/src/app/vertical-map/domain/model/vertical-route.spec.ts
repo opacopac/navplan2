@@ -116,48 +116,48 @@ describe('VerticalRoute', () => {
         // then
         // leg 1
         const leg1 = route1.legs[0];
-        expect(leg1.startAlt.minUserAlt.ft).toBe(1000); // ground elevation due to airport
-        expect(leg1.steps[0].altMetaData.minUserAlt.ft).toBe(1000);
-        expect(leg1.startAlt.maxUserAlt.ft).toBe(1000);
-        expect(leg1.steps[0].altMetaData.maxUserAlt.ft).toBe(1000);
+        expect(leg1.startAlt.user.minAlt.ft).toBe(1000); // ground elevation due to airport
+        expect(leg1.steps[0].altMetaData.user.minAlt.ft).toBe(1000);
+        expect(leg1.startAlt.user.maxAlt.ft).toBe(1000);
+        expect(leg1.steps[0].altMetaData.user.maxAlt.ft).toBe(1000);
 
-        expect(leg1.steps[1].altMetaData.minUserAlt).toBeUndefined();
-        expect(leg1.steps[1].altMetaData.maxUserAlt).toBeUndefined();
+        expect(leg1.steps[1].altMetaData.user.minAlt).toBeUndefined();
+        expect(leg1.steps[1].altMetaData.user.maxAlt).toBeUndefined();
 
-        expect(leg1.endAlt.minUserAlt).toBeUndefined();
-        expect(leg1.steps[2].altMetaData.minUserAlt).toBeUndefined();
-        expect(leg1.endAlt.maxUserAlt.ft).toBe(5500); // wp2 max alt
-        expect(leg1.steps[2].altMetaData.maxUserAlt.ft).toBe(5500);
+        expect(leg1.endAlt.user.minAlt).toBeUndefined();
+        expect(leg1.steps[2].altMetaData.user.minAlt).toBeUndefined();
+        expect(leg1.endAlt.user.maxAlt.ft).toBe(5500); // wp2 max alt
+        expect(leg1.steps[2].altMetaData.user.maxAlt.ft).toBe(5500);
 
         // leg 2
         const leg2 = route1.legs[1];
-        expect(leg2.startAlt.minUserAlt).toBeUndefined();
-        expect(leg2.steps[0].altMetaData.minUserAlt).toBeUndefined();
-        //expect(leg2.startAlt.maxUserAlt.ft).toBe(5500); // TODO
-        //expect(leg2.firstStep().altMetaData.maxUserAlt.ft).toBe(5500); // TODO
+        expect(leg2.startAlt.user.minAlt).toBeUndefined();
+        expect(leg2.steps[0].altMetaData.user.minAlt).toBeUndefined();
+        //expect(leg2.startAlt.userAlt.maxAlt.ft).toBe(5500); // TODO
+        //expect(leg2.firstStep().altMetaData.userAlt.maxAlt.ft).toBe(5500); // TODO
 
-        expect(leg2.steps[1].altMetaData.minUserAlt).toBeUndefined();
-        expect(leg2.steps[1].altMetaData.maxUserAlt).toBeUndefined();
+        expect(leg2.steps[1].altMetaData.user.minAlt).toBeUndefined();
+        expect(leg2.steps[1].altMetaData.user.maxAlt).toBeUndefined();
 
-        expect(leg2.endAlt.minUserAlt.ft).toBe(3000); // wp3 min alt
-        expect(leg2.steps[2].altMetaData.minUserAlt.ft).toBe(3000);
-        expect(leg2.endAlt.maxUserAlt).toBeUndefined();
-        expect(leg2.steps[2].altMetaData.maxUserAlt).toBeUndefined();
+        expect(leg2.endAlt.user.minAlt.ft).toBe(3000); // wp3 min alt
+        expect(leg2.steps[2].altMetaData.user.minAlt.ft).toBe(3000);
+        expect(leg2.endAlt.user.maxAlt).toBeUndefined();
+        expect(leg2.steps[2].altMetaData.user.maxAlt).toBeUndefined();
 
         // leg 3
         const leg3 = route1.legs[2];
-        //expect(leg3.startAlt.minUserAlt.ft).toBe(3000); // TODO
-        //expect(leg3.steps[0].altMetaData.minUserAlt.ft).toBe(3000); // TODO
-        expect(leg3.startAlt.maxUserAlt).toBeUndefined();
-        expect(leg3.steps[0].altMetaData.maxUserAlt).toBeUndefined();
+        //expect(leg3.startAlt.userAlt.minAlt.ft).toBe(3000); // TODO
+        //expect(leg3.steps[0].altMetaData.userAlt.minAlt.ft).toBe(3000); // TODO
+        expect(leg3.startAlt.user.maxAlt).toBeUndefined();
+        expect(leg3.steps[0].altMetaData.user.maxAlt).toBeUndefined();
 
-        expect(leg3.steps[1].altMetaData.minUserAlt).toBeUndefined();
-        expect(leg3.steps[1].altMetaData.maxUserAlt).toBeUndefined();
+        expect(leg3.steps[1].altMetaData.user.minAlt).toBeUndefined();
+        expect(leg3.steps[1].altMetaData.user.maxAlt).toBeUndefined();
 
-        expect(leg3.endAlt.minUserAlt.ft).toBe(1100); // ground elevation due to airport
-        expect(leg3.steps[2].altMetaData.minUserAlt.ft).toBe(1100);
-        expect(leg3.endAlt.maxUserAlt.ft).toBe(1100);
-        expect(leg3.steps[2].altMetaData.maxUserAlt.ft).toBe(1100);
+        expect(leg3.endAlt.user.minAlt.ft).toBe(1100); // ground elevation due to airport
+        expect(leg3.steps[2].altMetaData.user.minAlt.ft).toBe(1100);
+        expect(leg3.endAlt.user.maxAlt.ft).toBe(1100);
+        expect(leg3.steps[2].altMetaData.user.maxAlt.ft).toBe(1100);
     })
 
 
@@ -170,29 +170,29 @@ describe('VerticalRoute', () => {
         // then
         // leg 1
         const leg1 = route1.legs[0];
-        expect(leg1.steps[0].altMetaData.minEnvelopeAlt.ft).toBe(1000); // gnd
-        expect(leg1.steps[0].altMetaData.maxEnvelopeAlt.ft).toBe(1000); // gnd
-        expect(leg1.steps[1].altMetaData.minEnvelopeAlt.ft).toBe(1100); // gnd
-        expect(leg1.steps[1].altMetaData.maxEnvelopeAlt.ft).toBeCloseTo(4672, 0);
-        expect(leg1.steps[2].altMetaData.minEnvelopeAlt.ft).toBe(2200); // gnd + 1000
-        expect(leg1.steps[2].altMetaData.maxEnvelopeAlt.ft).toBe(5500); // wp2 max alt
+        expect(leg1.steps[0].altMetaData.perfEnv.minAlt.ft).toBe(1000); // gnd
+        expect(leg1.steps[0].altMetaData.perfEnv.maxAlt.ft).toBe(1000); // gnd
+        expect(leg1.steps[1].altMetaData.perfEnv.minAlt.ft).toBe(1100); // gnd
+        expect(leg1.steps[1].altMetaData.perfEnv.maxAlt.ft).toBeCloseTo(4672, 0);
+        expect(leg1.steps[2].altMetaData.perfEnv.minAlt.ft).toBe(2200); // gnd + 1000
+        expect(leg1.steps[2].altMetaData.perfEnv.maxAlt.ft).toBe(5500); // wp2 max alt
 
         // leg 2
         const leg2 = route1.legs[1];
-        expect(leg2.steps[0].altMetaData.minEnvelopeAlt.ft).toBe(2200); // gnd + 1000
-        expect(leg2.steps[0].altMetaData.maxEnvelopeAlt.ft).toBe(5500); // wp2 max alt
-        expect(leg2.steps[1].altMetaData.minEnvelopeAlt.ft).toBe(2300); // gnd + 1000
-        expect(leg2.steps[1].altMetaData.maxEnvelopeAlt.ft).toBeCloseTo(7130, 0);
-        expect(leg2.steps[2].altMetaData.minEnvelopeAlt.ft).toBe(3000); // wp3 min alt
-        expect(leg2.steps[2].altMetaData.maxEnvelopeAlt.ft).toBe(6600); // 500fpm descent to 1100 (bwd)
+        expect(leg2.steps[0].altMetaData.perfEnv.minAlt.ft).toBe(2200); // gnd + 1000
+        expect(leg2.steps[0].altMetaData.perfEnv.maxAlt.ft).toBe(5500); // wp2 max alt
+        expect(leg2.steps[1].altMetaData.perfEnv.minAlt.ft).toBe(2300); // gnd + 1000
+        expect(leg2.steps[1].altMetaData.perfEnv.maxAlt.ft).toBeCloseTo(7130, 0);
+        expect(leg2.steps[2].altMetaData.perfEnv.minAlt.ft).toBe(3000); // wp3 min alt
+        expect(leg2.steps[2].altMetaData.perfEnv.maxAlt.ft).toBe(6600); // 500fpm descent to 1100 (bwd)
 
         // leg 3
         const leg3 = route1.legs[2];
-        expect(leg3.steps[0].altMetaData.minEnvelopeAlt.ft).toBe(3000); // wp3 min alt
-        expect(leg3.steps[0].altMetaData.maxEnvelopeAlt.ft).toBe(6600); // 500fpm descent to 1100 (bwd)
-        expect(leg3.steps[1].altMetaData.minEnvelopeAlt.ft).toBe(1200); // gnd
-        expect(leg3.steps[1].altMetaData.maxEnvelopeAlt.ft).toBe(3850);
-        expect(leg3.steps[2].altMetaData.minEnvelopeAlt.ft).toBe(1100); // gnd
-        expect(leg3.steps[2].altMetaData.maxEnvelopeAlt.ft).toBe(1100); // gnd
+        expect(leg3.steps[0].altMetaData.perfEnv.minAlt.ft).toBe(3000); // wp3 min alt
+        expect(leg3.steps[0].altMetaData.perfEnv.maxAlt.ft).toBe(6600); // 500fpm descent to 1100 (bwd)
+        expect(leg3.steps[1].altMetaData.perfEnv.minAlt.ft).toBe(1200); // gnd
+        expect(leg3.steps[1].altMetaData.perfEnv.maxAlt.ft).toBe(3850);
+        expect(leg3.steps[2].altMetaData.perfEnv.minAlt.ft).toBe(1100); // gnd
+        expect(leg3.steps[2].altMetaData.perfEnv.maxAlt.ft).toBe(1100); // gnd
     })
 });
