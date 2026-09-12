@@ -4,11 +4,11 @@ import {VerticalMapAirspace} from './vertical-map-airspace';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {VerticalCloudColumn} from '../../../meteo-forecast/domain/model/vertical-cloud-column';
 import {VerticalWindColumn} from '../../../meteo-forecast/domain/model/vertical-wind-column';
-import {LegAltitudeMetadata} from './leg-altitude-metadata';
+import {VerticalRouteLeg} from './vertical-route-leg';
 
 
 export class VerticalMap {
-    public legAltitudeMetadataList: LegAltitudeMetadata[];
+    public legAltitudeMetadataList: VerticalRouteLeg[];
 
     constructor(
         public mapHeight: Length,

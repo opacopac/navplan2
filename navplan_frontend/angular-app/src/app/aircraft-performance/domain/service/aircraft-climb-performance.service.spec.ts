@@ -27,12 +27,15 @@ describe('AircraftClimbPerformanceService', () => {
         // given
         const legDist = Length.ofNm(10);
         const speed = Speed.ofKt(100);
+        const extraTime = Time.ofMin(5);
 
         // when
         const flightTime = AircraftClimbPerformanceService.calcFlightTime(legDist, speed);
+        const flightTime2 = AircraftClimbPerformanceService.calcFlightTime(legDist, speed, extraTime);
 
         // then
         expect(flightTime.min).toBe(6);
+        expect(flightTime2.min).toBe(11);
     });
 
 

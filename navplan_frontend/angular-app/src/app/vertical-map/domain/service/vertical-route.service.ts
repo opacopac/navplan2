@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {LegAltitudeMetadata} from '../model/leg-altitude-metadata';
+import {VerticalRouteLeg} from '../model/vertical-route-leg';
 import {VerticalMapTerrainStep} from '../model/vertical-map-terrain-step';
 import {VerticalMapWaypointStep} from '../model/vertical-map-waypoint-step';
 import {WaypointType} from '../../../flightroute/domain/model/waypoint-type';
 import {AltitudeMetadata} from '../model/altitude-metadata';
 import {Length} from '../../../geo-physics/domain/model/quantities/length';
 import {Aircraft} from '../../../aircraft/domain/model/aircraft';
-import {StepAltitudeMetadata} from '../model/step-altitude-metadata';
+import {VerticalRouteLegStep} from '../model/vertical-route-leg-step';
 import {Time} from '../../../geo-physics/domain/model/quantities/time';
 import {IVerticalRouteService} from "./i-vertical-route.service";
 
@@ -26,7 +26,7 @@ export class VerticalRouteService implements IVerticalRouteService {
         terrainSteps: VerticalMapTerrainStep[],
         cruiseAltitude: Length,
         aircraft: Aircraft
-    ): LegAltitudeMetadata[] {
+    ): VerticalRouteLeg[] {
         const legs = this.initLegsAndSteps(waypointSteps, terrainSteps, aircraft);
         this.calcLegStepFlightTimes(legs);
         this.calcMinTerrainClearanceForLegsAndSteps(legs);
@@ -45,8 +45,8 @@ export class VerticalRouteService implements IVerticalRouteService {
         waypointSteps: VerticalMapWaypointStep[],
         terrainSteps: VerticalMapTerrainStep[],
         aircraft: Aircraft
-    ): LegAltitudeMetadata[] {
-        const legs: LegAltitudeMetadata[] = [];
+    ): VerticalRouteLeg[] {
+        const legs: VerticalRouteLeg[] = [];
         for (let i = 0; i < waypointSteps.length - 1; i++) {
             const wpStep = waypointSteps[i];
             const nextWpStep = waypointSteps[i + 1];
@@ -60,8 +60,8 @@ export class VerticalRouteService implements IVerticalRouteService {
             const isLastLegToAirport = i === waypointSteps.length - 2 && nextWpStep.waypoint.type === WaypointType.airport;
             const legSteps = terrainSteps
                 .filter(step => step.horDist.m >= startLength.m && step.horDist.m <= endLength.m)
-                .map(step => new StepAltitudeMetadata(step.horDist, step.elevationAmsl));
-            const leg = new LegAltitudeMetadata(
+                .map(step => new VerticalRouteLegStep(step.horDist, step.elevationAmsl));
+            const leg = new VerticalRouteLeg(
                 wpStep.waypoint,
                 nextWpStep.waypoint,
                 isFirstLegFromAirport,
@@ -80,7 +80,7 @@ export class VerticalRouteService implements IVerticalRouteService {
     }
 
 
-    private calcLegStepFlightTimes(legs: LegAltitudeMetadata[]): void {
+    private calcLegStepFlightTimes(legs: VerticalRouteLeg[]): void {
         for (const leg of legs) {
             const legLength = leg.endLength.subtract(leg.startLength);
             leg.steps[0].flightTime = Time.ofZero();
@@ -97,7 +97,7 @@ export class VerticalRouteService implements IVerticalRouteService {
     }
 
 
-    private calcMinTerrainClearanceForLegsAndSteps(legs: LegAltitudeMetadata[]): void {
+    private calcMinTerrainClearanceForLegsAndSteps(legs: VerticalRouteLeg[]): void {
         for (const leg of legs) {
             let maxLegElevation = Length.ofZero();
 
@@ -116,7 +116,7 @@ export class VerticalRouteService implements IVerticalRouteService {
     }
 
 
-    private getUserAltitudesForLegs(legs: LegAltitudeMetadata[]): void {
+    private getUserAltitudesForLegs(legs: VerticalRouteLeg[]): void {
         for (let i = legs.length - 1; i >= 0; i--) {
             const leg = legs[i];
             if (!leg.wpEnd.wpAlt || !leg.wpEnd.wpAlt.alt) {
@@ -137,7 +137,7 @@ export class VerticalRouteService implements IVerticalRouteService {
     }
 
 
-    private clampLegsToFromAirportToGround(legs: LegAltitudeMetadata[], terrainSteps: VerticalMapTerrainStep[]): void {
+    private clampLegsToFromAirportToGround(legs: VerticalRouteLeg[], terrainSteps: VerticalMapTerrainStep[]): void {
         const firstLeg = legs[0];
         if (firstLeg.isFirstLegFromAirport) {
             const firstElevation = terrainSteps[0].elevationAmsl;
@@ -154,7 +154,7 @@ export class VerticalRouteService implements IVerticalRouteService {
     }
 
 
-    private initStepsWithUserAltitudes(legs: LegAltitudeMetadata[]): void {
+    private initStepsWithUserAltitudes(legs: VerticalRouteLeg[]): void {
         for (const leg of legs) {
             const firstStep = leg.steps[0];
             const lastStep = leg.steps[leg.steps.length - 1];
@@ -167,7 +167,7 @@ export class VerticalRouteService implements IVerticalRouteService {
     }
 
 
-    private calcLegsEnvelopeForwards(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
+    private calcLegsEnvelopeForwards(legs: VerticalRouteLeg[], aircraft: Aircraft): void {
         for (let i = 0; i < legs.length; i++) {
             const leg = legs[i];
             const firstStep = leg.steps[0];
@@ -205,7 +205,7 @@ export class VerticalRouteService implements IVerticalRouteService {
     }
 
 
-    private calcLegStepsEnvelopeForwards(leg: LegAltitudeMetadata, aircraft: Aircraft): void {
+    private calcLegStepsEnvelopeForwards(leg: VerticalRouteLeg, aircraft: Aircraft): void {
         for (let i = 1; i < leg.steps.length; i++) {
             const step = leg.steps[i];
 
@@ -236,7 +236,7 @@ export class VerticalRouteService implements IVerticalRouteService {
     }
 
 
-    private calcLegsEnvelopeBackwards(legs: LegAltitudeMetadata[], aircraft: Aircraft): void {
+    private calcLegsEnvelopeBackwards(legs: VerticalRouteLeg[], aircraft: Aircraft): void {
         for (let i = legs.length - 1; i >= 0; i--) {
             const leg = legs[i];
             const lastStep = leg.steps[leg.steps.length - 1];
@@ -274,7 +274,7 @@ export class VerticalRouteService implements IVerticalRouteService {
     }
 
 
-    private calcLegStepsEnvelopeBackwards(leg: LegAltitudeMetadata, aircraft: Aircraft): void {
+    private calcLegStepsEnvelopeBackwards(leg: VerticalRouteLeg, aircraft: Aircraft): void {
         for (let j = leg.steps.length - 2; j >= 0; j--) {
             const step = leg.steps[j];
             const nextStep = leg.steps[j + 1];
@@ -333,7 +333,7 @@ export class VerticalRouteService implements IVerticalRouteService {
         }
     }
 
-    private calcStepDisplayAlts(legs: LegAltitudeMetadata[], cruiseAltitude: Length, aircraft: Aircraft): void {
+    private calcStepDisplayAlts(legs: VerticalRouteLeg[], cruiseAltitude: Length, aircraft: Aircraft): void {
         let hasCruiseAltitudeBeenReached = cruiseAltitude ? !cruiseAltitude : true;
         let currentAlt = legs[0].startAlt.minEnvelopeAlt;
         let nextAlt: Length;
@@ -372,7 +372,7 @@ export class VerticalRouteService implements IVerticalRouteService {
     }
 
 
-    private calcStepDisplayAlts2(legs: LegAltitudeMetadata[], cruiseAltitude: Length, aircraft: Aircraft): void {
+    private calcStepDisplayAlts2(legs: VerticalRouteLeg[], cruiseAltitude: Length, aircraft: Aircraft): void {
         const midLegStep = this.findCruiseAltReachedLegAndStep(legs, cruiseAltitude);
         let currentAlt = legs[midLegStep.legIdx].steps[midLegStep.stepIdx].altMetaData.maxEnvelopeAlt;
         let nextAlt: Length;
@@ -440,7 +440,7 @@ export class VerticalRouteService implements IVerticalRouteService {
     }
 
 
-    private findCruiseAltReachedLegAndStep(legs: LegAltitudeMetadata[], cruiseAltitude: Length): {
+    private findCruiseAltReachedLegAndStep(legs: VerticalRouteLeg[], cruiseAltitude: Length): {
         legIdx: number,
         stepIdx: number
     } {

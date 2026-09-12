@@ -3,7 +3,7 @@ import {Time} from '../../../geo-physics/domain/model/quantities/time';
 import {AltitudeMetadata} from './altitude-metadata';
 
 
-export class StepAltitudeMetadata {
+export class VerticalRouteLegStep {
     public readonly altMetaData = new AltitudeMetadata();
     public minTerrainClearanceAlt: Length;
     public flightTime: Time;

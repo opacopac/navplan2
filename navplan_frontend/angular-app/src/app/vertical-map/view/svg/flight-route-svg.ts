@@ -5,12 +5,12 @@ import {Waypoint} from '../../../flightroute/domain/model/waypoint';
 import {ImageDimensionsSvg} from '../../../common/svg/image-dimensions-svg';
 import {SvgLineBuilder} from '../../../common/svg/svg-line-builder';
 import {SvgTitleElement} from '../../../common/svg/svg-title-element';
-import {LegAltitudeMetadata} from '../../domain/model/leg-altitude-metadata';
+import {VerticalRouteLeg} from '../../domain/model/vertical-route-leg';
 
 
 export class FlightRouteSvg {
     public static create2(
-        legs: LegAltitudeMetadata[],
+        legs: VerticalRouteLeg[],
         imgDim: ImageDimensionsSvg,
         wpClickCallback: (Waypoint) => void
     ): SVGElement {
@@ -58,7 +58,7 @@ export class FlightRouteSvg {
 
 
     public static create(
-        legs: LegAltitudeMetadata[],
+        legs: VerticalRouteLeg[],
         imgDim: ImageDimensionsSvg,
         wpClickCallback: (Waypoint) => void
     ): SVGElement {
