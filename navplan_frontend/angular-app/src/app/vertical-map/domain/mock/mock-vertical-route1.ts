@@ -8,8 +8,8 @@ import {MockTerrStepBuilder} from "./mock-terr-step-builder";
 
 export class MockVerticalRoute1 {
     public static WP1 = MockWaypointBuilder.anAdWp('WP1').build();
-    public static WP2 = MockWaypointBuilder.aWp('WP2').withVacMin(5).withAlt(5000, true).build();
-    public static WP3 = MockWaypointBuilder.aWp('WP3').withAlt(5000, true).build();
+    public static WP2 = MockWaypointBuilder.aWp('WP2').withVacMin(5).withAlt(5500, false, true).build();
+    public static WP3 = MockWaypointBuilder.aWp('WP3').withAlt(3000, true).build();
     public static WP4 = MockWaypointBuilder.anAdWp('WP4').withVacMin(5).build();
     public static WPS1 = MockWpStepBuilder.aStepAltDistWp(0, 0, this.WP1).build();
     public static WPS2 = MockWpStepBuilder.aStepAltDistWp(0, 10, this.WP2).build();
