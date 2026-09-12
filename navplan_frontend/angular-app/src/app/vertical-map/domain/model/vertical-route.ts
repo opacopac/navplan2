@@ -126,6 +126,12 @@ export class VerticalRoute {
                     lastStep.minTerrainClearanceAlt,
                     this.aircraft.serviceCeiling
                 );
+                EnvelopeAltTriage.determineSteepEnvelopeAltByPrio(
+                    leg.endAlt,
+                    lastStep.minTerrainClearanceAlt,
+                    lastStep.minTerrainClearanceAlt,
+                    this.aircraft.serviceCeiling
+                );
             } else {
                 const nextLeg = this.legs[i + 1];
                 EnvelopeAltTriage.determineEnvelopeAltByPrio(
@@ -134,11 +140,19 @@ export class VerticalRoute {
                     nextLeg.startAlt.perfEnv.minAlt,
                     nextLeg.startAlt.perfEnv.maxAlt
                 );
+                EnvelopeAltTriage.determineSteepEnvelopeAltByPrio(
+                    leg.endAlt,
+                    lastStep.minTerrainClearanceAlt,
+                    nextLeg.startAlt.perfEnvSteep.minAlt,
+                    nextLeg.startAlt.perfEnvSteep.maxAlt
+                );
             }
 
             // copy leg end altitudes to last step
             lastStep.altMetaData.perfEnv.minAlt = leg.endAlt.perfEnv.minAlt;
             lastStep.altMetaData.perfEnv.maxAlt = leg.endAlt.perfEnv.maxAlt;
+            lastStep.altMetaData.perfEnvSteep.minAlt = leg.endAlt.perfEnvSteep.minAlt;
+            lastStep.altMetaData.perfEnvSteep.maxAlt = leg.endAlt.perfEnvSteep.maxAlt;
 
             // calc envelope altitudes
             leg.calcLegStepsEnvelopeBackwards(this.aircraft);
@@ -147,6 +161,8 @@ export class VerticalRoute {
             const firstStep = leg.steps[0];
             leg.startAlt.perfEnv.minAlt = firstStep.altMetaData.perfEnv.minAlt;
             leg.startAlt.perfEnv.maxAlt = firstStep.altMetaData.perfEnv.maxAlt;
+            leg.startAlt.perfEnvSteep.minAlt = firstStep.altMetaData.perfEnvSteep.minAlt;
+            leg.startAlt.perfEnvSteep.maxAlt = firstStep.altMetaData.perfEnvSteep.maxAlt;
         }
     }
 
@@ -164,6 +180,12 @@ export class VerticalRoute {
                     firstStep.minTerrainClearanceAlt,
                     this.aircraft.serviceCeiling
                 );
+                EnvelopeAltTriage.determineSteepEnvelopeAltByPrio(
+                    leg.startAlt,
+                    firstStep.minTerrainClearanceAlt,
+                    firstStep.minTerrainClearanceAlt,
+                    this.aircraft.serviceCeiling
+                );
             } else {
                 const prevLeg = this.legs[i - 1];
                 EnvelopeAltTriage.determineEnvelopeAltByPrio(
@@ -172,11 +194,19 @@ export class VerticalRoute {
                     prevLeg.endAlt.perfEnv.minAlt,
                     prevLeg.endAlt.perfEnv.maxAlt
                 );
+                EnvelopeAltTriage.determineSteepEnvelopeAltByPrio(
+                    leg.startAlt,
+                    firstStep.minTerrainClearanceAlt,
+                    prevLeg.endAlt.perfEnvSteep.minAlt,
+                    prevLeg.endAlt.perfEnvSteep.maxAlt
+                );
             }
 
             // copy leg start altitudes to first step
             firstStep.altMetaData.perfEnv.minAlt = leg.startAlt.perfEnv.minAlt;
             firstStep.altMetaData.perfEnv.maxAlt = leg.startAlt.perfEnv.maxAlt;
+            firstStep.altMetaData.perfEnvSteep.minAlt = leg.startAlt.perfEnvSteep.minAlt;
+            firstStep.altMetaData.perfEnvSteep.maxAlt = leg.startAlt.perfEnvSteep.maxAlt;
 
             // calc envelope altitudes
             leg.calcLegStepsEnvelopeForwards(this.aircraft);
@@ -185,6 +215,8 @@ export class VerticalRoute {
             const lastStep = leg.steps[leg.steps.length - 1];
             leg.endAlt.perfEnv.minAlt = lastStep.altMetaData.perfEnv.minAlt;
             leg.endAlt.perfEnv.maxAlt = lastStep.altMetaData.perfEnv.maxAlt;
+            leg.endAlt.perfEnvSteep.minAlt = lastStep.altMetaData.perfEnvSteep.minAlt;
+            leg.endAlt.perfEnvSteep.maxAlt = lastStep.altMetaData.perfEnvSteep.maxAlt;
         }
     }
 

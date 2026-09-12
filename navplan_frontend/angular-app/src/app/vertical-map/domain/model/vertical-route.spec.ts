@@ -206,6 +206,42 @@ describe('VerticalRoute', () => {
     })
 
 
+    it('calculates the correct performance steep envelope min/max altitudes for each leg and step', () => {
+        // given
+
+        // when
+        const route1 = MockVerticalRoute1.create();
+
+        // then
+        // leg 1
+        const leg1 = route1.legs[0];
+        expect(leg1.steps[0].altMetaData.perfEnvSteep.minAlt.ft).toBe(1000); // gnd
+        expect(leg1.steps[0].altMetaData.perfEnvSteep.maxAlt.ft).toBe(1000); // gnd
+        expect(leg1.steps[1].altMetaData.perfEnvSteep.minAlt.ft).toBe(1100); // gnd
+        expect(leg1.steps[1].altMetaData.perfEnvSteep.maxAlt.ft).toBeCloseTo(4672, 0); // max climb from 1000
+        expect(leg1.steps[2].altMetaData.perfEnvSteep.minAlt.ft).toBe(2200); // gnd + 1000
+        expect(leg1.steps[2].altMetaData.perfEnvSteep.maxAlt.ft).toBe(5500); // wp2 max alt
+
+        // leg 2
+        const leg2 = route1.legs[1];
+        expect(leg2.steps[0].altMetaData.perfEnvSteep.minAlt.ft).toBe(2200); // gnd + 1000
+        expect(leg2.steps[0].altMetaData.perfEnvSteep.maxAlt.ft).toBe(5500); // wp2 max alt
+        expect(leg2.steps[1].altMetaData.perfEnvSteep.minAlt.ft).toBe(2300); // gnd + 1000
+        expect(leg2.steps[1].altMetaData.perfEnvSteep.maxAlt.ft).toBeCloseTo(7130, 0); // max climb from 5500
+        expect(leg2.steps[2].altMetaData.perfEnvSteep.minAlt.ft).toBe(3000); // wp3 min alt
+        expect(leg2.steps[2].altMetaData.perfEnvSteep.maxAlt.ft).toBeCloseTo(8484, 0); // max climb from 7130
+
+        // leg 3
+        const leg3 = route1.legs[2];
+        expect(leg3.steps[0].altMetaData.perfEnvSteep.minAlt.ft).toBe(3000); // wp3 min alt
+        expect(leg3.steps[0].altMetaData.perfEnvSteep.maxAlt.ft).toBeCloseTo(8484, 0); // max climb from 7130
+        expect(leg3.steps[1].altMetaData.perfEnvSteep.minAlt.ft).toBe(1200); // gnd
+        expect(leg3.steps[1].altMetaData.perfEnvSteep.maxAlt.ft).toBe(6600); // 1000fpm descent to 1100
+        expect(leg3.steps[2].altMetaData.perfEnvSteep.minAlt.ft).toBe(1100); // gnd
+        expect(leg3.steps[2].altMetaData.perfEnvSteep.maxAlt.ft).toBe(1100); // gnd
+    })
+
+
     it('calculates the correct display altitudes for each leg and step', () => {
         // given
 
