@@ -190,70 +190,73 @@ export class VerticalRoute {
 
 
     private calcStepDisplayAlts(): void {
-        const midLegStep = this.findCruiseAltReachedLegAndStep();
-        let currentAlt = this.legs[midLegStep.legIdx].steps[midLegStep.stepIdx].altMetaData.perfEnv.maxAlt;
+        const midLegStepIdx = this.findCruiseAltReachedLegAndStep();
+        const midLeg = this.legs[midLegStepIdx.legIdx];
+        const midLegStep = midLeg.steps[midLegStepIdx.stepIdx];
+
+        let currentAlt = this.getStartDispAlt(midLegStep, this.cruiseAltitude);
         let nextAlt: Length;
 
         // backwards from cruise altitude
-        for (let i = midLegStep.legIdx; i >= 0; i--) {
+        for (let i = midLegStepIdx.legIdx; i >= 0; i--) {
             const leg = this.legs[i];
-            const startStepIdx = i === midLegStep.legIdx ? midLegStep.stepIdx : leg.steps.length - 1;
+            const startStepIdx = i === midLegStepIdx.legIdx ? midLegStepIdx.stepIdx : leg.steps.length - 1;
 
-            if (i < midLegStep.legIdx) {
+            if (i < midLegStepIdx.legIdx) {
                 leg.endAlt.displayAlt = currentAlt;
             }
 
             for (let j = startStepIdx; j >= 0; j--) {
                 const step = leg.steps[j];
-
-                nextAlt = currentAlt;
-
-                if (currentAlt.isGreaterThan(step.altMetaData.perfEnv.maxAlt)) {
-                    nextAlt = step.altMetaData.perfEnv.maxAlt;
-                }
-
-                if (currentAlt.isLessThan(step.altMetaData.perfEnv.minAlt)) {
-                    nextAlt = step.altMetaData.perfEnv.minAlt;
-                }
-
-                step.altMetaData.displayAlt = nextAlt;
-
-                currentAlt = nextAlt;
+                currentAlt = this.calcNextDispAlt(step, currentAlt);
             }
 
             leg.startAlt.displayAlt = currentAlt;
         }
 
         // forwards from cruise altitude
-        currentAlt = this.legs[midLegStep.legIdx].steps[midLegStep.stepIdx].altMetaData.perfEnv.maxAlt;
-        for (let i = midLegStep.legIdx; i < this.legs.length; i++) {
+        currentAlt = this.getStartDispAlt(midLegStep, this.cruiseAltitude);
+        for (let i = midLegStepIdx.legIdx; i < this.legs.length; i++) {
             const leg = this.legs[i];
-            const startStepIdx = i === midLegStep.legIdx ? midLegStep.stepIdx : 0;
+            const startStepIdx = i === midLegStepIdx.legIdx ? midLegStepIdx.stepIdx : 0;
 
-            if (i > midLegStep.legIdx) {
+            if (i > midLegStepIdx.legIdx) {
                 leg.startAlt.displayAlt = currentAlt;
             }
 
             for (let j = startStepIdx; j < leg.steps.length; j++) {
                 const step = leg.steps[j];
-
-                nextAlt = currentAlt;
-
-                if (currentAlt.isGreaterThan(step.altMetaData.perfEnv.maxAlt)) {
-                    nextAlt = step.altMetaData.perfEnv.maxAlt;
-                }
-
-                if (currentAlt.isLessThan(step.altMetaData.perfEnv.minAlt)) {
-                    nextAlt = step.altMetaData.perfEnv.minAlt;
-                }
-
-                step.altMetaData.displayAlt = nextAlt;
-
-                currentAlt = nextAlt;
+                currentAlt = this.calcNextDispAlt(step, currentAlt);
             }
 
             leg.endAlt.displayAlt = currentAlt;
         }
+    }
+
+
+    private getStartDispAlt(midLegStep: VerticalRouteLegStep, cruiseAltitude: Length): Length {
+        if (midLegStep.altMetaData.perfEnv.maxAlt.isGreaterThan(cruiseAltitude) && midLegStep.altMetaData.perfEnv.minAlt.isLessThan(cruiseAltitude)) {
+            return cruiseAltitude;
+        }
+
+        return midLegStep.altMetaData.perfEnv.maxAlt;
+    }
+
+
+    private calcNextDispAlt(step: VerticalRouteLegStep, currentAlt: Length): Length {
+        let nextAlt = currentAlt;
+
+        if (currentAlt.isGreaterThan(step.altMetaData.perfEnv.maxAlt)) {
+            nextAlt = step.altMetaData.perfEnv.maxAlt;
+        }
+
+        if (currentAlt.isLessThan(step.altMetaData.perfEnv.minAlt)) {
+            nextAlt = step.altMetaData.perfEnv.minAlt;
+        }
+
+        step.altMetaData.displayAlt = nextAlt;
+
+        return nextAlt;
     }
 
 
