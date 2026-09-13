@@ -8,9 +8,10 @@ describe('VerticalRoute', () => {
 
     it('initializes a vertical route with legs and steps', () => {
         // given
+        const route1 = MockVerticalRoute1.create();
 
         // when
-        const route1 = MockVerticalRoute1.create();
+        route1.calculate();
 
         // then
         expect(route1.legs.length).toBe(3);
@@ -22,9 +23,10 @@ describe('VerticalRoute', () => {
 
     it('correctly identifies the first and last legs to/from airports', () => {
         // given
+        const route1 = MockVerticalRoute1.create();
 
         // when
-        const route1 = MockVerticalRoute1.create();
+        route1.calculate();
 
         // then
         expect(route1.legs[0].isFirstLegFromAirport).toBeTrue();
@@ -35,9 +37,10 @@ describe('VerticalRoute', () => {
 
     it('calculates the correct flight time for each leg (incl. extra-time)', () => {
         // given
+        const route1 = MockVerticalRoute1.create();
 
         // when
-        const route1 = MockVerticalRoute1.create();
+        route1.calculate();
 
         // then
         expect(route1.legs[0].flightTime.min).toBe(11); // +5min
@@ -52,9 +55,10 @@ describe('VerticalRoute', () => {
 
     it('calculates the correct step flight and climb times for each leg', () => {
         // given
+        const route1 = MockVerticalRoute1.create();
 
         // when
-        const route1 = MockVerticalRoute1.create();
+        route1.calculate();
 
         // then
         // leg 1
@@ -83,14 +87,15 @@ describe('VerticalRoute', () => {
         expect(leg3.steps[1].climbTime.min).toBe(6.5);
         expect(leg3.steps[2].flightTime.min).toBe(5.5);
         expect(leg3.steps[2].climbTime.min).toBe(6.5);
-    })
+    });
 
 
     it('calculates the correct minimum terrain clearance for each leg and step', () => {
         // given
+        const route1 = MockVerticalRoute1.create();
 
         // when
-        const route1 = MockVerticalRoute1.create();
+        route1.calculate();
 
         // then
         // leg 1
@@ -118,9 +123,10 @@ describe('VerticalRoute', () => {
 
     it('get the correct start/end user altitudes for each leg and first/last step', () => {
         // given
+        const route1 = MockVerticalRoute1.create();
 
         // when
-        const route1 = MockVerticalRoute1.create();
+        route1.calculate();
 
         // then
         // leg 1
@@ -172,9 +178,10 @@ describe('VerticalRoute', () => {
 
     it('calculates the correct performance envelope min/max altitudes for each leg and step', () => {
         // given
+        const route1 = MockVerticalRoute1.create();
 
         // when
-        const route1 = MockVerticalRoute1.create();
+        route1.calculate();
 
         // then
         // leg 1
@@ -208,9 +215,10 @@ describe('VerticalRoute', () => {
 
     it('calculates the correct performance steep envelope min/max altitudes for each leg and step', () => {
         // given
+        const route1 = MockVerticalRoute1.create();
 
         // when
-        const route1 = MockVerticalRoute1.create();
+        route1.calculate();
 
         // then
         // leg 1
@@ -244,9 +252,10 @@ describe('VerticalRoute', () => {
 
     it('calculates the correct display altitudes for each leg and step', () => {
         // given
+        const route1 = MockVerticalRoute1.create();
 
         // when
-        const route1 = MockVerticalRoute1.create();
+        route1.calculate();
 
         // then
         // leg 1

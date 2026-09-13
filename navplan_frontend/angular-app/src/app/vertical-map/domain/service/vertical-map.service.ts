@@ -47,6 +47,7 @@ export class VerticalMapService implements IVerticalMapService {
                     cruiseAlt,
                     aircraft
                 )
+                verticalRoute.calculate();
 
                 vm.legAltitudeMetadataList = verticalRoute.legs;
             })

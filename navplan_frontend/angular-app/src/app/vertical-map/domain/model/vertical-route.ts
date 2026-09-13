@@ -20,6 +20,10 @@ export class VerticalRoute {
         private cruiseAltitude: Length,
         private aircraft: Aircraft
     ) {
+    }
+
+
+    public calculate(): void {
         this.initLegsAndSteps();
         this.getUserAltitudesForLegs();
         this.clampLegsToFromAirportToGround();
