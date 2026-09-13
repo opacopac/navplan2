@@ -41,21 +41,31 @@ export class FlightRouteSvg {
                     .build()
                 );
 
-                const startXy3 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnvSteep.maxAlt);
-                const endXy3 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnvSteep.maxAlt);
+                const startXy3 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnvSteep.minAlt);
+                const endXy3 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnvSteep.minAlt);
                 svg.appendChild(SvgLineBuilder.builder()
                     .setStartXy(startXy3)
                     .setEndXy(endXy3)
-                    .setStrokeStyle('rgba(255, 165, 0, 1.0)', 4)
+                    .setStrokeStyle('rgba(255, 165, 0, 1.0)', 3)
                     .setShapeRenderingCrispEdges()
                     .build()
                 );
 
-                const startXy4 = imgDim.calcXy(step.stepDist, step.altMetaData.displayAlt);
-                const endXy4 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.displayAlt);
+                const startXy4 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnvSteep.maxAlt);
+                const endXy4 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnvSteep.maxAlt);
                 svg.appendChild(SvgLineBuilder.builder()
                     .setStartXy(startXy4)
                     .setEndXy(endXy4)
+                    .setStrokeStyle('rgba(255, 255, 0, 1.0)', 2)
+                    .setShapeRenderingCrispEdges()
+                    .build()
+                );
+
+                const startXy5 = imgDim.calcXy(step.stepDist, step.altMetaData.displayAlt);
+                const endXy5 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.displayAlt);
+                svg.appendChild(SvgLineBuilder.builder()
+                    .setStartXy(startXy5)
+                    .setEndXy(endXy5)
                     .setStrokeStyle('rgba(0, 255, 255, 1.0)', 2)
                     .setShapeRenderingCrispEdges()
                     .build()

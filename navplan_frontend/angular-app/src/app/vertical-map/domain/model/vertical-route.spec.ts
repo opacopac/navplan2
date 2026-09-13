@@ -370,4 +370,22 @@ describe('VerticalRoute', () => {
         expect(leg3.steps[1].altMetaData.displayAlt.ft).toBe(3850);
         expect(leg3.steps[2].altMetaData.displayAlt.ft).toBe(1100);
     })
+
+
+    it('switches to the steep envelope for the last part of a single steep leg', () => {
+        // given
+        const route3 = MockVerticalRoute3.create();
+
+        // when
+        route3.calculate();
+
+        // then
+        // leg 1
+        const leg1 = route3.legs[0];
+        expect(leg1.steps[0].altMetaData.displayAlt.ft).toBe(0);
+        expect(leg1.steps[1].altMetaData.displayAlt.ft).toBe(7000);
+        expect(leg1.steps[2].altMetaData.displayAlt.ft).toBe(5500);
+        expect(leg1.steps[3].altMetaData.displayAlt.ft).toBe(3000);
+        expect(leg1.steps[4].altMetaData.displayAlt.ft).toBe(0);
+    })
 });

@@ -269,12 +269,20 @@ export class VerticalRoute {
     private calcNextDispAlt(step: VerticalRouteLegStep, currentAlt: Length): Length {
         let nextAlt = currentAlt;
 
-        if (currentAlt.isGreaterThan(step.altMetaData.perfEnv.maxAlt)) {
-            nextAlt = step.altMetaData.perfEnv.maxAlt;
+        const useSteepEnvelope = step.altMetaData.perfEnvSteep.maxAlt.isLessThan(step.altMetaData.perfEnv.maxAlt);
+        const maxAlt = useSteepEnvelope
+            ? step.altMetaData.perfEnvSteep.maxAlt
+            : step.altMetaData.perfEnv.maxAlt;
+        const minAlt = useSteepEnvelope
+            ? step.altMetaData.perfEnvSteep.minAlt
+            : step.altMetaData.perfEnv.minAlt;
+
+        if (currentAlt.isGreaterThan(maxAlt)) {
+            nextAlt = maxAlt;
         }
 
-        if (currentAlt.isLessThan(step.altMetaData.perfEnv.minAlt)) {
-            nextAlt = step.altMetaData.perfEnv.minAlt;
+        if (currentAlt.isLessThan(minAlt)) {
+            nextAlt = minAlt;
         }
 
         step.altMetaData.displayAlt = nextAlt;
