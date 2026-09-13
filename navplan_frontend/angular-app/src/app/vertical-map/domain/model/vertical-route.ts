@@ -287,17 +287,30 @@ export class VerticalRoute {
         legIdx: number,
         stepIdx: number
     } {
+        var highestPtIdx = { legIdx: 0, stepIdx: 0 };
+        var highestPtAlt = this.legs[0].steps[0].altMetaData.perfEnvSteep.maxAlt;
+
         for (let i = 0; i < this.legs.length; i++) {
             const leg = this.legs[i];
             for (let j = 0; j < leg.steps.length; j++) {
                 const step = leg.steps[j];
-                if (step.altMetaData.perfEnv.maxAlt.isGreaterThanOrEqual(this.cruiseAltitude)) {
+                const stepPerfEnvSteepMaxAlt = step.altMetaData.perfEnvSteep.maxAlt
+                if (stepPerfEnvSteepMaxAlt.isGreaterThanOrEqual(this.cruiseAltitude)) {
                     return {
                         legIdx: i,
                         stepIdx: j
                     };
                 }
+
+                // check & update highest point
+                if (stepPerfEnvSteepMaxAlt.isGreaterThan(highestPtAlt)) {
+                    highestPtAlt = stepPerfEnvSteepMaxAlt;
+                    highestPtIdx = { legIdx: i, stepIdx: j };
+                }
             }
         }
+
+        // cruise altitude not reached
+        return highestPtIdx;
     }
 }

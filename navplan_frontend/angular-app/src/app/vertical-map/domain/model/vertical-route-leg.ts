@@ -99,16 +99,15 @@ export class VerticalRouteLeg {
             const step = this.steps[j];
             const nextStep = this.steps[j + 1];
 
-            // calculate climb/descent performance backwards from next step
-            const stepMinClimbAlt = aircraft.calcClimbStartingAlt(nextStep.altMetaData.perfEnv.minAlt, nextStep.climbTime);
-            const stepMaxDecentAlt = aircraft.calcDescentStartingAlt(nextStep.altMetaData.perfEnv.maxAlt, nextStep.flightTime);
+            // calculate standard climb/descent performance backwards from next step
+            const perfEnvAlt = nextStep.altMetaData.perfEnv;
+            const stepMinClimbAlt = aircraft.calcClimbStartingAlt(perfEnvAlt.minAlt, nextStep.climbTime);
+            const stepMaxDecentAlt = aircraft.calcDescentStartingAlt(perfEnvAlt.maxAlt, nextStep.flightTime);
 
-            const stepMinClimbAltSteep = aircraft.calcClimbStartingAlt(nextStep.altMetaData.perfEnvSteep.minAlt, nextStep.climbTime);
-            const stepMaxDecentAltSteep = aircraft.calcDescentStartingAlt(
-                nextStep.altMetaData.perfEnvSteep.maxAlt,
-                nextStep.flightTime,
-                Aircraft.MAX_DESCENT_RATE_WITHOUT_WARNING
-            );
+            // calculate steep climb/descent performance backwards from next step
+            const perfEnvAltSteep = nextStep.altMetaData.perfEnvSteep;
+            const stepMinClimbAltSteep = aircraft.calcClimbStartingAlt(perfEnvAltSteep.minAlt, nextStep.climbTime);
+            const stepMaxDecentAltSteep = aircraft.calcSteepDescentStartingAlt(perfEnvAltSteep.maxAlt, nextStep.flightTime);
 
             EnvelopeAltTriage.determineEnvelopeAltByPrio(
                 step.altMetaData,
@@ -126,41 +125,34 @@ export class VerticalRouteLeg {
         for (let i = 1; i < this.steps.length; i++) {
             const step = this.steps[i];
 
-            // calculate climb/descent performance from previous step
+            // calculate standard climb/descent performance from previous step
             const prevStep = this.steps[i - 1];
-            const stepDecentAltFt = aircraft.calcDescentTargetAlt(prevStep.altMetaData.perfEnv.minAlt, step.flightTime);
-            const stepClimbAltFt = aircraft.calcClimbTargetAlt(prevStep.altMetaData.perfEnv.maxAlt, step.climbTime);
+            const prevPerfEnvAlt = prevStep.altMetaData.perfEnv;
+            const stepDecentAlt = aircraft.calcDescentTargetAlt(prevPerfEnvAlt.minAlt, step.flightTime);
+            const stepClimbAlt = aircraft.calcClimbTargetAlt(prevPerfEnvAlt.maxAlt, step.climbTime);
 
-            const stepMaxEnvAlt = stepClimbAltFt.isLessThan(step.altMetaData.perfEnv.maxAlt)
-                ? stepClimbAltFt
-                : stepDecentAltFt.isGreaterThan(step.altMetaData.perfEnv.maxAlt)
-                    ? stepDecentAltFt
-                    : step.altMetaData.perfEnv.maxAlt;
+            const perfEnvAlt = step.altMetaData.perfEnv;
+            const stepMaxEnvAlt = stepClimbAlt.isLessThan(perfEnvAlt.maxAlt)
+                ? stepClimbAlt
+                : stepDecentAlt.isGreaterThan(perfEnvAlt.maxAlt) ? stepDecentAlt : perfEnvAlt.maxAlt;
 
-            const stepMinEnvAlt = stepDecentAltFt.isGreaterThan(step.altMetaData.perfEnv.minAlt)
-                ? stepDecentAltFt
-                : stepClimbAltFt.isLessThan(step.altMetaData.perfEnv.minAlt)
-                    ? stepClimbAltFt
-                    : step.altMetaData.perfEnv.minAlt;
+            const stepMinEnvAlt = stepDecentAlt.isGreaterThan(perfEnvAlt.minAlt)
+                ? stepDecentAlt
+                : stepClimbAlt.isLessThan(perfEnvAlt.minAlt) ? stepClimbAlt : perfEnvAlt.minAlt;
 
-            const stepDecentAltFtSteep = aircraft.calcDescentTargetAlt(
-                prevStep.altMetaData.perfEnvSteep.minAlt,
-                step.flightTime,
-                Aircraft.MAX_DESCENT_RATE_WITHOUT_WARNING
-            );
-            const stepClimbAltFtSteep = aircraft.calcClimbTargetAlt(prevStep.altMetaData.perfEnvSteep.maxAlt, step.climbTime);
+            // calculate steep climb/descent performance from previous step
+            const prevPerfEnvAltSteep = prevStep.altMetaData.perfEnvSteep;
+            const stepDecentAltFtSteep = aircraft.calcSteepDescentTargetAlt(prevPerfEnvAltSteep.minAlt, step.flightTime);
+            const stepClimbAltFtSteep = aircraft.calcClimbTargetAlt(prevPerfEnvAltSteep.maxAlt, step.climbTime);
 
-            const stepMaxEnvAltSteep = stepClimbAltFtSteep.isLessThan(step.altMetaData.perfEnvSteep.maxAlt)
+            const perfEnvAltSteep = step.altMetaData.perfEnvSteep;
+            const stepMaxEnvAltSteep = stepClimbAltFtSteep.isLessThan(perfEnvAltSteep.maxAlt)
                 ? stepClimbAltFtSteep
-                : stepDecentAltFtSteep.isGreaterThan(step.altMetaData.perfEnvSteep.maxAlt)
-                    ? stepDecentAltFtSteep
-                    : step.altMetaData.perfEnvSteep.maxAlt;
+                : stepDecentAltFtSteep.isGreaterThan(perfEnvAltSteep.maxAlt) ? stepDecentAltFtSteep : perfEnvAltSteep.maxAlt;
 
-            const stepMinEnvAltSteep = stepDecentAltFtSteep.isGreaterThan(step.altMetaData.perfEnvSteep.minAlt)
+            const stepMinEnvAltSteep = stepDecentAltFtSteep.isGreaterThan(perfEnvAltSteep.minAlt)
                 ? stepDecentAltFtSteep
-                : stepClimbAltFtSteep.isLessThan(step.altMetaData.perfEnvSteep.minAlt)
-                    ? stepClimbAltFtSteep
-                    : step.altMetaData.perfEnvSteep.minAlt;
+                : stepClimbAltFtSteep.isLessThan(perfEnvAltSteep.minAlt) ? stepClimbAltFtSteep : perfEnvAltSteep.minAlt;
 
             EnvelopeAltTriage.determineEnvelopeAltByPrio(
                 step.altMetaData,

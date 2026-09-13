@@ -129,6 +129,11 @@ export class Aircraft {
     }
 
 
+    public calcSteepDescentTargetAlt(startingAlt: Length, time: Time): Length {
+        return this.calcDescentTargetAlt(startingAlt, time, Aircraft.MAX_DESCENT_RATE_WITHOUT_WARNING);
+    }
+
+
     public calcClimbStartingAlt(targetAlt: Length, climbTime: Time): Length {
         return AircraftClimbPerformanceService.calcClimbStartingAlt(
             targetAlt,
@@ -148,5 +153,10 @@ export class Aircraft {
         );
 
         return descendFromAlt.isLessThan(maxAlt) ? descendFromAlt : maxAlt;
+    }
+
+
+    public calcSteepDescentStartingAlt(targetAlt: Length, descentTime: Time): Length {
+        return this.calcDescentStartingAlt(targetAlt, descentTime, Aircraft.MAX_DESCENT_RATE_WITHOUT_WARNING);
     }
 }

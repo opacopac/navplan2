@@ -1,5 +1,6 @@
 import {MockVerticalRoute1} from "../mock/mock-vertical-route1";
 import {MockVerticalRoute2} from "../mock/mock-vertical-route2";
+import {MockVerticalRoute3} from "../mock/mock-vertical-route3";
 
 
 describe('VerticalRoute', () => {
@@ -274,7 +275,7 @@ describe('VerticalRoute', () => {
     })
 
 
-    it('calculates the correct performance envelope min/max altitudes for a single steep leg', () => {
+    it('calculates the correct performance envelope min/max altitudes for a single too steep leg', () => {
         // given
         const route2 = MockVerticalRoute2.create();
 
@@ -296,7 +297,7 @@ describe('VerticalRoute', () => {
         expect(leg1.steps[5].altMetaData.perfEnvSteep.minAlt.ft).toBe(11000);
         expect(leg1.steps[5].altMetaData.perfEnvSteep.maxAlt.ft).toBe(11000);
         expect(leg1.steps[6].altMetaData.perfEnvSteep.minAlt.ft).toBe(9800); // 1000fpm descent from 11000 in 1.2min
-        expect(leg1.steps[6].altMetaData.perfEnvSteep.maxAlt.ft).toBe(9800); // 1000fpm descent from 11000 in 1.2min
+        expect(leg1.steps[6].altMetaData.perfEnvSteep.maxAlt.ft).toBe(9800); // etc.
         expect(leg1.steps[7].altMetaData.perfEnvSteep.minAlt.ft).toBe(8600);
         expect(leg1.steps[7].altMetaData.perfEnvSteep.maxAlt.ft).toBe(8600);
         expect(leg1.steps[8].altMetaData.perfEnvSteep.minAlt.ft).toBe(7400);
@@ -305,6 +306,41 @@ describe('VerticalRoute', () => {
         expect(leg1.steps[9].altMetaData.perfEnvSteep.maxAlt.ft).toBe(6200);
         expect(leg1.steps[10].altMetaData.perfEnvSteep.minAlt.ft).toBe(0); // gnd
         expect(leg1.steps[10].altMetaData.perfEnvSteep.maxAlt.ft).toBe(0); // gnd
+    });
+
+
+    it('calculates the correct performance envelope min/max altitudes for a single steep leg', () => {
+        // given
+        const route3 = MockVerticalRoute3.create();
+
+        // when
+        route3.calculate();
+
+        // then
+        const leg1 = route3.legs[0];
+        // standard envelope
+        expect(leg1.steps[0].altMetaData.perfEnv.minAlt.ft).toBe(0); // gnd
+        expect(leg1.steps[0].altMetaData.perfEnv.maxAlt.ft).toBe(0); // gnd
+        expect(leg1.steps[1].altMetaData.perfEnv.minAlt.ft).toBe(7000); // gnd + 1000
+        expect(leg1.steps[1].altMetaData.perfEnv.maxAlt.ft).toBe(7000); // gnd + 1000
+        expect(leg1.steps[2].altMetaData.perfEnv.minAlt.ft).toBe(5500); // 500fpm descent from 7000 in 3min
+        expect(leg1.steps[2].altMetaData.perfEnv.maxAlt.ft).toBe(5500); // 500fpm descent from 7000 in 3min
+        expect(leg1.steps[3].altMetaData.perfEnv.minAlt.ft).toBe(4000); // 500fpm descent from 5500 in 3min
+        expect(leg1.steps[3].altMetaData.perfEnv.maxAlt.ft).toBe(4000); // 500fpm descent from 5500 in 3min
+        expect(leg1.steps[4].altMetaData.perfEnv.minAlt.ft).toBe(0); // gnd
+        expect(leg1.steps[4].altMetaData.perfEnv.maxAlt.ft).toBe(0); // gnd
+
+        // steep envelope
+        expect(leg1.steps[0].altMetaData.perfEnvSteep.minAlt.ft).toBe(0); // gnd
+        expect(leg1.steps[0].altMetaData.perfEnvSteep.maxAlt.ft).toBe(0); // gnd
+        expect(leg1.steps[1].altMetaData.perfEnvSteep.minAlt.ft).toBe(7000); // gnd + 1000
+        expect(leg1.steps[1].altMetaData.perfEnvSteep.maxAlt.ft).toBe(9000); // 1000fpm descent to 6000 in 3min
+        expect(leg1.steps[2].altMetaData.perfEnvSteep.minAlt.ft).toBe(5000); // gnd + 1000
+        expect(leg1.steps[2].altMetaData.perfEnvSteep.maxAlt.ft).toBe(6000); // 1000fpm descent to 3000 in 3min
+        expect(leg1.steps[3].altMetaData.perfEnvSteep.minAlt.ft).toBe(2500); // gnd + 500
+        expect(leg1.steps[3].altMetaData.perfEnvSteep.maxAlt.ft).toBe(3000); // 1000fpm descent to 0 in 3min
+        expect(leg1.steps[4].altMetaData.perfEnvSteep.minAlt.ft).toBe(0); // gnd
+        expect(leg1.steps[4].altMetaData.perfEnvSteep.maxAlt.ft).toBe(0); // gnd
     });
 
 
