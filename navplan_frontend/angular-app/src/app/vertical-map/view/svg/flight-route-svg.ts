@@ -9,74 +9,6 @@ import {VerticalRouteLeg} from '../../domain/model/vertical-route-leg';
 
 
 export class FlightRouteSvg {
-    public static create2(
-        legs: VerticalRouteLeg[],
-        imgDim: ImageDimensionsSvg,
-        wpClickCallback: (Waypoint) => void
-    ): SVGElement {
-        const svg = SvgGroupElement.create();
-
-        for (const leg of legs) {
-            for (let i = 0; i < leg.steps.length - 1; i++) {
-                const step = leg.steps[i];
-                const nextStep = leg.steps[i + 1];
-
-                const startXy1 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnv.minAlt);
-                const endXy1 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnv.minAlt);
-                svg.appendChild(SvgLineBuilder.builder()
-                    .setStartXy(startXy1)
-                    .setEndXy(endXy1)
-                    .setStrokeStyle('rgba(0, 0, 255, 1.0)', 4)
-                    .setShapeRenderingCrispEdges()
-                    .build()
-                );
-
-                const startXy2 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnv.maxAlt);
-                const endXy2 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnv.maxAlt);
-                svg.appendChild(SvgLineBuilder.builder()
-                    .setStartXy(startXy2)
-                    .setEndXy(endXy2)
-                    .setStrokeStyle('rgba(255, 0, 0, 1.0)', 4)
-                    .setShapeRenderingCrispEdges()
-                    .build()
-                );
-
-                const startXy3 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnvSteep.minAlt);
-                const endXy3 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnvSteep.minAlt);
-                svg.appendChild(SvgLineBuilder.builder()
-                    .setStartXy(startXy3)
-                    .setEndXy(endXy3)
-                    .setStrokeStyle('rgba(255, 165, 0, 1.0)', 3)
-                    .setShapeRenderingCrispEdges()
-                    .build()
-                );
-
-                const startXy4 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnvSteep.maxAlt);
-                const endXy4 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnvSteep.maxAlt);
-                svg.appendChild(SvgLineBuilder.builder()
-                    .setStartXy(startXy4)
-                    .setEndXy(endXy4)
-                    .setStrokeStyle('rgba(255, 255, 0, 1.0)', 2)
-                    .setShapeRenderingCrispEdges()
-                    .build()
-                );
-
-                const startXy5 = imgDim.calcXy(step.stepDist, step.altMetaData.displayAlt);
-                const endXy5 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.displayAlt);
-                svg.appendChild(SvgLineBuilder.builder()
-                    .setStartXy(startXy5)
-                    .setEndXy(endXy5)
-                    .setStrokeStyle('rgba(0, 255, 255, 1.0)', 2)
-                    .setShapeRenderingCrispEdges()
-                    .build()
-                );
-            }
-        }
-
-        return svg;
-    }
-
-
     public static create(
         legs: VerticalRouteLeg[],
         imgDim: ImageDimensionsSvg,
@@ -89,7 +21,9 @@ export class FlightRouteSvg {
             const legStartXy = imgDim.calcXy(leg.startLength, leg.startAlt.displayAlt);
             const legEndXy = imgDim.calcXy(leg.endLength, leg.endAlt.displayAlt);
 
-            // this.addLineSegment(svg, legStartXy, legEndXy);
+            // leg line
+            //this.addLineSegment(svg, legStartXy, legEndXy);
+            this.addLegLine(svg, leg, imgDim);
 
             // leg start dot
             this.addRouteDot(svg, legStartXy, leg.wpStart, wpClickCallback);
@@ -115,33 +49,75 @@ export class FlightRouteSvg {
     }
 
 
-    private static addLineSegment(
+    private static addLegLine(
         svg: SVGElement,
-        startXy: [number, number],
-        endXy: [number, number]
+        leg: VerticalRouteLeg,
+        imgDim: ImageDimensionsSvg
     ) {
-        svg.appendChild(SvgLineBuilder.builder()
-            .setStartXy(startXy)
-            .setEndXy(endXy)
-            .setStrokeStyle('rgba(255, 0, 255, 1.0)', 5)
-            .setShapeRenderingCrispEdges()
-            .build()
-        );
-    }
+        for (let i = 0; i < leg.steps.length - 1; i++) {
+            const step = leg.steps[i];
+            const nextStep = leg.steps[i + 1];
 
+            const startXy = imgDim.calcXy(step.stepDist, step.altMetaData.displayAlt);
+            const endXy = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.displayAlt);
+            svg.appendChild(SvgLineBuilder.builder()
+                .setStartXy(startXy)
+                .setEndXy(endXy)
+                .setStrokeStyle('rgba(255, 0, 255, 1.0)', 5)
+                .setShapeRenderingCrispEdges()
+                .build()
+            );
 
-    private static addLineSegment2(
-        svg: SVGElement,
-        startXy: [number, number],
-        endXy: [number, number]
-    ) {
-        svg.appendChild(SvgLineBuilder.builder()
-            .setStartXy(startXy)
-            .setEndXy(endXy)
-            .setStrokeStyle('rgba(0, 0, 255, 1.0)', 3)
-            .setShapeRenderingCrispEdges()
-            .build()
-        );
+            /*const startXy1 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnv.minAlt);
+            const endXy1 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnv.minAlt);
+            svg.appendChild(SvgLineBuilder.builder()
+                .setStartXy(startXy1)
+                .setEndXy(endXy1)
+                .setStrokeStyle('rgba(0, 0, 255, 1.0)', 4)
+                .setShapeRenderingCrispEdges()
+                .build()
+            );
+
+            const startXy2 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnv.maxAlt);
+            const endXy2 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnv.maxAlt);
+            svg.appendChild(SvgLineBuilder.builder()
+                .setStartXy(startXy2)
+                .setEndXy(endXy2)
+                .setStrokeStyle('rgba(255, 0, 0, 1.0)', 4)
+                .setShapeRenderingCrispEdges()
+                .build()
+            );
+
+            const startXy3 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnvSteep.minAlt);
+            const endXy3 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnvSteep.minAlt);
+            svg.appendChild(SvgLineBuilder.builder()
+                .setStartXy(startXy3)
+                .setEndXy(endXy3)
+                .setStrokeStyle('rgba(255, 165, 0, 1.0)', 3)
+                .setShapeRenderingCrispEdges()
+                .build()
+            );
+
+            const startXy4 = imgDim.calcXy(step.stepDist, step.altMetaData.perfEnvSteep.maxAlt);
+            const endXy4 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.perfEnvSteep.maxAlt);
+            svg.appendChild(SvgLineBuilder.builder()
+                .setStartXy(startXy4)
+                .setEndXy(endXy4)
+                .setStrokeStyle('rgba(255, 255, 0, 1.0)', 2)
+                .setShapeRenderingCrispEdges()
+                .build()
+            );
+
+            const startXy5 = imgDim.calcXy(step.stepDist, step.altMetaData.displayAlt);
+            const endXy5 = imgDim.calcXy(nextStep.stepDist, nextStep.altMetaData.displayAlt);
+            svg.appendChild(SvgLineBuilder.builder()
+                .setStartXy(startXy5)
+                .setEndXy(endXy5)
+                .setStrokeStyle('rgba(0, 255, 255, 1.0)', 2)
+                .setShapeRenderingCrispEdges()
+                .build()
+            );*/
+        }
     }
 
 
