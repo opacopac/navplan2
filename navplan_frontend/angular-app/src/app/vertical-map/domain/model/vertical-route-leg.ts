@@ -73,13 +73,6 @@ export class VerticalRouteLeg {
             const stepMinClimbAlt = aircraft.calcClimbStartingAlt(nextStep.altMetaData.perfEnv.minAlt, nextStep.climbTime);
             const stepMaxDecentAlt = aircraft.calcDescentStartingAlt(nextStep.altMetaData.perfEnv.maxAlt, nextStep.flightTime);
 
-            EnvelopeAltTriage.determineEnvelopeAltByPrio(
-                step.altMetaData,
-                step.minTerrainClearanceAlt,
-                stepMinClimbAlt,
-                stepMaxDecentAlt
-            );
-
             const stepMinClimbAltSteep = aircraft.calcClimbStartingAlt(nextStep.altMetaData.perfEnvSteep.minAlt, nextStep.climbTime);
             const stepMaxDecentAltSteep = aircraft.calcDescentStartingAlt(
                 nextStep.altMetaData.perfEnvSteep.maxAlt,
@@ -87,9 +80,11 @@ export class VerticalRouteLeg {
                 Aircraft.MAX_DESCENT_RATE_WITHOUT_WARNING
             );
 
-            EnvelopeAltTriage.determineSteepEnvelopeAltByPrio(
+            EnvelopeAltTriage.determineEnvelopeAltByPrio(
                 step.altMetaData,
                 step.minTerrainClearanceAlt,
+                stepMinClimbAlt,
+                stepMaxDecentAlt,
                 stepMinClimbAltSteep,
                 stepMaxDecentAltSteep
             );
@@ -118,13 +113,6 @@ export class VerticalRouteLeg {
                     ? stepClimbAltFt
                     : step.altMetaData.perfEnv.minAlt;
 
-            EnvelopeAltTriage.determineEnvelopeAltByPrio(
-                step.altMetaData,
-                step.minTerrainClearanceAlt,
-                stepMinEnvAlt,
-                stepMaxEnvAlt
-            );
-
             const stepDecentAltFtSteep = aircraft.calcDescentTargetAlt(
                 prevStep.altMetaData.perfEnvSteep.minAlt,
                 step.flightTime,
@@ -144,9 +132,11 @@ export class VerticalRouteLeg {
                     ? stepClimbAltFtSteep
                     : step.altMetaData.perfEnvSteep.minAlt;
 
-            EnvelopeAltTriage.determineSteepEnvelopeAltByPrio(
+            EnvelopeAltTriage.determineEnvelopeAltByPrio(
                 step.altMetaData,
                 step.minTerrainClearanceAlt,
+                stepMinEnvAlt,
+                stepMaxEnvAlt,
                 stepMinEnvAltSteep,
                 stepMaxEnvAltSteep
             );

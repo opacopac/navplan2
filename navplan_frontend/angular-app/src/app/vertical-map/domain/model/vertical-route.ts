@@ -124,11 +124,7 @@ export class VerticalRoute {
                     leg.endAlt,
                     lastStep.minTerrainClearanceAlt,
                     lastStep.minTerrainClearanceAlt,
-                    this.aircraft.serviceCeiling
-                );
-                EnvelopeAltTriage.determineSteepEnvelopeAltByPrio(
-                    leg.endAlt,
-                    lastStep.minTerrainClearanceAlt,
+                    this.aircraft.serviceCeiling,
                     lastStep.minTerrainClearanceAlt,
                     this.aircraft.serviceCeiling
                 );
@@ -138,11 +134,7 @@ export class VerticalRoute {
                     leg.endAlt,
                     lastStep.minTerrainClearanceAlt,
                     nextLeg.startAlt.perfEnv.minAlt,
-                    nextLeg.startAlt.perfEnv.maxAlt
-                );
-                EnvelopeAltTriage.determineSteepEnvelopeAltByPrio(
-                    leg.endAlt,
-                    lastStep.minTerrainClearanceAlt,
+                    nextLeg.startAlt.perfEnv.maxAlt,
                     nextLeg.startAlt.perfEnvSteep.minAlt,
                     nextLeg.startAlt.perfEnvSteep.maxAlt
                 );
@@ -178,11 +170,7 @@ export class VerticalRoute {
                     leg.startAlt,
                     firstStep.minTerrainClearanceAlt,
                     firstStep.minTerrainClearanceAlt,
-                    this.aircraft.serviceCeiling
-                );
-                EnvelopeAltTriage.determineSteepEnvelopeAltByPrio(
-                    leg.startAlt,
-                    firstStep.minTerrainClearanceAlt,
+                    this.aircraft.serviceCeiling,
                     firstStep.minTerrainClearanceAlt,
                     this.aircraft.serviceCeiling
                 );
@@ -192,11 +180,7 @@ export class VerticalRoute {
                     leg.startAlt,
                     firstStep.minTerrainClearanceAlt,
                     prevLeg.endAlt.perfEnv.minAlt,
-                    prevLeg.endAlt.perfEnv.maxAlt
-                );
-                EnvelopeAltTriage.determineSteepEnvelopeAltByPrio(
-                    leg.startAlt,
-                    firstStep.minTerrainClearanceAlt,
+                    prevLeg.endAlt.perfEnv.maxAlt,
                     prevLeg.endAlt.perfEnvSteep.minAlt,
                     prevLeg.endAlt.perfEnvSteep.maxAlt
                 );

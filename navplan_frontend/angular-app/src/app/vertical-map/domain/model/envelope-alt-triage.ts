@@ -7,7 +7,9 @@ export class EnvelopeAltTriage {
         alt: AltitudeMetadata,
         minTerrainAlt: Length,
         propagatedMinAlt: Length,
-        propagatedMaxAlt: Length
+        propagatedMaxAlt: Length,
+        propagatedMinAltSteep: Length,
+        propagatedMaxAltSteep: Length
     ) {
         EnvelopeAltTriage.determineEnvelopeAltByPrioForProperty(
             alt,
@@ -16,21 +18,12 @@ export class EnvelopeAltTriage {
             propagatedMinAlt,
             propagatedMaxAlt
         );
-    }
-
-
-    public static determineSteepEnvelopeAltByPrio(
-        alt: AltitudeMetadata,
-        minTerrainAlt: Length,
-        propagatedMinAlt: Length,
-        propagatedMaxAlt: Length
-    ) {
         EnvelopeAltTriage.determineEnvelopeAltByPrioForProperty(
             alt,
             'perfEnvSteep',
             minTerrainAlt,
-            propagatedMinAlt,
-            propagatedMaxAlt
+            propagatedMinAltSteep,
+            propagatedMaxAltSteep
         );
     }
 
