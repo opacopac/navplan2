@@ -1,4 +1,5 @@
 import {AltitudeMetadata} from "./altitude-metadata";
+import {AltitudeSpan} from "./altitude-span";
 import {Length} from "../../../geo-physics/domain/model/quantities/length";
 
 
@@ -11,16 +12,16 @@ export class EnvelopeAltTriage {
         propagatedMinAltSteep: Length,
         propagatedMaxAltSteep: Length
     ) {
-        EnvelopeAltTriage.determineEnvelopeAltByPrioForProperty(
-            alt,
-            'perfEnv',
+        EnvelopeAltTriage.determineEnvelopeAltByPrioForSpan(
+            alt.perfEnv,
+            alt.user,
             minTerrainAlt,
             propagatedMinAlt,
             propagatedMaxAlt
         );
-        EnvelopeAltTriage.determineEnvelopeAltByPrioForProperty(
-            alt,
-            'perfEnvSteep',
+        EnvelopeAltTriage.determineEnvelopeAltByPrioForSpan(
+            alt.perfEnvSteep,
+            alt.user,
             minTerrainAlt,
             propagatedMinAltSteep,
             propagatedMaxAltSteep
@@ -28,15 +29,13 @@ export class EnvelopeAltTriage {
     }
 
 
-    private static determineEnvelopeAltByPrioForProperty(
-        alt: AltitudeMetadata,
-        property: 'perfEnv' | 'perfEnvSteep',
+    private static determineEnvelopeAltByPrioForSpan(
+        perfEnv: AltitudeSpan,
+        user: AltitudeSpan,
         minTerrainAlt: Length,
         propagatedMinAlt: Length,
         propagatedMaxAlt: Length
     ) {
-        const perfEnv = alt[property];
-
         // prio 3: propagate previous values
         if (propagatedMaxAlt.isLessThan(propagatedMinAlt)) {
             propagatedMinAlt = propagatedMaxAlt;
@@ -53,21 +52,21 @@ export class EnvelopeAltTriage {
         }
 
         // prio 1: used defined altitudes: override values if above previous min / below previous max
-        if (alt.user.minAlt && alt.user.minAlt.isGreaterThan(perfEnv.minAlt)) {
-            perfEnv.minAlt = alt.user.minAlt;
+        if (user.minAlt && user.minAlt.isGreaterThan(perfEnv.minAlt)) {
+            perfEnv.minAlt = user.minAlt;
         }
-        if (alt.user.maxAlt && alt.user.maxAlt.isLessThan(perfEnv.maxAlt)) {
-            perfEnv.maxAlt = alt.user.maxAlt;
+        if (user.maxAlt && user.maxAlt.isLessThan(perfEnv.maxAlt)) {
+            perfEnv.maxAlt = user.maxAlt;
         }
 
         // prevent min > max
-        if (alt.user.minAlt && alt.user.minAlt.isGreaterThan(perfEnv.maxAlt)) {
-            perfEnv.maxAlt = alt.user.minAlt;
+        if (user.minAlt && user.minAlt.isGreaterThan(perfEnv.maxAlt)) {
+            perfEnv.maxAlt = user.minAlt;
         }
 
         // prevent max < min
-        if (alt.user.maxAlt && alt.user.maxAlt.isLessThan(perfEnv.minAlt)) {
-            perfEnv.minAlt = alt.user.maxAlt;
+        if (user.maxAlt && user.maxAlt.isLessThan(perfEnv.minAlt)) {
+            perfEnv.minAlt = user.maxAlt;
         }
     }
 
