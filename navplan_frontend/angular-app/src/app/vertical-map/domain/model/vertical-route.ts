@@ -9,7 +9,10 @@ import {EnvelopeAltTriage} from "./envelope-alt-triage";
 
 export class VerticalRoute {
     public static MIN_TERRAIN_CLEARANCE = Length.ofFt(1000);
+    public static MIN_TERRAIN_CLEARANCE_NEAR_AIRPORT = Length.ofFt(500);
     public static MIN_TERRAIN_CLEARANCE_FOR_WARNING = Length.ofFt(500);
+    public static MIN_TERRAIN_CLEARANCE_NEAR_AIRPORT_DIST = Length.ofNm(2);
+    public static MIN_TERRAIN_CLEARANCE_FAR_AIRPORT_DIST = Length.ofNm(5);
 
     public legs: VerticalRouteLeg[] = [];
 

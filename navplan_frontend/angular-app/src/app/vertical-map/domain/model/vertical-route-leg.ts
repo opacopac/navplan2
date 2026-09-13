@@ -51,9 +51,8 @@ export class VerticalRouteLeg {
         let maxLegElevation = Length.ofZero();
 
         for (const step of this.steps) {
-            step.minTerrainClearanceAlt = this.isFirstLegFromAirport || this.isLastLegToAirport
-                ? step.elevationAmsl
-                : step.elevationAmsl.add(VerticalRoute.MIN_TERRAIN_CLEARANCE);
+            const clearance = this.getRequiredTerrainClearance(step);
+            step.minTerrainClearanceAlt = step.elevationAmsl.add(clearance);
 
             if (step.minTerrainClearanceAlt.isGreaterThan(maxLegElevation)) {
                 maxLegElevation = step.minTerrainClearanceAlt;
@@ -61,6 +60,37 @@ export class VerticalRouteLeg {
         }
 
         this.minTerrainClearanceAlt = maxLegElevation;
+    }
+
+
+    private getRequiredTerrainClearance(step: VerticalRouteLegStep): Length {
+        if (!this.isFirstLegFromAirport && !this.isLastLegToAirport) {
+            return VerticalRoute.MIN_TERRAIN_CLEARANCE;
+        }
+
+        const distFromAirport = this.getDistFromNearestAirport(step);
+
+        if (distFromAirport.isLessThanOrEqual(VerticalRoute.MIN_TERRAIN_CLEARANCE_NEAR_AIRPORT_DIST)) {
+            return Length.ofFt(0);
+        }
+
+        if (distFromAirport.isLessThanOrEqual(VerticalRoute.MIN_TERRAIN_CLEARANCE_FAR_AIRPORT_DIST)) {
+            return VerticalRoute.MIN_TERRAIN_CLEARANCE_NEAR_AIRPORT;
+        }
+
+        return VerticalRoute.MIN_TERRAIN_CLEARANCE;
+    }
+
+
+    private getDistFromNearestAirport(step: VerticalRouteLegStep): Length {
+        const distFromStartAirport = step.stepDist.subtract(this.startLength);
+        const distFromEndAirport = this.endLength.subtract(step.stepDist);
+
+        if (this.isFirstLegFromAirport && this.isLastLegToAirport) {
+            return distFromStartAirport.isLessThan(distFromEndAirport) ? distFromStartAirport : distFromEndAirport;
+        }
+
+        return this.isFirstLegFromAirport ? distFromStartAirport : distFromEndAirport;
     }
 
 

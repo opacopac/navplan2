@@ -1,4 +1,5 @@
 import {MockVerticalRoute1} from "../mock/mock-vertical-route1";
+import {MockVerticalRoute2} from "../mock/mock-vertical-route2";
 
 
 describe('VerticalRoute', () => {
@@ -98,26 +99,49 @@ describe('VerticalRoute', () => {
         route1.calculate();
 
         // then
-        // leg 1
+        // leg 1 (first leg from airport WP1 @ 0nm): 0ft clearance within 0-2nm, 500ft within 2-5nm, 1000ft beyond 5nm
         const leg1 = route1.legs[0];
-        expect(leg1.minTerrainClearanceAlt.ft).toBe(1200);
-        expect(leg1.steps[0].minTerrainClearanceAlt.ft).toBe(1000);
-        expect(leg1.steps[1].minTerrainClearanceAlt.ft).toBe(1100);
-        expect(leg1.steps[2].minTerrainClearanceAlt.ft).toBe(1200);
+        expect(leg1.steps[0].minTerrainClearanceAlt.ft).toBe(1000); // 0nm from airport -> +0ft
+        expect(leg1.steps[1].minTerrainClearanceAlt.ft).toBe(1600); // 5nm from airport -> +500ft
+        expect(leg1.steps[2].minTerrainClearanceAlt.ft).toBe(2200); // 10nm from airport -> +1000ft
+        expect(leg1.minTerrainClearanceAlt.ft).toBe(2200);
 
-        // leg 2
+        // leg 2 (not adjacent to an airport): always 1000ft clearance
         const leg2 = route1.legs[1];
         expect(leg2.minTerrainClearanceAlt.ft).toBe(2400);
         expect(leg2.steps[0].minTerrainClearanceAlt.ft).toBe(2200);
         expect(leg2.steps[1].minTerrainClearanceAlt.ft).toBe(2300);
         expect(leg2.steps[2].minTerrainClearanceAlt.ft).toBe(2400);
 
-        // leg 3
+        // leg 3 (last leg to airport WP4 @ 30nm): 0ft clearance within 0-2nm, 500ft within 2-5nm, 1000ft beyond 5nm
         const leg3 = route1.legs[2];
-        expect(leg3.minTerrainClearanceAlt.ft).toBe(1400);
-        expect(leg3.steps[0].minTerrainClearanceAlt.ft).toBe(1400);
-        expect(leg3.steps[1].minTerrainClearanceAlt.ft).toBe(1200);
-        expect(leg3.steps[2].minTerrainClearanceAlt.ft).toBe(1100);
+        expect(leg3.steps[0].minTerrainClearanceAlt.ft).toBe(2400); // 10nm from airport -> +1000ft
+        expect(leg3.steps[1].minTerrainClearanceAlt.ft).toBe(1700); // 5nm from airport -> +500ft
+        expect(leg3.steps[2].minTerrainClearanceAlt.ft).toBe(1100); // 0nm from airport -> +0ft
+        expect(leg3.minTerrainClearanceAlt.ft).toBe(2400);
+    });
+
+
+    it('calculates the correct minimum terrain clearance for a single steep leg', () => {
+        // given
+        const route2 = MockVerticalRoute2.create();
+
+        // when
+        route2.calculate();
+
+        // then
+        const leg1 = route2.legs[0];
+        expect(leg1.steps[0].minTerrainClearanceAlt.ft).toBe(0); // 0 + 0 (at airport)
+        expect(leg1.steps[1].minTerrainClearanceAlt.ft).toBe(2000); // 2000 + 0 (2nm from airport)
+        expect(leg1.steps[2].minTerrainClearanceAlt.ft).toBe(4500); // 4000 + 500 (4nm from airport)
+        expect(leg1.steps[3].minTerrainClearanceAlt.ft).toBe(7000); // 6000 + 1000 (6nm from airport)
+        expect(leg1.steps[4].minTerrainClearanceAlt.ft).toBe(9000); // 8000 + 1000 (8nm from airport)
+        expect(leg1.steps[5].minTerrainClearanceAlt.ft).toBe(11000); // 10000 + 1000 (10nm from airport)
+        expect(leg1.steps[6].minTerrainClearanceAlt.ft).toBe(9000); // 8000 + 1000 (8nm from airport)
+        expect(leg1.steps[7].minTerrainClearanceAlt.ft).toBe(7000); // 6000 + 1000 (6nm from airport)
+        expect(leg1.steps[8].minTerrainClearanceAlt.ft).toBe(4500); // 4000 + 500 (4nm from airport)
+        expect(leg1.steps[9].minTerrainClearanceAlt.ft).toBe(2000); // 2000 + 0 (2nm from airport)
+        expect(leg1.steps[10].minTerrainClearanceAlt.ft).toBe(0); // 0 + 0 (at airport)
     });
 
 
@@ -188,7 +212,7 @@ describe('VerticalRoute', () => {
         const leg1 = route1.legs[0];
         expect(leg1.steps[0].altMetaData.perfEnv.minAlt.ft).toBe(1000); // gnd
         expect(leg1.steps[0].altMetaData.perfEnv.maxAlt.ft).toBe(1000); // gnd
-        expect(leg1.steps[1].altMetaData.perfEnv.minAlt.ft).toBe(1100); // gnd
+        expect(leg1.steps[1].altMetaData.perfEnv.minAlt.ft).toBe(1600); // gnd + 500 (terrain clearance 2-5nm from airport)
         expect(leg1.steps[1].altMetaData.perfEnv.maxAlt.ft).toBeCloseTo(4672, 0); // max climb from 1000
         expect(leg1.steps[2].altMetaData.perfEnv.minAlt.ft).toBe(2200); // gnd + 1000
         expect(leg1.steps[2].altMetaData.perfEnv.maxAlt.ft).toBe(5500); // wp2 max alt
@@ -206,7 +230,7 @@ describe('VerticalRoute', () => {
         const leg3 = route1.legs[2];
         expect(leg3.steps[0].altMetaData.perfEnv.minAlt.ft).toBe(3000); // wp3 min alt
         expect(leg3.steps[0].altMetaData.perfEnv.maxAlt.ft).toBe(6600); // 500fpm descent to 3850
-        expect(leg3.steps[1].altMetaData.perfEnv.minAlt.ft).toBe(1200); // gnd
+        expect(leg3.steps[1].altMetaData.perfEnv.minAlt.ft).toBe(1700); // gnd + 500 (terrain clearance 2-5nm from airport)
         expect(leg3.steps[1].altMetaData.perfEnv.maxAlt.ft).toBe(3850); // 500fpm descent to 1100
         expect(leg3.steps[2].altMetaData.perfEnv.minAlt.ft).toBe(1100); // gnd
         expect(leg3.steps[2].altMetaData.perfEnv.maxAlt.ft).toBe(1100); // gnd
@@ -225,7 +249,7 @@ describe('VerticalRoute', () => {
         const leg1 = route1.legs[0];
         expect(leg1.steps[0].altMetaData.perfEnvSteep.minAlt.ft).toBe(1000); // gnd
         expect(leg1.steps[0].altMetaData.perfEnvSteep.maxAlt.ft).toBe(1000); // gnd
-        expect(leg1.steps[1].altMetaData.perfEnvSteep.minAlt.ft).toBe(1100); // gnd
+        expect(leg1.steps[1].altMetaData.perfEnvSteep.minAlt.ft).toBe(1600); // gnd + 500 (terrain clearance 2-5nm from airport)
         expect(leg1.steps[1].altMetaData.perfEnvSteep.maxAlt.ft).toBeCloseTo(4672, 0); // max climb from 1000
         expect(leg1.steps[2].altMetaData.perfEnvSteep.minAlt.ft).toBe(2200); // gnd + 1000
         expect(leg1.steps[2].altMetaData.perfEnvSteep.maxAlt.ft).toBe(5500); // wp2 max alt
@@ -243,11 +267,45 @@ describe('VerticalRoute', () => {
         const leg3 = route1.legs[2];
         expect(leg3.steps[0].altMetaData.perfEnvSteep.minAlt.ft).toBe(3000); // wp3 min alt
         expect(leg3.steps[0].altMetaData.perfEnvSteep.maxAlt.ft).toBeCloseTo(8484, 0); // max climb from 7130
-        expect(leg3.steps[1].altMetaData.perfEnvSteep.minAlt.ft).toBe(1200); // gnd
+        expect(leg3.steps[1].altMetaData.perfEnvSteep.minAlt.ft).toBe(1700); // gnd + 500 (terrain clearance 2-5nm from airport)
         expect(leg3.steps[1].altMetaData.perfEnvSteep.maxAlt.ft).toBe(6600); // 1000fpm descent to 1100
         expect(leg3.steps[2].altMetaData.perfEnvSteep.minAlt.ft).toBe(1100); // gnd
         expect(leg3.steps[2].altMetaData.perfEnvSteep.maxAlt.ft).toBe(1100); // gnd
     })
+
+
+    it('calculates the correct performance envelope min/max altitudes for a single steep leg', () => {
+        // given
+        const route2 = MockVerticalRoute2.create();
+
+        // when
+        route2.calculate();
+
+        // then
+        const leg1 = route2.legs[0];
+        expect(leg1.steps[0].altMetaData.perfEnvSteep.minAlt.ft).toBe(0); // gnd
+        expect(leg1.steps[0].altMetaData.perfEnvSteep.maxAlt.ft).toBe(0); // gnd
+        expect(leg1.steps[1].altMetaData.perfEnvSteep.minAlt.ft).toBe(2000);
+        expect(leg1.steps[1].altMetaData.perfEnvSteep.maxAlt.ft).toBe(2000);
+        expect(leg1.steps[2].altMetaData.perfEnvSteep.minAlt.ft).toBe(4500);
+        expect(leg1.steps[2].altMetaData.perfEnvSteep.maxAlt.ft).toBe(4500);
+        expect(leg1.steps[3].altMetaData.perfEnvSteep.minAlt.ft).toBe(7000);
+        expect(leg1.steps[3].altMetaData.perfEnvSteep.maxAlt.ft).toBe(7000);
+        expect(leg1.steps[4].altMetaData.perfEnvSteep.minAlt.ft).toBe(9000);
+        expect(leg1.steps[4].altMetaData.perfEnvSteep.maxAlt.ft).toBe(9000);
+        expect(leg1.steps[5].altMetaData.perfEnvSteep.minAlt.ft).toBe(11000);
+        expect(leg1.steps[5].altMetaData.perfEnvSteep.maxAlt.ft).toBe(11000);
+        expect(leg1.steps[6].altMetaData.perfEnvSteep.minAlt.ft).toBe(9800); // 1000fpm descent from 11000 in 1.2min
+        expect(leg1.steps[6].altMetaData.perfEnvSteep.maxAlt.ft).toBe(9800); // 1000fpm descent from 11000 in 1.2min
+        expect(leg1.steps[7].altMetaData.perfEnvSteep.minAlt.ft).toBe(8600);
+        expect(leg1.steps[7].altMetaData.perfEnvSteep.maxAlt.ft).toBe(8600);
+        expect(leg1.steps[8].altMetaData.perfEnvSteep.minAlt.ft).toBe(7400);
+        expect(leg1.steps[8].altMetaData.perfEnvSteep.maxAlt.ft).toBe(7400);
+        expect(leg1.steps[9].altMetaData.perfEnvSteep.minAlt.ft).toBe(6200);
+        expect(leg1.steps[9].altMetaData.perfEnvSteep.maxAlt.ft).toBe(6200);
+        expect(leg1.steps[10].altMetaData.perfEnvSteep.minAlt.ft).toBe(0); // gnd
+        expect(leg1.steps[10].altMetaData.perfEnvSteep.maxAlt.ft).toBe(0); // gnd
+    });
 
 
     it('calculates the correct display altitudes for each leg and step', () => {
